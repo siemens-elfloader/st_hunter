@@ -1,0 +1,26 @@
+LaunchElf 1.99 
+! ElfPack, FreeRam 
+
+is and the patch and elf 
+patch completely replaces the standard table of shortcuts (their functions, id lengpaka) and table fast start (the list of shortcuts for possible appointment to the keys on the main screen) 
+Elf needs for quick editing of the table / add elves 
+
+Now in the file 0: \ \ Zbin \ \ etc \ \ shortcuts.dat stored binary list of shortcuts (such at cx75_13 he is at 0xA04B09D4) 
+0: \ \ Zbin \ \ etc \ \ fr_shortcuts.dat - Table Quick Launch (list of shortcuts) (in cx75_13 located at 0xA04A6448) 
+0: \ \ Zbin \ \ etc \ \ shortcut_names.dat - full and abbreviated names of the shortcuts and ways of the elves 
+
+with a patch, you can: 
+add a new shortcut with a unique name (for example call a function) 
+add Elf / file for quick start 
+change the existing shortcut 
+
+to add elf manually: add shortcut to shortcuts.dat (shortcut structure described in swilib.h) 
+lgp id number of full and short name is replaced by 0x7FFE 
+! Names of shortcuts in this list should be sorted alphabetically, or does not work 
+I will not forget the past 
+in fr_shortcuts add the name of the shortcut (15simv. + 0x00) 
+in shortcut_names.dat write the full name of elf (15simv. + 0x00), a short title (15simv. + 0x00), the path to the elf (127simv, 0x00) 
+
+
+to add with an elf: 
+in elf: adding an elf - a green button, delete (elf, shortcuts) - grating in the rest of the familiar:)

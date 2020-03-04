@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="IdleLinks" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="NSG">
+				<Option output="../../elfs/$(PROJECT_NAME)/$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="../../Objects/$(PROJECT_NAME)/$(TARGET_NAME)/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="SG">
+				<Option output="../../elfs/$(PROJECT_NAME)/$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="../../Objects/$(PROJECT_NAME)/$(TARGET_NAME)/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="ELKA">
+				<Option output="../../elfs/$(PROJECT_NAME)/$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="../../Objects/$(PROJECT_NAME)/$(TARGET_NAME)/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DELKA" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-O3" />
+			<Add option="-W" />
+			<Add option="-std=gnu99" />
+			<Add option="-D__NO_LIBC" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add option="--defsym __ex=0" />
+			<Add option="--gc-section" />
+			<Add library="crt" />
+			<Add library="crt_helper" />
+			<Add library="c" />
+			<Add library="gcc" />
+		</Linker>
+		<Unit filename="IdleLinks.h" />
+		<Unit filename="conf_ex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="conf_ex.h" />
+		<Unit filename="conf_loader.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="conf_loader.h" />
+		<Unit filename="config_data.c">
+			<Option compilerVar="CC" />
+			<Option compiler="gnu_arm_eabi_gcc_compiler" use="1" buildCommand="$compiler $options -xc $includes -c $file -o $object -O0" />
+		</Unit>
+		<Unit filename="config_link.c">
+			<Option compilerVar="CC" />
+			<Option compiler="gnu_arm_eabi_gcc_compiler" use="1" buildCommand="$compiler $options -xc $includes -c $file -o $object -O0" />
+		</Unit>
+		<Unit filename="editor.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="editor.h" />
+		<Unit filename="editordialog.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="editordialog.h" />
+		<Unit filename="gui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui.h" />
+		<Unit filename="idle.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="idle.h" />
+		<Unit filename="keyhook.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="keyhook.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="main.h" />
+		<Unit filename="navigation.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="navigation.h" />
+		<Unit filename="nsd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nsd.h" />
+		<Unit filename="revision.h" />
+		<Unit filename="utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utils.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

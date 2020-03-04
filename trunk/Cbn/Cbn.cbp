@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Cbn" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="lib">
+				<Option output="..\libs\%TARGET_NAME%%PROJECT_NAME%.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\Objects\$(PROJECT_NAME)\$(TARGET_NAME)\" />
+				<Option type="3" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=gnu99" />
+			<Add option="-DUNPACK" />
+			<Add option="-DHIGHCOLOR" />
+			<Add directory="..\include" />
+		</Compiler>
+		<Linker>
+			<Add library="c-1.0" />
+			<Add library="z-1.2.5" />
+			<Add library="7z" />
+			<Add library="crt_helper" />
+			<Add directory="..\libs" />
+		</Linker>
+		<Unit filename="Cbnlib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Cbnlib.h" />
+		<Unit filename="Un7Zip.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="UnRar.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="UnZip.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

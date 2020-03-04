@@ -1,0 +1,107 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    23/Mar/2009  22:45:34 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\addon.cpp         #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\addon.cpp -D      #
+#                       NEWSGOLD -D ELKA -D GUI_INTERFACE -D ICONBAR -D      #
+#                       kluchnik --preprocess D:\pasha\elf\_MY_PROJECT_\_NAT #
+#                       ICQ2\kluchnik\List\ -lC D:\pasha\elf\_MY_PROJECT_\_N #
+#                       ATICQ2\kluchnik\List\ -o D:\pasha\elf\_MY_PROJECT_\_ #
+#                       NATICQ2\kluchnik\Obj\ -s9 --no_unroll --cpu_mode     #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --ec++ --dlib_config     #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\kluchnik\List\add #
+#                       on.lst                                               #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\kluchnik\Obj\addo #
+#                       n.r79                                                #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\_NATICQ2\addon.cpp
+      1          #include "../inc/swilib.h"
+      2          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      3          void Message(char *s) 
+      4          {
+   \                     ??Message:
+   \   00000000   00402DE9           PUSH     {LR}
+      5             ShowMSG(1,(int)s);
+   \   00000004   0010A0E1           MOV      R1,R0
+   \   00000008   0100A0E3           MOV      R0,#+1
+   \   0000000C   480100EF           SWI      +328
+      6          };
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+      7          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      8          void Message(int i)
+      9          {
+     10             const char _d[]="%d";
+   \                     ??Message_1:
+   \   00000000   40209FE5           LDR      R2,??Message_2   ;; `?<Constant "%d">`
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   24D04DE2           SUB      SP,SP,#+36
+   \   0000000C   0030D2E5           LDRB     R3,[R2, #0]
+   \   00000010   0D10A0E1           MOV      R1,SP
+   \   00000014   0030C1E5           STRB     R3,[R1, #+0]
+   \   00000018   0130D2E5           LDRB     R3,[R2, #+1]
+   \   0000001C   0130C1E5           STRB     R3,[R1, #+1]
+   \   00000020   0230D2E5           LDRB     R3,[R2, #+2]
+     11             char s[32];
+     12             sprintf(s,_d,i);      
+   \   00000024   0020A0E1           MOV      R2,R0
+   \   00000028   04008DE2           ADD      R0,SP,#+4
+   \   0000002C   0230C1E5           STRB     R3,[R1, #+2]
+   \   00000030   160000EF           SWI      +22
+     13             ShowMSG(1,(int)s);
+   \   00000034   04108DE2           ADD      R1,SP,#+4
+   \   00000038   0100A0E3           MOV      R0,#+1
+   \   0000003C   480100EF           SWI      +328
+     14          };
+   \   00000040   24D08DE2           ADD      SP,SP,#+36
+   \   00000044   0080BDE8           POP      {PC}             ;; return
+   \                     ??Message_2:
+   \   00000048   ........           DC32     `?<Constant "%d">`
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "%d">`:
+   \   00000000   256400             DC8 "%d"
+     15          
+
+   Maximum stack usage in bytes:
+
+     Function        CSTACK
+     --------        ------
+     Message(char *)     4
+     Message(int)       40
+
+
+   Segment part sizes:
+
+     Function/Label   Bytes
+     --------------   -----
+     Message(char *)    20
+     Message(int)       76
+     ?<Constant "%d">    3
+      Others             8
+
+ 
+ 104 bytes in segment CODE
+   3 bytes in segment DATA_C
+ 
+ 96 bytes of CODE  memory (+ 8 bytes shared)
+  3 bytes of CONST memory
+
+Errors: none
+Warnings: none

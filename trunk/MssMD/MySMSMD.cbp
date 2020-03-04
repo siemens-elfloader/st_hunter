@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MySMSMD" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="NSG">
+				<Option output="..\..\elfs\$(PROJECT_NAME)\$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\Objects\$(PROJECT_NAME)\$(TARGET_NAME)\" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DNEWSGOLD_LG3" />
+				</Compiler>
+			</Target>
+			<Target title="ELKA">
+				<Option output="..\..\elfs\$(PROJECT_NAME)\$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\Objects\$(PROJECT_NAME)\$(TARGET_NAME)\" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DNEWSGOLD_LG3" />
+					<Add option="-DELKA" />
+				</Compiler>
+			</Target>
+			<Target title="S68">
+				<Option output="..\..\elfs\$(PROJECT_NAME)\$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\Objects\$(PROJECT_NAME)\$(TARGET_NAME)\" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DNEWSGOLD_LG3" />
+					<Add option="-DS68" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-marm" />
+			<Add option="-O2" />
+			<Add option="-W" />
+			<Add option="-std=gnu99" />
+			<Add option="-D__NO_LIBC" />
+			<Add option="-DNO_CS" />
+			<Add option="-DLANG_EN" />
+			<Add directory="..\include" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add option="--defsym __ex=0" />
+			<Add option="--gc-section" />
+			<Add library="c-1.0" />
+			<Add library="gcc-4.6.1" />
+			<Add library="crt" />
+			<Add library="crt_helper" />
+			<Add directory="..\libs" />
+		</Linker>
+		<Unit filename="CSMswaper.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CSMswaper.h" />
+		<Unit filename="CodeShow.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CodeShow.h" />
+		<Unit filename="Filter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Filter.h" />
+		<Unit filename="MegaDial.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="MySMSYS_ipc.h" />
+		<Unit filename="NativeAddressbook.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="NativeAddressbook.h" />
+		<Unit filename="NewDatReader.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="NewDatReader.h" />
+		<Unit filename="TabGUI.h" />
+		<Unit filename="TabGui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="adrList.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="adrList.h" />
+		<Unit filename="conf_loader.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="conf_loader.h" />
+		<Unit filename="config_data.c">
+			<Option compilerVar="CC" />
+			<Option compiler="armelfgcc" use="1" buildCommand="$compiler $options -xc $includes -c $file -o $object -O0" />
+		</Unit>
+		<Unit filename="config_data.h" />
+		<Unit filename="createMenu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="createMenu.h" />
+		<Unit filename="edGui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="edGui.h" />
+		<Unit filename="guiIdMan.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="guiIdMan.h" />
+		<Unit filename="iconpack.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="iconpack.h" />
+		<Unit filename="key_hook.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="key_hook.h" />
+		<Unit filename="language.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="language.h" />
+		<Unit filename="lgp_pic.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="main.h" />
+		<Unit filename="numList.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="numList.h" />
+		<Unit filename="popGui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="popGui.h" />
+		<Unit filename="rect_patcher.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="rect_patcher.h" />
+		<Unit filename="smsList.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="smsList.h" />
+		<Unit filename="sms_dat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sms_dat.h" />
+		<Unit filename="string_works.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="string_works.h" />
+		<Unit filename="template.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="template.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

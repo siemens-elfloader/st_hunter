@@ -1,0 +1,76 @@
+###############################################################################
+#                                                                             #
+#     IAR Systems ARM Assembler V4.42A/W32 08/Aug/2010  00:10:32              #
+#     Copyright 1999-2007 IAR Systems. All rights reserved.                   #
+#                                                                             #
+#           Source file   =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\java.asm#
+#           List file     =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\Other\SL65v53\List\java.lst#
+#           Object file   =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\Other\SL65v53\Obj\java.r79#
+#           Command line  =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\java.asm #
+#                            -OC:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\Other\SL65v53\Obj\ #
+#                            -s+ -M<> -w+ -DSL65sw53                          #
+#                            -LC:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\Other\SL65v53\List\ #
+#                            -cE -t8 --cpu ARM926EJ-S --fpu None              #
+#                            -IF:\software\Embedded Workbench 4.0 Evaluation\ARM\INC\ #
+#                                                                             #
+###############################################################################
+
+    1    00000000              //java launch patch
+    2    00000000                          
+    3    00000000              #include "config\config.h" 
+    4    00000000                          
+    5    00000000                          RSEG    PATCH_JAVA_BEARER:CODE
+    6    00000000                          
+    7    00000000                          CODE16
+    8    00000000              #ifndef NOTALIGN            
+    9    00000000 C046                     NOP
+   10    00000002              #endif
+   11    00000002                          
+   12    00000002 ........                 BLX     java_control
+   13    00000006                          
+   14    00000000                          RSEG    CODE:CODE
+   15    00000000                        
+   16    00000000                       
+   17    00000000                          CODE32
+   18    00000000                          
+   19    00000000              java_control:
+   20    00000000                          
+   21    00000000 00502DE9                 PUSH    {R12,LR}
+   22    00000004              #ifndef NOTALIGN
+   23    00000004 061F8FE2                 ADR     R1, rap_1    //Reset
+                                                        Register R1
+   24    00000008              #endif
+   25    00000008 24C09FE5                 LDR     R12, =RAMFORPATCHADDR
+   26    0000000C 09C0DCE5                 LDRB    R12, [R12, #0x09]
+   27    00000010                          
+   28    00000010 00005CE3                 CMP     R12, #0x00
+   29    00000014 0100000A                 BEQ     end_jc
+   30    00000018 18C09FE5                 LDR     R12, =MAINBEARER
+   31    0000001C 3CFF2FE1                 BLX     R12
+   32    00000020                          
+   33    00000020                  end_jc:
+   34    00000020                  
+   35    00000020 0090BDE8                 POP     {R12,PC}   
+   36    00000024              #ifndef NOTALIGN             
+   37    00000024                          DATA
+   38    00000024                        
+   39    00000024 5241505F4245      rap_1: DC8 "RAP_BEARER_1"
+                  415245525F31
+                  00          
+   40    00000031              #endif     
+   41    00000031               
+   42    00000031                          END
+   42.1  00000031 000000                TABLE
+   42.2  00000034 00FD76A8             Reference on line 25 
+   42.3  00000038 747F82A0             Reference on line 30 
+   42.4  0000003C                      END (including table)
+##############################
+#          CRC:99DE          #
+#        Errors:   0         #
+#        Warnings: 0         #
+#         Bytes: 66          #
+##############################
+
+
+
+

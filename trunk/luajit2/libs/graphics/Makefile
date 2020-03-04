@@ -1,0 +1,27 @@
+
+
+graphics=${PWD}
+CC=codeblocks
+SOURCE = luagraphics.cbp
+TARGET = graphics
+MKDIR=mkdir
+BINDIR=../../build
+INSTALL=install -c
+
+all: nsg sg elka
+
+nsg: $(SOURCE)
+	$(CC) --rebuild --target=NSG $(SOURCE)
+	$(MKDIR) -p "$(BINDIR)/nsg/lib"
+	$(INSTALL) "$(graphics)/exe/graphics.so" "$(BINDIR)/nsg/lib/"
+
+sg: $(SOURCE)
+	$(CC) --rebuild --target=SG $(SOURCE)
+	$(MKDIR) -p "$(BINDIR)/sg/lib"
+	$(INSTALL) "$(graphics)/exe/graphics.so" "$(BINDIR)/sg/lib/"
+
+elka: $(SOURCE)
+	$(CC) --rebuild --target=ELKA $(SOURCE)
+	$(MKDIR) -p "$(BINDIR)/elka/lib"
+	$(INSTALL) "$(graphics)/exe/graphics.so" "$(BINDIR)/elka/lib/"
+

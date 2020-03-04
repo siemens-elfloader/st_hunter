@@ -1,0 +1,137 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   08/Aug/2010  00:10:34 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemCon /
+//                       trol\blockseek.c                                    /
+//    Command line    =  "C:\Documents and Settings\loquat\桌面\SuDoKu\MemCo /
+//                       ntrol\blockseek.c" -D SL65sw53 -lCN "C:\Documents   /
+//                       and Settings\loquat\桌面\SuDoKu\MemControl\Other\SL /
+//                       65v53\List\" -lb "C:\Documents and                  /
+//                       Settings\loquat\桌面\SuDoKu\MemControl\Other\SL65v5 /
+//                       3\List\" -o "C:\Documents and                       /
+//                       Settings\loquat\桌面\SuDoKu\MemControl\Other\SL65v5 /
+//                       3\Obj\" -s9 --no_unroll --no_clustering --cpu_mode  /
+//                       thumb --endian little --cpu ARM926EJ-S              /
+//                       --stack_align 4 --interwork -e --fpu None -I        /
+//                       "F:\software\Embedded Workbench 4.0                 /
+//                       Evaluation\ARM\INC\" --inline_threshold=2           /
+//    List file       =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemCon /
+//                       trol\Other\SL65v53\List\blockseek.s79               /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME blockseek
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        MULTWEAK ??FindEEFULLBlock??rA
+        MULTWEAK ??SeekBlock??rA
+        PUBLIC FindEEFULLBlock
+        PUBLIC SeekBlock
+
+FindEEFULLBlock     SYMBOL "FindEEFULLBlock"
+??FindEEFULLBlock??rA SYMBOL "??rA", FindEEFULLBlock
+SeekBlock           SYMBOL "SeekBlock"
+??SeekBlock??rA     SYMBOL "??rA", SeekBlock
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        ARM
+??FindEEFULLBlock??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        REQUIRE FindEEFULLBlock
+
+        RSEG CODE:CODE:NOROOT(2)
+        THUMB
+FindEEFULLBlock:
+        PUSH     {R4,R5}
+        MOVS     R0,#+0
+        LDR      R4,??FindEEFULLBlock_0  ;; 0xffffffffa023fff0
+        MOVS     R1,#+0
+        MVNS     R1,R1
+        MOVS     R2,#+152
+        LSLS     R2,R2,#+1
+        B        ??FindEEFULLBlock_1
+??FindEEFULLBlock_2:
+        SUBS     R4,R4,#+16
+??FindEEFULLBlock_1:
+        LDR      R5,[R4, #+4]
+        MOVS     R3,#+63
+        MVNS     R3,R3
+        CMP      R5,R1
+        BEQ      ??FindEEFULLBlock_3
+        LDR      R5,[R4, #+0]
+        CMP      R5,R3
+        BNE      ??FindEEFULLBlock_2
+        LDR      R3,[R4, #+4]
+        CMP      R3,R2
+        BNE      ??FindEEFULLBlock_2
+        LDR      R0,[R4, #+12]
+        LDR      R1,??FindEEFULLBlock_0+0x4  ;; 0xffffffffa0220001
+        ADDS     R0,R0,R1
+        POP      {R4,R5}
+        BX       LR
+??FindEEFULLBlock_3:
+        LDR      R4,??FindEEFULLBlock_0+0x8  ;; 0xffffffffa025fff0
+        B        ??FindEEFULLBlock_4
+??FindEEFULLBlock_5:
+        SUBS     R4,R4,#+16
+??FindEEFULLBlock_4:
+        LDR      R5,[R4, #+4]
+        CMP      R5,R1
+        BEQ      ??FindEEFULLBlock_6
+        LDR      R5,[R4, #+0]
+        CMP      R5,R3
+        BNE      ??FindEEFULLBlock_5
+        LDR      R5,[R4, #+4]
+        CMP      R5,R2
+        BNE      ??FindEEFULLBlock_5
+        LDR      R0,[R4, #+12]
+        LDR      R1,??FindEEFULLBlock_0+0xC  ;; 0xffffffffa0240001
+        ADDS     R0,R0,R1
+??FindEEFULLBlock_6:
+        POP      {R4,R5}
+        BX       LR
+        DATA
+??FindEEFULLBlock_0:
+        DC32     0xffffffffa023fff0
+        DC32     0xffffffffa0220001
+        DC32     0xffffffffa025fff0
+        DC32     0xffffffffa0240001
+
+        RSEG CODE:CODE:NOROOT(2)
+        ARM
+??SeekBlock??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        REQUIRE SeekBlock
+
+        RSEG CODE:CODE:NOROOT(2)
+        THUMB
+SeekBlock:
+        PUSH     {LR}
+        BL       FindEEFULLBlock
+        LDR      R1,??SeekBlock_0  ;; 0xffffffffa876fd0c
+        ADDS     R0,R0,#+61
+        STR      R0,[R1, #+0]
+        POP      {PC}             ;; return
+        Nop      
+        DATA
+??SeekBlock_0:
+        DC32     0xffffffffa876fd0c
+
+        END
+// 
+// 136 bytes in segment CODE
+// 
+// 120 bytes of CODE memory (+ 16 bytes shared)
+//
+//Errors: none
+//Warnings: none

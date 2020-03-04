@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="libstdc++" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="NSG">
+				<Option output="exe/libstdc++-4.7.so" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="exe" />
+				<Option object_output="objects/nsg" />
+				<Option type="3" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="SG">
+				<Option output="exe/elf_sg.elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/sg" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="ELKA">
+				<Option output="exe/elf_el.elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/elka" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DELKA" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-marm" />
+			<Add option="-Os" />
+			<Add option="-std=c++11" />
+			<Add directory="include/std/" />
+			<Add directory="include" />
+			<Add directory="include/c_std/" />
+			<Add directory="include/c_global/" />
+			<Add directory="include/backward" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add option="-gc-section" />
+			<Add option="--allow-multiple-definition" />
+			<Add library="crt_helper" />
+			<Add library="gcc" />
+			<Add library="c" />
+			<Add library="supc++" />
+			<Add library="spl" />
+		</Linker>
+		<Unit filename="config/io/basic_file_stdio.cc" />
+		<Unit filename="config/locale/generic/c++locale_internal.h" />
+		<Unit filename="config/locale/generic/c_locale.cc" />
+		<Unit filename="config/locale/generic/c_locale.h" />
+		<Unit filename="config/locale/generic/codecvt_members.cc" />
+		<Unit filename="config/locale/generic/collate_members.cc" />
+		<Unit filename="config/locale/generic/ctype_members.cc" />
+		<Unit filename="config/locale/generic/messages_members.cc" />
+		<Unit filename="config/locale/generic/messages_members.h" />
+		<Unit filename="config/locale/generic/monetary_members.cc" />
+		<Unit filename="config/locale/generic/numeric_members.cc" />
+		<Unit filename="config/locale/generic/time_members.cc" />
+		<Unit filename="config/locale/generic/time_members.h" />
+		<Unit filename="config/os/generic/ctype_configure_char.cc" />
+		<Unit filename="main.cpp" />
+		<Unit filename="new.cc" />
+		<Unit filename="src/c++11/chrono.cc" />
+		<Unit filename="src/c++11/compatibility-atomic-c++0x.cc" />
+		<Unit filename="src/c++11/compatibility-c++0x.cc" />
+		<Unit filename="src/c++11/compatibility-thread-c++0x.cc" />
+		<Unit filename="src/c++11/condition_variable.cc" />
+		<Unit filename="src/c++11/fstream-inst.cc" />
+		<Unit filename="src/c++11/functexcept.cc" />
+		<Unit filename="src/c++11/functional.cc" />
+		<Unit filename="src/c++11/future.cc" />
+		<Unit filename="src/c++11/hash_c++0x.cc" />
+		<Unit filename="src/c++11/hashtable_c++0x.cc" />
+		<Unit filename="src/c++11/limits.cc" />
+		<Unit filename="src/c++11/mutex.cc" />
+		<Unit filename="src/c++11/placeholders.cc" />
+		<Unit filename="src/c++11/regex.cc" />
+		<Unit filename="src/c++11/shared_ptr.cc" />
+		<Unit filename="src/c++11/string-inst.cc" />
+		<Unit filename="src/c++11/system_error.cc" />
+		<Unit filename="src/c++11/thread.cc" />
+		<Unit filename="src/c++11/wstring-inst.cc" />
+		<Unit filename="src/c++98/allocator-inst.cc" />
+		<Unit filename="src/c++98/bitmap_allocator.cc" />
+		<Unit filename="src/c++98/codecvt.cc" />
+		<Unit filename="src/c++98/compatibility-ldbl.cc" />
+		<Unit filename="src/c++98/compatibility-list-2.cc" />
+		<Unit filename="src/c++98/compatibility-list.cc" />
+		<Unit filename="src/c++98/compatibility.cc" />
+		<Unit filename="src/c++98/complex_io.cc" />
+		<Unit filename="src/c++98/concept-inst.cc" />
+		<Unit filename="src/c++98/ctype.cc" />
+		<Unit filename="src/c++98/ext-inst.cc" />
+		<Unit filename="src/c++98/globals_io.cc" />
+		<Unit filename="src/c++98/hash_tr1.cc" />
+		<Unit filename="src/c++98/hashtable_tr1.cc" />
+		<Unit filename="src/c++98/ios-inst.cc" />
+		<Unit filename="src/c++98/ios.cc" />
+		<Unit filename="src/c++98/ios_failure.cc" />
+		<Unit filename="src/c++98/ios_init.cc" />
+		<Unit filename="src/c++98/ios_locale.cc" />
+		<Unit filename="src/c++98/iostream-inst.cc" />
+		<Unit filename="src/c++98/istream-inst.cc" />
+		<Unit filename="src/c++98/istream.cc" />
+		<Unit filename="src/c++98/list.cc" />
+		<Unit filename="src/c++98/locale-inst.cc" />
+		<Unit filename="src/c++98/locale.cc" />
+		<Unit filename="src/c++98/locale_facets.cc" />
+		<Unit filename="src/c++98/locale_init.cc" />
+		<Unit filename="src/c++98/localename.cc" />
+		<Unit filename="src/c++98/math_stubs_float.cc" />
+		<Unit filename="src/c++98/math_stubs_long_double.cc" />
+		<Unit filename="src/c++98/misc-inst.cc" />
+		<Unit filename="src/c++98/mt_allocator.cc" />
+		<Unit filename="src/c++98/ostream-inst.cc" />
+		<Unit filename="src/c++98/parallel_settings.cc" />
+		<Unit filename="src/c++98/pool_allocator.cc" />
+		<Unit filename="src/c++98/sstream-inst.cc" />
+		<Unit filename="src/c++98/stdexcept.cc" />
+		<Unit filename="src/c++98/streambuf-inst.cc" />
+		<Unit filename="src/c++98/streambuf.cc" />
+		<Unit filename="src/c++98/strstream.cc" />
+		<Unit filename="src/c++98/tree.cc" />
+		<Unit filename="src/c++98/valarray.cc" />
+		<Unit filename="src/c++98/wlocale-inst.cc" />
+		<Unit filename="src/shared/hashtable-aux.cc" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

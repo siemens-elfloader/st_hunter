@@ -1,0 +1,26 @@
+#!/bin/sh
+
+
+
+targets="core csm dir draw fficores graphics Image klass luaproc swi timer ttf"
+
+mkdir -p build
+
+for lib in ${targets}
+do
+  cd "libs/${lib}"
+  make -C ./
+  cd ../../
+done
+
+
+cd libluajit
+make -C ./
+cd ../
+
+
+cd luajit
+make -C ./
+cd ../
+
+echo 'Done'

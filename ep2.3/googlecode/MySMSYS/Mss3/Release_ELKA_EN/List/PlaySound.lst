@@ -1,0 +1,165 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    14/Jan/2011  23:28:24 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\googlecode\MySMSYS\Mss3\PlaySound.cpp   #
+#    Command line    =  D:\pasha\elf\googlecode\MySMSYS\Mss3\PlaySound.cpp   #
+#                       -D NEWSGOLD -D ELKA -D LANG_EN -lcN                  #
+#                       D:\pasha\elf\googlecode\MySMSYS\Mss3\Release_ELKA_EN #
+#                       \List\ -o D:\pasha\elf\googlecode\MySMSYS\Mss3\Relea #
+#                       se_ELKA_EN\Obj\ -s9 --no_unroll --cpu_mode arm       #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --fpu None --eec++ --dlib_config      #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\googlecode\MySMSYS\Mss3\Release_ELKA_EN #
+#                       \List\PlaySound.lst                                  #
+#    Object file     =  D:\pasha\elf\googlecode\MySMSYS\Mss3\Release_ELKA_EN #
+#                       \Obj\PlaySound.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\googlecode\MySMSYS\Mss3\PlaySound.cpp
+      1          // PlaySound.cpp: implementation of the PlaySound class.
+      2          //
+      3          //////////////////////////////////////////////////////////////////////
+      4          
+      5          #include "include.h"
+      6          #include "PlaySound.h"
+      7          
+      8          //////////////////////////////////////////////////////////////////////
+      9          // Construction/Destruction
+     10          //////////////////////////////////////////////////////////////////////
+     11          
+     12          PlaySouNd::~PlaySouNd()
+     13          {
+     14          	if(this->handle)
+     15          	{
+     16          		PlayMelody_StopPlayback(this->handle);
+     17          		this->handle=0;
+     18          	}
+     19          }
+     20          
+     21          PlaySouNd::PlaySouNd()
+     22          {
+     23          	this->handle=0;
+     24          }
+     25          
+     26          void PlaySouNd::PlayStart(PlaySouNd *ps, const char *filepath)
+     27          {
+     28          	if(!ps || !filepath)
+     29          		return;
+     30          	if(ps->handle)
+     31          	{
+     32          		ps->PlayStop();
+     33          	}
+     34          	PLAYFILE_OPT _sfo1;
+     35          	WSHDR *sndPath,sndPathn;
+     36          	WSHDR *sndFName,sndFNamen;
+     37          	unsigned short sndPathb[128];
+     38          	unsigned short sndFNameb[128];
+     39          	char s[128];
+     40          	const char *p;
+     41          	int snd_vol;
+     42          	CFile file;
+     43          	if(!file.IsFileExist(filepath)
+     44          		|| !CFG_ENA_SOUND
+     45          		|| !(snd_vol=GetProfileVolumeSetting(GetProfile(), VOLUME))
+     46          		)
+     47          	{
+     48          		return;
+     49          	}
+     50          	sndPath=CreateLocalWS(&sndPathn, sndPathb, 128);
+     51          	sndFName=CreateLocalWS(&sndFNamen, sndFNameb, 128);
+     52          	p=strrchr(filepath,'\\')+1;
+     53          	str_2ws(sndFName,p,128);
+     54          	strncpy(s,filepath,p-filepath);
+     55          	s[p-filepath]='\0';
+     56          	str_2ws(sndPath,s,128);
+     57          	zeromem(&_sfo1,sizeof(PLAYFILE_OPT));
+     58          	_sfo1.repeat_num=1;
+     59          	_sfo1.time_between_play=0;
+     60          	_sfo1.play_first=0;
+     61          	_sfo1.volume=snd_vol;//
+     62          #ifdef NEWSGOLD
+     63          	_sfo1.unk6=1;
+     64          	_sfo1.unk7=1;
+     65          	_sfo1.unk9=2;
+     66          	ps->handle=PlayFile(0x10, sndPath, sndFName, GBS_GetCurCepid(), MSG_PLAYFILE_REPORT, &_sfo1);
+     67          #else
+     68          #ifdef X75
+     69          	_sfo1.unk4=0x80000000;
+     70          	_sfo1.unk5=1;
+     71          	ps->handle=PlayFile(0xC, sndPath, sndFName, 0,GBS_GetCurCepid(), MSG_PLAYFILE_REPORT, &_sfo1);
+     72          #else
+     73          	_sfo1.unk5=1;
+     74          	ps->handle=PlayFile(0xC, sndPath, sndFName, GBS_GetCurCepid(), MSG_PLAYFILE_REPORT, &_sfo1);
+     75          #endif
+     76          #endif
+     77          }
+     78          
+     79          void PlaySouNd::PlayStop()
+     80          {
+     81          	if(this->handle)
+     82          	{
+     83          		PlayMelody_StopPlayback(this->handle);
+     84          		this->handle=0;
+     85          	}
+     86          }
+     87          
+     88          void PlaySouNd::PlayDone()
+     89          {
+     90          	this->handle=0;
+     91          }
+     92          
+     93          int PlaySouNd::GetHandle()
+     94          {
+     95          	return this->handle;
+     96          }
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     PlaySouNd::GetHandle()             0
+     PlaySouNd::PlayDone()              0
+     PlaySouNd::PlaySouNd()             0
+     PlaySouNd::PlayStart(PlaySouNd *, char const *)
+                                      756
+     PlaySouNd::PlayStop()              8
+     PlaySouNd::delete ~PlaySouNd(PlaySouNd *)
+                                        8
+     PlaySouNd::new PlaySouNd()         4
+     PlaySouNd::~PlaySouNd()            8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     PlaySouNd::~PlaySouNd()          36
+     PlaySouNd::PlaySouNd()           12
+     PlaySouNd::PlayStart(PlaySouNd *, char const *)
+                                     336
+     PlaySouNd::PlayStop()            36
+     PlaySouNd::PlayDone()            12
+     PlaySouNd::GetHandle()            8
+     PlaySouNd::new PlaySouNd()       28
+     PlaySouNd::delete ~PlaySouNd(PlaySouNd *)
+                                      28
+      Others                          68
+
+ 
+ 564 bytes in segment CODE
+ 
+ 496 bytes of CODE memory (+ 68 bytes shared)
+
+Errors: none
+Warnings: none

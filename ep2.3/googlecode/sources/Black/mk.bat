@@ -1,0 +1,1 @@
+%1\elf2vkp.exe %2\CodeShowPatch.elf %1\BlackList_%3.vkp D:\tools\%3.bin

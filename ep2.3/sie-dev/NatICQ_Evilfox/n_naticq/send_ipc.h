@@ -1,0 +1,2 @@
+void SendXtask(char *sended);
+

@@ -1,0 +1,2216 @@
+################################################################################
+#                                                                              #
+#      IAR Universal Linker V4.60E/386                                         #
+#                                                                              #
+#           Link time     =  12/Feb/2008  16:28:12                             #
+#           Target CPU    =  ARM                                               #
+#           List file     =  D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\ #
+#                            List\MNUEdit_ELKA_EN.map                          #
+#           Output file 1 =  D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\ #
+#                            Exe\MNUEdit_ELKA_EN.elf                           #
+#                            Format: elf, variant: -ynpra                      #
+#           Command line  =  D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\ #
+#                            Obj\conf_loader.r79                               #
+#                            D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\ #
+#                            Obj\config_data.r79                               #
+#                            D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\ #
+#                            Obj\fileman.r79                                   #
+#                            D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\ #
+#                            Obj\main.r79                                      #
+#                            D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\ #
+#                            Obj\menu.r79                                      #
+#                            D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\ #
+#                            Obj\shortcuts_menu.r79                            #
+#                            -o                                                #
+#                            D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\ #
+#                            Exe\MNUEdit_ELKA_EN.elf                           #
+#                            -Felf -l                                          #
+#                            D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\ #
+#                            List\MNUEdit_ELKA_EN.map                          #
+#                            -xmsnio -f D:\Pasha\elf\test.xcl (-carm           #
+#                            -V(CODE)CODE_AREA,12 -V(DATA)DATA_AREA,12         #
+#                            -Z(CODE_AREA)ELFBEGIN,DATA_ID,START,CODE,DATA_C,I #
+#                            NITTAB,DATA_Z,DATA_N,CONFIG_C=0-FFFFFFFF          #
+#                            -Z(DATA_AREA)DATA_I=0-FFFFFFFF) -ynpra -s main    #
+#                                                                              #
+#                        Copyright 1987-2006 IAR Systems. All rights reserved. #
+################################################################################
+
+
+
+
+
+                ****************************************
+                *                                      *
+                *           CROSS REFERENCE            *
+                *                                      *
+                ****************************************
+
+       Program entry at : CODE_AREA 00001300  Relocatable, from module : main
+
+
+
+
+                ****************************************
+                *                                      *
+                *            RUNTIME MODEL             *
+                *                                      *
+                ****************************************
+
+  StackAlign4  = USED
+  __cpu_mode   = __pcs__interwork
+  __data_model = absolute
+  __endian     = little
+  __rt_version = 6
+
+
+
+                ****************************************
+                *                                      *
+                *              MODULE MAP              *
+                *                                      *
+                ****************************************
+
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  FILE NAME : D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\Obj\conf_loader.r79
+  PROGRAM MODULE, NAME : conf_loader
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_I
+  Relative segment, address: DATA_AREA 00000000 - 00000003 (0x4 bytes), align: 2
+  Segment part 4.             Intra module refs:   LoadConfigData
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           successed_config_filename
+                                   00000000 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 6. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000320 - 0000044B (0x12c bytes), align: 2
+  Segment part 7.             Intra module refs:   InitConfig
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           LoadConfigData          00000320 
+               stack 1 = 00000000 ( 00000030 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 8. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000044C - 00000473 (0x28 bytes), align: 2
+  Segment part 9.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           InitConfig              0000044C        main (main)
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000000 - 00000003 (0x4 bytes), align: 2
+  Segment part 5.             Intra module refs:   successed_config_filename
+    -------------------------------------------------------------------------
+DATA_ID
+  Segment part 10. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?*?DATA_ID              
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 000029DC - 000029E7 (0xc bytes), align: 2
+  Segment part 11. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_I        000029DC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Segment part 12. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000029D8 - 000029D8 (0x1 bytes), align: 0
+  Segment part 2.             Intra module refs:   Segment part 5
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000023A0 - 000023D7 (0x38 bytes), align: 2
+  Segment part 3.             Intra module refs:   InitConfig
+
+    *************************************************************************
+
+  FILE NAME : D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\Obj\config_data.r79
+  PROGRAM MODULE, NAME : config_data
+
+  SEGMENTS IN THE MODULE
+  ======================
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002B1C - 00002B47 (0x2c bytes), align: 2
+  Segment part 2. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr0                 00002B1C        LoadConfigData (conf_loader)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002B48 - 00002BC7 (0x80 bytes), align: 2
+  Segment part 3. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           smenu_path              00002B48        bm_menu_iconhnd (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002BC8 - 00002BF3 (0x2c bytes), align: 2
+  Segment part 4. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr1                 00002BC8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002BF4 - 00002C73 (0x80 bytes), align: 2
+  Segment part 5. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SHORTCUTS_FILE          00002BF4        LoadLines (shortcuts_menu)
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+
+    *************************************************************************
+
+  FILE NAME : D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\Obj\fileman.r79
+  PROGRAM MODULE, NAME : fileman
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_Z
+  Relative segment, address: CODE_AREA 000029F4 - 000029F7 (0x4 bytes), align: 2
+  Segment part 14.            Intra module refs:   Segment part 38
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           fltop                   000029F4 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 24. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000474 - 000004C7 (0x54 bytes), align: 2
+  Segment part 25.            Intra module refs:   CreateRootMenu
+                                                   FindFiles
+                                                   filelist_menu_ghook
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Free_FLIST              00000474 
+               stack 1 = 00000000 ( 00000010 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 26. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000023D8 - 000023DF (0x8 bytes), align: 2
+  Segment part 2.             Intra module refs:   Segment part 19
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000023E0 - 000023E7 (0x8 bytes), align: 2
+  Segment part 3.             Intra module refs:   Segment part 19
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000029D9 - 000029DA (0x2 bytes), align: 0
+  Segment part 4.             Intra module refs:   Segment part 19
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 5. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000023E8 - 000023F3 (0xc bytes), align: 2
+  Segment part 6.             Intra module refs:   Segment part 45
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           back                    000023E8 
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 7. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000023F4 - 000023FB (0x8 bytes), align: 2
+  Segment part 8.             Intra module refs:   filelist_menu_iconhndl
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 9. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 10. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 11. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 12. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000023FC - 00002403 (0x8 bytes), align: 2
+  Segment part 13.            Intra module refs:   CreateRootMenu
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000004C8 - 000004E7 (0x20 bytes), align: 2
+  Segment part 27.            Intra module refs:   filelist_menu_onkey
+                                                   open_fm
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           GetFListN               000004C8 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 28. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000004E8 - 0000051B (0x34 bytes), align: 2
+  Segment part 29.            Intra module refs:   FindFiles
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           GetFoldersLevel         000004E8 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 30. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000051C - 0000054B (0x30 bytes), align: 2
+  Segment part 31.            Intra module refs:   AddToFList
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           strcmp_nocase           0000051C 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 32. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000054C - 000005F3 (0xa8 bytes), align: 2
+  Segment part 33.            Intra module refs:   CreateRootMenu
+                                                   FindFiles
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           AddToFList              0000054C 
+               stack 1 = 00000000 ( 00000014 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 34. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000005F4 - 00000767 (0x174 bytes), align: 2
+  Segment part 35.            Intra module refs:   filelist_menu_onkey
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FindFiles               000005F4 
+               stack 1 = 00000000 ( 000004D4 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 36. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000768 - 000007AB (0x44 bytes), align: 2
+  Segment part 37.            Intra module refs:   FindFLISTtByN
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FindFLISTtByNS          00000768 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000007AC - 000007AF (0x4 bytes), align: 2
+  Segment part 38.            Intra module refs:   AddToFList
+                                                   FindFLISTtByNS
+                                                   Free_FLIST
+                                                   GetFListN
+    -------------------------------------------------------------------------
+CODE
+  Segment part 39. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000007B0 - 000007E3 (0x34 bytes), align: 2
+  Segment part 40.            Intra module refs:   filelist_menu_iconhndl
+                                                   filelist_menu_onkey
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FindFLISTtByN           000007B0 
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 41. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 15. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           perc_t                  
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000007E4 - 0000082F (0x4c bytes), align: 2
+  Segment part 42.            Intra module refs:   filelist_menu_onkey
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SavePath                000007E4 
+               stack 1 = 00000000 ( 0000003C )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 43. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000830 - 00000937 (0x108 bytes), align: 2
+  Segment part 44.            Intra module refs:   Segment part 23
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           filelist_menu_onkey     00000830 
+               stack 1 = 00000000 ( 00000014 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000938 - 0000093B (0x4 bytes), align: 2
+  Segment part 45.            Intra module refs:   FindFiles
+                                                   filelist_menu_onkey
+    -------------------------------------------------------------------------
+CODE
+  Segment part 46. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000093C - 00000963 (0x28 bytes), align: 2
+  Segment part 47.            Intra module refs:   Segment part 23
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           filelist_menu_ghook     0000093C 
+               stack 1 = 00000000 ( 0000000C )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 48. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000964 - 00000A23 (0xc0 bytes), align: 2
+  Segment part 49.            Intra module refs:   Segment part 23
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           filelist_menu_iconhndl
+                                   00000964 
+               stack 1 = 00000000 ( 0000001C )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 50. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 00000004 - 0000000F (0xc bytes), align: 2
+  Segment part 16.            Intra module refs:   Segment part 23
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           fmenusoftkeys           00000004 
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 00000010 - 00000027 (0x18 bytes), align: 2
+  Segment part 18.            Intra module refs:   Segment part 21
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           fmenu_sk                00000010 
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 00000028 - 0000002F (0x8 bytes), align: 2
+  Segment part 20.            Intra module refs:   Segment part 23
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           fmenu_skt               00000028 
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 00000030 - 000000EF (0xc0 bytes), align: 2
+  Segment part 22.            Intra module refs:   CreateRootMenu
+                                                   Segment part 23
+                                                   Segment part 56
+                                                   filelist_menu_onkey
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           filelist_HDR            00000030 
+           filelist_STRUCT         000000C4 
+           header                  00000044 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000A24 - 00000A93 (0x70 bytes), align: 2
+  Segment part 51.            Intra module refs:   filelist_menu_onkey
+                                                   open_fm
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           CreateRootMenu          00000A24        on_utf8ec (main)
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 52. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000A94 - 00000B97 (0x104 bytes), align: 2
+  Segment part 53.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           open_fm                 00000A94        on_utf8ec (main)
+               stack 1 = 00000000 ( 000000D4 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 54. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 55. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           open_file               
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000B98 - 00000B9B (0x4 bytes), align: 2
+  Segment part 56.            Intra module refs:   open_fm
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000004 - 0000000F (0xc bytes), align: 2
+  Segment part 17.            Intra module refs:   fmenusoftkeys
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000010 - 00000027 (0x18 bytes), align: 2
+  Segment part 19.            Intra module refs:   fmenu_sk
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000028 - 0000002F (0x8 bytes), align: 2
+  Segment part 21.            Intra module refs:   fmenu_skt
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000030 - 000000EF (0xc0 bytes), align: 2
+  Segment part 23.            Intra module refs:   Segment part 22
+    -------------------------------------------------------------------------
+DATA_ID
+  Segment part 57. TENTATIVE. Used definition from conf_loader
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?*?DATA_ID              
+    -------------------------------------------------------------------------
+INITTAB
+  Segment part 58. TENTATIVE. Used definition from conf_loader
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_I        
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 000029E8 - 000029F3 (0xc bytes), align: 2
+  Segment part 59. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_Z        000029E8 
+
+    *************************************************************************
+
+  FILE NAME : D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\Obj\main.r79
+  PROGRAM MODULE, NAME : main
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_Z
+  Segment part 24. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           icsmd                   
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 27. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           old_icsm_onMessage      
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 28. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MAINCSM_ID              
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 29. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MAINGUI_ID              
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 34. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           de                      
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 35. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           mytmr                   
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 36. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           my_csm_id               
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 37. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           err                     
+    -------------------------------------------------------------------------
+CODE
+  Segment part 49. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000B9C - 00000BC3 (0x28 bytes), align: 2
+  Segment part 50.            Intra module refs:   LoadMNU
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           get_file_size           00000B9C 
+               stack 1 = 00000000 ( 00000030 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 51. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 52. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           mess                    
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 53. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 54. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           mess2                   
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 55. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 56. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           messd                   
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 57. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 000029F8 - 000029FB (0x4 bytes), align: 2
+  Segment part 38.            Intra module refs:   Segment part 77
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           mnutop                  000029F8 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000BC4 - 00000BFF (0x3c bytes), align: 2
+  Segment part 58.            Intra module refs:   bm_menu_onkey2
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           about                   00000BC4        menu_onkey2 (menu)
+               stack 1 = 00000000 ( 00000088 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 59. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000C00 - 00000C1F (0x20 bytes), align: 2
+  Segment part 60.            Intra module refs:   FindByN
+                                                   SaveFile
+                                                   bm_menu_ghook
+                                                   create
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           GetFListN2              00000C00 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 61. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000C20 - 00000CDF (0xc0 bytes), align: 2
+  Segment part 62.            Intra module refs:   AddItem
+                                                   parse
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Add                     00000C20 
+               stack 1 = 00000000 ( 00000018 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 63. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000CE0 - 00000EAB (0x1cc bytes), align: 2
+  Segment part 64.            Intra module refs:   LoadMNU
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           parse                   00000CE0 
+               stack 1 = 00000000 ( 00000024 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 65. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000EAC - 00000FDB (0x130 bytes), align: 2
+  Segment part 66.            Intra module refs:   main
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           LoadMNU                 00000EAC 
+               stack 1 = 00000000 ( 0000001C )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 67. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000FDC - 00000FF7 (0x1c bytes), align: 2
+  Segment part 68.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           del                     00000FDC        menu_onkey2 (menu)
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 69. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000FF8 - 00001033 (0x3c bytes), align: 2
+  Segment part 70.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           AddItem                 00000FF8        menu_onkey2 (menu)
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 71. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 000000F0 - 00000107 (0x18 bytes), align: 2
+  Segment part 25.            Intra module refs:   create
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           bm_menuhdr              000000F0 
+           id_ed                   00000104        menu_onkey2 (menu)
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001034 - 0000105B (0x28 bytes), align: 2
+  Segment part 72.            Intra module refs:   bmmenu
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           bm_menu_ghook           00001034 
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 73. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000105C - 000010D3 (0x78 bytes), align: 2
+  Segment part 74.            Intra module refs:   bmmenu
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           bm_menu_onkey2          0000105C 
+               stack 1 = 00000000 ( 00000014 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 75. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000010D4 - 00001117 (0x44 bytes), align: 2
+  Segment part 76.            Intra module refs:   DrawText
+                                                   SaveFile
+                                                   bm_menu_iconhnd
+                                                   del
+                                                   empty_ghook
+                                                   empty_onkey
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FindByN                 000010D4 
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001118 - 0000111B (0x4 bytes), align: 2
+  Segment part 77.            Intra module refs:   Add
+                                                   FindByN
+                                                   GetFListN2
+    -------------------------------------------------------------------------
+CODE
+  Segment part 78. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000111C - 0000121F (0x104 bytes), align: 2
+  Segment part 79.            Intra module refs:   bmmenu
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           bm_menu_iconhnd         0000111C 
+               stack 1 = 00000000 ( 00000028 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 80. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001220 - 0000127F (0x60 bytes), align: 2
+  Segment part 81.            Intra module refs:   maincsm_oncreate
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           create                  00001220 
+               stack 1 = 00000000 ( 00000010 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 82. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001280 - 00001293 (0x14 bytes), align: 2
+  Segment part 83.            Intra module refs:   Segment part 17
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           maincsm_oncreate        00001280 
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 84. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001294 - 00001297 (0x4 bytes), align: 2
+  Segment part 85.            Intra module refs:   maincsm_onclose
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Killer                  00001294 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 86. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001298 - 000012AB (0x14 bytes), align: 2
+  Segment part 87.            Intra module refs:   Segment part 17
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           maincsm_onclose         00001298 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 88. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000012AC - 000012DB (0x30 bytes), align: 2
+  Segment part 89.            Intra module refs:   Segment part 17
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           maincsm_onmessage       000012AC 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 90. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 000029FC - 00002B13 (0x118 bytes), align: 2
+  Segment part 43.            Intra module refs:   Segment part 17
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           maincsm_name_body       000029FC 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002404 - 0000240B (0x8 bytes), align: 2
+  Segment part 2.             Intra module refs:   Segment part 33
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000240C - 00002413 (0x8 bytes), align: 2
+  Segment part 3.             Intra module refs:   Segment part 33
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002414 - 0000241B (0x8 bytes), align: 2
+  Segment part 4.             Intra module refs:   Segment part 33
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000241C - 00002423 (0x8 bytes), align: 2
+  Segment part 5.             Intra module refs:   Segment part 33
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002424 - 0000242B (0x8 bytes), align: 2
+  Segment part 6.             Intra module refs:   Segment part 33
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000242C - 0000242F (0x4 bytes), align: 2
+  Segment part 7.             Intra module refs:   Segment part 33
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002430 - 00002437 (0x8 bytes), align: 2
+  Segment part 8.             Intra module refs:   Segment part 33
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002438 - 0000243F (0x8 bytes), align: 2
+  Segment part 9.             Intra module refs:   menu_sk2
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002440 - 00002447 (0x8 bytes), align: 2
+  Segment part 10.            Intra module refs:   menu_sk2
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002448 - 00002453 (0xc bytes), align: 2
+  Segment part 11.            Intra module refs:   Segment part 26
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002454 - 0000248F (0x3c bytes), align: 2
+  Segment part 12.            Intra module refs:   about
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002490 - 000024A3 (0x14 bytes), align: 2
+  Segment part 13.            Intra module refs:   LoadMNU
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 14. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000024A4 - 000024C3 (0x20 bytes), align: 2
+  Segment part 15.            Intra module refs:   AddItem
+                                                   Segment part 33
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 16. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000024C4 - 000025BB (0xf8 bytes), align: 2
+  Segment part 17.            Intra module refs:   Segment part 105
+                                                   Segment part 108
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MAINCSM                 00002580 
+           per_s                   000024C7 
+           per_t                   000024C4 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000025BC - 000025C3 (0x8 bytes), align: 2
+  Segment part 18.            Intra module refs:   Segment part 33
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 19. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 20. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000025C4 - 000025CF (0xc bytes), align: 2
+  Segment part 21.            Intra module refs:   Segment part 33
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000029DB - 000029DB (0x1 bytes), align: 0
+  Segment part 22.            Intra module refs:   Segment part 33
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000025D0 - 000025D7 (0x8 bytes), align: 2
+  Segment part 23.            Intra module refs:   Segment part 33
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000025D8 - 000025DB (0x4 bytes), align: 2
+  Segment part 30.            Intra module refs:   Segment part 17
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           minus11                 000025D8 
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 31. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           empty_str               
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000025DC - 000025E7 (0xc bytes), align: 2
+  Segment part 39.            Intra module refs:   bmmenu
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           menusoftkeys            000025DC 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000025E8 - 000025FF (0x18 bytes), align: 2
+  Segment part 40.            Intra module refs:   menu_skt2
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           menu_sk2                000025E8 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002600 - 00002607 (0x8 bytes), align: 2
+  Segment part 41.            Intra module refs:   bmmenu
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           menu_skt2               00002600 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002608 - 00002637 (0x30 bytes), align: 2
+  Segment part 42.            Intra module refs:   create
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           bmmenu                  00002608 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000012DC - 000012FF (0x24 bytes), align: 2
+  Segment part 91.            Intra module refs:   main
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           UpdateCSMname           000012DC 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 92. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001300 - 000013DF (0xe0 bytes), align: 2
+  Segment part 93.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           main                    00001300        Absolute parts (?ABS_ENTRY_MOD)
+               stack 1 = 00000000 ( 0000003C )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 94. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000013E0 - 00001467 (0x88 bytes), align: 2
+  Segment part 95.            Intra module refs:   empty_onkey
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           on_utf8ec               000013E0 
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 96. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001468 - 0000161B (0x1b4 bytes), align: 2
+  Segment part 97.            Intra module refs:   Segment part 33
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           empty_onkey             00001468 
+               stack 1 = 00000000 ( 00000040 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 98. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 00002B14 - 00002B1B (0x8 bytes), align: 2
+  Segment part 44.            Intra module refs:   Segment part 46
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           sk                      00002B14 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000161C - 0000161F (0x4 bytes), align: 2
+  Segment part 99.            Intra module refs:   Segment part 33
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           empty_locret            0000161C 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 100. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001620 - 000016F7 (0xd8 bytes), align: 2
+  Segment part 101.           Intra module refs:   Segment part 33
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           empty_ghook             00001620 
+               stack 1 = 00000000 ( 00000018 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000016F8 - 000016FB (0x4 bytes), align: 2
+  Segment part 102.           Intra module refs:   bm_menu_onkey2
+                                                   empty_ghook
+                                                   main
+    -------------------------------------------------------------------------
+CODE
+  Segment part 103. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 00000108 - 000002C3 (0x1bc bytes), align: 2
+  Segment part 32.            Intra module refs:   DrawText
+                                                   Segment part 102
+                                                   UpdateCSMname
+                                                   empty_onkey
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           action                  00000180 
+           disk_prop_hdr           00000140 
+           ec                      00000154 
+           edit_desc               00000108 
+           ews                     000001AC 
+           file                    000001BC        menu_onkey2 (menu)
+           item                    000001B0        menu_onkey2 (menu)
+           maincsm_id              000001B8 
+           ws_name                 000001B4 
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 000002C4 - 000002CB (0x8 bytes), align: 2
+  Segment part 45.            Intra module refs:   Segment part 33
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           skt                     000002C4 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000016FC - 0000196B (0x270 bytes), align: 2
+  Segment part 104.           Intra module refs:   bm_menu_onkey2
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SaveFile                000016FC        menu_onkey2 (menu)
+               stack 1 = 00000000 ( 00000024 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000196C - 0000196F (0x4 bytes), align: 2
+  Segment part 105.           Intra module refs:   SaveFile
+                                                   UpdateCSMname
+                                                   bm_menu_iconhnd
+                                                   main
+    -------------------------------------------------------------------------
+CODE
+  Segment part 106. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001970 - 00001CCF (0x360 bytes), align: 2
+  Segment part 107.           Intra module refs:   bm_menu_onkey2
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           DrawText                00001970        menu_onkey2 (menu)
+               stack 1 = 00000000 ( 00000050 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001CD0 - 00001CD3 (0x4 bytes), align: 2
+  Segment part 108.           Intra module refs:   DrawText
+                                                   empty_ghook
+                                                   on_utf8ec
+    -------------------------------------------------------------------------
+CODE
+  Segment part 109. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002638 - 0000288F (0x258 bytes), align: 2
+  Segment part 47.            Intra module refs:   Segment part 119
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           unicode2char            00002638 
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 48. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           dos2unicode             
+           koi8translation         
+           wintranslation          
+    -------------------------------------------------------------------------
+CODE
+  Segment part 110. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           char8to16               
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 111. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001CD4 - 00001D6B (0x98 bytes), align: 2
+  Segment part 112.           Intra module refs:   ascii2ws
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           win2unicode             00001CD4 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 113. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001D6C - 00001DA3 (0x38 bytes), align: 2
+  Segment part 114.           Intra module refs:   DrawText
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ascii2ws                00001D6C        ShortcutsMenuItemHandler (shortcuts_menu)
+                                                   ShortcutsMenuKeyHook (shortcuts_menu)
+               stack 1 = 00000000 ( 0000000C )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 115. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 116. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           koi2ws                  
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 117. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 118. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           win1251_2ws             
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001DA4 - 00001DA7 (0x4 bytes), align: 2
+  Segment part 119.           Intra module refs:   empty_onkey
+    -------------------------------------------------------------------------
+CODE
+  Segment part 120. NOT NEEDED.Intra module refs   bm_menu_onkey2
+    -------------------------------------------------------------------------
+CODE
+  Segment part 121. NOT NEEDED.Intra module refs   main
+    -------------------------------------------------------------------------
+CODE
+  Segment part 122. NOT NEEDED.Intra module refs   on_utf8ec
+    -------------------------------------------------------------------------
+CODE
+  Segment part 123. NOT NEEDED.Intra module refs   on_utf8ec
+    -------------------------------------------------------------------------
+CODE
+  Segment part 124. NOT NEEDED.Intra module refs   on_utf8ec
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 000000F0 - 00000107 (0x18 bytes), align: 2
+  Segment part 26.            Intra module refs:   Segment part 25
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000108 - 000002C3 (0x1bc bytes), align: 2
+  Segment part 33.            Intra module refs:   Segment part 32
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 000002C4 - 000002CB (0x8 bytes), align: 2
+  Segment part 46.            Intra module refs:   skt
+    -------------------------------------------------------------------------
+DATA_ID
+  Segment part 125. TENTATIVE. Used definition from conf_loader
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?*?DATA_ID              
+    -------------------------------------------------------------------------
+INITTAB
+  Segment part 126. TENTATIVE. Used definition from conf_loader
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_I        
+    -------------------------------------------------------------------------
+INITTAB
+  Segment part 127. TENTATIVE. Used definition from fileman
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_Z        
+
+    *************************************************************************
+
+  FILE NAME : D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\Obj\menu.r79
+  PROGRAM MODULE, NAME : menu
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_C
+  Relative segment, address: CODE_AREA 00002890 - 00002897 (0x8 bytes), align: 2
+  Segment part 2.             Intra module refs:   Segment part 17
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002898 - 0000289F (0x8 bytes), align: 2
+  Segment part 3.             Intra module refs:   Segment part 17
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000028A0 - 000028AB (0xc bytes), align: 2
+  Segment part 4.             Intra module refs:   Segment part 17
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000028AC - 000028B3 (0x8 bytes), align: 2
+  Segment part 5.             Intra module refs:   Segment part 17
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000028B4 - 000028BB (0x8 bytes), align: 2
+  Segment part 6.             Intra module refs:   Segment part 17
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000028BC - 000028C3 (0x8 bytes), align: 2
+  Segment part 7.             Intra module refs:   Segment part 17
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000028C4 - 000028CB (0x8 bytes), align: 2
+  Segment part 8.             Intra module refs:   menu_
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000028CC - 000028D3 (0x8 bytes), align: 2
+  Segment part 9.             Intra module refs:   menu_
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000028D4 - 000028DB (0x8 bytes), align: 2
+  Segment part 10.            Intra module refs:   Segment part 15
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 11. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 12. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000028DC - 000028EB (0x10 bytes), align: 2
+  Segment part 13.            Intra module refs:   menu_iconhnd
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000028EC - 000028F7 (0xc bytes), align: 2
+  Segment part 18.            Intra module refs:   menu
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           menusoftke              000028EC 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000028F8 - 0000290F (0x18 bytes), align: 2
+  Segment part 19.            Intra module refs:   menu_s
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           menu_                   000028F8 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002910 - 00002917 (0x8 bytes), align: 2
+  Segment part 20.            Intra module refs:   menu
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           menu_s                  00002910 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 22. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001DA8 - 00001DAB (0x4 bytes), align: 2
+  Segment part 23.            Intra module refs:   menu
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           menu_ghook              00001DA8 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 24. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 000002CC - 000002E7 (0x1c bytes), align: 2
+  Segment part 14.            Intra module refs:   ShowMainMenu
+                                                   menu_onkey2
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           it                      000002E4 
+           menu_id                 000002E0 
+           menuhdr2                000002CC 
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 000002E8 - 000002FF (0x18 bytes), align: 2
+  Segment part 16.            Intra module refs:   menu_iconhnd
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           menu_name               000002E8 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002918 - 00002943 (0x2c bytes), align: 2
+  Segment part 21.            Intra module refs:   ShowMainMenu
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           menu                    00002918 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001DAC - 00001E8F (0xe4 bytes), align: 2
+  Segment part 25.            Intra module refs:   menu
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           menu_iconhnd            00001DAC 
+               stack 1 = 00000000 ( 00000020 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 26. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001E90 - 00001F7B (0xec bytes), align: 2
+  Segment part 27.            Intra module refs:   menu
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           menu_onkey2             00001E90 
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 28. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001F7C - 00001FE7 (0x6c bytes), align: 2
+  Segment part 29.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ShowMainMenu            00001F7C        bm_menu_onkey2 (main)
+               stack 1 = 00000000 ( 00000018 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 30. NOT NEEDED.Intra module refs:   menu_onkey2
+    -------------------------------------------------------------------------
+CODE
+  Segment part 31. NOT NEEDED.Intra module refs:   menu_onkey2
+    -------------------------------------------------------------------------
+CODE
+  Segment part 32. NOT NEEDED.Intra module refs:   menu_onkey2
+    -------------------------------------------------------------------------
+CODE
+  Segment part 33. NOT NEEDED.Intra module refs:   menu_onkey2
+    -------------------------------------------------------------------------
+CODE
+  Segment part 34. NOT NEEDED.Intra module refs:   menu_onkey2
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 000002CC - 000002E7 (0x1c bytes), align: 2
+  Segment part 15.            Intra module refs:   Segment part 14
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 000002E8 - 000002FF (0x18 bytes), align: 2
+  Segment part 17.            Intra module refs:   menu_name
+    -------------------------------------------------------------------------
+DATA_ID
+  Segment part 35. TENTATIVE. Used definition from conf_loader
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?*?DATA_ID              
+    -------------------------------------------------------------------------
+INITTAB
+  Segment part 36. TENTATIVE. Used definition from conf_loader
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_I        
+
+    *************************************************************************
+
+  FILE NAME : D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA_EN\Obj\shortcuts_menu.r79
+  PROGRAM MODULE, NAME : shortcuts_menu
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_Z
+  Segment part 6. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           IsShortcut              
+    -------------------------------------------------------------------------
+CODE
+  Segment part 12. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00001FE8 - 0000201F (0x38 bytes), align: 2
+  Segment part 13.            Intra module refs:   ShortcutsMenuGHook
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FreeLines               00001FE8 
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 14. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00002020 - 00002123 (0x104 bytes), align: 2
+  Segment part 15.            Intra module refs:   DispShortcutsMenu
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           LoadLines               00002020 
+               stack 1 = 00000000 ( 0000004C )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 16. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 00000300 - 0000031F (0x20 bytes), align: 2
+  Segment part 7.             Intra module refs:   DispShortcutsMenu
+                                                   Segment part 22
+                                                   ShortcutsMenuItemHandler
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           NumOfItems              00000314 
+           ShortcutsMenuHeader     00000300 
+           templates_chars         00000318 
+           templates_lines         0000031C 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00002124 - 0000218B (0x68 bytes), align: 2
+  Segment part 17.            Intra module refs:   Segment part 5
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ShortcutsMenuItemHandler
+                                   00002124 
+               stack 1 = 00000000 ( 00000018 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 18. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000218C - 000021AF (0x24 bytes), align: 2
+  Segment part 19.            Intra module refs:   Segment part 5
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ShortcutsMenuGHook      0000218C 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 20. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000021B0 - 000022FF (0x150 bytes), align: 2
+  Segment part 21.            Intra module refs:   Segment part 5
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           ShortcutsMenuKeyHook    000021B0 
+               stack 1 = 00000000 ( 00000044 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00002300 - 00002303 (0x4 bytes), align: 2
+  Segment part 22.            Intra module refs:   FreeLines
+                                                   LoadLines
+                                                   ShortcutsMenuKeyHook
+    -------------------------------------------------------------------------
+CODE
+  Segment part 23. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002944 - 0000294B (0x8 bytes), align: 2
+  Segment part 2.             Intra module refs:   menu_sk
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000294C - 00002953 (0x8 bytes), align: 2
+  Segment part 3.             Intra module refs:   menu_sk
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002954 - 0000295F (0xc bytes), align: 2
+  Segment part 4.             Intra module refs:   ShortcutsMenuKeyHook
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00002960 - 000029AB (0x4c bytes), align: 2
+  Segment part 5.             Intra module refs:   DispShortcutsMenu
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000029AC - 000029B7 (0xc bytes), align: 2
+  Segment part 9.             Intra module refs:   Segment part 5
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MenuSoftkeys            000029AC 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000029B8 - 000029CF (0x18 bytes), align: 2
+  Segment part 10.            Intra module refs:   Select_Back_skt
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           menu_sk                 000029B8 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000029D0 - 000029D7 (0x8 bytes), align: 2
+  Segment part 11.            Intra module refs:   Segment part 5
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Select_Back_skt         000029D0 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00002304 - 0000239F (0x9c bytes), align: 2
+  Segment part 24.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           DispShortcutsMenu       00002304        on_utf8ec (main)
+               stack 1 = 00000000 ( 00000020 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 25. NOT NEEDED.Intra module refs:   ShortcutsMenuItemHandler
+                                                   ShortcutsMenuKeyHook
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000300 - 0000031F (0x20 bytes), align: 2
+  Segment part 8.             Intra module refs:   Segment part 7
+    -------------------------------------------------------------------------
+DATA_ID
+  Segment part 26. TENTATIVE. Used definition from conf_loader
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?*?DATA_ID              
+    -------------------------------------------------------------------------
+INITTAB
+  Segment part 27. TENTATIVE. Used definition from conf_loader
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_I        
+    -------------------------------------------------------------------------
+INITTAB
+  Segment part 28. TENTATIVE. Used definition from fileman
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_Z        
+
+
+
+
+                ****************************************
+                *                                      *
+                *            MODULE SUMMARY            *
+                *                                      *
+                ****************************************
+
+Module             CODE   DATA
+------             ----   ----
+                  (Rel)  (Rel)
+conf_loader         401      4
+  + shared           12
+config_data         344
+fileman           2 118    236
+  + shared           12
+main              6 553    476
+menu                808     52
+shortcuts_menu    1 132     32
+N/A (alignment)
+------           ------    ---
+Total:           11 380    800
+
+
+                ****************************************
+                *                                      *
+                *              CALL GRAPH              *
+                *                                      *
+                ****************************************
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  filelist_menu_onkey
+      | Stack used (prev) :  00000000
+      | + function block  :  00000014
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000014
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  filelist_menu_ghook
+      | Stack used (prev) :  00000000
+      | + function block  :  0000000C
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  0000000C
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  filelist_menu_iconhndl
+      | Stack used (prev) :  00000000
+      | + function block  :  0000001C
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  0000001C
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  bm_menu_ghook
+      | Stack used (prev) :  00000000
+      | + function block  :  00000008
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000008
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  bm_menu_onkey2
+      | Stack used (prev) :  00000000
+      | + function block  :  00000014
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000014
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  bm_menu_iconhnd
+      | Stack used (prev) :  00000000
+      | + function block  :  00000028
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000028
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  maincsm_oncreate
+      | Stack used (prev) :  00000000
+      | + function block  :  00000008
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000008
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  Killer
+      | Stack used (prev) :  00000000
+      | + function block  :  00000000
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000000
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  maincsm_onclose
+      | Stack used (prev) :  00000000
+      | + function block  :  00000004
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000004
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  maincsm_onmessage
+      | Stack used (prev) :  00000000
+      | + function block  :  00000000
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000000
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  on_utf8ec
+      | Stack used (prev) :  00000000
+      | + function block  :  00000008
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000008
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  empty_onkey
+      | Stack used (prev) :  00000000
+      | + function block  :  00000040
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000040
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  empty_locret
+      | Stack used (prev) :  00000000
+      | + function block  :  00000000
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000000
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  empty_ghook
+      | Stack used (prev) :  00000000
+      | + function block  :  00000018
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000018
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  menu_ghook
+      | Stack used (prev) :  00000000
+      | + function block  :  00000000
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000000
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  menu_iconhnd
+      | Stack used (prev) :  00000000
+      | + function block  :  00000020
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000020
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  menu_onkey2
+      | Stack used (prev) :  00000000
+      | + function block  :  00000008
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000008
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  ShortcutsMenuItemHandler
+      | Stack used (prev) :  00000000
+      | + function block  :  00000018
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000018
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  ShortcutsMenuGHook
+      | Stack used (prev) :  00000000
+      | + function block  :  00000004
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000004
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  ShortcutsMenuKeyHook
+      | Stack used (prev) :  00000000
+      | + function block  :  00000044
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000044
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000044
+  01  LoadConfigData
+      | Stack used (prev) :  00000044
+      | + function block  :  00000030
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000074
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000074
+  01  InitConfig
+      | Stack used (prev) :  00000074
+      | + function block  :  00000008
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000007C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000007C
+  01  Free_FLIST
+      | Stack used (prev) :  0000007C
+      | + function block  :  00000010
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000008C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000008C
+  01  GetFListN
+      | Stack used (prev) :  0000008C
+      | + function block  :  00000000
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000008C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000008C
+  01  GetFoldersLevel
+      | Stack used (prev) :  0000008C
+      | + function block  :  00000000
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000008C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000008C
+  01  strcmp_nocase
+      | Stack used (prev) :  0000008C
+      | + function block  :  00000000
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000008C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000008C
+  01  AddToFList
+      | Stack used (prev) :  0000008C
+      | + function block  :  00000014
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000000A0
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000000A0
+  01  FindFiles
+      | Stack used (prev) :  000000A0
+      | + function block  :  000004D4
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000574
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000574
+  01  FindFLISTtByNS
+      | Stack used (prev) :  00000574
+      | + function block  :  00000000
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000574
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000574
+  01  FindFLISTtByN
+      | Stack used (prev) :  00000574
+      | + function block  :  00000008
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000057C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000057C
+  01  SavePath
+      | Stack used (prev) :  0000057C
+      | + function block  :  0000003C
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000005B8
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000005B8
+  01  CreateRootMenu
+      | Stack used (prev) :  000005B8
+      | + function block  :  00000004
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000005BC
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000005BC
+  01  open_fm
+      | Stack used (prev) :  000005BC
+      | + function block  :  000000D4
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000690
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000690
+  01  get_file_size
+      | Stack used (prev) :  00000690
+      | + function block  :  00000030
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000006C0
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000006C0
+  01  about
+      | Stack used (prev) :  000006C0
+      | + function block  :  00000088
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000748
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000748
+  01  GetFListN2
+      | Stack used (prev) :  00000748
+      | + function block  :  00000000
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000748
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000748
+  01  Add
+      | Stack used (prev) :  00000748
+      | + function block  :  00000018
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000760
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000760
+  01  parse
+      | Stack used (prev) :  00000760
+      | + function block  :  00000024
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000784
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000784
+  01  LoadMNU
+      | Stack used (prev) :  00000784
+      | + function block  :  0000001C
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000007A0
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000007A0
+  01  del
+      | Stack used (prev) :  000007A0
+      | + function block  :  00000004
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000007A4
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000007A4
+  01  AddItem
+      | Stack used (prev) :  000007A4
+      | + function block  :  00000008
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000007AC
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000007AC
+  01  FindByN
+      | Stack used (prev) :  000007AC
+      | + function block  :  00000008
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000007B4
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000007B4
+  01  create
+      | Stack used (prev) :  000007B4
+      | + function block  :  00000010
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000007C4
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000007C4
+  01  UpdateCSMname
+      | Stack used (prev) :  000007C4
+      | + function block  :  00000004
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000007C8
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000007C8
+  01  main
+      | Stack used (prev) :  000007C8
+      | + function block  :  0000003C
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000804
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000804
+  01  SaveFile
+      | Stack used (prev) :  00000804
+      | + function block  :  00000024
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000828
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000828
+  01  DrawText
+      | Stack used (prev) :  00000828
+      | + function block  :  00000050
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000878
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000878
+  01  win2unicode
+      | Stack used (prev) :  00000878
+      | + function block  :  00000000
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000878
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000878
+  01  ascii2ws
+      | Stack used (prev) :  00000878
+      | + function block  :  0000000C
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000884
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000884
+  01  ShowMainMenu
+      | Stack used (prev) :  00000884
+      | + function block  :  00000018
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000089C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000089C
+  01  FreeLines
+      | Stack used (prev) :  0000089C
+      | + function block  :  00000008
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000008A4
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000008A4
+  01  LoadLines
+      | Stack used (prev) :  000008A4
+      | + function block  :  0000004C
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000008F0
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000008F0
+  01  DispShortcutsMenu
+      | Stack used (prev) :  000008F0
+      | + function block  :  00000020
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000910
+
+
+
+
+                ****************************************
+                *                                      *
+                *      SEGMENTS IN ADDRESS ORDER       *
+                *                                      *
+                ****************************************
+
+
+SEGMENT              SPACE    START ADDRESS   END ADDRESS     SIZE  TYPE  ALIGN
+=======              =====    =============   ===========     ====  ====  =====
+ELFBEGIN             CODE_AREA           00000000                     dse    0
+DATA_ID              CODE_AREA      00000000 - 0000031F         320   rel    2
+START                CODE_AREA           00000320                     dse    0
+CODE                 CODE_AREA      00000320 - 0000239F        2080   rel    2
+DATA_C               CODE_AREA      000023A0 - 000029DB         63C   rel    2
+INITTAB              CODE_AREA      000029DC - 000029F3          18   rel    2
+DATA_Z               CODE_AREA      000029F4 - 00002B1B         128   rel    2
+DATA_N               CODE_AREA           00002B1C                     dse    0
+CONFIG_C             CODE_AREA      00002B1C - 00002C73         158   rel    2
+DATA_I               DATA_AREA      00000000 - 0000031F         320   rel    2
+
+                ****************************************
+                *                                      *
+                *        END OF CROSS REFERENCE        *
+                *                                      *
+                ****************************************
+
+ 11 380 bytes of CODE memory
+    800 bytes of DATA memory
+
+Errors: none
+Warnings: none
+

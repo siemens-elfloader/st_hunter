@@ -1,0 +1,329 @@
+////////////////////////////////////////////////////////////////////////////////
+//                              Работа с сокетом                              //
+////////////////////////////////////////////////////////////////////////////////
+
+/*void create_connect(void)   // Часть кода нагло сперто из NatICQ и MailDaemon =)
+{
+    SOCK_ADDR sa;
+    int err;
+    int ***p_res=NULL;
+    unsigned int ip;
+    char Message[128];
+    char FILEPATH[128];
+
+      GBS_DelTimer(&reconnect_tmr); // Закрываем таймер
+      GBS_StartTimerProc(&CheckPing, TMR_SECOND*GPRS_AWAY, TimerCheckPing);
+      CONECTED = 0; // Сбрасываем состояние соединения
+      DNR_ID=0;
+//        WriteStr("Присвоили значение переменных",LOG);
+        ip=str2ip(HOST_NAME);
+//        WriteStr("ip=str2ip(HOST_NAME)",LOG);
+        if (ip!=0xFFFFFFFF)
+        {
+          sa.ip=ip;
+//          WriteStr("Подключаемся по IP",LOG);
+          goto CONECT_HOST;
+        }
+        err=async_gethostbyname(HOST_NAME,&p_res,&DNR_ID);
+//        WriteStr("Запросили IP хостинга ",LOG);
+        if (err)
+        {
+          if ((err==0xC9)||(err==0xD6))
+          {
+            if (DNR_ID) 
+            {
+              //if (GPRS_RESTART)
+              GBS_DelTimer(&CheckPing); // Закрываем таймер  
+              return; // ждем готовности DNR
+            }
+          }
+          else  // DNR не готов
+          {
+            GBS_DelTimer(&CheckPing); // Закрываем таймер
+            GBS_StartTimerProc(&reconnect_tmr,TMR_SECOND*120,do_reconnect);        
+            return;
+          }
+        }
+        if (p_res)
+        {
+          if (p_res[3])
+          {          
+            DNR_TRIES=0;
+            sa.ip=p_res[3][0][0];
+            
+            CONECT_HOST:
+//            WriteStr("Создаем сокет",LOG);        
+            sock=socket(1,1,0);
+//            WriteStr("Проверяем созданный сокет",LOG);                
+            if (sock!=-1)
+            {
+//              WriteStr("Сокет создан",LOG);                
+              sa.family=1;
+	      sa.port=htons(HOST_PORT);
+//              WriteStr("Пытаемся подключиться",LOG);                
+              if (connect(sock,&sa,sizeof(sa))!=-1) // Пытаемся подключиться, подключились
+              {
+                CONECTED = 1;
+                GBS_DelTimer(&CheckPing); // Закрываем таймер
+                GBS_StartTimerProc(&AutoPing, TMR_SECOND*PING_ENABLE, TimerPing);  // Запускаем таймер
+//                WriteStr("Подключились...",LOG);                
+                if (WRITE_IP)
+                  if (LAST_HOST != HOST_NAME)
+                  {
+                    sprintf(Message,"HOST: %s IP:%d\r\n",HOST_NAME,sa.ip);
+                    sprintf(FILEPATH,WRITE_FILEPATH);
+                    //                    ShowMSG(1,(int)Message);
+                    WriteStr(Message,FILEPATH);
+                    strcpy(LAST_HOST,HOST_NAME);
+                  }
+//                WriteStr("Записали IP...",LOG);  
+                
+	      }
+              else  // Не получилось подключиться
+	      {
+//                WriteStr("Не удалось подключиться =(",LOG);                
+                closesocket(sock);  // Закрываем сокет
+	        sock=-1;
+	      }
+            }
+            else
+            {
+              GPRS_OnOff(0,1);
+              GPRS_OnOff(1,0);
+            }
+          }
+        }
+        else
+              DNR_TRIES--;
+              
+//  WriteStr("PING завершен",LOG);                
+}
+
+void do_reconnect(void) // Переподключение
+{
+  if (is_gprs_online)
+  {
+    if (!CONECTED)
+    {
+      DNR_TRIES=3;
+      SUBPROC((void*)create_connect);
+//      WriteStr("Переподключение..",LOG);
+    }
+  }
+}
+
+void end_socket(void) // Закрытие сокета
+{
+  if (sock>=0)
+  {
+    shutdown(sock,2);
+    closesocket(sock);
+//    WriteStr("Сокет закрыт",LOG);
+  }
+}*/
+
+
+
+/////////////////////////////////
+
+
+csm message
+
+/*    if (PING_ENABLE)  // Если авто пинг включен
+    {
+      switch((int)msg->data0)
+      {
+      case LMAN_DISCONNECT_IND: // GPRS отключен
+        is_gprs_online=0;
+        break;
+      case LMAN_CONNECT_CNF:  // GPRS соединен
+        GBS_DelTimer(&reconnect_tmr); // Закрываем таймер
+        GBS_DelTimer(&AutoPing); // Закрываем таймер
+        GBS_DelTimer(&CheckPing); // Закрываем таймер
+        is_gprs_online=1;
+        GBS_StartTimerProc(&reconnect_tmr,TMR_SECOND*10,do_reconnect); // Запускаем таймер переподключения
+        break;
+      case ENIP_DNR_HOST_BY_NAME:
+        if ((int)msg->data1==DNR_ID)
+        {
+          if (DNR_TRIES)
+          {
+            GBS_DelTimer(&reconnect_tmr); // Закрываем таймер
+            GBS_DelTimer(&AutoPing); // Закрываем таймер
+            GBS_DelTimer(&CheckPing); // Закрываем таймер
+            SUBPROC((void *)create_connect);
+          }        
+        }
+        break;
+      }
+      if ((int)msg->data1==sock)  // От нашего сокета
+      {
+        switch((int)msg->data0)
+        {
+        case ENIP_SOCK_CONNECTED: // Сокет соединен
+          {
+            GBS_DelTimer(&reconnect_tmr); // Закрываем таймер
+//            GBS_DelTimer(&AutoPing); // Закрываем таймер
+            GBS_DelTimer(&CheckPing); // Закрываем таймер
+            SUBPROC((void *)SEND_PING); // Пингуем
+//            WriteStr("Сокет соединен, пингуем",LOG);
+          }
+	  break;
+      
+        case ENIP_SOCK_DATA_READ: // Пришел ответ
+          {
+	    SUBPROC((void *)READ_PING); // Читаем его
+//            WriteStr("Пришел ответ, прочли",LOG);
+          }
+  	  break;
+        
+/*        case ENIP_BUFFER_FREE:  // Очередь свободна?
+          {
+            GBS_DelTimer(&reconnect_tmr); // Закрываем таймер
+//            GBS_DelTimer(&AutoPing); // Закрываем таймер
+//            GBS_DelTimer(&CheckPing); // Закрываем таймер
+            SUBPROC((void *)TimerPing); // Запускаем таймер пинга
+//            WriteStr("Запускаем таймер 1",LOG);
+//          SUBPROC((void *)end_socket);
+          }
+          break;
+        
+        case ENIP_BUFFER_FREE1: // аналогично
+          {
+            GBS_DelTimer(&reconnect_tmr); // Закрываем таймер
+//            GBS_DelTimer(&AutoPing); // Закрываем таймер
+//            GBS_DelTimer(&CheckPing); // Закрываем таймер
+            SUBPROC((void *)TimerPing); // Запускаем таймер пинга
+//            WriteStr("Запускаем таймер 2",LOG);
+//          SUBPROC((void *)end_socket);
+          }
+          break;*/
+          
+/*        case ENIP_SOCK_REMOTE_CLOSED: // Сокет закрыт со стороны сервера
+          {
+            GBS_DelTimer(&reconnect_tmr); // Закрываем таймер
+            GBS_DelTimer(&AutoPing); // Закрываем таймер
+            GBS_DelTimer(&CheckPing); // Закрываем таймер
+            SUBPROC((void *)end_socket);  // Закрываем сокет
+//            WriteStr("Сокет закрыт сервером",LOG);
+          }
+	  break;
+        
+        case ENIP_SOCK_CLOSED:  // Сокет закрылся 
+          {
+//            GBS_DelTimer(&reconnect_tmr); // Закрываем таймер
+            GBS_DelTimer(&AutoPing); // Закрываем таймер
+            GBS_DelTimer(&CheckPing); // Закрываем таймер
+            
+  	    sock = -1;
+            CONECTED = 0;
+//            WriteStr("Сокет закрылся",LOG);
+          }
+	  break;
+       }
+    }
+  }*/
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+//                             В общем сам PING =)                            //
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+/*
+////////////////////////////////////////////////////////////////////////////////
+*/
+////////////////////////////////////////////////////////////////////////////////
+
+/*void SEND_PING(void)  
+{
+  ICMPECHO msg_buf;
+    if  (sock)
+      if (recv_ping)
+      {
+        send(sock,&msg_buf,sizeof(msg_buf),0);                                   
+        GetDateTime(&date,&time); 
+        send_ping = 1;
+        recv_ping = 0;
+//        WriteStr("послали пинг",LOG);
+        if (GPRS_RESTART)
+         GBS_StartTimerProc(&CheckPing, TMR_SECOND*GPRS_AWAY, TimerCheckPing);
+      }
+}
+
+void READ_PING(void)  
+{
+    char Message[128];
+    ICMPECHO* buf;
+    int ping_time=0;
+/*    int minute, minute_;
+    int secunde,secunde_;*/
+//    int i;
+/*    if (send_ping)
+    {
+      recv(sock,buf,sizeof(buf),0); 
+///      ping_time = GetIDLETime(time,date);//////////////////////////////////////////////////////////////////////////////////////////////
+//      GetDateTime(&date_,&time_); 
+      recv_ping = 1;
+      send_ping = 0;
+//      WriteStr("приняли пинг",LOG);
+      if (NOTIFY_PING)
+        {
+/*          for (i=1; i<=60;i++)
+          {*/
+/*            minute = time_.min;
+            minute_ = time.min;
+            secunde = time_.sec;
+            secunde_ = time.sec;*/
+//          }         
+          
+            
+//          minute = ((int)time_.min - (int)time.min)*60; // (50 - 49) * 60 = 60
+//          secunde = ((int)time_.sec - (int)time.sec); // (00 - 10) = -10; 10-00=10
+//          ping_time = ((minute - minute_)*60) + (secunde - secunde_); // 60 - 10 = 50;
+/*            sprintf(Message,PING_MESSAGE,(int)ping_time);
+/*            char Messages[64];
+            sprintf(Messages, perc_s,Message);*/
+/*            ShowMessage(Message);
+//            ShowMSG(1,(int)Messages);                       
+        }        
+      if (GPRS_RESTART)
+      {
+        if (ping_time > GPRS_LONG)      
+        {
+          GPRS_OnOff(0,1);
+          GPRS_OnOff(1,0);
+        }
+      }
+GBS_StartTimerProc(&reconnect_tmr,TMR_SECOND*PING_TIME,create_connect);   
+//      SUBPROC((void *)TimerPing);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/*
+////////////////////////////////////////////////////////////////////////////////
+*/
+////////////////////////////////////////////////////////////////////////////////
+
+/*void TimerPing(void)
+{
+    if (PING_ENABLE)
+    {
+      SUBPROC((int *)SEND_PING);
+    }
+      GBS_StartTimerProc(&AutoPing, TMR_SECOND*PING_TIME, TimerPing);// Если получилось подключиться или авто пинг выключен, то запускаем таймер через 60 секунд
+}
+
+void TimerCheckPing(void)
+{
+  if (send_ping)
+    if (!recv_ping)
+      if (GPRS_RESTART)
+      {
+        GPRS_OnOff(0,1); 
+        GPRS_OnOff(1,0);
+      }
+//      GBS_StartTimerProc(&CheckPing, TMR_SECOND*GPRS_AWAY, TimerCheckPing);
+}
+*/

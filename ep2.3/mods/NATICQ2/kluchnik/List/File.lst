@@ -1,0 +1,630 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    23/Mar/2009  22:45:34 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\File.cpp          #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\File.cpp -D       #
+#                       NEWSGOLD -D ELKA -D GUI_INTERFACE -D ICONBAR -D      #
+#                       kluchnik --preprocess D:\pasha\elf\_MY_PROJECT_\_NAT #
+#                       ICQ2\kluchnik\List\ -lC D:\pasha\elf\_MY_PROJECT_\_N #
+#                       ATICQ2\kluchnik\List\ -o D:\pasha\elf\_MY_PROJECT_\_ #
+#                       NATICQ2\kluchnik\Obj\ -s9 --no_unroll --cpu_mode     #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --ec++ --dlib_config     #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\kluchnik\List\Fil #
+#                       e.lst                                                #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\kluchnik\Obj\File #
+#                       .r79                                                 #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\_NATICQ2\File.cpp
+      1          //#include "include.h"
+      2          #include "..\inc\swilib.h"
+      3          #include "File.h"
+      4          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      5          CFile::CFile(char *fname)
+      6          {
+   \                     ??CFile:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+      7            SetFileName(fname);
+   \   00000008   ........           BL       ??SetFileName
+      8            hFile = -1;
+   \   0000000C   0000E0E3           MVN      R0,#+0
+   \   00000010   040084E5           STR      R0,[R4, #+4]
+      9          }
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   1080BDE8           POP      {R4,PC}          ;; return
+     10          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     11          CFile::~CFile()
+     12          {
+     13            close();
+   \                     `?~CFile`:
+   \   00000000   ........           B        ??close          ;; tailcall
+     14          }
+     15          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     16          void CFile::SetFileName(const char* path)
+     17          {
+   \                     ??SetFileName:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     18            if(hFile != -1) fclose(hFile,&ferr);
+   \   00000008   040094E5           LDR      R0,[R4, #+4]
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   010070E3           CMN      R0,#+1
+   \   00000014   0100000A           BEQ      ??SetFileName_1
+   \   00000018   0410A0E1           MOV      R1,R4
+   \   0000001C   0D0000EF           SWI      +13
+     19            zeromem(fname,128);
+   \                     ??SetFileName_1:
+   \   00000020   8010A0E3           MOV      R1,#+128
+   \   00000024   0C0084E2           ADD      R0,R4,#+12
+   \   00000028   1D0100EF           SWI      +285
+     20            strcpy(fname,path);
+   \   0000002C   0510A0E1           MOV      R1,R5
+   \   00000030   0C0084E2           ADD      R0,R4,#+12
+   \   00000034   1A0000EF           SWI      +26
+     21          }
+   \   00000038   3080BDE8           POP      {R4,R5,PC}       ;; return
+     22          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     23          void CFile::close()
+     24          {
+   \                     ??close:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     25            if(hFile!=-1)
+   \   00000008   040094E5           LDR      R0,[R4, #+4]
+   \   0000000C   010070E3           CMN      R0,#+1
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+     26            {
+     27              fclose(hFile, &ferr);
+   \   00000014   0410A0E1           MOV      R1,R4
+   \   00000018   0D0000EF           SWI      +13
+     28              hFile = NULL;
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   040084E5           STR      R0,[R4, #+4]
+     29            }
+     30          }
+   \   00000024   1080BDE8           POP      {R4,PC}          ;; return
+     31          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     32          int CFile::open(unsigned int iFileFlags)
+     33          {
+   \                     ??open:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     34            return (hFile = fopen(fname, iFileFlags,P_READ+P_WRITE, &ferr));
+   \   00000004   602FA0E3           MOV      R2,#+384
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0430A0E1           MOV      R3,R4
+   \   00000010   0C0084E2           ADD      R0,R4,#+12
+   \   00000014   0A0000EF           SWI      +10
+   \   00000018   040084E5           STR      R0,[R4, #+4]
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+     35          }
+     36          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     37          int CFile::read(void *cBuffer, int iByteCount)
+     38          {
+   \                     ??read:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     39            if(hFile == -1) return -2;
+   \   00000008   040094E5           LDR      R0,[R4, #+4]
+   \   0000000C   010070E3           CMN      R0,#+1
+   \   00000010   0100E003           MVNEQ    R0,#+1
+   \   00000014   1080BD08           POPEQ    {R4,PC}
+     40            return (retval = fread(hFile, cBuffer, iByteCount, &ferr));
+   \   00000018   0430A0E1           MOV      R3,R4
+   \   0000001C   0B0000EF           SWI      +11
+   \   00000020   080084E5           STR      R0,[R4, #+8]
+   \   00000024   1080BDE8           POP      {R4,PC}          ;; return
+     41          }
+     42          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     43          char* CFile::ReadBuf(int iByteCount)
+     44          {
+   \                     ??ReadBuf:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+     45            char *buf = (char*)malloc(iByteCount);
+   \   0000000C   0500A0E1           MOV      R0,R5
+   \   00000010   140000EF           SWI      +20
+   \   00000014   0060A0E1           MOV      R6,R0
+     46            retval = fread(hFile, buf, iByteCount, &ferr);
+   \   00000018   040094E5           LDR      R0,[R4, #+4]
+   \   0000001C   0430A0E1           MOV      R3,R4
+   \   00000020   0520A0E1           MOV      R2,R5
+   \   00000024   0610A0E1           MOV      R1,R6
+   \   00000028   0B0000EF           SWI      +11
+   \   0000002C   080084E5           STR      R0,[R4, #+8]
+     47            return buf;
+   \   00000030   0600A0E1           MOV      R0,R6
+   \   00000034   7080BDE8           POP      {R4-R6,PC}       ;; return
+     48          }
+     49          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     50          int CFile::write(void const * cBuffer, int iByteCount)
+     51          {
+   \                     ??write:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0200A0E1           MOV      R0,R2
+     52            if(hFile == -1) return -2;
+   \   0000000C   042094E5           LDR      R2,[R4, #+4]
+   \   00000010   0150A0E1           MOV      R5,R1
+   \   00000014   0010E0E3           MVN      R1,#+0
+   \   00000018   010052E1           CMP      R2,R1
+   \   0000001C   0100C103           BICEQ    R0,R1,#0x1
+   \   00000020   3080BD08           POPEQ    {R4,R5,PC}
+     53            if(iByteCount == -1) iByteCount = strlen((const char*)cBuffer);
+   \   00000024   010050E1           CMP      R0,R1
+   \   00000028   0100001A           BNE      ??write_1
+   \   0000002C   0500A0E1           MOV      R0,R5
+   \   00000030   1B0000EF           SWI      +27
+     54            return (retval = fwrite(hFile, cBuffer, iByteCount, &ferr));
+   \                     ??write_1:
+   \   00000034   0020A0E1           MOV      R2,R0
+   \   00000038   040094E5           LDR      R0,[R4, #+4]
+   \   0000003C   0430A0E1           MOV      R3,R4
+   \   00000040   0510A0E1           MOV      R1,R5
+   \   00000044   0C0000EF           SWI      +12
+   \   00000048   080084E5           STR      R0,[R4, #+8]
+   \   0000004C   3080BDE8           POP      {R4,R5,PC}       ;; return
+     55          }
+     56          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     57          int CFile::Size()
+     58          {
+     59            return GetSize(fname);
+   \                     ??Size:
+   \   00000000   0C1080E2           ADD      R1,R0,#+12
+   \   00000004   ........           B        ??GetSize        ;; tailcall
+     60          }
+     61          
+     62          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     63          int CFile::Seek(unsigned int offset, unsigned int origin)
+     64          {
+   \                     ??Seek:
+   \   00000000   00402DE9           PUSH     {LR}
+     65            return (lseek(hFile, offset, origin, &ferr, &ferr));
+   \   00000004   0030A0E1           MOV      R3,R0
+   \   00000008   08002DE9           PUSH     {R3}
+   \   0000000C   040090E5           LDR      R0,[R0, #+4]
+   \   00000010   0F0000EF           SWI      +15
+   \   00000014   0280BDE8           POP      {R1,PC}          ;; return
+     66          }
+     67          
+     68          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     69          int CFile::execute()
+     70          {
+   \                     ??execute:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     71            WSHDR *ws;
+     72            ws=AllocWS(256);
+   \   00000008   400FA0E3           MOV      R0,#+256
+   \   0000000C   250100EF           SWI      +293
+   \   00000010   0050A0E1           MOV      R5,R0
+     73            str_2ws(ws,fname,256);
+   \   00000014   402FA0E3           MOV      R2,#+256
+   \   00000018   0C1084E2           ADD      R1,R4,#+12
+   \   0000001C   6C0100EF           SWI      +364
+     74            ExecuteFile(ws,0,0);
+   \   00000020   0020A0E3           MOV      R2,#+0
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   0500A0E1           MOV      R0,R5
+   \   0000002C   940000EF           SWI      +148
+     75            FreeWS(ws);
+   \   00000030   0500A0E1           MOV      R0,R5
+   \   00000034   290100EF           SWI      +297
+     76            return(1);
+   \   00000038   0100A0E3           MOV      R0,#+1
+   \   0000003C   3080BDE8           POP      {R4,R5,PC}       ;; return
+     77          }
+     78          
+     79          
+     80          //--------------------------------------------------------//
+     81          
+     82          
+     83          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     84          int CFile::FOpen(const char * cFileName, unsigned int iFileFlags, unsigned int iFileMode)
+     85          {
+   \                     ??FOpen:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   01C0A0E1           MOV      R12,R1
+   \   00000008   0210A0E1           MOV      R1,R2
+   \   0000000C   0320A0E1           MOV      R2,R3
+     86            return (fopen(cFileName, iFileFlags, iFileMode, &ferr));
+   \   00000010   0030A0E1           MOV      R3,R0
+   \   00000014   0C00A0E1           MOV      R0,R12
+   \   00000018   0A0000EF           SWI      +10
+   \   0000001C   0080BDE8           POP      {PC}             ;; return
+     87          }
+     88          /*
+     89          //создаем файл,но ниче не пишем в него
+     90          int CFile::Create(const char* FileName)
+     91          {
+     92            int f = -1;
+     93            int file;
+     94            file = fopen(FileName,A_Create,P_WRITE,&ferr);
+     95            if(file!=-1) f = file;  
+     96            fclose(file);
+     97            return f;
+     98          }
+     99          
+    100          //если необходимо перезаписать файл
+    101          int CFile::OverWtite(const char* FileName,const char* buf)
+    102          {
+    103            int f = -1;
+    104            int i;
+    105            f = fopen(FileName,A_Create + A_Truncate,P_WRITE,&ferr);
+    106            if(f!=-1) i = fwrite(f, buf, strlen(buf), &ferr)
+    107            fclose(f);
+    108            return i;
+    109          }
+    110          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    111          int CFile::FRead(int FileHandler, void *cBuffer, int iByteCount)
+    112          {
+   \                     ??FRead:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   01C0A0E1           MOV      R12,R1
+   \   00000008   0210A0E1           MOV      R1,R2
+   \   0000000C   0320A0E1           MOV      R2,R3
+    113            return (fread(FileHandler, cBuffer, iByteCount, &ferr));
+   \   00000010   0030A0E1           MOV      R3,R0
+   \   00000014   0C00A0E1           MOV      R0,R12
+   \   00000018   0B0000EF           SWI      +11
+   \   0000001C   0080BDE8           POP      {PC}             ;; return
+    114          }
+    115          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    116          int CFile::FWrite(int FileHandler, void const * cBuffer, int iByteCount)
+    117          {
+   \                     ??FWrite:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   01C0A0E1           MOV      R12,R1
+   \   00000008   0210A0E1           MOV      R1,R2
+   \   0000000C   0320A0E1           MOV      R2,R3
+    118            return (fwrite(FileHandler, cBuffer, iByteCount, &ferr));
+   \   00000010   0030A0E1           MOV      R3,R0
+   \   00000014   0C00A0E1           MOV      R0,R12
+   \   00000018   0C0000EF           SWI      +12
+   \   0000001C   0080BDE8           POP      {PC}             ;; return
+    119          }
+    120          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    121          void CFile::FClose(int FileHandler)
+    122          {
+   \                     ??FClose:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0120A0E1           MOV      R2,R1
+    123            fclose(FileHandler, &ferr);
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   0200A0E1           MOV      R0,R2
+   \   00000010   0D0000EF           SWI      +13
+    124          }
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+    125          
+    126          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    127          int CFile::LSeek(int FileHandler, unsigned int offset, unsigned int origin)
+    128          {
+   \                     ??LSeek:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   01C0A0E1           MOV      R12,R1
+   \   00000008   0210A0E1           MOV      R1,R2
+   \   0000000C   0320A0E1           MOV      R2,R3
+    129            return (lseek(FileHandler, offset, origin, &ferr, &ferr));
+   \   00000010   0030A0E1           MOV      R3,R0
+   \   00000014   08002DE9           PUSH     {R3}
+   \   00000018   0C00A0E1           MOV      R0,R12
+   \   0000001C   0F0000EF           SWI      +15
+   \   00000020   0280BDE8           POP      {R1,PC}          ;; return
+    130          }
+    131          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    132          int CFile::MkDir(const char * cFileName)
+    133          {
+   \                     ??MkDir:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0120A0E1           MOV      R2,R1
+    134            return (mkdir(cFileName, &ferr));
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   0200A0E1           MOV      R0,R2
+   \   00000010   100000EF           SWI      +16
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+    135          }
+    136          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    137          int CFile::IsDir(const char * cDirectory)
+    138          {
+   \                     ??IsDir:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0120A0E1           MOV      R2,R1
+    139            return (isdir(cDirectory, &ferr));
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   0200A0E1           MOV      R0,R2
+   \   00000010   910000EF           SWI      +145
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+    140          }
+    141          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    142          int CFile::FindFirstFile(DIR_ENTRY *DIRENTRY,char *mask)
+    143          {
+   \                     ??FindFirstFile:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0130A0E1           MOV      R3,R1
+   \   00000008   0210A0E1           MOV      R1,R2
+    144            return (::FindFirstFile(DIRENTRY, mask, &ferr));
+   \   0000000C   0020A0E1           MOV      R2,R0
+   \   00000010   0300A0E1           MOV      R0,R3
+   \   00000014   6B0000EF           SWI      +107
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+    145          }
+    146          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    147          int CFile::FindNextFile(DIR_ENTRY *DIRENTRY)
+    148          {
+   \                     ??FindNextFile:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0120A0E1           MOV      R2,R1
+    149            return (::FindNextFile(DIRENTRY, &ferr));
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   0200A0E1           MOV      R0,R2
+   \   00000010   6C0000EF           SWI      +108
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+    150          }
+    151          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    152          int CFile::FindClose(DIR_ENTRY *DIRENTRY)
+    153          {
+   \                     ??FindClose:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0120A0E1           MOV      R2,R1
+    154            return (::FindClose(DIRENTRY, &ferr));
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   0200A0E1           MOV      R0,R2
+   \   00000010   6D0000EF           SWI      +109
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+    155          }
+    156          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    157          int CFile::IsFileExist(const char *filepath)
+    158          {
+   \                     ??IsFileExist:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   28D04DE2           SUB      SP,SP,#+40
+   \   00000008   0130A0E1           MOV      R3,R1
+    159            FSTATS fst;
+    160            if(GetFileStats(filepath, &fst, &ferr)==-1)
+   \   0000000C   0020A0E1           MOV      R2,R0
+   \   00000010   0D10A0E1           MOV      R1,SP
+   \   00000014   0300A0E1           MOV      R0,R3
+   \   00000018   840000EF           SWI      +132
+   \   0000001C   010070E3           CMN      R0,#+1
+    161              return 0;
+   \   00000020   0000A003           MOVEQ    R0,#+0
+    162            else
+    163              return 1;
+   \   00000024   0100A013           MOVNE    R0,#+1
+   \   00000028   28D08DE2           ADD      SP,SP,#+40
+   \   0000002C   0080BDE8           POP      {PC}             ;; return
+    164          }
+    165          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    166          int CFile::GetSize(const char *filepath)
+    167          {
+   \                     ??GetSize:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   28D04DE2           SUB      SP,SP,#+40
+   \   00000008   0130A0E1           MOV      R3,R1
+    168            FSTATS fst;
+    169            if(GetFileStats(filepath, &fst, &ferr)!=-1)
+   \   0000000C   0020A0E1           MOV      R2,R0
+   \   00000010   0D10A0E1           MOV      R1,SP
+   \   00000014   0300A0E1           MOV      R0,R3
+   \   00000018   840000EF           SWI      +132
+   \   0000001C   010070E3           CMN      R0,#+1
+    170              return fst.size;  
+   \   00000020   04009D15           LDRNE    R0,[SP, #+4]
+    171            else
+    172              return 0;
+   \   00000024   28D08DE2           ADD      SP,SP,#+40
+   \   00000028   0000A003           MOVEQ    R0,#+0
+   \   0000002C   0080BDE8           POP      {PC}             ;; return
+    173          }
+    174          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    175          int CFile::FDelete(const char * cFileName)
+    176          {
+   \                     ??FDelete:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0120A0E1           MOV      R2,R1
+    177            return (unlink(cFileName, &ferr));
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   0200A0E1           MOV      R0,R2
+   \   00000010   6B0100EF           SWI      +363
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+    178          }
+    179          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    180          int CFile::FMove(const char * SourceFileName, const char * DestFileName)
+    181          {
+   \                     ??FMove:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   0130A0E1           MOV      R3,R1
+   \   00000008   0210A0E1           MOV      R1,R2
+    182            return (fmove(SourceFileName, DestFileName, &ferr));
+   \   0000000C   0020A0E1           MOV      R2,R0
+   \   00000010   0300A0E1           MOV      R0,R3
+   \   00000014   8E0000EF           SWI      +142
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+    183          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \   __??Code32?? __code __interwork __atpcs CFile &CFile::new CFile(char *)
+   \                     `??new CFile`:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   8C00A0E3           MOV      R0,#+140
+   \   0000000C   ........           _BLF     `??operator new`,`??operator new??rA`
+   \   00000010   0050B0E1           MOVS     R5,R0
+   \   00000014   0300000A           BEQ      `??new CFile_1`
+   \   00000018   0410A0E1           MOV      R1,R4
+   \   0000001C   ........           BL       ??SetFileName
+   \   00000020   0000E0E3           MVN      R0,#+0
+   \   00000024   040085E5           STR      R0,[R5, #+4]
+   \                     `??new CFile_1`:
+   \   00000028   0500A0E1           MOV      R0,R5
+   \   0000002C   3080BDE8           POP      {R4,R5,PC}       ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \   __??Code32?? __code __interwork __atpcs void CFile::delete ~CFile(CFile *)
+   \                     `??delete ~CFile`:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+   \   00000008   1080BD08           POPEQ    {R4,PC}
+   \   0000000C   ........           BL       ??close
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   ........           _BLF     `??operator delete`,`??operator delete??rA`
+   \   00000018   1080BDE8           POP      {R4,PC}          ;; return
+    184          
+    185          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CFile::CFile(char *)               8
+     CFile::FClose(int)                 4
+     CFile::FDelete(char const *)       4
+     CFile::FMove(char const *, char const *)
+                                        4
+     CFile::FOpen(char const *, unsigned int, unsigned int)
+                                        4
+     CFile::FRead(int, void *, int)     4
+     CFile::FWrite(int, void const *, int)
+                                        4
+     CFile::FindClose(DIR_ENTRY *)      4
+     CFile::FindFirstFile(DIR_ENTRY *, char *)
+                                        4
+     CFile::FindNextFile(DIR_ENTRY *)
+                                        4
+     CFile::GetSize(char const *)      44
+     CFile::IsDir(char const *)         4
+     CFile::IsFileExist(char const *)
+                                       44
+     CFile::LSeek(int, unsigned int, unsigned int)
+                                        8
+     CFile::MkDir(char const *)         4
+     CFile::ReadBuf(int)               16
+     CFile::Seek(unsigned int, unsigned int)
+                                        8
+     CFile::SetFileName(char const *)
+                                       12
+     CFile::Size()                      4
+     CFile::close()                     8
+     CFile::delete ~CFile(CFile *)      8
+     CFile::execute()                  12
+     CFile::new CFile(char *)          12
+     CFile::open(unsigned int)          8
+     CFile::read(void *, int)           8
+     CFile::write(void const *, int)
+                                       12
+     CFile::~CFile()                    4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     CFile::CFile(char *)             28
+     CFile::~CFile()                   4
+     CFile::SetFileName(char const *)
+                                      60
+     CFile::close()                   40
+     CFile::open(unsigned int)        32
+     CFile::read(void *, int)         40
+     CFile::ReadBuf(int)              56
+     CFile::write(void const *, int)
+                                      80
+     CFile::Size()                     8
+     CFile::Seek(unsigned int, unsigned int)
+                                      24
+     CFile::execute()                 64
+     CFile::FOpen(char const *, unsigned int, unsigned int)
+                                      32
+     CFile::FRead(int, void *, int)   32
+     CFile::FWrite(int, void const *, int)
+                                      32
+     CFile::FClose(int)               24
+     CFile::LSeek(int, unsigned int, unsigned int)
+                                      36
+     CFile::MkDir(char const *)       24
+     CFile::IsDir(char const *)       24
+     CFile::FindFirstFile(DIR_ENTRY *, char *)
+                                      28
+     CFile::FindNextFile(DIR_ENTRY *)
+                                      24
+     CFile::FindClose(DIR_ENTRY *)    24
+     CFile::IsFileExist(char const *)
+                                      48
+     CFile::GetSize(char const *)     48
+     CFile::FDelete(char const *)     24
+     CFile::FMove(char const *, char const *)
+                                      28
+     CFile::new CFile(char *)         48
+     CFile::delete ~CFile(CFile *)    28
+      Others                         132
+
+ 
+ 1 072 bytes in segment CODE
+ 
+ 940 bytes of CODE memory (+ 132 bytes shared)
+
+Errors: none
+Warnings: none

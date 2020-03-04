@@ -1,0 +1,225 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+Alarm       equ     0x0346968
+Vrezka      equ     0x04266F8
+Patch	    equ     0x0063000
+;---------------------------------------------------------------------------
+org     Patch
+            push    {r0-r7,LR}
+            cmp     r2, #0
+            bne     DoSpell
+            cmp     r1, r5
+            bne     DoSpell
+            cmp     r0, #0x11
+            bne     DoSpell
+
+            CallLib FreeRAM
+            ldr     r0, [r0]
+            cmp     r0, #0
+            bne     ReadConf
+            CallLib RunScaner
+
+ReadConf:   LoadReg 0, config+4
+            CallLib GetBuffer
+            beq     PlayAlarm
+            ldrb    r2, [r0, #1]
+            cmp     r2, #0
+            bne     DoSpell2
+
+PlayAlarm:  mov     r0, #0x11
+            CallLib PlaySound2
+            STRH    R0, [R4]
+            b       ex
+
+DoSpell:    LoadReg 0, config+4
+            CallLib GetBuffer
+            cmp     r0, #0
+            beq     ex
+DoSpell2:   mov     r6, r0
+
+            mov     r0, #0
+	        add     r1, r6, #4
+            CallLib GetDateTime
+
+            mov     r4, r6
+            mov     r5, #0
+
+            mov     r0, #99
+            bl      AddToQueue
+
+            ldrb    r0, [r6, #4]
+;          mov r0, #12
+            mov     r7, #60
+            bl      SpellNum
+
+            ldrb    r0, [r6, #5]
+;          mov r0, #34
+            cmp     r0, #0
+            bne     not0
+            mov     r0, #98
+            bl      AddToQueue
+            b       ex
+
+not0:       mov     r7, #70
+            bl      SpellNum
+ex:         pop     {r0-r7,PC}
+;---------------------------------------------------------------------------
+SpellNum:   push    {LR}         ; r0 - num
+            mov     r1, r0
+            cmp     r0, #20
+            bcc     less20
+
+            CallLib HexToDec
+            lsl     r2, r0, #1
+            lsl     r0, #3
+            add     r0, r2
+            bl      AddToQueue
+            mov     r0, #5
+            cmp     r1, #0
+            beq     exSpellNum
+            mov     r0, r1
+
+less20:     cmp     r0, #1
+            beq     f12
+            cmp     r0, #2
+            beq     f12
+
+            bl      AddToQueue
+            mov     r0, #5
+            cmp     r1, #0
+            beq     exSpellNum
+            cmp     r1, #5
+            bcs     exSpellNum
+            mov     r0, #2
+            b       exSpellNum
+
+f12:        add     r0, r7
+            add     r0, #20
+            bl      AddToQueue
+            mov     r0, r1
+
+exSpellNum: add     r0, r7
+            bl      AddToQueue
+            pop     {PC}
+;---------------------------------------------------------------------------
+AddToQueue: push    {r1,LR}         ; r0 - dig
+            add     r4, #12
+            str     r0, [r4]
+            add     r0, r4, #4
+            mov     r1, r5
+            AdrReg  2, Subr
+	        add	    r2, #1
+            CallLib CallAfterTimer
+
+           add r6, #96
+            mov     r0, r6
+            mov     r1, r6
+            add     r1, #160-96
+            CallLib strcpy
+
+            mov     r0, r6
+            add     r0, #32
+            mov     r1, r6
+            add     r1, #176-96
+            ldr     r2, [r4]
+            CallLib sprintf
+
+            mov     r0, r6
+            mov     r1, r6
+            add     r1, #32
+            CallLib strcat
+
+            mov     r0, r6
+            CallLib GetWavLen
+           sub r6, #96
+
+            ldrb    r1, [r6,#3]
+            add     r0, r1
+
+            mov     r1, r0
+            lsl     r0, #2
+            add     r1, r0
+            add     r1, r0
+            add     r1, r0
+            mov     r0, #60
+            CallLib dwMODdw
+
+            add     r5, r0
+            pop     {r1,PC}
+;---------------------------------------------------------------------------
+	Align4
+Subr:       push    {r0-r7,LR}
+            LoadReg 0, config+4
+            CallLib GetBuffer
+            beq     exSubr
+
+            mov     r6, r0
+            mov     r1, #255
+nextw:      add     r0, #12
+            ldr     r7, [r0]
+            cmp     r7, r1
+            beq     nextw
+            str     r1, [r0]
+
+            add     r6, #96
+            mov     r0, r6
+            add     r1, r0,#4
+            str     r1, [r0]
+            mov     r1, r6
+            add     r1, #160-96
+            mov     r2, #16
+            CallLib str2ws
+
+            mov     r0, r6
+            add     r0, #40
+            add     r1, r0,#4
+            str     r1, [r0]
+            mov     r1, r6
+            add     r1, #176-96
+            mov     r2, r7
+            CallLib wsprintf
+
+            mov     r0, #0
+            mov     r1, #0
+            push    {r0,r1}
+            mov     r0, #0x10
+            mov     r1, r6
+            mov     r2, r6
+            add     r2, #40
+            mvi     r3, 0xFFFF
+            CallLib PlayFile
+            add     SP, #8
+exSubr:     pop     {r0-r7,PC}
+;---------------------------------------------------------------------------
+        Align16
+config:     dd Magic, 0xAB05, 0, 0
+db "{p=SpellTime ver=5 cp=avkiev id=AB05}"
+db "{1 cb UseAsAlarm v=1}"
+;db "{2 o Language `Russian`=0 `Polish`=1}"
+db "{3 b `Interval(ms)` v=100}"
+;4-11 - Time
+;12 - 1
+;24 - 2
+;36 - 3
+;48 - 4
+;60 - 5
+;72 - 6
+;84 - 7
+;96 - ResultStr
+db "{160 sd Dir v=`0:\Sounds\Time\`}"
+db "{176 s WAV v=`%02u.wav`}"
+db 0
+;---------------------------------------------------------------------------
+org     Alarm
+    code32
+        swi     SpellTime
+        nop
+;---------------------------------------------------------------------------
+org     Vrezka
+    code16
+        dd      q1+Patch
+;---------------------------------------------------------------------------
+org $+16
+    Align16
+END

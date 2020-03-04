@@ -1,0 +1,1173 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION    10/Feb/2008  21:37:59 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT\TextReader\bookmarks.c      #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT\TextReader\bookmarks.c -lC  #
+#                       D:\Pasha\elf\_MY_PROJECT\TextReader\Release_SGOLD\Li #
+#                       st\ -o D:\Pasha\elf\_MY_PROJECT\TextReader\Release_S #
+#                       GOLD\Obj\ -s9 --cpu_mode arm --endian little --cpu   #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --dlib_config "D:\Pasha\ARM_Embedded_Workbench\ #
+#                       Embedded Workbench 4.0 Evaluation\ARM\LIB\dl5tpainl8 #
+#                       n.h" -I "D:\Pasha\ARM_Embedded_Workbench\Embedded    #
+#                       Workbench 4.0 Evaluation\ARM\INC\"                   #
+#                       --inline_threshold=2                                 #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT\TextReader\Release_SGOLD\Li #
+#                       st\bookmarks.lst                                     #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT\TextReader\Release_SGOLD\Ob #
+#                       j\bookmarks.r79                                      #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT\TextReader\bookmarks.c
+      1          #include "..\inc\swilib.h"
+      2          #include "main.h"
+      3          #include "strings.h"
+      4          //#include "bookmarks.h"
+      5          //ааааааа бл€€€€€€€€€€€ тут будут закладки)))))))))
+      6          /*****************************************
+      7          формат такой наверн...
+      8          создаетс€ файл с именем открытого файла в каталоге,
+      9          например,если открыт файл 0:\\example.txt то закладки
+     10          будут в файле 0:\\zbin\\textreader\\bookmarks\\example.txt.tbm
+     11          формат:
+     12          им€ позици€  (кодировка?)
+     13          example 10   (0)
+     14          им€ будет братьс€ из ближайших слов,
+     15          либо самому потом писать, посмотрим:)
+     16          ********************************************/
+     17          
+     18          //ѕо хорошему тут нужно делать св€зный список....но € не разобралс€ с ним до конца еще...
+     19          
+     20          extern const char BMK_PATH[128];
+     21          extern const char per_d[];
+     22          extern const char per_s[];
+     23          extern char *file_name;
+     24          extern char *file;
+     25          extern int curpos;
+     26          extern int id_ed;
+     27          extern int codepage;
+     28          
+     29          typedef struct
+     30          {
+     31            char name[32];
+     32            int pos;
+     33          }BMK;
+     34          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     35          BMK bm[];//20 закладок
+   \                     bm:
+   \   00000000                      DS8 36
+     36          int bm_item=0;
+
+   \                                 In segment CODE, align 4, keep-with-next
+     37          void process_bm(char *str, int n)
+     38          { 
+   \                     process_bm:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0170A0E1           MOV      R7,R1
+     39            int j=0; 
+     40            int k=0;
+     41            char *pos=malloc(5);
+   \   0000000C   0500A0E3           MOV      R0,#+5
+   \   00000010   140000EF           SWI      +20
+   \   00000014   ........           LDR      R2,??DataTable14  ;; bm
+   \   00000018   2410A0E3           MOV      R1,#+36
+   \   0000001C   912727E0           MLA      R7,R1,R7,R2
+   \   00000020   0060A0E3           MOV      R6,#+0
+   \   00000024   0050A0E1           MOV      R5,R0
+   \   00000028   0400A0E1           MOV      R0,R4
+   \   0000002C   0710A0E1           MOV      R1,R7
+   \   00000030   010000EA           B        ??process_bm_0
+     42            while (str[j]!=' ') {bm[n].name[k++]=str[j];j++;}    
+   \                     ??process_bm_1:
+   \   00000034   ........           LDRB     R2,[R0], #+1
+   \   00000038   ........           STRB     R2,[R1], #+1
+   \                     ??process_bm_0:
+   \   0000003C   0020D0E5           LDRB     R2,[R0, #+0]
+   \   00000040   016086E2           ADD      R6,R6,#+1
+   \   00000044   200052E3           CMP      R2,#+32
+   \   00000048   F9FFFF1A           BNE      ??process_bm_1
+     43            j++;
+     44            k=0;
+   \   0000004C   0080A0E3           MOV      R8,#+0
+   \   00000050   0590A0E1           MOV      R9,R5
+   \   00000054   030000EA           B        ??process_bm_2
+     45            while (j<strlen(str)) {pos[k++]=str[j];j++;}
+   \                     ??process_bm_3:
+   \   00000058   0400D6E7           LDRB     R0,[R6, +R4]
+   \   0000005C   018088E2           ADD      R8,R8,#+1
+   \   00000060   016086E2           ADD      R6,R6,#+1
+   \   00000064   ........           STRB     R0,[R9], #+1
+   \                     ??process_bm_2:
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   1B0000EF           SWI      +27
+   \   00000070   000056E1           CMP      R6,R0
+   \   00000074   F7FFFF3A           BCC      ??process_bm_3
+     46            pos[k++]=0;
+   \   00000078   0000A0E3           MOV      R0,#+0
+   \   0000007C   0500C8E7           STRB     R0,[R8, +R5]
+     47            bm[n].pos=strtoul(pos,0,10);
+   \   00000080   0A20A0E3           MOV      R2,#+10
+   \   00000084   0010A0E3           MOV      R1,#+0
+   \   00000088   0500A0E1           MOV      R0,R5
+   \   0000008C   ........           _BLF     strtoul,??strtoul??rA
+   \   00000090   200087E5           STR      R0,[R7, #+32]
+     48          }
+   \   00000094   F083BDE8           POP      {R4-R9,PC}       ;; return
+     49          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     50          int LoadBookmark()
+     51          {
+     52            unsigned int err; 
+     53            int plhandle; 
+     54            char *mem;
+     55            int size; 
+     56            int i,j=0; 
+     57            char *str; 
+     58            bm_item=0;
+     59            char path[256];//="0:\\zbin\\TextReader\\Bookmarks\\";
+     60            sprintf(path,per_s,BMK_PATH);
+   \                     LoadBookmark:
+   \   00000000   ........           LDR      R1,??DataTable17  ;; per_s
+   \   00000004   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000008   ........           LDR      R7,??DataTable15  ;; name_bm_desc
+   \   0000000C   ........           LDR      R8,??DataTable6  ;; BMK_PATH
+     61            strcat(path,file_name);
+     62            strcat(path,".tbm");
+   \   00000010   ........           LDR      R9,??DataTable7  ;; `?<Constant ".tbm">`
+   \   00000014   41DF4DE2           SUB      SP,SP,#+260
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   4C0087E5           STR      R0,[R7, #+76]
+   \   00000020   0820A0E1           MOV      R2,R8
+   \   00000024   04008DE2           ADD      R0,SP,#+4
+   \   00000028   160000EF           SWI      +22
+   \   0000002C   ........           LDR      R0,??DataTable9  ;; file_name
+   \   00000030   001090E5           LDR      R1,[R0, #+0]
+   \   00000034   04008DE2           ADD      R0,SP,#+4
+   \   00000038   170000EF           SWI      +23
+   \   0000003C   0910A0E1           MOV      R1,R9
+   \   00000040   04008DE2           ADD      R0,SP,#+4
+   \   00000044   170000EF           SWI      +23
+     63            if(isdir(BMK_PATH,&err))//если есть директори€
+   \   00000048   0D10A0E1           MOV      R1,SP
+   \   0000004C   0800A0E1           MOV      R0,R8
+   \   00000050   910000EF           SWI      +145
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   3700000A           BEQ      ??LoadBookmark_0
+     64              if((plhandle = fopen( path, A_ReadOnly + A_BIN, P_READ, & err ))!=-1)
+   \   0000005C   0D30A0E1           MOV      R3,SP
+   \   00000060   8020A0E3           MOV      R2,#+128
+   \   00000064   801CA0E3           MOV      R1,#+32768
+   \   00000068   04008DE2           ADD      R0,SP,#+4
+   \   0000006C   0A0000EF           SWI      +10
+   \   00000070   0040A0E1           MOV      R4,R0
+   \   00000074   010070E3           CMN      R0,#+1
+   \   00000078   2C00000A           BEQ      ??LoadBookmark_1
+     65                {
+     66                  mem=malloc(10000); 
+   \   0000007C   1000A0E3           MOV      R0,#+16
+   \   00000080   9C0D80E3           ORR      R0,R0,#0x2700
+   \   00000084   140000EF           SWI      +20
+   \   00000088   0050A0E1           MOV      R5,R0
+     67                  str=malloc(256); 
+   \   0000008C   400FA0E3           MOV      R0,#+256
+   \   00000090   140000EF           SWI      +20
+   \   00000094   0060A0E1           MOV      R6,R0
+     68                  if ((mem!=0)&&(str!=0)) 
+   \   00000098   000055E3           CMP      R5,#+0
+   \   0000009C   00005613           CMPNE    R6,#+0
+   \   000000A0   2500000A           BEQ      ??LoadBookmark_0
+     69                    { 
+     70                     size=fread(plhandle,mem,9999,&err); 
+   \   000000A4   0D30A0E1           MOV      R3,SP
+   \   000000A8   0F20A0E3           MOV      R2,#+15
+   \   000000AC   9C2D82E3           ORR      R2,R2,#0x2700
+   \   000000B0   0510A0E1           MOV      R1,R5
+   \   000000B4   0400A0E1           MOV      R0,R4
+   \   000000B8   0B0000EF           SWI      +11
+   \   000000BC   0080A0E1           MOV      R8,R0
+     71                     i=0; 
+   \   000000C0   00A0A0E3           MOV      R10,#+0
+   \   000000C4   010058E3           CMP      R8,#+1
+   \   000000C8   100000AA           BGE      ??LoadBookmark_2
+   \   000000CC   1A0000EA           B        ??LoadBookmark_0
+     72                     while (i<size) //пока не конец файлј 
+     73                      { 
+     74                        strcpy(str,""); 
+     75                        j=0; 
+     76                        while (((*(mem+i)!='\n'))&&(i<size)) {*(str+j)=*(mem+i); j++;i++;}    //читаем строку из файла 
+   \                     ??LoadBookmark_3:
+   \   000000D0   ........           LDRB     R2,[R1], #+1
+   \   000000D4   09A0A0E1           MOV      R10,R9
+   \   000000D8   ........           STRB     R2,[R0], #+1
+   \                     ??LoadBookmark_4:
+   \   000000DC   0020D1E5           LDRB     R2,[R1, #+0]
+   \   000000E0   01908AE2           ADD      R9,R10,#+1
+   \   000000E4   0A0052E3           CMP      R2,#+10
+   \   000000E8   0100000A           BEQ      ??LoadBookmark_5
+   \   000000EC   08005AE1           CMP      R10,R8
+   \   000000F0   F6FFFFBA           BLT      ??LoadBookmark_3
+     77                        //обрабатываем енту строчку 
+     78                        process_bm(str,bm_item);//—охран€ем имена и пути
+   \                     ??LoadBookmark_5:
+   \   000000F4   4C1097E5           LDR      R1,[R7, #+76]
+   \   000000F8   0600A0E1           MOV      R0,R6
+   \   000000FC   ........           BL       process_bm
+     79                        i++; 
+     80                        bm_item++;
+   \   00000100   4C0097E5           LDR      R0,[R7, #+76]
+   \   00000104   09A0A0E1           MOV      R10,R9
+   \   00000108   010080E2           ADD      R0,R0,#+1
+   \   0000010C   4C0087E5           STR      R0,[R7, #+76]
+   \                     ??LoadBookmark_2:
+   \   00000110   08005AE1           CMP      R10,R8
+   \   00000114   080000AA           BGE      ??LoadBookmark_0
+   \   00000118   111F8FE2           ADR      R1,??LoadBookmark_6  ;; ""
+   \   0000011C   0600A0E1           MOV      R0,R6
+   \   00000120   1A0000EF           SWI      +26
+   \   00000124   05108AE0           ADD      R1,R10,R5
+   \   00000128   0600A0E1           MOV      R0,R6
+   \   0000012C   EAFFFFEA           B        ??LoadBookmark_4
+     81                      }
+     82                    }        
+     83                  }
+     84            else
+     85          #ifdef NEWSGOLD    
+     86              mkdir("4:\\zbin\\TextReader\\Bookmarks\\",&err);
+     87          #else
+     88              mkdir("0:\\zbin\\TextReader\\Bookmarks\\",&err);
+   \                     ??LoadBookmark_1:
+   \   00000130   0D10A0E1           MOV      R1,SP
+   \   00000134   080089E2           ADD      R0,R9,#+8
+   \   00000138   100000EF           SWI      +16
+     89          #endif
+     90          /* if ( plhandle==-1 ) 
+     91            {
+     92            //  ShowMSG(1,(int)"Can't open bookmark");
+     93              fclose( plhandle, & err ); 
+     94              return 0; 
+     95            }*/
+     96          
+     97          mfree(mem); 
+   \                     ??LoadBookmark_0:
+   \   0000013C   0500A0E1           MOV      R0,R5
+   \   00000140   150000EF           SWI      +21
+     98          mfree(str); 
+   \   00000144   0600A0E1           MOV      R0,R6
+   \   00000148   150000EF           SWI      +21
+     99          fclose( plhandle, & err ); 
+   \   0000014C   0D10A0E1           MOV      R1,SP
+   \   00000150   0400A0E1           MOV      R0,R4
+   \   00000154   0D0000EF           SWI      +13
+    100          return bm_item;
+   \   00000158   4C0097E5           LDR      R0,[R7, #+76]
+   \   0000015C   41DF8DE2           ADD      SP,SP,#+260
+   \   00000160   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??LoadBookmark_6:
+   \   00000164   00000000           DC8      "",+0,+0,+0
+    101          }
+    102          
+    103          char *name_bm;
+
+   \                                 In segment CODE, align 4, keep-with-next
+    104          void AddBookmark()
+    105          {
+   \                     AddBookmark:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+    106            unsigned int err; 
+    107            int f; 
+    108            char *s=malloc(64);
+    109            char path[256];//="0:\\zbin\\TextReader\\Bookmarks\\";
+    110            sprintf(path,per_s,BMK_PATH);
+   \   00000004   ........           LDR      R6,??DataTable6  ;; BMK_PATH
+   \   00000008   41DF4DE2           SUB      SP,SP,#+260
+    111            strcat(path,file_name);
+    112            strcat(path,".tbm");//TextBookMark :)
+   \   0000000C   ........           LDR      R7,??DataTable7  ;; `?<Constant ".tbm">`
+   \   00000010   4000A0E3           MOV      R0,#+64
+   \   00000014   140000EF           SWI      +20
+   \   00000018   ........           LDR      R1,??DataTable17  ;; per_s
+   \   0000001C   0050A0E1           MOV      R5,R0
+   \   00000020   0620A0E1           MOV      R2,R6
+   \   00000024   04008DE2           ADD      R0,SP,#+4
+   \   00000028   160000EF           SWI      +22
+   \   0000002C   ........           LDR      R0,??DataTable9  ;; file_name
+   \   00000030   001090E5           LDR      R1,[R0, #+0]
+   \   00000034   04008DE2           ADD      R0,SP,#+4
+   \   00000038   170000EF           SWI      +23
+   \   0000003C   0710A0E1           MOV      R1,R7
+   \   00000040   04008DE2           ADD      R0,SP,#+4
+   \   00000044   170000EF           SWI      +23
+   \   00000048   020000EA           B        ??AddBookmark_0
+    113          SAVE:
+    114            if(isdir(BMK_PATH,&err))//если есть директори€
+    115                if((f = fopen( path,A_ReadWrite + A_BIN+A_Create+A_Append, P_READ + P_WRITE, & err ))!=-1)
+    116                  {
+    117                    if(name_bm)//если им€ писали сами
+    118                     {
+    119                      sprintf(s,"%s %d\n",name_bm,curpos);
+    120                     }
+    121                    else //иначе просто пишем номер...
+    122                     {
+    123                      sprintf(s,"Bmk_%d %d\n",bm_item,curpos);
+    124                     }
+    125                    fwrite(f,s,strlen(s),&err);      
+    126                 }
+    127            else
+    128             {
+    129          #ifdef NEWSGOLD    
+    130              mkdir("4:\\zbin\\TextReader\\Bookmarks\\",&err);
+    131          #else
+    132              mkdir("0:\\zbin\\TextReader\\Bookmarks\\",&err);
+   \                     ??AddBookmark_1:
+   \   0000004C   0D10A0E1           MOV      R1,SP
+   \   00000050   080087E2           ADD      R0,R7,#+8
+   \   00000054   100000EF           SWI      +16
+    133          #endif
+    134              goto SAVE;
+    135              }
+   \                     ??AddBookmark_0:
+   \   00000058   0D10A0E1           MOV      R1,SP
+   \   0000005C   0600A0E1           MOV      R0,R6
+   \   00000060   910000EF           SWI      +145
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   1900000A           BEQ      ??AddBookmark_2
+   \   0000006C   0D30A0E1           MOV      R3,SP
+   \   00000070   602FA0E3           MOV      R2,#+384
+   \   00000074   0A10A0E3           MOV      R1,#+10
+   \   00000078   811C81E3           ORR      R1,R1,#0x8100
+   \   0000007C   04008DE2           ADD      R0,SP,#+4
+   \   00000080   0A0000EF           SWI      +10
+   \   00000084   0040A0E1           MOV      R4,R0
+   \   00000088   010074E3           CMN      R4,#+1
+   \   0000008C   EEFFFF0A           BEQ      ??AddBookmark_1
+   \   00000090   ........           LDR      R0,??DataTable15  ;; name_bm_desc
+   \   00000094   ........           LDR      R1,??DataTable13  ;; curpos
+   \   00000098   502090E5           LDR      R2,[R0, #+80]
+   \   0000009C   003091E5           LDR      R3,[R1, #+0]
+   \   000000A0   000052E3           CMP      R2,#+0
+   \   000000A4   4C209005           LDREQ    R2,[R0, #+76]
+   \   000000A8   28108712           ADDNE    R1,R7,#+40
+   \   000000AC   30108702           ADDEQ    R1,R7,#+48
+   \   000000B0   0500A0E1           MOV      R0,R5
+   \   000000B4   160000EF           SWI      +22
+   \   000000B8   0500A0E1           MOV      R0,R5
+   \   000000BC   1B0000EF           SWI      +27
+   \   000000C0   0D30A0E1           MOV      R3,SP
+   \   000000C4   0020A0E1           MOV      R2,R0
+   \   000000C8   0510A0E1           MOV      R1,R5
+   \   000000CC   0400A0E1           MOV      R0,R4
+   \   000000D0   0C0000EF           SWI      +12
+    136          
+    137          fclose( f, & err ); 
+   \                     ??AddBookmark_2:
+   \   000000D4   0D10A0E1           MOV      R1,SP
+   \   000000D8   0400A0E1           MOV      R0,R4
+   \   000000DC   0D0000EF           SWI      +13
+    138          mfree(name_bm);
+   \   000000E0   14009FE5           LDR      R0,??AddBookmark_3  ;; name_bm_desc + 80
+   \   000000E4   000090E5           LDR      R0,[R0, #+0]
+   \   000000E8   150000EF           SWI      +21
+    139          mfree(s);
+   \   000000EC   0500A0E1           MOV      R0,R5
+   \   000000F0   150000EF           SWI      +21
+    140          }
+   \   000000F4   41DF8DE2           ADD      SP,SP,#+260
+   \   000000F8   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??AddBookmark_3:
+   \   000000FC   ........           DC32     name_bm_desc + 80
+    141          
+    142          //-----------------------------BOOKMARKS------------------------------//
+    143          
+    144          void book_iconhnd(void *data, int curitem, void *unk);
+
+   \                                 In segment CODE, align 4, keep-with-next
+    145          void book_ghook(void *data, int cmd){};
+   \                     book_ghook:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    146          const HEADER_DESC book_menuhdr2={0,0,131,21,NULL,(int)"«акладки...",LGP_NULL};
+    147          const int menusoftk[]={0,1,2};
+    148          
+    149          const SOFTKEY_DESC menu_skk[]=
+    150          {
+    151            {0x0001,0x0000,(int)"ƒобавить"},
+    152            {0x0004,0x0000,(int)"«акрыть"},
+    153            {0x003D,0x0000,(int)LGP_DOIT_PIC}
+    154          };
+    155          
+    156          const SOFTKEYSTAB menu_sktk=
+    157          {
+    158            menu_skk,0
+    159          };
+    160          
+    161          void NameBM();
+    162          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    163          int book_onkey2(void *data, GUI_MSG *msg)
+    164          {
+   \                     book_onkey2:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    165            int i;
+    166            i=GetCurMenuItem(data);
+   \   00000008   8F0100EF           SWI      +399
+   \   0000000C   0050A0E1           MOV      R5,R0
+    167            char *s=malloc(64);
+   \   00000010   4000A0E3           MOV      R0,#+64
+   \   00000014   140000EF           SWI      +20
+    168            int k=msg->gbsmsg->submess;
+   \   00000018   040094E5           LDR      R0,[R4, #+4]
+   \   0000001C   040090E5           LDR      R0,[R0, #+4]
+    169            if (k==ENTER_BUTTON)
+   \   00000020   1A0050E3           CMP      R0,#+26
+   \   00000024   1000001A           BNE      ??book_onkey2_0
+    170            {
+    171              curpos=bm[i].pos;//запоминаем позицию
+   \   00000028   ........           LDR      R2,??DataTable14  ;; bm
+   \   0000002C   ........           LDR      R0,??DataTable13  ;; curpos
+   \   00000030   2410A0E3           MOV      R1,#+36
+   \   00000034   912522E0           MLA      R2,R1,R5,R2
+   \   00000038   201092E5           LDR      R1,[R2, #+32]
+   \   0000003C   001080E5           STR      R1,[R0, #+0]
+    172              GeneralFunc_flag1(id_ed,1);//закрываем предыдущий текст
+   \   00000040   4C009FE5           LDR      R0,??book_onkey2_1  ;; id_ed
+   \   00000044   0110A0E3           MOV      R1,#+1
+   \   00000048   000090E5           LDR      R0,[R0, #+0]
+   \   0000004C   3D0100EF           SWI      +317
+    173              DrawText(file,codepage);//тут думаю пон€тно))
+   \   00000050   40009FE5           LDR      R0,??book_onkey2_1+0x4  ;; codepage
+   \   00000054   001090E5           LDR      R1,[R0, #+0]
+   \   00000058   3C009FE5           LDR      R0,??book_onkey2_1+0x8  ;; file
+   \   0000005C   000090E5           LDR      R0,[R0, #+0]
+   \   00000060   ........           _BLF     DrawText,??DrawText??rA
+    174              return 1;
+   \   00000064   0100A0E3           MOV      R0,#+1
+   \   00000068   3080BDE8           POP      {R4,R5,PC}
+    175            }
+    176              
+    177            if(k==GREEN_BUTTON)
+   \                     ??book_onkey2_0:
+   \   0000006C   0B0050E3           CMP      R0,#+11
+   \   00000070   0200001A           BNE      ??book_onkey2_2
+    178            {
+    179              AddBookmark();
+   \   00000074   ........           BL       AddBookmark
+    180              return 1;
+   \   00000078   0100A0E3           MOV      R0,#+1
+   \   0000007C   3080BDE8           POP      {R4,R5,PC}
+    181            }
+    182            if(k==LEFT_SOFT) 
+   \                     ??book_onkey2_2:
+   \   00000080   010050E3           CMP      R0,#+1
+   \   00000084   0000001A           BNE      ??book_onkey2_3
+    183            {
+    184              NameBM();
+   \   00000088   ........           BL       NameBM
+    185            }
+    186          return(0);
+   \                     ??book_onkey2_3:
+   \   0000008C   0000A0E3           MOV      R0,#+0
+   \   00000090   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??book_onkey2_1:
+   \   00000094   ........           DC32     id_ed
+   \   00000098   ........           DC32     codepage
+   \   0000009C   ........           DC32     file
+    187          }
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     book_menuhdr2:
+   \   00000000   000000008300       DC16 0, 0, 131, 21
+   \              1500        
+   \   00000008   00000000....       DC32 0H, `?<Constant "\\307\\340\\352\\353\\340\\344\\352\\350..`
+   \              ....        
+   \   00000010   FF7F0000           DC32 32767
+    188          
+    189          const MENU_DESC book_menu=
+   \                     book_menu:
+   \   00000014   08000000....       DC32 8, book_onkey2, book_ghook, 0H, menusoftk, menu_sktk, 16
+   \              ............
+   \              00000000....
+   \              ............
+   \              10000000    
+   \   00000030   ........0000       DC32 book_iconhnd, 0H, 0H, 0
+   \              000000000000
+   \              00000000    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     menusoftk:
+   \   00000000   000000000100       DC32 0, 1, 2
+   \              000002000000
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     menu_skk:
+   \   00000000   01000000           DC16 1, 0
+   \   00000004   ........           DC32 `?<Constant "\\304\\356\\341\\340\\342\\350\\362\\374">`
+   \   00000008   04000000           DC16 4, 0
+   \   0000000C   ........           DC32 `?<Constant "\\307\\340\\352\\360\\373\\362\\374">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   FBC0FF7F           DC32 2147467515
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     menu_sktk:
+   \   00000000   ........0000       DC32 menu_skk, 0
+   \              0000        
+    190          {
+    191            8,book_onkey2,book_ghook,NULL,
+    192            menusoftk,
+    193            &menu_sktk,
+    194            0x10,//0x11,
+    195            book_iconhnd,
+    196            NULL,   //Items
+    197            NULL,   //Procs
+    198            0   //n
+    199          };
+    200          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    201          void book_iconhnd(void *data, int curitem, void *unk)
+    202          {
+   \                     book_iconhnd:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    203            WSHDR *ws;
+    204            char *s;
+    205            void *item=AllocMenuItem(data);
+    206            s=malloc(128);
+    207            sprintf(s,"%s %d",bm[curitem].name,bm[curitem].pos);
+   \   00000008   BC909FE5           LDR      R9,??book_iconhnd_0  ;; `?<Constant "%s %d">`
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   970100EF           SWI      +407
+   \   00000014   0070A0E1           MOV      R7,R0
+   \   00000018   8000A0E3           MOV      R0,#+128
+   \   0000001C   140000EF           SWI      +20
+   \   00000020   ........           LDR      R1,??DataTable14  ;; bm
+   \   00000024   0080A0E1           MOV      R8,R0
+   \   00000028   2400A0E3           MOV      R0,#+36
+   \   0000002C   901522E0           MLA      R2,R0,R5,R1
+   \   00000030   0910A0E1           MOV      R1,R9
+   \   00000034   203092E5           LDR      R3,[R2, #+32]
+   \   00000038   0800A0E1           MOV      R0,R8
+   \   0000003C   160000EF           SWI      +22
+    208            if (s)
+   \   00000040   000058E3           CMP      R8,#+0
+   \   00000044   0C00000A           BEQ      ??book_iconhnd_1
+    209            {
+    210              if (strlen(s))
+   \   00000048   0800A0E1           MOV      R0,R8
+   \   0000004C   1B0000EF           SWI      +27
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   1200000A           BEQ      ??book_iconhnd_2
+    211              { 
+    212                ws=AllocMenuWS(data,1024);
+   \   00000058   401EA0E3           MOV      R1,#+1024
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   980100EF           SWI      +408
+   \   00000064   0060A0E1           MOV      R6,R0
+    213                wsprintf(ws,"%d.%t",curitem+1,s);
+   \   00000068   0830A0E1           MOV      R3,R8
+   \   0000006C   012085E2           ADD      R2,R5,#+1
+   \   00000070   081089E2           ADD      R1,R9,#+8
+   \   00000074   240100EF           SWI      +292
+   \   00000078   090000EA           B        ??book_iconhnd_2
+    214              }
+    215            }
+    216            else
+    217            {
+    218              ws=AllocMenuWS(data,10);
+   \                     ??book_iconhnd_1:
+   \   0000007C   0A10A0E3           MOV      R1,#+10
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   980100EF           SWI      +408
+   \   00000088   0060A0E1           MOV      R6,R0
+    219              wsprintf(ws,"error");
+   \   0000008C   101089E2           ADD      R1,R9,#+16
+   \   00000090   240100EF           SWI      +292
+    220              wsInsertChar(ws,2,1);//÷вет надписей
+   \   00000094   0120A0E3           MOV      R2,#+1
+   \   00000098   0210A0E3           MOV      R1,#+2
+   \   0000009C   0600A0E1           MOV      R0,R6
+   \   000000A0   1D0000EF           SWI      +29
+    221          
+    222            }
+    223             SetMenuItemText(data,item,ws,curitem);
+   \                     ??book_iconhnd_2:
+   \   000000A4   0530A0E1           MOV      R3,R5
+   \   000000A8   0620A0E1           MOV      R2,R6
+   \   000000AC   0710A0E1           MOV      R1,R7
+   \   000000B0   0400A0E1           MOV      R0,R4
+   \   000000B4   9A0100EF           SWI      +410
+    224             mfree(s);
+   \   000000B8   0800A0E1           MOV      R0,R8
+   \   000000BC   150000EF           SWI      +21
+    225             FreeWS(ws);
+   \   000000C0   0600A0E1           MOV      R0,R6
+   \   000000C4   290100EF           SWI      +297
+    226          }
+   \   000000C8   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??book_iconhnd_0:
+   \   000000CC   ........           DC32     `?<Constant "%s %d">`
+    227          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    228          void ShowBookmarks(void)
+    229          {  
+   \                     ShowBookmarks:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    230             LoadBookmark();
+    231             patch_header2(&book_menuhdr2);
+   \   00000004   50409FE5           LDR      R4,??ShowBookmarks_0  ;; book_menuhdr2
+   \   00000008   ........           BL       LoadBookmark
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   000084E5           STR      R0,[R4, #+0]
+   \   00000014   888100EF           SWI      +33160
+   \   00000018   010040E2           SUB      R0,R0,#+1
+   \   0000001C   B400C4E1           STRH     R0,[R4, #+4]
+   \   00000020   8A8100EF           SWI      +33162
+   \   00000024   B600C4E1           STRH     R0,[R4, #+6]
+    232             CreateMenu(0,0,&book_menu,&book_menuhdr2,0,bm_item,0,0);
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   01002DE9           PUSH     {R0}
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   24009FE5           LDR      R0,??ShowBookmarks_0+0x4  ;; name_bm_desc + 76
+   \   00000038   0430A0E1           MOV      R3,R4
+   \   0000003C   000090E5           LDR      R0,[R0, #+0]
+   \   00000040   142084E2           ADD      R2,R4,#+20
+   \   00000044   01002DE9           PUSH     {R0}
+   \   00000048   0010A0E3           MOV      R1,#+0
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   01002DE9           PUSH     {R0}
+   \   00000054   520100EF           SWI      +338
+    233          }
+   \   00000058   1F80BDE8           POP      {R0-R4,PC}       ;; return
+   \                     ??ShowBookmarks_0:
+   \   0000005C   ........           DC32     book_menuhdr2
+   \   00000060   ........           DC32     name_bm_desc + 76
+    234          //------------------------------NAME FOR BOOKMARKS----------------------------//
+    235          
+    236          int id_bm;
+    237          
+    238          HEADER_DESC name_bm_hdr={0,0,131,21,NULL,0,LGP_NULL};
+    239          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    240          int name_bm_onkey(GUI *data, GUI_MSG *msg)
+    241          {
+   \                     name_bm_onkey:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   2CD04DE2           SUB      SP,SP,#+44
+   \   00000008   0050A0E1           MOV      R5,R0
+   \   0000000C   0160A0E1           MOV      R6,R1
+    242            WSHDR *ws=AllocWS(64);
+   \   00000010   4000A0E3           MOV      R0,#+64
+   \   00000014   250100EF           SWI      +293
+   \   00000018   0040A0E1           MOV      R4,R0
+    243            if (msg->keys==0x0018)//0xFFF
+   \   0000001C   F200D6E1           LDRSH    R0,[R6, #+2]
+   \   00000020   180050E3           CMP      R0,#+24
+   \   00000024   2500001A           BNE      ??name_bm_onkey_0
+    244            {
+    245              EDITCONTROL ec;
+    246              ExtractEditControl(data,1,&ec);	
+    247              wstrcpy(ws,ec.pWS);
+    248              char *s=malloc(32);
+    249              int len;
+    250              int i;
+    251              name_bm=malloc(32);
+   \   00000028   ........           LDR      R6,??DataTable15  ;; name_bm_desc
+   \   0000002C   0D20A0E1           MOV      R2,SP
+   \   00000030   0110A0E3           MOV      R1,#+1
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   690100EF           SWI      +361
+   \   0000003C   28109DE5           LDR      R1,[SP, #+40]
+   \   00000040   0400A0E1           MOV      R0,R4
+   \   00000044   1F0100EF           SWI      +287
+   \   00000048   2000A0E3           MOV      R0,#+32
+   \   0000004C   140000EF           SWI      +20
+   \   00000050   0050A0E1           MOV      R5,R0
+   \   00000054   2000A0E3           MOV      R0,#+32
+   \   00000058   140000EF           SWI      +20
+   \   0000005C   500086E5           STR      R0,[R6, #+80]
+    252              len=ws->wsbody[0];
+   \   00000060   000094E5           LDR      R0,[R4, #+0]
+    253              for(i=0;i<len;i++)//—охранение в win1251
+   \   00000064   0070A0E3           MOV      R7,#+0
+   \   00000068   B080D0E1           LDRH     R8,[R0, #+0]
+   \   0000006C   010058E3           CMP      R8,#+1
+   \   00000070   080000BA           BLT      ??name_bm_onkey_1
+   \   00000074   0590A0E1           MOV      R9,R5
+    254                *(s+i)=char16to8(ws->wsbody[i+1]);
+   \                     ??name_bm_onkey_2:
+   \   00000078   000094E5           LDR      R0,[R4, #+0]
+   \   0000007C   870080E0           ADD      R0,R0,R7, LSL #+1
+   \   00000080   B200D0E1           LDRH     R0,[R0, #+2]
+   \   00000084   017087E2           ADD      R7,R7,#+1
+   \   00000088   ........           _BLF     char16to8,??char16to8??rA
+   \   0000008C   ........           STRB     R0,[R9], #+1
+   \   00000090   080057E1           CMP      R7,R8
+   \   00000094   F7FFFFBA           BLT      ??name_bm_onkey_2
+    255                *(s+i++)=0;
+    256              sprintf(name_bm,per_s,s);
+   \                     ??name_bm_onkey_1:
+   \   00000098   ........           LDR      R1,??DataTable17  ;; per_s
+   \   0000009C   0000A0E3           MOV      R0,#+0
+   \   000000A0   0500C7E7           STRB     R0,[R7, +R5]
+   \   000000A4   500096E5           LDR      R0,[R6, #+80]
+   \   000000A8   0520A0E1           MOV      R2,R5
+   \   000000AC   160000EF           SWI      +22
+    257              AddBookmark();
+   \   000000B0   ........           BL       AddBookmark
+    258              GeneralFunc_flag1(id_bm,1);
+   \   000000B4   540096E5           LDR      R0,[R6, #+84]
+   \   000000B8   0110A0E3           MOV      R1,#+1
+   \   000000BC   3D0100EF           SWI      +317
+    259            }
+    260          return(0);
+   \                     ??name_bm_onkey_0:
+   \   000000C0   0000A0E3           MOV      R0,#+0
+   \   000000C4   2CD08DE2           ADD      SP,SP,#+44
+   \   000000C8   F083BDE8           POP      {R4-R9,PC}       ;; return
+    261          }
+    262          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    263          void name_bm_ghook(GUI *gui, int cmd)
+    264          { 
+   \                     name_bm_ghook:
+   \   00000000   00402DE9           PUSH     {LR}
+    265            static SOFTKEY_DESC sk={0x0018,0x0000,(int)"Save!"};
+    266            if (cmd==7)
+   \   00000004   070051E3           CMP      R1,#+7
+   \   00000008   0300001A           BNE      ??name_bm_ghook_0
+    267            {
+    268              SetSoftKey(gui,&sk,1);
+   \   0000000C   2C109FE5           LDR      R1,??name_bm_ghook_1  ;; ??sk
+   \   00000010   0120A0E3           MOV      R2,#+1
+   \   00000014   680100EF           SWI      +360
+   \   00000018   0080BDE8           POP      {PC}
+    269            }
+    270            if(cmd==0xA)
+   \                     ??name_bm_ghook_0:
+   \   0000001C   0A0051E3           CMP      R1,#+10
+   \   00000020   0100001A           BNE      ??name_bm_ghook_2
+    271            {
+    272              DisableIDLETMR(); // ќтключаем таймер выхода по таймауту
+   \   00000024   7F0100EF           SWI      +383
+   \   00000028   0080BDE8           POP      {PC}
+    273            }
+    274            if (cmd==0x0C)
+   \                     ??name_bm_ghook_2:
+   \   0000002C   0C0051E3           CMP      R1,#+12
+   \   00000030   0080BD18           POPNE    {PC}
+    275            {
+    276              EDIT_SetCursorPos(gui,1);
+   \   00000034   0110A0E3           MOV      R1,#+1
+   \   00000038   D40100EF           SWI      +468
+    277            }
+    278            if(cmd==0x03){}
+    279          }
+   \   0000003C   0080BDE8           POP      {PC}             ;; return
+   \                     ??name_bm_ghook_1:
+   \   00000040   ........           DC32     ??sk
+    280          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    281          void name_bm_locret(void){}
+   \                     name_bm_locret:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    282          
+    283          SOFTKEY_DESC menu_sk_2[]=
+    284          {
+    285            {0x0018,0x0000,(int)"Ћев"},
+    286            {0x0001,0x0000,(int)"ѕрав"},
+    287            {0x003D,0x0000,(int)LGP_DOIT_PIC}
+    288          };
+    289          
+    290          SOFTKEYSTAB menu_skt_2=
+    291          {
+    292            menu_sk_2,0
+    293          };
+    294          
+    295          INPUTDIA_DESC name_bm_desc=
+   \                     name_bm_desc:
+   \   00000000                      DS8 56
+   \   00000038                      REQUIRE `?<Initializer for name_bm_desc>`
+   \                     name_bm_hdr:
+   \   00000038                      DS8 20
+   \   0000004C                      REQUIRE `?<Initializer for name_bm_hdr>`
+   \                     bm_item:
+   \   0000004C                      DS8 4
+   \   00000050                      REQUIRE `?<Initializer for bm_item>`
+   \                     name_bm:
+   \   00000050                      DS8 4
+   \   00000054                      REQUIRE `?<Initializer for name_bm>`
+   \                     id_bm:
+   \   00000054                      DS8 4
+   \   00000058                      REQUIRE `?<Initializer for id_bm>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     ??sk:
+   \   00000000                      DS8 8
+   \   00000008                      REQUIRE `?<Initializer for sk>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     menu_sk_2:
+   \   00000000                      DS8 24
+   \   00000018                      REQUIRE `?<Initializer for menu_sk_2>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     menu_skt_2:
+   \   00000000                      DS8 8
+   \   00000008                      REQUIRE `?<Initializer for menu_skt_2>`
+    296          {
+    297            1,
+    298            name_bm_onkey,
+    299            name_bm_ghook,
+    300            (void *)name_bm_locret,
+    301            0,
+    302            &menu_skt_2,
+    303            {0,NULL,NULL,NULL},
+    304            FONT_SMALL,
+    305            100,
+    306            101,
+    307            0,
+    308            0x00000000,
+    309            0x40000000
+    310          };
+    311          
+    312          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    313          void NameBM()
+    314          {
+   \                     NameBM:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+    315             char *ss=malloc(64);
+    316             sprintf(ss,per_s,"»и€ закладки...");
+    317             name_bm_hdr.lgp_id = (int)ss;
+   \   00000004   18519FE5           LDR      R5,??NameBM_0    ;; name_bm_desc
+   \   00000008   3CD04DE2           SUB      SP,SP,#+60
+   \   0000000C   4000A0E3           MOV      R0,#+64
+   \   00000010   140000EF           SWI      +20
+   \   00000014   0C219FE5           LDR      R2,??NameBM_0+0x4  ;; `?<Constant "\\310\\350\\377 \\347\\340\\352\\353\\340\\`
+   \   00000018   ........           LDR      R1,??DataTable17  ;; per_s
+   \   0000001C   0040A0E1           MOV      R4,R0
+   \   00000020   160000EF           SWI      +22
+   \   00000024   444085E5           STR      R4,[R5, #+68]
+    318             EDITC_OPTIONS ec_options2;
+    319             void *ma=malloc_adr();
+   \   00000028   148000EF           SWI      +32788
+   \   0000002C   0070A0E1           MOV      R7,R0
+    320             void *eq=AllocEQueue(ma, mfree_adr());
+   \   00000030   158000EF           SWI      +32789
+   \   00000034   0010A0E1           MOV      R1,R0
+   \   00000038   0700A0E1           MOV      R0,R7
+   \   0000003C   630100EF           SWI      +355
+   \   00000040   0060A0E1           MOV      R6,R0
+    321             EDITCONTROL ec;
+    322             PrepareEditControl(&ec);
+   \   00000044   10008DE2           ADD      R0,SP,#+16
+   \   00000048   640100EF           SWI      +356
+    323             ConstructEditControl(&ec,ECT_NORMAL_TEXT,ECF_NORMAL_STR,ec.pWS,32);
+   \   0000004C   2000A0E3           MOV      R0,#+32
+   \   00000050   01002DE9           PUSH     {R0}
+   \   00000054   3C309DE5           LDR      R3,[SP, #+60]
+   \   00000058   0020A0E3           MOV      R2,#+0
+   \   0000005C   0310A0E3           MOV      R1,#+3
+   \   00000060   14008DE2           ADD      R0,SP,#+20
+   \   00000064   650100EF           SWI      +357
+    324             PrepareEditCOptions(&ec_options2);
+   \   00000068   04008DE2           ADD      R0,SP,#+4
+   \   0000006C   C80100EF           SWI      +456
+    325             SetFontToEditCOptions(&ec_options2,1);//Ўрифт
+   \   00000070   0110A0E3           MOV      R1,#+1
+   \   00000074   04008DE2           ADD      R0,SP,#+4
+   \   00000078   CA0100EF           SWI      +458
+    326             CopyOptionsToEditControl(&ec,&ec_options2);// опируем настройки
+   \   0000007C   04108DE2           ADD      R1,SP,#+4
+   \   00000080   14008DE2           ADD      R0,SP,#+20
+   \   00000084   CE0100EF           SWI      +462
+    327             AddEditControlToEditQend(eq,&ec,ma);
+   \   00000088   0720A0E1           MOV      R2,R7
+   \   0000008C   14108DE2           ADD      R1,SP,#+20
+   \   00000090   0600A0E1           MOV      R0,R6
+   \   00000094   660100EF           SWI      +358
+    328          
+    329             patch_header2(&name_bm_hdr);
+   \   00000098   0070A0E3           MOV      R7,#+0
+   \   0000009C   387085E5           STR      R7,[R5, #+56]
+   \   000000A0   888100EF           SWI      +33160
+   \   000000A4   010040E2           SUB      R0,R0,#+1
+   \   000000A8   BC03C5E1           STRH     R0,[R5, #+60]
+   \   000000AC   8A8100EF           SWI      +33162
+   \   000000B0   BE03C5E1           STRH     R0,[R5, #+62]
+    330             patch_input2(&name_bm_desc);      
+   \   000000B4   B871C5E1           STRH     R7,[R5, #+24]
+   \   000000B8   8A8100EF           SWI      +33162
+   \   000000BC   010080E2           ADD      R0,R0,#+1
+   \   000000C0   BA01C5E1           STRH     R0,[R5, #+26]
+   \   000000C4   888100EF           SWI      +33160
+   \   000000C8   010040E2           SUB      R0,R0,#+1
+   \   000000CC   BC01C5E1           STRH     R0,[R5, #+28]
+   \   000000D0   898100EF           SWI      +33161
+   \   000000D4   0070A0E1           MOV      R7,R0
+   \   000000D8   8B8100EF           SWI      +33163
+   \   000000DC   000047E0           SUB      R0,R7,R0
+   \   000000E0   010040E2           SUB      R0,R0,#+1
+   \   000000E4   BE01C5E1           STRH     R0,[R5, #+30]
+    331           
+    332             GeneralFuncF1(1);
+   \   000000E8   0100A0E3           MOV      R0,#+1
+   \   000000EC   3B0100EF           SWI      +315
+    333             mfree_adr();
+   \   000000F0   158000EF           SWI      +32789
+    334             mfree(ss);
+   \   000000F4   0400A0E1           MOV      R0,R4
+   \   000000F8   150000EF           SWI      +21
+    335             id_bm=CreateInputTextDialog(&name_bm_desc,&name_bm_hdr,eq,1,0);//создаем диалоговое окно
+   \   000000FC   0000A0E3           MOV      R0,#+0
+   \   00000100   01002DE9           PUSH     {R0}
+   \   00000104   0130A0E3           MOV      R3,#+1
+   \   00000108   0620A0E1           MOV      R2,R6
+   \   0000010C   381085E2           ADD      R1,R5,#+56
+   \   00000110   0500A0E1           MOV      R0,R5
+   \   00000114   670100EF           SWI      +359
+   \   00000118   540085E5           STR      R0,[R5, #+84]
+    336          }
+   \   0000011C   44D08DE2           ADD      SP,SP,#+68
+   \   00000120   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??NameBM_0:
+   \   00000124   ........           DC32     name_bm_desc
+   \   00000128   ........           DC32     `?<Constant "\\310\\350\\377 \\347\\340\\352\\353\\340\\`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     BMK_PATH
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     `?<Constant ".tbm">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     file_name
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable13:
+   \   00000000   ........           DC32     curpos
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable14:
+   \   00000000   ........           DC32     bm
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable15:
+   \   00000000   ........           DC32     name_bm_desc
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable17:
+   \   00000000   ........           DC32     per_s
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for name_bm_desc>`:
+   \   00000000   01000000....       DC32 1, name_bm_onkey, name_bm_ghook, name_bm_locret, 0, menu_skt_2
+   \              ............
+   \              ........0000
+   \              0000........
+   \   00000018   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000020   070000006400       DC32 7, 100, 101, 0, 0, 1073741824
+   \              000065000000
+   \              000000000000
+   \              000000000040
+   \                     `?<Initializer for name_bm_hdr>`:
+   \   00000038   000000008300       DC16 0, 0, 131, 21
+   \              1500        
+   \   00000040   000000000000       DC32 0H, 0, 32767
+   \              0000FF7F0000
+   \                     `?<Initializer for bm_item>`:
+   \   0000004C   00000000           DC32 0
+   \                     `?<Initializer for name_bm>`:
+   \   00000050   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for id_bm>`:
+   \   00000054   00000000           DC8 0, 0, 0, 0
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for sk>`:
+   \   00000000   18000000           DC16 24, 0
+   \   00000004   ........           DC32 `?<Constant "Save!">`
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for menu_sk_2>`:
+   \   00000000   18000000           DC16 24, 0
+   \   00000004   ........           DC32 `?<Constant "\\313\\345\\342">`
+   \   00000008   01000000           DC16 1, 0
+   \   0000000C   ........           DC32 `?<Constant "\\317\\360\\340\\342">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   FBC0FF7F           DC32 2147467515
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for menu_skt_2>`:
+   \   00000000   ........0000       DC32 menu_sk_2, 0
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\307\\340\\352\\353\\340\\344\\352\\350..`:
+   \   00000000   C7E0EAEBE0E4       DC8 "\307\340\352\353\340\344\352\350..."
+   \              EAE82E2E2E00
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\304\\356\\341\\340\\342\\350\\362\\374">`:
+   \   00000000   C4EEE1E0E2E8       DC8 "\304\356\341\340\342\350\362\374"
+   \              F2FC00      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\307\\340\\352\\360\\373\\362\\374">`:
+   \   00000000   C7E0EAF0FBF2       DC8 "\307\340\352\360\373\362\374"
+   \              FC00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\313\\345\\342">`:
+   \   00000000   CBE5E200           DC8 "\313\345\342"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\317\\360\\340\\342">`:
+   \   00000000   CFF0E0E200         DC8 "\317\360\340\342"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant ".tbm">`:
+   \   00000000   2E74626D00         DC8 ".tbm"
+   \   00000005   000000             DC8 0, 0, 0
+   \   00000008   303A5C7A6269       DC8 "0:\\zbin\\TextReader\\Bookmarks\\"
+   \              6E5C54657874
+   \              526561646572
+   \              5C426F6F6B6D
+   \              61726B735C00
+   \   00000026   0000               DC8 0, 0
+   \   00000028   25732025640A       DC8 "%s %d\012"
+   \              00          
+   \   0000002F   00                 DC8 0
+   \   00000030   426D6B5F2564       DC8 "Bmk_%d %d\012"
+   \              2025640A00  
+   \   0000003B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   00                 DC8 ""
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s %d">`:
+   \   00000000   257320256400       DC8 "%s %d"
+   \   00000006   0000               DC8 0, 0
+   \   00000008   25642E257400       DC8 "%d.%t"
+   \   0000000E   0000               DC8 0, 0
+   \   00000010   6572726F7200       DC8 "error"
+   \   00000016   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Save!">`:
+   \   00000000   536176652100       DC8 "Save!"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\310\\350\\377 \\347\\340\\352\\353\\340\\`:
+   \   00000000   C8E8FF20E7E0       DC8 "\310\350\377 \347\340\352\353\340\344\352\350..."
+   \              EAEBE0E4EAE8
+   \              2E2E2E00    
+
+   Maximum stack usage in bytes:
+
+     Function       CSTACK
+     --------       ------
+     AddBookmark      280
+     LoadBookmark     292
+     NameBM            88
+     ShowBookmarks     24
+     book_ghook         0
+     book_iconhnd      28
+     book_onkey2       12
+     name_bm_ghook      4
+     name_bm_locret     0
+     name_bm_onkey     72
+     process_bm        28
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     bm                               36
+     process_bm                      152
+     LoadBookmark                    360
+     AddBookmark                     256
+     book_ghook                        4
+     book_onkey2                     160
+     book_menuhdr2                    64
+     menusoftk                        12
+     menu_skk                         24
+     menu_sktk                         8
+     book_iconhnd                    208
+     ShowBookmarks                   100
+     name_bm_onkey                   204
+     name_bm_ghook                    68
+     name_bm_locret                    4
+     name_bm_desc                     88
+     sk                                8
+     menu_sk_2                        24
+     menu_skt_2                        8
+     NameBM                          300
+     ??DataTable6                      4
+     ??DataTable7                      4
+     ??DataTable9                      4
+     ??DataTable13                     4
+     ??DataTable14                     4
+     ??DataTable15                     4
+     ??DataTable17                     4
+     ?<Initializer for name_bm_desc>
+                                      88
+     ?<Initializer for sk>             8
+     ?<Initializer for menu_sk_2>     24
+     ?<Initializer for menu_skt_2>     8
+     ?<Constant "\307\340\352\353\340\344\352\350..
+                                      12
+     ?<Constant "\304\356\341\340\342\350\362\374">
+                                      12
+     ?<Constant "\307\340\352\360\373\362\374">
+                                       8
+     ?<Constant "\313\345\342">        4
+     ?<Constant "\317\360\340\342">    8
+     ?<Constant ".tbm">               60
+     ?<Constant "">                    1
+     ?<Constant "%s %d">              24
+     ?<Constant "Save!">               8
+     ?<Constant "\310\350\377 \347\340\352\353\340\
+                                      16
+      Others                         104
+
+ 
+ 1 924 bytes in segment CODE
+   261 bytes in segment DATA_C
+   128 bytes in segment DATA_I
+   128 bytes in segment DATA_ID
+    36 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 1 844 bytes of CODE  memory (+ 104 bytes shared)
+   389 bytes of CONST memory
+   164 bytes of DATA  memory
+
+Errors: none
+Warnings: none

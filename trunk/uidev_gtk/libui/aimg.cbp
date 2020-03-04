@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="libui" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="NSG">
+				<Option output="exe\libui.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects\nsg" />
+				<Option type="3" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="SG">
+				<Option output="exe\elf_sg.elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects\sg" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="ELKA">
+				<Option output="exe\elf_el.elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects\elka" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DELKA" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-fomit-frame-pointer" />
+			<Add option="-Os" />
+			<Add option="-Wall" />
+			<Add option="-fno-enforce-eh-specs" />
+			<Add option="-fno-rtti" />
+			<Add option="-fno-use-cxa-get-exception-ptr" />
+			<Add option="-fno-non-call-exceptions" />
+			<Add option="-fno-exceptions" />
+			<Add directory="include" />
+		</Compiler>
+		<Linker>
+			<Add library="crt_helper" />
+			<Add library="gcc" />
+			<Add library="c" />
+			<Add library="m" />
+			<Add library="stdc++" />
+			<Add library="supc++" />
+			<Add library="ft_server" />
+			<Add library="ft" />
+			<Add library="png" />
+			<Add library="jpeg" />
+			<Add library="z" />
+			<Add library="crt" />
+			<Add library="imgdrw" />
+			<Add library="fntdrw" />
+		</Linker>
+		<Unit filename="io_ui.cpp" />
+		<Unit filename="io_ui.h" />
+		<Unit filename="key.cpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="menu.cpp" />
+		<Unit filename="ui.cpp" />
+		<Unit filename="uics.cpp" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

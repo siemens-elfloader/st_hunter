@@ -1,0 +1,1695 @@
+################################################################################
+#                                                                              #
+#      IAR Universal Linker V4.60E/386                                         #
+#                                                                              #
+#           Link time     =  23/Jan/2008  11:48:29                             #
+#           Target CPU    =  ARM                                               #
+#           List file     =  D:\Pasha\elf\idater\Release_NEWSGOLD\List\iDater_ #
+#                            nsg.map                                           #
+#           Output file 1 =  D:\Pasha\elf\idater\Release_NEWSGOLD\Exe\iDater_n #
+#                            sg.elf                                            #
+#                            Format: elf, variant: -ynpra                      #
+#           Command line  =  D:\Pasha\elf\idater\Release_NEWSGOLD\Obj\conf_loa #
+#                            der.r79                                           #
+#                            D:\Pasha\elf\idater\Release_NEWSGOLD\Obj\config_d #
+#                            ata.r79                                           #
+#                            D:\Pasha\elf\idater\Release_NEWSGOLD\Obj\main.r79 #
+#                            D:\Pasha\elf\idater\print.r79 -o                  #
+#                            D:\Pasha\elf\idater\Release_NEWSGOLD\Exe\iDater_n #
+#                            sg.elf                                            #
+#                            -Felf -l                                          #
+#                            D:\Pasha\elf\idater\Release_NEWSGOLD\List\iDater_ #
+#                            nsg.map                                           #
+#                            -xmsnio                                           #
+#                            "-ID:\Pasha\ARM_Embedded_Workbench\Embedded Workb #
+#                            ench 4.0 Evaluation\ARM\LIB\"                     #
+#                            -f D:\Pasha\elf\FastRun\test.xcl (-carm           #
+#                            -V(CODE)CODE_AREA,12 -V(DATA)DATA_AREA,12         #
+#                            -Z(CODE_AREA)ELFBEGIN,DATA_ID,START,CODE,DATA_C,I #
+#                            NITTAB,DATA_Z,DATA_N,CONFIG_C=0-FFFFFFFF          #
+#                            -Z(DATA_AREA)DATA_I=0-FFFFFFFF) -ynpra            #
+#                            "D:\Pasha\ARM_Embedded_Workbench\Embedded Workben #
+#                            ch 4.0 Evaluation\ARM\LIB\dl5tpainl8n.r79"        #
+#                            -s main                                           #
+#                                                                              #
+#                        Copyright 1987-2006 IAR Systems. All rights reserved. #
+################################################################################
+
+
+
+
+
+                ****************************************
+                *                                      *
+                *           CROSS REFERENCE            *
+                *                                      *
+                ****************************************
+
+       Program entry at : CODE_AREA 0000081C  Relocatable, from module : main
+
+
+
+
+                ****************************************
+                *                                      *
+                *            RUNTIME MODEL             *
+                *                                      *
+                ****************************************
+
+  StackAlign4  = USED
+  __cpu_mode   = __pcs__interwork
+  __data_model = absolute
+  __endian     = little
+  __rt_version = 6
+
+
+
+                ****************************************
+                *                                      *
+                *              MODULE MAP              *
+                *                                      *
+                ****************************************
+
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  FILE NAME : D:\Pasha\elf\idater\Release_NEWSGOLD\Obj\conf_loader.r79
+  PROGRAM MODULE, NAME : conf_loader
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_I
+  Relative segment, address: DATA_AREA 00000000 - 00000003 (0x4 bytes), align: 2
+  Segment part 4.             Intra module refs:   LoadConfigData
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           successed_config_filename
+                                   00000000        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CODE
+  Segment part 6. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000004 - 0000012F (0x12c bytes), align: 2
+  Segment part 7.             Intra module refs:   InitConfig
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           LoadConfigData          00000004 
+               stack 1 = 00000000 ( 00000030 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 8. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000130 - 00000157 (0x28 bytes), align: 2
+  Segment part 9.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           InitConfig              00000130        main (main)
+                                                   maincsm_onmessage (main)
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000000 - 00000003 (0x4 bytes), align: 2
+  Segment part 5.             Intra module refs:   successed_config_filename
+    -------------------------------------------------------------------------
+DATA_ID
+  Segment part 10. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?*?DATA_ID              
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 00001308 - 00001313 (0xc bytes), align: 2
+  Segment part 11. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_I        00001308 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Segment part 12. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000012EC - 000012EC (0x1 bytes), align: 0
+  Segment part 2.             Intra module refs:   Segment part 5
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001000 - 0000102F (0x30 bytes), align: 2
+  Segment part 3.             Intra module refs:   InitConfig
+
+    *************************************************************************
+
+  FILE NAME : D:\Pasha\elf\idater\Release_NEWSGOLD\Obj\config_data.r79
+  PROGRAM MODULE, NAME : config_data
+
+  SEGMENTS IN THE MODULE
+  ======================
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001964 - 0000198F (0x2c bytes), align: 2
+  Segment part 2. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr0                 00001964        LoadConfigData (conf_loader)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001990 - 000019BB (0x2c bytes), align: 2
+  Segment part 3. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr1112              00001990 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000019BC - 00001A3B (0x80 bytes), align: 2
+  Segment part 4. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FontPath                000019BC        Segment part 84 (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001A3C - 00001A67 (0x2c bytes), align: 2
+  Segment part 5. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr1_112             00001A3C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001A68 - 00001AE7 (0x80 bytes), align: 2
+  Segment part 6. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FontPath2               00001A68        Segment part 86 (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001AE8 - 00001B13 (0x2c bytes), align: 2
+  Segment part 7. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr11_12             00001AE8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001B14 - 00001B93 (0x80 bytes), align: 2
+  Segment part 8. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FontPath3               00001B14        Segment part 87 (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001B94 - 00001BBF (0x2c bytes), align: 2
+  Segment part 9. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_q_2              00001B94 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001BC0 - 00001BC3 (0x4 bytes), align: 2
+  Segment part 10. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           fullset                 00001BC0        Segment part 85 (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001BC4 - 00001BEF (0x2c bytes), align: 2
+  Segment part 11. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr1_10              00001BC4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001BF0 - 00001BF3 (0x4 bytes), align: 2
+  Segment part 12. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           align                   00001BF0        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001BF4 - 00001C53 (0x60 bytes), align: 2
+  Segment part 13. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox1                00001BF4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001C54 - 00001C7F (0x2c bytes), align: 2
+  Segment part 14. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr11_0              00001C54 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001C80 - 00001C83 (0x4 bytes), align: 2
+  Segment part 15. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           align_month             00001C80        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001C84 - 00001CE3 (0x60 bytes), align: 2
+  Segment part 16. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox12               00001C84 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001CE4 - 00001D0F (0x2c bytes), align: 2
+  Segment part 17. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr110s              00001CE4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001D10 - 00001D13 (0x4 bytes), align: 2
+  Segment part 18. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           align_week              00001D10        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001D14 - 00001D73 (0x60 bytes), align: 2
+  Segment part 19. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox13               00001D14 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001D74 - 00001D9F (0x2c bytes), align: 2
+  Segment part 20. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr1130              00001D74 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001DA0 - 00001DA3 (0x4 bytes), align: 2
+  Segment part 21. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           align_date              00001DA0        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001DA4 - 00001E03 (0x60 bytes), align: 2
+  Segment part 22. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox14               00001DA4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001E04 - 00001E2F (0x2c bytes), align: 2
+  Segment part 23. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr3                 00001E04 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001E30 - 00001E33 (0x4 bytes), align: 2
+  Segment part 24. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           space                   00001E30        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001E34 - 00001E5F (0x2c bytes), align: 2
+  Segment part 25. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr1_16              00001E34 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001E60 - 00001E8B (0x2c bytes), align: 2
+  Segment part 26. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr110               00001E60 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001E8C - 00001E8F (0x4 bytes), align: 2
+  Segment part 27. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           DRAW_MODE               00001E8C        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001E90 - 00001FCF (0x140 bytes), align: 2
+  Segment part 28. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox15               00001E90 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001FD0 - 00001FFB (0x2c bytes), align: 2
+  Segment part 29. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr116               00001FD0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001FFC - 00002027 (0x2c bytes), align: 2
+  Segment part 30. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr5                 00001FFC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002028 - 0000202B (0x4 bytes), align: 2
+  Segment part 31. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           X4                      00002028        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000202C - 0000202F (0x4 bytes), align: 2
+  Segment part 32. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Y4                      0000202C        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002030 - 0000205B (0x2c bytes), align: 2
+  Segment part 33. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr13                00002030 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000205C - 0000205F (0x4 bytes), align: 2
+  Segment part 34. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           font                    0000205C        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002060 - 0000208B (0x2c bytes), align: 2
+  Segment part 35. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr63                00002060 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000208C - 0000208F (0x4 bytes), align: 2
+  Segment part 36. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           col                     0000208C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002090 - 000020BB (0x2c bytes), align: 2
+  Segment part 37. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr111               00002090 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000020BC - 000020E7 (0x2c bytes), align: 2
+  Segment part 38. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr115               000020BC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000020E8 - 00002113 (0x2c bytes), align: 2
+  Segment part 39. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr2                 000020E8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002114 - 00002117 (0x4 bytes), align: 2
+  Segment part 40. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           X1                      00002114        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002118 - 0000211B (0x4 bytes), align: 2
+  Segment part 41. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Y1                      00002118        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000211C - 00002147 (0x2c bytes), align: 2
+  Segment part 42. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr210               0000211C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002148 - 0000214B (0x4 bytes), align: 2
+  Segment part 43. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MONTH_MODE              00002148        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000214C - 000021CB (0x80 bytes), align: 2
+  Segment part 44. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox51               0000214C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000021CC - 000021F7 (0x2c bytes), align: 2
+  Segment part 45. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr113               000021CC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000021F8 - 000021FB (0x4 bytes), align: 2
+  Segment part 46. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           month_font              000021F8        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000021FC - 00002227 (0x2c bytes), align: 2
+  Segment part 47. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr633               000021FC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002228 - 0000222B (0x4 bytes), align: 2
+  Segment part 48. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           col_month               00002228 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000222C - 00002257 (0x2c bytes), align: 2
+  Segment part 49. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr118               0000222C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002258 - 00002283 (0x2c bytes), align: 2
+  Segment part 50. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr11_6              00002258 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002284 - 000022AF (0x2c bytes), align: 2
+  Segment part 51. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr4                 00002284 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000022B0 - 000022B3 (0x4 bytes), align: 2
+  Segment part 52. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           X2                      000022B0        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000022B4 - 000022B7 (0x4 bytes), align: 2
+  Segment part 53. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Y2                      000022B4        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000022B8 - 000022E3 (0x2c bytes), align: 2
+  Segment part 54. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr21                000022B8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000022E4 - 000022E7 (0x4 bytes), align: 2
+  Segment part 55. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           WEEK_MODE               000022E4        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000022E8 - 00002347 (0x60 bytes), align: 2
+  Segment part 56. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox2                000022E8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002348 - 00002373 (0x2c bytes), align: 2
+  Segment part 57. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr135               00002348 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002374 - 00002377 (0x4 bytes), align: 2
+  Segment part 58. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           week_font               00002374        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002378 - 000023A3 (0x2c bytes), align: 2
+  Segment part 59. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr623               00002378 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000023A4 - 000023A7 (0x4 bytes), align: 2
+  Segment part 60. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           col_week                000023A4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000023A8 - 000023D3 (0x2c bytes), align: 2
+  Segment part 61. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr11_16             000023A8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000023D4 - 000023FF (0x2c bytes), align: 2
+  Segment part 62. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr1216              000023D4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002400 - 0000242B (0x2c bytes), align: 2
+  Segment part 63. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr6                 00002400 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000242C - 0000242F (0x4 bytes), align: 2
+  Segment part 64. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           X3                      0000242C        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002430 - 00002433 (0x4 bytes), align: 2
+  Segment part 65. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Y3                      00002430        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002434 - 0000245F (0x2c bytes), align: 2
+  Segment part 66. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr22                00002434 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002460 - 00002463 (0x4 bytes), align: 2
+  Segment part 67. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           DATE_MODE               00002460        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002464 - 000024A3 (0x40 bytes), align: 2
+  Segment part 68. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox3                00002464 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000024A4 - 000024CF (0x2c bytes), align: 2
+  Segment part 69. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr134               000024A4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000024D0 - 000024D3 (0x4 bytes), align: 2
+  Segment part 70. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           date_font               000024D0        maincsm_onmessage (main)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000024D4 - 000024FF (0x2c bytes), align: 2
+  Segment part 71. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr163               000024D4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002500 - 00002503 (0x4 bytes), align: 2
+  Segment part 72. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           col_date                00002500 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002504 - 0000252F (0x2c bytes), align: 2
+  Segment part 73. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr1164              00002504 
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+
+    *************************************************************************
+
+  FILE NAME : D:\Pasha\elf\idater\Release_NEWSGOLD\Obj\main.r79
+  PROGRAM MODULE, NAME : main
+
+  SEGMENTS IN THE MODULE
+  ======================
+CODE
+  Segment part 68. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 69. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ElfKiller               
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 70. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000158 - 0000017B (0x24 bytes), align: 2
+  Segment part 71.            Intra module refs:   maincsm_onmessage
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           TimerProc               00000158 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 72. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 73. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           get_string_width        
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 74. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 00001320 - 00001343 (0x24 bytes), align: 2
+  Segment part 58.            Intra module refs:   maincsm_oncreate
+                                                   maincsm_onmessage
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           canvasdata              00001320        Segment part 47 (print)
+           mytmr                   00001334 
+           s                       00001324 
+           s1                      00001328 
+           s2                      0000132C 
+           s3                      00001330 
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 59. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           my_csm_id               
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 60. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ErrorNumber             
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 62. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           old_icsm_onMessage      
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 63. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           old_icsm_onClose        
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000017C - 000007B7 (0x63c bytes), align: 2
+  Segment part 75.            Intra module refs:   Segment part 5
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           maincsm_onmessage       0000017C 
+               stack 1 = 00000000 ( 000000FC )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 76. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000007B8 - 00000813 (0x5c bytes), align: 2
+  Segment part 77.            Intra module refs:   Segment part 5
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           maincsm_oncreate        000007B8 
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000814 - 00000817 (0x4 bytes), align: 2
+  Segment part 78.            Intra module refs:   TimerProc
+                                                   maincsm_oncreate
+    -------------------------------------------------------------------------
+CODE
+  Segment part 79. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000818 - 0000081B (0x4 bytes), align: 2
+  Segment part 80.            Intra module refs:   Segment part 5
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           maincsm_onclose         00000818 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 81. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 00001344 - 0000145B (0x118 bytes), align: 2
+  Segment part 65.            Intra module refs:   Segment part 5
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001030 - 00001033 (0x4 bytes), align: 2
+  Segment part 2.             Intra module refs:   Segment part 26
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000012ED - 000012EF (0x3 bytes), align: 0
+  Segment part 3.             Intra module refs:   Segment part 5
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000012F0 - 000012F2 (0x3 bytes), align: 0
+  Segment part 4.             Intra module refs:   Segment part 5
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001034 - 00001103 (0xd0 bytes), align: 2
+  Segment part 5.             Intra module refs:   Segment part 83
+                                                   my_ipc
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ipc_my_name             000010C0 
+           per_s                   00001050 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001104 - 0000110F (0xc bytes), align: 2
+  Segment part 6.             Intra module refs:   Segment part 13
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001110 - 00001117 (0x8 bytes), align: 2
+  Segment part 7.             Intra module refs:   Segment part 13
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001118 - 0000111F (0x8 bytes), align: 2
+  Segment part 8.             Intra module refs:   Segment part 13
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001120 - 00001127 (0x8 bytes), align: 2
+  Segment part 9.             Intra module refs:   Segment part 13
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001128 - 0000112F (0x8 bytes), align: 2
+  Segment part 10.            Intra module refs:   Segment part 13
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001130 - 0000113B (0xc bytes), align: 2
+  Segment part 11.            Intra module refs:   Segment part 13
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000113C - 00001143 (0x8 bytes), align: 2
+  Segment part 12.            Intra module refs:   Segment part 38
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001144 - 0000115F (0x1c bytes), align: 2
+  Segment part 13.            Intra module refs:   maincsm_onmessage
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 14. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001160 - 00001163 (0x4 bytes), align: 2
+  Segment part 15.            Intra module refs:   Segment part 26
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001164 - 00001167 (0x4 bytes), align: 2
+  Segment part 16.            Intra module refs:   Segment part 26
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001168 - 0000116B (0x4 bytes), align: 2
+  Segment part 17.            Intra module refs:   Segment part 26
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000116C - 0000116F (0x4 bytes), align: 2
+  Segment part 18.            Intra module refs:   Segment part 26
+                                                   Segment part 38
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001170 - 00001173 (0x4 bytes), align: 2
+  Segment part 19.            Intra module refs:   Segment part 26
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001174 - 00001177 (0x4 bytes), align: 2
+  Segment part 20.            Intra module refs:   Segment part 26
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001178 - 0000117B (0x4 bytes), align: 2
+  Segment part 21.            Intra module refs:   Segment part 26
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000117C - 0000117F (0x4 bytes), align: 2
+  Segment part 22.            Intra module refs:   Segment part 26
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001180 - 00001183 (0x4 bytes), align: 2
+  Segment part 23.            Intra module refs:   Segment part 26
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001184 - 00001187 (0x4 bytes), align: 2
+  Segment part 24.            Intra module refs:   Segment part 26
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001188 - 0000118B (0x4 bytes), align: 2
+  Segment part 25.            Intra module refs:   Segment part 26
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000118C - 000011BB (0x30 bytes), align: 2
+  Segment part 26.            Intra module refs:   maincsm_onmessage
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000011BC - 000011C3 (0x8 bytes), align: 2
+  Segment part 27.            Intra module refs:   Segment part 38
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000011C4 - 000011CB (0x8 bytes), align: 2
+  Segment part 28.            Intra module refs:   Segment part 38
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000011CC - 000011D3 (0x8 bytes), align: 2
+  Segment part 29.            Intra module refs:   Segment part 38
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000011D4 - 000011DB (0x8 bytes), align: 2
+  Segment part 30.            Intra module refs:   Segment part 38
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000011DC - 000011E3 (0x8 bytes), align: 2
+  Segment part 31.            Intra module refs:   Segment part 38
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000011E4 - 000011EB (0x8 bytes), align: 2
+  Segment part 32.            Intra module refs:   Segment part 38
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000011EC - 000011F3 (0x8 bytes), align: 2
+  Segment part 33.            Intra module refs:   Segment part 38
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000011F4 - 000011FB (0x8 bytes), align: 2
+  Segment part 34.            Intra module refs:   Segment part 38
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000011FC - 00001203 (0x8 bytes), align: 2
+  Segment part 35.            Intra module refs:   Segment part 13
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001204 - 0000120B (0x8 bytes), align: 2
+  Segment part 36.            Intra module refs:   Segment part 38
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000120C - 00001213 (0x8 bytes), align: 2
+  Segment part 37.            Intra module refs:   Segment part 38
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001214 - 00001243 (0x30 bytes), align: 2
+  Segment part 38.            Intra module refs:   maincsm_onmessage
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001244 - 0000124B (0x8 bytes), align: 2
+  Segment part 39.            Intra module refs:   Segment part 51
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000124C - 00001253 (0x8 bytes), align: 2
+  Segment part 40.            Intra module refs:   Segment part 51
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001254 - 0000125B (0x8 bytes), align: 2
+  Segment part 41.            Intra module refs:   Segment part 51
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000125C - 00001263 (0x8 bytes), align: 2
+  Segment part 42.            Intra module refs:   Segment part 51
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001264 - 00001267 (0x4 bytes), align: 2
+  Segment part 43.            Intra module refs:   Segment part 51
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001268 - 0000126F (0x8 bytes), align: 2
+  Segment part 44.            Intra module refs:   Segment part 51
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001270 - 00001277 (0x8 bytes), align: 2
+  Segment part 45.            Intra module refs:   Segment part 51
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001278 - 0000127F (0x8 bytes), align: 2
+  Segment part 46.            Intra module refs:   Segment part 51
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001280 - 00001287 (0x8 bytes), align: 2
+  Segment part 47.            Intra module refs:   Segment part 51
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001288 - 0000128F (0x8 bytes), align: 2
+  Segment part 48.            Intra module refs:   Segment part 51
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001290 - 00001297 (0x8 bytes), align: 2
+  Segment part 49.            Intra module refs:   Segment part 51
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001298 - 0000129F (0x8 bytes), align: 2
+  Segment part 50.            Intra module refs:   Segment part 51
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000012A0 - 000012CF (0x30 bytes), align: 2
+  Segment part 51.            Intra module refs:   maincsm_onmessage
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000012F3 - 000012F5 (0x3 bytes), align: 0
+  Segment part 52.            Intra module refs:   Segment part 5
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000012F6 - 000012F8 (0x3 bytes), align: 0
+  Segment part 53.            Intra module refs:   Segment part 5
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000012F9 - 000012FB (0x3 bytes), align: 0
+  Segment part 54.            Intra module refs:   Segment part 5
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000012FC - 000012FE (0x3 bytes), align: 0
+  Segment part 55.            Intra module refs:   Segment part 5
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000012FF - 00001301 (0x3 bytes), align: 0
+  Segment part 56.            Intra module refs:   Segment part 5
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000012D0 - 000012DB (0xc bytes), align: 2
+  Segment part 57.            Intra module refs:   Segment part 78
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           my_ipc                  000012D0 
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 61. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           percent_t               
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 64. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           per_t                   
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000012DC - 000012DF (0x4 bytes), align: 2
+  Segment part 66.            Intra module refs:   Segment part 5
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           minus11                 000012DC 
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 67. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           icsmd                   
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000081C - 000008EB (0xd0 bytes), align: 2
+  Segment part 82.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           main                    0000081C        Absolute parts (?ABS_ENTRY_MOD)
+               stack 1 = 00000000 ( 00000038 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000008EC - 000008EF (0x4 bytes), align: 2
+  Segment part 83.            Intra module refs:   main
+                                                   maincsm_onmessage
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000008F0 - 000008F3 (0x4 bytes), align: 2
+  Segment part 84.            Intra module refs:   main
+                                                   maincsm_onmessage
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000008F4 - 000008F7 (0x4 bytes), align: 2
+  Segment part 85.            Intra module refs:   main
+                                                   maincsm_onmessage
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000008F8 - 000008FB (0x4 bytes), align: 2
+  Segment part 86.            Intra module refs:   main
+                                                   maincsm_onmessage
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000008FC - 000008FF (0x4 bytes), align: 2
+  Segment part 87.            Intra module refs:   main
+                                                   maincsm_onmessage
+    -------------------------------------------------------------------------
+CODE
+  Segment part 88. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 89. NOT NEEDED.Intra module refs:   main
+                                                   maincsm_onmessage
+    -------------------------------------------------------------------------
+CODE
+  Segment part 90. NOT NEEDED.Intra module refs:   maincsm_onclose
+                                                   maincsm_onmessage
+    -------------------------------------------------------------------------
+CODE
+  Segment part 91. NOT NEEDED.Intra module refs:   main
+                                                   maincsm_onmessage
+    -------------------------------------------------------------------------
+CODE
+  Segment part 92. NOT NEEDED.Intra module refs:   maincsm_onmessage
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 00001314 - 0000131F (0xc bytes), align: 2
+  Segment part 93. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_Z        00001314 
+    -------------------------------------------------------------------------
+ELFBEGIN
+  Segment part 94. NOT NEEDED.
+
+    *************************************************************************
+
+  FILE NAME : D:\Pasha\elf\idater\print.r79
+  PROGRAM MODULE, NAME : print
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_C
+  Relative segment, address: CODE_AREA 000012E0 - 000012EB (0xc bytes), align: 2
+  Segment part 2.             Intra module refs:   FontPathInit
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001302 - 00001304 (0x3 bytes), align: 0
+  Segment part 3.             Intra module refs:   Segment part 29
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           percent_t_for_print     00001302 
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 0000145C - 0000145F (0x4 bytes), align: 2
+  Segment part 4.             Intra module refs:   Segment part 58
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           fontPath                0000145C 
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 00001460 - 00001463 (0x4 bytes), align: 2
+  Segment part 5.             Intra module refs:   Segment part 44
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ws1_for_print           00001460 
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 00001464 - 00001963 (0x500 bytes), align: 2
+  Segment part 6.             Intra module refs:   Segment part 40
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ycoord                  00001464 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 7. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000900 - 00000923 (0x24 bytes), align: 2
+  Segment part 8.             Intra module refs:   FindDim
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FillDim                 00000900 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 9. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000924 - 000009B3 (0x90 bytes), align: 2
+  Segment part 10.            Intra module refs:   PrintField
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FindDim                 00000924 
+               stack 1 = 00000000 ( 00000018 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 11. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 12. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           GetDim                  
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 13. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000009B4 - 000009EF (0x3c bytes), align: 2
+  Segment part 14.            Intra module refs:   FontPathInit
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           InitDynVar              000009B4 
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 15. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000009F0 - 00000A13 (0x24 bytes), align: 2
+  Segment part 16.            Intra module refs:   FreeDynVar
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FreeDim                 000009F0 
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 17. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000A14 - 00000A4B (0x38 bytes), align: 2
+  Segment part 18.            Intra module refs:   FontPathFree
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FreeDynVar              00000A14 
+               stack 1 = 00000000 ( 0000000C )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 19. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000A4C - 00000B6F (0x124 bytes), align: 2
+  Segment part 20.            Intra module refs:   CalcStrWidth
+                                                   FontH
+                                                   MyDrawString
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Char2Img                00000A4C 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 21. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000B70 - 00000B9B (0x2c bytes), align: 2
+  Segment part 22.            Intra module refs:   PrintField
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FontH                   00000B70 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 23. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 24. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           AlignCalcX              
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 25. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 26. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           CalcChrWidth            
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 27. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000B9C - 00000C53 (0xb8 bytes), align: 2
+  Segment part 28.            Intra module refs:   PrintField
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           CalcStrWidth            00000B9C 
+               stack 1 = 00000000 ( 00000018 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000C54 - 00000C57 (0x4 bytes), align: 2
+  Segment part 29.            Intra module refs:   CalcStrWidth
+    -------------------------------------------------------------------------
+CODE
+  Segment part 30. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000C58 - 00000CDF (0x88 bytes), align: 2
+  Segment part 31.            Intra module refs:   PrintField
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MyDrawString            00000C58 
+               stack 1 = 00000000 ( 00000024 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 32. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 33. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ClearPic                
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 34. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 35. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ClearField              
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 36. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 37. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ClearDim                
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 38. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 39. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ClearScreen             
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000CE0 - 00000CE3 (0x4 bytes), align: 2
+  Segment part 40.            Intra module refs:   FindDim
+                                                   FreeDynVar
+                                                   InitDynVar
+    -------------------------------------------------------------------------
+CODE
+  Segment part 41. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000CE4 - 00000F17 (0x234 bytes), align: 2
+  Segment part 42.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PrintField              00000CE4        maincsm_onmessage (main)
+               stack 1 = 00000000 ( 00000038 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000F18 - 00000F1B (0x4 bytes), align: 2
+  Segment part 43.            Intra module refs:   Char2Img
+                                                   PrintField
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000F1C - 00000F1F (0x4 bytes), align: 2
+  Segment part 44.            Intra module refs:   CalcStrWidth
+                                                   FreeDynVar
+                                                   InitDynVar
+                                                   PrintField
+    -------------------------------------------------------------------------
+CODE
+  Segment part 45. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 46. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PrintPic                
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000F20 - 00000F23 (0x4 bytes), align: 2
+  Segment part 47.            Intra module refs:   PrintField
+    -------------------------------------------------------------------------
+CODE
+  Segment part 48. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 49. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           CalcScroll              
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 50. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 51. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PrintScrollField        
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 52. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 53. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PrintText               
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 54. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000F24 - 00000F9B (0x78 bytes), align: 2
+  Segment part 55.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FontPathInit            00000F24        main (main)
+                                                   maincsm_onmessage (main)
+               stack 1 = 00000000 ( 0000001C )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 56. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000F9C - 00000FFB (0x60 bytes), align: 2
+  Segment part 57.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FontPathFree            00000F9C        maincsm_onclose (main)
+                                                   maincsm_onmessage (main)
+               stack 1 = 00000000 ( 00000010 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000FFC - 00000FFF (0x4 bytes), align: 2
+  Segment part 58.            Intra module refs:   Char2Img
+                                                   FontPathFree
+                                                   FontPathInit
+                                                   InitDynVar
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+INITTAB
+  Segment part 59. TENTATIVE. Used definition from main
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_Z        
+
+
+
+
+                ****************************************
+                *                                      *
+                *            MODULE SUMMARY            *
+                *                                      *
+                ****************************************
+
+Module            CODE   DATA
+------            ----   ----
+                 (Rel)  (Rel)
+conf_loader        405      4
+config_data      3 020
+main             2 985
+  + shared          12
+print            3 095
+N/A (alignment)
+------           -----      -
+Total:           9 517      4
+
+
+                ****************************************
+                *                                      *
+                *              CALL GRAPH              *
+                *                                      *
+                ****************************************
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  TimerProc
+      | Stack used (prev) :  00000000
+      | + function block  :  00000004
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000004
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  maincsm_onmessage
+      | Stack used (prev) :  00000000
+      | + function block  :  000000FC
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  000000FC
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  maincsm_oncreate
+      | Stack used (prev) :  00000000
+      | + function block  :  00000008
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000008
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  maincsm_onclose
+      | Stack used (prev) :  00000000
+      | + function block  :  00000004
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000004
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000000FC
+  01  LoadConfigData
+      | Stack used (prev) :  000000FC
+      | + function block  :  00000030
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000012C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000012C
+  01  InitConfig
+      | Stack used (prev) :  0000012C
+      | + function block  :  00000008
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000134
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000134
+  01  main
+      | Stack used (prev) :  00000134
+      | + function block  :  00000038
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000016C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000016C
+  01  FillDim
+      | Stack used (prev) :  0000016C
+      | + function block  :  00000000
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000016C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000016C
+  01  FindDim
+      | Stack used (prev) :  0000016C
+      | + function block  :  00000018
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000184
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000184
+  01  InitDynVar
+      | Stack used (prev) :  00000184
+      | + function block  :  00000008
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000018C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000018C
+  01  FreeDim
+      | Stack used (prev) :  0000018C
+      | + function block  :  00000008
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000194
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000194
+  01  FreeDynVar
+      | Stack used (prev) :  00000194
+      | + function block  :  0000000C
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000001A0
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000001A0
+  01  Char2Img
+      | Stack used (prev) :  000001A0
+      | + function block  :  00000004
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000001A4
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000001A4
+  01  FontH
+      | Stack used (prev) :  000001A4
+      | + function block  :  00000004
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000001A8
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000001A8
+  01  CalcStrWidth
+      | Stack used (prev) :  000001A8
+      | + function block  :  00000018
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000001C0
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000001C0
+  01  MyDrawString
+      | Stack used (prev) :  000001C0
+      | + function block  :  00000024
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000001E4
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  000001E4
+  01  PrintField
+      | Stack used (prev) :  000001E4
+      | + function block  :  00000038
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000021C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000021C
+  01  FontPathInit
+      | Stack used (prev) :  0000021C
+      | + function block  :  0000001C
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000238
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000238
+  01  FontPathFree
+      | Stack used (prev) :  00000238
+      | + function block  :  00000010
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000248
+
+
+
+
+                ****************************************
+                *                                      *
+                *      SEGMENTS IN ADDRESS ORDER       *
+                *                                      *
+                ****************************************
+
+
+SEGMENT              SPACE    START ADDRESS   END ADDRESS     SIZE  TYPE  ALIGN
+=======              =====    =============   ===========     ====  ====  =====
+ELFBEGIN             CODE_AREA           00000000                     dse    0
+DATA_ID              CODE_AREA      00000000 - 00000003           4   rel    2
+START                CODE_AREA           00000004                     dse    0
+CODE                 CODE_AREA      00000004 - 00000FFF         FFC   rel    2
+DATA_C               CODE_AREA      00001000 - 00001304         305   rel    2
+INITTAB              CODE_AREA      00001308 - 0000131F          18   rel    2
+DATA_Z               CODE_AREA      00001320 - 00001963         644   rel    2
+DATA_N               CODE_AREA           00001964                     dse    0
+CONFIG_C             CODE_AREA      00001964 - 0000252F         BCC   rel    2
+DATA_I               DATA_AREA      00000000 - 00000003           4   rel    2
+
+                ****************************************
+                *                                      *
+                *        END OF CROSS REFERENCE        *
+                *                                      *
+                ****************************************
+
+ 9 517 bytes of CODE memory
+     4 bytes of DATA memory
+
+Errors: none
+Warnings: none
+

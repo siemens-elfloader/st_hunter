@@ -1,0 +1,2377 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    23/Sep/2008  14:34:17 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\mainmenu.c     #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\mainmenu.c -D  #
+#                       NEWSGOLD -D ELKA -D kluchnik -D BCFGGEN              #
+#                       --preprocess D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\k #
+#                       luchnik\List\ -lC D:\Pasha\elf\_MY_PROJECT_\naticq_m #
+#                       od2\kluchnik\List\ -o D:\Pasha\elf\_MY_PROJECT_\nati #
+#                       cq_mod2\kluchnik\Obj\ -s9 --cpu_mode arm --endian    #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --fpu None --dlib_config "D:\Pasha\Embedded       #
+#                       Workbench 4.0 Evaluation2\ARM\LIB\dl5tpainl8n.h" -I  #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\kluchnik\List\ #
+#                       mainmenu.lst                                         #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\kluchnik\Obj\m #
+#                       ainmenu.r79                                          #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\mainmenu.c
+      1          #include "../inc/swilib.h"
+      2          #include "../inc/cfg_items.h"
+      3          #include "../inc/pnglist.h"
+      4          #include "NatICQ.h"
+      5          #include "history.h"
+      6          #include "mainmenu.h"
+      7          #include "main.h"
+      8          #include "conf_loader.h"
+      9          #include "status_change.h"
+     10          #include "language.h"
+     11          #include "revision.h"
+     12          #include "manage_cl.h"
+     13          #include "rect_patcher.h"
+     14          #include "cl_work.h"
+     15          #include "print.h"
+     16          #include "configs.h"
+     17          #include "addon.h"
+     18          #include "configs.h"
+     19          //==============================================================================
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     20          int MainMenu_ID;
+   \                     MainMenu_ID:
+   \   00000000                      DS8 4
+     21          
+     22          extern int CurrentStatus;
+     23          extern int CurrentXStatus;
+     24          extern DYNPNGICONLIST *XStatusesImgList;
+     25          //extern int *XStatusesIconArray;
+     26          extern  int S_ICONS[];
+     27          extern const SOFTKEYSTAB menu_skt;
+     28          extern int Is_INC_On;
+     29          extern int Is_SLI_On;
+     30          extern int Is_SMARTCPU_On;
+     31          extern int Is_ILU_On;
+     32          extern int Is_Double_Vibra_On;
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     33          int janis;
+   \                     janis:
+   \   00000000                      DS8 4
+     34          extern int Is_PING_On;
+     35          extern int Is_UPTIME_On;
+     36          extern int Is_Vibra_Enabled;
+     37          #ifdef NEWSGOLD
+     38          extern int Is_Id3tag_Enabled;
+     39          #endif
+     40          extern unsigned int Is_Sounds_Enabled; 
+     41          extern int Is_Show_Offline;
+     42          extern int Is_Show_Groups;
+     43          extern int IsActiveUp;
+     44          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     45          static void ChangeActiveUp(void)
+     46          {
+     47            IsActiveUp=!(IsActiveUp);
+   \                     ChangeActiveUp:
+   \   00000000   ........           LDR      R0,??DataTable43  ;; IsActiveUp
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+     48            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+     49            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+     50          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+     51          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     52          static void ChangeVibraMode(void)
+     53          {
+     54            Is_Vibra_Enabled=!(Is_Vibra_Enabled);
+   \                     ChangeVibraMode:
+   \   00000000   ........           LDR      R0,??DataTable33  ;; Is_Vibra_Enabled
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+     55            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+     56            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+     57          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+     58          #ifdef NEWSGOLD
+
+   \                                 In segment CODE, align 4, keep-with-next
+     59          static void ChangeId3tagMode(void)
+     60          {
+     61            Is_Id3tag_Enabled=!(Is_Id3tag_Enabled);
+   \                     ChangeId3tagMode:
+   \   00000000   ........           LDR      R0,??DataTable44  ;; Is_Id3tag_Enabled
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+     62            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+     63            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+     64            set_my_xstatus();
+   \   00000028   0040BDE8           POP      {LR}             ;; Pop
+   \   0000002C   ........           _BF      set_my_xstatus,??set_my_xstatus??rA  ;; tailcall
+     65          }
+     66          #endif
+     67          
+     68          extern int msg_away_timer;
+     69          extern GBSTMR away_tmr;
+     70          extern void away_timer();
+     71          extern int main_d;
+     72          extern int away_m;
+     73          extern unsigned int AUTO_ENGADE;
+     74          extern int change_back_status;
+     75          extern int status_rem;
+     76          extern void UpdateCLheader(void);
+     77          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     78          static void AutoAwayMSG(void)
+     79          {
+     80           if(!away_m)
+   \                     AutoAwayMSG:
+   \   00000000   ........           LDR      R0,??DataTable32  ;; away_m
+   \   00000004   30402DE9           PUSH     {R4,R5,LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   80409FE5           LDR      R4,??AutoAwayMSG_0  ;; msg_away_timer
+   \   00000010   000051E3           CMP      R1,#+0
+   \   00000014   0E00001A           BNE      ??AutoAwayMSG_1
+     81            {
+     82             away_m=!away_m;
+   \   00000018   0150A0E3           MOV      R5,#+1
+   \   0000001C   005080E5           STR      R5,[R0, #+0]
+     83             GBS_StopTimer(&away_tmr);
+   \   00000020   70009FE5           LDR      R0,??AutoAwayMSG_0+0x4  ;; away_tmr
+   \   00000024   440100EF           SWI      +324
+     84             msg_away_timer=AUTO_ENGADE*12;
+   \   00000028   6C009FE5           LDR      R0,??AutoAwayMSG_0+0x8  ;; AUTO_ENGADE
+   \   0000002C   0C10A0E3           MOV      R1,#+12
+   \   00000030   000090E5           LDR      R0,[R0, #+0]
+   \   00000034   910000E0           MUL      R0,R1,R0
+   \   00000038   000084E5           STR      R0,[R4, #+0]
+     85             away_timer();
+   \   0000003C   ........           _BLF     away_timer,??away_timer??rA
+     86             main_d=1;
+   \   00000040   58009FE5           LDR      R0,??AutoAwayMSG_0+0xC  ;; main_d
+   \   00000044   005080E5           STR      R5,[R0, #+0]
+   \   00000048   ........           _BLF     UpdateCLheader,??UpdateCLheader??rA
+   \   0000004C   960100EF           SWI      +406
+   \   00000050   3080BDE8           POP      {R4,R5,PC}
+     87            }
+     88           else
+     89            {
+     90             msg_away_timer=0;
+   \                     ??AutoAwayMSG_1:
+   \   00000054   0050A0E3           MOV      R5,#+0
+   \   00000058   005084E5           STR      R5,[R4, #+0]
+     91             away_m=!away_m;
+     92             if(change_back_status)
+   \   0000005C   40409FE5           LDR      R4,??AutoAwayMSG_0+0x10  ;; change_back_status
+   \   00000060   005080E5           STR      R5,[R0, #+0]
+   \   00000064   000094E5           LDR      R0,[R4, #+0]
+   \   00000068   000050E3           CMP      R0,#+0
+   \   0000006C   0500000A           BEQ      ??AutoAwayMSG_2
+     93              {
+     94                CurrentStatus=status_rem;
+   \   00000070   30109FE5           LDR      R1,??AutoAwayMSG_0+0x14  ;; status_rem
+   \   00000074   ........           LDR      R0,??DataTable31  ;; CurrentStatus
+   \   00000078   001091E5           LDR      R1,[R1, #+0]
+   \   0000007C   001080E5           STR      R1,[R0, #+0]
+     95                set_my_status();
+   \   00000080   ........           _BLF     set_my_status,??set_my_status??rA
+     96                change_back_status=0;
+   \   00000084   005084E5           STR      R5,[R4, #+0]
+     97              }
+     98            }
+     99           UpdateCLheader();
+   \                     ??AutoAwayMSG_2:
+   \   00000088   ........           _BLF     UpdateCLheader,??UpdateCLheader??rA
+    100           RefreshGUI();
+   \   0000008C   960100EF           SWI      +406
+    101          }
+   \   00000090   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??AutoAwayMSG_0:
+   \   00000094   ........           DC32     msg_away_timer
+   \   00000098   ........           DC32     away_tmr
+   \   0000009C   ........           DC32     AUTO_ENGADE
+   \   000000A0   ........           DC32     main_d
+   \   000000A4   ........           DC32     change_back_status
+   \   000000A8   ........           DC32     status_rem
+    102          
+    103          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    104          static void ChangeSoundMode(void)
+    105          {
+    106            Is_Sounds_Enabled=!(Is_Sounds_Enabled);
+   \                     ChangeSoundMode:
+   \   00000000   ........           LDR      R0,??DataTable34  ;; Is_Sounds_Enabled
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    107            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    108            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    109          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+    110          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    111          static void ChangeShowOfflineMode(void)
+    112          {
+    113            void RecountMenu(CLIST *req, int needfocus);
+    114            Is_Show_Offline=!(Is_Show_Offline);
+   \                     ChangeShowOfflineMode:
+   \   00000000   ........           LDR      R0,??DataTable41  ;; Is_Show_Offline
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    115            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    116            RecountMenu(NULL,1);
+   \   00000024   0110A0E3           MOV      R1,#+1
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   ........           _BLF     RecountMenu,??RecountMenu??rA
+    117            RefreshGUI();
+   \   00000030   960100EF           SWI      +406
+    118          }
+   \   00000034   0080BDE8           POP      {PC}             ;; return
+    119          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    120          static void ChangeShowGroupsMode(void)
+    121          {
+    122            void RecountMenu(CLIST *req,int needfocus);
+    123            Is_Show_Groups=!(Is_Show_Groups);
+   \                     ChangeShowGroupsMode:
+   \   00000000   ........           LDR      R0,??DataTable42  ;; Is_Show_Groups
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    124            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    125            ResortCL();
+   \   00000024   ........           _BLF     ResortCL,??ResortCL??rA
+    126            RecountMenu(NULL,1);
+   \   00000028   0110A0E3           MOV      R1,#+1
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   ........           _BLF     RecountMenu,??RecountMenu??rA
+    127            RefreshGUI();
+   \   00000034   960100EF           SWI      +406
+    128          }
+   \   00000038   0080BDE8           POP      {PC}             ;; return
+    129          
+    130          //extern int get_file_size(char* fname);
+    131          extern char suc_config_name[64];
+    132          extern char suc_config_name_mod[64];
+
+   \                                 In segment CODE, align 4, keep-with-next
+    133          static void EditConfig(void)
+    134          {
+   \                     EditConfig:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    135            WSHDR *ws;
+    136            ws=AllocWS(150);
+   \   00000004   9600A0E3           MOV      R0,#+150
+   \   00000008   250100EF           SWI      +293
+    137            str_2ws(ws,  suc_config_name,128);
+   \   0000000C   2C109FE5           LDR      R1,??EditConfig_0  ;; suc_config_name
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   8020A0E3           MOV      R2,#+128
+   \   00000018   6C0100EF           SWI      +364
+    138            ExecuteFile(ws,0,0);
+   \   0000001C   0020A0E3           MOV      R2,#+0
+   \   00000020   0010A0E3           MOV      R1,#+0
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   940000EF           SWI      +148
+    139            FreeWS(ws);
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   290100EF           SWI      +297
+    140            GeneralFuncF1(1);
+   \   00000034   0100A0E3           MOV      R0,#+1
+   \   00000038   3B0100EF           SWI      +315
+    141          }
+   \   0000003C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??EditConfig_0:
+   \   00000040   ........           DC32     suc_config_name
+    142          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    143          static void EditConfigMod(void)
+    144          {
+   \                     EditConfigMod:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    145            WSHDR *ws;
+    146            ws=AllocWS(150);
+   \   00000004   9600A0E3           MOV      R0,#+150
+   \   00000008   250100EF           SWI      +293
+    147            str_2ws(ws,suc_config_name_mod,128);
+   \   0000000C   2C109FE5           LDR      R1,??EditConfigMod_0  ;; suc_config_name_mod
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   8020A0E3           MOV      R2,#+128
+   \   00000018   6C0100EF           SWI      +364
+    148            ExecuteFile(ws,0,0);
+   \   0000001C   0020A0E3           MOV      R2,#+0
+   \   00000020   0010A0E3           MOV      R1,#+0
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   940000EF           SWI      +148
+    149            FreeWS(ws);
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   290100EF           SWI      +297
+    150            GeneralFuncF1(1);
+   \   00000034   0100A0E3           MOV      R0,#+1
+   \   00000038   3B0100EF           SWI      +315
+    151          }
+   \   0000003C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??EditConfigMod_0:
+   \   00000040   ........           DC32     suc_config_name_mod
+    152          
+    153          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    154          static void Disconnect(void)
+    155          {
+    156            extern volatile int disautorecconect;
+    157            disautorecconect=1;
+   \                     Disconnect:
+   \   00000000   1C009FE5           LDR      R0,??Disconnect_0  ;; disautorecconect
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   0110A0E3           MOV      R1,#+1
+   \   0000000C   001080E5           STR      R1,[R0, #+0]
+    158            extern void end_socket(void);
+    159            SUBPROC((void*)end_socket);
+   \   00000010   10009FE5           LDR      R0,??Disconnect_0+0x4  ;; end_socket
+   \   00000014   710100EF           SWI      +369
+    160            GeneralFuncF1(1);
+   \   00000018   0100A0E3           MOV      R0,#+1
+   \   0000001C   3B0100EF           SWI      +315
+    161          }
+   \   00000020   0080BDE8           POP      {PC}             ;; return
+   \                     ??Disconnect_0:
+   \   00000024   ........           DC32     disautorecconect
+   \   00000028   ........           DC32     end_socket
+    162          
+    163          extern int uins;
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    164          char hmm1[64];
+   \                     hmm1:
+   \   00000000                      DS8 64
+    165          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    166          static void PingToServer(void)
+    167          {
+    168            janis=1;
+   \                     PingToServer:
+   \   00000000   4C009FE5           LDR      R0,??PingToServer_0  ;; janis
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   0110A0E3           MOV      R1,#+1
+   \   0000000C   001080E5           STR      R1,[R0, #+0]
+    169            TPKT *p;
+    170            p=malloc(sizeof(PKT)+sizeof(TTime));
+   \   00000010   1000A0E3           MOV      R0,#+16
+   \   00000014   140000EF           SWI      +20
+   \   00000018   0040A0E1           MOV      R4,R0
+    171            GetDateTime(NULL,(TTime *)p->data);
+   \   0000001C   081084E2           ADD      R1,R4,#+8
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   B40000EF           SWI      +180
+    172            p->pkt.uin=0;
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   000084E5           STR      R0,[R4, #+0]
+    173            p->pkt.type=T_ECHO;
+   \   00000030   1200A0E3           MOV      R0,#+18
+   \   00000034   B400C4E1           STRH     R0,[R4, #+4]
+    174            p->pkt.data_len=sizeof(TTime);
+   \   00000038   0800A0E3           MOV      R0,#+8
+   \   0000003C   B600C4E1           STRH     R0,[R4, #+6]
+    175            SUBPROC((void *)SendAnswer,0,p);
+   \   00000040   10009FE5           LDR      R0,??PingToServer_0+0x4  ;; SendAnswer
+   \   00000044   0420A0E1           MOV      R2,R4
+   \   00000048   0010A0E3           MOV      R1,#+0
+   \   0000004C   710100EF           SWI      +369
+    176          }
+   \   00000050   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??PingToServer_0:
+   \   00000054   ........           DC32     janis
+   \   00000058   ........           DC32     SendAnswer
+    177          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    178          static void AboutDlg()
+    179          {
+    180            char s[256];
+    181            snprintf(s,255,LG_COPYRIGHT,__SVN_REVISION__);
+   \                     AboutDlg:
+   \   00000000   2C209FE5           LDR      R2,??AboutDlg_0  ;; `?<Constant "NATICQ v2.0\\nRevision ...">`
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   40DF4DE2           SUB      SP,SP,#+256
+   \   0000000C   0A30A0E3           MOV      R3,#+10
+   \   00000010   803E83E3           ORR      R3,R3,#0x800
+   \   00000014   FF10A0E3           MOV      R1,#+255
+   \   00000018   0D00A0E1           MOV      R0,SP
+   \   0000001C   1B0100EF           SWI      +283
+    182            ShowMSG(2, (int)s);
+   \   00000020   0D10A0E1           MOV      R1,SP
+   \   00000024   0200A0E3           MOV      R0,#+2
+   \   00000028   480100EF           SWI      +328
+    183          }
+   \   0000002C   40DF8DE2           ADD      SP,SP,#+256
+   \   00000030   0080BDE8           POP      {PC}             ;; return
+   \                     ??AboutDlg_0:
+   \   00000034   ........           DC32     `?<Constant "NATICQ v2.0\\nRevision ...">`
+    184          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    185          static void SaveCL()
+    186          {
+    187            extern void CreateCLFile(void);
+    188            CreateCLFile();
+   \                     SaveCL:
+   \   00000000   ........           _BF      CreateCLFile,??CreateCLFile??rA  ;; tailcall
+    189          }
+    190          
+    191          #ifdef NEWSGOLD
+    192            #ifdef ELKA
+    193                #define MENU_ITEMS 25//ELKA
+    194            #else
+    195                #define MENU_ITEMS 24//NEWSGOLD
+    196            #endif
+    197          #else
+    198            #define MENU_ITEMS 23//SGOLD
+    199          #endif
+    200          
+    201          char *menutexts[MENU_ITEMS]=
+    202          {
+    203            LG_MNUSTATUS,
+    204            LG_MNUXSTATUS,
+    205            LG_MANAGELIST,
+    206            LG_AUTOANSWER,//"Автоответчик",
+    207            LG_MNUVIBRA,
+    208            LG_MNUSOUND,
+    209            LG_INCMSG,
+    210            LG_MNUSMARTCPU,
+    211            LG_REMINDERON,
+    212            LG_MNUILUON,
+    213            LG_MNUPINGON,
+    214            LG_MNUUPTIMEON,
+    215            LG_MNUSHOWOFF,
+    216            LG_MNUSHOWGROUP,
+    217            LG_MNUEDCFG,
+    218            LG_MNUEDCFG_MOD,
+    219            LG_MNUDISCONNECT,
+    220            LG_MSGINFO,
+    221            LG_SAVECL,
+    222            LG_MNUPING,
+    223            LG_MNUABOUT,
+    224            LG_ACTUP,
+    225            "Открыть лог",
+    226          #ifdef NEWSGOLD
+    227            LG_ID3TAG,
+    228          #endif
+    229          #ifdef ELKA
+    230            LG_MNUSLION,
+    231          #endif
+    232          };
+    233          
+    234          #ifdef ELKA
+
+   \                                 In segment CODE, align 4, keep-with-next
+    235          static void ChangeSLIMode(void)
+    236          {
+    237            Is_SLI_On=!(Is_SLI_On);
+   \                     ChangeSLIMode:
+   \   00000000   ........           LDR      R0,??DataTable45  ;; Is_SLI_On
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    238            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    239            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    240          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+    241          #endif
+
+   \                                 In segment CODE, align 4, keep-with-next
+    242          static void ChangeSMARTCPUMode(void)
+    243          {
+    244            Is_SMARTCPU_On=!(Is_SMARTCPU_On);
+   \                     ChangeSMARTCPUMode:
+   \   00000000   ........           LDR      R0,??DataTable36  ;; Is_SMARTCPU_On
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    245            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    246            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    247          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+    248          //#ifdef NEWSGOLD
+
+   \                                 In segment CODE, align 4, keep-with-next
+    249          static void ChangeINCMode(void)
+    250          {
+    251            Is_INC_On=!(Is_INC_On);
+   \                     ChangeINCMode:
+   \   00000000   ........           LDR      R0,??DataTable35  ;; Is_INC_On
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    252            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    253            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    254          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+    255          //#endif
+
+   \                                 In segment CODE, align 4, keep-with-next
+    256          static void ChangeILUMode(void)
+    257          {
+    258            Is_ILU_On=!(Is_ILU_On);
+   \                     ChangeILUMode:
+   \   00000000   ........           LDR      R0,??DataTable38  ;; Is_ILU_On
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    259            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    260            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    261          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+    262          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    263          static void ChangePINGMode(void)
+    264          {
+    265            Is_PING_On=!(Is_PING_On);
+   \                     ChangePINGMode:
+   \   00000000   ........           LDR      R0,??DataTable39  ;; Is_PING_On
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    266            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    267            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    268          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+    269          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    270          static void ChangeUPTIMEMode(void)
+    271          {
+    272            Is_UPTIME_On=!(Is_UPTIME_On);
+   \                     ChangeUPTIMEMode:
+   \   00000000   ........           LDR      R0,??DataTable40  ;; Is_UPTIME_On
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    273            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    274            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    275          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+    276          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    277          int main_count;
+   \                     main_count:
+   \   00000000                      DS8 4
+    278          int main2_count;
+   \                     main2_count:
+   \   00000004                      DS8 4
+    279          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    280          static void MSG_Info(void)
+    281          {
+   \                     MSG_Info:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    282            char *info=malloc(64);
+   \   00000004   4000A0E3           MOV      R0,#+64
+   \   00000008   140000EF           SWI      +20
+    283            sprintf(info, "Отправлено: %d\n"
+    284                          "Принято: %d", main2_count, main_count);
+   \   0000000C   2C109FE5           LDR      R1,??MSG_Info_0  ;; `?<Constant "\\316\\362\\357\\360\\340\\342\\353\\345\\3`
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   28009FE5           LDR      R0,??MSG_Info_0+0x4  ;; main_count
+   \   00000018   003090E5           LDR      R3,[R0, #+0]
+   \   0000001C   042090E5           LDR      R2,[R0, #+4]
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   160000EF           SWI      +22
+    285            ShowMSG(1,(int)info);
+   \   00000028   0410A0E1           MOV      R1,R4
+   \   0000002C   0100A0E3           MOV      R0,#+1
+   \   00000030   480100EF           SWI      +328
+    286            mfree(info);
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   150000EF           SWI      +21
+    287          }
+   \   0000003C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??MSG_Info_0:
+   \   00000040   ........           DC32     `?<Constant "\\316\\362\\357\\360\\340\\342\\353\\345\\3`
+   \   00000044   ........           DC32     main_count
+    288          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    289          static void ChangeDoubleVibra(void)
+    290          {
+    291            Is_Double_Vibra_On=!(Is_Double_Vibra_On);
+   \                     ChangeDoubleVibra:
+   \   00000000   ........           LDR      R0,??DataTable37  ;; Is_Double_Vibra_On
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    292            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable27  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    293            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    294          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+    295          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    296          static void CreateLogs(void)
+    297          {
+    298            extern void CreateLog();
+    299            CreateLog();
+   \                     CreateLogs:
+   \   00000000   ........           _BF      CreateLog,??CreateLog??rA  ;; tailcall
+    300          }
+    301          
+    302          extern void CreateSCMenu();
+    303          extern void CreateXSMenu();
+    304          static const void *menuprocs[MENU_ITEMS]=
+    305          {
+    306            (void *)CreateSCMenu,//(void *)DispStatusChangeMenu,
+    307            (void *)CreateXSMenu,//DispXStatusChangeMenu,
+    308            (void *)CreateManageCLMenu,
+    309            (void *)AutoAwayMSG,
+    310            (void *)ChangeVibraMode,
+    311            (void *)ChangeSoundMode,
+    312            (void *)ChangeINCMode,
+    313            (void *)ChangeSMARTCPUMode,
+    314            (void *)ChangeDoubleVibra,
+    315            (void *)ChangeILUMode,
+    316            (void *)ChangePINGMode,
+    317            (void *)ChangeUPTIMEMode,
+    318            (void *)ChangeShowOfflineMode,
+    319            (void *)ChangeShowGroupsMode,
+    320            (void *)EditConfig,
+    321            (void *)EditConfigMod,
+    322            (void *)Disconnect, 
+    323            (void *)MSG_Info,
+    324            (void*)SaveCL,
+    325            (void *)PingToServer,
+    326            (void *)AboutDlg,
+    327            (void *)ChangeActiveUp,
+    328            (void *)CreateLogs,
+    329          #ifdef NEWSGOLD
+    330            (void *)ChangeId3tagMode,
+    331          #endif
+    332          #ifdef ELKA
+    333            (void *)ChangeSLIMode,
+    334          #endif
+    335          };
+    336          
+    337          int startItem=0;
+    338          
+    339          #ifdef ELKA
+    340            int x2_cb=10;
+    341          #else
+    342            int x2_cb=10;
+    343          #endif
+    344          extern char clrBlack[];
+    345          extern char clrWhite[];
+    346          extern char clrRed[];
+    347          extern char transparent[];
+    348          extern char blue[];
+    349          extern int clfont;
+    350          extern IMGHDR *icons[];
+    351          //extern int clfont;
+    352          int mm_itemFromDisp;//кол-во на экране
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    353          int mm_totalItems;//общее количество итемов
+   \                     mm_totalItems:
+   \   00000000                      DS8 4
+    354          int mm_curpos=0;//позичия курсора
+    355          
+    356          extern void DrwImage(IMGHDR *img, int x, int y, char *pen, char *brush);
+    357          extern DYNPNGICONLIST *GetXSByItem(int curitem);
+    358          RECT mm_rc;//MainMenu Rect
+    359          int mm_font;
+    360          
+    361          #define CLIST_Y1 (YDISP+2)
+    362          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    363          void DrawCheckBox(int x,int y,int flag,int type)
+    364          {
+   \                     DrawCheckBox:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+    365            RECT rc;
+    366            StoreXYXYtoRECT(&rc,x+2,y,x+x2_cb+2,y+x2_cb);
+   \   00000004   ........           LDR      R5,??DataTable59  ;; mm_rc
+   \   00000008   08D04DE2           SUB      SP,SP,#+8
+    367            DrawRectangle(rc.x,rc.y,rc.x2,rc.y2,0,clrWhite,transparent);
+   \   0000000C   ........           LDR      R7,??DataTable50  ;; clrWhite
+   \   00000010   0260A0E1           MOV      R6,R2
+   \   00000014   D42095E5           LDR      R2,[R5, #+212]
+   \   00000018   0340A0E1           MOV      R4,R3
+   \   0000001C   013082E0           ADD      R3,R2,R1
+   \   00000020   08002DE9           PUSH     {R3}
+   \   00000024   002082E0           ADD      R2,R2,R0
+   \   00000028   023082E2           ADD      R3,R2,#+2
+   \   0000002C   0120A0E1           MOV      R2,R1
+   \   00000030   021080E2           ADD      R1,R0,#+2
+   \   00000034   04008DE2           ADD      R0,SP,#+4
+   \   00000038   340100EF           SWI      +308
+   \   0000003C   ........           LDR      R0,??DataTable49  ;; transparent
+   \   00000040   01002DE9           PUSH     {R0}
+   \   00000044   0700A0E1           MOV      R0,R7
+   \   00000048   01002DE9           PUSH     {R0}
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   01002DE9           PUSH     {R0}
+   \   00000054   F631DDE1           LDRSH    R3,[SP, #+22]
+   \   00000058   F421DDE1           LDRSH    R2,[SP, #+20]
+   \   0000005C   F211DDE1           LDRSH    R1,[SP, #+18]
+   \   00000060   F001DDE1           LDRSH    R0,[SP, #+16]
+   \   00000064   B40100EF           SWI      +436
+    368            if(flag)
+   \   00000068   000056E3           CMP      R6,#+0
+   \   0000006C   10D08DE2           ADD      SP,SP,#+16
+   \   00000070   F380BD08           POPEQ    {R0,R1,R4-R7,PC}
+   \   00000074   F600DDE1           LDRSH    R0,[SP, #+6]
+   \   00000078   F210DDE1           LDRSH    R1,[SP, #+2]
+   \   0000007C   F420DDE1           LDRSH    R2,[SP, #+4]
+   \   00000080   023040E2           SUB      R3,R0,#+2
+   \   00000084   F000DDE1           LDRSH    R0,[SP, #+0]
+   \   00000088   000054E3           CMP      R4,#+0
+   \   0000008C   0740A0E1           MOV      R4,R7
+   \   00000090   10002DE9           PUSH     {R4}
+   \   00000094   020080E2           ADD      R0,R0,#+2
+   \   00000098   0040A0E3           MOV      R4,#+0
+   \   0000009C   10002DE9           PUSH     {R4}
+   \   000000A0   0E00000A           BEQ      ??DrawCheckBox_0
+    369            {
+    370              if(type)
+    371              {
+    372                DrawLine(rc.x+2,rc.y+2,rc.x2-2,rc.y2-2,0,clrWhite);
+   \   000000A4   022042E2           SUB      R2,R2,#+2
+   \   000000A8   021081E2           ADD      R1,R1,#+2
+   \   000000AC   B30100EF           SWI      +435
+    373                DrawLine(rc.x2-2,rc.y+2,rc.x+2,rc.y2-2,0,clrWhite);
+   \   000000B0   80002DE9           PUSH     {R7}
+   \   000000B4   0000A0E3           MOV      R0,#+0
+   \   000000B8   01002DE9           PUSH     {R0}
+   \   000000BC   F601DDE1           LDRSH    R0,[SP, #+22]
+   \   000000C0   023040E2           SUB      R3,R0,#+2
+   \   000000C4   F001DDE1           LDRSH    R0,[SP, #+16]
+   \   000000C8   022080E2           ADD      R2,R0,#+2
+   \   000000CC   F201DDE1           LDRSH    R0,[SP, #+18]
+   \   000000D0   021080E2           ADD      R1,R0,#+2
+   \   000000D4   F401DDE1           LDRSH    R0,[SP, #+20]
+   \   000000D8   020040E2           SUB      R0,R0,#+2
+   \   000000DC   0E0000EA           B        ??DrawCheckBox_1
+    374              }
+    375              else
+    376              {
+    377                DrawLine(rc.x+2,rc.y+5,rc.x2-7,rc.y2-2,0,clrWhite);
+   \                     ??DrawCheckBox_0:
+   \   000000E0   072042E2           SUB      R2,R2,#+7
+   \   000000E4   051081E2           ADD      R1,R1,#+5
+   \   000000E8   B30100EF           SWI      +435
+    378                DrawLine(rc.x2-7,rc.y2-2,rc.x+x2_cb,rc.y-2,0,clrWhite);
+   \   000000EC   80002DE9           PUSH     {R7}
+   \   000000F0   0000A0E3           MOV      R0,#+0
+   \   000000F4   01002DE9           PUSH     {R0}
+   \   000000F8   D41095E5           LDR      R1,[R5, #+212]
+   \   000000FC   F201DDE1           LDRSH    R0,[SP, #+18]
+   \   00000100   023040E2           SUB      R3,R0,#+2
+   \   00000104   F001DDE1           LDRSH    R0,[SP, #+16]
+   \   00000108   002081E0           ADD      R2,R1,R0
+   \   0000010C   F601DDE1           LDRSH    R0,[SP, #+22]
+   \   00000110   021040E2           SUB      R1,R0,#+2
+   \   00000114   F401DDE1           LDRSH    R0,[SP, #+20]
+   \   00000118   070040E2           SUB      R0,R0,#+7
+   \                     ??DrawCheckBox_1:
+   \   0000011C   B30100EF           SWI      +435
+   \   00000120   10D08DE2           ADD      SP,SP,#+16
+    379              }
+    380            }
+    381          }
+   \   00000124   F380BDE8           POP      {R0,R1,R4-R7,PC}  ;; return
+    382          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    383          void DrawIcon(int x,int y,int curitem)
+    384          {
+   \                     DrawIcon:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    385           switch(curitem)
+   \   00000004   180052E3           CMP      R2,#+24
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   94019FE5           LDR      R0,??DrawIcon_1  ;; icons
+   \   00000010   0150A0E1           MOV      R5,R1
+   \   00000014   3080BD88           POPHI    {R4,R5,PC}
+   \   00000018   011F8FE2           ADR      R1,??DrawIcon_0
+   \   0000001C   0210D1E7           LDRB     R1,[R1, R2]
+   \   00000020   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??DrawIcon_0:
+   \   00000024   060F1B1F           DC8      +6,+15,+27,+31
+   \   00000028   212B2D2F           DC8      +33,+43,+45,+47
+   \   0000002C   31333537           DC8      +49,+51,+53,+55
+   \   00000030   393B3D3D           DC8      +57,+59,+61,+61
+   \   00000034   464A4A4E           DC8      +70,+74,+74,+78
+   \   00000038   4A523D54           DC8      +74,+82,+61,+84
+   \   0000003C   56000000           DC8      +86,+0,+0,+0
+    386            {
+    387              case 0: DrwImage(icons[CurrentStatus],x,y,0,0);           break;
+   \                     ??DrawIcon_2:
+   \   00000040   0010A0E3           MOV      R1,#+0
+   \   00000044   02002DE9           PUSH     {R1}
+   \   00000048   0030A0E3           MOV      R3,#+0
+   \   0000004C   0520A0E1           MOV      R2,R5
+   \   00000050   0410A0E1           MOV      R1,R4
+   \   00000054   ........           LDR      R4,??DataTable31  ;; CurrentStatus
+   \   00000058   004094E5           LDR      R4,[R4, #+0]
+   \   0000005C   040190E7           LDR      R0,[R0, +R4, LSL #+2]
+   \   00000060   330000EA           B        ??DrawIcon_3
+    388              case 1:
+    389              {
+    390                DYNPNGICONLIST *xs=GetXSByItem(CurrentXStatus);
+   \                     ??DrawIcon_4:
+   \   00000064   40019FE5           LDR      R0,??DrawIcon_1+0x4  ;; CurrentXStatus
+   \   00000068   000090E5           LDR      R0,[R0, #+0]
+   \   0000006C   ........           _BLF     GetXSByItem,??GetXSByItem??rA
+    391                DrwImage(xs->img,x,y,0,0);
+   \   00000070   0010A0E3           MOV      R1,#+0
+   \   00000074   02002DE9           PUSH     {R1}
+   \   00000078   080090E5           LDR      R0,[R0, #+8]
+   \   0000007C   0030A0E3           MOV      R3,#+0
+   \   00000080   0520A0E1           MOV      R2,R5
+   \   00000084   0410A0E1           MOV      R1,R4
+   \   00000088   ........           _BLF     DrwImage,??DrwImage??rA
+   \   0000008C   04D08DE2           ADD      SP,SP,#+4
+   \   00000090   3080BDE8           POP      {R4,R5,PC}
+    392              }
+    393              break;
+    394              case 2: DrwImage(icons[ICON_ADDCONTACT],x,y,0,0);         break;//DrawImg(x,y,S_ICONS[ICON_ADDCONTACT]);
+   \                     ??DrawIcon_5:
+   \   00000094   0010A0E3           MOV      R1,#+0
+   \   00000098   02002DE9           PUSH     {R1}
+   \   0000009C   480090E5           LDR      R0,[R0, #+72]
+   \   000000A0   200000EA           B        ??DrawIcon_6
+    395              case 3: DrawCheckBox(x,y,away_m?1:0,0);                   break;
+   \                     ??DrawIcon_7:
+   \   000000A4   ........           LDR      R0,??DataTable32  ;; away_m
+   \   000000A8   000000EA           B        ??DrawIcon_8
+    396              case 4: DrawCheckBox(x,y,Is_Vibra_Enabled?1:0,0);         break;
+   \                     ??DrawIcon_9:
+   \   000000AC   ........           LDR      R0,??DataTable33  ;; Is_Vibra_Enabled
+   \                     ??DrawIcon_8:
+   \   000000B0   0030A0E3           MOV      R3,#+0
+   \   000000B4   000090E5           LDR      R0,[R0, #+0]
+   \   000000B8   0510A0E1           MOV      R1,R5
+   \   000000BC   000050E3           CMP      R0,#+0
+   \   000000C0   0120A013           MOVNE    R2,#+1
+   \   000000C4   0020A003           MOVEQ    R2,#+0
+   \   000000C8   0400A0E1           MOV      R0,R4
+   \   000000CC   ........           BL       DrawCheckBox
+   \   000000D0   3080BDE8           POP      {R4,R5,PC}
+    397              case 5: DrawCheckBox(x,y,Is_Sounds_Enabled?1:0,0);        break;
+   \                     ??DrawIcon_10:
+   \   000000D4   ........           LDR      R0,??DataTable34  ;; Is_Sounds_Enabled
+   \   000000D8   F4FFFFEA           B        ??DrawIcon_8
+    398              case 6: DrawCheckBox(x,y,Is_INC_On?1:0,0);                break;
+   \                     ??DrawIcon_11:
+   \   000000DC   ........           LDR      R0,??DataTable35  ;; Is_INC_On
+   \   000000E0   F2FFFFEA           B        ??DrawIcon_8
+    399              case 7: DrawCheckBox(x,y,Is_SMARTCPU_On?1:0,0);           break;
+   \                     ??DrawIcon_12:
+   \   000000E4   ........           LDR      R0,??DataTable36  ;; Is_SMARTCPU_On
+   \   000000E8   F0FFFFEA           B        ??DrawIcon_8
+    400              case 8: DrawCheckBox(x,y,Is_Double_Vibra_On?1:0,0);       break;
+   \                     ??DrawIcon_13:
+   \   000000EC   ........           LDR      R0,??DataTable37  ;; Is_Double_Vibra_On
+   \   000000F0   EEFFFFEA           B        ??DrawIcon_8
+    401              case 9: DrawCheckBox(x,y,Is_ILU_On?1:0,0);                break;
+   \                     ??DrawIcon_14:
+   \   000000F4   ........           LDR      R0,??DataTable38  ;; Is_ILU_On
+   \   000000F8   ECFFFFEA           B        ??DrawIcon_8
+    402              case 10: DrawCheckBox(x,y,Is_PING_On?1:0,0);              break;
+   \                     ??DrawIcon_15:
+   \   000000FC   ........           LDR      R0,??DataTable39  ;; Is_PING_On
+   \   00000100   EAFFFFEA           B        ??DrawIcon_8
+    403              case 11: DrawCheckBox(x,y,Is_UPTIME_On?1:0,0);            break;  
+   \                     ??DrawIcon_16:
+   \   00000104   ........           LDR      R0,??DataTable40  ;; Is_UPTIME_On
+   \   00000108   E8FFFFEA           B        ??DrawIcon_8
+    404              case 12: DrawCheckBox(x,y,Is_Show_Offline?1:0,0);         break;
+   \                     ??DrawIcon_17:
+   \   0000010C   ........           LDR      R0,??DataTable41  ;; Is_Show_Offline
+   \   00000110   E6FFFFEA           B        ??DrawIcon_8
+    405              case 13: DrawCheckBox(x,y,Is_Show_Groups?1:0,0);          break;    
+   \                     ??DrawIcon_18:
+   \   00000114   ........           LDR      R0,??DataTable42  ;; Is_Show_Groups
+   \   00000118   E4FFFFEA           B        ??DrawIcon_8
+    406              case 14: DrwImage(icons[ICON_SETTINGS],x,y,0,0);          break;
+   \                     ??DrawIcon_19:
+   \   0000011C   0010A0E3           MOV      R1,#+0
+   \   00000120   02002DE9           PUSH     {R1}
+   \   00000124   580090E5           LDR      R0,[R0, #+88]
+   \                     ??DrawIcon_6:
+   \   00000128   0030A0E3           MOV      R3,#+0
+   \   0000012C   0520A0E1           MOV      R2,R5
+   \   00000130   0410A0E1           MOV      R1,R4
+   \                     ??DrawIcon_3:
+   \   00000134   ........           _BLF     DrwImage,??DrwImage??rA
+   \   00000138   04D08DE2           ADD      SP,SP,#+4
+   \   0000013C   3080BDE8           POP      {R4,R5,PC}
+    407              case 15: DrwImage(icons[ICON_SETTINGS],x,y,0,0);          break;
+    408              case 16: DrwImage(icons[IS_OFFLINE],x,y,0,0);             break;
+   \                     ??DrawIcon_20:
+   \   00000140   0010A0E3           MOV      R1,#+0
+   \   00000144   02002DE9           PUSH     {R1}
+   \   00000148   000090E5           LDR      R0,[R0, #+0]
+   \   0000014C   F5FFFFEA           B        ??DrawIcon_6
+    409              case 17: DrwImage(icons[IS_UNKNOWN],x,y,0,0);             break;
+   \                     ??DrawIcon_21:
+   \   00000150   0010A0E3           MOV      R1,#+0
+   \   00000154   02002DE9           PUSH     {R1}
+   \   00000158   380090E5           LDR      R0,[R0, #+56]
+   \   0000015C   F1FFFFEA           B        ??DrawIcon_6
+    410              case 18: DrwImage(icons[IS_UNKNOWN],x,y,0,0);             break;   
+    411              case 19: DrwImage(icons[ICON_PING],x,y,0,0);              break;
+   \                     ??DrawIcon_22:
+   \   00000160   0010A0E3           MOV      R1,#+0
+   \   00000164   02002DE9           PUSH     {R1}
+   \   00000168   540090E5           LDR      R0,[R0, #+84]
+   \   0000016C   EDFFFFEA           B        ??DrawIcon_6
+    412              case 20: DrwImage(icons[IS_UNKNOWN],x,y,0,0);             break;    
+    413              case 21: DrawCheckBox(x,y,IsActiveUp?1:0,0);              break;
+   \                     ??DrawIcon_23:
+   \   00000170   ........           LDR      R0,??DataTable43  ;; IsActiveUp
+   \   00000174   CDFFFFEA           B        ??DrawIcon_8
+    414              case 22: DrwImage(icons[ICON_SETTINGS],x,y,0,0);          break;
+    415          #ifdef NEWSGOLD
+    416              case 23: DrawCheckBox(x,y,Is_Id3tag_Enabled?1:0,0);       break;
+   \                     ??DrawIcon_24:
+   \   00000178   ........           LDR      R0,??DataTable44  ;; Is_Id3tag_Enabled
+   \   0000017C   CBFFFFEA           B        ??DrawIcon_8
+    417            #ifdef ELKA
+    418              case 24: DrawCheckBox(x,y,Is_SLI_On?1:0,0);               break;
+   \                     ??DrawIcon_25:
+   \   00000180   ........           LDR      R0,??DataTable45  ;; Is_SLI_On
+   \   00000184   0030A0E3           MOV      R3,#+0
+   \   00000188   000090E5           LDR      R0,[R0, #+0]
+   \   0000018C   0510A0E1           MOV      R1,R5
+   \   00000190   000050E3           CMP      R0,#+0
+   \   00000194   0120A013           MOVNE    R2,#+1
+   \   00000198   0020A003           MOVEQ    R2,#+0
+   \   0000019C   0400A0E1           MOV      R0,R4
+   \   000001A0   ........           BL       DrawCheckBox
+    419            #endif
+    420          #endif
+    421            }
+    422          }
+   \                     ??DrawIcon_26:
+   \   000001A4   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??DrawIcon_1:
+   \   000001A8   ........           DC32     icons
+   \   000001AC   ........           DC32     CurrentXStatus
+    423          
+    424          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    425          void DrawMMScrollBar(int cur,int total)
+    426          {
+   \                     DrawMMScrollBar:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+    427            int scr_h=ScreenH()-1;
+    428            int scr_w=ScreenW()-1;
+    429            int y=mm_rc.y2-mm_rc.y-2;
+   \   00000004   ........           LDR      R6,??DataTable59  ;; mm_rc
+   \   00000008   0080A0E1           MOV      R8,R0
+   \   0000000C   0140A0E1           MOV      R4,R1
+   \   00000010   898100EF           SWI      +33161
+   \   00000014   888100EF           SWI      +33160
+   \   00000018   F270D6E1           LDRSH    R7,[R6, #+2]
+   \   0000001C   F630D6E1           LDRSH    R3,[R6, #+6]
+    430            int pos=y*cur/total;
+   \   00000020   0410A0E1           MOV      R1,R4
+   \   00000024   070043E0           SUB      R0,R3,R7
+   \   00000028   025040E2           SUB      R5,R0,#+2
+   \   0000002C   980500E0           MUL      R0,R8,R5
+   \   00000030   ........           LDR      R8,??DataTable50  ;; clrWhite
+   \   00000034   ........           _BLF     ??div32_a,??rA??div32_a
+   \   00000038   F400D6E1           LDRSH    R0,[R6, #+4]
+   \   0000003C   0190A0E1           MOV      R9,R1
+   \   00000040   0810A0E1           MOV      R1,R8
+   \   00000044   02002DE9           PUSH     {R1}
+   \   00000048   020040E2           SUB      R0,R0,#+2
+   \   0000004C   0020A0E1           MOV      R2,R0
+   \   00000050   0110A0E3           MOV      R1,#+1
+   \   00000054   02002DE9           PUSH     {R1}
+   \   00000058   0710A0E1           MOV      R1,R7
+    431            int y2=y/total;
+    432            
+    433            DrawLine(mm_rc.x2-2,mm_rc.y,mm_rc.x2-2,mm_rc.y2,1,clrWhite);
+   \   0000005C   B30100EF           SWI      +435
+    434            DrawRoundedFrame(mm_rc.x2-3,mm_rc.y+pos+1,mm_rc.x2-1,mm_rc.y+pos+y2,0,0,0,clrWhite,clrWhite);
+   \   00000060   F200D6E1           LDRSH    R0,[R6, #+2]
+   \   00000064   F460D6E1           LDRSH    R6,[R6, #+4]
+   \   00000068   0410A0E1           MOV      R1,R4
+   \   0000006C   007089E0           ADD      R7,R9,R0
+   \   00000070   0800A0E1           MOV      R0,R8
+   \   00000074   01002DE9           PUSH     {R0}
+   \   00000078   00012DE9           PUSH     {R8}
+   \   0000007C   012046E2           SUB      R2,R6,#+1
+   \   00000080   0000A0E3           MOV      R0,#+0
+   \   00000084   01002DE9           PUSH     {R0}
+   \   00000088   01002DE9           PUSH     {R0}
+   \   0000008C   01002DE9           PUSH     {R0}
+   \   00000090   0500A0E1           MOV      R0,R5
+   \   00000094   ........           _BLF     ??div32_a,??rA??div32_a
+   \   00000098   073081E0           ADD      R3,R1,R7
+   \   0000009C   011087E2           ADD      R1,R7,#+1
+   \   000000A0   030046E2           SUB      R0,R6,#+3
+   \   000000A4   500100EF           SWI      +336
+    435          }
+   \   000000A8   1CD08DE2           ADD      SP,SP,#+28
+   \   000000AC   F083BDE8           POP      {R4-R9,PC}       ;; return
+    436          
+    437          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    438          static void MM_DrawList()
+    439          {
+   \                     MM_DrawList:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+    440            int font_y = FontH(mm_font)+1;
+   \   00000004   ........           LDR      R4,??DataTable59  ;; mm_rc
+   \   00000008   08D04DE2           SUB      SP,SP,#+8
+   \   0000000C   E00094E5           LDR      R0,[R4, #+224]
+   \   00000010   ........           _BLF     FontH,??FontH??rA
+   \   00000014   015080E2           ADD      R5,R0,#+1
+    441            int scr_h=ScreenH()-1;
+   \   00000018   898100EF           SWI      +33161
+   \   0000001C   016040E2           SUB      R6,R0,#+1
+    442            int scr_w=ScreenW()-1;
+   \   00000020   888100EF           SWI      +33160
+    443            mm_itemFromDisp = sdiv(font_y,scr_h-CLIST_Y1-FontH(mm_font)-2)-1;
+   \   00000024   E00094E5           LDR      R0,[R4, #+224]
+   \   00000028   ........           _BLF     FontH,??FontH??rA
+   \   0000002C   1A1046E2           SUB      R1,R6,#+26
+   \   00000030   000041E0           SUB      R0,R1,R0
+   \   00000034   021040E2           SUB      R1,R0,#+2
+   \   00000038   0500A0E1           MOV      R0,R5
+   \   0000003C   B80000EF           SWI      +184
+   \   00000040   010040E2           SUB      R0,R0,#+1
+   \   00000044   D80084E5           STR      R0,[R4, #+216]
+    444            
+    445            LockSched();
+   \   00000048   460100EF           SWI      +326
+    446            
+    447            int i=0;
+    448            int start_y=0;
+    449            int start_x=x2_cb+8;
+   \   0000004C   D40094E5           LDR      R0,[R4, #+212]
+   \   00000050   0060A0E3           MOV      R6,#+0
+   \   00000054   087080E2           ADD      R7,R0,#+8
+    450           
+    451            char *s=malloc(128);
+   \   00000058   8000A0E3           MOV      R0,#+128
+   \   0000005C   140000EF           SWI      +20
+   \   00000060   0080A0E1           MOV      R8,R0
+    452            RECT rc;
+    453          
+    454            while(i<mm_itemFromDisp)
+   \                     ??MM_DrawList_0:
+   \   00000064   D80094E5           LDR      R0,[R4, #+216]
+   \   00000068   000056E1           CMP      R6,R0
+   \   0000006C   4D0000AA           BGE      ??MM_DrawList_1
+    455            {
+    456             sprintf(s,"%s",menutexts[startItem+i]);
+   \   00000070   D00094E5           LDR      R0,[R4, #+208]
+   \   00000074   4F1F8FE2           ADR      R1,??MM_DrawList_2  ;; "%s"
+   \   00000078   000086E0           ADD      R0,R6,R0
+   \   0000007C   000184E0           ADD      R0,R4,R0, LSL #+2
+   \   00000080   082090E5           LDR      R2,[R0, #+8]
+   \   00000084   0800A0E1           MOV      R0,R8
+   \   00000088   160000EF           SWI      +22
+    457                  
+    458             start_y = (mm_rc.y + 2 + (i/* - (mm_curpage-1)*mm_itemFromDisp*/)*font_y);    //определяем начальное смещение по у      
+   \   0000008C   F200D4E1           LDRSH    R0,[R4, #+2]
+    459             StoreXYXYtoRECT(&rc,start_x,start_y,mm_rc.x2-2,start_y+font_y);            
+   \   00000090   0710A0E1           MOV      R1,R7
+   \   00000094   950620E0           MLA      R0,R5,R6,R0
+   \   00000098   029080E2           ADD      R9,R0,#+2
+   \   0000009C   090085E0           ADD      R0,R5,R9
+   \   000000A0   01002DE9           PUSH     {R0}
+   \   000000A4   F400D4E1           LDRSH    R0,[R4, #+4]
+   \   000000A8   0920A0E1           MOV      R2,R9
+   \   000000AC   023040E2           SUB      R3,R0,#+2
+   \   000000B0   04008DE2           ADD      R0,SP,#+4
+   \   000000B4   340100EF           SWI      +308
+    460             SetFontColor(clrWhite,transparent,0);           
+   \   000000B8   ........           LDR      R1,??DataTable49  ;; transparent
+   \   000000BC   ........           LDR      R0,??DataTable50  ;; clrWhite
+   \   000000C0   0020A0E3           MOV      R2,#+0
+   \   000000C4   ........           _BLF     SetFontColor,??SetFontColor??rA
+    461             if(startItem+i==mm_curpos)//Если наш итем то выделяем
+   \   000000C8   D00094E5           LDR      R0,[R4, #+208]
+   \   000000CC   DC1094E5           LDR      R1,[R4, #+220]
+   \   000000D0   000086E0           ADD      R0,R6,R0
+   \   000000D4   010050E1           CMP      R0,R1
+   \   000000D8   04D08DE2           ADD      SP,SP,#+4
+   \   000000DC   1400001A           BNE      ??MM_DrawList_3
+    462              {
+    463               DrawRoundedFrame(rc.x,rc.y-1,rc.x2-5,rc.y2-1,0,0,0,MMCursorClr,MMCursorBGClr);//cursor        
+   \   000000E0   D4009FE5           LDR      R0,??MM_DrawList_2+0x4  ;; MMCursorBGClr
+   \   000000E4   01002DE9           PUSH     {R0}
+   \   000000E8   D0009FE5           LDR      R0,??MM_DrawList_2+0x8  ;; MMCursorClr
+   \   000000EC   01002DE9           PUSH     {R0}
+   \   000000F0   0000A0E3           MOV      R0,#+0
+   \   000000F4   01002DE9           PUSH     {R0}
+   \   000000F8   01002DE9           PUSH     {R0}
+   \   000000FC   01002DE9           PUSH     {R0}
+   \   00000100   FA01DDE1           LDRSH    R0,[SP, #+26]
+   \   00000104   013040E2           SUB      R3,R0,#+1
+   \   00000108   F801DDE1           LDRSH    R0,[SP, #+24]
+   \   0000010C   052040E2           SUB      R2,R0,#+5
+   \   00000110   F601DDE1           LDRSH    R0,[SP, #+22]
+   \   00000114   011040E2           SUB      R1,R0,#+1
+   \   00000118   F401DDE1           LDRSH    R0,[SP, #+20]
+   \   0000011C   500100EF           SWI      +336
+    464               DrawMMScrollBar(startItem+i,MENU_ITEMS);
+   \   00000120   D00094E5           LDR      R0,[R4, #+208]
+   \   00000124   1910A0E3           MOV      R1,#+25
+   \   00000128   000086E0           ADD      R0,R6,R0
+   \   0000012C   ........           BL       DrawMMScrollBar
+   \   00000130   14D08DE2           ADD      SP,SP,#+20
+    465              } 
+    466             DrawIcon(1,start_y,startItem+i);
+   \                     ??MM_DrawList_3:
+   \   00000134   D00094E5           LDR      R0,[R4, #+208]
+   \   00000138   0910A0E1           MOV      R1,R9
+   \   0000013C   002086E0           ADD      R2,R6,R0
+   \   00000140   0100A0E3           MOV      R0,#+1
+   \   00000144   ........           BL       DrawIcon
+    467             PrintText(rc.x+3,rc.y-1,s,0,mm_font,1,0,0,0,rc.x2-5);//item name
+   \   00000148   F400DDE1           LDRSH    R0,[SP, #+4]
+   \   0000014C   0030A0E3           MOV      R3,#+0
+   \   00000150   0820A0E1           MOV      R2,R8
+   \   00000154   050040E2           SUB      R0,R0,#+5
+   \   00000158   01002DE9           PUSH     {R0}
+    468             i++;
+   \   0000015C   016086E2           ADD      R6,R6,#+1
+   \   00000160   0000A0E3           MOV      R0,#+0
+   \   00000164   01002DE9           PUSH     {R0}
+   \   00000168   01002DE9           PUSH     {R0}
+   \   0000016C   01002DE9           PUSH     {R0}
+   \   00000170   0100A0E3           MOV      R0,#+1
+   \   00000174   01002DE9           PUSH     {R0}
+   \   00000178   E00094E5           LDR      R0,[R4, #+224]
+   \   0000017C   01002DE9           PUSH     {R0}
+   \   00000180   FA01DDE1           LDRSH    R0,[SP, #+26]
+   \   00000184   011040E2           SUB      R1,R0,#+1
+   \   00000188   F801DDE1           LDRSH    R0,[SP, #+24]
+   \   0000018C   030080E2           ADD      R0,R0,#+3
+   \   00000190   ........           _BLF     PrintText,??PrintText??rA
+    469             if(startItem+i >= MENU_ITEMS) break;
+   \   00000194   D00094E5           LDR      R0,[R4, #+208]
+   \   00000198   18D08DE2           ADD      SP,SP,#+24
+   \   0000019C   000086E0           ADD      R0,R6,R0
+   \   000001A0   190050E3           CMP      R0,#+25
+   \   000001A4   AEFFFFBA           BLT      ??MM_DrawList_0
+    470            }
+    471            mfree(s);
+   \                     ??MM_DrawList_1:
+   \   000001A8   0800A0E1           MOV      R0,R8
+   \   000001AC   150000EF           SWI      +21
+    472            UnlockSched();  
+   \   000001B0   470100EF           SWI      +327
+    473          }
+   \   000001B4   F383BDE8           POP      {R0,R1,R4-R9,PC}  ;; return
+   \                     ??MM_DrawList_2:
+   \   000001B8   25730000           DC8      "%s",+0
+   \   000001BC   ........           DC32     MMCursorBGClr
+   \   000001C0   ........           DC32     MMCursorClr
+    474          
+    475          // Управление курсором
+
+   \                                 In segment CODE, align 4, keep-with-next
+    476          void MM_MoveUp(int i)
+    477          {
+    478            if(mm_curpos > mm_itemFromDisp + 2 ){ mm_curpos--; }
+   \                     MM_MoveUp:
+   \   00000000   ........           LDR      R0,??DataTable59  ;; mm_rc
+   \   00000004   DC1090E5           LDR      R1,[R0, #+220]
+   \   00000008   D83090E5           LDR      R3,[R0, #+216]
+   \   0000000C   D02090E5           LDR      R2,[R0, #+208]
+   \   00000010   02C083E2           ADD      R12,R3,#+2
+   \   00000014   01005CE1           CMP      R12,R1
+   \   00000018   011041B2           SUBLT    R1,R1,#+1
+   \   0000001C   080000BA           BLT      ??MM_MoveUp_0
+    479            else
+    480              if(mm_curpos > 0){ mm_curpos--; if(startItem>0) startItem--; }
+   \   00000020   010051E3           CMP      R1,#+1
+   \   00000024   040000BA           BLT      ??MM_MoveUp_1
+   \   00000028   011041E2           SUB      R1,R1,#+1
+   \   0000002C   010052E3           CMP      R2,#+1
+   \   00000030   030000BA           BLT      ??MM_MoveUp_0
+   \   00000034   012042E2           SUB      R2,R2,#+1
+   \   00000038   010000EA           B        ??MM_MoveUp_0
+    481            else
+    482            {
+    483              mm_curpos=MENU_ITEMS-1;
+   \                     ??MM_MoveUp_1:
+   \   0000003C   1810A0E3           MOV      R1,#+24
+    484              startItem=MENU_ITEMS-mm_itemFromDisp;
+   \   00000040   192063E2           RSB      R2,R3,#+25
+   \                     ??MM_MoveUp_0:
+   \   00000044   D02080E5           STR      R2,[R0, #+208]
+   \   00000048   DC1080E5           STR      R1,[R0, #+220]
+    485            }
+    486          }
+   \   0000004C   1EFF2FE1           BX       LR               ;; return
+    487          
+    488          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    489          void MM_MoveDown(int i)
+    490          {
+    491            if(mm_curpos <mm_itemFromDisp - 5) mm_curpos++;
+   \                     MM_MoveDown:
+   \   00000000   ........           LDR      R0,??DataTable59  ;; mm_rc
+   \   00000004   DC1090E5           LDR      R1,[R0, #+220]
+   \   00000008   D83090E5           LDR      R3,[R0, #+216]
+   \   0000000C   D02090E5           LDR      R2,[R0, #+208]
+   \   00000010   05C043E2           SUB      R12,R3,#+5
+   \   00000014   0C0051E1           CMP      R1,R12
+   \   00000018   010000AA           BGE      ??MM_MoveDown_0
+   \                     ??MM_MoveDown_1:
+   \   0000001C   011081E2           ADD      R1,R1,#+1
+   \   00000020   080000EA           B        ??MM_MoveDown_2
+    492            else
+    493              if(mm_curpos < MENU_ITEMS - 1 ){if(startItem < MENU_ITEMS-mm_itemFromDisp) startItem++; mm_curpos++; }
+   \                     ??MM_MoveDown_0:
+   \   00000024   180051E3           CMP      R1,#+24
+   \   00000028   040000AA           BGE      ??MM_MoveDown_3
+   \   0000002C   193063E2           RSB      R3,R3,#+25
+   \   00000030   030052E1           CMP      R2,R3
+   \   00000034   F8FFFFAA           BGE      ??MM_MoveDown_1
+   \   00000038   012082E2           ADD      R2,R2,#+1
+   \   0000003C   F6FFFFEA           B        ??MM_MoveDown_1
+    494            else   
+    495            {
+    496              mm_curpos=0;
+   \                     ??MM_MoveDown_3:
+   \   00000040   0010A0E3           MOV      R1,#+0
+    497              startItem=0;
+   \   00000044   0020A0E3           MOV      R2,#+0
+   \                     ??MM_MoveDown_2:
+   \   00000048   D02080E5           STR      R2,[R0, #+208]
+   \   0000004C   DC1080E5           STR      R1,[R0, #+220]
+    498            }
+    499          }
+   \   00000050   1EFF2FE1           BX       LR               ;; return
+    500          
+    501          extern IMGHDR screen;
+    502          extern void DrawSoftKeys(char *right,char *left);
+    503          extern void DrawContactList();
+    504          extern void DrawHeader();
+    505          extern int hy;
+
+   \                                 In segment CODE, align 4, keep-with-next
+    506          static void MM_OnRedraw(MAIN_GUI *data)
+    507          {
+   \                     MM_OnRedraw:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    508            LockSched();
+    509            DrwImage(&screen,0,hy+2,0,0);
+   \   00000004   ........           LDR      R4,??DataTable58  ;; hy
+   \   00000008   460100EF           SWI      +326
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   01002DE9           PUSH     {R0}
+   \   00000014   000094E5           LDR      R0,[R4, #+0]
+   \   00000018   0030A0E3           MOV      R3,#+0
+   \   0000001C   022080E2           ADD      R2,R0,#+2
+   \   00000020   94009FE5           LDR      R0,??MM_OnRedraw_0  ;; screen
+   \   00000024   0310A0E1           MOV      R1,R3
+   \   00000028   ........           _BLF     DrwImage,??DrwImage??rA
+    510            DrawRoundedFrame(0,hy+2,ScreenW()-1,ScreenH()-1,0,0,0,"\x00\x00\x00\x15","\x00\x00\x00\x15");
+   \   0000002C   898100EF           SWI      +33161
+   \   00000030   0050A0E1           MOV      R5,R0
+   \   00000034   888100EF           SWI      +33160
+   \   00000038   ........           LDR      R1,??DataTable57  ;; `?<Constant "\\000\\000\\000\\025">`
+   \   0000003C   013045E2           SUB      R3,R5,#+1
+   \   00000040   0120A0E1           MOV      R2,R1
+   \   00000044   04002DE9           PUSH     {R2}
+   \   00000048   02002DE9           PUSH     {R1}
+   \   0000004C   0010A0E3           MOV      R1,#+0
+   \   00000050   02002DE9           PUSH     {R1}
+   \   00000054   02002DE9           PUSH     {R1}
+   \   00000058   02002DE9           PUSH     {R1}
+   \   0000005C   012040E2           SUB      R2,R0,#+1
+   \   00000060   000094E5           LDR      R0,[R4, #+0]
+   \   00000064   021080E2           ADD      R1,R0,#+2
+   \   00000068   0000A0E3           MOV      R0,#+0
+   \   0000006C   500100EF           SWI      +336
+    511            DrawRoundedFrame(mm_rc.x,mm_rc.y-2,mm_rc.x2,mm_rc.y2,0,0,0,MMBackgrBordClr,MMBackgrClr);
+   \   00000070   48109FE5           LDR      R1,??MM_OnRedraw_0+0x4  ;; MMBackgrClr
+   \   00000074   ........           LDR      R0,??DataTable56  ;; mm_rc
+   \   00000078   02002DE9           PUSH     {R1}
+   \   0000007C   40109FE5           LDR      R1,??MM_OnRedraw_0+0x8  ;; MMBackgrBordClr
+   \   00000080   02002DE9           PUSH     {R1}
+   \   00000084   0010A0E3           MOV      R1,#+0
+   \   00000088   02002DE9           PUSH     {R1}
+   \   0000008C   02002DE9           PUSH     {R1}
+   \   00000090   02002DE9           PUSH     {R1}
+   \   00000094   F630D0E1           LDRSH    R3,[R0, #+6]
+   \   00000098   F420D0E1           LDRSH    R2,[R0, #+4]
+   \   0000009C   F210D0E1           LDRSH    R1,[R0, #+2]
+   \   000000A0   F000D0E1           LDRSH    R0,[R0, #+0]
+   \   000000A4   021041E2           SUB      R1,R1,#+2
+   \   000000A8   500100EF           SWI      +336
+   \   000000AC   2CD08DE2           ADD      SP,SP,#+44
+    512            UnlockSched();
+   \   000000B0   470100EF           SWI      +327
+    513          //  DrawSoftKeys(LG_SELECT,LG_CLOSE);
+    514            MM_DrawList();
+   \   000000B4   ........           BL       MM_DrawList
+    515          }
+   \   000000B8   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??MM_OnRedraw_0:
+   \   000000BC   ........           DC32     screen
+   \   000000C0   ........           DC32     MMBackgrClr
+   \   000000C4   ........           DC32     MMBackgrBordClr
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     mm_rc:
+   \   00000000                      DS8 8
+   \   00000008                      REQUIRE `?<Initializer for mm_rc>`
+   \                     menutexts:
+   \   00000008                      DS8 100
+   \   0000006C                      REQUIRE `?<Initializer for menutexts>`
+   \   0000006C                      DS8 100
+   \   000000D0                      REQUIRE `?<Initializer for menuprocs>`
+   \                     startItem:
+   \   000000D0                      DS8 4
+   \   000000D4                      REQUIRE `?<Initializer for startItem>`
+   \                     x2_cb:
+   \   000000D4                      DS8 4
+   \   000000D8                      REQUIRE `?<Initializer for x2_cb>`
+   \                     mm_itemFromDisp:
+   \   000000D8                      DS8 4
+   \   000000DC                      REQUIRE `?<Initializer for mm_itemFromDisp>`
+   \                     mm_curpos:
+   \   000000DC                      DS8 4
+   \   000000E0                      REQUIRE `?<Initializer for mm_curpos>`
+   \                     mm_font:
+   \   000000E0                      DS8 4
+   \   000000E4                      REQUIRE `?<Initializer for mm_font>`
+    516          /*
+    517          
+    518          static void do_logwrite(char *text)
+    519          {
+    520            int hFile;
+    521            unsigned int io_error = 0;
+    522            hFile = fopen("4:\\nat.txt",A_ReadWrite + A_Create + A_Append,P_READ+P_WRITE, &io_error);
+    523            if(hFile!=-1)
+    524            {
+    525              fwrite(hFile, text, strlen(text), &io_error);
+    526              fwrite(hFile, "\r\n", 2, &io_error);
+    527              fclose(hFile, &io_error);
+    528            }
+    529            else
+    530              ShowMSG(1,(int)"Error!");
+    531          //  mfree(text);
+    532          }
+    533          */
+    534          int one_use=0;
+   \                     one_use:
+   \   000000E4                      DS8 4
+   \   000000E8                      REQUIRE `?<Initializer for one_use>`
+
+   \                                 In segment CODE, align 4, keep-with-next
+    535          static void MM_onCreate(MAIN_GUI *data, void *(*malloc_adr)(int))
+    536          {
+   \                     MM_onCreate:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+    537          #ifdef ELKA
+    538            #ifndef ICONBAR
+    539              DisableIconBar(1);
+    540            #endif
+    541          #endif
+    542            mm_font=clfont;
+   \   00000004   14619FE5           LDR      R6,??MM_onCreate_0  ;; clfont
+   \   00000008   ........           LDR      R5,??DataTable56  ;; mm_rc
+    543            DrawSoftKeys(LG_SELECT,LG_CLOSE);//рисуем софты и фоткаем их ;)
+   \   0000000C   ........           LDR      R7,??DataTable57  ;; `?<Constant "\\000\\000\\000\\025">`
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   0100A0E3           MOV      R0,#+1
+   \   00000018   3B0200EF           SWI      +571
+   \   0000001C   000096E5           LDR      R0,[R6, #+0]
+   \   00000020   101087E2           ADD      R1,R7,#+16
+   \   00000024   E00085E5           STR      R0,[R5, #+224]
+   \   00000028   080087E2           ADD      R0,R7,#+8
+   \   0000002C   ........           _BLF     DrawSoftKeys,??DrawSoftKeys??rA
+    544            DoScreen();
+   \   00000030   ........           _BLF     DoScreen,??DoScreen??rA
+    545            if(!one_use)
+   \   00000034   E40095E5           LDR      R0,[R5, #+228]
+   \   00000038   0180A0E3           MOV      R8,#+1
+   \   0000003C   000050E3           CMP      R0,#+0
+   \   00000040   2200001A           BNE      ??MM_onCreate_1
+    546            {
+    547              mm_rc.x=0;
+   \   00000044   B000C5E1           STRH     R0,[R5, #+0]
+    548              mm_rc.y=YDISP+20;
+   \   00000048   2C10A0E3           MOV      R1,#+44
+   \   0000004C   B210C5E1           STRH     R1,[R5, #+2]
+    549              mm_rc.x2=0;//ScreenW()-30;
+   \   00000050   B400C5E1           STRH     R0,[R5, #+4]
+    550            
+    551              //char *s=malloc(256);
+    552              PrintField(0,YDISP,menutexts[6],0,mm_font,1);
+   \   00000054   0100A0E3           MOV      R0,#+1
+   \   00000058   01002DE9           PUSH     {R0}
+   \   0000005C   E00095E5           LDR      R0,[R5, #+224]
+   \   00000060   0030A0E3           MOV      R3,#+0
+   \   00000064   01002DE9           PUSH     {R0}
+   \   00000068   202095E5           LDR      R2,[R5, #+32]
+   \   0000006C   1810A0E3           MOV      R1,#+24
+   \   00000070   0300A0E1           MOV      R0,R3
+   \   00000074   ........           _BLF     PrintField,??PrintField??rA
+    553              int len=GetWidth(0,YDISP);
+   \   00000078   1810A0E3           MOV      R1,#+24
+   \   0000007C   0000A0E3           MOV      R0,#+0
+   \   00000080   ........           _BLF     GetWidth,??GetWidth??rA
+   \   00000084   0090A0E1           MOV      R9,R0
+    554          #ifdef ELKA
+    555              mm_rc.x2=ScreenW()-(len/4);
+   \   00000088   888100EF           SWI      +33160
+   \   0000008C   C910A0E1           ASR      R1,R9,#+1
+   \   00000090   211F89E0           ADD      R1,R9,R1, LSR #+30
+   \   00000094   4111A0E1           ASR      R1,R1,#+2
+   \   00000098   010040E0           SUB      R0,R0,R1
+   \   0000009C   B400C5E1           STRH     R0,[R5, #+4]
+    556          #else  
+    557              mm_rc.x2=len;
+    558          #endif
+    559            //  sprintf(s,"%s | %d | %d",    menutexts[6],len,mm_rc.x2);
+    560              //do_logwrite(s);
+    561              //mfree(s);
+    562              
+    563             /* char *s=malloc(256);
+    564              for(int i=0;i<MENU_ITEMS;i++)
+    565              {
+    566                PrintField(0,YDISP,menutexts[i],0,mm_font,1);
+    567                int len=GetWidth(0,YDISP);
+    568                if(len>mm_rc.x2) mm_rc.x2=len;      
+    569                sprintf(s,"%s | %d | %d",    menutexts[i],len,mm_rc.x2);
+    570                do_logwrite(s);
+    571              }
+    572              mfree(s);*/
+    573              mm_rc.x2+=5;
+   \   000000A0   F400D5E1           LDRSH    R0,[R5, #+4]
+   \   000000A4   050080E2           ADD      R0,R0,#+5
+   \   000000A8   B400C5E1           STRH     R0,[R5, #+4]
+    574            //  mm_rc.x2=ScreenW()-50;
+    575              mm_rc.y2=ScreenH()-FontH(clfont)-3;
+   \   000000AC   898100EF           SWI      +33161
+   \   000000B0   0090A0E1           MOV      R9,R0
+   \   000000B4   000096E5           LDR      R0,[R6, #+0]
+   \   000000B8   ........           _BLF     FontH,??FontH??rA
+   \   000000BC   000049E0           SUB      R0,R9,R0
+   \   000000C0   030040E2           SUB      R0,R0,#+3
+   \   000000C4   B600C5E1           STRH     R0,[R5, #+6]
+    576              one_use=1;
+   \   000000C8   E48085E5           STR      R8,[R5, #+228]
+   \   000000CC   08D08DE2           ADD      SP,SP,#+8
+    577            }
+    578            SetCanvasFlag(1);
+   \                     ??MM_onCreate_1:
+   \   000000D0   0100A0E3           MOV      R0,#+1
+   \   000000D4   ........           _BLF     SetCanvasFlag,??SetCanvasFlag??rA
+    579          #ifdef ICONBAR
+    580              DrawRoundedFrame(0,YDISP,ScreenW()-1,hy+2,0,0,0,"\x00\x00\x00\x15","\x00\x00\x00\x15");
+    581          #else
+    582              DrawRoundedFrame(0,0,ScreenW()-1,hy+2,0,0,0,"\x00\x00\x00\x15","\x00\x00\x00\x15");
+   \   000000D8   888100EF           SWI      +33160
+   \   000000DC   0710A0E1           MOV      R1,R7
+   \   000000E0   02002DE9           PUSH     {R1}
+   \   000000E4   80002DE9           PUSH     {R7}
+   \   000000E8   012040E2           SUB      R2,R0,#+1
+   \   000000EC   0010A0E3           MOV      R1,#+0
+   \   000000F0   02002DE9           PUSH     {R1}
+   \   000000F4   02002DE9           PUSH     {R1}
+   \   000000F8   02002DE9           PUSH     {R1}
+   \   000000FC   ........           LDR      R1,??DataTable58  ;; hy
+   \   00000100   001091E5           LDR      R1,[R1, #+0]
+   \   00000104   023081E2           ADD      R3,R1,#+2
+   \   00000108   0010A0E3           MOV      R1,#+0
+   \   0000010C   0100A0E1           MOV      R0,R1
+   \   00000110   500100EF           SWI      +336
+    583          #endif
+    584            
+    585            data->gui.state=1;
+   \   00000114   0C80C4E5           STRB     R8,[R4, #+12]
+    586          }
+   \   00000118   14D08DE2           ADD      SP,SP,#+20
+   \   0000011C   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??MM_onCreate_0:
+   \   00000120   ........           DC32     clfont
+    587          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    588          static void MM_onClose(MAIN_GUI *data, void (*mfree_adr)(void *))
+    589          {
+   \                     MM_onClose:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    590            mfree(screen.bitmap);
+   \   00000008   10009FE5           LDR      R0,??MM_onClose_0  ;; screen + 8
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   150000EF           SWI      +21
+    591            data->gui.state=0;
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   0C00C4E5           STRB     R0,[R4, #+12]
+    592          }
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??MM_onClose_0:
+   \   00000020   ........           DC32     screen + 8
+    593          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    594          static void MM_onFocus(MAIN_GUI *data, void *(*malloc_adr)(int), void (*mfree_adr)(void *))
+    595          {
+   \                     MM_onFocus:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    596          #ifdef ELKA
+    597            #ifndef ICONBAR
+    598              DisableIconBar(1);
+   \   00000008   0100A0E3           MOV      R0,#+1
+   \   0000000C   3B0200EF           SWI      +571
+    599            #endif
+    600          #endif
+    601            DrawHeader();
+   \   00000010   ........           _BLF     DrawHeader,??DrawHeader??rA
+    602            SetCanvasFlag(1);
+   \   00000014   0100A0E3           MOV      R0,#+1
+   \   00000018   ........           _BLF     SetCanvasFlag,??SetCanvasFlag??rA
+    603            data->gui.state=2;
+   \   0000001C   0200A0E3           MOV      R0,#+2
+   \   00000020   0C00C4E5           STRB     R0,[R4, #+12]
+    604            DisableIDLETMR();
+   \   00000024   7F0100EF           SWI      +383
+    605          }
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+    606          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    607          static void MM_onUnfocus(MAIN_GUI *data, void (*mfree_adr)(void *))
+    608          {
+    609            if (data->gui.state!=2) return;
+   \                     MM_onUnfocus:
+   \   00000000   0C10D0E5           LDRB     R1,[R0, #+12]
+   \   00000004   020051E3           CMP      R1,#+2
+    610            data->gui.state=1;
+   \   00000008   0110A003           MOVEQ    R1,#+1
+   \   0000000C   0C10C005           STRBEQ   R1,[R0, #+12]
+    611          }
+   \   00000010   1EFF2FE1           BX       LR               ;; return
+    612          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    613          static int MM_OnKey(MAIN_GUI *data, GUI_MSG *msg)
+    614          {
+   \                     MM_OnKey:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    615            DirectRedrawGUI(); 
+   \   00000008   3F0100EF           SWI      +319
+    616            int k=msg->gbsmsg->submess;
+   \   0000000C   045094E5           LDR      R5,[R4, #+4]
+    617          
+    618            if (msg->gbsmsg->msg==KEY_DOWN || msg->gbsmsg->msg==LONG_PRESS)
+   \   00000010   9360A0E3           MOV      R6,#+147
+   \   00000014   040095E5           LDR      R0,[R5, #+4]
+   \   00000018   084095E5           LDR      R4,[R5, #+8]
+   \   0000001C   406F86E3           ORR      R6,R6,#0x100
+   \   00000020   060050E1           CMP      R0,R6
+   \   00000024   02108612           ADDNE    R1,R6,#+2
+   \   00000028   01005011           CMPNE    R0,R1
+   \   0000002C   0B00001A           BNE      ??MM_OnKey_0
+    619            {
+    620              switch(k)
+   \   00000030   040054E2           SUBS     R0,R4,#+4
+   \   00000034   08005012           SUBSNE   R0,R0,#+8
+   \   00000038   2400000A           BEQ      ??MM_OnKey_1
+   \   0000003C   2F0050E2           SUBS     R0,R0,#+47
+   \   00000040   0400000A           BEQ      ??MM_OnKey_2
+   \   00000044   010050E2           SUBS     R0,R0,#+1
+   \   00000048   1D00000A           BEQ      ??MM_OnKey_3
+   \   0000004C   010050E2           SUBS     R0,R0,#+1
+   \   00000050   1E00000A           BEQ      ??MM_OnKey_1
+   \   00000054   010000EA           B        ??MM_OnKey_0
+    621              {
+    622                case UP_BUTTON:   MM_MoveUp(0);   break;
+   \                     ??MM_OnKey_2:
+   \   00000058   0000A0E3           MOV      R0,#+0
+   \   0000005C   ........           BL       MM_MoveUp
+    623                case DOWN_BUTTON: MM_MoveDown(0); break;
+    624                case LEFT_BUTTON: case RIGHT_SOFT:case RED_BUTTON: return (1);
+    625               // case ENTER_BUTTON: case LEFT_SOFT: ((void (*)(void))(menuprocs[mm_curpos]))(); REDRAW(); break;
+    626              }
+    627            }   
+    628          
+    629            if (msg->gbsmsg->msg==KEY_DOWN)
+   \                     ??MM_OnKey_0:
+   \   00000060   040095E5           LDR      R0,[R5, #+4]
+   \   00000064   060050E1           CMP      R0,R6
+   \   00000068   1300001A           BNE      ??MM_OnKey_4
+    630            {
+    631              switch(k)
+   \   0000006C   ........           LDR      R5,??DataTable59  ;; mm_rc
+   \   00000070   010054E2           SUBS     R0,R4,#+1
+   \   00000074   19005012           SUBSNE   R0,R0,#+25
+   \   00000078   24005012           SUBSNE   R0,R0,#+36
+   \   0000007C   0400001A           BNE      ??MM_OnKey_5
+    632              {  
+    633                case ENTER_BUTTON: case LEFT_SOFT: case RIGHT_BUTTON:
+    634                    ((void (*)(void))(menuprocs[mm_curpos]))();
+   \   00000080   DC0095E5           LDR      R0,[R5, #+220]
+   \   00000084   000185E0           ADD      R0,R5,R0, LSL #+2
+   \   00000088   6C0090E5           LDR      R0,[R0, #+108]
+   \   0000008C   30FF2FE1           BLX      R0
+    635                    REDRAW();
+   \   00000090   720100EF           SWI      +370
+    636                    break;
+    637              }
+    638              
+    639              if(k>='0' && k<= '9'){ ((void (*)(void))(menuprocs[k-'1']))(); mm_curpos=k-'1'; REDRAW();}
+   \                     ??MM_OnKey_5:
+   \   00000094   300054E3           CMP      R4,#+48
+   \   00000098   070000BA           BLT      ??MM_OnKey_4
+   \   0000009C   3A0054E3           CMP      R4,#+58
+   \   000000A0   050000AA           BGE      ??MM_OnKey_4
+   \   000000A4   040185E0           ADD      R0,R5,R4, LSL #+2
+   \   000000A8   580010E5           LDR      R0,[R0, #-88]
+   \   000000AC   30FF2FE1           BLX      R0
+   \   000000B0   310044E2           SUB      R0,R4,#+49
+   \   000000B4   DC0085E5           STR      R0,[R5, #+220]
+   \   000000B8   720100EF           SWI      +370
+    640            }   
+    641          
+    642            return(0);
+   \                     ??MM_OnKey_4:
+   \   000000BC   0000A0E3           MOV      R0,#+0
+   \   000000C0   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??MM_OnKey_3:
+   \   000000C4   0000A0E3           MOV      R0,#+0
+   \   000000C8   ........           BL       MM_MoveDown
+   \   000000CC   E3FFFFEA           B        ??MM_OnKey_0
+   \                     ??MM_OnKey_1:
+   \   000000D0   0100A0E3           MOV      R0,#+1
+   \   000000D4   7080BDE8           POP      {R4-R6,PC}
+    643          }
+    644          
+    645          extern void kill_data(void *p, void (*func_p)(void *));
+    646          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    647          int MM_method8(void){return(0);}
+   \                     MM_method8:
+   \   00000000   0000A0E3           MOV      R0,#+0
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+    648          int MM_method9(void){return(0);}
+   \                     MM_method9:
+   \   00000000   0000A0E3           MOV      R0,#+0
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+    649          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    650          const void * const gui_methods_2[11]={
+   \                     gui_methods_2:
+   \   00000000   ............       DC32 MM_OnRedraw, MM_onCreate, MM_onClose, MM_onFocus, MM_onUnfocus
+   \              ............
+   \              ............
+   \              ....        
+   \   00000014   ........0000       DC32 MM_OnKey, 0H, kill_data, MM_method8, MM_method9, 0H
+   \              0000........
+   \              ............
+   \              ....00000000
+    651            (void *)MM_OnRedraw,
+    652            (void *)MM_onCreate,
+    653            (void *)MM_onClose,
+    654            (void *)MM_onFocus,
+    655            (void *)MM_onUnfocus,
+    656            (void *)MM_OnKey,
+    657            0,
+    658            (void *)kill_data,
+    659            (void *)MM_method8,
+    660            (void *)MM_method9,
+    661            0
+    662          };
+    663          
+    664          const RECT MM_Canvas={0,0,0,0};
+   \                     MM_Canvas:
+   \   0000002C   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+    665          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    666          void CreateMainMenu()
+    667          {
+   \                     CreateMainMenu:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    668            MAIN_GUI *main_gui=malloc(sizeof(MAIN_GUI));
+   \   00000004   4000A0E3           MOV      R0,#+64
+   \   00000008   140000EF           SWI      +20
+   \   0000000C   0040A0E1           MOV      R4,R0
+    669            zeromem(main_gui,sizeof(MAIN_GUI));
+   \   00000010   4010A0E3           MOV      R1,#+64
+   \   00000014   1D0100EF           SWI      +285
+    670            main_gui->gui.canvas=(void *)(&MM_Canvas);
+   \   00000018   24009FE5           LDR      R0,??CreateMainMenu_0  ;; gui_methods_2
+   \   0000001C   2C1080E2           ADD      R1,R0,#+44
+   \   00000020   001084E5           STR      R1,[R4, #+0]
+    671            main_gui->gui.methods=(void *)gui_methods_2;
+   \   00000024   040084E5           STR      R0,[R4, #+4]
+    672            main_gui->gui.item_ll.data_mfree=(void (*)(void *))mfree_adr();
+   \   00000028   158000EF           SWI      +32789
+   \   0000002C   200084E5           STR      R0,[R4, #+32]
+    673            //patch_rect((RECT*)&Canvas,0,YDISP,ScreenW()-1,ScreenH()-1);
+    674            MainMenu_ID=CreateGUI(main_gui);   
+   \   00000030   0400A0E1           MOV      R0,R4
+   \   00000034   370100EF           SWI      +311
+   \   00000038   08109FE5           LDR      R1,??CreateMainMenu_0+0x4  ;; MainMenu_ID
+   \   0000003C   000081E5           STR      R0,[R1, #+0]
+    675          }
+   \   00000040   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??CreateMainMenu_0:
+   \   00000044   ........           DC32     gui_methods_2
+   \   00000048   ........           DC32     MainMenu_ID
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable27:
+   \   00000000   ........           DC32     WriteDefSettings
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable31:
+   \   00000000   ........           DC32     CurrentStatus
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable32:
+   \   00000000   ........           DC32     away_m
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable33:
+   \   00000000   ........           DC32     Is_Vibra_Enabled
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable34:
+   \   00000000   ........           DC32     Is_Sounds_Enabled
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable35:
+   \   00000000   ........           DC32     Is_INC_On
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable36:
+   \   00000000   ........           DC32     Is_SMARTCPU_On
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable37:
+   \   00000000   ........           DC32     Is_Double_Vibra_On
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable38:
+   \   00000000   ........           DC32     Is_ILU_On
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable39:
+   \   00000000   ........           DC32     Is_PING_On
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable40:
+   \   00000000   ........           DC32     Is_UPTIME_On
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable41:
+   \   00000000   ........           DC32     Is_Show_Offline
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable42:
+   \   00000000   ........           DC32     Is_Show_Groups
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable43:
+   \   00000000   ........           DC32     IsActiveUp
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable44:
+   \   00000000   ........           DC32     Is_Id3tag_Enabled
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable45:
+   \   00000000   ........           DC32     Is_SLI_On
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable49:
+   \   00000000   ........           DC32     transparent
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable50:
+   \   00000000   ........           DC32     clrWhite
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable56:
+   \   00000000   ........           DC32     mm_rc
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable57:
+   \   00000000   ........           DC32     `?<Constant "\\000\\000\\000\\025">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable58:
+   \   00000000   ........           DC32     hy
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable59:
+   \   00000000   ........           DC32     mm_rc
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for mm_rc>`:
+   \   00000000   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for menutexts>`:
+   \   00000008   ........           DC32 `?<Constant "\\321\\362\\340\\362\\363\\361">`
+   \   0000000C   ........           DC32 `?<Constant "X-\\321\\362\\340\\362\\363\\361">`
+   \   00000010   ........           DC32 `?<Constant "\\323\\357\\360\\340\\342\\353\\345\\355\\3`
+   \   00000014   ........           DC32 `?<Constant "\\300\\342\\362\\356\\356\\362\\342\\345\\3`
+   \   00000018   ........           DC32 `?<Constant "\\320\\345\\346\\350\\354 \\342\\350\\341\\`
+   \   0000001C   ........           DC32 `?<Constant "\\320\\345\\346\\350\\354 \\347\\342\\363\\`
+   \   00000020   ........           DC32 `?<Constant "\\302\\361\\357\\353\\373\\342\\340\\376\\3`
+   \   00000024   ........           DC32 `?<Constant "\\321\\356\\356\\341\\371\\345\\355\\350\\3`
+   \   00000028   ........           DC32 `?<Constant "\\320\\345\\346\\350\\354 \\355\\340\\357\\`
+   \   0000002C   ........           DC32 `?<Constant "\\320\\345\\346\\350\\354 \\357\\356\\344\\`
+   \   00000030   ........           DC32 `?<Constant "\\300\\342\\362\\356\\354\\340\\362\\350\\3`
+   \   00000034   ........           DC32 `?<Constant "\\302\\360\\345\\354\\377 \\360\\340\\341\\`
+   \   00000038   ........           DC32 `?<Constant "\\316\\364\\364. \\352\\356\\355\\362\\340`
+   \   0000003C   ........           DC32 `?<Constant "\\303\\360\\363\\357\\357\\373">`
+   \   00000040   ........           DC32 `?<Constant "\\315\\340\\361\\362\\360\\356\\351\\352\\3`
+   \   00000044   ........           DC32 `?<Constant "\\315\\340\\361\\362\\360\\356\\351\\352\\3_1`
+   \   00000048   ........           DC32 `?<Constant "\\316\\341\\356\\360\\342\\340\\362\\374 \\`
+   \   0000004C   ........           DC32 `?<Constant "\\310\\355\\364\\356 \\356 \\361\\356\\356`
+   \   00000050   ........           DC32 `?<Constant "\\321\\356\\365\\360\\340\\355\\350\\362\\3`
+   \   00000054   ........           DC32 `?<Constant "\\317\\350\\355\\343">`
+   \   00000058   ........           DC32 `?<Constant "\\316\\341 \\375\\353\\374\\364\\345">`
+   \   0000005C   ........           DC32 `?<Constant "\\300\\352\\362\\350\\342\\355\\373\\345 \\`
+   \   00000060   ........           DC32 `?<Constant "\\316\\362\\352\\360\\373\\362\\374 \\353\\`
+   \   00000064   ........           DC32 `?<Constant "\\320\\345\\346\\350\\354 Id3tag">`
+   \   00000068   ........           DC32 `?<Constant "\\320\\345\\346\\350\\354 SLI">`
+   \                     `?<Initializer for menuprocs>`:
+   \   0000006C   ............       DC32 CreateSCMenu, CreateXSMenu, CreateManageCLMenu, AutoAwayMSG
+   \              ............
+   \              ........    
+   \   0000007C   ............       DC32 ChangeVibraMode, ChangeSoundMode, ChangeINCMode
+   \              ............
+   \   00000088   ............       DC32 ChangeSMARTCPUMode, ChangeDoubleVibra, ChangeILUMode
+   \              ............
+   \   00000094   ............       DC32 ChangePINGMode, ChangeUPTIMEMode, ChangeShowOfflineMode
+   \              ............
+   \   000000A0   ............       DC32 ChangeShowGroupsMode, EditConfig, EditConfigMod, Disconnect
+   \              ............
+   \              ........    
+   \   000000B0   ............       DC32 MSG_Info, SaveCL, PingToServer, AboutDlg, ChangeActiveUp
+   \              ............
+   \              ............
+   \              ....        
+   \   000000C4   ............       DC32 CreateLogs, ChangeId3tagMode, ChangeSLIMode
+   \              ............
+   \                     `?<Initializer for startItem>`:
+   \   000000D0   00000000           DC32 0
+   \                     `?<Initializer for x2_cb>`:
+   \   000000D4   0A000000           DC32 10
+   \                     `?<Initializer for mm_itemFromDisp>`:
+   \   000000D8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for mm_curpos>`:
+   \   000000DC   00000000           DC32 0
+   \                     `?<Initializer for mm_font>`:
+   \   000000E0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for one_use>`:
+   \   000000E4   00000000           DC32 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\315\\340\\361\\362\\360\\356\\351\\352\\3`:
+   \   00000000   CDE0F1F2F0EE       DC8 "\315\340\361\362\360\356\351\352\350"
+   \              E9EAE800    
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\315\\340\\361\\362\\360\\356\\351\\352\\3_1`:
+   \   00000000   CDE0F1F2F0EE       DC8 "\315\340\361\362\360\356\351\352\350 \354\356\344\340"
+   \              E9EAE820ECEE
+   \              E4E000      
+   \   0000000F   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\341\\356\\360\\342\\340\\362\\374 \\`:
+   \   00000000   CEE1EEF0E2E0       DC8 "\316\341\356\360\342\340\362\374 \361\342\377\347\374"
+   \              F2FC20F1E2FF
+   \              E7FC00      
+   \   0000000F   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\310\\355\\364\\356 \\356 \\361\\356\\356`:
+   \   00000000   C8EDF4EE20EE       DC8 "\310\355\364\356 \356 \361\356\356\341\371\345\355\350\377\365"
+   \              20F1EEEEE1F9
+   \              E5EDE8FFF500
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\356\\365\\360\\340\\355\\350\\362\\3`:
+   \   00000000   D1EEF5F0E0ED       DC8 "\321\356\365\360\340\355\350\362\374 \312\313"
+   \              E8F2FC20CACB
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\317\\350\\355\\343">`:
+   \   00000000   CFE8EDE300         DC8 "\317\350\355\343"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\356\\356\\341\\371\\345\\355\\350\\3`:
+   \   00000000   D1EEEEE1F9E5       DC8 "\321\356\356\341\371\345\355\350\377 \355\340 \343\375"
+   \              EDE8FF20EDE0
+   \              20E3FD00    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\341 \\375\\353\\374\\364\\345">`:
+   \   00000000   CEE120FDEBFC       DC8 "\316\341 \375\353\374\364\345"
+   \              F4E500      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\300\\352\\362\\350\\342\\355\\373\\345 \\`:
+   \   00000000   C0EAF2E8E2ED       DC8 "\300\352\362\350\342\355\373\345 \342\342\345\360\365\363"
+   \              FBE520E2E2E5
+   \              F0F5F300    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\362\\352\\360\\373\\362\\374 \\353\\`:
+   \   00000000   CEF2EAF0FBF2       DC8 "\316\362\352\360\373\362\374 \353\356\343"
+   \              FC20EBEEE300
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\320\\345\\346\\350\\354 Id3tag">`:
+   \   00000000   D0E5E6E8EC20       DC8 "\320\345\346\350\354 Id3tag"
+   \              496433746167
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "NATICQ v2.0\\nRevision ...">`:
+   \   00000000   4E4154494351       DC8 4EH, 41H, 54H, 49H, 43H, 51H, 20H, 76H
+   \              2076        
+   \   00000008   322E300A5265       DC8 32H, 2EH, 30H, 0AH, 52H, 65H, 76H, 69H
+   \              7669        
+   \   00000010   73696F6E2025       DC8 73H, 69H, 6FH, 6EH, 20H, 25H, 64H, 0AH
+   \              640A        
+   \   00000018   284329206279       DC8 28H, 43H, 29H, 20H, 62H, 79H, 20H, 52H
+   \              2052        
+   \   00000020   7374372F4342       DC8 73H, 74H, 37H, 2FH, 43H, 42H, 53H, 49H
+   \              5349        
+   \   00000028   450A4B72656E       DC8 45H, 0AH, 4BH, 72H, 65H, 6EH, 0AH, 4BH
+   \              0A4B        
+   \   00000030   696261620A53       DC8 69H, 62H, 61H, 62H, 0AH, 53H, 68H, 61H
+   \              6861        
+   \   00000038   646F770A5365       DC8 64H, 6FH, 77H, 0AH, 53H, 65H, 6BH, 6CH
+   \              6B6C        
+   \   00000040   746800             DC8 74H, 68H, 0
+   \   00000043   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\362\\357\\360\\340\\342\\353\\345\\3`:
+   \   00000000   CEF2EFF0E0E2       DC8 "\316\362\357\360\340\342\353\345\355\356: %d\012\317\360\350\355\377\362\356: %d"
+   \              EBE5EDEE3A20
+   \              25640ACFF0E8
+   \              EDFFF2EE3A20
+   \              256400      
+   \   0000001B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   257300             DC8 "%s"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\000\\000\\000\\025">`:
+   \   00000000   0000001500         DC8 0, 0, 0, 15H, 0
+   \   00000005   000000             DC8 0, 0, 0
+   \   00000008   C2FBE1EEF000       DC8 "\302\373\341\356\360"
+   \   0000000E   0000               DC8 0, 0
+   \   00000010   C7E0EAF0FBF2       DC8 "\307\340\352\360\373\362\374"
+   \              FC00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\362\\340\\362\\363\\361">`:
+   \   00000000   D1F2E0F2F3F1       DC8 "\321\362\340\362\363\361"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "X-\\321\\362\\340\\362\\363\\361">`:
+   \   00000000   582DD1F2E0F2       DC8 "X-\321\362\340\362\363\361"
+   \              F3F100      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\323\\357\\360\\340\\342\\353\\345\\355\\3`:
+   \   00000000   D3EFF0E0E2EB       DC8 "\323\357\360\340\342\353\345\355\350\345 \361\357\350\361\352\356\354"
+   \              E5EDE8E520F1
+   \              EFE8F1EAEEEC
+   \              00          
+   \   00000013   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\300\\342\\362\\356\\356\\362\\342\\345\\3`:
+   \   00000000   C0E2F2EEEEF2       DC8 "\300\342\362\356\356\362\342\345\362\367\350\352"
+   \              E2E5F2F7E8EA
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\320\\345\\346\\350\\354 \\342\\350\\341\\`:
+   \   00000000   D0E5E6E8EC20       DC8 "\320\345\346\350\354 \342\350\341\360\373"
+   \              E2E8E1F0FB00
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\320\\345\\346\\350\\354 \\347\\342\\363\\`:
+   \   00000000   D0E5E6E8EC20       DC8 "\320\345\346\350\354 \347\342\363\352\340"
+   \              E7E2F3EAE000
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\302\\361\\357\\353\\373\\342\\340\\376\\3`:
+   \   00000000   C2F1EFEBFBE2       DC8 "\302\361\357\353\373\342\340\376\371\350\345 \361\356\341\371\345\355\350\377"
+   \              E0FEF9E8E520
+   \              F1EEE1F9E5ED
+   \              E8FF00      
+   \   00000015   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\320\\345\\346\\350\\354 SLI">`:
+   \   00000000   D0E5E6E8EC20       DC8 "\320\345\346\350\354 SLI"
+   \              534C4900    
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\320\\345\\346\\350\\354 \\355\\340\\357\\`:
+   \   00000000   D0E5E6E8EC20       DC8 "\320\345\346\350\354 \355\340\357\356\354\350\355\340\355\350\377"
+   \              EDE0EFEEECE8
+   \              EDE0EDE8FF00
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\320\\345\\346\\350\\354 \\357\\356\\344\\`:
+   \   00000000   D0E5E6E8EC20       DC8 "\320\345\346\350\354 \357\356\344\361\342\345\362\352\350"
+   \              EFEEE4F1E2E5
+   \              F2EAE800    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\300\\342\\362\\356\\354\\340\\362\\350\\3`:
+   \   00000000   C0E2F2EEECE0       DC8 "\300\342\362\356\354\340\362\350\367\345\361\352\350\351 \357\350\355\343"
+   \              F2E8F7E5F1EA
+   \              E8E920EFE8ED
+   \              E300        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\302\\360\\345\\354\\377 \\360\\340\\341\\`:
+   \   00000000   C2F0E5ECFF20       DC8 "\302\360\345\354\377 \360\340\341\356\362\373"
+   \              F0E0E1EEF2FB
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\364\\364. \\352\\356\\355\\362\\340`:
+   \   00000000   CEF4F42E20EA       DC8 "\316\364\364. \352\356\355\362\340\352\362\373"
+   \              EEEDF2E0EAF2
+   \              FB00        
+   \   0000000E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\303\\360\\363\\357\\357\\373">`:
+   \   00000000   C3F0F3EFEFFB       DC8 "\303\360\363\357\357\373"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   Maximum stack usage in bytes:
+
+     Function              CSTACK
+     --------              ------
+     AboutDlg                260
+     AutoAwayMSG              12
+     ChangeActiveUp            4
+     ChangeDoubleVibra         4
+     ChangeILUMode             4
+     ChangeINCMode             4
+     ChangeId3tagMode          4
+     ChangePINGMode            4
+     ChangeSLIMode             4
+     ChangeSMARTCPUMode        4
+     ChangeShowGroupsMode      4
+     ChangeShowOfflineMode     4
+     ChangeSoundMode           4
+     ChangeUPTIMEMode          4
+     ChangeVibraMode           4
+     CreateLogs                4
+     CreateMainMenu            8
+     Disconnect                4
+     DrawCheckBox             44
+     DrawIcon                 16
+     DrawMMScrollBar          56
+     EditConfig                8
+     EditConfigMod             8
+     MM_DrawList              60
+     MM_MoveDown               0
+     MM_MoveUp                 0
+     MM_OnKey                 16
+     MM_OnRedraw              56
+     MM_method8                0
+     MM_method9                0
+     MM_onClose                8
+     MM_onCreate              48
+     MM_onFocus                8
+     MM_onUnfocus              0
+     MSG_Info                  8
+     PingToServer              8
+     SaveCL                    4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     MainMenu_ID                       4
+     janis                             4
+     ChangeActiveUp                   44
+     ChangeVibraMode                  44
+     ChangeId3tagMode                 48
+     AutoAwayMSG                     172
+     ChangeSoundMode                  44
+     ChangeShowOfflineMode            56
+     ChangeShowGroupsMode             60
+     EditConfig                       68
+     EditConfigMod                    68
+     Disconnect                       44
+     hmm1                             64
+     PingToServer                     92
+     AboutDlg                         56
+     SaveCL                            4
+     ChangeSLIMode                    44
+     ChangeSMARTCPUMode               44
+     ChangeINCMode                    44
+     ChangeILUMode                    44
+     ChangePINGMode                   44
+     ChangeUPTIMEMode                 44
+     main_count                        8
+     MSG_Info                         72
+     ChangeDoubleVibra                44
+     CreateLogs                        4
+     mm_totalItems                     4
+     DrawCheckBox                    296
+     DrawIcon                        432
+     DrawMMScrollBar                 176
+     MM_DrawList                     452
+     MM_MoveUp                        80
+     MM_MoveDown                      84
+     MM_OnRedraw                     200
+     mm_rc                           232
+     MM_onCreate                     292
+     MM_onClose                       36
+     MM_onFocus                       44
+     MM_onUnfocus                     20
+     MM_OnKey                        216
+     MM_method8                        8
+     MM_method9                        8
+     gui_methods_2                    52
+     CreateMainMenu                   76
+     ??DataTable27                     4
+     ??DataTable31                     4
+     ??DataTable32                     4
+     ??DataTable33                     4
+     ??DataTable34                     4
+     ??DataTable35                     4
+     ??DataTable36                     4
+     ??DataTable37                     4
+     ??DataTable38                     4
+     ??DataTable39                     4
+     ??DataTable40                     4
+     ??DataTable41                     4
+     ??DataTable42                     4
+     ??DataTable43                     4
+     ??DataTable44                     4
+     ??DataTable45                     4
+     ??DataTable49                     4
+     ??DataTable50                     4
+     ??DataTable56                     4
+     ??DataTable57                     4
+     ??DataTable58                     4
+     ??DataTable59                     4
+     ?<Initializer for mm_rc>        232
+     ?<Constant "\315\340\361\362\360\356\351\352\3
+                                      12
+     ?<Constant "\315\340\361\362\360\356\351\352\3_1
+                                      16
+     ?<Constant "\316\341\356\360\342\340\362\374 \
+                                      16
+     ?<Constant "\310\355\364\356 \356 \361\356\356
+                                      20
+     ?<Constant "\321\356\365\360\340\355\350\362\3
+                                      16
+     ?<Constant "\317\350\355\343">    8
+     ?<Constant "\321\356\356\341\371\345\355\350\3
+                                      16
+     ?<Constant "\316\341 \375\353\374\364\345">
+                                      12
+     ?<Constant "\300\352\362\350\342\355\373\345 \
+                                      16
+     ?<Constant "\316\362\352\360\373\362\374 \353\
+                                      12
+     ?<Constant "\320\345\346\350\354 Id3tag">
+                                      16
+     ?<Constant "NATICQ v2.0\nRevision ...">
+                                      68
+     ?<Constant "\316\362\357\360\340\342\353\345\3
+                                      28
+     ?<Constant "%s">                  3
+     ?<Constant "\000\000\000\025">   24
+     ?<Constant "\321\362\340\362\363\361">
+                                       8
+     ?<Constant "X-\321\362\340\362\363\361">
+                                      12
+     ?<Constant "\323\357\360\340\342\353\345\355\3
+                                      20
+     ?<Constant "\300\342\362\356\356\362\342\345\3
+                                      16
+     ?<Constant "\320\345\346\350\354 \342\350\341\
+                                      12
+     ?<Constant "\320\345\346\350\354 \347\342\363\
+                                      12
+     ?<Constant "\302\361\357\353\373\342\340\376\3
+                                      24
+     ?<Constant "\320\345\346\350\354 SLI">
+                                      12
+     ?<Constant "\320\345\346\350\354 \355\340\357\
+                                      20
+     ?<Constant "\320\345\346\350\354 \357\356\344\
+                                      16
+     ?<Constant "\300\342\362\356\354\340\362\350\3
+                                      20
+     ?<Constant "\302\360\345\354\377 \360\340\341\
+                                      16
+     ?<Constant "\316\364\364. \352\356\355\362\340
+                                      16
+     ?<Constant "\303\360\363\357\357\373">
+                                       8
+      Others                         412
+
+ 
+ 4 080 bytes in segment CODE
+   547 bytes in segment DATA_C
+   232 bytes in segment DATA_I
+   232 bytes in segment DATA_ID
+    84 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 3 692 bytes of CODE  memory (+ 412 bytes shared)
+   779 bytes of CONST memory
+   316 bytes of DATA  memory
+
+Errors: none
+Warnings: none

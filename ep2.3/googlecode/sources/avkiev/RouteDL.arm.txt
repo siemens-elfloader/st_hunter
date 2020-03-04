@@ -1,0 +1,64 @@
+$INCLUDE (..\..\macro.inc)
+$INCLUDE (..\..\library.inc)
+
+PatchAdr equ 0FC3300h
+callAdr  equ 1226428h
+
+code16
+org       PatchAdr
+
+Entry:	mov 	r6, r1
+//	LoadReg	1, aRamAddr
+//	ldrb	r1, [r1]			
+
+	PUSH    {r1-r7,LR}
+	cmp	r0, #2
+	bne	exit
+	push	{r0-r6}
+	LoadReg 0, config+4
+	bl      GetBuffer
+	ldrb	r7, [r6, #1]
+	pop	{r0-r6}
+	beq	exit
+			
+isdisp:	mov	r0,#1
+	TST	r0,r7
+	beq	iskeyb
+	mov 	r0,#0
+	Push	{r1-r3,r7}
+	bl	SetIllumination
+	pop	{r1-r3,r7}
+
+iskeyb:	mov 	r0,#2
+	tst	r0,r7
+	beq	isDL
+	mov 	r0,#1
+	Push	{r1-r3,r7}
+	bl	SetIllumination
+	pop	{r1-r3,r7}
+
+isDL:	mov 	r0,#4
+	tst	r0,r7
+	beq	exit
+	mov 	r0,#2
+									
+exit: 	pop	{r1-r7,pc}
+
+//aRamAddr:	dd		0xA866F164
+
+Align16
+config:     dd Magic, 0xEA02, 0,0
+db "{patch=RouteDL id=EA02}"
+db "Route to:"
+db "{1.0 cb Display}"
+db "{1.1 cb Keypad}"
+db "{1.2 cb Dyn.light}"
+db 0
+Align4
+
+code32
+
+org callAdr			
+	CallThumb	Entry+1 	
+
+END

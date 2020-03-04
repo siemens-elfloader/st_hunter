@@ -1,0 +1,536 @@
+################################################################################
+#                                                                              #
+#      IAR Universal Linker V4.60I/386                                         #
+#                                                                              #
+#           Link time     =  29/Dec/2008  00:11:46                             #
+#           Target CPU    =  ARM                                               #
+#           List file     =  K:\Pasha\elf\_MY_PROJECT_\scuko\Release_NEWSGOLD\ #
+#                            List\lihgt.map                                    #
+#           Output file 1 =  K:\Pasha\elf\_MY_PROJECT_\scuko\Release_NEWSGOLD\ #
+#                            Exe\lihgt.elf                                     #
+#                            Format: elf, variant: -ynpra                      #
+#           Command line  =  K:\Pasha\elf\_MY_PROJECT_\scuko\Release_NEWSGOLD\ #
+#                            Obj\func.r79                                      #
+#                            K:\Pasha\elf\_MY_PROJECT_\scuko\Release_NEWSGOLD\ #
+#                            Obj\main.r79                                      #
+#                            -o                                                #
+#                            K:\Pasha\elf\_MY_PROJECT_\scuko\Release_NEWSGOLD\ #
+#                            Exe\lihgt.elf                                     #
+#                            -Felf -l                                          #
+#                            K:\Pasha\elf\_MY_PROJECT_\scuko\Release_NEWSGOLD\ #
+#                            List\lihgt.map                                    #
+#                            -xms -f                                           #
+#                            K:\Pasha\elf\_MY_PROJECT_\AltMyMenu\test.xcl      #
+#                            (-carm -V(CODE)CODE_AREA,12                       #
+#                            -V(DATA)DATA_AREA,12                              #
+#                            -Z(CODE_AREA)ELFBEGIN,DATA_ID,START,CODE,DATA_C,I #
+#                            NITTAB,DATA_Z,DATA_N,CONFIG_C=0-FFFFFFFF          #
+#                            -Z(DATA_AREA)DATA_I=0-FFFFFFFF) -ynpra            #
+#                            "K:\Pasha\Embedded Workbench 4.0 Evaluation2\ARM\ #
+#                            LIB\dl5tpainl8n.r79"                              #
+#                            -s main                                           #
+#                                                                              #
+#                        Copyright 1987-2007 IAR Systems. All rights reserved. #
+################################################################################
+
+
+
+
+
+                ****************************************
+                *                                      *
+                *           CROSS REFERENCE            *
+                *                                      *
+                ****************************************
+
+       Program entry at : CODE_AREA 00000F0C  Relocatable, from module : main
+
+
+
+
+                ****************************************
+                *                                      *
+                *            RUNTIME MODEL             *
+                *                                      *
+                ****************************************
+
+  StackAlign4  = USED
+  __cpu_mode   = __pcs__interwork
+  __data_model = absolute
+  __endian     = little
+  __rt_version = 6
+
+
+
+                ****************************************
+                *                                      *
+                *              MODULE MAP              *
+                *                                      *
+                ****************************************
+
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  FILE NAME : K:\Pasha\elf\_MY_PROJECT_\scuko\Release_NEWSGOLD\Obj\func.r79
+  PROGRAM MODULE, NAME : func
+
+  SEGMENTS IN THE MODULE
+  ======================
+ELFBEGIN
+  Relative segment, address: CODE_AREA 00000000, align: 0
+  Segment part 0. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ELF_BEGIN               00000000        ElfKiller (main)
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000188 - 0000018B (0x4 bytes), align: 2
+  Segment part 1. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           kill_data               00000188        ElfKiller (main)
+                                                   Segment part 48 (main)
+
+    *************************************************************************
+
+  FILE NAME : K:\Pasha\elf\_MY_PROJECT_\scuko\Release_NEWSGOLD\Obj\main.r79
+  PROGRAM MODULE, NAME : main
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_Z
+  Relative segment, address: CODE_AREA 00001288 - 0000128B (0x4 bytes), align: 2
+  Segment part 12.            Intra module refs:   Segment part 107
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MAINGUI_ID              00001288 
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 0000128C - 000013A3 (0x118 bytes), align: 2
+  Segment part 14.            Intra module refs:   Segment part 2
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           maincsm_name_body       0000128C 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000018C - 0000022F (0xa4 bytes), align: 2
+  Segment part 58.            Intra module refs:   DrawChar
+                                                   DrawClock
+                                                   DrawDate
+                                                   GetColor
+                                                   GetColor2
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Random                  0000018C 
+               stack 1 = 00000000 ( 00000024 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000230 - 0000026F (0x40 bytes), align: 2
+  Segment part 60.            Intra module refs:   DrawChar
+                                                   DrawClock
+                                                   DrawDate
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           get_string_width        00000230 
+               stack 1 = 00000000 ( 00000014 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000270 - 00000307 (0x98 bytes), align: 2
+  Segment part 64.            Intra module refs:   DrawClock
+                                                   DrawDate
+                                                   draw1
+                                                   draw3
+                                                   draw4
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           GetColor                00000270 
+               stack 1 = 00000000 ( 00000014 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000308 - 0000039B (0x94 bytes), align: 2
+  Segment part 66.            Intra module refs:   DrawChar
+                                                   DrawClock
+                                                   DrawDate
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           GetColor2               00000308 
+               stack 1 = 00000000 ( 00000014 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000039C - 000003AB (0x10 bytes), align: 2
+  Segment part 67.            Intra module refs:   GetColor
+                                                   GetColor2
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000003AC - 0000047B (0xd0 bytes), align: 2
+  Segment part 69.            Intra module refs:   draw1
+                                                   draw3
+                                                   draw4
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           DrawChar                000003AC 
+               stack 1 = 00000000 ( 00000034 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000047C - 0000054B (0xd0 bytes), align: 2
+  Segment part 71.            Intra module refs:   draw1
+                                                   draw3
+                                                   draw4
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           upd                     0000047C 
+               stack 1 = 00000000 ( 00000018 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000054C - 0000060B (0xc0 bytes), align: 2
+  Segment part 73.            Intra module refs:   OnRedraw
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           DrawClock               0000054C 
+               stack 1 = 00000000 ( 00000034 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000060C - 000006D7 (0xcc bytes), align: 2
+  Segment part 75.            Intra module refs:   OnRedraw
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           DrawDate                0000060C 
+               stack 1 = 00000000 ( 00000038 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000006D8 - 0000086B (0x194 bytes), align: 2
+  Segment part 77.            Intra module refs:   OnRedraw
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           draw1                   000006D8 
+               stack 1 = 00000000 ( 00000038 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000086C - 00000A47 (0x1dc bytes), align: 2
+  Segment part 79.            Intra module refs:   OnRedraw
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           draw3                   0000086C 
+               stack 1 = 00000000 ( 0000003C )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000A48 - 00000B9F (0x158 bytes), align: 2
+  Segment part 81.            Intra module refs:   OnRedraw
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           draw4                   00000A48 
+               stack 1 = 00000000 ( 00000038 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000BA0 - 00000BA7 (0x8 bytes), align: 2
+  Segment part 82.            Intra module refs:   draw1
+                                                   draw4
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000BA8 - 00000BBB (0x14 bytes), align: 2
+  Segment part 84.            Intra module refs:   OnRedraw
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Redr                    00000BA8 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000BBC - 00000C17 (0x5c bytes), align: 2
+  Segment part 86.            Intra module refs:   OnRedraw
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           DrwPngImg               00000BBC 
+               stack 1 = 00000000 ( 00000038 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000C18 - 00000C9F (0x88 bytes), align: 2
+  Segment part 88.            Intra module refs:   Segment part 48
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           OnRedraw                00000C18 
+               stack 1 = 00000000 ( 00000020 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000CA0 - 00000D6B (0xcc bytes), align: 2
+  Segment part 90.            Intra module refs:   Segment part 48
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           onCreate                00000CA0 
+               stack 1 = 00000000 ( 0000001C )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000D6C - 00000D6F (0x4 bytes), align: 2
+  Segment part 91.            Intra module refs:   draw1
+                                                   draw3
+                                                   draw4
+                                                   onCreate
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000D70 - 00000DBB (0x4c bytes), align: 2
+  Segment part 93.            Intra module refs:   Segment part 48
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           onClose                 00000D70 
+               stack 1 = 00000000 ( 0000000C )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000DBC - 00000DCF (0x14 bytes), align: 2
+  Segment part 95.            Intra module refs:   Segment part 48
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           onFocus                 00000DBC 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000DD0 - 00000DE3 (0x14 bytes), align: 2
+  Segment part 97.            Intra module refs:   Segment part 48
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           onUnfocus               00000DD0 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000DE4 - 00000E2B (0x48 bytes), align: 2
+  Segment part 99.            Intra module refs:   Segment part 48
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           OnKey                   00000DE4 
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000E2C - 00000E2F (0x4 bytes), align: 2
+  Segment part 101.           Intra module refs:   Segment part 48
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           method8                 00000E2C 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000E30, align: 2
+  Segment part 103.           Intra module refs:   Segment part 48
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           method9                 00000E30 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000E30 - 00000E37 (0x8 bytes), align: 2
+  Segment part 104.           Intra module refs:   method8
+                                                   method9
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 00000000 - 00000187 (0x188 bytes), align: 2
+  Segment part 35.            Intra module refs:   Segment part 120
+                                                   Segment part 91
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           CE                      0000014A 
+           FONT                    000000A8 
+           IMG                     000000B4 
+           ScrH                    000000B0 
+           ScrW                    000000AC 
+           c                       00000000 
+           cc                      0000013C 
+           clock                   00000154 
+           clrBlack                00000170 
+           date                    00000160 
+           dir                     000000B8 
+           ee                      0000013A 
+           ii                      00000144 
+           ja                      0000014E 
+           kk                      00000142 
+           ll                      00000146 
+           nn                      00000140 
+           oo                      0000013E 
+           q                       00000150 
+           q1                      00000152 
+           space                   0000014C 
+           tmr                     00000178 
+           tt                      00000138 
+           ws1                     000000A0 
+           y2                      00000148 
+           ys                      000000A4 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000E38 - 00000E93 (0x5c bytes), align: 2
+  Segment part 106.           Intra module refs:   Segment part 2
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           maincsm_oncreate        00000E38 
+               stack 1 = 00000000 ( 0000000C )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000E94 - 00000E97 (0x4 bytes), align: 2
+  Segment part 107.           Intra module refs:   Redr
+                                                   maincsm_oncreate
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000E98 - 00000EB3 (0x1c bytes), align: 2
+  Segment part 111.           Intra module refs:   maincsm_onclose
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ElfKiller               00000E98 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000EB4 - 00000EC7 (0x14 bytes), align: 2
+  Segment part 113.           Intra module refs:   Segment part 2
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           maincsm_onclose         00000EB4 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000EC8 - 00000EF3 (0x2c bytes), align: 2
+  Segment part 115.           Intra module refs:   Segment part 2
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           maincsm_onmessage       00000EC8 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000010A8 - 000010FF (0x58 bytes), align: 2
+  Segment part 2.             Intra module refs:   Segment part 121
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001100 - 00001103 (0x4 bytes), align: 2
+  Segment part 13.            Intra module refs:   Segment part 2
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           minus11                 00001100 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001104 - 00001237 (0x134 bytes), align: 2
+  Segment part 21.            Intra module refs:   Random
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           rndtab                  00001138 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000126C - 0000126E (0x3 bytes), align: 0
+  Segment part 22.            Intra module refs:   DrawChar
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           per_t                   0000126C 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00001238 - 0000126B (0x34 bytes), align: 2
+  Segment part 48.            Intra module refs:   maincsm_oncreate
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Canvas                  00001264 
+           gui_methods             00001238 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000EF4 - 00000F0B (0x18 bytes), align: 2
+  Segment part 117.           Intra module refs:   main
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           UpdateCSMname           00000EF4 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000F0C - 00000FA3 (0x98 bytes), align: 2
+  Segment part 119.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           main                    00000F0C        Absolute parts (?ABS_ENTRY_MOD)
+               stack 1 = 00000000 ( 00000078 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000FA4 - 00000FA7 (0x4 bytes), align: 2
+  Segment part 120.           Intra module refs:   DrawChar
+                                                   DrawClock
+                                                   DrawDate
+                                                   OnRedraw
+                                                   main
+                                                   onClose
+                                                   upd
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000FA8 - 00000FAB (0x4 bytes), align: 2
+  Segment part 121.           Intra module refs:   UpdateCSMname
+                                                   main
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000000 - 00000187 (0x188 bytes), align: 2
+  Segment part 36.            Intra module refs:   Segment part 35
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 00001270 - 0000127B (0xc bytes), align: 2
+  Segment part 126. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_I        00001270 
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 0000127C - 00001287 (0xc bytes), align: 2
+  Segment part 127. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_Z        0000127C 
+
+    *************************************************************************
+
+  FILE NAME : K:\Pasha\Embedded Workbench 4.0 Evaluation2\ARM\LIB\dl5tpainl8n.r79
+  LIBRARY MODULE, NAME : ?div_module
+
+  SEGMENTS IN THE MODULE
+  ======================
+CODE
+  Relative segment, address: CODE_AREA 00000FAC - 00000FB7 (0xc bytes), align: 2
+  Segment part 5.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu32_a              00000FAC        DrawChar (main)
+                                                   DrawClock (main)
+                                                   DrawDate (main)
+                                                   Random (main)
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000FB8 - 00000FCF (0x18 bytes), align: 2
+  Segment part 11.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div32_a               00000FB8        DrawClock (main)
+                                                   DrawDate (main)
+                                                   Random (main)
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000FD0 - 000010A7 (0xd8 bytes), align: 2
+  Segment part 12.            Intra module refs:   ??div32_a
+                                                   ??divu32_a
+
+
+
+
+                ****************************************
+                *                                      *
+                *      SEGMENTS IN ADDRESS ORDER       *
+                *                                      *
+                ****************************************
+
+
+SEGMENT              SPACE    START ADDRESS   END ADDRESS     SIZE  TYPE  ALIGN
+=======              =====    =============   ===========     ====  ====  =====
+ELFBEGIN             CODE_AREA           00000000                     rel    0
+DATA_ID              CODE_AREA      00000000 - 00000187         188   rel    2
+START                CODE_AREA           00000188                     dse    0
+CODE                 CODE_AREA      00000188 - 000010A7         F20   rel    2
+DATA_C               CODE_AREA      000010A8 - 0000126E         1C7   rel    2
+INITTAB              CODE_AREA      00001270 - 00001287          18   rel    2
+DATA_Z               CODE_AREA      00001288 - 000013A3         11C   rel    2
+DATA_I               DATA_AREA      00000000 - 00000187         188   rel    2
+
+                ****************************************
+                *                                      *
+                *        END OF CROSS REFERENCE        *
+                *                                      *
+                ****************************************
+
+ 5 027 bytes of CODE memory
+   392 bytes of DATA memory
+
+Errors: none
+Warnings: none
+

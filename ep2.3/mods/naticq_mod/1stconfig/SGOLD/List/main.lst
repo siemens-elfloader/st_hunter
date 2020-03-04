@@ -1,0 +1,82 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    28/Jul/2010  10:49:18 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod\1stconfig\main. #
+#                       c                                                    #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\naticq_mod\1stconfig\main. #
+#                       c -D BCFG --preprocess D:\pasha\elf\_MY_PROJECT_\nat #
+#                       icq_mod\1stconfig\SGOLD\List\ -lC                    #
+#                       D:\pasha\elf\_MY_PROJECT_\naticq_mod\1stconfig\SGOLD #
+#                       \List\ -o D:\pasha\elf\_MY_PROJECT_\naticq_mod\1stco #
+#                       nfig\SGOLD\Obj\ -s9 --no_unroll --cpu_mode arm       #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --fpu None --dlib_config              #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\naticq_mod\1stconfig\SGOLD #
+#                       \List\main.lst                                       #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod\1stconfig\SGOLD #
+#                       \Obj\main.r79                                        #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\naticq_mod\1stconfig\main.c
+      1          #include "../inc/swilib.h"
+      2          #include "../inc/cfg_items.h"
+      3          #include "../inc/pnglist.h"
+      4          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      5          int main(char *filename)
+      6          {
+   \                     main:
+   \   00000000   00402DE9           PUSH     {LR}
+      7            extern void InitConfig();
+      8            InitConfig();
+   \   00000004   ........           _BLF     InitConfig,??InitConfig??rA
+      9            ShowMSG(1,(int)"ok!");  
+   \   00000008   031F8FE2           ADR      R1,??main_0      ;; "ok!"
+   \   0000000C   0100A0E3           MOV      R0,#+1
+   \   00000010   480100EF           SWI      +328
+     10            return 0;
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+   \                     ??main_0:
+   \   0000001C   6F6B2100           DC8      "ok!"
+     11          }
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   6F6B2100           DC8 "ok!"
+
+   Maximum stack usage in bytes:
+
+     Function CSTACK
+     -------- ------
+     main         4
+
+
+   Segment part sizes:
+
+     Function/Label    Bytes
+     --------------    -----
+     main                32
+     ?<Constant "ok!">    4
+      Others             16
+
+ 
+ 48 bytes in segment CODE
+  4 bytes in segment DATA_C
+ 
+ 32 bytes of CODE  memory (+ 16 bytes shared)
+  4 bytes of CONST memory
+
+Errors: none
+Warnings: none

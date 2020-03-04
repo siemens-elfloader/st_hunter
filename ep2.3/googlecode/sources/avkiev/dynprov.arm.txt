@@ -1,0 +1,544 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+VrezkaProv	equ	0x03ECD3C
+VrezkaSub	equ	0x030236C
+VrezkaSub0	equ	0x0302354
+Patch	    equ	Patches + 0x1600
+;---------------------------------------------------------------------------
+AddImm  macro   imm
+              mov     r3, #imm
+              add     r4, #2
+              strh	  r3, [r4]
+endm
+AddPos  macro   imm, pos
+              mov     r3, #imm
+              strh	  r3, [r4, #2*pos]
+endm
+;---------------------------------------------------------------------------
+org     Patch
+PatchProv:  push    {r0, LR}
+            bl      FillProv1
+            pop     {r3}
+            bne     exProv
+            mov     r0, r3
+            CallLib GetProvider
+exProv:     pop     {PC}
+;---------------------------------------------------------------------------
+PatchSub:   push    {LR}
+            mov     r0, r6
+            mov     r3, #2
+            bl      FillProv2
+            bne     exSub
+            mov     r0, r6
+            CallLib GetProfileName
+exSub:      LDRB    R2, [R5,#7]
+            ADD     R1, R6, #0
+            pop     {r3}
+            add     r3, #4
+            blx     r3
+;---------------------------------------------------------------------------
+FillProv1:  mov     r3, #1
+FillProv2:  PUSH    {r0,r3-r7,LR}
+            ldr     r4, [r0]
+            LoadReg 0, config+4
+            CallLib GetBuffer
+            beq     ex
+            mov     r6, r0
+
+            add     r0, #8
+            mov     r1, r0
+            add     r1, #8
+            CallLib GetDateTime
+
+            mov     r0, r6
+            add     r0, #8
+            CallLib GetWeek
+            strb    r0, [r6, #23]
+
+            ldr     r7, [SP,#4]
+            cmp     r7, #1
+            bne     CheckR5
+            ldrb    r0, [r6, #19]
+            add     r0, #1
+            mov     r1, #7
+            and     r0, r1
+            strb    r0, [r6, #19]
+
+CheckR5:    ldrb    r5, [r6, r7]
+  ;  mov r5, #0x0F
+	        cmp     r5, #0xFF
+	        beq     ex
+	        cmp     r5, #0
+	        bne     ReadNet
+
+            CallLib IsPlayerOn
+            lsl     r5, r0,#1
+            lsl     r1, r7,#2
+            add     r5, r1
+
+            CallLib IsUnlocked
+            sub     r5, r0
+            lsl     r5, #3
+            ldrb    r0, [r6, #19]
+            add     r0, r5
+            ldrb    r5, [r6, r0]
+
+ReadNet:    CallLib RamNet
+            mov     r7, r0
+
+            ldrb    r0, [r6, #7]
+            add     r0, #1
+            mov     r1, r0
+            mov     r2, r0
+            mov     r3, r0
+            push    {r0-r3}
+
+ProcessR5:  lsr     r3, r5,#4
+            beq     nibble2
+            bl      ProcessR3
+            AddImm  " "
+
+nibble2:    mov     r3, #0Fh
+            and     r3, r5
+            bl      ProcessR3
+            
+            add     SP, #16
+            ldr     r0, [SP]
+            ldr     r0, [r0]
+            sub     r4, r0
+            lsr     r4, #1
+
+            ldrb    r1, [r6, #7]
+            cmp     r4, r1
+            bls     $+4
+            mov     r4, r1
+            strh    r4, [r0]
+
+            mov     r0, #1
+ex:         pop     {r1,r3-r7,PC}
+;----------------------------------------------------------------------------
+ProcessR3:  push    {LR}
+            lsl     r3, #1
+            add     PC, r3
+fun0:       pop     {PC}
+;----------------------------------------------------------------------------
+            b       fun0
+            b       fun1
+            b       fun2
+            b       fun3
+            b       fun4
+            b       fun5
+            b       fun6
+            b       fun7
+            b       fun8
+            b       fun9
+            b       funA
+            b       funB
+            b       funC
+            b       funD
+            b       funE
+            b       funF
+;----------------------------------------------------------------------------
+fun1:       mov     r0, r6               ; String1
+            add     r0, #88
+            b       AddUni+2
+;----------------------------------------------------------------------------
+fun2:       ldrh    r0, [r4]             ; ProfileName
+            push    {r0,r4}
+            add     r0, SP,#4
+            CallLib GetProfileName
+            pop     {r0,r1}
+            ldrh    r2, [r4]
+            strh    r0, [r4]
+            lsl     r2, #1
+            add     r4, r2
+            pop     {PC}
+;----------------------------------------------------------------------------
+fun3:       ldrb    r0, [r6, #16]        ; Time 10:26
+            bl      AddNum
+            AddImm  ":"
+            ldrb    r0, [r6, #17]
+            b       AddNum+2
+;----------------------------------------------------------------------------
+fun4:       bl      AddDay               ; Date 11.02.2005
+            AddImm  "."
+            ldrb    r0, [r6, #12]
+            bl      AddNum
+              mov     r3, #"."
+            b       AddYear
+;----------------------------------------------------------------------------
+fun5:       ldrb    r0, [r6, #12]        ; Date 02/11/2005
+            bl      AddNum
+            AddImm  "/"
+            bl      AddDay
+              mov     r3, #"/"
+            b       AddYear
+;----------------------------------------------------------------------------
+fun6:       CallLib LP_MonthsShort       ; Date We, 11 Feb 2005
+            add     r0, #13
+            ldrb    r1, [r6, #23]
+            bl      AddMes
+            AddPos  ",", 1
+            AddPos  " ", 2
+            add     r4, #4
+            bl      AddDay
+            AddImm  " "
+            CallLib LP_MonthsShort
+            ldrb    r1, [r6, #12]
+            bl      AddMes
+              mov     r3, #" "
+AddYear:      add     r4, #2
+              strh	  r3, [r4]
+            ldrh    r0, [r6, #8]
+            b       AddNum+2
+;----------------------------------------------------------------------------
+fun7:       CallLib LP_MonthsLong        ; Date February, 10
+            ldrb    r1, [r6, #12]        
+            bl      AddMes
+            sub     r4, #10
+            AddPos  ",", 1
+            AddPos  " ", 2
+            add     r4, #4
+            ldrb    r0, [r6, #13]
+            b       AddNum+2
+;----------------------------------------------------------------------------
+fun8:       CallLib IsPlayerOn
+            cmp     r0, #1
+            bne     NoPlayer
+            CallLib RamCurrentTrack
+/*
+            ldrb    r3, [r0]
+            cmp     r3, #0
+            bne     ShowTag
+
+            CallLib GetCurrentTrackFilename
+            ldr     r0, [r0]
+            ldrh    r1, [r0]
+            lsl     r1, #1
+            sub     r1, #6
+            str     r3, [r0,r1]
+            add     r0, #2
+            b       AddUni+2
+*/
+            mov     r1, #0
+            ldrsh   r3, [r0,r1]
+            add     r3, #2
+            add     r3, #0xFF
+            bne     NoUni
+            add     r0, #2
+            b       AddUni+2
+
+NoUni:      mov     r1, #0x35
+            lsl     r1, #4
+            ldrb    r2, [r6, #7]
+            add     r2, #1
+
+f8loop:     ldrb    r3, [r0]
+            add     r0, #1
+            cmp     r3, #0x80
+            bcc     savch
+
+            push    {r0-r1}
+            AdrReg  0, from
+            sub     r0, #2
+begConv:    add     r0, #2
+            ldrh    r1, [r0]
+            cmp     r1, #0
+            beq     exConv
+            cmp     r1, r3
+            bne     begConv
+            ldrh    r3, [r0,#32]
+            ldr     r1, [SP,#4]
+            sub     r3, r1
+exConv:     pop     {r0-r1}
+            add     r3, r1
+
+savch:      add     r4, #2
+            strh    r3, [r4]
+            cmp     r3, #0
+            beq     DelSpace
+            sub     r2, #1
+            bne     f8loop
+
+DelSpace:   sub     r4, #2
+            ldrh    r3, [r4]
+            cmp     r3, #0x20
+            beq     DelSpace
+            pop     {PC}
+
+NoPlayer:   add     SP, #4
+            ldrb    r5, [r6, #4]
+            b       ProcessR5
+;----------------------------------------------------------------------------
+fun9:       ldrb    r0, [r6, #23]
+            add     r1, r0,#1              ; Понедельник
+            cmp     r1, #7
+            bne     r1_400
+            mov     r1, #0
+r1_400:     CallLib LP_Weekdays
+            b       AddMes+2
+;----------------------------------------------------------------------------
+funA:       mov     r0, #0              ; 3,812 = 25%
+            mov     r1, #9
+            CallLib GetAkku
+            add     r4, #2
+
+            bl      AddNum
+            sub     r4, #8
+            ldrh    r0, [r4,#2]
+            strh    r0, [r4]
+            mov     r0, #","
+            strh    r0, [r4,#2]
+
+            AddPos  " ", 5
+            strh    r3, [r4, #14]
+            AddPos  "=", 6
+            add     r4, #14
+
+            CallLib RamCap
+            ldrh    r0, [r0]
+            bl      AddNum
+            AddImm  "%"
+            pop     {PC}
+;----------------------------------------------------------------------------
+funB:       mov     r0, #1              ; 25,7'C
+            mov     r1, #3
+            CallLib GetAkku
+            mvi     r1, 0xAAA
+            sub     r0, r1
+	        mov     r2, #3
+	        ldrsb   r1, [r6, r2]
+            add     r0, r1
+
+            bpl     plus
+            AddImm  "-"
+            neg     r0, r0
+
+plus:       bl      AddNum
+            ldrh    r0, [r4]
+            AddPos  ",", 0
+            strh	r0, [r4, #2]
+            AddPos  0xB0, 2
+            AddPos  "C", 3
+            add     r4, #6
+            pop     {PC}
+;----------------------------------------------------------------------------
+funC:       push    {r4,r5}             ; UMC
+            ldrh    r5, [r4]
+            mov     r0, SP
+            mov     r1, #0
+            CallLib GetProvider
+
+            ldrh    r0, [r4]
+            strh    r5, [r4]
+            lsl     r0, #1
+            add     r4, r0
+            pop     {r0,r5,PC}
+;----------------------------------------------------------------------------
+funD:       mov     r3, #"-"            ; -65 dB
+            ldrh    r1, [r7]
+            cmp     r1, #0xFF
+            bcc     n1800
+              mov     r3, #"="
+n1800:        add     r4, #2
+              strh	  r3, [r4]
+            ldrb    r0, [r7, #6]
+	        bl      AddNum
+            AddPos  " ", 1
+            AddPos  "d", 2
+            AddPos  "B", 3
+            add     r4, #6
+exFunD:     pop     {PC}
+;----------------------------------------------------------------------------
+funE:       ldrh    r2, [r7, #2]            ; 1589-9110:804
+            cmp     r2, #0
+            beq     exFunD
+            ldrh    r3, [r7, #4]
+            ldrh    r0, [r7]
+            push    {r0,r4,r5}
+            add     r0, SP,#4
+            mov     r1, r6
+            add     r1, #120
+            ldrh    r5, [r4]
+            CallLib wsprintf
+            ldrh    r0, [r4]
+            strh    r5, [r4]
+            lsl     r0, #1
+            add     r4, r0
+            pop     {r1,r2,r5,PC}
+;----------------------------------------------------------------------------
+funF:       ldrh    r3, [r7, #2]
+            cmp     r3, #0
+            beq     exTMO3
+            ldrh    r2, [r7, #4]
+            sub     SP, #40
+            str     r2, [SP]
+            add     r0, SP, #4
+	        mov	    r1, r6
+	        add	    r1, #136
+            CallLib sprintf
+
+            add     r0, SP, #4
+            mov     r1, SP
+            CallLib OpenReadCloseFile
+            bmi     CreateTMO
+
+            ldr     r0, [SP]
+            ldrh    r1, [r0]
+            lsl     r1, #1
+            add     r0, #2
+            mov     r3, #0
+            strh    r3, [r0, r1]
+            add     r0, #4
+            bl      AddUni
+            ldr     r0, [SP]
+            CallLib mfree
+            add     SP, #40
+            pop     {PC}
+;----------------------------------------------------------------------------
+CreateTMO:  sub     SP, #44
+            mov     r3, SP
+            push    {r3}
+
+            ldrb    r3, [r6, #6]
+            cmp     r3, #0
+            beq     exTMO2
+
+            mov     r3, #0
+            str     r3, [SP, #16]
+            mov     r0, SP
+            mov     r1, r6
+            add     r1, #168
+            ldrh    r2, [r7, #2]
+            ldrh    r3, [r7, #4]
+            CallLib wsprintf
+
+            add     r0, SP,#4
+            ldrh    r1, [r0]
+            mov     r2, r1
+LoopXOR:    add     r0, #2
+            ldrh    r3, [r0]
+            eor     r2, r3
+            sub     r1, #1
+            bne     LoopXOR
+            strh    r2, [r0,#2]
+
+            add     r0, SP, #52
+            mov     r1, #"\"
+            CallLib strrchr
+            mov     r5, r0
+            mov     r1, #0
+            strb    r1, [r5]
+            add     r0, SP, #52
+            mov     r1, SP
+            CallLib mkdir
+            mov     r1, #"\"
+            strb    r1, [r5]
+
+            add     r0, SP, #52
+            mvi     r1, 0x301
+            mov     r2, #1
+            lsl     r2, #8
+            mov     r3, SP
+            CallLib fopen
+            mov     r5, r0
+
+            add     r1, SP,#4
+            ldrh    r2, [r1]
+            add     r2, #2
+            lsl     r2, #1
+            mov     r3, SP
+            CallLib fwrite
+
+            mov     r0, r5
+            mov     r1, SP
+            CallLib fclose
+
+exTMO2:     add     SP, #88
+exTMO3:     add     SP, #4
+            ldrb    r5, [r6, #5]
+            b       ProcessR5
+;----------------------------------------------------------------------------
+; Subroutine
+;----------------------------------------------------------------------------
+AddUni:     push    {LR}
+            ldrh    r3, [r0]
+            cmp     r3, #0
+            beq     AddMesEx
+            add     r0, #2
+            add     r4, #2
+            strh	r3, [r4]
+            b       AddUni+2
+;----------------------------------------------------------------------------
+AddMes:     push    {LR}
+            add     r0, r1
+            add     r1, r4,#2
+            CallLib GetLP
+            sub     r4, r1,#2
+AddMesEx:   pop     {PC}
+;---------------------------------------------------------------------
+AddDay:     ldrb    r0, [r6, #13]
+AddNum:     push    {LR}
+            CallLib HexToDec
+
+            cmp     r0, #10
+            bcc     Add2
+            push    {r1}
+            bl      AddNum
+            pop     {r1}
+            b       Add1
+
+Add2:       add     r0, #30h
+            add     r4, #2
+            strh    r0, [r4]
+Add1:       add     r1, #30h
+            add     r4, #2
+            strh    r1, [r4]
+            pop     {PC}
+;---------------------------------------------------------------------------
+        Align16
+from:       dw      0x0B8, 0x0BA, 0x0B3, 0x0BF, 0x0B4, 0x0A8, 0x0AA, 0x0B2, 0x0AF, 0x0A5, 0
+        Align16
+            dw      0x451, 0x454, 0x456, 0x457, 0x491, 0x401, 0x404, 0x406, 0x407, 0x490
+;----------------------------------------------------------------------------
+        Align16
+config:     dd Magic, 0xAB04, 0,0
+db "{p=DynamicProvider ver=15 cp=avkiev id=AB04}"
+db "{1 h UseInString1}"
+db "{2 h UseInString2}"
+db "{3 b TempAdjust r=-50..50 v=15}"
+db "{4 h UseIfNoMP3 v=0F}"
+db "{5 h UseIfNoTMO v=0E}"
+db "{6 cb CreateNewTMO v=1}"
+db "{7 b MaxLen v=18}"
+;8 - Дата
+;16 - Время
+;19 - Счетчик
+;23 - День недели
+db "{24 h Normal1 ml=8 v=3406BACD3406BACD}"
+db "{32 h Locked1 ml=8 v=3406BACD3406BACD}"
+db "{40 h MP3.Normal1 ml=8 v=3406BACD3406BACD}"
+db "{48 h MP3.Locked1 ml=8 v=3406BACD3406BACD}"
+db "{56 h Normal2 ml=8 v=0F020F020F020F02}"
+db "{64 h Locked2 ml=8 v=0F020F020F020F02}"
+db "{72 h MP3.Normal2 ml=8 v=0802080208020802}"
+db "{80 h MP3.Locked2 ml=8 v=0802080208020802}"
+db "{88 u StringFun1 v=string}"
+db "{120 s `CI-LAC:CH` v=`%05u-%04u:%03u`}"
+db "{136 s GPS ml=31 v=`0:\Misc\GPS\%i\%i-%i.tmo`}"
+db "{168 s NewCell v=`0 cell:%u-%u`}"
+db 0
+;----------------------------------------------------------------------------
+org VrezkaSub0
+            db      0xFF
+org VrezkaSub
+            CallReg 3, aPatchSub
+aPatchSub:  dd      q1+PatchSub
+            nop
+;----------------------------------------------------------------------------
+org VrezkaProv
+            dd      q1+PatchProv
+org 0x03F2760
+;----------------------------------------------------------------------------
+END

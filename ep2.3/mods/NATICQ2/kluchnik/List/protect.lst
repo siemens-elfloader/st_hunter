@@ -1,0 +1,809 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    22/Sep/2009  10:21:56 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\protect.c         #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\protect.c -D      #
+#                       NEWSGOLD -D ELKA -D GUI_INTERFACE -D ICONBAR -D      #
+#                       kluchnik --preprocess D:\pasha\elf\_MY_PROJECT_\_NAT #
+#                       ICQ2\kluchnik\List\ -lC D:\pasha\elf\_MY_PROJECT_\_N #
+#                       ATICQ2\kluchnik\List\ -o D:\pasha\elf\_MY_PROJECT_\_ #
+#                       NATICQ2\kluchnik\Obj\ -s9 --no_unroll --cpu_mode     #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --dlib_config            #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\kluchnik\List\pro #
+#                       tect.lst                                             #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\kluchnik\Obj\prot #
+#                       ect.r79                                              #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\_NATICQ2\protect.c
+      1          #include "..\inc\swilib.h"
+      2          #include "md5.h"
+      3          
+      4          char *_n = "\n";
+      5          
+      6          #define _LOG
+      7          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      8          static void log(char *text)
+      9          {
+   \                     log:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+     10          #ifdef _LOG
+     11            int hFile;
+     12            unsigned int io_error = 0;
+     13            hFile = fopen("4:\\naticq_md5.txt",A_ReadWrite + A_Create + A_Append,P_READ+P_WRITE, &io_error);
+   \   00000004   68509FE5           LDR      R5,??log_0       ;; `?<Constant "4:\\\\naticq_md5.txt">`
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   00108DE5           STR      R1,[SP, #+0]
+   \   00000018   0D30A0E1           MOV      R3,SP
+   \   0000001C   602FA0E3           MOV      R2,#+384
+   \   00000020   761042E2           SUB      R1,R2,#+118
+   \   00000024   0500A0E1           MOV      R0,R5
+   \   00000028   0A0000EF           SWI      +10
+   \   0000002C   0060A0E1           MOV      R6,R0
+     14            if(hFile!=-1)
+   \   00000030   010076E3           CMN      R6,#+1
+   \   00000034   0A00000A           BEQ      ??log_1
+     15            {
+     16              fwrite(hFile, (char*)text, strlen((char*)text), &io_error);
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   1B0000EF           SWI      +27
+   \   00000040   0D30A0E1           MOV      R3,SP
+   \   00000044   0020A0E1           MOV      R2,R0
+   \   00000048   0410A0E1           MOV      R1,R4
+   \   0000004C   0600A0E1           MOV      R0,R6
+   \   00000050   0C0000EF           SWI      +12
+     17          //    fwrite(hFile, "\r\n", 2, &io_error);
+     18              fclose(hFile, &io_error);
+   \   00000054   0D10A0E1           MOV      R1,SP
+   \   00000058   0600A0E1           MOV      R0,R6
+   \   0000005C   0D0000EF           SWI      +13
+   \   00000060   7180BDE8           POP      {R0,R4-R6,PC}
+     19            }
+     20            else
+     21              ShowMSG(1,(int)"Error!");
+   \                     ??log_1:
+   \   00000064   141085E2           ADD      R1,R5,#+20
+   \   00000068   0100A0E3           MOV      R0,#+1
+   \   0000006C   480100EF           SWI      +328
+     22          #else
+     23            return;
+     24          #endif
+     25          }
+   \   00000070   7180BDE8           POP      {R0,R4-R6,PC}    ;; return
+   \                     ??log_0:
+   \   00000074   ........           DC32     `?<Constant "4:\\\\naticq_md5.txt">`
+     26          
+     27          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     28          char* get_imei()
+     29          {
+   \                     get_imei:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+     30          #ifdef NEWSGOLD
+     31            unsigned char *addr = (unsigned char *)0xA003E410;
+   \   00000004   ........           LDR      R5,??DataTable2  ;; 0xffffffffa003e410
+     32          #else
+     33            unsigned char *addr = (unsigned char *)0xA000065C;
+     34          #endif
+     35            char *imei = malloc(17);
+   \   00000008   1100A0E3           MOV      R0,#+17
+   \   0000000C   140000EF           SWI      +20
+   \   00000010   0040A0E1           MOV      R4,R0
+     36            zeromem(imei,sizeof(imei));
+   \   00000014   0410A0E3           MOV      R1,#+4
+   \   00000018   1D0100EF           SWI      +285
+     37            int i;  
+     38            for(i=0; i<15; i++)
+   \   0000001C   0000A0E3           MOV      R0,#+0
+     39            {
+     40              imei[i] = *addr;
+   \                     ??get_imei_0:
+   \   00000020   ........           LDRB     R1,[R5], #+1
+   \   00000024   0410C0E7           STRB     R1,[R0, +R4]
+     41              addr++;
+     42            }
+   \   00000028   010080E2           ADD      R0,R0,#+1
+   \   0000002C   0F0050E3           CMP      R0,#+15
+   \   00000030   FAFFFFBA           BLT      ??get_imei_0
+     43            
+     44            log("origin imei = "); log(imei); log(_n);
+   \   00000034   84519FE5           LDR      R5,??get_imei_1  ;; `?<Constant "origin imei = ">`
+   \   00000038   ........           LDR      R6,??DataTable3  ;; _n
+   \   0000003C   0500A0E1           MOV      R0,R5
+   \   00000040   ........           BL       log
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   ........           BL       log
+   \   0000004C   000096E5           LDR      R0,[R6, #+0]
+   \   00000050   ........           BL       log
+     45              
+     46            i = (imei[1]-'0') + (imei[4]-'0') + (imei[10]-'0') + (imei[8]-'0');
+   \   00000054   0100D4E5           LDRB     R0,[R4, #+1]
+   \   00000058   0410D4E5           LDRB     R1,[R4, #+4]
+   \   0000005C   000081E0           ADD      R0,R1,R0
+   \   00000060   0A10D4E5           LDRB     R1,[R4, #+10]
+   \   00000064   000081E0           ADD      R0,R1,R0
+   \   00000068   0810D4E5           LDRB     R1,[R4, #+8]
+   \   0000006C   000081E0           ADD      R0,R1,R0
+   \   00000070   BF10E0E3           MVN      R1,#+191
+   \   00000074   000081E0           ADD      R0,R1,R0
+     47            i = i > 10 ? i % 10 : i;
+   \   00000078   0B0050E3           CMP      R0,#+11
+   \   0000007C   060000BA           BLT      ??get_imei_2
+   \   00000080   3C119FE5           LDR      R1,??get_imei_1+0x4  ;; 0x66666667
+   \   00000084   9021C3E0           SMULL    R2,R3,R0,R1
+   \   00000088   0A20A0E3           MOV      R2,#+10
+   \   0000008C   4331A0E1           ASR      R3,R3,#+2
+   \   00000090   A03F83E0           ADD      R3,R3,R0, LSR #+31
+   \   00000094   920303E0           MUL      R3,R2,R3
+   \   00000098   030040E0           SUB      R0,R0,R3
+     48            imei[15] = i > 0 ? i + '0' : '6';
+   \                     ??get_imei_2:
+   \   0000009C   010050E3           CMP      R0,#+1
+   \   000000A0   300080A2           ADDGE    R0,R0,#+48
+   \   000000A4   3600A0B3           MOVLT    R0,#+54
+   \   000000A8   0F00C4E5           STRB     R0,[R4, #+15]
+     49            imei[16] = '\0';  
+   \   000000AC   0000A0E3           MOV      R0,#+0
+   \   000000B0   1000C4E5           STRB     R0,[R4, #+16]
+     50          
+     51            int i2;
+     52            
+     53            i =  ((imei[1]-'0') + (imei[4]-'0') + (imei[10]-'0') * (imei[15]-'0'));
+   \   000000B4   0100D4E5           LDRB     R0,[R4, #+1]
+   \   000000B8   0410D4E5           LDRB     R1,[R4, #+4]
+   \   000000BC   0F20D4E5           LDRB     R2,[R4, #+15]
+   \   000000C0   000081E0           ADD      R0,R1,R0
+   \   000000C4   0A10D4E5           LDRB     R1,[R4, #+10]
+   \   000000C8   302042E2           SUB      R2,R2,#+48
+   \   000000CC   301041E2           SUB      R1,R1,#+48
+   \   000000D0   920120E0           MLA      R0,R2,R1,R0
+     54            i2 = ((imei[15]-'0') - (imei[14]-'0') + (imei[5]-'0') * (imei[17]-'0'));
+   \   000000D4   0E10D4E5           LDRB     R1,[R4, #+14]
+   \   000000D8   1120D4E5           LDRB     R2,[R4, #+17]
+   \   000000DC   607040E2           SUB      R7,R0,#+96
+   \   000000E0   0F00D4E5           LDRB     R0,[R4, #+15]
+   \   000000E4   302042E2           SUB      R2,R2,#+48
+   \   000000E8   300040E2           SUB      R0,R0,#+48
+   \   000000EC   010040E0           SUB      R0,R0,R1
+   \   000000F0   0510D4E5           LDRB     R1,[R4, #+5]
+   \   000000F4   301041E2           SUB      R1,R1,#+48
+   \   000000F8   920120E0           MLA      R0,R2,R1,R0
+   \   000000FC   308090E2           ADDS     R8,R0,#+48
+     55            
+     56            if(i2 < 0) i2 = i2*(-1);
+   \   00000100   00806842           RSBMI    R8,R8,#+0
+     57            if(i < 0) i = i*(-1);
+   \   00000104   000057E3           CMP      R7,#+0
+   \   00000108   00706742           RSBMI    R7,R7,#+0
+     58            
+     59          
+     60            int imei_len = strlen(imei);
+   \   0000010C   0400A0E1           MOV      R0,R4
+   \   00000110   1B0000EF           SWI      +27
+   \   00000114   0030A0E1           MOV      R3,R0
+     61            int pos1 = (i > imei_len) ? (i % imei_len) : (imei_len % i);
+   \   00000118   070053E1           CMP      R3,R7
+   \   0000011C   0700A0B1           MOVLT    R0,R7
+   \   00000120   0310A0B1           MOVLT    R1,R3
+   \   00000124   0710A0A1           MOVGE    R1,R7
+   \   00000128   ........           _BLF     ??div32_a,??rA??div32_a
+   \   0000012C   0020A0E1           MOV      R2,R0
+     62            int pos2 = (i2 > imei_len) ? (i2 % imei_len) : (imei_len % i2);
+   \   00000130   080053E1           CMP      R3,R8
+   \   00000134   0800A0B1           MOVLT    R0,R8
+   \   00000138   0310A0B1           MOVLT    R1,R3
+   \   0000013C   0300A0A1           MOVGE    R0,R3
+   \   00000140   0810A0A1           MOVGE    R1,R8
+   \   00000144   ........           _BLF     ??div32_a,??rA??div32_a
+     63            
+     64            imei[pos1] = ( (i > 10 ? (i % 10) : i) + '0');
+   \   00000148   0B0057E3           CMP      R7,#+11
+   \   0000014C   060000BA           BLT      ??get_imei_3
+   \   00000150   6C109FE5           LDR      R1,??get_imei_1+0x4  ;; 0x66666667
+   \   00000154   9731CCE0           SMULL    R3,R12,R7,R1
+   \   00000158   0A30A0E3           MOV      R3,#+10
+   \   0000015C   4CC1A0E1           ASR      R12,R12,#+2
+   \   00000160   A7CF8CE0           ADD      R12,R12,R7, LSR #+31
+   \   00000164   930C0CE0           MUL      R12,R3,R12
+   \   00000168   0C7047E0           SUB      R7,R7,R12
+   \                     ??get_imei_3:
+   \   0000016C   301087E2           ADD      R1,R7,#+48
+   \   00000170   0410C2E7           STRB     R1,[R2, +R4]
+     65            imei[pos2] = ( (i2 > 10 ? (i2 % 10) : i2) + '0');
+   \   00000174   0B0058E3           CMP      R8,#+11
+   \   00000178   060000BA           BLT      ??get_imei_4
+   \   0000017C   40109FE5           LDR      R1,??get_imei_1+0x4  ;; 0x66666667
+   \   00000180   9821C3E0           SMULL    R2,R3,R8,R1
+   \   00000184   0A20A0E3           MOV      R2,#+10
+   \   00000188   4331A0E1           ASR      R3,R3,#+2
+   \   0000018C   A83F83E0           ADD      R3,R3,R8, LSR #+31
+   \   00000190   920303E0           MUL      R3,R2,R3
+   \   00000194   038048E0           SUB      R8,R8,R3
+   \                     ??get_imei_4:
+   \   00000198   301088E2           ADD      R1,R8,#+48
+   \   0000019C   0410C0E7           STRB     R1,[R0, +R4]
+     66            
+     67            log("convert imei = "); log(imei); log(_n);
+   \   000001A0   100085E2           ADD      R0,R5,#+16
+   \   000001A4   ........           BL       log
+   \   000001A8   0400A0E1           MOV      R0,R4
+   \   000001AC   ........           BL       log
+   \   000001B0   000096E5           LDR      R0,[R6, #+0]
+   \   000001B4   ........           BL       log
+     68            return (char*)imei;
+   \   000001B8   0400A0E1           MOV      R0,R4
+   \   000001BC   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??get_imei_1:
+   \   000001C0   ........           DC32     `?<Constant "origin imei = ">`
+   \   000001C4   67666666           DC32     0x66666667
+     69          }
+     70          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     71          char *md5(char *md5text)
+     72          {
+   \                     md5:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   6CD04DE2           SUB      SP,SP,#+108
+   \   00000008   0040A0E1           MOV      R4,R0
+     73            md5_state_t md5state;
+     74            unsigned char md5pword[16];
+     75            zeromem(md5pword, sizeof(md5pword));
+   \   0000000C   1010A0E3           MOV      R1,#+16
+   \   00000010   04008DE2           ADD      R0,SP,#+4
+   \   00000014   1D0100EF           SWI      +285
+     76            md5_init(&md5state);
+   \   00000018   14008DE2           ADD      R0,SP,#+20
+   \   0000001C   ........           _BLF     md5_init,??md5_init??rA
+     77            md5_append(&md5state, (unsigned const char *)md5text, (int)strlen(md5text));
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   1B0000EF           SWI      +27
+   \   00000028   0020A0E1           MOV      R2,R0
+   \   0000002C   0410A0E1           MOV      R1,R4
+   \   00000030   14008DE2           ADD      R0,SP,#+20
+   \   00000034   ........           _BLF     md5_append,??md5_append??rA
+     78            md5_finish(&md5state, md5pword);
+   \   00000038   04108DE2           ADD      R1,SP,#+4
+   \   0000003C   14008DE2           ADD      R0,SP,#+20
+   \   00000040   ........           _BLF     md5_finish,??md5_finish??rA
+     79          
+     80            char *key = malloc(33);
+   \   00000044   2100A0E3           MOV      R0,#+33
+   \   00000048   140000EF           SWI      +20
+   \   0000004C   0040A0E1           MOV      R4,R0
+     81            zeromem(key,sizeof(key));
+   \   00000050   0410A0E3           MOV      R1,#+4
+   \   00000054   1D0100EF           SWI      +285
+     82            for (int j = 0;j < 16;j++)
+   \   00000058   0050A0E3           MOV      R5,#+0
+     83            {
+     84              char a[3];
+     85              sprintf(a, "%02x", md5pword[j]);
+   \                     ??md5_0:
+   \   0000005C   40109FE5           LDR      R1,??md5_1       ;; `?<Constant "%02x">`
+   \   00000060   04008DE2           ADD      R0,SP,#+4
+   \   00000064   0020D5E7           LDRB     R2,[R5, +R0]
+   \   00000068   0D00A0E1           MOV      R0,SP
+   \   0000006C   160000EF           SWI      +22
+     86              key[2*j] = a[0];
+   \   00000070   0010DDE5           LDRB     R1,[SP, #+0]
+   \   00000074   850084E0           ADD      R0,R4,R5, LSL #+1
+     87              key[2*j+1] = a[1];
+     88            }
+   \   00000078   015085E2           ADD      R5,R5,#+1
+   \   0000007C   0010C0E5           STRB     R1,[R0, #+0]
+   \   00000080   0110DDE5           LDRB     R1,[SP, #+1]
+   \   00000084   100055E3           CMP      R5,#+16
+   \   00000088   0110C0E5           STRB     R1,[R0, #+1]
+   \   0000008C   F2FFFFBA           BLT      ??md5_0
+     89            key[32] = '\0';  
+   \   00000090   0000A0E3           MOV      R0,#+0
+   \   00000094   2000C4E5           STRB     R0,[R4, #+32]
+     90            return key;
+   \   00000098   0400A0E1           MOV      R0,R4
+   \   0000009C   6CD08DE2           ADD      SP,SP,#+108
+   \   000000A0   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??md5_1:
+   \   000000A4   ........           DC32     `?<Constant "%02x">`
+     91          }
+     92          
+     93          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     94          int hex2dec(int c)
+     95          {
+     96            if(c >= '0' && c <= '9') c = c-'0';
+   \                     hex2dec:
+   \   00000000   300050E3           CMP      R0,#+48
+   \   00000004   020000BA           BLT      ??hex2dec_0
+   \   00000008   3A0050E3           CMP      R0,#+58
+   \   0000000C   300040B2           SUBLT    R0,R0,#+48
+   \   00000010   1EFF2FB1           BXLT     LR
+     97            else
+     98                if(c >= 'a' && c <= 'f') c = 10 + (c-'a');
+   \                     ??hex2dec_0:
+   \   00000014   610050E3           CMP      R0,#+97
+   \   00000018   1EFF2FB1           BXLT     LR
+   \   0000001C   670050E3           CMP      R0,#+103
+   \   00000020   570040B2           SUBLT    R0,R0,#+87
+     99           return c;
+   \   00000024   1EFF2FE1           BX       LR               ;; return
+    100          }
+    101          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    102          int get_hex_sum(char *hex)//получить сумму строки
+    103          {
+   \                     get_hex_sum:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    104            int len = strlen(hex);
+    105            int retval=0;
+   \   00000008   0060A0E3           MOV      R6,#+0
+    106            for(int i=0 ; i <= len ; i++)
+   \   0000000C   0070A0E3           MOV      R7,#+0
+   \   00000010   1B0000EF           SWI      +27
+   \   00000014   0050B0E1           MOVS     R5,R0
+   \   00000018   0500004A           BMI      ??get_hex_sum_0
+    107            {
+    108              retval+=hex2dec(hex[i]);
+   \                     ??get_hex_sum_1:
+   \   0000001C   0400D7E7           LDRB     R0,[R7, +R4]
+    109              
+    110              /*if(hex[i] >= '0' && hex[i] <= '9') retval += hex[i]-'0';
+    111              else
+    112                if(hex[i] >= 'a' && hex[i] <= 'f') retval += 10 + (hex[i]-'a');*/
+    113            }
+   \   00000020   017087E2           ADD      R7,R7,#+1
+   \   00000024   ........           BL       hex2dec
+   \   00000028   066080E0           ADD      R6,R0,R6
+   \   0000002C   070055E1           CMP      R5,R7
+   \   00000030   F9FFFFAA           BGE      ??get_hex_sum_1
+    114            return retval;
+   \                     ??get_hex_sum_0:
+   \   00000034   0600A0E1           MOV      R0,R6
+   \   00000038   F080BDE8           POP      {R4-R7,PC}       ;; return
+    115          }
+    116          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    117          char *getkey()
+    118          {
+   \                     getkey:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   24D04DE2           SUB      SP,SP,#+36
+    119            char imei_part[4][5];
+    120            char *hash_part[4];
+    121            const char *imei = md5(get_imei());
+   \   00000008   ........           BL       get_imei
+   \   0000000C   ........           BL       md5
+   \   00000010   0050A0E1           MOV      R5,R0
+    122            char *hash = malloc(32); 
+   \   00000014   2000A0E3           MOV      R0,#+32
+   \   00000018   140000EF           SWI      +20
+   \   0000001C   0040A0E1           MOV      R4,R0
+    123            zeromem(hash,32);
+   \   00000020   2010A0E3           MOV      R1,#+32
+   \   00000024   1D0100EF           SWI      +285
+    124          
+    125            memcpy(imei_part[0],imei,   4);
+   \   00000028   0420A0E3           MOV      R2,#+4
+   \   0000002C   0510A0E1           MOV      R1,R5
+   \   00000030   10008DE2           ADD      R0,SP,#+16
+   \   00000034   1E0100EF           SWI      +286
+    126            memcpy(imei_part[1],imei+4, 4);
+   \   00000038   0420A0E3           MOV      R2,#+4
+   \   0000003C   041085E2           ADD      R1,R5,#+4
+   \   00000040   15008DE2           ADD      R0,SP,#+21
+   \   00000044   1E0100EF           SWI      +286
+    127            memcpy(imei_part[2],imei+8, 4);
+   \   00000048   0420A0E3           MOV      R2,#+4
+   \   0000004C   081085E2           ADD      R1,R5,#+8
+   \   00000050   1A008DE2           ADD      R0,SP,#+26
+   \   00000054   1E0100EF           SWI      +286
+    128            memcpy(imei_part[3],imei+12,4);
+   \   00000058   0420A0E3           MOV      R2,#+4
+   \   0000005C   0C1085E2           ADD      R1,R5,#+12
+   \   00000060   1F008DE2           ADD      R0,SP,#+31
+   \   00000064   1E0100EF           SWI      +286
+    129          
+    130            for(int i=0;i<4;i++)
+   \   00000068   0060A0E3           MOV      R6,#+0
+   \   0000006C   0050A0E3           MOV      R5,#+0
+    131            {
+    132              imei_part[i][4] = '\0';
+   \                     ??getkey_0:
+   \   00000070   060186E0           ADD      R0,R6,R6, LSL #+2
+   \   00000074   10108DE2           ADD      R1,SP,#+16
+   \   00000078   010080E0           ADD      R0,R0,R1
+   \   0000007C   0450C0E5           STRB     R5,[R0, #+4]
+    133              hash_part[i] = md5(imei_part[i]);  
+   \   00000080   ........           BL       md5
+   \   00000084   0D10A0E1           MOV      R1,SP
+   \   00000088   060181E7           STR      R0,[R1, +R6, LSL #+2]
+    134            } 
+   \   0000008C   016086E2           ADD      R6,R6,#+1
+   \   00000090   040056E3           CMP      R6,#+4
+   \   00000094   F5FFFFBA           BLT      ??getkey_0
+    135            
+    136            memcpy(hash,    (char*)(hash_part[0]+24), 8);
+   \   00000098   00009DE5           LDR      R0,[SP, #+0]
+   \   0000009C   0820A0E3           MOV      R2,#+8
+   \   000000A0   181080E2           ADD      R1,R0,#+24
+   \   000000A4   0400A0E1           MOV      R0,R4
+   \   000000A8   1E0100EF           SWI      +286
+    137            memcpy(hash+8,  (char*)(hash_part[1]+16), 8);
+   \   000000AC   04009DE5           LDR      R0,[SP, #+4]
+   \   000000B0   0820A0E3           MOV      R2,#+8
+   \   000000B4   101080E2           ADD      R1,R0,#+16
+   \   000000B8   080084E2           ADD      R0,R4,#+8
+   \   000000BC   1E0100EF           SWI      +286
+    138            memcpy(hash+16, (char*)(hash_part[2]+8),  8);
+   \   000000C0   08009DE5           LDR      R0,[SP, #+8]
+   \   000000C4   0820A0E3           MOV      R2,#+8
+   \   000000C8   081080E2           ADD      R1,R0,#+8
+   \   000000CC   100084E2           ADD      R0,R4,#+16
+   \   000000D0   1E0100EF           SWI      +286
+    139            memcpy(hash+24, (char*)hash_part[3],      8);
+   \   000000D4   0C109DE5           LDR      R1,[SP, #+12]
+   \   000000D8   0820A0E3           MOV      R2,#+8
+   \   000000DC   180084E2           ADD      R0,R4,#+24
+   \   000000E0   1E0100EF           SWI      +286
+    140            hash[31] = '\0';  
+   \   000000E4   1F50C4E5           STRB     R5,[R4, #+31]
+    141          
+    142            return hash;
+   \   000000E8   0400A0E1           MOV      R0,R4
+   \   000000EC   24D08DE2           ADD      SP,SP,#+36
+   \   000000F0   7080BDE8           POP      {R4-R6,PC}       ;; return
+    143          }
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     _n:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for _n>`
+    144          
+    145          int kkey[]={
+   \                     kkey:
+   \   00000004                      DS8 8
+   \   0000000C                      REQUIRE `?<Initializer for kkey>`
+    146            2752, //kluchnik
+    147            4048  //ComeWithMe
+    148          };
+    149          
+    150          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    151          char *get_origin_imei()
+    152          {
+   \                     get_origin_imei:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    153            char *imei = malloc(16);
+   \   00000004   1000A0E3           MOV      R0,#+16
+   \   00000008   140000EF           SWI      +20
+   \   0000000C   0040A0E1           MOV      R4,R0
+    154            zeromem(imei,sizeof(imei));
+   \   00000010   0410A0E3           MOV      R1,#+4
+   \   00000014   1D0100EF           SWI      +285
+    155            int i;  
+    156          #ifdef NEWSGOLD
+    157            unsigned char *addr = (unsigned char *)0xA003E410;
+   \   00000018   ........           LDR      R0,??DataTable2  ;; 0xffffffffa003e410
+    158          #else
+    159            unsigned char *addr = (unsigned char *)0xA000065C;
+    160          #endif
+    161          
+    162            for(i=0; i<15; i++)
+   \   0000001C   0010A0E3           MOV      R1,#+0
+    163            {
+    164              imei[i] = *addr;
+   \                     ??get_origin_imei_0:
+   \   00000020   ........           LDRB     R2,[R0], #+1
+   \   00000024   0420C1E7           STRB     R2,[R1, +R4]
+    165              addr++;
+    166            }
+   \   00000028   011081E2           ADD      R1,R1,#+1
+   \   0000002C   0F0051E3           CMP      R1,#+15
+   \   00000030   FAFFFFBA           BLT      ??get_origin_imei_0
+    167           imei[15] = '\0';  
+   \   00000034   0000A0E3           MOV      R0,#+0
+   \   00000038   0F00C4E5           STRB     R0,[R4, #+15]
+    168           return imei; 
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   1080BDE8           POP      {R4,PC}          ;; return
+    169          }
+    170          
+    171          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    172          int invalidkey()
+    173          {
+   \                     invalidkey:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+    174            int i=0;
+    175            char *gkey = getkey();
+    176            log("getkey = "); log(gkey); log(_n);
+   \   00000004   78619FE5           LDR      R6,??invalidkey_0  ;; `?<Constant "getkey = ">`
+   \   00000008   ........           LDR      R7,??DataTable3  ;; _n
+   \   0000000C   48D04DE2           SUB      SP,SP,#+72
+   \   00000010   ........           BL       getkey
+   \   00000014   0050A0E1           MOV      R5,R0
+   \   00000018   0600A0E1           MOV      R0,R6
+   \   0000001C   ........           BL       log
+   \   00000020   0500A0E1           MOV      R0,R5
+   \   00000024   ........           BL       log
+   \   00000028   000097E5           LDR      R0,[R7, #+0]
+   \   0000002C   0040A0E3           MOV      R4,#+0
+   \   00000030   ........           BL       log
+    177            int key1 = get_hex_sum(gkey);
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   ........           BL       get_hex_sum
+   \   0000003C   04008DE5           STR      R0,[SP, #+4]
+    178            int k = 0;
+    179            int ckey = 0;//котрольный ключ
+    180            int lenkey = strlen(gkey)/2;
+   \   00000040   0500A0E1           MOV      R0,R5
+   \   00000044   1B0000EF           SWI      +27
+   \   00000048   A0A0A0E1           LSR      R10,R0,#+1
+    181            
+    182            char *oImei = get_origin_imei();
+   \   0000004C   ........           BL       get_origin_imei
+   \   00000050   00B0A0E1           MOV      R11,R0
+    183            log("imei = "); log(oImei); log(_n);
+   \   00000054   0C0086E2           ADD      R0,R6,#+12
+   \   00000058   ........           BL       log
+   \   0000005C   0B00A0E1           MOV      R0,R11
+   \   00000060   ........           BL       log
+   \   00000064   000097E5           LDR      R0,[R7, #+0]
+   \   00000068   0080A0E3           MOV      R8,#+0
+   \   0000006C   ........           BL       log
+    184            unsigned int sum = get_hex_sum(oImei)*(hex2dec(gkey[6])+hex2dec(gkey[12]));
+   \   00000070   0B00A0E1           MOV      R0,R11
+   \   00000074   ........           BL       get_hex_sum
+   \   00000078   00008DE5           STR      R0,[SP, #+0]
+   \   0000007C   0600D5E5           LDRB     R0,[R5, #+6]
+   \   00000080   0490A0E1           MOV      R9,R4
+   \   00000084   ........           BL       hex2dec
+   \   00000088   00B0A0E1           MOV      R11,R0
+   \   0000008C   00009DE5           LDR      R0,[SP, #+0]
+   \   00000090   01002DE9           PUSH     {R0}
+   \   00000094   0C00D5E5           LDRB     R0,[R5, #+12]
+   \   00000098   ........           BL       hex2dec
+   \   0000009C   0B1080E0           ADD      R1,R0,R11
+   \   000000A0   0100BDE8           POP      {R0}
+   \   000000A4   91000BE0           MUL      R11,R1,R0
+   \   000000A8   070000EA           B        ??invalidkey_1
+    185          
+    186            while(k++ < lenkey)
+    187            {
+    188               ckey+=hex2dec(gkey[lenkey-k]);
+   \                     ??invalidkey_2:
+   \   000000AC   08004AE0           SUB      R0,R10,R8
+   \   000000B0   0500D0E7           LDRB     R0,[R0, +R5]
+   \   000000B4   ........           BL       hex2dec
+   \   000000B8   099080E0           ADD      R9,R0,R9
+    189               ckey+=hex2dec(gkey[lenkey+k]);
+   \   000000BC   0A0088E0           ADD      R0,R8,R10
+   \   000000C0   0500D0E7           LDRB     R0,[R0, +R5]
+   \   000000C4   ........           BL       hex2dec
+   \   000000C8   099080E0           ADD      R9,R0,R9
+    190            }
+   \                     ??invalidkey_1:
+   \   000000CC   0800A0E1           MOV      R0,R8
+   \   000000D0   018080E2           ADD      R8,R0,#+1
+   \   000000D4   0A0050E1           CMP      R0,R10
+   \   000000D8   F3FFFFBA           BLT      ??invalidkey_2
+    191            
+    192            key1*=ckey;
+   \   000000DC   04009DE5           LDR      R0,[SP, #+4]
+    193            int res =  key1 > sum ? key1%sum : sum%key1;
+    194            if(res<1000) res<<=4;
+    195           
+    196          #ifdef _LOG
+    197            char s[64];
+    198            sprintf(s,"key1 = %d\nsum = %d\nResultat: %d\n",key1,sum,res);
+   \   000000E0   0B30A0E1           MOV      R3,R11
+   \   000000E4   990002E0           MUL      R2,R9,R0
+   \   000000E8   02005BE1           CMP      R11,R2
+   \   000000EC   0200A031           MOVCC    R0,R2
+   \   000000F0   0B10A031           MOVCC    R1,R11
+   \   000000F4   0B00A021           MOVCS    R0,R11
+   \   000000F8   0210A021           MOVCS    R1,R2
+   \   000000FC   ........           _BLF     ??divu32_a,??rA??divu32_a
+   \   00000100   0050A0E1           MOV      R5,R0
+   \   00000104   FA0F55E3           CMP      R5,#+1000
+   \   00000108   0552A0B1           LSLLT    R5,R5,#+4
+   \   0000010C   0500A0E1           MOV      R0,R5
+   \   00000110   01002DE9           PUSH     {R0}
+   \   00000114   141086E2           ADD      R1,R6,#+20
+   \   00000118   0C008DE2           ADD      R0,SP,#+12
+   \   0000011C   160000EF           SWI      +22
+    199            log(s);
+   \   00000120   0C008DE2           ADD      R0,SP,#+12
+   \   00000124   ........           BL       log
+   \   00000128   04D08DE2           ADD      SP,SP,#+4
+   \   0000012C   000000EA           B        ??invalidkey_3
+    200          #endif
+    201            
+    202            while(kkey[i])
+    203            {
+    204              if(kkey[i] - res == 0)
+    205              {
+    206                log("(kkey[i] - key1) == 0\n");
+    207                log("-------------\n");
+    208                return 1;
+    209              }
+    210              i++;
+   \                     ??invalidkey_4:
+   \   00000130   014084E2           ADD      R4,R4,#+1
+   \                     ??invalidkey_3:
+   \   00000134   040187E0           ADD      R0,R7,R4, LSL #+2
+   \   00000138   040090E5           LDR      R0,[R0, #+4]
+   \   0000013C   000050E3           CMP      R0,#+0
+   \   00000140   0800000A           BEQ      ??invalidkey_5
+   \   00000144   050050E0           SUBS     R0,R0,R5
+   \   00000148   F8FFFF1A           BNE      ??invalidkey_4
+   \   0000014C   380086E2           ADD      R0,R6,#+56
+   \   00000150   ........           BL       log
+   \   00000154   500086E2           ADD      R0,R6,#+80
+   \   00000158   ........           BL       log
+   \   0000015C   0100A0E3           MOV      R0,#+1
+   \   00000160   48D08DE2           ADD      SP,SP,#+72
+   \   00000164   F08FBDE8           POP      {R4-R11,PC}
+    211            }
+    212            log("not accessible key =(\n");
+   \                     ??invalidkey_5:
+   \   00000168   600086E2           ADD      R0,R6,#+96
+   \   0000016C   ........           BL       log
+    213            log("-------------\n");
+   \   00000170   500086E2           ADD      R0,R6,#+80
+   \   00000174   ........           BL       log
+    214            return (-1);
+   \   00000178   0000E0E3           MVN      R0,#+0
+   \   0000017C   48D08DE2           ADD      SP,SP,#+72
+   \   00000180   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??invalidkey_0:
+   \   00000184   ........           DC32     `?<Constant "getkey = ">`
+    215          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   10E403A0           DC32     0xffffffffa003e410
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     _n
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for _n>`:
+   \   00000000   ........           DC32 `?<Constant "\\n">`
+   \                     `?<Initializer for kkey>`:
+   \   00000004   C00A0000D00F       DC32 2752, 4048
+   \              0000        
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\n">`:
+   \   00000000   0A00               DC8 "\012"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "4:\\\\naticq_md5.txt">`:
+   \   00000000   343A5C6E6174       DC8 "4:\\naticq_md5.txt"
+   \              6963715F6D64
+   \              352E74787400
+   \   00000012   0000               DC8 0, 0
+   \   00000014   4572726F7221       DC8 "Error!"
+   \              00          
+   \   0000001B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "origin imei = ">`:
+   \   00000000   6F726967696E       DC8 "origin imei = "
+   \              20696D656920
+   \              3D2000      
+   \   0000000F   00                 DC8 0
+   \   00000010   636F6E766572       DC8 "convert imei = "
+   \              7420696D6569
+   \              203D2000    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%02x">`:
+   \   00000000   2530327800         DC8 "%02x"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "getkey = ">`:
+   \   00000000   6765746B6579       DC8 "getkey = "
+   \              203D2000    
+   \   0000000A   0000               DC8 0, 0
+   \   0000000C   696D6569203D       DC8 "imei = "
+   \              2000        
+   \   00000014   6B657931203D       DC8 "key1 = %d\012sum = %d\012Resultat: %d\012"
+   \              2025640A7375
+   \              6D203D202564
+   \              0A526573756C
+   \              7461743A2025
+   \              640A00      
+   \   00000035   000000             DC8 0, 0, 0
+   \   00000038   286B6B65795B       DC8 "(kkey[i] - key1) == 0\012"
+   \              695D202D206B
+   \              65793129203D
+   \              3D20300A00  
+   \   0000004F   00                 DC8 0
+   \   00000050   2D2D2D2D2D2D       DC8 "-------------\012"
+   \              2D2D2D2D2D2D
+   \              2D0A00      
+   \   0000005F   00                 DC8 0
+   \   00000060   6E6F74206163       DC8 "not accessible key =(\012"
+   \              636573736962
+   \              6C65206B6579
+   \              203D280A00  
+   \   00000077   00                 DC8 0
+
+   Maximum stack usage in bytes:
+
+     Function        CSTACK
+     --------        ------
+     get_hex_sum        20
+     get_imei           24
+     get_origin_imei     8
+     getkey             52
+     hex2dec             0
+     invalidkey        112
+     log                20
+     md5               120
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     log                             120
+     get_imei                        456
+     md5                             168
+     hex2dec                          40
+     get_hex_sum                      60
+     getkey                          244
+     _n                               12
+     get_origin_imei                  68
+     invalidkey                      392
+     ??DataTable2                      4
+     ??DataTable3                      4
+     ?<Initializer for _n>            12
+     ?<Constant "\n">                  2
+     ?<Constant "4:\\naticq_md5.txt">
+                                      28
+     ?<Constant "origin imei = ">     32
+     ?<Constant "%02x">                8
+     ?<Constant "getkey = ">         120
+      Others                         104
+
+ 
+ 1 648 bytes in segment CODE
+   190 bytes in segment DATA_C
+    12 bytes in segment DATA_I
+    12 bytes in segment DATA_ID
+    12 bytes in segment INITTAB
+ 
+ 1 556 bytes of CODE  memory (+ 104 bytes shared)
+   202 bytes of CONST memory
+    12 bytes of DATA  memory
+
+Errors: none
+Warnings: none

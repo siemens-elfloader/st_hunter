@@ -1,0 +1,109 @@
+$ARM9E
+$genonly
+
+$INCLUDE (..\CX70_50.inc)
+
+AREA	EXEPATCH, CODE, AT	0x000000
+code16
+;org 0											; EXE begins from zero offset
+
+SIGNATURE	db	'SCEP'							; Signature, minds "Siemens Club's EXE Patch"
+EXELEN		dw	((EndProg-1)>>2)+1				; Length of EXE rounded up to doubleword
+RELOSCNT	dw	(ENDRELTBLINKS-RELOTBLINKS)>>2	; A number of RELOTABLES in EXE Program
+ENTRYPOINT	dd	Start + 1						; +1, if program starts in a THUMB mode
+INFOBLOFFS	dw	INFOBLOCK>>2					; Offset of INFOBLOCK 
+RESRVD		dw	0								; Raseved, leave zero
+
+							
+
+RELOTBLINKS	EQU	$
+;-------------------- There set a RELOCATION TABLES number -----------------------
+RELOTBL0CNT	dw	(ENDRELO0-RELOTBL0)>>2			;A number of elements in RELOTABLE_0
+RELOTBL0OFF	dw	RELOTBL0>>2						;Offset of RELOTABLE_0 from the beginning in dd
+;RELOTBL1CNT	dw	(ENDRELO1-RELOTBL1)>>2			;A number of elements in RELOTABLE_1
+;RELOTBL1OFF	dw	RELOTBL1>>2						;Offset of RELOTABLE_1 from the beginning in dd
+;         as above...
+;-----------------------------------------------------------------------------------
+ENDRELTBLINKS	EQU	$
+
+Start:		push    {R0-R7, LR}
+			LoadReg	6,	DATABLOCK
+			LoadReg	5,	FREERAM
+			mov		R0,	#5
+			lsl		R0,	#8
+			add		R0,	#0x96	   ;Picture 0x596 (1430)
+			push	{R0}
+			ldrb	R4,	[R5]
+			cmp		R4,	#0
+			bne		SkipSetUp
+			LoadReg	4,	BaseAddr
+			LoadReg	3,	aPicManager
+			mov		R2,	#3
+SetUpCyc:	sub		R2,	#1
+			bcc		ExCycle
+			ldr		R1,	[R4]
+			push	{R0}
+			blx		R3
+			pop		{R0}
+			add		R4,	#4
+			add		R0,	#1
+			b		SetUpCyc
+ExCycle:	strb	R2,	[R5]
+SkipSetUp:	Pop		{R2}
+			LoadReg	5,	FREERAM
+			ldrb	R0,	[R5, #2]
+			sub		R0,	#1
+			bpl		Save
+			mov		R0,	#4
+Save:		strb	R0,	[R5, #2]
+			cmp		R0,	#0
+			bne		SkipCh
+			ldrb	R0,	[R5, #1]
+			sub		R0,	#1
+			bpl		Cont
+			mov		R0,	#2
+Cont:		strb	R0,	[R5, #1]
+SkipCh:		ldrb	R0,	[R5, #1]
+			add		R2,	R0
+			ldrb	R0,	[R6]
+			ldrb	R1,	[R6, #1]
+			LoadReg	3, aFLDrawImage
+			blx		R3
+Exit:		pop     {R0-R7, PC}  
+;----------------------------------------
+Align4
+aPicManager	dd	PicManager + q1
+aFLDrawImage	dd	FLDrawImage + q1
+
+;---------------------- RELOTABLE_0 ----------------------------------
+RELOTBL0	equ	$
+BaseAddr	dd	RELOTBL0 + 4
+aPic1		dd	Pic1
+aPic2		dd	Pic2   
+aPic3		dd	Pic3
+ENDRELO0	equ	$
+;---------------------- END RELOTABLE_0 ------------------------------
+
+;----------------------- RELOTABLE_1 ----------------------------------
+;RELOTBL1	equ	$
+;aTestProc21	dd	TestProc2 + 1
+;aTestProc31	dd	TestProc3
+;ENDRELO1	equ	$
+;---------------------- END RELOTABLE_1 ------------------------------
+
+;---------------------- INFOBLOCK (adjusted by Align4!) --------------
+INFOBLOCK	EQU	$
+FREERAM		dd	0						; Filled by	EXELoader, leave zero
+DATABLOCK	dd	0						; Filled by	EXELoader, leave zero
+MSGXCHGER	dd	0						; Filled by EXELoader, leave zero (not yet)
+RESERVED	dd	0						; Advanced future, leave zero
+;---------------------- END of INFOBLOCK -------------------------------
+Pic1		equ	$
+$INCLUDE(.\Pictures\picture1.inc)
+Pic2		equ	$
+$INCLUDE(.\Pictures\picture4.inc)
+Pic3		equ	$
+$INCLUDE(.\Pictures\picture5.inc)
+;===================================================
+EndProg		equ	$
+END

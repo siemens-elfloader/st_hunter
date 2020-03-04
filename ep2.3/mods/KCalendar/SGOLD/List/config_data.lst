@@ -1,0 +1,887 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Nov/2010  19:53:15 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\KCalendar\config_data.c    #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\KCalendar\config_data.c    #
+#                       -D BCFG --preprocess D:\pasha\elf\_MY_PROJECT_\KCale #
+#                       ndar\SGOLD\List\ -lC D:\pasha\elf\_MY_PROJECT_\KCale #
+#                       ndar\SGOLD\List\ -o D:\pasha\elf\_MY_PROJECT_\KCalen #
+#                       dar\SGOLD\Obj\ -s9 --no_unroll --cpu_mode arm        #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --fpu None --dlib_config              #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" --segment         #
+#                       code=CONFIG --segment data=CONFIG -I                 #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\KCalendar\SGOLD\List\confi #
+#                       g_data.lst                                           #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\KCalendar\SGOLD\Obj\config #
+#                       _data.r79                                            #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\KCalendar\config_data.c
+      1          #include "..\inc\cfg_items.h"
+      2          #include "..\inc\swilib.h"
+      3          //Конфигурация
+      4          
+      5          #ifdef NEWSGOLD
+      6          #define DEFAULT_DISK "4"
+      7          #else
+      8          #define DEFAULT_DISK "0"
+      9          #endif
+     10          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     11           __root const CFG_HDR cfghdr0={CFG_COLOR,"Bord color",0,0};
+   \                     cfghdr0:
+   \   00000000   08000000           DC32 8
+   \   00000004   426F72642063       DC8 "Bord color"
+   \              6F6C6F7200  
+   \   0000000F   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     12           __root const char CLR_BORD[4]={0xFF,0x00,0x00,0x64};
+   \                     CLR_BORD:
+   \   00000000   FF000064           DC8 255, 0, 0, 100
+     13           
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     14           __root const CFG_HDR cfghdr32={CFG_COLOR,"Background color",0,0};
+   \                     cfghdr32:
+   \   00000000   08000000           DC32 8
+   \   00000004   4261636B6772       DC8 "Background color"
+   \              6F756E642063
+   \              6F6C6F7200  
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     15           __root const char CLR_BACK[4]={0x00,0x00,0x00,0x64};
+   \                     CLR_BACK:
+   \   00000000   00000064           DC8 0, 0, 0, 100
+     16          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     17           __root const CFG_HDR cfghdr34={CFG_COLOR,"Current day",0,0};
+   \                     cfghdr34:
+   \   00000000   08000000           DC32 8
+   \   00000004   43757272656E       DC8 "Current day"
+   \              742064617900
+   \   00000010   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     18           __root const char CLR_CURDAY[4]={0x00,0x00,0x00,0x64};
+   \                     CLR_CURDAY:
+   \   00000000   00000064           DC8 0, 0, 0, 100
+     19          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     20            __root const CFG_HDR cfghdr33={CFG_COORDINATES,"Start coordinates",0,0};//настраиваем координаты
+   \                     cfghdr33:
+   \   00000000   07000000           DC32 7
+   \   00000004   537461727420       DC8 "Start coordinates"
+   \              636F6F726469
+   \              6E6174657300
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+     21          #ifdef ELKA
+     22            __root const unsigned int X_POS = 50;
+     23            __root const unsigned int Y_POS = 50;
+     24          #else
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     25            __root const unsigned int X_POS = 0;
+   \                     X_POS:
+   \   00000000   00000000           DC32 0
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     26            __root const unsigned int Y_POS = 10;
+   \                     Y_POS:
+   \   00000000   0A000000           DC32 10
+     27          #endif  
+     28          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     29            __root const CFG_HDR cfghdr35={CFG_INT,"Размер шрифта",0,99};//Вводим цифры, 0-99 это прмежуток от 0 до 99 тока можно писать
+   \                     cfghdr35:
+   \   00000000   03000000           DC32 3
+   \   00000004   D0E0E7ECE5F0       DC8 "\320\340\347\354\345\360 \370\360\350\364\362\340"
+   \              20F8F0E8F4F2
+   \              E000        
+   \   00000012   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \   00000024   000000006300       DC32 0, 99
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     30            __root const int FONT = FONT_SMALL;
+   \                     FONT:
+   \   00000000   07000000           DC32 7
+     31            
+     32           
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     33           __root const CFG_HDR cfghdrCl_1={CFG_LEVEL,"Colors",1,0};   
+   \                     cfghdrCl_1:
+   \   00000000   09000000           DC32 9
+   \   00000004   436F6C6F7273       DC8 "Colors"
+   \              00          
+   \   0000000B   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000001B   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000      
+   \   00000024   010000000000       DC32 1, 0
+   \              0000        
+     34          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     35                __root const CFG_HDR cfghdr31={CFG_COLOR,"1",0,0};
+   \                     cfghdr31:
+   \   00000000   08000000           DC32 8
+   \   00000004   3100               DC8 "1"
+   \   00000006   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     36                __root const char CLR_1[4]={0xFF,0x00,0x00,0x64};
+   \                     CLR_1:
+   \   00000000   FF000064           DC8 255, 0, 0, 100
+     37                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     38                __root const CFG_HDR cfghdr1={CFG_COLOR,"2",0,0};
+   \                     cfghdr1:
+   \   00000000   08000000           DC32 8
+   \   00000004   3200               DC8 "2"
+   \   00000006   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     39                __root const char CLR_2[4]={0xFF,0x00,0x00,0x64};
+   \                     CLR_2:
+   \   00000000   FF000064           DC8 255, 0, 0, 100
+     40                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     41                __root const CFG_HDR cfghdr2={CFG_COLOR,"3",0,0};
+   \                     cfghdr2:
+   \   00000000   08000000           DC32 8
+   \   00000004   3300               DC8 "3"
+   \   00000006   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     42                __root const char CLR_3[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_3:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     43                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     44                __root const CFG_HDR cfghdr3={CFG_COLOR,"4",0,0};
+   \                     cfghdr3:
+   \   00000000   08000000           DC32 8
+   \   00000004   3400               DC8 "4"
+   \   00000006   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     45                __root const char CLR_4[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_4:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     46                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     47                __root const CFG_HDR cfghdr4={CFG_COLOR,"5",0,0};
+   \                     cfghdr4:
+   \   00000000   08000000           DC32 8
+   \   00000004   3500               DC8 "5"
+   \   00000006   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     48                __root const char CLR_5[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_5:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     49                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     50                __root const CFG_HDR cfghdr5={CFG_COLOR,"6",0,0};
+   \                     cfghdr5:
+   \   00000000   08000000           DC32 8
+   \   00000004   3600               DC8 "6"
+   \   00000006   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     51                __root const char CLR_6[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_6:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     52                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     53                __root const CFG_HDR cfghdr6={CFG_COLOR,"7",0,0};
+   \                     cfghdr6:
+   \   00000000   08000000           DC32 8
+   \   00000004   3700               DC8 "7"
+   \   00000006   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     54                __root const char CLR_7[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_7:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     55                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     56                __root const CFG_HDR cfghdr7={CFG_COLOR,"8",0,0};
+   \                     cfghdr7:
+   \   00000000   08000000           DC32 8
+   \   00000004   3800               DC8 "8"
+   \   00000006   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     57                __root const char CLR_8[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_8:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     58                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     59                __root const CFG_HDR cfghdr8={CFG_COLOR,"9",0,0};
+   \                     cfghdr8:
+   \   00000000   08000000           DC32 8
+   \   00000004   3900               DC8 "9"
+   \   00000006   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000016   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              0000        
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     60                __root const char CLR_9[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_9:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     61                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     62                __root const CFG_HDR cfghdr9={CFG_COLOR,"10",0,0};
+   \                     cfghdr9:
+   \   00000000   08000000           DC32 8
+   \   00000004   313000             DC8 "10"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     63                __root const char CLR_10[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_10:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     64                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     65                __root const CFG_HDR cfghdr10={CFG_COLOR,"11",0,0};
+   \                     cfghdr10:
+   \   00000000   08000000           DC32 8
+   \   00000004   313100             DC8 "11"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     66                __root const char CLR_11[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_11:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     67                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     68                __root const CFG_HDR cfghdr11={CFG_COLOR,"12",0,0};
+   \                     cfghdr11:
+   \   00000000   08000000           DC32 8
+   \   00000004   313200             DC8 "12"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     69                __root const char CLR_12[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_12:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     70                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     71                __root const CFG_HDR cfghdr12={CFG_COLOR,"13",0,0};
+   \                     cfghdr12:
+   \   00000000   08000000           DC32 8
+   \   00000004   313300             DC8 "13"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     72                __root const char CLR_13[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_13:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     73                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     74                __root const CFG_HDR cfghdr13={CFG_COLOR,"14",0,0};
+   \                     cfghdr13:
+   \   00000000   08000000           DC32 8
+   \   00000004   313400             DC8 "14"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     75                __root const char CLR_14[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_14:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     76                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     77                __root const CFG_HDR cfghdr14={CFG_COLOR,"15",0,0};
+   \                     cfghdr14:
+   \   00000000   08000000           DC32 8
+   \   00000004   313500             DC8 "15"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     78                __root const char CLR_15[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_15:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     79                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     80                __root const CFG_HDR cfghdr15={CFG_COLOR,"16",0,0};
+   \                     cfghdr15:
+   \   00000000   08000000           DC32 8
+   \   00000004   313600             DC8 "16"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     81                __root const char CLR_16[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_16:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+     82                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     83                __root const CFG_HDR cfghdr16={CFG_COLOR,"17",0,0};
+   \                     cfghdr16:
+   \   00000000   08000000           DC32 8
+   \   00000004   313700             DC8 "17"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     84                __root const char CLR_17[4]={0xFF,0xFF,0x00,0x64};
+   \                     CLR_17:
+   \   00000000   FFFF0064           DC8 255, 255, 0, 100
+     85                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     86                __root const CFG_HDR cfghdr17={CFG_COLOR,"18",0,0};
+   \                     cfghdr17:
+   \   00000000   08000000           DC32 8
+   \   00000004   313800             DC8 "18"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     87                __root const char CLR_18[4]={0xFF,0x00,0xFF,0x64};
+   \                     CLR_18:
+   \   00000000   FF00FF64           DC8 255, 0, 255, 100
+     88                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     89                __root const CFG_HDR cfghdr18={CFG_COLOR,"19",0,0};
+   \                     cfghdr18:
+   \   00000000   08000000           DC32 8
+   \   00000004   313900             DC8 "19"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     90                __root const char CLR_19[4]={0x00,0xFF,0xFF,0x64};
+   \                     CLR_19:
+   \   00000000   00FFFF64           DC8 0, 255, 255, 100
+     91                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     92                __root const CFG_HDR cfghdr19={CFG_COLOR,"20",0,0};
+   \                     cfghdr19:
+   \   00000000   08000000           DC32 8
+   \   00000004   323000             DC8 "20"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     93                __root const char CLR_20[4]={0x00,0xFF,0x00,0x64};
+   \                     CLR_20:
+   \   00000000   00FF0064           DC8 0, 255, 0, 100
+     94                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     95                __root const CFG_HDR cfghdr20={CFG_COLOR,"21",0,0};
+   \                     cfghdr20:
+   \   00000000   08000000           DC32 8
+   \   00000004   323100             DC8 "21"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     96                __root const char CLR_21[4]={0x00,0x00,0xFF,0x64};
+   \                     CLR_21:
+   \   00000000   0000FF64           DC8 0, 0, 255, 100
+     97                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     98                __root const CFG_HDR cfghdr21={CFG_COLOR,"22",0,0};
+   \                     cfghdr21:
+   \   00000000   08000000           DC32 8
+   \   00000004   323200             DC8 "22"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+     99                __root const char CLR_22[4]={0x00,0x00,0xFF,0x64};
+   \                     CLR_22:
+   \   00000000   0000FF64           DC8 0, 0, 255, 100
+    100                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    101                __root const CFG_HDR cfghdr22={CFG_COLOR,"23",0,0};
+   \                     cfghdr22:
+   \   00000000   08000000           DC32 8
+   \   00000004   323300             DC8 "23"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    102                __root const char CLR_23[4]={0xFF,0x00,0x00,0x64};
+   \                     CLR_23:
+   \   00000000   FF000064           DC8 255, 0, 0, 100
+    103                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    104                __root const CFG_HDR cfghdr23={CFG_COLOR,"24",0,0};
+   \                     cfghdr23:
+   \   00000000   08000000           DC32 8
+   \   00000004   323400             DC8 "24"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    105                __root const char CLR_24[4]={0xFF,0x00,0x00,0x64};
+   \                     CLR_24:
+   \   00000000   FF000064           DC8 255, 0, 0, 100
+    106                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    107                __root const CFG_HDR cfghdr24={CFG_COLOR,"25",0,0};
+   \                     cfghdr24:
+   \   00000000   08000000           DC32 8
+   \   00000004   323500             DC8 "25"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    108                __root const char CLR_25[4]={0xFF,0x00,0x00,0x64};
+   \                     CLR_25:
+   \   00000000   FF000064           DC8 255, 0, 0, 100
+    109                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    110                __root const CFG_HDR cfghdr25={CFG_COLOR,"26",0,0};
+   \                     cfghdr25:
+   \   00000000   08000000           DC32 8
+   \   00000004   323600             DC8 "26"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    111                __root const char CLR_26[4]={0xFF,0x00,0x00,0x64};
+   \                     CLR_26:
+   \   00000000   FF000064           DC8 255, 0, 0, 100
+    112                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    113                __root const CFG_HDR cfghdr26={CFG_COLOR,"27",0,0};
+   \                     cfghdr26:
+   \   00000000   08000000           DC32 8
+   \   00000004   323700             DC8 "27"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    114                __root const char CLR_27[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_27:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+    115                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    116                __root const CFG_HDR cfghdr27={CFG_COLOR,"28",0,0};
+   \                     cfghdr27:
+   \   00000000   08000000           DC32 8
+   \   00000004   323800             DC8 "28"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    117                __root const char CLR_28[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_28:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+    118                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    119                __root const CFG_HDR cfghdr28={CFG_COLOR,"29",0,0};
+   \                     cfghdr28:
+   \   00000000   08000000           DC32 8
+   \   00000004   323900             DC8 "29"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    120                __root const char CLR_29[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_29:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+    121                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    122                __root const CFG_HDR cfghdr29={CFG_COLOR,"30",0,0};
+   \                     cfghdr29:
+   \   00000000   08000000           DC32 8
+   \   00000004   333000             DC8 "30"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    123                __root const char CLR_30[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_30:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+    124                
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    125                __root const CFG_HDR cfghdr30={CFG_COLOR,"31",0,0};
+   \                     cfghdr30:
+   \   00000000   08000000           DC32 8
+   \   00000004   333100             DC8 "31"
+   \   00000007   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00          
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    126                __root const char CLR_31[4]={0xFF,0xFF,0xFF,0x00};
+   \                     CLR_31:
+   \   00000000   FFFFFF00           DC8 255, 255, 255, 0
+    127          
+
+   \                                 In segment CONFIG_C, align 4, align-sorted, root
+    128           __root const CFG_HDR cfghdrCl_2={CFG_LEVEL,"",0,0};   
+   \                     cfghdrCl_2:
+   \   00000000   09000000           DC32 9
+   \   00000004   00                 DC8 ""
+   \   00000005   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000015   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+   \   00000024   000000000000       DC32 0, 0
+   \              0000        
+    129           
+    130           
+    131          
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+     cfghdr0          44
+     CLR_BORD          4
+     cfghdr32         44
+     CLR_BACK          4
+     cfghdr34         44
+     CLR_CURDAY        4
+     cfghdr33         44
+     X_POS             4
+     Y_POS             4
+     cfghdr35         44
+     FONT              4
+     cfghdrCl_1       44
+     cfghdr31         44
+     CLR_1             4
+     cfghdr1          44
+     CLR_2             4
+     cfghdr2          44
+     CLR_3             4
+     cfghdr3          44
+     CLR_4             4
+     cfghdr4          44
+     CLR_5             4
+     cfghdr5          44
+     CLR_6             4
+     cfghdr6          44
+     CLR_7             4
+     cfghdr7          44
+     CLR_8             4
+     cfghdr8          44
+     CLR_9             4
+     cfghdr9          44
+     CLR_10            4
+     cfghdr10         44
+     CLR_11            4
+     cfghdr11         44
+     CLR_12            4
+     cfghdr12         44
+     CLR_13            4
+     cfghdr13         44
+     CLR_14            4
+     cfghdr14         44
+     CLR_15            4
+     cfghdr15         44
+     CLR_16            4
+     cfghdr16         44
+     CLR_17            4
+     cfghdr17         44
+     CLR_18            4
+     cfghdr18         44
+     CLR_19            4
+     cfghdr19         44
+     CLR_20            4
+     cfghdr20         44
+     CLR_21            4
+     cfghdr21         44
+     CLR_22            4
+     cfghdr22         44
+     CLR_23            4
+     cfghdr23         44
+     CLR_24            4
+     cfghdr24         44
+     CLR_25            4
+     cfghdr25         44
+     CLR_26            4
+     cfghdr26         44
+     CLR_27            4
+     cfghdr27         44
+     CLR_28            4
+     cfghdr28         44
+     CLR_29            4
+     cfghdr29         44
+     CLR_30            4
+     cfghdr30         44
+     CLR_31            4
+     cfghdrCl_2       44
+
+ 
+ 1 820 bytes in segment CONFIG_C
+ 
+ 1 820 bytes of CONST memory
+
+Errors: none
+Warnings: none

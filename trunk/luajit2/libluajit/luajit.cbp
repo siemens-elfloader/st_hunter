@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="luajit" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="NSG">
+				<Option output="exe/libluajit2.0.0-2.so" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="exe" />
+				<Option object_output="objects/nsg" />
+				<Option type="3" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="SG">
+				<Option output="exe/elf_sg.elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/sg" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="ELKA">
+				<Option output="exe/elf_el.elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/elka" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DELKA" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-marm" />
+			<Add option="-O2" />
+			<Add option="-W" />
+			<Add option="-std=gnu99" />
+			<Add option="-DLJ_TARGET_ARM" />
+			<Add option="-D__ANDROID__" />
+			<Add option="-D__arm__" />
+			<Add option="-D_GNU_SOURCE" />
+			<Add option="-DLJ_HASFFI" />
+			<Add option="-DLJ_ABI_SOFTFP" />
+			<Add option="-DLJ_ABI_EABI" />
+			<Add option="-D__ARM_ARCH_5__" />
+			<Add directory="/home/vova7890/.siemens/include/luajit" />
+			<Add directory="/home/vova7890/compilers/include/luajit" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add library="crt_helper" />
+			<Add library="gcc" />
+			<Add library="c" />
+			<Add library="m" />
+		</Linker>
+		<Unit filename="call.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_aux.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_base.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_bit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_debug.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_ffi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_io.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_jit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_math.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_os.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_package.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_string.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib_table.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_alloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_api.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_asm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_bc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_bcread.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_bcwrite.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_carith.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_ccall.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_ccallback.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_cconv.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_cdata.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_char.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_clib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_cparse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_crecord.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_ctype.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_debug.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_dispatch.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_err.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_ffrecord.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_func.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_gc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_gdbjit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_ir.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_lex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_lib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_mcode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_meta.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_obj.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_opt_dce.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_opt_fold.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_opt_loop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_opt_mem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_opt_narrow.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_opt_split.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_parse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_record.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_snap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_state.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_str.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_tab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_trace.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_udata.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_vm.s" />
+		<Unit filename="src/lj_vmevent.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lj_vmmath.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/luajit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

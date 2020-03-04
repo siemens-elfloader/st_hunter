@@ -1,0 +1,447 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   19/May/2008  22:00:05 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  D:\Pasha\elf\_MY_PROJECT_\MailClient\config_data.c  /
+//    Command line    =  D:\Pasha\elf\_MY_PROJECT_\MailClient\config_data.c  /
+//                       -D NEWSGOLD -lcN D:\Pasha\elf\_MY_PROJECT_\MailClie /
+//                       nt\MailDaemon\Release_ELKA\List\ -la                /
+//                       D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rel /
+//                       ease_ELKA\List\ -o D:\Pasha\elf\_MY_PROJECT_\MailCl /
+//                       ient\MailDaemon\Release_ELKA\Obj\ -s9 --no_unroll   /
+//                       --cpu_mode arm --endian little --cpu ARM926EJ-S     /
+//                       --stack_align 4 --interwork -e --fpu None           /
+//                       --dlib_config "D:\Pasha\Embedded Workbench 4.0      /
+//                       Evaluation2\ARM\LIB\dl5tpainl8n.h" --segment        /
+//                       code=CONFIG --segment data=CONFIG -I                /
+//                       "D:\Pasha\Embedded Workbench 4.0                    /
+//                       Evaluation2\ARM\INC\" --inline_threshold=2          /
+//    List file       =  D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rel /
+//                       ease_ELKA\List\config_data.s79                      /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME config_data
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        PUBLIC DEFAULT_ACTION
+        PUBLIC DEL_AFTER_LOAD
+        PUBLIC EML_PATH
+        PUBLIC IF_DEL_AUX
+        PUBLIC I_HEADER
+        PUBLIC I_HEADER_ATT
+        PUBLIC I_MES_DEL
+        PUBLIC I_MES_DOWN
+        PUBLIC I_MES_READ_ATT
+        PUBLIC I_MES_UNREAD_ATT
+        PUBLIC I_READ
+        PUBLIC I_UNREAD
+        PUBLIC LOAD_IF_LESS
+        PUBLIC MAIL_LOGIN
+        PUBLIC MAIL_PASS
+        PUBLIC POP3_ADRESS
+        PUBLIC POP3_PORT
+        PUBLIC SAVE_AS_FOLDER
+        PUBLIC SMSFORWARD
+        PUBLIC X
+        PUBLIC Y
+        PUBLIC align
+        PUBLIC cfgcbox1
+        PUBLIC cfgcbox2
+        PUBLIC cfgcbox86
+        PUBLIC cfghd67
+        PUBLIC cfghdr0
+        PUBLIC cfghdr1
+        PUBLIC cfghdr10
+        PUBLIC cfghdr11
+        PUBLIC cfghdr12
+        PUBLIC cfghdr13
+        PUBLIC cfghdr14
+        PUBLIC cfghdr15
+        PUBLIC cfghdr2
+        PUBLIC cfghdr298
+        PUBLIC cfghdr3
+        PUBLIC cfghdr4
+        PUBLIC cfghdr41
+        PUBLIC cfghdr5
+        PUBLIC cfghdr51
+        PUBLIC cfghdr6
+        PUBLIC cfghdr61
+        PUBLIC cfghdr62
+        PUBLIC cfghdr7
+        PUBLIC cfghdr8
+        PUBLIC cfghdr9
+        PUBLIC fontpath
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr0:
+        DATA
+        DC32 4
+        DC8 "Login"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 63
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+MAIL_LOGIN:
+        DATA
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr1:
+        DATA
+        DC32 6
+        DC8 "Password"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 31
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+MAIL_PASS:
+        DATA
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr2:
+        DATA
+        DC32 4
+        DC8 "POP3 adress"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 31
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+POP3_ADRESS:
+        DATA
+        DC8 "pop.km.ru"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr3:
+        DATA
+        DC32 1
+        DC8 "POP3 port"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 65535
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+POP3_PORT:
+        DATA
+        DC32 110
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr4:
+        DATA
+        DC32 2
+        DC8 "Eml Files Path"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 63
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+EML_PATH:
+        DATA
+        DC8 "4:\\ZBin\\EMailClient\\data\\"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr41:
+        DATA
+        DC32 2
+        DC8 "Default SaveAs Folder"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 63
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+SAVE_AS_FOLDER:
+        DATA
+        DC8 "4:\\Misc\\"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr5:
+        DATA
+        DC32 5
+        DC8 "Load"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+DEFAULT_ACTION:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfgcbox1:
+        DATA
+        DC8 "Only Headers"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "Headers+Text"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr51:
+        DATA
+        DC32 1
+        DC8 "Load if size less then"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 4294967295
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+LOAD_IF_LESS:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr6:
+        DATA
+        DC32 5
+        DC8 "Action if mail del from server"
+        DC8 0
+        DC32 0, 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+IF_DEL_AUX:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfgcbox2:
+        DATA
+        DC8 "Delete From Phone"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "Nothing"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr61:
+        DATA
+        DC32 11
+        DC8 "Delete from serv after loading"
+        DC8 0
+        DC32 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+DEL_AFTER_LOAD:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr62:
+        DATA
+        DC32 4
+        DC8 "Number SMS Forward"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 31
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+SMSFORWARD:
+        DATA
+        DC8 "684"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr7:
+        DATA
+        DC32 2
+        DC8 "Icon Message Unreaded"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 3, 63
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+I_UNREAD:
+        DATA
+        DC8 "4:\\ZBin\\EMailClient\\img\\mes_unread.png"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr8:
+        DATA
+        DC32 2
+        DC8 "Icon Message readed"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 3, 63
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+I_READ:
+        DATA
+        DC8 "4:\\ZBin\\EMailClient\\img\\mes_read.png"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr9:
+        DATA
+        DC32 2
+        DC8 "Icon Only Header"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 3, 63
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+I_HEADER:
+        DATA
+        DC8 "4:\\ZBin\\EMailClient\\img\\only_head.png"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr10:
+        DATA
+        DC32 2
+        DC8 "Icon Header with attach"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 3, 63
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+I_HEADER_ATT:
+        DATA
+        DC8 "4:\\ZBin\\EMailClient\\img\\only_head_att.png"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr11:
+        DATA
+        DC32 2
+        DC8 "Icon Message unread with att"
+        DC8 0, 0, 0
+        DC32 3, 63
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+I_MES_UNREAD_ATT:
+        DATA
+        DC8 "4:\\ZBin\\EMailClient\\img\\mes_unread_att.png"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr12:
+        DATA
+        DC32 2
+        DC8 "Icon Message read with att"
+        DC8 0, 0, 0, 0, 0
+        DC32 3, 63
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+I_MES_READ_ATT:
+        DATA
+        DC8 "4:\\ZBin\\EMailClient\\img\\mes_read_att.png"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr13:
+        DATA
+        DC32 2
+        DC8 "Icon Message for download"
+        DC8 0, 0, 0, 0, 0, 0
+        DC32 3, 63
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+I_MES_DOWN:
+        DATA
+        DC8 "4:\\ZBin\\EMailClient\\img\\mes_for_download.png"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr14:
+        DATA
+        DC32 2
+        DC8 "Icon Message for delete"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 3, 63
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+I_MES_DEL:
+        DATA
+        DC8 "4:\\ZBin\\EMailClient\\img\\mes_for_delete.png"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr15:
+        DATA
+        DC32 2
+        DC8 "font path"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 3, 63
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+fontpath:
+        DATA
+        DC8 "4:\\elf\\naticq\\font\\"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghd67:
+        DATA
+        DC32 7
+        DC8 "\312\356\356\360\344\350\355\340\362\373"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+X:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+Y:
+        DATA
+        DC32 65
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfghdr298:
+        DATA
+        DC32 5
+        DC8 "Align"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 3
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+align:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+cfgcbox86:
+        DATA
+        DC8 "Left"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "Center"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "Right"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        END
+// 
+// 2 088 bytes in segment CONFIG_C
+// 
+// 2 088 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

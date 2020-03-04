@@ -1,0 +1,13 @@
+IFS=",.*"
+OUT="$2.java"
+
+echo "package javax.microedition.lcdui;
+public $1 $2" > "${OUT}"
+
+if [ "x$3" != "x" ]; then echo "  extends $3" >> "${OUT}"; fi
+
+if [ "x$4" != "x" ]; then shift 3; echo "  implements $*" >> "${OUT}"; fi
+
+echo "{
+}
+" >> "${OUT}"

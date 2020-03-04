@@ -1,0 +1,667 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0049)http://sobek.su/Docs/svn-book/svn.tour.cycle.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Простейший рабочий цикл</title><link rel="stylesheet" href="./Простейший рабочий цикл svn_files/styles.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.73.2"><link rel="start" href="http://sobek.su/Docs/svn-book/index.html" title="Управление версиями в Subversion"><link rel="up" href="http://sobek.su/Docs/svn-book/svn.tour.html" title="Глава 2. Экскурсия по Subversion"><link rel="prev" href="http://sobek.su/Docs/svn-book/svn.tour.initial.html" title="Создание рабочей копии"><link rel="next" href="http://sobek.su/Docs/svn-book/svn.tour.history.html" title="Анализ истории"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tbody><tr><th colspan="3" align="center">Простейший рабочий цикл</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="http://sobek.su/Docs/svn-book/svn.tour.initial.html">Пред.</a>&nbsp;</td><th width="60%" align="center">Глава 2. Экскурсия по Subversion</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="http://sobek.su/Docs/svn-book/svn.tour.history.html">След.</a></td></tr></tbody></table><hr></div><div class="sect1" lang="ru" xml:lang="ru"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.tour.cycle"></a>Простейший рабочий цикл</h2></div></div></div><p>Subversion имеет множество возможностей, опций и украшательств, но
+      в ежедневной работе используются только некоторые из них. В этом
+      разделе мы пройдемся по наиболее часто выполняемым в течение рабочего
+      дня задачам.</p><p>Типичный рабочий цикл выглядит примерно так:</p><div class="itemizedlist"><ul type="disc"><li><p>Обновление рабочей копии</p><div class="itemizedlist"><ul type="circle"><li><p><span class="command"><strong>svn update</strong></span></p></li></ul></div></li><li><p>Внесение изменений</p><div class="itemizedlist"><ul type="circle"><li><p><span class="command"><strong>svn add</strong></span></p></li><li><p><span class="command"><strong>svn delete</strong></span></p></li><li><p><span class="command"><strong>svn copy</strong></span></p></li><li><p><span class="command"><strong>svn move</strong></span></p></li></ul></div></li><li><p>Анализ изменений</p><div class="itemizedlist"><ul type="circle"><li><p><span class="command"><strong>svn status</strong></span></p></li><li><p><span class="command"><strong>svn diff</strong></span></p></li><li><p><span class="command"><strong>svn revert</strong></span></p></li></ul></div></li><li><p>Слияние изменений, выполненных другими, с вашей рабочей
+          копией</p><div class="itemizedlist"><ul type="circle"><li><p><span class="command"><strong>svn update</strong></span></p></li><li><p><span class="command"><strong>svn resolved</strong></span></p></li></ul></div></li><li><p>Фиксация изменений</p><div class="itemizedlist"><ul type="circle"><li><p><span class="command"><strong>svn commit</strong></span></p></li></ul></div></li></ul></div><div class="sect2" lang="ru" xml:lang="ru"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.cycle.update"></a>Обновление рабочей копии</h3></div></div></div><p>При командной работе над проектом обновление рабочей копии
+        необходимо для получения любых изменений, внесенных с момента
+        вашего последнего обновления другими разработчиками проекта.
+        Используйте <span class="command"><strong>svn update</strong></span> для синхронизации вашей
+        рабочей копии с последней правкой в хранилище.</p><pre class="screen">$ svn update
+U  foo.c
+U  bar.c
+Updated to revision 2.
+</pre><p>В данном случае, кто-то другой зафиксировал изменения в файлах
+        <code class="filename">foo.c</code> и <code class="filename">bar.c</code> после
+        вашего последнего обновления, и Subversion обновила вашу рабочую копию
+        включив эти изменения.</p><p>Рассмотрим выводимую командой <span class="command"><strong>svn update</strong></span> информацию
+        чуть подробнее. Когда сервер отправляет изменения в вашу рабочую копию
+        для каждого элемента выводится латинская буква — код, определяющий,
+        какое действие выполнила Subversion для приведения ваше рабочей копии в
+        актуальное состояние:</p><div class="variablelist"><dl><dt><span class="term"><code class="computeroutput">U      foo</code></span></dt><dd><p>Файл <code class="filename">foo</code> был
+              <code class="computeroutput">U</code>pdated — обновлен
+              (получил изменения с сервера).</p></dd><dt><span class="term"><code class="computeroutput">A      foo</code></span></dt><dd><p>Файл или директория <code class="filename">foo</code> были
+              <code class="computeroutput">A</code>dded — добавлены в
+              рабочую копию.</p></dd><dt><span class="term"><code class="computeroutput">D      foo</code></span></dt><dd><p>Файл или директория <code class="filename">foo</code> были
+              <code class="computeroutput">D</code>eleted — удалены
+              из рабочей копии.</p></dd><dt><span class="term"><code class="computeroutput">R      foo</code></span></dt><dd><p>Файл или директория <code class="filename">foo</code> была
+              <code class="computeroutput">R</code>eplaced — заменена
+              в рабочей копии; это значит, что <code class="filename">foo</code>
+              был удален, а новый элемент с таким же именем был добавлен.
+              Не смотря на то, что они могут иметь одинаковое имя,
+              хранилище рассматривает их как разные объекты с
+              отдельной историей.</p></dd><dt><span class="term"><code class="computeroutput">G      foo</code></span></dt><dd><p>Файл <code class="filename">foo</code> получил новые изменения
+              из хранилища, однако ваша локальная копия содержит ваши
+              изменения. Либо изменения не пересекаются, либо они точно такие
+              же как ваши локальные изменения поэтому Subversion успешно
+              выполнила mer<code class="computeroutput">G</code>ed —
+              слияние изменений хранилища с файлом.</p></dd><dt><span class="term"><code class="computeroutput">C      foo</code></span></dt><dd><p>Файл <code class="filename">foo</code> получил от сервера
+              <code class="computeroutput">C</code>onflicting —
+              конфликтующие изменения. Изменения с сервера пересекаются с
+              вашими изменениями фала. Однако паниковать не стоит. Это
+              перекрытие нуждается в разрешении человеком (вами); мы обсудим
+              эту ситуацию позже в этой главе.</p></dd></dl></div></div><div class="sect2" lang="ru" xml:lang="ru"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.cycle.edit"></a>Внесение изменений в рабочую копию</h3></div></div></div><p>Теперь вы можете вносить изменения в рабочую копию. Самый
+        подходящий момент внести нужные изменения (или набор изменений),
+        например, добавление новой возможности, исправление ошибки и т. д.
+        Команды Subversion которыми вы будете здесь пользоваться — это
+        <span class="command"><strong>svn add</strong></span>, <span class="command"><strong>svn delete</strong></span>,
+        <span class="command"><strong>svn copy</strong></span> и <span class="command"><strong>svn move</strong></span>.
+        Однако если вы просто редактируете файлы которые уже в Subversion
+        ни одна из этих команд вам не нужна. Изменения которые вы можете
+        сделать в вашей рабочей:</p><div class="variablelist"><dl><dt><span class="term">Изменения файлов</span></dt><dd><p>Это самый простой вид изменений. Вам не нужно сообщать
+              Subversion о своем намерении изменить файл; просто берите
+              и вносите изменения. Subversion сможет автоматически
+              определить измененные файлы.</p></dd><dt><span class="term">Изменения в структуре</span></dt><dd><p>Вы можете попросить Subversion «<span class="quote">отметить</span>»
+              файлы и директории для удаления, добавления, копирования или
+              перемещения. Не смотря на то, что эти изменения сразу же
+              отразятся в рабочей копии, ни добавления, ни удаления
+              не произойдут в хранилище пока вы их не зафиксируете.</p></dd></dl></div><p>Для внесения изменений в файлы используете свой текстовый
+        редактор, текстовый процессор, графическую программу или любой
+        другой инструмент который вы обычно используете. Subversion
+        обрабатывает бинарные файлы так же легко как и текстовые -
+        и настолько же эффективно.</p><p>Вот обзор четырех подкоманд Subversion которые вы будете
+        использовать наиболее часто при внесении изменений в структуру
+        (команды <span class="command"><strong>svn import</strong></span> и <span class="command"><strong>svn
+        mkdir</strong></span> мы рассмотрим позже).</p><div class="sidebar"><p class="title"><b>Versioning symbolic links</b></p><p>On platforms which support them, Subversion is able to
+          version files of the special type <em class="firstterm">symbolic
+          link</em> (or, «<span class="quote">symlink</span>»).  A symlink is
+          a file which acts as a sort of transparent reference to some
+          other object in the filesystem, allowing programs to read
+          and write to those objects indirectly by way of performing
+          operations on the symlink itself.</p><p>When a symlink is committed into a Subversion
+          repository, Subversion retains the fact that the file was in
+          fact a symlink, as well as to what object the symlink
+          «<span class="quote">points</span>».  When that symlink is checked out to
+          another working copy on a supporting system, Subversion
+          reconstructs a real filesystem-level symbolic link from the
+          versioned symlink.  But that doesn't in any way limit the
+          usability of working copies on systems such as Windows which
+          do not support symlinks.  On such systems, Subversion simply
+          constructs a regular text file whose contents are the path
+          to which to the original symlink pointed.  While that file
+          can't be used as a symlink on a Windows system, it also
+          won't prevent Windows users from performing their other
+          Subversion-related activities.</p></div><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Внимание</h3><p>Не смотря на то, что файлы вы можете редактировать
+          как угодно, не следует менять структуру рабочей копии
+          не проинформировав о своих действиях Subversion. Для
+          изменения структуры рабочей копии используйте команды
+          <span class="command"><strong>svn copy</strong></span>, <span class="command"><strong>svn delete</strong></span>
+          и <span class="command"><strong>svn move</strong></span>, а для добавления новых файлов
+          и директорий под контроль версий используйте
+          <span class="command"><strong>svn add</strong></span>.</p></div><div class="variablelist"><dl><dt><span class="term"><span class="command"><strong>svn add foo</strong></span></span></dt><dd><p>Запланировать файл, директорию или символьную ссылку
+              <code class="filename">foo</code> для добавления в хранилище.
+              При следующей фиксации, <code class="filename">foo</code> станет
+              компонентом своей родительской директории. Обратите внимание
+              на то, что если <code class="filename">foo</code> является директорией,
+              то все содержащееся в <code class="filename">foo</code> будет
+              запланировано для добавления. Если вы хотите добавить
+              отдельно <code class="filename">foo</code> воспользуйтесь параметром
+              <code class="option">--non-recursive</code>
+              (<code class="option">-N</code>).</p></dd><dt><span class="term"><span class="command"><strong>svn delete foo</strong></span></span></dt><dd><p>Запланировать удаление из хранилища файла, директории
+              или символьной ссылки <code class="filename">foo</code>. Если
+              <code class="filename">foo</code> является файлом или ссылкой,
+              он сразу же удаляется из вашей рабочей копии. Если
+              <code class="filename">foo</code> является директорией, она не
+              удаляется, но Subversion запланирует ее удаление.
+              <code class="filename">foo</code> будет удалена из рабочей копии и
+              хранилища при фиксации изменений.<sup>[<a id="id499172" href="http://sobek.su/Docs/svn-book/svn.tour.cycle.html#ftn.id499172" class="footnote">8</a>]</sup></p></dd><dt><span class="term"><span class="command"><strong>svn copy foo bar</strong></span></span></dt><dd><p>Создать новый элемент <code class="filename">bar</code> как
+              копию <code class="filename">foo</code>. <code class="filename">bar</code>
+              будет автоматически запланирован для добавления.
+              Когда при следующей фиксации <code class="filename">bar</code>
+              будет добавлен в хранилище в его истории будет отмечено
+              копирование (то, что первоисточником является
+              <code class="filename">foo</code>). <span class="command"><strong>svn copy</strong></span> не
+              создает промежуточных директорий.</p></dd><dt><span class="term"><span class="command"><strong>svn move foo bar</strong></span></span></dt><dd><p>Эта команда полностью аналогична выполнению
+              <span class="command"><strong>svn copy foo bar; svn delete foo</strong></span>.
+              Поэтому, <code class="filename">bar</code> будет запланирован для
+              добавления как копия <code class="filename">foo</code>, а
+              <code class="filename">foo</code> будет запланирован для удаления.
+              <span class="command"><strong>svn move</strong></span> не создает промежуточных
+              директорий.</p></dd></dl></div><div class="sidebar"><p class="title"><b>Изменение хранилища без участия рабочей копии</b></p><p>Ранее в этой главе мы сказали, что вам необходимо
+          зафиксировать любые изменения для того, что бы они отразились в
+          хранилище. Это не совсем так — <span class="emphasis"><em>существуют</em></span>
+          некоторые случаи использования, которые сразу же фиксируют в
+          хранилище изменения структуры. Это происходит только тогда
+          когда подкоманда оперирует напрямую с URL вместо рабочей копии.
+          В частности, отдельные применения <span class="command"><strong>svn mkdir</strong></span>,
+          <span class="command"><strong>svn copy</strong></span>, <span class="command"><strong>svn move</strong></span> и
+          <span class="command"><strong>svn delete</strong></span> могут работать с URL.</p><p>URL операции ведут себя подобным образом из-за того, что
+          команды использующие рабочую копию могут использовать ее
+          как своего рода «<span class="quote">сартовую площадку</span>» для
+          устаканивания изменений перед фиксацией их в хранилище. Команды
+          оперирующие URL не могут позволить такой роскоши, поэтому,
+          когда вы работаете напрямую с URL, любое из приведенных выше действий
+          приводит к немедленной фиксации.</p></div></div><div class="sect2" lang="ru" xml:lang="ru"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.cycle.examine"></a>Анализ изменений</h3></div></div></div><p>После внесения изменений вам необходимо зафиксировать их в
+        хранилище, но перед тем, как вы это сделаете, не плохо бы посмотреть,
+        что, собственно, вы изменили. Проанализировав перед фиксацией свои
+        изменения, вы сможете составить более аккуратное лог-сообщение.
+        Кроме того, вы можете обнаружить, что вы изменили файл непреднамеренно
+        и это даст вам возможность до фиксации вернуть файл к предыдущему
+        состоянию. К тому же, это хорошая возможность пересмотреть и проверить
+        изменения перед их публикацией. Что бы увидеть все сделанные изменения
+        вы можете воспользоваться <span class="command"><strong>svn status</strong></span>, <span class="command"><strong>svn
+        diff</strong></span> и <span class="command"><strong>svn revert</strong></span>. Первые две команды вы
+        можете использовать для того, что бы найти измененные файлы рабочей
+        копии, а затем при помощи третьей, возможно, отменить некоторые (или
+        все) изменения.</p><div class="sidebar"><p class="title"><b>Look Ma! No Network!</b></p><p>Все эти три команды (<span class="command"><strong>svn
+          status</strong></span>, <span class="command"><strong>svn diff</strong></span> и
+          <span class="command"><strong>svn revert</strong></span>) могут использоваться
+          при полном отсутствии сетевого доступа. Это позволяет
+          легко управлять рабочими изменениями когда вы находитесь там
+          где нет сетевого соединения, например, находясь в самолете,
+          едучи в пригородном поезде или занимаясь хакерством на
+          пляже.</p><p>Для этого Subversion использует отдельную для каждого
+          версионированного файла кэшированную в административной области
+          <code class="filename">.svn</code> первоначальную версию. Это позволяет
+          Subversion показывать — и отменять — локальные
+          изменения таких файлов <span class="emphasis"><em>без необходимости сетевого
+          доступа</em></span>. Этот кеш (называемый «<span class="quote">текстовой
+          базой</span>»), кроме всего прочего, позволяет Subversion
+          при фиксации отправлять локальные пользовательские изменения
+          в виде сжатой <em class="firstterm">дельты</em> (или
+          «<span class="quote">различий</span>») первоначальной версии. Наличие такого
+          кеша ужасно выгодно — даже если у вас высокоскоростное
+          соединение намного быстрее отправлять на сервер только изменения
+          файла вместо отправки целого файла.</p></div><p>Subversion была оптимизирована для решения такой задачи
+        и способна выполнять множество действий без обращения к
+        хранилищу. В частности, в <code class="filename">.svn</code>-области
+        рабочая копия содержит скрытую кешированую «<span class="quote">нетронутую</span>»
+        копию каждого версионированного файла. Вследствие этого, Subversion
+        может быстро показать, как изменились ваши рабочие файлы или
+        даже предоставить, не связываясь с хранилищем, возможность сделать
+        откат изменений.</p><div class="sect3" lang="ru" xml:lang="ru"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.cycle.examine.status"></a><span class="command"><strong>svn status</strong></span></h4></div></div></div><p>Наверное, команду <span class="command"><strong>svn status</strong></span>
+          вы будете использовать чаще чем любую другую команду
+          Subversion.</p><div class="sidebar"><p class="title"><b>CVS Users: Hold That Update!</b></p><p>Вероятно, для того что бы увидеть какие изменения вы сделали
+            в рабочей копии,  вы использовали <span class="command"><strong>cvs update</strong></span>.
+            <span class="command"><strong>svn status</strong></span> даст вам всю нужную информацию
+            относительно того, что изменилось в рабочей копии —
+            не обращаясь к хранилищу и не сливая новые изменения
+            опубликованные другими пользователями.</p><p><span class="command"><strong>Обновление</strong></span> в Subversion делает именно
+            это — обновляет вашу рабочую копию беря все изменения
+            зафиксированные в хранилище с момента последнего обновления рабочей
+            копии. Это нарушает традицию использования команды
+            <span class="command"><strong>update</strong></span> для того, что бы посмотреть сделанные
+            локально изменения.</p></div><p>При запуске <span class="command"><strong>svn status</strong></span> без параметров в
+          корневой директории рабочей копии, будут найдены все сделанные вами
+          файловые и структурные изменения. Ниже приведены примеры различных
+          буквенных кодов, возвращаемых <span class="command"><strong>svn status</strong></span>.
+          (Обратите внимание на то, что текст следующий за
+          <code class="literal">#</code> на самом деле <span class="command"><strong>svn status</strong></span> не
+          печатает.)</p><pre class="screen">  L     some_dir            # svn оставила блокировку в .svn-области для some_dir
+M       bar.c               # содержимое bar.c имеет локальные изменения
+ M      baz.c               # в baz.c есть изменения в свойствах, а в содержимом нет
+X       3rd_party           # директория является частью внешней зависимости
+?       foo.o               # svn не управляет foo.o
+!       some_dir            # svn управляет этим элементом, но он отсутствует или не поврежден
+~       qux                 # элемент версионировался как файл/директория/ссылка, но тип был изменен
+I       .screenrc           # svn не управляет этим элементом и настроена на его игнорирование
+A  +    moved_dir           # добавлен с историей своего происхождения
+M  +    moved_dir/README    # добавлен с историей и имеет локальные изменения
+D       stuff/fish.c        # файл запланирован для удаления
+A       stuff/loot/bloo.h   # файл запланирован для добавления
+C       stuff/loot/lump.c   # файл имеет текстовый конфликт с момента обновления
+ C      stuff/loot/glub.c   # файл имеет конфликт в свойствах с момента обновления
+R       xyz.c               # файл запланирован для замены
+    S   stuff/squawk        # файл или директория были переключены на ветку
+     K  dog.jpg             # файл заблокирован локально; присутствует маркер блокирования
+     O  cat.jpg             # файл заблокирован в хранилище другим пользователем
+     B  bird.jpg            # файл заблокирован локально, но блокировка была нарушена
+     T  fish.jpg            # файл заблокирован локально, но блокировка была снята
+
+</pre><p><span class="command"><strong>svn status</strong></span>
+          печатает пять колонок букв, затем несколько пробелов,
+          затем имя файла или директории. Первая колонка показывает
+          статус файла или директории и/или ее содержимого. Коды
+          используемые здесь:</p><div class="variablelist"><dl><dt><span class="term"><code class="computeroutput">A      item</code></span></dt><dd><p>Файл, директория или символьная ссылка
+                <code class="filename">item</code> была запланирована для
+                добавления в хранилище.</p></dd><dt><span class="term"><code class="computeroutput">C      item</code></span></dt><dd><p>Файл <code class="filename">item</code> находится в
+                состоянии конфликта. Это значит, что изменения,
+                полученные от сервера при обновлении пересекаются
+                с локальными изменениями имеющимися в рабочей копии.
+                Перед фиксацией изменений вам необходимо разрешить
+                этот конфликт.</p></dd><dt><span class="term"><code class="computeroutput">D      item</code></span></dt><dd><p>Файл, директория или символьная ссылка
+                <code class="filename">item</code> запланированы
+                для удаления из хранилища.</p></dd><dt><span class="term"><code class="computeroutput">M      item</code></span></dt><dd><p>Содержимое файла <code class="filename">item</code> было
+                изменено.</p></dd><dt><span class="term"><code class="computeroutput">R      item</code></span></dt><dd><p>Файл, директория или символьная ссылка запланированы
+                для замены <code class="filename">item</code> в хранилище.
+                Это значит, что сначала объект был удален, а затем
+                другой объект с таким же именем был добавлен, все в одной
+                правке.</p></dd><dt><span class="term"><code class="computeroutput">X      item</code></span></dt><dd><p>Директория <code class="filename">item</code> не версионирована,
+                но относится к внешним зависимостям Subversion. Более подробно
+                о внешних зависимостях см. в <a class="xref" href="http://sobek.su/Docs/svn-book/svn.advanced.externals.html" title="Внешние зависимости">«Внешние зависимости»</a>.</p></dd><dt><span class="term"><code class="computeroutput">?      item</code></span></dt><dd><p>Файл, директория или символьная ссылка не находится под
+                контролем версий. Вы можете убрать знаки вопроса либо
+                воспользовавшись параметром <code class="option">--quiet</code>
+                (<code class="option">-q</code>) команды <span class="command"><strong>svn status</strong></span>,
+                либо установив свойство <code class="literal">svn:ignore</code>
+                родительской директории. Больше информации об игнорировании
+                файлов см. в <a class="xref" href="http://sobek.su/Docs/svn-book/svn.advanced.props.special.ignore.html" title="Ignoring Unversioned Items">«Ignoring Unversioned Items»</a>.</p></dd><dt><span class="term"><code class="computeroutput">!      item</code></span></dt><dd><p>Файл, директория или символьная ссылка
+                <code class="filename">item</code> находится под контролем версий
+                но отсутствует или повреждена как-то по другому. Элемент
+                может отсутствовать если был удален используя не-Subversion
+                команды. В случае если это директория, она может оказаться
+                поврежденной, если вы прервали создание рабочей копии или
+                обновление. Быстрый запуск <span class="command"><strong>svn update</strong></span>
+                заново вытащит файл или директорию из хранилища, либо
+                <span class="command"><strong>svn revert file</strong></span> восстановит отсутствующий
+                файл.</p></dd><dt><span class="term"><code class="computeroutput">~      item</code></span></dt><dd><p>Файл, директория или символьная ссылка
+                <code class="filename">item</code> в хранилище является объектом
+                одного типа, а то, что на самом деле находится в рабочей
+                копии является чем-то другим. Например, в хранилище
+                Subversion может иметь файл, а вы удалили файл и создали
+                вместо него директорию, без использования команды
+                <span class="command"><strong>svn delete</strong></span> или
+                <span class="command"><strong>svn add</strong></span>.</p></dd><dt><span class="term"><code class="computeroutput">I      item</code></span></dt><dd><p>Файл, директория или символьная ссылка
+                <code class="filename">item</code> находится под контролем
+                версий и Subversion настроена на его игнорирование
+                при операциях <span class="command"><strong>svn add</strong></span>, <span class="command"><strong>svn
+                import</strong></span> и <span class="command"><strong>svn status</strong></span>.
+                Больше информации об игнорированных файлах см. в
+                <a class="xref" href="http://sobek.su/Docs/svn-book/svn.advanced.props.special.ignore.html" title="Ignoring Unversioned Items">«Ignoring Unversioned Items»</a>.
+                Обратите внимание на то, что этот символ появляется
+                при использовании опции <code class="option">--no-ignore</code>
+                для <span class="command"><strong>svn status</strong></span> — иначе
+                файл игнорируется и не показывается вообще!</p></dd></dl></div><p>Вторая колонка показывает статус свойств файлов и
+          директорий (больше о свойствах см. в <a class="xref" href="http://sobek.su/Docs/svn-book/svn.advanced.props.html" title="Свойства">«Свойства»</a>). Если во второй колонке
+          показывается <code class="computeroutput">M</code> свойства
+          были изменены. Если в этой колонке показывается
+          <code class="computeroutput">C</code> это значит, что свойства
+          этого файла находятся в состоянии конфликта, который должен быть
+          решен до фиксации изменений в хранилище. Во всех других случаях
+          будет выведен пробел.
+        </p><p>Третья колонка может содержать только пробел или
+          <code class="computeroutput">L</code>, это значит, что у директории
+          заблокирована рабочая область <code class="filename">.svn</code>.
+          Вы увидите <code class="computeroutput">L</code> если запустите
+          <span class="command"><strong>svn status</strong></span> в директории, в которой выполняется
+          <span class="command"><strong>svn commit</strong></span> — например, когда вы
+          редактируете лог-сообщение.</p><p>Четвертая колонка может содержать только пробел или
+          <code class="computeroutput">+</code>, это означает, что
+          элемент был запланирован для «<span class="quote">добавления с историей</span>».
+          Это может быть файл или корень скопированной директории.
+          <code class="computeroutput">+</code> означает, что элемент
+          является частью поддерева запланированного для
+          «<span class="quote">добавления с историей</span>», т. е. одна из родительских
+          директорий была скопирована и этот элемент просто ее часть.
+          <code class="computeroutput">M&nbsp;&nbsp;+</code> означает, что
+          элемент является частью поддерева запланированного для
+          «<span class="quote">добавления с историей</span>» <span class="emphasis"><em>and</em></span>
+          имеет локальные изменения. При выполнении фиксации, в начале
+          родительская директория будет «<span class="quote">добавлена с историей</span>»,
+          что означает автоматическое наличие файла в копии.
+          После этого в копию будут загружены локальные изменения.</p><p>Пятая колонка может содержать только пробел или
+          <code class="computeroutput">S</code>. Это символизирует
+          то, что файл или директория были переключены с пути остальной
+          рабочей копии на ветку (используя <span class="command"><strong>svn switch</strong></span>).
+        </p><p>Шестая колонка показывает информацию о блокировках,
+          которые подробно рассмотрены в <a class="xref" href="http://sobek.su/Docs/svn-book/svn.advanced.locking.html" title="Locking">«Locking»</a>. (Это не те блокировки, которые
+        отмечаются <code class="computeroutput">L</code> в третьей колонке;
+        см. <a class="xref" href="http://sobek.su/Docs/svn-book/svn.advanced.locking.html#svn.advanced.locking.meanings" title="Three meanings of «lock»">Three meanings of «<span class="quote">lock</span>»</a>)</p><p>Если вы укажите конкретный путь для <span class="command"><strong>svn
+          status</strong></span>, вы получите информацию только об этом
+          элементе:</p><pre class="screen">$ svn status stuff/fish.c
+D      stuff/fish.c
+</pre><p>Кроме того, <span class="command"><strong>svn status</strong></span> имеет
+          параметр <code class="option">--verbose</code> (<code class="option">-v</code>),
+          который покажет вам статус <span class="emphasis"><em>каждого</em></span>
+          элемента в рабочей копии, даже если он не менялся:</p><pre class="screen">$ svn status --verbose
+M               44        23    sally     README
+                44        30    sally     INSTALL
+M               44        20    harry     bar.c
+                44        18    ira       stuff
+                44        35    harry     stuff/trout.c
+D               44        19    ira       stuff/fish.c
+                44        21    sally     stuff/things
+A                0         ?     ?        stuff/things/bloo.h
+                44        36    harry     stuff/things/gloo.c
+</pre><p>Это «<span class="quote">длинная форма</span>» представления вывода
+          <span class="command"><strong>svn status</strong></span>. Первая колонка та же самая,
+          а вот вторая колонка показывает рабочую правку элемента.
+          Третья и четвертая колонки показывают правку в которой элемент
+          последний раз изменялся и кто делал эти изменения.</p><p>Ни один из указанных выше вызовов <span class="command"><strong>svn
+          status</strong></span> не обращается к хранилищу, они работают
+          только локально, сравнивая метаданные директории
+          <code class="filename">.svn</code> с рабочей копией. Отметим, что есть
+          параметр <code class="option">--show-updates</code> (<code class="option">-u</code>),
+          указывающий на соединение с хранилищем и добавляющий
+          информацию об устаревании элементов:</p><pre class="screen">$ svn status --show-updates --verbose
+M      *        44        23    sally     README
+M               44        20    harry     bar.c
+       *        44        35    harry     stuff/trout.c
+D               44        19    ira       stuff/fish.c
+A                0         ?     ?        stuff/things/bloo.h
+Status against revision:   46
+</pre><p>Обратите внимание на две звездочки: если сейчас вы
+          запустите <span class="command"><strong>svn update</strong></span> вы получите изменения
+          для <code class="filename">README</code> и <code class="filename">trout.c</code>.
+          Это очень полезная информация — перед фиксацией вам необходимо
+          обновить и получить изменения с сервера для
+          <code class="filename">README</code>, или же хранилище отклонит вашу фиксацию
+          как не соответствующую актуальному состоянию. (Подробнее об этом
+          чуть позже.)</p></div><div class="sect3" lang="ru" xml:lang="ru"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.cycle.examine.diff"></a><span class="command"><strong>svn diff</strong></span></h4></div></div></div><p>Еще один механизм для анализа изменений, это команда
+          <span class="command"><strong>svn diff</strong></span>. Увидеть <span class="emphasis"><em>как
+          именно</em></span> вы изменили элементы можно запустив
+          <span class="command"><strong>svn diff</strong></span> без аргументов, в результате
+          выведутся изменения файлов в виде единого формата представления
+          различий:<sup>[<a id="id500634" href="http://sobek.su/Docs/svn-book/svn.tour.cycle.html#ftn.id500634" class="footnote">9</a>]</sup></p><pre class="screen">$ svn diff
+Index: bar.c
+===================================================================
+--- bar.c (revision 3)
++++ bar.c (working copy)
+@@ -1,7 +1,12 @@
++#include &lt;sys/types.h&gt;
++#include &lt;sys/stat.h&gt;
++#include &lt;unistd.h&gt;
++
++#include &lt;stdio.h&gt;
+
+ int main(void) {
+-  printf("Sixty-four slices of American Cheese...\n");
++  printf("Sixty-five slices of American Cheese...\n");
+ return 0;
+ }
+
+Index: README
+===================================================================
+--- README  (revision 3)
++++ README  (working copy)
+@@ -193,3 +193,4 @@
++Note to self:  pick up laundry.
+
+Index: stuff/fish.c
+===================================================================
+--- stuff/fish.c  (revision 1)
++++ stuff/fish.c  (working copy)
+-Welcome to the file known as 'fish'.
+-Information on fish will be here soon.
+
+Index: stuff/things/bloo.h
+===================================================================
+--- stuff/things/bloo.h (revision 8)
++++ stuff/things/bloo.h (working copy)
++Here is a new file to describe
++things about bloo.
+</pre><p>Команда <span class="command"><strong>svn diff</strong></span> формирует
+          свой вывод сравнивая ваши рабочие файлы с кэшированными
+          «<span class="quote">нетронутыми</span>» копиями из <code class="filename">.svn</code>
+          Весь текст запланированных для добавления файлов показывается
+           как добавленный, а весь текст запланированных
+          для удаления файлов показывается как удаленный.</p><p>Вывод происходит в <em class="firstterm">объединенном формате представления
+          различий</em>. При этом удаленные строки предваряются
+          <code class="literal">-</code>, а добавленные строки предваряются
+          <code class="literal">+</code>. Кроме этого <span class="command"><strong>svn diff</strong></span>
+          печатает имена файлов и информацию о сдвиге информации которая
+          необходима программе <span class="command"><strong>patch</strong></span>, и следовательно
+          вы можете получать «<span class="quote">патчи</span>» перенаправив вывод
+          различий в файл:</p><pre class="screen">$ svn diff &gt; patchfile
+</pre><p>Вы можете, например, отправить по электронной почте
+          патч-файл другому разработчику для ознакомления или
+          тестирования перед фиксацией.</p></div><div class="sect3" lang="ru" xml:lang="ru"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.cycle.examine.revert"></a><span class="command"><strong>svn revert</strong></span></h4></div></div></div><p>Теперь предположим, просмотрев вывод команды diff
+          вы обнаружили, что изменения в <code class="filename">README</code>
+          являются ошибочными; возможно, в своем редакторе, вы случайно
+          набрали этот текст, предназначавшийся для другого файла.</p><p>Это как раз возможность воспользоваться
+          <span class="command"><strong>svn revert</strong></span>.</p><pre class="screen">$ svn revert README
+Reverted 'README'
+</pre><p>Subversion возвращает файл в состояние, предшествующее
+          модификации, путем замены файла его кэшированной
+          «<span class="quote">первоначальной</span>» копией из
+          <code class="filename">.svn</code>-области. Кроме того, обратите внимание,
+          что <span class="command"><strong>svn revert</strong></span> может отменить
+          <span class="emphasis"><em>любые</em></span> запланированные операции —
+          например, вы можете прийти к решению таки не добавлять новый
+          файл:</p><pre class="screen">$ svn status foo
+?      foo
+
+$ svn add foo
+A         foo
+
+$ svn revert foo
+Reverted 'foo'
+
+$ svn status foo
+?      foo
+</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Замечание</h3><p><span class="command"><strong>svn revert</strong></span>
+            <em class="replaceable"><code>ITEM</code></em> будет иметь точно такой же эффект,
+            как и удаление <em class="replaceable"><code>ITEM</code></em> из вашей рабочей
+            копии, а затем выполнение <span class="command"><strong>svn update -r BASE</strong></span>
+            <em class="replaceable"><code>ITEM</code></em>. Однако, если вы отменяете
+            изменения для файла, <span class="command"><strong>svn revert</strong></span> будет иметь
+            одно значительное отличие — для восстановления файла
+            не происходит соединения с хранилищем.</p></div><p>Или, допустим, вы ошибочно удалили файл из-под контроля
+          версий:</p><pre class="screen">$ svn status README
+       README
+
+$ svn delete README
+D         README
+
+$ svn revert README
+Reverted 'README'
+
+$ svn status README
+       README
+</pre></div></div><div class="sect2" lang="ru" xml:lang="ru"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.cycle.resolve"></a>Решение конфликтов (при объединении с чужими изменениями)</h3></div></div></div><p>Мы уже видели как <span class="command"><strong>svn status -u</strong></span>
+        может предсказать конфликты. Предположим вы запустили
+        <span class="command"><strong>svn update</strong></span> и произошло кое-что
+        интересное:</p><pre class="screen">$ svn update
+U  INSTALL
+G  README
+C  bar.c
+Updated to revision 46.
+</pre><p>Коды <code class="computeroutput">U</code> и
+        <code class="computeroutput">G</code> интереса не представляют;
+        эти файлы без проблем поглотили изменения из хранилища.
+        Файлы, отмеченные <code class="computeroutput">U</code> локальных
+        изменений не содержат и были <code class="computeroutput">U</code>pdated
+        - обновлены изменениями из хранилища. Отмеченные
+        <code class="computeroutput">G</code> были
+        mer<code class="computeroutput">G</code>ed - слиты, это значит, что
+        файл имел локальные изменения, но изменения, пришедшие из хранилища,
+        не перекрываются с локальными изменениями.</p><p>А вот отмеченные <code class="computeroutput">C</code> имеют конфликт.
+        Это значит, что изменения с сервера пересеклись с вашими личными и
+        теперь вам нужно вручную сделать между ними выбор.</p><p>Всякий раз когда возникает конфликт, для того, чтобы помочь
+        вам заметить и решить этот конфликт, возникают как правило три
+        вещи:</p><div class="itemizedlist"><ul type="disc"><li><p>Subversion печатает <code class="computeroutput">C</code>
+            во время обновления и запоминает, что файл в состоянии
+            конфликта.</p></li><li><p>Если Subversion считает, что файл объединяемого типа
+            она помещает <em class="firstterm">маркеры конфликта</em> —
+            специальные текстовые строки которые отделяют
+            «<span class="quote">стороны</span>» конфликта — в файл, для того,
+            чтобы визуально показать пересекающиеся области.
+            (Subversion использует свойство <code class="literal">svn:mime-type</code>
+            для определения возможности контекстного, построчного слияния.
+            См. <a class="xref" href="http://sobek.su/Docs/svn-book/svn.advanced.props.file-portability.html#svn.advanced.props.special.mime-type" title="File Content Type">«File Content Type»</a>
+            для более подробной информации.)</p></li><li><p>Для каждого конфликтного файла Subversion добавляет в
+            рабочую копию до трех не версионированных дополнительных
+            файлов:</p><div class="variablelist"><dl><dt><span class="term"><code class="filename">filename.mine</code></span></dt><dd><p>Это ваш файл в том виде в каком он был в
+                  рабочей копии до обновления — без маркеров
+                  конфликта. Этот файл содержит в себе только ваши изменения
+                  и ничего больше. (Если Subversion решает, что файл не
+                  объединяемый, тогда файл <code class="filename">.mine</code>
+                  не создается, так как он будет идентичным рабочему
+                  файлу.)</p></dd><dt><span class="term"><code class="filename">filename.rOLDREV</code></span></dt><dd><p>Это файл правки <code class="literal">BASE</code>, где
+                  <code class="literal">BASE</code> - правка которая была до обновления
+                  рабочей копии. То есть это файл который у вас был до
+                  внесения изменений.</p></dd><dt><span class="term"><code class="filename">filename.rNEWREV</code></span></dt><dd><p>Это файл, который ваш Subversion-клиент
+                  только что получил с сервера, когда вы обновили
+                  рабочую копию. Этот файл соответствует правке
+                  <code class="literal">HEAD</code> хранилища.</p></dd></dl></div><p>Здесь <code class="literal">OLDREV</code> - это номер правки файла
+            в директории <code class="filename">.svn</code>, а
+            <code class="literal">NEWREV</code> - это номер правки
+            <code class="literal">HEAD</code> хранилища.</p></li></ul></div><p>Например, Салли внесла изменения в файл
+        <code class="filename">sandwich.txt</code> из хранилища. Гарри
+        одновременно изменил файл в своей рабочей копии и зафиксировал
+        его. Салли обновляет свою рабочую копию перед фиксацией и получает
+        конфликт:</p><pre class="screen">$ svn update
+C  sandwich.txt
+Updated to revision 2.
+$ ls -1
+sandwich.txt
+sandwich.txt.mine
+sandwich.txt.r1
+sandwich.txt.r2
+</pre><p>Теперь Subversion <span class="emphasis"><em>не</em></span> позволит зафиксировать
+        файл <code class="filename">sandwich.txt</code> пока не будут удалены три
+        временных файла.</p><pre class="screen">$ svn commit --message "Add a few more things"
+svn: Commit failed (details follow):
+svn: Aborting commit: '/home/sally/svn-work/sandwich.txt' remains in conflict
+</pre><p>Если вы получили конфликт, у вас есть три варианта:</p><div class="itemizedlist"><ul type="disc"><li><p>Объединить конфликтующий текст «<span class="quote">вручную</span>»
+              (путем анализа и редактирования маркеров конфликта в
+              файле).</p></li><li><p>Скопировать один из временных файлов поверх
+              своего рабочего файла.</p></li><li><p>Выполнить <span class="command"><strong>svn revert &lt;filename&gt;</strong></span>
+              для того, чтобы убрать все ваши локальные изменения.</p></li></ul></div><p>После того, как вы решили конфликт, вам нужно поставить в
+        известность Subversion, выполнив <span class="command"><strong>svn resolved</strong></span>.
+        Это удаляет три временных файла и Subversion больше не считает,
+        что файл находится в состоянии конфликта.
+        <sup>[<a id="id501402" href="http://sobek.su/Docs/svn-book/svn.tour.cycle.html#ftn.id501402" class="footnote">10</a>]</sup></p><pre class="screen">$ svn resolved sandwich.txt
+Resolved conflicted state of 'sandwich.txt'
+</pre><div class="sect3" lang="ru" xml:lang="ru"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.cycle.resolve.byhand"></a>Объединение конфликтов вручную</h4></div></div></div><p>Объединение конфликтов вручную может показаться пугающим,
+          когда вы делаете это в первый раз, но немного попрактиковавшись
+          это может стать таким же простым, как езда на велосипеде.</p><p>Вот пример. По недоразумению, вы и ваш соразработчик Салли,
+          оба одновременно редактируете файл
+          <code class="filename">sandwich.txt</code>.  Салли зафиксировала свои
+          изменения и когда вы выполните обновление своей рабочей копии,
+          вы получите конфликт и для решения конфликта вам необходимо
+          редактировать <code class="filename">sandwich.txt</code>. Для начала,
+          посмотрим на файл:</p><pre class="screen">$ cat sandwich.txt
+Top piece of bread
+Mayonnaise
+Lettuce
+Tomato
+Provolone
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; .mine
+Salami
+Mortadella
+Prosciutto
+=======
+Sauerkraut
+Grilled Chicken
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r2
+Creole Mustard
+Bottom piece of bread
+</pre><p>Строки знаков меньше чем, знаков равенства и знаков
+          больше чем являются маркерами конфликта. Перед следующей
+          фиксацией, вам необходимо будет убедиться, что они удалены из
+          файла. Текст между первыми двумя маркерами состоит из
+          ваших изменений конфликтующей области:</p><pre class="screen">&lt;&lt;&lt;&lt;&lt;&lt;&lt; .mine
+Salami
+Mortadella
+Prosciutto
+=======
+</pre><p>Текст между вторым и третьим маркером конфликта —
+          это текст из фиксации Салли:</p><pre class="screen">=======
+Sauerkraut
+Grilled Chicken
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r2
+</pre><p>Скорее всего вы не захотите просто удалить маркеры конфликта
+          и изменения Салли — она ужасно удивится, когда дойдет до
+          сандвича и не увидит того, что ей нужно. Так, что это тот случай
+          когда вы снимаете трубку или пересекаете офис и объясняете Салли,
+          что не можете получить из итальянского гастронома квашеную капусту.
+          <sup>[<a id="id501505" href="http://sobek.su/Docs/svn-book/svn.tour.cycle.html#ftn.id501505" class="footnote">11</a>]</sup> После того как
+          вы согласовали изменения, вам нужно выполнить фиксацию,
+          отредактируйте ваш файл и удалите маркеры конфликта.</p><pre class="screen">Top piece of bread
+Mayonnaise
+Lettuce
+Tomato
+Provolone
+Salami
+Mortadella
+Prosciutto
+Creole Mustard
+Bottom piece of bread
+</pre><p>Теперь выполните <span class="command"><strong>svn resolved</strong></span> и вы
+          готовы к фиксации изменений:</p><pre class="screen">$ svn resolved sandwich.txt
+$ svn commit -m "Go ahead and use my sandwich, discarding Sally's edits."
+</pre><p>Обратите внимание на то, что <span class="command"><strong>svn resolved</strong></span>,
+          в отличие от большинства команд с которыми мы имели дело в этой главе,
+          требует аргумент. В любом случае будьте осторожны и выполняйте
+          <span class="command"><strong>svn resolved</strong></span> тогда, когда убеждены, что исправили
+          конфликт в файле — после того как временные файлы будут удалены,
+          Subversion позволит вам зафиксировать файл даже если он все еще
+          содержит маркеры конфликта.</p><p>Если вы станете в тупик при редактировании
+          конфликтующего файла, вы всегда можете обратиться к трем
+          файлам, которые Subversion создает в рабочей копии —
+          включая ваш файл в том виде в каком он был до обновления.
+          Для анализа этих трех файлов, вы даже можете воспользоваться
+          программами для объединения от сторонних разработчиков.</p></div><div class="sect3" lang="ru" xml:lang="ru"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.cycle.resolve.copyover"></a>Копирование файла поверх вашего рабочего файла</h4></div></div></div><p>Если вы получили конфликт и решили отказаться от своих
+          изменений, вы можете просто скопировать один из временных файлов
+          созданных Subversion поверх файла в рабочей копии:</p><pre class="screen">$ svn update
+C  sandwich.txt
+Updated to revision 2.
+$ ls sandwich.*
+sandwich.txt  sandwich.txt.mine  sandwich.txt.r2  sandwich.txt.r1
+$ cp sandwich.txt.r2 sandwich.txt
+$ svn resolved sandwich.txt
+</pre></div><div class="sect3" lang="ru" xml:lang="ru"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.cycle.resolve.revert"></a>Использование <span class="command"><strong>svn revert</strong></span></h4></div></div></div><p>Если вы получили конфликт и вместо анализированния решаете
+          отбросить изменения и начать сначала, просто отмените ваши
+          изменения:</p><pre class="screen">$ svn revert sandwich.txt
+Reverted 'sandwich.txt'
+$ ls sandwich.*
+sandwich.txt
+</pre><p>Обратите внимание, что когда вы возвращаете файл к предыдущему
+        состоянию, вам не нужно выполнять <span class="command"><strong>svn
+        resolved</strong></span>.</p></div></div><div class="sect2" lang="ru" xml:lang="ru"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.cycle.commit"></a>Фиксация изменений</h3></div></div></div><p>Наконец то! Ваши редактирования закончены, вы слили
+        все изменения с сервера и вы готовы к тому, чтобы зафиксировать
+        их в хранилище.</p><p>Команда <span class="command"><strong>svn commit</strong></span> отправляет все ваши
+        изменения в хранилище. При фиксации изменений необходимо указать
+        описывающие ваши изменения <em class="firstterm">лог сообщение</em>.
+        Лог сообщение будет присоединено к созданной правке. Если ваше
+        лог сообщение короткое, вы можете указать его в командной строке,
+        используя опцию <code class="option">--message</code> (или
+        <code class="option">-m</code>):</p><pre class="screen">$ svn commit --message "Corrected number of cheese slices."
+Sending        sandwich.txt
+Transmitting file data .
+Committed revision 3.
+</pre><p>Однако, если вы составляли лог сообщение во время работы,
+        можно указать Subversion взять лог сообщение из файла, передавая
+        имя файла в параметре <code class="option">--file</code>:</p><pre class="screen">$ svn commit --file logmsg
+Sending        sandwich.txt
+Transmitting file data .
+Committed revision 4.
+</pre><p>Если вы не укажите ни опции <code class="option">--message</code> ни
+        опции <code class="option">--file</code>, для составления лог сообщения
+        Subversion автоматически запустит ваш любимый редактор (см.
+        <code class="literal">editor-cmd</code> в разделе
+        <a class="xref" href="http://sobek.su/Docs/svn-book/svn.advanced.confarea.html#svn.advanced.confarea.opts.config" title="Config">«Config»</a>).</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Подсказка</h3><p>Если в редакторе набирая сообщение решите отменить фиксацию,
+          вы можете просто выйти из редактора без сохранения изменений.
+          Если вы уже сохранили сообщение, просто удалите текст и
+          выполните сохранение еще раз.</p><pre class="screen">$ svn commit
+Waiting for Emacs...Done
+
+Log message unchanged or not specified
+a)bort, c)ontinue, e)dit
+a
+$
+</pre></div><p>Хранилище, в целом, не знает и не заботится о смысле ваших
+        изменений; оно только контролирует, что бы никто не изменил
+        те же файлы что и вы. Если это все-таки
+        <span class="emphasis"><em>случилось</em></span> вся фиксация будет отклонена с
+        сообщением информирующим вас, что один или несколько файлов
+        устарели:</p><pre class="screen">$ svn commit --message "Add another rule"
+Sending        rules.txt
+svn: Commit failed (details follow):
+svn: Out of date: 'rules.txt' in transaction 'g'
+</pre><p>Теперь вам нужно выполнить <span class="command"><strong>svn update</strong></span>
+        разобраться со всеми объединениями и конфликтами и попытаться
+        выполнить фиксацию снова.</p><p>Мы рассмотрели простейший рабочий цикл при использовании
+        Subversion. В Subversion существует много других возможностей
+        которые вы можете применять для управления рабочей копией и
+        хранилищем, но с помощью команд, которые мы рассмотрели
+        в этой главе вы уже можете многое сделать.</p></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a id="ftn.id499172" href="http://sobek.su/Docs/svn-book/svn.tour.cycle.html#id499172" class="para">8</a>] </sup>Конечно,
+              ничего полностью из хранилища не удаляется — удаляется
+              только из <code class="literal">HEAD</code> правки хранилища. Вы можете
+              восстановить все, что вы удалили создав рабочую копию (или
+              обновив существующую) на основе более ранней правки чем та в
+              которой вы удалили элемент.</p></div><div class="footnote"><p><sup>[<a id="ftn.id500634" href="http://sobek.su/Docs/svn-book/svn.tour.cycle.html#id500634" class="para">9</a>] </sup>Subversion использует свой внутренний
+          механизм обнаружения различий, который по умолчанию использует для
+          вывода единый формат представления различий. Если вы хотите получить
+          различия в другом формате, укажите внешнюю программу поиска различий
+          используя <code class="option">--diff-cmd</code> и передав любые аргументы,
+          которые вы хотите что бы она использовала в параметре
+          <code class="option">--extensions</code>. Например, для того что бы увидеть
+          контекстные локальные изменения в файле <code class="filename">foo.c</code>
+          игнорируя изменения пустых мест, запустите <span class="command"><strong>svn diff
+          --diff-cmd /usr/bin/diff --extensions '-bc' foo.c</strong></span>.</p></div><div class="footnote"><p><sup>[<a id="ftn.id501402" href="http://sobek.su/Docs/svn-book/svn.tour.cycle.html#id501402" class="para">10</a>] </sup>Вы можете удалить временные файлы самостоятельно,
+        но нужно ли вам это делать, если это может сделать Subversion?
+        Нам так не кажется.</p></div><div class="footnote"><p><sup>[<a id="ftn.id501505" href="http://sobek.su/Docs/svn-book/svn.tour.cycle.html#id501505" class="para">11</a>] </sup>And if you ask them for it, they may very well
+          ride you out of town on a rail.</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tbody><tr><td width="40%" align="left"><a accesskey="p" href="http://sobek.su/Docs/svn-book/svn.tour.initial.html">Пред.</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="http://sobek.su/Docs/svn-book/svn.tour.html">Уровень выше</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="http://sobek.su/Docs/svn-book/svn.tour.history.html">След.</a></td></tr><tr><td width="40%" align="left" valign="top">Создание рабочей копии&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="http://sobek.su/Docs/svn-book/index.html">Начало</a></td><td width="40%" align="right" valign="top">&nbsp;Анализ истории</td></tr></tbody></table></div>
+</body></html>

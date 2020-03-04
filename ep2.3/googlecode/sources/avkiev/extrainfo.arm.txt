@@ -1,0 +1,265 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+Vrezka      equ	    0x1698BC8
+Patch	    equ	    Patches + 0x600
+;---------------------------------------------------------------------
+AddImm  macro   imm
+          mov     r0, imm
+          bl      AddExtra
+endm
+;---------------------------------------------------------------------
+IncR2ifR0lt macro   imm
+          ldrb    r3, [r6, #imm]
+          cmp     r3, r0
+          adc     r2, r1
+endm
+;---------------------------------------------------------------------
+org     Patch
+            push    {r0, LR}
+            LoadReg 0, config+4
+            bl      GetBuffer
+            bne     DoPatch
+            b       ex
+;---------------------------------------------------------------------
+DoPatch:    ldr     r5, [SP]
+            ldr     r0, [r5, #0x14]
+            str     r0, [r6, #36]
+
+            ldrb    r4, [r6, #1]    ; =56dB
+            ldrb    r5, [r6, #2]
+            bl      RamNetCH
+            ldrh    r1, [r7]
+            mov     r0, #0
+            cmp     r1, #0xFF
+            adc     r0, r0
+            bl      AddExtra
+            bl      RamNetCH
+            ldrb    r1, [r7, #6]
+            bl      Add2Dig
+            AddImm  #2
+            AddImm  #3
+;---------------------------------------------------------------------
+            ldrb    r4, [r6, #3]    ; 26,2'C
+            ldrb    r5, [r6, #4]
+            mov     r0, #1
+            mov     r1, #3
+            bl      GetAkku
+            mvi     r1, 0xAAA
+            sub     r0, r1
+            mov     r1, #5
+            ldrsb   r1, [r6, r1]
+            add     r1, r0
+            bpl     plus
+            AddImm  #0
+            neg     r1, r1
+plus:       mov     r0, #10
+            bl      dwMODdw
+            bl      Add2Dig0
+            AddImm  #4
+            mov     r0, r1
+            bl      Pic_Little0
+            bl      AddPic
+            AddImm  #5
+            AddImm  #6
+;---------------------------------------------------------------------
+            ldrb    r4, [r6, #6]    ; 3,90V
+            ldrb    r5, [r6, #7]
+            mov     r0, #0
+            mov     r1, #9
+            bl      GetAkku
+            mov     r1, r0
+            mvi     r0, 1000
+            bl      dwMODdw
+            bl      Pic_Little0
+            bl      AddPic
+            AddImm  #4
+            mov     r0, #10
+            bl      dwMODdw
+            bl      Add2Dig0
+            AddImm  #7
+;---------------------------------------------------------------------
+            ldrb    r4, [r6, #8]    ; 70%
+            ldrb    r5, [r6, #9]
+            bl      RamCap
+            ldrh    r1, [r7]
+            bl      Add2Dig
+            AddImm  #8
+;---------------------------------------------------------------------
+            ldrb    r4, [r6, #10]    ; 1 (profile)
+            ldrb    r5, [r6, #11]
+            bl      GetProfile
+            bl      Pic_Profiles
+            ldrb    r1, [r6, #12]
+            cmp     r1, #0
+            bne     $+8
+            add     r0, #1
+            bl      Pic_Little0
+            bl      AddPic
+;---------------------------------------------------------------------
+            ldrb    r4, [r6, #13]   ; Vibra
+            ldrb    r5, [r6, #14]
+            bl      GetVibraStatus
+            ldrb    r7, [r6, #15]
+            cmp     r0, r7
+            bne     MissCalls
+            bl      Pic_Vibra
+            mov     r0, #0
+            bl      AddPic
+;---------------------------------------------------------------------
+MissCalls:  bl      RamMissedCalls  ; MissCalls
+            mov     r0, #16
+            mov     r3, #0
+            bl      ShowMissed
+;---------------------------------------------------------------------
+            bl      RamMissedSMS    ; MissSMS
+            mov     r0, #18
+            mov     r3, #1
+            bl      ShowMissed
+;---------------------------------------------------------------------
+            ldrb    r4, [r6, #20]    ; ||||...
+            ldrb    r5, [r6, #21]
+            mov     r1, #7
+            bl      RamNetCH
+nextcell:   push    {r1, r7}
+            ldrb    r0, [r7, #6]
+            add     r0, #1
+            mov     r1, #0
+            mov     r2, #0
+            IncR2ifR0lt 22
+            IncR2ifR0lt 23
+            IncR2ifR0lt 24
+            IncR2ifR0lt 25
+            IncR2ifR0lt 26
+            IncR2ifR0lt 27
+            IncR2ifR0lt 28
+            IncR2ifR0lt 29
+            mov     r0, #14
+            mov     r3, #7
+            and     r2, r3
+            beq     showcell
+            sub     r0, r2, #1
+            ldrh    r3, [r7]
+            cmp     r3, #0xFF
+            bcc     showcell
+            add     r0, #7
+showcell:   bl      Pic_AdvNet
+            bl      AddPic
+            sub     r4, #6
+            add     r4, #5
+            pop     {r1, r7}
+            add     r7, #12
+            sub     r1, #1
+            bne     nextcell
+;---------------------------------------------------------------------
+            ldrb    r4, [r6, #30]    ; B=58
+            ldrb    r5, [r6, #31]
+            AddImm  #3
+            AddImm  #1
+            ldr     r3, [r6, #32]
+            ldrb    r1, [r3]
+            bl      Add2Dig
+;---------------------------------------------------------------------
+ex:         pop     {r5, r6}
+            mov     r0, #0
+            sub     sp, #0x1C
+            mov     r3, SP
+            mvi     r4, 0xFFFF
+            add     r6, #4
+            bx      r6
+;---------------------------------------------------------------------
+ShowMissed: push    {r1,r7, LR}
+            ldrh    r1, [r7]
+            cmp     r1, #0
+            beq     ExSub
+            ldrb    r4, [r6, r0]
+            add     r0, #1
+            ldrb    r5, [r6, r0]
+            bl      Pic_Call
+            mov     r0, r3
+            bl      AddPic
+            add     r4, #10
+            add     r5, #3
+            b       Add2Dig+2
+;---------------------------------------------------------------------
+Add2Dig0:   push    {r1,r7, LR}
+            mov     r1, r0
+            b       Add2Dig+2
+;---------------------------------------------------------------------
+Add2Dig:    push    {r1,r7, LR}
+            mov     r0, #10
+            bl      dwMODdw
+            bl      Pic_Little0
+            cmp     r0, #10
+            bcc     Dig2
+            bl      Add2Dig0
+            b       Dig2+4
+Dig2:       bl      AddPic
+            mov     r0, r1
+            b       AddPic+2
+;---------------------------------------------------------------------
+AddExtra:   push    {r1,r7, LR}
+            bl      Pic_Extra
+            b       AddPic+2
+;---------------------------------------------------------------------
+AddPic:     push    {r1,r7, LR}
+            add     r2, r7,r0
+            mov     r0, r4
+            mov     r1, r5
+            ldr     r3, [r6, #36]
+            bl      DrawCanvImg
+            add     r4, #6
+ExSub:      pop     {r1,r7, PC}
+;---------------------------------------------------------------------
+DrawCanvImg:push    {r0-r4,LR}
+            mov     r0, r2
+            bl      GetImgWidth
+            mov     r4, r0
+            mov     r0, r2
+            bl      GetImgHeight
+            sub     r0, #1
+            sub     r4, #1
+
+            pop     {r1-r2}
+            sub     SP, #16
+            add     r3, r1,r4
+            add     r0, r2
+            str     r0, [SP]
+            mov     r0, #1
+            str     r0, [SP, #4]
+            ldr     r0, [SP, #20]
+            bl      DrawCanvas
+            add     SP, #8
+
+            pop     {r0-r2}
+            bl      DrawImage2
+            pop     {r3-r4,PC}
+;---------------------------------------------------------------------
+        Align16
+config:     dd Magic, 0xAB03, 0,0
+db "{patch=ExtraInfo ver=6 cp=avkiev id=AB03 mem=40}"
+db "{1 xy Net y=20}"
+db "{3 xy Temperature x=36 y=20}"
+db "{5 b TempAdjust range=-50..50 v=15}"
+db "{6 xy Voltage x=78 y=20}"
+db "{8 xy Capacity x=114 y=20}"
+db "{10 xy Profiles y=90}"
+db "{12 cb Logo}"
+db "{13 xy Vibra y=110}"
+db "{15 cb ShowWhenVibra}"
+db "{16 xy MissedCalls x=100 y=90}"
+db "{18 xy MissedSMS x=100 y=110}"
+db "{20 xy AdvNet y=128}"
+db "{22 b(8) Limits v=30,52,60,68,76,84,92,100}"
+db "{30 xy RAM y=60}"
+db "{32 a Address v=A86CEF8A}",00
+;36-39: ScreenContext
+db 0
+;---------------------------------------------------------------------
+org     Vrezka
+            CallReg 3, aPatch
+aPatch:     dd  q1+Patch
+    org $+16
+    Align16
+;---------------------------------------------------------------------
+END

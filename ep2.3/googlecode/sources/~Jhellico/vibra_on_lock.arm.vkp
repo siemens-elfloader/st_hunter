@@ -1,0 +1,47 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+PatchID		equ	0x3101
+
+Patch		equ	0x0FC7000
+Vrezka1		equ	0x073868C ; unlock
+Vrezka2		equ	0x0738A14 ; lock
+
+org Vrezka1
+	CallReg	7, aUnlock
+aUnlock	dd	Unlock + q1
+
+org Vrezka2
+	CallReg	7, aLock
+aLock	dd	Lock + q1
+
+org Patch
+Unlock:
+	mov	r2, #0
+	b	_1
+Align4
+Lock:
+	mov	r2, #1
+_1:
+	push	{r3-r6,lr}
+	bl	RamIsLocked
+	str	r2, [r7]
+	LoadReg	0, config + 4
+	bl	GetBuffer
+	beq	_ex
+	push	{r2}
+	bl	GetVibraStatus
+	pop	{r2}
+	cmp	r0, r2
+	beq	_ex
+	bl	SwitchVibraOnOff
+_ex:
+	pop	{r3-r6}
+
+	mov	r1, #1
+	mov	r0, #3
+	CallARM	ReturnProcedure
+
+Align16
+config	dd	Magic, PatchID, 0, 0
+end

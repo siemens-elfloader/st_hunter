@@ -1,0 +1,188 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+Patch       equ    Patches + 0x1000
+;---------------------------------------------------------------------------
+    org Patch
+            push    {LR}
+            LoadReg 0, config+4
+            CallLib GetBuffer
+            beq     ex
+
+            mov     r6, r0
+            add     r0, #4
+            mov     r1, r0
+            add     r1, #8
+	        CallLib GetDateTime
+
+            ldrb    r4, [r6, #12]
+            ldrb    r5, [r6, #13]
+            cmp     r5, #0
+            bne     CheckEvents
+
+            ldrb    r0, [r6, #3]
+            cmp     r0, r4
+            beq     CheckEvents
+            strb    r4, [r6, #3]
+
+            add     r0, r6, #4
+            CallLib GetWeek
+            lsl     r1, r4, #3
+            sub     r1, r4
+            add     r0, r1
+            add     r0, #36
+            ldrb    r5, [r6, r0]
+
+            lsr     r0, r5, #8
+            bcc     IsProfile
+            CallLib SwitchPhoneOff
+
+IsProfile:  lsl     r0, r5, #1
+            lsr     r0, #5
+            beq     IsBeep
+            sub     r0, #1
+            CallLib SetProfile
+            
+IsBeep:     lsr     r0, r5, #1
+            bcc     IsTime
+            ldrb    r0, [r6, #20]
+            bl      PlayRing
+
+IsTime:     lsr     r0, r5, #2
+            bcc     IsMidlet
+            CallLib SpellTime
+
+IsMidlet:   lsr     r0, r5, #3
+            bcc     CheckEvents
+            mov     r0, r6
+            add     r0, #204
+            CallLib StartMidlet
+
+CheckEvents:ldrb    r0, [r6, #1]
+            ldrb    r1, [r6, #2]
+            cmp     r0, r1
+            bcc     lab_07_22
+            cmp     r0, r4
+            bls     AnEvents
+            b       compup
+
+lab_07_22:  cmp     r0, r4
+            bhi     ex
+compup:     cmp     r4, r1
+            bhi     ex
+
+AnEvents:   CallLib RamMissedMes            ; Missed Message
+            ldrb    r1, [r0]
+            cmp     r1, #0
+            ldrb    r0, [r6, #23]
+            bne     PlayR
+
+            CallLib RamCap                  ; Low Bat
+            ldrh    r1, [r0]
+            ldrb    r2, [r6, #25]
+            cmp     r1, r2
+            ldrb    r0, [r6, #24]
+            bcc     PlayR
+
+            CallLib RamLS                   ; Full Bat
+            ldrh    r1, [r0]
+            cmp     r1, #3
+            bcc     ex
+
+            ldrb    r1, [r6, #27]
+            cmp     r1, #1
+            beq     PlayFB
+
+            CallLib GetAccessoryType
+            cmp     r0, #14
+            bhs     ex
+
+PlayFB:     ldrb    r0, [r6, #26]
+
+PlayR:      cmp     r0, #0
+            beq     ex
+
+            ldrb    r1, [r6, #31]    ; Прошлый алерт
+            ldrb    r2, [r6, #13]    ; Текущие минуты
+            cmp     r2, r1
+            bcs     lab2
+            add     r2, #60
+lab2:       sub     r2, r1
+            ldrb    r3, [r6, #28]
+            cmp     r2, r3
+            bcc     ex
+
+            ldrb    r2, [r6, #13]
+            strb    r2, [r6, #31]
+            bl      PlayRing
+
+ex:         mov     r0, #0
+            pop     {PC}
+;---------------------------------------------------------------------------
+PlayRing:   push    {r0, LR}
+            mov     r3, #0x7F
+            and     r3, r0
+
+            mov     r0, #0
+            mov     r1, #0
+            mov     r2, #0
+            push    {r2}
+            CallLib PlaySound
+            pop     {r0,r1}
+
+            cmp     r1, #0x80
+            bcc     rex
+
+            ldrb    r0, [r6, #29]
+            ldr     r1, [r6, #32]
+            ldrb    r2, [r6, #30]
+            CallLib PlayVibra
+rex:        pop     {PC}
+;---------------------------------------------------------------------------
+    Align16
+config:     dd Magic, 0x0200AB06, config-Patch, 0
+db "{p=Alerts ver=13 cp=avkiev id=0200AB06}"
+db "{1 b OnlyFrom v=8}"
+db "{2 b OnlyTo v=23}"
+;3 - LastHour
+;4 - DateTime
+db "{20 h HourlyBeep v=34}"
+db "{23 h MissedEvent v=E7}"
+db "{24 h LowBattery v=04}"
+db "{25 b LowIfLess v=2}"
+db "{26 h FullBattery v=0D}"
+db "{27 cb PlayIfCable}"
+db "{28 b `Period (min)` v=3}"
+db "{29 b VibraPower v=10}"
+db "{32 ms VibraDuration v=100}"
+db "{30 cb VibraEvenIfOff}"
+;31 - LastAlert
+
+db "{36 h 00 ml=7 v=01010101010101}"
+db "{43 h 01 ml=7 v=01010101010101}"
+db "{50 h 02 ml=7 v=01010101010101}"
+db "{57 h 03 ml=7 v=01010101010101}"
+db "{64 h 04 ml=7 v=01010101010101}"
+db "{71 h 05 ml=7 v=01010101010101}"
+db "{78 h 06 ml=7 v=01010101010101}"
+db "{85 h 07 ml=7 v=01010101010101}"
+db "{92 h 08 ml=7 v=01010101010101}"
+db "{99 h 09 ml=7 v=01010101010101}"
+db "{106 h 10 ml=7 v=01010101010303}"
+db "{113 h 11 ml=7 v=01010101010303}"
+db "{120 h 12 ml=7 v=01010101010303}"
+db "{127 h 13 ml=7 v=01010101010303}"
+db "{134 h 14 ml=7 v=01010101010303}"
+db "{141 h 15 ml=7 v=01010101010303}"
+db "{148 h 16 ml=7 v=01010101010303}"
+db "{155 h 17 ml=7 v=01010101010303}"
+db "{162 h 18 ml=7 v=03030303030303}"
+db "{169 h 19 ml=7 v=03030303030303}"
+db "{176 h 20 ml=7 v=03030303030303}"
+db "{183 h 21 ml=7 v=03030303030303}"
+db "{190 h 22 ml=7 v=03030303030303}"
+db "{197 h 23 ml=7 v=03030303030303}"
+db "{204 sf Midlet mask=*.jad ml=51 v=`0:\Applications\Compass\compass.jad`}"
+db 0
+    Align16
+END

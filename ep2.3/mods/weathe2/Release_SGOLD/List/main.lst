@@ -1,0 +1,2991 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    25/Apr/2009  10:11:08 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\weathe2\main.c             #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\weathe2\main.c -lC         #
+#                       D:\pasha\elf\_MY_PROJECT_\weathe2\Release_SGOLD\List #
+#                       \ -o D:\pasha\elf\_MY_PROJECT_\weathe2\Release_SGOLD #
+#                       \Obj\ -s9 --no_unroll --no_clustering --cpu_mode     #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None -I "D:\pasha\Embedded    #
+#                       Workbench 4.0 Evaluation2\ARM\INC\"                  #
+#                       --inline_threshold=2                                 #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\weathe2\Release_SGOLD\List #
+#                       \main.lst                                            #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\weathe2\Release_SGOLD\Obj\ #
+#                       main.r79                                             #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\weathe2\main.c
+      1          #include "..\inc\swilib.h"
+      2          #include "conf_loader.h"
+      3          #include "print.h"
+      4          
+      5          #define IPC_WEATH_NAME "MailWeather"
+      6          #define IPC_UPDATE_STAT 1
+      7          #define BUFSIZE 16383
+      8          
+      9          //#define LOG
+     10          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     11          const char ipc_my_name[32]=IPC_WEATH_NAME;
+   \                     ipc_my_name:
+   \   00000000   4D61696C5765       DC8 "MailWeather"
+   \              617468657200
+   \   0000000C   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              0000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     12          const IPC_REQ gipc={ipc_my_name,ipc_my_name,NULL};
+   \                     gipc:
+   \   00000000   ............       DC32 ipc_my_name, ipc_my_name, 0H
+   \              ....00000000
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     13          const int minus11=-11;
+   \                     minus11:
+   \   00000000   F5FFFFFF           DC32 -11
+     14          
+     15          typedef struct
+     16          {
+     17            CSM_RAM csm;
+     18          }MAIN_CSM;
+     19          
+     20          
+     21          extern void kill_data(void *p, void (*func_p)(void *));
+     22          
+     23          #pragma inline=forced
+     24          
+     25          int toupper(int c)
+     26          {
+     27            if ((c>='a')&&(c<='z')) c+='A'-'a';
+     28            return(c);
+     29          }
+     30          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     31          int strcmp_nocase(const char *s1,const char *s2)
+     32          {
+     33            int i;
+     34            int c;
+     35            while(!(i=(c=toupper(*s1++))-toupper(*s2++))) if (!c) break;
+   \                     strcmp_nocase:
+   \                     ??strcmp_nocase_0:
+   \   00000000   0020D0E5           LDRB     R2,[R0, #+0]
+   \   00000004   610052E3           CMP      R2,#+97
+   \   00000008   010000BA           BLT      ??strcmp_nocase_1
+   \   0000000C   7B0052E3           CMP      R2,#+123
+   \   00000010   202042B2           SUBLT    R2,R2,#+32
+   \                     ??strcmp_nocase_1:
+   \   00000014   00C0D1E5           LDRB     R12,[R1, #+0]
+   \   00000018   010080E2           ADD      R0,R0,#+1
+   \   0000001C   0230A0E1           MOV      R3,R2
+   \   00000020   61005CE3           CMP      R12,#+97
+   \   00000024   010000BA           BLT      ??strcmp_nocase_2
+   \   00000028   7B005CE3           CMP      R12,#+123
+   \   0000002C   20C04CB2           SUBLT    R12,R12,#+32
+   \                     ??strcmp_nocase_2:
+   \   00000030   011081E2           ADD      R1,R1,#+1
+   \   00000034   0C2052E0           SUBS     R2,R2,R12
+   \   00000038   0100001A           BNE      ??strcmp_nocase_3
+   \   0000003C   000053E3           CMP      R3,#+0
+   \   00000040   EEFFFF1A           BNE      ??strcmp_nocase_0
+     36            return(i);
+   \                     ??strcmp_nocase_3:
+   \   00000044   0200A0E1           MOV      R0,R2
+   \   00000048   1EFF2FE1           BX       LR               ;; return
+     37          }
+     38          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     39          char temp[32];
+   \                     temp:
+   \   00000000                      DS8 32
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     40          char speed[32];
+   \                     speed:
+   \   00000000                      DS8 32
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     41          char davlenie[32];
+   \                     davlenie:
+   \   00000000                      DS8 32
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     42          char vlaznost[32];
+   \                     vlaznost:
+   \   00000000                      DS8 32
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     43          char prognoze[128];
+   \                     prognoze:
+   \   00000000                      DS8 128
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     44          char ICON[128];
+   \                     ICON:
+   \   00000000                      DS8 128
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     45          char buf[BUFSIZE+1];
+   \                     buf:
+   \   00000000                      DS8 16384
+     46          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     47          int sock;
+   \                     sock:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     48          int connect_state=0;
+   \                     connect_state:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     49          int pbuf=0;
+   \                     pbuf:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     50          int traf=0;
+   \                     traf:
+   \   00000000                      DS8 4
+     51          
+
+   \                                 In segment DATA_C, align 1, align-sorted
+     52          const char per_d[]="%d";
+   \                     per_d:
+   \   00000000   256400             DC8 "%d"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+     53          const char per_s[]="%s";
+   \                     per_s:
+   \   00000000   257300             DC8 "%s"
+     54          
+     55          extern const int fullfont;
+     56          
+     57          extern const unsigned int date_X;
+     58          extern const unsigned int date_Y;
+     59          extern const unsigned int weather_X;
+     60          extern const unsigned int weather_Y;
+     61          extern const unsigned int date_X2;
+     62          extern const unsigned int date_Y2;
+     63          extern const unsigned int date_X3;
+     64          extern const unsigned int date_Y3;
+     65          extern const unsigned int date_X4;
+     66          extern const unsigned int date_Y4;
+     67          extern const unsigned int date_X5;
+     68          extern const unsigned int date_Y5;
+     69          extern const char color[];
+     70          extern const unsigned int refresh;
+     71          extern const int ENA_HELLO_MSG;
+     72          extern const int ENA_MSG;
+     73          extern const int show_temp;
+     74          extern const int show_speed;
+     75          extern const int show_prognoze;
+     76          extern const int show_davlenie;
+     77          extern const int show_vlaznost;
+     78          
+     79          extern const char str_vlaznost[];
+     80          extern const char str_davlenie[];
+     81          extern const char str_temp[];
+     82          extern const char id_tower[];
+     83          extern const char weather_img_path[];
+     84          
+     85          extern const int IKONA;
+     86          extern const int chekeris1;
+     87          extern const int chekeris2;
+     88          extern const int chekeris3;
+     89          extern const int chekeris4;
+     90          extern const int chekeris5;
+     91          
+     92          //------------- pngfont -------------//
+     93          
+     94          extern const char fontpath[];
+     95          extern const int align1;
+     96          extern const int align2;
+     97          extern const int align3;
+     98          extern const int align4;
+     99          extern const int align5;
+    100          extern const unsigned int space;
+    101          extern const unsigned int font;
+    102          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    103          void *canvasdata;
+   \                     canvasdata:
+   \   00000000                      DS8 4
+    104          
+    105          //-------------pngfont end------------//
+    106          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    107          GBSTMR mytmr;
+   \                     mytmr:
+   \   00000000                      DS8 16
+    108          
+    109          void start_again(void);
+    110          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    111          void create_connect(void)
+    112          {
+    113            zeromem(buf,sizeof(buf));
+   \                     create_connect:
+   \   00000000   ........           LDR      R0,??DataTable18  ;; buf
+   \   00000004   F0472DE9           PUSH     {R4-R10,LR}
+    114            SOCK_ADDR sa;
+    115            connect_state=0;
+   \   00000008   ........           LDR      R4,??DataTable13  ;; connect_state
+    116            pbuf=0;
+    117            sock=socket(1,1,0);
+   \   0000000C   ........           LDR      R5,??DataTable14  ;; sock
+   \   00000010   10D04DE2           SUB      SP,SP,#+16
+    118            if (sock!=-1)
+   \   00000014   ........           LDR      R6,??DataTable26  ;; mytmr
+   \   00000018   ........           LDR      R8,??DataTable19  ;; start_again
+   \   0000001C   401CA0E3           MOV      R1,#+16384
+   \   00000020   1D0100EF           SWI      +285
+   \   00000024   ........           LDR      R1,??DataTable15  ;; pbuf
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   000084E5           STR      R0,[R4, #+0]
+   \   00000030   000081E5           STR      R0,[R1, #+0]
+   \   00000034   0020A0E3           MOV      R2,#+0
+   \   00000038   0110A0E3           MOV      R1,#+1
+   \   0000003C   0100A0E1           MOV      R0,R1
+   \   00000040   730100EF           SWI      +371
+   \   00000044   000085E5           STR      R0,[R5, #+0]
+   \   00000048   A070A0E3           MOV      R7,#+160
+   \   0000004C   C87D87E3           ORR      R7,R7,#0x3200
+   \   00000050   0090E0E3           MVN      R9,#+0
+   \   00000054   090050E1           CMP      R0,R9
+   \   00000058   1000000A           BEQ      ??create_connect_0
+    119            {
+    120              sa.family=1;
+   \   0000005C   01A0A0E3           MOV      R10,#+1
+   \   00000060   B0A0CDE1           STRH     R10,[SP, #+0]
+    121              sa.port=htons(80);
+   \   00000064   5000A0E3           MOV      R0,#+80
+   \   00000068   7A0100EF           SWI      +378
+   \   0000006C   B200CDE1           STRH     R0,[SP, #+2]
+    122           //   sa.ip=htonl(IP_ADDR(194,67,45,236));//94.100.178.193
+    123              sa.ip=htonl(IP_ADDR(94,100,178,193));
+   \   00000070   3C009FE5           LDR      R0,??create_connect_1  ;; 0x5e64b2c1
+   \   00000074   7B0100EF           SWI      +379
+   \   00000078   04008DE5           STR      R0,[SP, #+4]
+    124              if (connect(sock,&sa,sizeof(sa))!=-1)
+   \   0000007C   000095E5           LDR      R0,[R5, #+0]
+   \   00000080   1020A0E3           MOV      R2,#+16
+   \   00000084   0D10A0E1           MOV      R1,SP
+   \   00000088   740100EF           SWI      +372
+   \   0000008C   090050E1           CMP      R0,R9
+    125              {
+    126                connect_state=1;
+   \   00000090   00A08415           STRNE    R10,[R4, #+0]
+   \   00000094   FF87BD18           POPNE    {R0-R10,PC}
+    127              }
+    128              else
+    129              {
+    130                closesocket(sock);
+   \   00000098   000095E5           LDR      R0,[R5, #+0]
+   \   0000009C   760100EF           SWI      +374
+    131                GBS_StartTimerProc(&mytmr, 12960, start_again);
+    132              }
+    133            }
+    134            else
+    135              GBS_StartTimerProc(&mytmr, 12960, start_again);
+   \                     ??create_connect_0:
+   \   000000A0   0820A0E1           MOV      R2,R8
+   \   000000A4   0710A0E1           MOV      R1,R7
+   \   000000A8   0600A0E1           MOV      R0,R6
+   \   000000AC   4D0000EF           SWI      +77
+    136          }
+   \   000000B0   FF87BDE8           POP      {R0-R10,PC}      ;; return
+   \                     ??create_connect_1:
+   \   000000B4   C1B2645E           DC32     0x5e64b2c1
+    137          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    138          void start_again()
+    139          {
+   \                     start_again:
+   \   00000000   00402DE9           PUSH     {LR}
+    140            if(IsGPRSConnected())
+   \   00000004   A80000EF           SWI      +168
+   \   00000008   000050E3           CMP      R0,#+0
+   \   0000000C   0200000A           BEQ      ??start_again_0
+    141            {
+    142             SUBPROC((void *)create_connect);
+   \   00000010   ........           LDR      R0,??DataTable6  ;; create_connect
+   \   00000014   710100EF           SWI      +369
+   \   00000018   0080BDE8           POP      {PC}
+    143            }
+    144            else
+    145             GBS_StartTimerProc(&mytmr, 2160, start_again);
+   \                     ??start_again_0:
+   \   0000001C   ........           LDR      R2,??DataTable19  ;; start_again
+   \   00000020   ........           LDR      R0,??DataTable26  ;; mytmr
+   \   00000024   871EA0E3           MOV      R1,#+2160
+   \   00000028   4D0000EF           SWI      +77
+    146          }
+   \   0000002C   0080BDE8           POP      {PC}             ;; return
+    147          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    148          void send_req(void)
+    149          {
+   \                     send_req:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    150            char *req_buf=malloc(1200);
+   \   00000004   4B0EA0E3           MOV      R0,#+1200
+   \   00000008   140000EF           SWI      +20
+    151            sprintf(req_buf,"GET /index.xhtml?&city=%s HTTP/1.1\n"
+    152                      "Accept-Language: en-us\n"
+    153                        "Accept-Encoding: gzip, deflate\n"
+    154                          "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)\n"
+    155                            "Host: wap.weather.mail.ru\n"
+    156                              "Connection: Close\n"
+    157                                "\n"
+    158                                  , id_tower);
+   \   0000000C   40209FE5           LDR      R2,??send_req_0  ;; id_tower
+   \   00000010   40109FE5           LDR      R1,??send_req_0+0x4  ;; `?<Constant "GET /index.xhtml?&cit...">`
+   \   00000014   0040A0E1           MOV      R4,R0
+   \   00000018   160000EF           SWI      +22
+    159            send(sock,req_buf,strlen(req_buf),0);
+   \   0000001C   0400A0E1           MOV      R0,R4
+   \   00000020   1B0000EF           SWI      +27
+   \   00000024   0020A0E1           MOV      R2,R0
+   \   00000028   ........           LDR      R0,??DataTable14  ;; sock
+   \   0000002C   0030A0E3           MOV      R3,#+0
+   \   00000030   000090E5           LDR      R0,[R0, #+0]
+   \   00000034   0410A0E1           MOV      R1,R4
+   \   00000038   790100EF           SWI      +377
+    160            connect_state=2;
+   \   0000003C   ........           LDR      R0,??DataTable13  ;; connect_state
+   \   00000040   0210A0E3           MOV      R1,#+2
+   \   00000044   001080E5           STR      R1,[R0, #+0]
+    161            mfree(req_buf);
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   150000EF           SWI      +21
+    162          }
+   \   00000050   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??send_req_0:
+   \   00000054   ........           DC32     id_tower
+   \   00000058   ........           DC32     `?<Constant "GET /index.xhtml?&cit...">`
+    163          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    164          void end_socket(void)
+    165          {
+   \                     end_socket:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    166            if (sock>=0)
+   \   00000004   ........           LDR      R4,??DataTable14  ;; sock
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   1080BD48           POPMI    {R4,PC}
+    167            {
+    168              shutdown(sock,2);
+   \   00000014   0210A0E3           MOV      R1,#+2
+   \   00000018   770100EF           SWI      +375
+    169              closesocket(sock);
+   \   0000001C   000094E5           LDR      R0,[R4, #+0]
+   \   00000020   760100EF           SWI      +374
+    170              connect_state=0;
+   \   00000024   ........           LDR      R0,??DataTable13  ;; connect_state
+   \   00000028   0010A0E3           MOV      R1,#+0
+   \   0000002C   001080E5           STR      R1,[R0, #+0]
+    171            }
+    172          }
+   \   00000030   1080BDE8           POP      {R4,PC}          ;; return
+    173          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    174          int buf_len=0;
+   \                     buf_len:
+   \   00000000                      DS8 4
+    175          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    176          void get_answer(void)
+    177          {
+    178            int i=pbuf;
+    179            if (connect_state<2) return;
+   \                     get_answer:
+   \   00000000   ........           LDR      R0,??DataTable13  ;; connect_state
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   40DE4DE2           SUB      SP,SP,#+1024
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   020050E3           CMP      R0,#+2
+   \   00000014   150000BA           BLT      ??get_answer_0
+    180            char s[1024];
+    181            traf+=i=recv(sock,s,sizeof(s),0);
+   \   00000018   ........           LDR      R0,??DataTable14  ;; sock
+   \   0000001C   0030A0E3           MOV      R3,#+0
+   \   00000020   000090E5           LDR      R0,[R0, #+0]
+   \   00000024   402EA0E3           MOV      R2,#+1024
+   \   00000028   0D10A0E1           MOV      R1,SP
+   \   0000002C   780100EF           SWI      +376
+   \   00000030   40109FE5           LDR      R1,??get_answer_1  ;; traf
+    182            if(i>0)
+   \   00000034   010050E3           CMP      R0,#+1
+   \   00000038   002091E5           LDR      R2,[R1, #+0]
+   \   0000003C   022080E0           ADD      R2,R0,R2
+   \   00000040   002081E5           STR      R2,[R1, #+0]
+   \   00000044   080000BA           BLT      ??get_answer_2
+    183            {
+    184              pbuf+=i;      
+   \   00000048   ........           LDR      R1,??DataTable15  ;; pbuf
+   \   0000004C   002091E5           LDR      R2,[R1, #+0]
+   \   00000050   020080E0           ADD      R0,R0,R2
+   \   00000054   000081E5           STR      R0,[R1, #+0]
+    185              strcat(buf,s);
+   \   00000058   ........           LDR      R0,??DataTable18  ;; buf
+   \   0000005C   0D10A0E1           MOV      R1,SP
+   \   00000060   170000EF           SWI      +23
+   \   00000064   40DE8DE2           ADD      SP,SP,#+1024
+   \   00000068   0080BDE8           POP      {PC}
+    186            }
+    187            else
+    188            {
+    189              end_socket();
+   \                     ??get_answer_2:
+   \   0000006C   ........           BL       end_socket
+   \                     ??get_answer_0:
+   \   00000070   40DE8DE2           ADD      SP,SP,#+1024     ;; stack cleaning
+   \   00000074   0080BDE8           POP      {PC}             ;; return
+   \                     ??get_answer_1:
+   \   00000078   ........           DC32     traf
+    190            }
+    191          }
+    192          
+    193          
+    194          #ifdef LOG
+    195          void save_to_file()
+    196          {
+    197            volatile int hFile;
+    198            unsigned int io_error = 0;
+    199            unsigned int ul;
+    200            FSTATS stat;
+    201            GetFileStats("4:\\debug_weather.txt",&stat,&ul);
+    202            hFile = fopen("4:\\debug_weather.txt",A_ReadWrite+A_Create+A_Truncate,P_READ+P_WRITE, &io_error);
+    203            if(hFile!=-1)
+    204             {
+    205               fwrite(hFile, buf, strlen(buf), &io_error);
+    206               fclose(hFile, &io_error);
+    207             }
+    208          }
+    209          
+    210          void log(const char *s)
+    211          {
+    212            volatile int hFile;
+    213            unsigned int io_error = 0;
+    214            unsigned int ul;
+    215            FSTATS stat;
+    216            GetFileStats("4:\\weather.txt",&stat,&ul);
+    217            hFile = fopen("4:\\weather.txt",A_ReadWrite+A_Create+A_Append,P_READ+P_WRITE, &io_error);
+    218            if(hFile!=-1)
+    219             {
+    220               fwrite(hFile, s, strlen(s), &io_error);
+    221               fwrite(hFile, "\n", 1, &io_error);
+    222               fclose(hFile, &io_error);
+    223             }
+    224          }
+    225          #endif
+    226          
+    227          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    228          void utf82win(char*d,const char *s)
+    229          {
+   \                     utf82win:
+   \   00000000   0020D1E5           LDRB     R2,[R1, #+0]
+   \   00000004   000052E3           CMP      R2,#+0
+   \   00000008   1700000A           BEQ      ??utf82win_0
+    230            for (; *s; s+=2)
+    231            {
+    232              unsigned char ub = *s, lb = *(s+1);
+   \                     ??utf82win_1:
+   \   0000000C   0020D1E5           LDRB     R2,[R1, #+0]
+   \   00000010   0130D1E5           LDRB     R3,[R1, #+1]
+    233              if (ub == 208)
+   \   00000014   D00052E3           CMP      R2,#+208
+   \   00000018   0400001A           BNE      ??utf82win_2
+    234                if (lb != 0x81)
+   \   0000001C   810053E3           CMP      R3,#+129
+   \   00000020   E820A003           MOVEQ    R2,#+232
+    235                  {*d = lb + 48; d++;}
+   \   00000024   30208312           ADDNE    R2,R3,#+48
+   \                     ??utf82win_3:
+   \   00000028   ........           STRB     R2,[R0], #+1
+   \   0000002C   0B0000EA           B        ??utf82win_4
+    236                else
+    237                  {*d = 'и'; d++;}
+    238          
+    239              if (ub == 209)
+   \                     ??utf82win_2:
+   \   00000030   D10052E3           CMP      R2,#+209
+   \   00000034   0500001A           BNE      ??utf82win_5
+    240                if (lb != 0x91)
+   \   00000038   910053E3           CMP      R3,#+145
+    241                  {*d = lb + 112; d++;}
+   \   0000003C   70208312           ADDNE    R2,R3,#+112
+   \   00000040   ........           STRBNE   R2,[R0], #+1
+   \   00000044   0500001A           BNE      ??utf82win_4
+    242                else
+    243                  {*d = '¬'; d++;}
+   \   00000048   AC20A0E3           MOV      R2,#+172
+   \   0000004C   F5FFFFEA           B        ??utf82win_3
+   \                     ??utf82win_5:
+   \   00000050   5B0053E3           CMP      R3,#+91
+   \   00000054   51005313           CMPNE    R3,#+81
+    244          
+    245              if ((ub != 208) && (ub != 209) && (lb != 91) && (lb != 81))
+    246              {
+    247                *d = ub;
+   \   00000058   ........           STRBNE   R2,[R0], #+1
+    248                d++;
+    249                s--;
+   \   0000005C   01104112           SUBNE    R1,R1,#+1
+    250              }
+    251            }
+   \                     ??utf82win_4:
+   \   00000060   0220F1E5           LDRB     R2,[R1, #+2]!
+   \   00000064   000052E3           CMP      R2,#+0
+   \   00000068   E7FFFF1A           BNE      ??utf82win_1
+    252            *d = 0;
+   \                     ??utf82win_0:
+   \   0000006C   0010A0E3           MOV      R1,#+0
+   \   00000070   0010C0E5           STRB     R1,[R0, #+0]
+    253          }
+   \   00000074   1EFF2FE1           BX       LR               ;; return
+    254          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    255          GBSTMR delaytmr;
+   \                     delaytmr:
+   \   00000000                      DS8 16
+    256          //int test=0;
+    257          /*
+    258          <div class="forecastblock">
+    259          <h3>6.04, понедельник</h3>
+    260          <div class="forecast">
+    261            Сейчас<img src="/img/new/pict_weather_med_7.gif" width="41" height="41" alt="ясно" />
+    262                                                                                  <span class="spec">+9&deg;</span>
+    263          </div>
+    264          <div class="forecasttext">
+    265            <div><strong>757</strong>&#032;mmHg, <strong>42</strong>%, <strong>Ю 1</strong>&#032;м/с</div>
+    266            ясно
+    267          </div>
+    268          */
+    269          //int forecast = 0, forecasttext = 0;
+    270          
+    271          
+    272          #define _pic 0
+    273          #define _temp 1
+    274          #define _dav 2
+    275          #define _speed 3
+    276          #define _vlaznost 4
+    277          #define _comfort 5
+    278          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    279          int flags[6]={0,0,0,0,0,0};
+   \                     flags:
+   \   00000000                      DS8 24
+
+   \                                 In segment CODE, align 4, keep-with-next
+    280          void Parsing()
+    281          {
+   \                     Parsing:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+    282          #ifdef LOG
+    283             save_to_file();
+    284             log("start parsing");
+    285          #endif
+    286             for(int i=0;i<6;i++) flags[i] = 0; //сразу обнуляем
+   \   00000004   ........           LDR      R5,??DataTable17  ;; flags
+   \   00000008   BCD04DE2           SUB      SP,SP,#+188
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   0060A0E3           MOV      R6,#+0
+   \                     ??Parsing_0:
+   \   00000014   006185E7           STR      R6,[R5, +R0, LSL #+2]
+   \   00000018   010080E2           ADD      R0,R0,#+1
+   \   0000001C   060050E3           CMP      R0,#+6
+   \   00000020   FBFFFFBA           BLT      ??Parsing_0
+    287             char *s1,*s2;
+    288             char forecast[]="forecast";
+   \   00000024   FC139FE5           LDR      R1,??Parsing_1+0x4  ;; `?<Constant "forecast">`
+    289             char forecasttext[]="forecasttext";
+    290             int i = 0;
+    291             //если находим две половинка текста для парсинга...
+    292             if((s1=strstr(buf,forecast)) && (s2=strstr(buf,forecasttext)))
+   \   00000028   ........           LDR      R8,??DataTable18  ;; buf
+   \   0000002C   1C0091E8           LDM      R1,{R2-R4}
+   \   00000030   F4139FE5           LDR      R1,??Parsing_1+0x8  ;; `?<Constant "forecasttext">`
+   \   00000034   B0008DE2           ADD      R0,SP,#+176
+   \   00000038   1C0080E8           STM      R0,{R2-R4}
+   \   0000003C   9C0091E8           LDM      R1,{R2-R4,R7}
+   \   00000040   A0008DE2           ADD      R0,SP,#+160
+   \   00000044   9C0080E8           STM      R0,{R2-R4,R7}
+   \   00000048   00B0A0E3           MOV      R11,#+0
+   \   0000004C   B0108DE2           ADD      R1,SP,#+176
+   \   00000050   ........           LDR      R7,??DataTable19  ;; start_again
+   \   00000054   0800A0E1           MOV      R0,R8
+   \   00000058   180100EF           SWI      +280
+   \   0000005C   0040B0E1           MOVS     R4,R0
+   \   00000060   E500000A           BEQ      ??Parsing_2
+   \   00000064   A0108DE2           ADD      R1,SP,#+160
+   \   00000068   0800A0E1           MOV      R0,R8
+   \   0000006C   180100EF           SWI      +280
+   \   00000070   0080B0E1           MOVS     R8,R0
+   \   00000074   E000000A           BEQ      ??Parsing_2
+    293             {
+    294               if(s1=strstr(s1,"<img src"))//картинка
+   \   00000078   B0139FE5           LDR      R1,??Parsing_1+0xC  ;; `?<Constant "<img src">`
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   180100EF           SWI      +280
+   \   00000084   0040B0E1           MOVS     R4,R0
+   \   00000088   0190A0E3           MOV      R9,#+1
+   \   0000008C   2100000A           BEQ      ??Parsing_3
+    295               {
+    296          #ifdef LOG
+    297                 log("pictures");
+    298          #endif       
+    299                 flags[_pic] = 1;
+    300                 s1+=strlen("<img src=")+1+strlen("/img/new/");
+   \   00000090   9C039FE5           LDR      R0,??Parsing_1+0x10  ;; `?<Constant "<img src=">`
+   \   00000094   009085E5           STR      R9,[R5, #+0]
+   \   00000098   1B0000EF           SWI      +27
+   \   0000009C   00A0A0E1           MOV      R10,R0
+   \   000000A0   90039FE5           LDR      R0,??Parsing_1+0x14  ;; `?<Constant "/img/new/">`
+   \   000000A4   1B0000EF           SWI      +27
+   \   000000A8   0A0080E0           ADD      R0,R0,R10
+   \   000000AC   040080E0           ADD      R0,R0,R4
+   \   000000B0   014080E2           ADD      R4,R0,#+1
+    301                 char picname[32];
+    302                 zeromem(picname,32);
+   \   000000B4   2010A0E3           MOV      R1,#+32
+   \   000000B8   80008DE2           ADD      R0,SP,#+128
+   \   000000BC   1D0100EF           SWI      +285
+   \   000000C0   0000D4E5           LDRB     R0,[R4, #+0]
+   \   000000C4   2E0050E3           CMP      R0,#+46
+   \   000000C8   0600000A           BEQ      ??Parsing_4
+    303                 while(*s1!='.')
+    304                 {
+    305                   picname[i] = *s1;
+   \                     ??Parsing_5:
+   \   000000CC   ........           LDRB     R1,[R4], #+1
+   \   000000D0   80008DE2           ADD      R0,SP,#+128
+   \   000000D4   0010CBE7           STRB     R1,[R11, +R0]
+    306                   i++;
+    307                   *s1++;
+    308                 }
+   \   000000D8   0000D4E5           LDRB     R0,[R4, #+0]
+   \   000000DC   01B08BE2           ADD      R11,R11,#+1
+   \   000000E0   2E0050E3           CMP      R0,#+46
+   \   000000E4   F8FFFF1A           BNE      ??Parsing_5
+    309                 zeromem(ICON,sizeof(ICON));
+   \                     ??Parsing_4:
+   \   000000E8   ........           LDR      R10,??DataTable92  ;; ICON
+   \   000000EC   8010A0E3           MOV      R1,#+128
+   \   000000F0   0A00A0E1           MOV      R0,R10
+   \   000000F4   1D0100EF           SWI      +285
+    310                 sprintf(ICON,"%s%s.png",weather_img_path,picname);
+   \   000000F8   3C239FE5           LDR      R2,??Parsing_1+0x18  ;; weather_img_path
+   \   000000FC   3C139FE5           LDR      R1,??Parsing_1+0x1C  ;; `?<Constant "%s%s.png">`
+   \   00000100   80308DE2           ADD      R3,SP,#+128
+   \   00000104   0A00A0E1           MOV      R0,R10
+   \   00000108   160000EF           SWI      +22
+    311                 ICON[strlen(ICON)]=0;
+   \   0000010C   0A00A0E1           MOV      R0,R10
+   \   00000110   1B0000EF           SWI      +27
+   \   00000114   0A60C0E7           STRB     R6,[R0, +R10]
+    312          #ifdef LOG
+    313                 log(ICON);
+    314          #endif
+    315               }
+    316              
+    317               if(s1=strstr(s1,"><span class="))//температура
+   \                     ??Parsing_3:
+   \   00000118   24A39FE5           LDR      R10,??Parsing_1+0x20  ;; `?<Constant "><span class=">`
+   \   0000011C   0400A0E1           MOV      R0,R4
+   \   00000120   0A10A0E1           MOV      R1,R10
+   \   00000124   180100EF           SWI      +280
+   \   00000128   0040B0E1           MOVS     R4,R0
+   \   0000012C   1A00000A           BEQ      ??Parsing_6
+    318               {
+    319          #ifdef LOG       
+    320                 log("temperature");
+    321          #endif       
+    322                 flags[_temp] = 1;
+   \   00000130   049085E5           STR      R9,[R5, #+4]
+    323                 i = 0;
+    324                 s1+=strlen("><span class=")+strlen("spec")+3;
+   \   00000134   0A00A0E1           MOV      R0,R10
+   \   00000138   1B0000EF           SWI      +27
+   \   0000013C   00A0A0E1           MOV      R10,R0
+   \   00000140   00039FE5           LDR      R0,??Parsing_1+0x24  ;; `?<Constant "spec">`
+   \   00000144   00B0A0E3           MOV      R11,#+0
+   \   00000148   1B0000EF           SWI      +27
+   \   0000014C   0A0080E0           ADD      R0,R0,R10
+    325                 zeromem(temp,sizeof(temp));
+   \   00000150   ........           LDR      R10,??DataTable56  ;; temp
+   \   00000154   040080E0           ADD      R0,R0,R4
+   \   00000158   034080E2           ADD      R4,R0,#+3
+   \   0000015C   2010A0E3           MOV      R1,#+32
+   \   00000160   0A00A0E1           MOV      R0,R10
+   \   00000164   1D0100EF           SWI      +285
+   \   00000168   0000D4E5           LDRB     R0,[R4, #+0]
+   \   0000016C   260050E3           CMP      R0,#+38
+   \   00000170   0500000A           BEQ      ??Parsing_7
+    326                 while(*s1 != '&')
+    327                 {
+    328                   temp[i] = *s1;
+   \                     ??Parsing_8:
+   \   00000174   ........           LDRB     R0,[R4], #+1
+   \   00000178   0A00CBE7           STRB     R0,[R11, +R10]
+    329                   *s1++;
+    330                   i++;
+    331                 }
+   \   0000017C   0000D4E5           LDRB     R0,[R4, #+0]
+   \   00000180   01B08BE2           ADD      R11,R11,#+1
+   \   00000184   260050E3           CMP      R0,#+38
+   \   00000188   F9FFFF1A           BNE      ??Parsing_8
+    332                 temp[strlen(temp)+1] = 0;
+   \                     ??Parsing_7:
+   \   0000018C   0A00A0E1           MOV      R0,R10
+   \   00000190   1B0000EF           SWI      +27
+   \   00000194   0A0080E0           ADD      R0,R0,R10
+   \   00000198   0160C0E5           STRB     R6,[R0, #+1]
+    333          #ifdef LOG
+    334                 log(temp);
+    335          #endif
+    336               }
+    337               
+    338               //s2 += strlen(forecasttext);
+    339               if(s2)
+    340                {
+    341                   //<div class="forecasttext">
+    342                   //<div><strong>757</strong>&#032;mmHg, <strong>42</strong>%, <strong>Ю 1</strong>&#032;м/с</div>ясно
+    343                  if(s2=strstr(s2,"<strong>"))//давление
+   \                     ??Parsing_6:
+   \   0000019C   A8429FE5           LDR      R4,??Parsing_1+0x28  ;; `?<Constant "<strong>">`
+   \   000001A0   0800A0E1           MOV      R0,R8
+   \   000001A4   0410A0E1           MOV      R1,R4
+   \   000001A8   180100EF           SWI      +280
+   \   000001AC   00A0B0E1           MOVS     R10,R0
+   \   000001B0   1B00000A           BEQ      ??Parsing_9
+    344                  {
+    345          #ifdef LOG          
+    346                    log("davlenie");
+    347          #endif
+    348                    flags[_dav] = 1;
+    349                    s2+=strlen("<strong>")+1;
+    350                    i=0;
+    351                    zeromem(davlenie,sizeof(davlenie));
+   \   000001B4   ........           LDR      R8,??DataTable68  ;; davlenie
+   \   000001B8   089085E5           STR      R9,[R5, #+8]
+   \   000001BC   0400A0E1           MOV      R0,R4
+   \   000001C0   1B0000EF           SWI      +27
+   \   000001C4   0A0080E0           ADD      R0,R0,R10
+   \   000001C8   01A080E2           ADD      R10,R0,#+1
+   \   000001CC   2010A0E3           MOV      R1,#+32
+   \   000001D0   0800A0E1           MOV      R0,R8
+   \   000001D4   1D0100EF           SWI      +285
+   \   000001D8   0000DAE5           LDRB     R0,[R10, #+0]
+   \   000001DC   00B0A0E3           MOV      R11,#+0
+   \   000001E0   3C0050E3           CMP      R0,#+60
+   \   000001E4   0500000A           BEQ      ??Parsing_10
+    352                    while(*s2 != '<')
+    353                    {
+    354                      davlenie[i] = *s2;
+   \                     ??Parsing_11:
+   \   000001E8   ........           LDRB     R0,[R10], #+1
+   \   000001EC   0800CBE7           STRB     R0,[R11, +R8]
+    355                      *s2++;
+    356                      i++;
+    357                    }
+   \   000001F0   0000DAE5           LDRB     R0,[R10, #+0]
+   \   000001F4   01B08BE2           ADD      R11,R11,#+1
+   \   000001F8   3C0050E3           CMP      R0,#+60
+   \   000001FC   F9FFFF1A           BNE      ??Parsing_11
+    358                    davlenie[strlen(davlenie)+1] = 0;
+   \                     ??Parsing_10:
+   \   00000200   0800A0E1           MOV      R0,R8
+   \   00000204   1B0000EF           SWI      +27
+   \   00000208   080080E0           ADD      R0,R0,R8
+   \   0000020C   0160C0E5           STRB     R6,[R0, #+1]
+    359                    strcat((char*)(davlenie+strlen(davlenie))," mmHg");
+   \   00000210   0800A0E1           MOV      R0,R8
+   \   00000214   1B0000EF           SWI      +27
+   \   00000218   30129FE5           LDR      R1,??Parsing_1+0x2C  ;; `?<Constant " mmHg">`
+   \   0000021C   080080E0           ADD      R0,R0,R8
+   \   00000220   170000EF           SWI      +23
+    360          #ifdef LOG
+    361                    log(davlenie);
+    362          #endif
+    363                  }
+    364                  
+    365                  if(s2=strstr(s2,"<strong>"))//влажность
+   \                     ??Parsing_9:
+   \   00000224   0410A0E1           MOV      R1,R4
+   \   00000228   0A00A0E1           MOV      R0,R10
+   \   0000022C   180100EF           SWI      +280
+   \   00000230   00A0B0E1           MOVS     R10,R0
+   \   00000234   1B00000A           BEQ      ??Parsing_12
+    366                  {
+    367          #ifdef LOG
+    368                    log("vlaznost");
+    369          #endif          
+    370                    flags[_vlaznost] = 1;
+    371                    s2+=strlen("<strong>")+1;
+    372                    i=0;
+    373                    zeromem(vlaznost,sizeof(vlaznost));
+   \   00000238   ........           LDR      R8,??DataTable59  ;; vlaznost
+   \   0000023C   109085E5           STR      R9,[R5, #+16]
+   \   00000240   0400A0E1           MOV      R0,R4
+   \   00000244   1B0000EF           SWI      +27
+   \   00000248   0A0080E0           ADD      R0,R0,R10
+   \   0000024C   01A080E2           ADD      R10,R0,#+1
+   \   00000250   2010A0E3           MOV      R1,#+32
+   \   00000254   0800A0E1           MOV      R0,R8
+   \   00000258   1D0100EF           SWI      +285
+   \   0000025C   0000DAE5           LDRB     R0,[R10, #+0]
+   \   00000260   00B0A0E3           MOV      R11,#+0
+   \   00000264   3C0050E3           CMP      R0,#+60
+   \   00000268   0500000A           BEQ      ??Parsing_13
+    374                    while(*s2 != '<')
+    375                    {
+    376                      vlaznost[i] = *s2;
+   \                     ??Parsing_14:
+   \   0000026C   ........           LDRB     R0,[R10], #+1
+   \   00000270   0800CBE7           STRB     R0,[R11, +R8]
+    377                      *s2++;
+    378                      i++;
+    379                    }
+   \   00000274   0000DAE5           LDRB     R0,[R10, #+0]
+   \   00000278   01B08BE2           ADD      R11,R11,#+1
+   \   0000027C   3C0050E3           CMP      R0,#+60
+   \   00000280   F9FFFF1A           BNE      ??Parsing_14
+    380                    vlaznost[strlen(vlaznost)+1] = 0;
+   \                     ??Parsing_13:
+   \   00000284   0800A0E1           MOV      R0,R8
+   \   00000288   1B0000EF           SWI      +27
+   \   0000028C   080080E0           ADD      R0,R0,R8
+   \   00000290   0160C0E5           STRB     R6,[R0, #+1]
+    381                    strcat((char*)(vlaznost+strlen(vlaznost))," %");
+   \   00000294   0800A0E1           MOV      R0,R8
+   \   00000298   1B0000EF           SWI      +27
+   \   0000029C   601F8FE2           ADR      R1,??Parsing_1   ;; " %"
+   \   000002A0   080080E0           ADD      R0,R0,R8
+   \   000002A4   170000EF           SWI      +23
+    382          #ifdef LOG
+    383                    log(vlaznost);
+    384          #endif
+    385                  }
+    386                  
+    387                  if(s2=strstr(s2,"<strong>"))//скорость ветра
+   \                     ??Parsing_12:
+   \   000002A8   0410A0E1           MOV      R1,R4
+   \   000002AC   0A00A0E1           MOV      R0,R10
+   \   000002B0   180100EF           SWI      +280
+   \   000002B4   0080B0E1           MOVS     R8,R0
+   \   000002B8   2200000A           BEQ      ??Parsing_15
+    388                  {
+    389          #ifdef LOG          
+    390                    log("speed veter");
+    391          #endif
+    392                    char tmp[128];
+    393                    zeromem(tmp,128);
+   \   000002BC   8010A0E3           MOV      R1,#+128
+   \   000002C0   0D00A0E1           MOV      R0,SP
+   \   000002C4   1D0100EF           SWI      +285
+    394                    flags[_speed] = 1;
+   \   000002C8   0C9085E5           STR      R9,[R5, #+12]
+    395                    s2+=strlen("<strong>")+2;
+   \   000002CC   0400A0E1           MOV      R0,R4
+   \   000002D0   1B0000EF           SWI      +27
+   \   000002D4   080080E0           ADD      R0,R0,R8
+   \   000002D8   028080E2           ADD      R8,R0,#+2
+    396                    i=0;
+   \   000002DC   0000D8E5           LDRB     R0,[R8, #+0]
+   \   000002E0   00B0A0E3           MOV      R11,#+0
+   \   000002E4   3C0050E3           CMP      R0,#+60
+   \   000002E8   0600000A           BEQ      ??Parsing_16
+    397                    while(*s2 != '<')
+    398                    {
+    399                      tmp[i] = *s2;
+   \                     ??Parsing_17:
+   \   000002EC   ........           LDRB     R1,[R8], #+1
+   \   000002F0   0D00A0E1           MOV      R0,SP
+   \   000002F4   0010CBE7           STRB     R1,[R11, +R0]
+    400                      *s2++;
+    401                      i++;
+    402                    }
+   \   000002F8   0000D8E5           LDRB     R0,[R8, #+0]
+   \   000002FC   01B08BE2           ADD      R11,R11,#+1
+   \   00000300   3C0050E3           CMP      R0,#+60
+   \   00000304   F8FFFF1A           BNE      ??Parsing_17
+    403                    
+    404                    tmp[strlen(tmp)] = 0;
+   \                     ??Parsing_16:
+   \   00000308   0D00A0E1           MOV      R0,SP
+   \   0000030C   1B0000EF           SWI      +27
+   \   00000310   0D10A0E1           MOV      R1,SP
+   \   00000314   0160C0E7           STRB     R6,[R0, +R1]
+    405                    strcat((char*)(tmp+strlen(tmp))," м/с");
+   \   00000318   0D00A0E1           MOV      R0,SP
+   \   0000031C   1B0000EF           SWI      +27
+   \   00000320   2C119FE5           LDR      R1,??Parsing_1+0x30  ;; `?<Constant " \\354/\\361">`
+   \   00000324   0D20A0E1           MOV      R2,SP
+   \   00000328   020080E0           ADD      R0,R0,R2
+   \   0000032C   170000EF           SWI      +23
+    406                    tmp[strlen(tmp)] = 0;
+   \   00000330   0D00A0E1           MOV      R0,SP
+   \   00000334   1B0000EF           SWI      +27
+   \   00000338   0D10A0E1           MOV      R1,SP
+   \   0000033C   0160C0E7           STRB     R6,[R0, +R1]
+    407                    utf82win(speed,tmp);
+   \   00000340   ........           LDR      R0,??DataTable64  ;; speed
+   \   00000344   ........           BL       utf82win
+    408          #ifdef LOG
+    409                    log(speed);
+    410          #endif
+    411                  }
+    412                  
+    413                  if(s2=strstr(s2,"</div>"))//погода
+   \                     ??Parsing_15:
+   \   00000348   08419FE5           LDR      R4,??Parsing_1+0x34  ;; `?<Constant "</div>">`
+   \   0000034C   0800A0E1           MOV      R0,R8
+   \   00000350   0410A0E1           MOV      R1,R4
+   \   00000354   180100EF           SWI      +280
+   \   00000358   0080B0E1           MOVS     R8,R0
+   \   0000035C   1800000A           BEQ      ??Parsing_18
+    414                  {
+    415          #ifdef LOG
+    416                    log("prognoze");
+    417          #endif
+    418                    char tmp[128];
+    419                    zeromem(tmp,128);
+   \   00000360   8010A0E3           MOV      R1,#+128
+   \   00000364   0D00A0E1           MOV      R0,SP
+   \   00000368   1D0100EF           SWI      +285
+    420                    flags[_comfort] = 1;
+   \   0000036C   149085E5           STR      R9,[R5, #+20]
+    421                    s2+=strlen("</div>")+3;//+3 ибо \n\r + пробел
+   \   00000370   0400A0E1           MOV      R0,R4
+   \   00000374   1B0000EF           SWI      +27
+   \   00000378   080080E0           ADD      R0,R0,R8
+   \   0000037C   038080E2           ADD      R8,R0,#+3
+    422                    i=0;
+   \   00000380   00B0A0E3           MOV      R11,#+0
+   \   00000384   030000EA           B        ??Parsing_19
+    423                    while(*s2 != '\n' && *(s2+1) != '\r')
+    424                    {
+    425                      tmp[i] = *s2;
+   \                     ??Parsing_20:
+   \   00000388   ........           LDRB     R1,[R8], #+1
+   \   0000038C   0D00A0E1           MOV      R0,SP
+   \   00000390   0010CBE7           STRB     R1,[R11, +R0]
+    426                      *s2++;
+    427                      i++;
+   \   00000394   01B08BE2           ADD      R11,R11,#+1
+    428                    }
+   \                     ??Parsing_19:
+   \   00000398   ........           LDRB     R0,[R8], #+1
+   \   0000039C   0A0050E3           CMP      R0,#+10
+   \   000003A0   ........           LDRBNE   R0,[R8], #-1
+   \   000003A4   0D005013           CMPNE    R0,#+13
+   \   000003A8   F6FFFF1A           BNE      ??Parsing_20
+    429                    
+    430                    tmp[strlen(tmp)] = 0;  
+   \   000003AC   0D00A0E1           MOV      R0,SP
+   \   000003B0   1B0000EF           SWI      +27
+   \   000003B4   0D10A0E1           MOV      R1,SP
+   \   000003B8   0160C0E7           STRB     R6,[R0, +R1]
+    431                    utf82win(prognoze,tmp);
+   \   000003BC   ........           LDR      R0,??DataTable66  ;; prognoze
+   \   000003C0   ........           BL       utf82win
+    432          #ifdef LOG
+    433                    log(prognoze);
+    434          #endif
+    435                  }
+    436                }//if(s2)
+    437               if(ENA_MSG) ShowMSG(1,(int)"All data reciev and parse!");
+   \                     ??Parsing_18:
+   \   000003C4   90009FE5           LDR      R0,??Parsing_1+0x38  ;; ENA_MSG
+   \   000003C8   000090E5           LDR      R0,[R0, #+0]
+   \   000003CC   000050E3           CMP      R0,#+0
+   \   000003D0   0200000A           BEQ      ??Parsing_21
+   \   000003D4   84109FE5           LDR      R1,??Parsing_1+0x3C  ;; `?<Constant "All data reciev and p...">`
+   \   000003D8   0100A0E3           MOV      R0,#+1
+   \   000003DC   480100EF           SWI      +328
+    438               GBS_StartTimerProc(&mytmr, 60*216*refresh, start_again);
+   \                     ??Parsing_21:
+   \   000003E0   7C009FE5           LDR      R0,??Parsing_1+0x40  ;; refresh
+   \   000003E4   A030A0E3           MOV      R3,#+160
+   \   000003E8   000090E5           LDR      R0,[R0, #+0]
+   \   000003EC   C83D83E3           ORR      R3,R3,#0x3200
+   \   000003F0   930001E0           MUL      R1,R3,R0
+   \   000003F4   0720A0E1           MOV      R2,R7
+   \   000003F8   050000EA           B        ??Parsing_22
+    439             }
+    440             else//if(strstr(buf,"forecast"))
+    441             {
+    442              ShowMSG(1,(int)"Wrong reciev data! Waiting 60 second!");
+   \                     ??Parsing_2:
+   \   000003FC   64109FE5           LDR      R1,??Parsing_1+0x44  ;; `?<Constant "Wrong reciev data! Wa...">`
+   \   00000400   0100A0E3           MOV      R0,#+1
+   \   00000404   480100EF           SWI      +328
+    443              GBS_StartTimerProc(&mytmr, 60*216, start_again);
+   \   00000408   0720A0E1           MOV      R2,R7
+   \   0000040C   A010A0E3           MOV      R1,#+160
+   \   00000410   C81D81E3           ORR      R1,R1,#0x3200
+   \                     ??Parsing_22:
+   \   00000414   ........           LDR      R0,??DataTable26  ;; mytmr
+   \   00000418   4D0000EF           SWI      +77
+    444             }
+    445             
+    446          //   if(s1) mfree(s1);
+    447            // if(s2) mfree(s2);
+    448          }
+   \   0000041C   BCD08DE2           ADD      SP,SP,#+188
+   \   00000420   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??Parsing_1:
+   \   00000424   20250000           DC8      " %",+0
+   \   00000428   ........           DC32     `?<Constant "forecast">`
+   \   0000042C   ........           DC32     `?<Constant "forecasttext">`
+   \   00000430   ........           DC32     `?<Constant "<img src">`
+   \   00000434   ........           DC32     `?<Constant "<img src=">`
+   \   00000438   ........           DC32     `?<Constant "/img/new/">`
+   \   0000043C   ........           DC32     weather_img_path
+   \   00000440   ........           DC32     `?<Constant "%s%s.png">`
+   \   00000444   ........           DC32     `?<Constant "><span class=">`
+   \   00000448   ........           DC32     `?<Constant "spec">`
+   \   0000044C   ........           DC32     `?<Constant "<strong>">`
+   \   00000450   ........           DC32     `?<Constant " mmHg">`
+   \   00000454   ........           DC32     `?<Constant " \\354/\\361">`
+   \   00000458   ........           DC32     `?<Constant "</div>">`
+   \   0000045C   ........           DC32     ENA_MSG
+   \   00000460   ........           DC32     `?<Constant "All data reciev and p...">`
+   \   00000464   ........           DC32     refresh
+   \   00000468   ........           DC32     `?<Constant "Wrong reciev data! Wa...">`
+    449           
+
+   \                                 In segment CODE, align 4, keep-with-next
+    450          void DrawTemp(void *canv)//Температура
+    451          {
+    452            if(!flags[_temp]) return;
+   \                     DrawTemp:
+   \   00000000   C8009FE5           LDR      R0,??DrawTemp_0  ;; flags + 4
+   \   00000004   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   F083BD08           POPEQ    {R4-R9,PC}
+    453            char *tempera=malloc(256);
+   \   00000014   400FA0E3           MOV      R0,#+256
+   \   00000018   140000EF           SWI      +20
+    454            sprintf(tempera, "%s%s%c", str_temp, temp,2224);
+   \   0000001C   ........           LDR      R3,??DataTable56  ;; temp
+   \   00000020   ........           LDR      R2,??DataTable57  ;; str_temp
+   \   00000024   ........           LDR      R1,??DataTable58  ;; `?<Constant "%s%s%c">`
+   \   00000028   0040A0E1           MOV      R4,R0
+   \   0000002C   8B0EA0E3           MOV      R0,#+2224
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   160000EF           SWI      +22
+    455            if(chekeris1==0)
+   \   0000003C   90009FE5           LDR      R0,??DrawTemp_0+0x4  ;; date_X
+   \   00000040   005090E5           LDR      R5,[R0, #+0]
+   \   00000044   8C009FE5           LDR      R0,??DrawTemp_0+0x8  ;; date_Y
+   \   00000048   006090E5           LDR      R6,[R0, #+0]
+   \   0000004C   ........           LDR      R0,??DataTable49  ;; align1
+   \   00000050   007090E5           LDR      R7,[R0, #+0]
+   \   00000054   ........           LDR      R0,??DataTable97  ;; font
+   \   00000058   008090E5           LDR      R8,[R0, #+0]
+   \   0000005C   ........           LDR      R0,??DataTable54  ;; space
+   \   00000060   009090E5           LDR      R9,[R0, #+0]
+   \   00000064   70009FE5           LDR      R0,??DrawTemp_0+0xC  ;; chekeris1
+   \   00000068   000090E5           LDR      R0,[R0, #+0]
+   \   0000006C   04D08DE2           ADD      SP,SP,#+4
+   \   00000070   000050E3           CMP      R0,#+0
+   \   00000074   0A00000A           BEQ      ??DrawTemp_1
+    456            {
+    457              PrintField(date_X,date_Y, tempera, align1, font, space);
+    458            }
+    459            else
+    460             {
+    461              if((chekeris1==1)&&(IsUnlocked()))
+   \   00000078   010050E3           CMP      R0,#+1
+   \   0000007C   0300001A           BNE      ??DrawTemp_2
+   \   00000080   430000EF           SWI      +67
+   \   00000084   000050E3           CMP      R0,#+0
+   \   00000088   0D00000A           BEQ      ??DrawTemp_3
+    462               {
+    463                 PrintField(date_X,date_Y, tempera, align1, font, space);
+   \   0000008C   040000EA           B        ??DrawTemp_1
+    464               }
+    465              else
+    466               if((chekeris1==2)&&(!IsUnlocked()))
+   \                     ??DrawTemp_2:
+   \   00000090   020050E3           CMP      R0,#+2
+   \   00000094   0A00001A           BNE      ??DrawTemp_3
+   \   00000098   430000EF           SWI      +67
+   \   0000009C   000050E3           CMP      R0,#+0
+   \   000000A0   0700001A           BNE      ??DrawTemp_3
+    467                {
+    468                 PrintField(date_X,date_Y, tempera, align1, font, space);
+   \                     ??DrawTemp_1:
+   \   000000A4   00022DE9           PUSH     {R9}
+   \   000000A8   00012DE9           PUSH     {R8}
+   \   000000AC   0730A0E1           MOV      R3,R7
+   \   000000B0   0420A0E1           MOV      R2,R4
+   \   000000B4   0610A0E1           MOV      R1,R6
+   \   000000B8   0500A0E1           MOV      R0,R5
+   \   000000BC   ........           _BLF     PrintField,??PrintField??rA
+   \   000000C0   08D08DE2           ADD      SP,SP,#+8
+    469                }
+    470              }
+    471            mfree(tempera);
+   \                     ??DrawTemp_3:
+   \   000000C4   0400A0E1           MOV      R0,R4
+   \   000000C8   150000EF           SWI      +21
+    472          }
+   \   000000CC   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??DrawTemp_0:
+   \   000000D0   ........           DC32     flags + 4
+   \   000000D4   ........           DC32     date_X
+   \   000000D8   ........           DC32     date_Y
+   \   000000DC   ........           DC32     chekeris1
+    473          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    474          void DrawSpeed(void *canv)//скорость ветра
+    475          {
+    476            if(!flags[_speed])return;
+   \                     DrawSpeed:
+   \   00000000   98009FE5           LDR      R0,??DrawSpeed_0  ;; flags + 12
+   \   00000004   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   F083BD08           POPEQ    {R4-R9,PC}
+    477            if(chekeris2==0)
+   \   00000014   88009FE5           LDR      R0,??DrawSpeed_0+0x4  ;; date_X2
+   \   00000018   ........           LDR      R9,??DataTable64  ;; speed
+   \   0000001C   004090E5           LDR      R4,[R0, #+0]
+   \   00000020   80009FE5           LDR      R0,??DrawSpeed_0+0x8  ;; date_Y2
+   \   00000024   005090E5           LDR      R5,[R0, #+0]
+   \   00000028   7C009FE5           LDR      R0,??DrawSpeed_0+0xC  ;; align2
+   \   0000002C   006090E5           LDR      R6,[R0, #+0]
+   \   00000030   ........           LDR      R0,??DataTable97  ;; font
+   \   00000034   007090E5           LDR      R7,[R0, #+0]
+   \   00000038   ........           LDR      R0,??DataTable54  ;; space
+   \   0000003C   008090E5           LDR      R8,[R0, #+0]
+   \   00000040   68009FE5           LDR      R0,??DrawSpeed_0+0x10  ;; chekeris2
+   \   00000044   000090E5           LDR      R0,[R0, #+0]
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   0A00000A           BEQ      ??DrawSpeed_1
+    478            {
+    479             PrintField(date_X2,date_Y2, speed, align2, font, space);
+    480            }
+    481            else
+    482            {
+    483             if((chekeris2==1)&&(IsUnlocked()))
+   \   00000050   010050E3           CMP      R0,#+1
+   \   00000054   0300001A           BNE      ??DrawSpeed_2
+   \   00000058   430000EF           SWI      +67
+   \   0000005C   000050E3           CMP      R0,#+0
+   \   00000060   F083BD08           POPEQ    {R4-R9,PC}
+    484             {
+    485              PrintField(date_X2,date_Y2, speed, align2, font, space);
+   \                     ??DrawSpeed_3:
+   \   00000064   040000EA           B        ??DrawSpeed_1
+    486             }
+    487             else
+    488              if((chekeris2==2)&&(!IsUnlocked()))
+   \                     ??DrawSpeed_2:
+   \   00000068   020050E3           CMP      R0,#+2
+   \   0000006C   F083BD18           POPNE    {R4-R9,PC}
+   \   00000070   430000EF           SWI      +67
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   F083BD18           POPNE    {R4-R9,PC}
+    489               {
+    490                PrintField(date_X2,date_Y2, speed, align2, font, space);
+   \                     ??DrawSpeed_1:
+   \   0000007C   00012DE9           PUSH     {R8}
+   \   00000080   80002DE9           PUSH     {R7}
+   \   00000084   0630A0E1           MOV      R3,R6
+   \   00000088   0920A0E1           MOV      R2,R9
+   \   0000008C   0510A0E1           MOV      R1,R5
+   \   00000090   0400A0E1           MOV      R0,R4
+   \   00000094   ........           _BLF     PrintField,??PrintField??rA
+   \   00000098   08D08DE2           ADD      SP,SP,#+8
+   \   0000009C   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??DrawSpeed_0:
+   \   000000A0   ........           DC32     flags + 12
+   \   000000A4   ........           DC32     date_X2
+   \   000000A8   ........           DC32     date_Y2
+   \   000000AC   ........           DC32     align2
+   \   000000B0   ........           DC32     chekeris2
+    491               }
+    492            }
+    493          }
+    494          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    495          void DrawComfort(void *canv)//комфорт
+    496          {
+    497            if(!flags[_comfort])return;
+   \                     DrawComfort:
+   \   00000000   B8009FE5           LDR      R0,??DrawComfort_0  ;; flags + 20
+   \   00000004   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   F083BD08           POPEQ    {R4-R9,PC}
+    498            if(chekeris3==0)
+   \   00000014   A8009FE5           LDR      R0,??DrawComfort_0+0x4  ;; date_X3
+   \   00000018   ........           LDR      R8,??DataTable66  ;; prognoze
+   \   0000001C   004090E5           LDR      R4,[R0, #+0]
+   \   00000020   A0009FE5           LDR      R0,??DrawComfort_0+0x8  ;; date_Y3
+   \   00000024   005090E5           LDR      R5,[R0, #+0]
+   \   00000028   ........           LDR      R0,??DataTable97  ;; font
+   \   0000002C   006090E5           LDR      R6,[R0, #+0]
+   \   00000030   ........           LDR      R0,??DataTable54  ;; space
+   \   00000034   007090E5           LDR      R7,[R0, #+0]
+   \   00000038   8C009FE5           LDR      R0,??DrawComfort_0+0xC  ;; chekeris3
+   \   0000003C   000090E5           LDR      R0,[R0, #+0]
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   0400001A           BNE      ??DrawComfort_1
+    499            {
+    500               PrintField(date_X3,date_Y3, prognoze, align1, font, space);
+   \   00000048   ........           LDR      R0,??DataTable49  ;; align1
+   \   0000004C   80002DE9           PUSH     {R7}
+   \   00000050   40002DE9           PUSH     {R6}
+   \   00000054   003090E5           LDR      R3,[R0, #+0]
+   \   00000058   120000EA           B        ??DrawComfort_2
+    501            }
+    502            else
+    503            {
+    504             if((chekeris3==1)&&(IsUnlocked()))
+   \                     ??DrawComfort_1:
+   \   0000005C   6C109FE5           LDR      R1,??DrawComfort_0+0x10  ;; align3
+   \   00000060   010050E3           CMP      R0,#+1
+   \   00000064   009091E5           LDR      R9,[R1, #+0]
+   \   00000068   0600001A           BNE      ??DrawComfort_3
+   \   0000006C   430000EF           SWI      +67
+   \   00000070   000050E3           CMP      R0,#+0
+   \   00000074   F083BD08           POPEQ    {R4-R9,PC}
+    505             {
+    506                PrintField(date_X3,date_Y3, prognoze, align3, font, space);
+   \   00000078   80002DE9           PUSH     {R7}
+   \   0000007C   40002DE9           PUSH     {R6}
+   \   00000080   0930A0E1           MOV      R3,R9
+   \                     ??DrawComfort_4:
+   \   00000084   070000EA           B        ??DrawComfort_2
+    507             }
+    508             else
+    509              if((chekeris3==2)&&(!IsUnlocked()))
+   \                     ??DrawComfort_3:
+   \   00000088   020050E3           CMP      R0,#+2
+   \   0000008C   F083BD18           POPNE    {R4-R9,PC}
+   \   00000090   430000EF           SWI      +67
+   \   00000094   000050E3           CMP      R0,#+0
+   \   00000098   F083BD18           POPNE    {R4-R9,PC}
+    510              {
+    511                 PrintField(date_X3,date_Y3, prognoze, align3, font, space);
+   \   0000009C   80002DE9           PUSH     {R7}
+   \   000000A0   40002DE9           PUSH     {R6}
+   \   000000A4   0930A0E1           MOV      R3,R9
+   \                     ??DrawComfort_2:
+   \   000000A8   0820A0E1           MOV      R2,R8
+   \   000000AC   0510A0E1           MOV      R1,R5
+   \   000000B0   0400A0E1           MOV      R0,R4
+   \   000000B4   ........           _BLF     PrintField,??PrintField??rA
+   \   000000B8   08D08DE2           ADD      SP,SP,#+8
+   \   000000BC   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??DrawComfort_0:
+   \   000000C0   ........           DC32     flags + 20
+   \   000000C4   ........           DC32     date_X3
+   \   000000C8   ........           DC32     date_Y3
+   \   000000CC   ........           DC32     chekeris3
+   \   000000D0   ........           DC32     align3
+    512              }
+    513             }
+    514          }
+    515          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    516          void DrawDavlenie(void *canv)//давление
+    517          {
+    518            if(!flags[_dav])return;
+   \                     DrawDavlenie:
+   \   00000000   B8009FE5           LDR      R0,??DrawDavlenie_0  ;; flags + 8
+   \   00000004   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   F083BD08           POPEQ    {R4-R9,PC}
+    519            char *tempera=malloc(256);
+   \   00000014   400FA0E3           MOV      R0,#+256
+   \   00000018   140000EF           SWI      +20
+    520            sprintf(tempera, "%s%s", str_davlenie, davlenie);
+   \   0000001C   ........           LDR      R3,??DataTable68  ;; davlenie
+   \   00000020   9C209FE5           LDR      R2,??DrawDavlenie_0+0x4  ;; str_davlenie
+   \   00000024   ........           LDR      R1,??DataTable61  ;; `?<Constant "%s%s">`
+   \   00000028   0040A0E1           MOV      R4,R0
+   \   0000002C   160000EF           SWI      +22
+    521            if(chekeris4==0)
+   \   00000030   90009FE5           LDR      R0,??DrawDavlenie_0+0x8  ;; date_X4
+   \   00000034   005090E5           LDR      R5,[R0, #+0]
+   \   00000038   8C009FE5           LDR      R0,??DrawDavlenie_0+0xC  ;; date_Y4
+   \   0000003C   006090E5           LDR      R6,[R0, #+0]
+   \   00000040   88009FE5           LDR      R0,??DrawDavlenie_0+0x10  ;; align4
+   \   00000044   007090E5           LDR      R7,[R0, #+0]
+   \   00000048   ........           LDR      R0,??DataTable97  ;; font
+   \   0000004C   008090E5           LDR      R8,[R0, #+0]
+   \   00000050   ........           LDR      R0,??DataTable54  ;; space
+   \   00000054   009090E5           LDR      R9,[R0, #+0]
+   \   00000058   74009FE5           LDR      R0,??DrawDavlenie_0+0x14  ;; chekeris4
+   \   0000005C   000090E5           LDR      R0,[R0, #+0]
+   \   00000060   000050E3           CMP      R0,#+0
+   \   00000064   0A00000A           BEQ      ??DrawDavlenie_1
+    522            {
+    523               PrintField(date_X4,date_Y4, tempera, align4, font, space);
+    524            }
+    525            else
+    526            {
+    527             if((chekeris4==1)&&(IsUnlocked()))
+   \   00000068   010050E3           CMP      R0,#+1
+   \   0000006C   0300001A           BNE      ??DrawDavlenie_2
+   \   00000070   430000EF           SWI      +67
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   0D00000A           BEQ      ??DrawDavlenie_3
+    528              {
+    529                PrintField(date_X4,date_Y4, tempera, align4, font, space);
+   \   0000007C   040000EA           B        ??DrawDavlenie_1
+    530              }
+    531              else
+    532               if((chekeris4==2)&&(!IsUnlocked()))
+   \                     ??DrawDavlenie_2:
+   \   00000080   020050E3           CMP      R0,#+2
+   \   00000084   0A00001A           BNE      ??DrawDavlenie_3
+   \   00000088   430000EF           SWI      +67
+   \   0000008C   000050E3           CMP      R0,#+0
+   \   00000090   0700001A           BNE      ??DrawDavlenie_3
+    533                {
+    534                  PrintField(date_X4,date_Y4, tempera, align4, font, space);
+   \                     ??DrawDavlenie_1:
+   \   00000094   00022DE9           PUSH     {R9}
+   \   00000098   00012DE9           PUSH     {R8}
+   \   0000009C   0730A0E1           MOV      R3,R7
+   \   000000A0   0420A0E1           MOV      R2,R4
+   \   000000A4   0610A0E1           MOV      R1,R6
+   \   000000A8   0500A0E1           MOV      R0,R5
+   \   000000AC   ........           _BLF     PrintField,??PrintField??rA
+   \   000000B0   08D08DE2           ADD      SP,SP,#+8
+    535                }
+    536             }
+    537            mfree(tempera);
+   \                     ??DrawDavlenie_3:
+   \   000000B4   0400A0E1           MOV      R0,R4
+   \   000000B8   150000EF           SWI      +21
+    538          }
+   \   000000BC   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??DrawDavlenie_0:
+   \   000000C0   ........           DC32     flags + 8
+   \   000000C4   ........           DC32     str_davlenie
+   \   000000C8   ........           DC32     date_X4
+   \   000000CC   ........           DC32     date_Y4
+   \   000000D0   ........           DC32     align4
+   \   000000D4   ........           DC32     chekeris4
+    539          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    540          void DrawVlaznost(void *canv)//влажность
+    541          {
+    542            if(!flags[_vlaznost])return;
+   \                     DrawVlaznost:
+   \   00000000   C4009FE5           LDR      R0,??DrawVlaznost_0  ;; flags + 16
+   \   00000004   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   F081BD08           POPEQ    {R4-R8,PC}
+    543            char *tempera=malloc(256);
+   \   00000014   400FA0E3           MOV      R0,#+256
+   \   00000018   140000EF           SWI      +20
+    544            sprintf(tempera, "%s%s", str_vlaznost, vlaznost);
+   \   0000001C   ........           LDR      R3,??DataTable59  ;; vlaznost
+   \   00000020   ........           LDR      R2,??DataTable60  ;; str_vlaznost
+   \   00000024   ........           LDR      R1,??DataTable61  ;; `?<Constant "%s%s">`
+   \   00000028   0040A0E1           MOV      R4,R0
+   \   0000002C   160000EF           SWI      +22
+    545            if(chekeris5==0)
+   \   00000030   98009FE5           LDR      R0,??DrawVlaznost_0+0x4  ;; date_X5
+   \   00000034   005090E5           LDR      R5,[R0, #+0]
+   \   00000038   94009FE5           LDR      R0,??DrawVlaznost_0+0x8  ;; date_Y5
+   \   0000003C   006090E5           LDR      R6,[R0, #+0]
+   \   00000040   ........           LDR      R0,??DataTable97  ;; font
+   \   00000044   007090E5           LDR      R7,[R0, #+0]
+   \   00000048   ........           LDR      R0,??DataTable54  ;; space
+   \   0000004C   008090E5           LDR      R8,[R0, #+0]
+   \   00000050   80009FE5           LDR      R0,??DrawVlaznost_0+0xC  ;; chekeris5
+   \   00000054   000090E5           LDR      R0,[R0, #+0]
+   \   00000058   000050E3           CMP      R0,#+0
+   \   0000005C   0100001A           BNE      ??DrawVlaznost_1
+    546            {
+    547             PrintField(date_X5,date_Y5, tempera, align5, font, space);
+   \                     ??DrawVlaznost_2:
+   \   00000060   74009FE5           LDR      R0,??DrawVlaznost_0+0x10  ;; align5
+   \   00000064   0D0000EA           B        ??DrawVlaznost_3
+    548            }
+    549            else
+    550            {
+    551              if((chekeris5==1)&&(IsUnlocked()))
+   \                     ??DrawVlaznost_1:
+   \   00000068   010050E3           CMP      R0,#+1
+   \   0000006C   0500001A           BNE      ??DrawVlaznost_4
+   \   00000070   430000EF           SWI      +67
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   F8FFFF1A           BNE      ??DrawVlaznost_2
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   150000EF           SWI      +21
+   \   00000084   F081BDE8           POP      {R4-R8,PC}
+    552              {
+    553               PrintField(date_X5,date_Y5, tempera, align5, font, space);
+    554              }
+    555              else
+    556               if((chekeris5==2)&&(!IsUnlocked()))
+   \                     ??DrawVlaznost_4:
+   \   00000088   020050E3           CMP      R0,#+2
+   \   0000008C   0B00001A           BNE      ??DrawVlaznost_5
+   \   00000090   430000EF           SWI      +67
+   \   00000094   000050E3           CMP      R0,#+0
+   \   00000098   0800001A           BNE      ??DrawVlaznost_5
+    557                {
+    558                 PrintField(date_X5,date_Y5, tempera, align1, font, space);
+   \   0000009C   ........           LDR      R0,??DataTable49  ;; align1
+   \                     ??DrawVlaznost_3:
+   \   000000A0   00012DE9           PUSH     {R8}
+   \   000000A4   80002DE9           PUSH     {R7}
+   \   000000A8   003090E5           LDR      R3,[R0, #+0]
+   \   000000AC   0420A0E1           MOV      R2,R4
+   \   000000B0   0610A0E1           MOV      R1,R6
+   \   000000B4   0500A0E1           MOV      R0,R5
+   \   000000B8   ........           _BLF     PrintField,??PrintField??rA
+   \   000000BC   08D08DE2           ADD      SP,SP,#+8
+    559                }
+    560             }
+    561            mfree(tempera);
+   \                     ??DrawVlaznost_5:
+   \   000000C0   0400A0E1           MOV      R0,R4
+   \   000000C4   150000EF           SWI      +21
+    562          }
+   \   000000C8   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??DrawVlaznost_0:
+   \   000000CC   ........           DC32     flags + 16
+   \   000000D0   ........           DC32     date_X5
+   \   000000D4   ........           DC32     date_Y5
+   \   000000D8   ........           DC32     chekeris5
+   \   000000DC   ........           DC32     align5
+    563          
+    564          
+    565          //----------------------------Scroll String---------------------------------//
+    566          
+    567          
+    568          //#define idlegui_id (((int *)icsm)[DISPLACE_OF_IDLEGUI_ID/4])
+    569          
+    570          //extern const unsigned int x;
+    571          //extern const unsigned int y;
+    572          extern const RECT pos1;
+    573          extern const int al;
+    574          //extern const unsigned int scrollsize;
+    575          extern const int ENA_SCROLL;
+    576          extern const unsigned int TimeUpdateScroll;
+    577          extern const char fontColor[];//Для системного фонта
+    578          extern const char bgrColor[];//Для системного фонта
+    579          extern const int isOutline;//Для системного фонта
+    580          extern const unsigned int scrollDelay;
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    581          char *s;
+   \                     s:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    582          GBSTMR scrollTmr;
+   \                     scrollTmr:
+   \   00000000                      DS8 16
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    583          CSM_RAM *icsm;
+   \                     icsm:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    584          GUI *igui;
+   \                     igui:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    585          char scrollstr[256];
+   \                     scrollstr:
+   \   00000000                      DS8 256
+    586          #define idlegui_id(icsm) (((int *)icsm)[DISPLACE_OF_IDLEGUI_ID/4])
+
+   \                                 In segment CODE, align 4, keep-with-next
+    587          int checkGui(int id)
+    588          {
+   \                     checkGui:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    589           int retval = 0; 
+   \   00000004   0040A0E3           MOV      R4,#+0
+    590           if (IsGuiOnTop(id)) 
+   \   00000008   350100EF           SWI      +309
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0A00000A           BEQ      ??checkGui_0
+    591           {
+    592              GUI* igui = GetTopGUI();
+   \   00000014   4D0100EF           SWI      +333
+    593              if (igui)
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   0700000A           BEQ      ??checkGui_0
+    594              {
+    595          #ifdef ELKA
+    596                canvasdata = BuildCanvas();
+    597                retval = 1;
+    598          #else
+    599                void *idata = GetDataOfItemByID(igui, 2);
+   \   00000020   0210A0E3           MOV      R1,#+2
+   \   00000024   4F0100EF           SWI      +335
+    600                if (idata)
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   0300000A           BEQ      ??checkGui_0
+    601                {
+    602                  canvasdata = ((void **)idata)[DISPLACE_OF_IDLECANVAS / 4];
+   \   00000030   ........           LDR      R1,??DataTable85  ;; canvasdata
+   \   00000034   140090E5           LDR      R0,[R0, #+20]
+    603                  retval = 1;
+   \   00000038   0140A0E3           MOV      R4,#+1
+   \   0000003C   000081E5           STR      R0,[R1, #+0]
+    604                }
+    605          #endif
+    606              }  
+    607           }
+    608           return retval;
+   \                     ??checkGui_0:
+   \   00000040   0400A0E1           MOV      R0,R4
+   \   00000044   1080BDE8           POP      {R4,PC}          ;; return
+    609          }
+    610          
+    611          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    612          void DrawScrollStr()
+    613          {
+   \                     DrawScrollStr:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    614            int isScroll=1;
+    615            char *buf;
+    616            icsm=FindCSMbyID(CSM_root()->idle_id);
+   \   00000004   ........           LDR      R4,??DataTable84  ;; icsm
+   \   00000008   068100EF           SWI      +33030
+   \   0000000C   040090E5           LDR      R0,[R0, #+4]
+   \   00000010   080100EF           SWI      +264
+   \   00000014   000084E5           STR      R0,[R4, #+0]
+    617          /*  if(IsGuiOnTop(idlegui_id)&&!IsScreenSaver())
+    618            {
+    619             igui=GetTopGUI();
+    620             if(igui)
+    621             {*/
+    622               icsm=FindCSMbyID(CSM_root()->idle_id);
+   \   00000018   068100EF           SWI      +33030
+   \   0000001C   040090E5           LDR      R0,[R0, #+4]
+   \   00000020   080100EF           SWI      +264
+   \   00000024   000084E5           STR      R0,[R4, #+0]
+    623               if (icsm && checkGui(idlegui_id(icsm)))
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   3080BD08           POPEQ    {R4,R5,PC}
+   \   00000030   280090E5           LDR      R0,[R0, #+40]
+   \   00000034   ........           BL       checkGui
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   3080BD08           POPEQ    {R4,R5,PC}
+    624                {
+    625                  canvasdata=BuildCanvas();
+    626                  buf=malloc(strlen(scrollstr)+1);
+   \   00000040   ........           LDR      R5,??DataTable70  ;; scrollstr
+   \   00000044   F18000EF           SWI      +33009
+   \   00000048   ........           LDR      R1,??DataTable85  ;; canvasdata
+   \   0000004C   000081E5           STR      R0,[R1, #+0]
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   1B0000EF           SWI      +27
+   \   00000058   010080E2           ADD      R0,R0,#+1
+   \   0000005C   140000EF           SWI      +20
+   \   00000060   0040A0E1           MOV      R4,R0
+    627                  strcpy(buf,scrollstr);
+   \   00000064   0510A0E1           MOV      R1,R5
+   \   00000068   1A0000EF           SWI      +26
+    628                  PrintText(pos1.x,pos1.y,buf,al,font,space,0,isScroll,0,pos1.x2);
+   \   0000006C   5C009FE5           LDR      R0,??DrawScrollStr_0  ;; pos1
+   \   00000070   0420A0E1           MOV      R2,R4
+   \   00000074   F410D0E1           LDRSH    R1,[R0, #+4]
+   \   00000078   02002DE9           PUSH     {R1}
+   \   0000007C   0010A0E3           MOV      R1,#+0
+   \   00000080   02002DE9           PUSH     {R1}
+   \   00000084   0110A0E3           MOV      R1,#+1
+   \   00000088   02002DE9           PUSH     {R1}
+   \   0000008C   0010A0E3           MOV      R1,#+0
+   \   00000090   02002DE9           PUSH     {R1}
+   \   00000094   ........           LDR      R1,??DataTable54  ;; space
+   \   00000098   001091E5           LDR      R1,[R1, #+0]
+   \   0000009C   02002DE9           PUSH     {R1}
+   \   000000A0   ........           LDR      R1,??DataTable97  ;; font
+   \   000000A4   001091E5           LDR      R1,[R1, #+0]
+   \   000000A8   02002DE9           PUSH     {R1}
+   \   000000AC   20109FE5           LDR      R1,??DrawScrollStr_0+0x4  ;; al
+   \   000000B0   003091E5           LDR      R3,[R1, #+0]
+   \   000000B4   F210D0E1           LDRSH    R1,[R0, #+2]
+   \   000000B8   F000D0E1           LDRSH    R0,[R0, #+0]
+   \   000000BC   ........           _BLF     PrintText,??PrintText??rA
+    629                  mfree(buf);
+   \   000000C0   0400A0E1           MOV      R0,R4
+   \   000000C4   150000EF           SWI      +21
+   \   000000C8   18D08DE2           ADD      SP,SP,#+24
+    630               }
+    631            //}
+    632          }
+   \   000000CC   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??DrawScrollStr_0:
+   \   000000D0   ........           DC32     pos1
+   \   000000D4   ........           DC32     al
+    633          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    634          void SaveWeath()
+    635          {
+   \                     SaveWeath:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    636           // return;
+    637          #ifdef LOG
+    638            log("saveweath");
+    639          #endif
+    640            char *s=malloc(256), *s2=malloc(256);
+   \   00000004   400FA0E3           MOV      R0,#+256
+   \   00000008   140000EF           SWI      +20
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   400FA0E3           MOV      R0,#+256
+   \   00000014   140000EF           SWI      +20
+    641          #ifdef LOG
+    642            log("malloc");
+    643          #endif
+    644            sprintf(s, "%s%s%c", str_temp, temp,2224); 
+   \   00000018   ........           LDR      R3,??DataTable56  ;; temp
+   \   0000001C   ........           LDR      R2,??DataTable57  ;; str_temp
+   \   00000020   ........           LDR      R1,??DataTable58  ;; `?<Constant "%s%s%c">`
+   \   00000024   0050A0E1           MOV      R5,R0
+   \   00000028   8B0EA0E3           MOV      R0,#+2224
+   \   0000002C   01002DE9           PUSH     {R0}
+    645            sprintf(s2, "%s%s", str_vlaznost, vlaznost);
+    646          #ifdef LOG
+    647            log("s s2");
+    648          #endif
+    649            //if(test==5)
+    650            {
+    651              if(show_temp)
+   \   00000030   3B6F8FE2           ADR      R6,??SaveWeath_0  ;; " | "
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   160000EF           SWI      +22
+   \   0000003C   ........           LDR      R3,??DataTable59  ;; vlaznost
+   \   00000040   ........           LDR      R2,??DataTable60  ;; str_vlaznost
+   \   00000044   ........           LDR      R1,??DataTable61  ;; `?<Constant "%s%s">`
+   \   00000048   0500A0E1           MOV      R0,R5
+   \   0000004C   160000EF           SWI      +22
+   \   00000050   ........           LDR      R0,??DataTable86  ;; show_temp
+   \   00000054   000090E5           LDR      R0,[R0, #+0]
+   \   00000058   04D08DE2           ADD      SP,SP,#+4
+   \   0000005C   000050E3           CMP      R0,#+0
+   \   00000060   0200000A           BEQ      ??SaveWeath_1
+    652              {
+    653                //strcat(s,s2);
+    654                strcat(s," | ");
+   \   00000064   0610A0E1           MOV      R1,R6
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   170000EF           SWI      +23
+    655          #ifdef LOG
+    656            log("show temp");
+    657          #endif
+    658              }
+    659              
+    660              if(show_speed)
+   \                     ??SaveWeath_1:
+   \   00000070   ........           LDR      R0,??DataTable87  ;; show_speed
+   \   00000074   000090E5           LDR      R0,[R0, #+0]
+   \   00000078   000050E3           CMP      R0,#+0
+   \   0000007C   0500000A           BEQ      ??SaveWeath_2
+    661               {
+    662          #ifdef LOG
+    663            log("show_speed");
+    664          #endif
+    665                strcat(s,speed);
+   \   00000080   ........           LDR      R1,??DataTable64  ;; speed
+   \   00000084   0400A0E1           MOV      R0,R4
+   \   00000088   170000EF           SWI      +23
+    666                strcat(s," | ");
+   \   0000008C   0610A0E1           MOV      R1,R6
+   \   00000090   0400A0E1           MOV      R0,R4
+   \   00000094   170000EF           SWI      +23
+    667               }
+    668              
+    669              if(show_prognoze)
+   \                     ??SaveWeath_2:
+   \   00000098   ........           LDR      R0,??DataTable88  ;; show_prognoze
+   \   0000009C   000090E5           LDR      R0,[R0, #+0]
+   \   000000A0   000050E3           CMP      R0,#+0
+   \   000000A4   0500000A           BEQ      ??SaveWeath_3
+    670                {
+    671          #ifdef LOG
+    672            log("show prognoze");
+    673          #endif
+    674                strcat(s,prognoze);
+   \   000000A8   ........           LDR      R1,??DataTable66  ;; prognoze
+   \   000000AC   0400A0E1           MOV      R0,R4
+   \   000000B0   170000EF           SWI      +23
+    675                strcat(s," | ");
+   \   000000B4   0610A0E1           MOV      R1,R6
+   \   000000B8   0400A0E1           MOV      R0,R4
+   \   000000BC   170000EF           SWI      +23
+    676               }
+    677              
+    678              if(show_davlenie)
+   \                     ??SaveWeath_3:
+   \   000000C0   ........           LDR      R0,??DataTable89  ;; show_davlenie
+   \   000000C4   000090E5           LDR      R0,[R0, #+0]
+   \   000000C8   000050E3           CMP      R0,#+0
+   \   000000CC   0500000A           BEQ      ??SaveWeath_4
+    679               {
+    680          #ifdef LOG
+    681            log("show davl");
+    682          #endif
+    683                strcat(s,davlenie);
+   \   000000D0   ........           LDR      R1,??DataTable68  ;; davlenie
+   \   000000D4   0400A0E1           MOV      R0,R4
+   \   000000D8   170000EF           SWI      +23
+    684                strcat(s," | ");
+   \   000000DC   0610A0E1           MOV      R1,R6
+   \   000000E0   0400A0E1           MOV      R0,R4
+   \   000000E4   170000EF           SWI      +23
+    685               }
+    686              
+    687              if(show_vlaznost)
+   \                     ??SaveWeath_4:
+   \   000000E8   ........           LDR      R0,??DataTable90  ;; show_vlaznost
+   \   000000EC   000090E5           LDR      R0,[R0, #+0]
+   \   000000F0   000050E3           CMP      R0,#+0
+   \   000000F4   0200000A           BEQ      ??SaveWeath_5
+    688               {
+    689          #ifdef LOG
+    690            log("show_vlazn");
+    691          #endif
+    692                 strcat(s,s2);
+   \   000000F8   0510A0E1           MOV      R1,R5
+   \   000000FC   0400A0E1           MOV      R0,R4
+   \   00000100   170000EF           SWI      +23
+    693               }  
+    694            }
+    695            strcpy(scrollstr,s);
+   \                     ??SaveWeath_5:
+   \   00000104   ........           LDR      R0,??DataTable70  ;; scrollstr
+   \   00000108   0410A0E1           MOV      R1,R4
+   \   0000010C   1A0000EF           SWI      +26
+    696            mfree(s);
+   \   00000110   0400A0E1           MOV      R0,R4
+   \   00000114   150000EF           SWI      +21
+    697            mfree(s2);
+   \   00000118   0500A0E1           MOV      R0,R5
+   \   0000011C   150000EF           SWI      +21
+    698          }
+   \   00000120   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??SaveWeath_0:
+   \   00000124   207C2000           DC8      " | "
+    699          
+    700          
+    701          //-------------------------------------------------------------//
+    702          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    703          void TimerProc()// Перерисовка по таймеру
+    704          {
+   \                     TimerProc:
+   \   00000000   00402DE9           PUSH     {LR}
+    705             DrawScrollStr();
+   \   00000004   ........           BL       DrawScrollStr
+    706             GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_UPDATE_STAT,&gipc);
+   \   00000008   ........           LDR      R3,??DataTable83  ;; gipc
+   \   0000000C   0120A0E3           MOV      R2,#+1
+   \   00000010   F210A0E3           MOV      R1,#+242
+   \   00000014   C01F81E3           ORR      R1,R1,#0x300
+   \   00000018   0900A0E3           MOV      R0,#+9
+   \   0000001C   420C80E3           ORR      R0,R0,#0x4200
+   \   00000020   000100EF           SWI      +256
+    707          }
+   \   00000024   0080BDE8           POP      {PC}             ;; return
+    708          
+    709          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    710          int maincsm_onmessage(CSM_RAM* data,GBS_MSG* msg)
+    711          {
+   \                     maincsm_onmessage:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0CD04DE2           SUB      SP,SP,#+12
+    712            if(msg->msg == MSG_RECONFIGURE_REQ) 
+   \   00000008   ........           LDR      R5,??DataTable72  ;; create_connect
+   \   0000000C   ........           LDR      R6,??DataTable93  ;; scrollTmr
+   \   00000010   0140A0E1           MOV      R4,R1
+   \   00000014   F200D4E1           LDRSH    R0,[R4, #+2]
+   \   00000018   F110A0E3           MOV      R1,#+241
+   \   0000001C   C01F81E3           ORR      R1,R1,#0x300
+   \   00000020   010050E1           CMP      R0,R1
+   \   00000024   1E00001A           BNE      ??maincsm_onmessage_0
+    713            {
+    714              extern const char *successed_config_filename;
+    715              if (strcmp_nocase(successed_config_filename,(char *)msg->data0)==0)
+   \   00000028   ........           LDR      R0,??DataTable98  ;; successed_config_filename
+   \   0000002C   081094E5           LDR      R1,[R4, #+8]
+   \   00000030   000090E5           LDR      R0,[R0, #+0]
+   \   00000034   ........           BL       strcmp_nocase
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   6300001A           BNE      ??maincsm_onmessage_1
+    716              {
+    717                ShowMSG(1,(int)"MailWeather 2.4 config updated!");
+   \   00000040   D8129FE5           LDR      R1,??maincsm_onmessage_2  ;; `?<Constant "MailWeather 2.4 confi...">`
+   \   00000044   0100A0E3           MOV      R0,#+1
+   \   00000048   480100EF           SWI      +328
+    718                InitConfig();
+   \   0000004C   ........           _BLF     InitConfig,??InitConfig??rA
+    719                PrintLibFree();
+   \   00000050   ........           _BLF     PrintLibFree,??PrintLibFree??rA
+    720                PrintLibInit(1);
+   \   00000054   0100A0E3           MOV      R0,#+1
+   \   00000058   ........           _BLF     PrintLibInit,??PrintLibInit??rA
+    721                FontPathInit((char*)fontpath, fullfont);
+   \   0000005C   ........           LDR      R0,??DataTable100  ;; fullfont
+   \   00000060   001090E5           LDR      R1,[R0, #+0]
+   \   00000064   ........           LDR      R0,??DataTable96  ;; fontpath
+   \   00000068   ........           _BLF     FontPathInit,??FontPathInit??rA
+    722                SetScrollEdgeDelay(1);
+   \   0000006C   0100A0E3           MOV      R0,#+1
+   \   00000070   ........           _BLF     SetScrollEdgeDelay,??SetScrollEdgeDelay??rA
+    723                SetFontColor((char*)fontColor,(char*)bgrColor,isOutline);
+   \   00000074   ........           LDR      R0,??DataTable101  ;; isOutline
+   \   00000078   ........           LDR      R1,??DataTable102  ;; bgrColor
+   \   0000007C   002090E5           LDR      R2,[R0, #+0]
+   \   00000080   ........           LDR      R0,??DataTable103  ;; fontColor
+   \   00000084   FF2002E2           AND      R2,R2,#0xFF
+   \   00000088   ........           _BLF     SetFontColor,??SetFontColor??rA
+    724                GBS_DelTimer(&mytmr);
+   \   0000008C   ........           LDR      R0,??DataTable94  ;; mytmr
+   \   00000090   8C0100EF           SWI      +396
+    725                GBS_DelTimer(&scrollTmr);
+   \   00000094   0600A0E1           MOV      R0,R6
+   \   00000098   8C0100EF           SWI      +396
+    726                SUBPROC((void *)create_connect);
+   \   0000009C   0500A0E1           MOV      R0,R5
+   \   000000A0   710100EF           SWI      +369
+    727              }
+    728            }
+    729            
+    730            if (msg->msg==MSG_IPC)// IPC
+   \                     ??maincsm_onmessage_0:
+   \   000000A4   F200D4E1           LDRSH    R0,[R4, #+2]
+   \   000000A8   F270A0E3           MOV      R7,#+242
+   \   000000AC   C07F87E3           ORR      R7,R7,#0x300
+   \   000000B0   070050E1           CMP      R0,R7
+   \   000000B4   0F00001A           BNE      ??maincsm_onmessage_3
+    731            {
+    732              IPC_REQ *ipc;
+    733              if ((ipc=(IPC_REQ*)msg->data0))
+   \   000000B8   080094E5           LDR      R0,[R4, #+8]
+   \   000000BC   000050E3           CMP      R0,#+0
+   \   000000C0   4200000A           BEQ      ??maincsm_onmessage_1
+    734              {
+    735                if (strcmp_nocase(ipc->name_to,ipc_my_name)==0)// Если приняли собственное сообщение
+   \   000000C4   000090E5           LDR      R0,[R0, #+0]
+   \   000000C8   54129FE5           LDR      R1,??maincsm_onmessage_2+0x4  ;; ipc_my_name
+   \   000000CC   ........           BL       strcmp_nocase
+   \   000000D0   000050E3           CMP      R0,#+0
+   \   000000D4   3D00001A           BNE      ??maincsm_onmessage_1
+    736                {
+    737                  switch (msg->submess)
+   \   000000D8   040094E5           LDR      R0,[R4, #+4]
+   \   000000DC   010050E3           CMP      R0,#+1
+   \   000000E0   0400001A           BNE      ??maincsm_onmessage_3
+    738                  {
+    739                  case IPC_UPDATE_STAT:
+    740                    GBS_StartTimerProc(&scrollTmr,TimeUpdateScroll, TimerProc);
+   \   000000E4   3C029FE5           LDR      R0,??maincsm_onmessage_2+0x8  ;; TimeUpdateScroll
+   \   000000E8   3C229FE5           LDR      R2,??maincsm_onmessage_2+0xC  ;; TimerProc
+   \   000000EC   001090E5           LDR      R1,[R0, #+0]
+   \   000000F0   0600A0E1           MOV      R0,R6
+   \   000000F4   4D0000EF           SWI      +77
+    741                    break;
+    742                  }
+    743                }
+    744              }
+    745            }
+    746          
+    747            if (msg->msg==MSG_HELPER_TRANSLATOR)
+   \                     ??maincsm_onmessage_3:
+   \   000000F8   F200D4E1           LDRSH    R0,[R4, #+2]
+   \   000000FC   FC0F50E3           CMP      R0,#+1008
+   \   00000100   3200001A           BNE      ??maincsm_onmessage_1
+    748            {
+    749              if ((int)msg->data1==sock)
+   \   00000104   ........           LDR      R6,??DataTable81  ;; sock
+   \   00000108   0C0094E5           LDR      R0,[R4, #+12]
+   \   0000010C   001096E5           LDR      R1,[R6, #+0]
+   \   00000110   010050E1           CMP      R0,R1
+   \   00000114   2D00001A           BNE      ??maincsm_onmessage_1
+    750              {
+    751                //Если наш сокет
+    752                switch((int)msg->data0)
+   \   00000118   ........           LDR      R8,??DataTable82  ;; connect_state
+   \   0000011C   082094E5           LDR      R2,[R4, #+8]
+   \   00000120   08029FE5           LDR      R0,??maincsm_onmessage_2+0x10  ;; end_socket
+   \   00000124   001098E5           LDR      R1,[R8, #+0]
+   \   00000128   8C2052E2           SUBS     R2,R2,#+140
+   \   0000012C   0B00000A           BEQ      ??maincsm_onmessage_4
+   \   00000130   012052E2           SUBS     R2,R2,#+1
+   \   00000134   0400000A           BEQ      ??maincsm_onmessage_5
+   \   00000138   012052E2           SUBS     R2,R2,#+1
+   \   0000013C   1000000A           BEQ      ??maincsm_onmessage_6
+   \   00000140   012052E2           SUBS     R2,R2,#+1
+   \   00000144   0B00000A           BEQ      ??maincsm_onmessage_7
+   \   00000148   200000EA           B        ??maincsm_onmessage_1
+    753                {
+    754                case ENIP_SOCK_CONNECTED:
+    755                  if (connect_state==1)
+   \                     ??maincsm_onmessage_5:
+   \   0000014C   010051E3           CMP      R1,#+1
+    756                  {
+    757                    //ShowMSG(1,(int)"send req");
+    758                    //Если посылали запрос
+    759                    SUBPROC((void *)send_req);        
+   \   00000150   DC019F05           LDREQ    R0,??maincsm_onmessage_2+0x14  ;; send_req
+   \   00000154   0500A011           MOVNE    R0,R5
+   \                     ??maincsm_onmessage_8:
+   \   00000158   710100EF           SWI      +369
+   \   0000015C   1B0000EA           B        ??maincsm_onmessage_1
+    760                  }
+    761                  else
+    762                    {
+    763                    //  ShowMSG(1,(int)"create connect");
+    764                    SUBPROC((void *)create_connect); 
+    765                    }
+    766                  break;
+    767                case ENIP_SOCK_DATA_READ:
+    768                  if (connect_state==2)
+   \                     ??maincsm_onmessage_4:
+   \   00000160   020051E3           CMP      R1,#+2
+   \   00000164   0100001A           BNE      ??maincsm_onmessage_9
+    769                  {
+    770                  //  ShowMSG(1,(int)"get_answer");
+    771                    //Если посылали send
+    772                    SUBPROC((void *)get_answer);
+   \   00000168   C8019FE5           LDR      R0,??maincsm_onmessage_2+0x18  ;; get_answer
+   \   0000016C   F9FFFFEA           B        ??maincsm_onmessage_8
+    773                  }
+    774                  else
+    775                  {
+    776                //    ShowMSG(1,(int)"create_connect");
+    777                    SUBPROC((void *)create_connect);
+   \                     ??maincsm_onmessage_9:
+   \   00000170   0500A0E1           MOV      R0,R5
+   \   00000174   F7FFFFEA           B        ??maincsm_onmessage_8
+    778                  }
+    779                  break;
+    780                case ENIP_SOCK_REMOTE_CLOSED:
+    781              //    ShowMSG(1,(int)"sock remote closed");
+    782                  //Закрыт со стороны сервера
+    783                  if (connect_state) SUBPROC((void *)end_socket);
+   \                     ??maincsm_onmessage_7:
+   \   00000178   000051E3           CMP      R1,#+0
+   \   0000017C   1300000A           BEQ      ??maincsm_onmessage_1
+   \   00000180   F4FFFFEA           B        ??maincsm_onmessage_8
+    784                  break;
+    785                case ENIP_SOCK_CLOSED:
+    786            //      ShowMSG(1,(int)"sock closed");
+    787                  //Закрыт вызовом closesocket
+    788                  if (connect_state) SUBPROC((void *)end_socket);
+   \                     ??maincsm_onmessage_6:
+   \   00000184   000051E3           CMP      R1,#+0
+   \   00000188   0000000A           BEQ      ??maincsm_onmessage_10
+   \   0000018C   710100EF           SWI      +369
+    789                  connect_state=3;
+   \                     ??maincsm_onmessage_10:
+   \   00000190   0300A0E3           MOV      R0,#+3
+   \   00000194   000088E5           STR      R0,[R8, #+0]
+    790              //    GBS_StartTimerProc(&delaytmr, 262*10,Parsing);
+    791                  Parsing();
+   \   00000198   ........           BL       Parsing
+    792          //        ShowMSG(1,(int)"all recv!");
+    793                  if(ENA_SCROLL)
+   \   0000019C   98019FE5           LDR      R0,??maincsm_onmessage_2+0x1C  ;; ENA_SCROLL
+   \   000001A0   000090E5           LDR      R0,[R0, #+0]
+   \   000001A4   000050E3           CMP      R0,#+0
+   \   000001A8   0600000A           BEQ      ??maincsm_onmessage_11
+    794                  {
+    795                    SaveWeath();
+   \   000001AC   ........           BL       SaveWeath
+    796                    GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_UPDATE_STAT,&gipc);
+   \   000001B0   ........           LDR      R3,??DataTable83  ;; gipc
+   \   000001B4   0120A0E3           MOV      R2,#+1
+   \   000001B8   0710A0E1           MOV      R1,R7
+   \   000001BC   0900A0E3           MOV      R0,#+9
+   \   000001C0   420C80E3           ORR      R0,R0,#0x4200
+   \   000001C4   000100EF           SWI      +256
+    797                  }
+    798                  sock=-1;
+   \                     ??maincsm_onmessage_11:
+   \   000001C8   0000E0E3           MVN      R0,#+0
+   \   000001CC   000086E5           STR      R0,[R6, #+0]
+    799                  break;
+    800                }
+    801              }
+    802            }  
+    803            
+    804           
+    805           /* if(msg->msg == MSG_IPC)
+    806            {
+    807              IPC_REQ *ipc;
+    808              if ((ipc=(IPC_REQ*)msg->data0))
+    809              {
+    810                if (strcmp_nocase(ipc->name_to,"IdleUpd")==0)
+    811                {
+    812                  switch (msg->submess)
+    813                  {
+    814                  case 0:
+    815                    {*/
+    816                      icsm=FindCSMbyID(CSM_root()->idle_id);
+   \                     ??maincsm_onmessage_1:
+   \   000001D0   ........           LDR      R4,??DataTable84  ;; icsm
+   \   000001D4   068100EF           SWI      +33030
+   \   000001D8   040090E5           LDR      R0,[R0, #+4]
+   \   000001DC   080100EF           SWI      +264
+   \   000001E0   000084E5           STR      R0,[R4, #+0]
+    817                      if (icsm && checkGui(idlegui_id(icsm)))
+   \   000001E4   000050E3           CMP      R0,#+0
+   \   000001E8   4A00000A           BEQ      ??maincsm_onmessage_12
+   \   000001EC   280090E5           LDR      R0,[R0, #+40]
+   \   000001F0   ........           BL       checkGui
+   \   000001F4   000050E3           CMP      R0,#+0
+   \   000001F8   4600000A           BEQ      ??maincsm_onmessage_12
+    818                      {
+    819                        canvasdata=BuildCanvas();
+   \   000001FC   ........           LDR      R4,??DataTable85  ;; canvasdata
+   \   00000200   F18000EF           SWI      +33009
+   \   00000204   000084E5           STR      R0,[R4, #+0]
+    820                     // {
+    821                        if(!(ENA_SCROLL)/* && (test==5)*/)
+   \   00000208   2C019FE5           LDR      R0,??maincsm_onmessage_2+0x1C  ;; ENA_SCROLL
+   \   0000020C   000090E5           LDR      R0,[R0, #+0]
+   \   00000210   000050E3           CMP      R0,#+0
+   \   00000214   1D00001A           BNE      ??maincsm_onmessage_13
+    822                        {
+    823                          if(show_temp)
+   \   00000218   ........           LDR      R0,??DataTable86  ;; show_temp
+   \   0000021C   000090E5           LDR      R0,[R0, #+0]
+   \   00000220   000050E3           CMP      R0,#+0
+   \   00000224   0100000A           BEQ      ??maincsm_onmessage_14
+    824                            DrawTemp(canvasdata);
+   \   00000228   000094E5           LDR      R0,[R4, #+0]
+   \   0000022C   ........           BL       DrawTemp
+    825                          if(show_speed)
+   \                     ??maincsm_onmessage_14:
+   \   00000230   ........           LDR      R0,??DataTable87  ;; show_speed
+   \   00000234   000090E5           LDR      R0,[R0, #+0]
+   \   00000238   000050E3           CMP      R0,#+0
+   \   0000023C   0100000A           BEQ      ??maincsm_onmessage_15
+    826                            DrawSpeed(canvasdata);
+   \   00000240   000094E5           LDR      R0,[R4, #+0]
+   \   00000244   ........           BL       DrawSpeed
+    827                          if(show_prognoze)
+   \                     ??maincsm_onmessage_15:
+   \   00000248   ........           LDR      R0,??DataTable88  ;; show_prognoze
+   \   0000024C   000090E5           LDR      R0,[R0, #+0]
+   \   00000250   000050E3           CMP      R0,#+0
+   \   00000254   0100000A           BEQ      ??maincsm_onmessage_16
+    828                            DrawComfort(canvasdata);
+   \   00000258   000094E5           LDR      R0,[R4, #+0]
+   \   0000025C   ........           BL       DrawComfort
+    829                          if(show_davlenie)
+   \                     ??maincsm_onmessage_16:
+   \   00000260   ........           LDR      R0,??DataTable89  ;; show_davlenie
+   \   00000264   000090E5           LDR      R0,[R0, #+0]
+   \   00000268   000050E3           CMP      R0,#+0
+   \   0000026C   0100000A           BEQ      ??maincsm_onmessage_17
+    830                            DrawDavlenie(canvasdata);
+   \   00000270   000094E5           LDR      R0,[R4, #+0]
+   \   00000274   ........           BL       DrawDavlenie
+    831                          if(show_vlaznost)
+   \                     ??maincsm_onmessage_17:
+   \   00000278   ........           LDR      R0,??DataTable90  ;; show_vlaznost
+   \   0000027C   000090E5           LDR      R0,[R0, #+0]
+   \   00000280   000050E3           CMP      R0,#+0
+   \   00000284   0100000A           BEQ      ??maincsm_onmessage_13
+    832                            DrawVlaznost(canvasdata); 
+   \   00000288   000094E5           LDR      R0,[R4, #+0]
+   \   0000028C   ........           BL       DrawVlaznost
+    833                        }
+    834                        
+    835                        if(IKONA && flags[_pic])
+   \                     ??maincsm_onmessage_13:
+   \   00000290   A8009FE5           LDR      R0,??maincsm_onmessage_2+0x20  ;; IKONA
+   \   00000294   000090E5           LDR      R0,[R0, #+0]
+   \   00000298   000050E3           CMP      R0,#+0
+   \   0000029C   1D00000A           BEQ      ??maincsm_onmessage_12
+   \   000002A0   ........           LDR      R0,??DataTable91  ;; flags
+   \   000002A4   000090E5           LDR      R0,[R0, #+0]
+   \   000002A8   000050E3           CMP      R0,#+0
+   \   000002AC   1900000A           BEQ      ??maincsm_onmessage_12
+    836                        {
+    837                          DrawCanvas(canvasdata,weather_X,weather_Y,weather_X+GetImgWidth((int)ICON)-1,weather_Y+GetImgHeight((int)ICON)-1,1);
+   \   000002B0   ........           LDR      R5,??DataTable92  ;; ICON
+   \   000002B4   0500A0E1           MOV      R0,R5
+   \   000002B8   210000EF           SWI      +33
+   \   000002BC   0060A0E1           MOV      R6,R0
+   \   000002C0   0500A0E1           MOV      R0,R5
+   \   000002C4   220000EF           SWI      +34
+   \   000002C8   74109FE5           LDR      R1,??maincsm_onmessage_2+0x24  ;; weather_X
+   \   000002CC   007091E5           LDR      R7,[R1, #+0]
+   \   000002D0   70109FE5           LDR      R1,??maincsm_onmessage_2+0x28  ;; weather_Y
+   \   000002D4   070080E0           ADD      R0,R0,R7
+   \   000002D8   008091E5           LDR      R8,[R1, #+0]
+   \   000002DC   0110A0E3           MOV      R1,#+1
+   \   000002E0   02002DE9           PUSH     {R1}
+   \   000002E4   013040E2           SUB      R3,R0,#+1
+   \   000002E8   0820A0E1           MOV      R2,R8
+   \   000002EC   081086E0           ADD      R1,R6,R8
+   \   000002F0   011041E2           SUB      R1,R1,#+1
+   \   000002F4   02002DE9           PUSH     {R1}
+   \   000002F8   000094E5           LDR      R0,[R4, #+0]
+   \   000002FC   0710A0E1           MOV      R1,R7
+   \   00000300   250000EF           SWI      +37
+    838                          DrawImg(weather_X,weather_Y,(int)ICON);
+   \   00000304   0520A0E1           MOV      R2,R5
+   \   00000308   0810A0E1           MOV      R1,R8
+   \   0000030C   0700A0E1           MOV      R0,R7
+   \   00000310   230000EF           SWI      +35
+   \   00000314   08D08DE2           ADD      SP,SP,#+8
+    839                        }
+    840                       }
+    841                  /*  }
+    842                  }
+    843                }
+    844              }
+    845            }*/
+    846          
+    847          
+    848            return (1);  
+   \                     ??maincsm_onmessage_12:
+   \   00000318   0100A0E3           MOV      R0,#+1
+   \   0000031C   FE81BDE8           POP      {R1-R8,PC}       ;; return
+   \                     ??maincsm_onmessage_2:
+   \   00000320   ........           DC32     `?<Constant "MailWeather 2.4 confi...">`
+   \   00000324   ........           DC32     ipc_my_name
+   \   00000328   ........           DC32     TimeUpdateScroll
+   \   0000032C   ........           DC32     TimerProc
+   \   00000330   ........           DC32     end_socket
+   \   00000334   ........           DC32     send_req
+   \   00000338   ........           DC32     get_answer
+   \   0000033C   ........           DC32     ENA_SCROLL
+   \   00000340   ........           DC32     IKONA
+   \   00000344   ........           DC32     weather_X
+   \   00000348   ........           DC32     weather_Y
+    849          }
+    850          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    851          static void maincsm_oncreate(CSM_RAM *data)
+    852          {
+    853             //  GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_UPDATE_STAT,&gipc);
+    854          }
+   \                     maincsm_oncreate:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    855          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    856          static void Killer(void)
+    857          {
+   \                     Killer:
+   \   00000000   00402DE9           PUSH     {LR}
+    858            PrintLibFree();
+   \   00000004   ........           _BLF     PrintLibFree,??PrintLibFree??rA
+    859            GBS_DelTimer(&scrollTmr);
+   \   00000008   ........           LDR      R0,??DataTable93  ;; scrollTmr
+   \   0000000C   8C0100EF           SWI      +396
+    860            GBS_DelTimer(&mytmr);
+   \   00000010   ........           LDR      R0,??DataTable94  ;; mytmr
+   \   00000014   8C0100EF           SWI      +396
+    861            extern void *ELF_BEGIN;
+    862            kill_data(&ELF_BEGIN,(void (*)(void *))mfree_adr());
+   \   00000018   158000EF           SWI      +32789
+   \   0000001C   0010A0E1           MOV      R1,R0
+   \   00000020   04009FE5           LDR      R0,??Killer_0    ;; ELF_BEGIN
+   \   00000024   0040BDE8           POP      {LR}             ;; Pop
+   \   00000028   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??Killer_0:
+   \   0000002C   ........           DC32     ELF_BEGIN
+    863          }
+    864          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    865          static void maincsm_onclose(CSM_RAM *csm)
+    866          {
+    867            SUBPROC((void *)Killer);
+   \                     maincsm_onclose:
+   \   00000000   ........           LDR      R0,??DataTable99  ;; Killer
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   710100EF           SWI      +369
+    868          }
+   \   0000000C   0080BDE8           POP      {PC}             ;; return
+    869          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    870          static unsigned short maincsm_name_body[140];
+   \                     maincsm_name_body:
+   \   00000000                      DS8 280
+    871          
+    872          static const struct
+    873          {
+    874            CSM_DESC maincsm;
+    875            WSHDR maincsm_name;
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    876          }MAINCSM =
+   \                     MAINCSM:
+   \   00000000   ............       DC32 maincsm_onmessage, maincsm_oncreate, maincsm_onclose, 40, 1
+   \              ............
+   \              280000000100
+   \              0000        
+   \   00000014   ............       DC32 minus11, maincsm_name_body, 55AACCCCH, 3333AA55H, 0
+   \              ....CCCCAA55
+   \              55AA33330000
+   \              0000        
+   \   00000028   8B00               DC16 139
+   \   0000002A   0000               DC8 0, 0
+    877          {
+    878            {
+    879            maincsm_onmessage,
+    880            maincsm_oncreate,
+    881          #ifdef NEWSGOLD
+    882            0,
+    883            0,
+    884            0,
+    885            0,
+    886          #endif
+    887            maincsm_onclose,
+    888            sizeof(MAIN_CSM),
+    889            1,
+    890            &minus11
+    891            },
+    892            {
+    893              maincsm_name_body,
+    894              NAMECSM_MAGIC1,
+    895              NAMECSM_MAGIC2,
+    896              0x0,
+    897              139
+    898            }
+    899          };
+    900          
+    901          static void UpdateCSMname(void)
+    902          {
+    903            wsprintf((WSHDR *)(&MAINCSM.maincsm_name),"MailWeather v3.0");
+    904          }
+    905          
+    906          
+    907          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    908          int main(char *filename)
+    909          {
+   \                     main:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+    910            //char *s;
+    911          //  int len;
+    912            extern const char *successed_config_filename;
+    913            WSHDR *ws;
+    914            
+    915            InitConfig();
+    916            //s=strrchr(filename,'\\');
+    917            //len=(s-filename)+1;
+    918            //strncpy(elf_path,filename,len);
+    919          //  elf_path[len]=0;
+    920            if(strlen(fontpath)==0 && font<100)
+   \   00000004   ........           LDR      R4,??DataTable96  ;; fontpath
+   \   00000008   28D04DE2           SUB      SP,SP,#+40
+   \   0000000C   ........           _BLF     InitConfig,??InitConfig??rA
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   1B0000EF           SWI      +27
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   1900001A           BNE      ??main_0
+   \   00000020   ........           LDR      R0,??DataTable97  ;; font
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   640050E3           CMP      R0,#+100
+   \   0000002C   1500002A           BCS      ??main_0
+    921            {
+    922              LockSched();
+   \   00000030   460100EF           SWI      +326
+    923              ShowMSG(1,(int)"Please set config!");
+   \   00000034   FC109FE5           LDR      R1,??main_1      ;; `?<Constant "Please set config!">`
+   \   00000038   0100A0E3           MOV      R0,#+1
+   \   0000003C   480100EF           SWI      +328
+    924              ws=AllocWS(150);
+   \   00000040   9600A0E3           MOV      R0,#+150
+   \   00000044   250100EF           SWI      +293
+   \   00000048   0040A0E1           MOV      R4,R0
+    925              str_2ws(ws,successed_config_filename,128);
+   \   0000004C   ........           LDR      R0,??DataTable98  ;; successed_config_filename
+   \   00000050   8020A0E3           MOV      R2,#+128
+   \   00000054   001090E5           LDR      R1,[R0, #+0]
+   \   00000058   0400A0E1           MOV      R0,R4
+   \   0000005C   6C0100EF           SWI      +364
+    926              ExecuteFile(ws,0,0);
+   \   00000060   0020A0E3           MOV      R2,#+0
+   \   00000064   0010A0E3           MOV      R1,#+0
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   940000EF           SWI      +148
+    927              UnlockSched();
+   \   00000070   470100EF           SWI      +327
+    928              SUBPROC((void *)Killer);
+   \   00000074   ........           LDR      R0,??DataTable99  ;; Killer
+   \   00000078   710100EF           SWI      +369
+    929              return 0;
+   \   0000007C   0000A0E3           MOV      R0,#+0
+   \   00000080   28D08DE2           ADD      SP,SP,#+40
+   \   00000084   F080BDE8           POP      {R4-R7,PC}
+    930            }
+    931            CSMROOT *csmr;
+    932            CSM_RAM *save_cmpc;
+    933            CSM_RAM main_csm;
+    934            UpdateCSMname(); 
+   \                     ??main_0:
+   \   00000088   AC509FE5           LDR      R5,??main_1+0x4  ;; MAINCSM
+   \   0000008C   AC109FE5           LDR      R1,??main_1+0x8  ;; `?<Constant "MailWeather v3.0">`
+   \   00000090   180085E2           ADD      R0,R5,#+24
+   \   00000094   240100EF           SWI      +292
+    935            LockSched();
+   \   00000098   460100EF           SWI      +326
+    936            csmr=CSM_root();
+   \   0000009C   068100EF           SWI      +33030
+   \   000000A0   0060A0E1           MOV      R6,R0
+    937            save_cmpc=csmr->csm_q->current_msg_processing_csm;
+   \   000000A4   080096E5           LDR      R0,[R6, #+8]
+    938            csmr->csm_q->current_msg_processing_csm=csmr->csm_q->csm.first;
+    939            CreateCSM(&MAINCSM.maincsm,&main_csm,0);
+   \   000000A8   0020A0E3           MOV      R2,#+0
+   \   000000AC   081090E5           LDR      R1,[R0, #+8]
+   \   000000B0   047090E5           LDR      R7,[R0, #+4]
+   \   000000B4   041080E5           STR      R1,[R0, #+4]
+   \   000000B8   0D10A0E1           MOV      R1,SP
+   \   000000BC   0500A0E1           MOV      R0,R5
+   \   000000C0   070100EF           SWI      +263
+    940            csmr->csm_q->current_msg_processing_csm=save_cmpc;
+   \   000000C4   080096E5           LDR      R0,[R6, #+8]
+   \   000000C8   047080E5           STR      R7,[R0, #+4]
+    941            UnlockSched();
+   \   000000CC   470100EF           SWI      +327
+    942            if(ENA_HELLO_MSG)
+   \   000000D0   6C009FE5           LDR      R0,??main_1+0xC  ;; ENA_HELLO_MSG
+   \   000000D4   000090E5           LDR      R0,[R0, #+0]
+   \   000000D8   000050E3           CMP      R0,#+0
+   \   000000DC   0200000A           BEQ      ??main_2
+    943              ShowMSG(1,(int)"MailWeather v3.0 (c)evilfox, kluchnik");
+   \   000000E0   60109FE5           LDR      R1,??main_1+0x10  ;; `?<Constant "MailWeather v3.0 (c)e...">`
+   \   000000E4   0100A0E3           MOV      R0,#+1
+   \   000000E8   480100EF           SWI      +328
+    944          
+    945            PrintLibInit(1);
+   \                     ??main_2:
+   \   000000EC   0100A0E3           MOV      R0,#+1
+   \   000000F0   ........           _BLF     PrintLibInit,??PrintLibInit??rA
+    946            FontPathInit((char *)fontpath, fullfont);
+   \   000000F4   ........           LDR      R0,??DataTable100  ;; fullfont
+   \   000000F8   001090E5           LDR      R1,[R0, #+0]
+   \   000000FC   0400A0E1           MOV      R0,R4
+   \   00000100   ........           _BLF     FontPathInit,??FontPathInit??rA
+    947            SetScrollEdgeDelay(scrollDelay);
+   \   00000104   40009FE5           LDR      R0,??main_1+0x14  ;; scrollDelay
+   \   00000108   000090E5           LDR      R0,[R0, #+0]
+   \   0000010C   ........           _BLF     SetScrollEdgeDelay,??SetScrollEdgeDelay??rA
+    948            SetFontColor((char*)fontColor,(char*)bgrColor,isOutline);
+   \   00000110   ........           LDR      R0,??DataTable101  ;; isOutline
+   \   00000114   ........           LDR      R1,??DataTable102  ;; bgrColor
+   \   00000118   002090E5           LDR      R2,[R0, #+0]
+   \   0000011C   ........           LDR      R0,??DataTable103  ;; fontColor
+   \   00000120   FF2002E2           AND      R2,R2,#0xFF
+   \   00000124   ........           _BLF     SetFontColor,??SetFontColor??rA
+    949            start_again();
+   \   00000128   ........           BL       start_again
+    950            return 0;
+   \   0000012C   0000A0E3           MOV      R0,#+0
+   \   00000130   28D08DE2           ADD      SP,SP,#+40
+   \   00000134   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??main_1:
+   \   00000138   ........           DC32     `?<Constant "Please set config!">`
+   \   0000013C   ........           DC32     MAINCSM
+   \   00000140   ........           DC32     `?<Constant "MailWeather v3.0">`
+   \   00000144   ........           DC32     ENA_HELLO_MSG
+   \   00000148   ........           DC32     `?<Constant "MailWeather v3.0 (c)e...">`
+   \   0000014C   ........           DC32     scrollDelay
+    951          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     create_connect
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable13:
+   \   00000000   ........           DC32     connect_state
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable14:
+   \   00000000   ........           DC32     sock
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable15:
+   \   00000000   ........           DC32     pbuf
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable17:
+   \   00000000   ........           DC32     flags
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable18:
+   \   00000000   ........           DC32     buf
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable19:
+   \   00000000   ........           DC32     start_again
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable26:
+   \   00000000   ........           DC32     mytmr
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable49:
+   \   00000000   ........           DC32     align1
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable54:
+   \   00000000   ........           DC32     space
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable56:
+   \   00000000   ........           DC32     temp
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable57:
+   \   00000000   ........           DC32     str_temp
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable58:
+   \   00000000   ........           DC32     `?<Constant "%s%s%c">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable59:
+   \   00000000   ........           DC32     vlaznost
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable60:
+   \   00000000   ........           DC32     str_vlaznost
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable61:
+   \   00000000   ........           DC32     `?<Constant "%s%s">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable64:
+   \   00000000   ........           DC32     speed
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable66:
+   \   00000000   ........           DC32     prognoze
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable68:
+   \   00000000   ........           DC32     davlenie
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable70:
+   \   00000000   ........           DC32     scrollstr
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable72:
+   \   00000000   ........           DC32     create_connect
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable81:
+   \   00000000   ........           DC32     sock
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable82:
+   \   00000000   ........           DC32     connect_state
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable83:
+   \   00000000   ........           DC32     gipc
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable84:
+   \   00000000   ........           DC32     icsm
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable85:
+   \   00000000   ........           DC32     canvasdata
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable86:
+   \   00000000   ........           DC32     show_temp
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable87:
+   \   00000000   ........           DC32     show_speed
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable88:
+   \   00000000   ........           DC32     show_prognoze
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable89:
+   \   00000000   ........           DC32     show_davlenie
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable90:
+   \   00000000   ........           DC32     show_vlaznost
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable91:
+   \   00000000   ........           DC32     flags
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable92:
+   \   00000000   ........           DC32     ICON
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable93:
+   \   00000000   ........           DC32     scrollTmr
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable94:
+   \   00000000   ........           DC32     mytmr
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable96:
+   \   00000000   ........           DC32     fontpath
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable97:
+   \   00000000   ........           DC32     font
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable98:
+   \   00000000   ........           DC32     successed_config_filename
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable99:
+   \   00000000   ........           DC32     Killer
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable100:
+   \   00000000   ........           DC32     fullfont
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable101:
+   \   00000000   ........           DC32     isOutline
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable102:
+   \   00000000   ........           DC32     bgrColor
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable103:
+   \   00000000   ........           DC32     fontColor
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s%s%c">`:
+   \   00000000   257325732563       DC8 "%s%s%c"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   207C2000           DC8 " | "
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s%s">`:
+   \   00000000   2573257300         DC8 "%s%s"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Wrong reciev data! Wa...">`:
+   \   00000000   57726F6E6720       DC8 "Wrong reciev data! Waiting 60 second!"
+   \              726563696576
+   \              206461746121
+   \              205761697469
+   \              6E6720363020
+   \              7365636F6E64
+   \              2100        
+   \   00000026   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "All data reciev and p...">`:
+   \   00000000   416C6C206461       DC8 "All data reciev and parse!"
+   \              746120726563
+   \              69657620616E
+   \              642070617273
+   \              652100      
+   \   0000001B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "</div>">`:
+   \   00000000   3C2F6469763E       DC8 "</div>"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant " \\354/\\361">`:
+   \   00000000   20EC2FF100         DC8 " \354/\361"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   202500             DC8 " %"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant " mmHg">`:
+   \   00000000   206D6D486700       DC8 " mmHg"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "<strong>">`:
+   \   00000000   3C7374726F6E       DC8 "<strong>"
+   \              673E00      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "spec">`:
+   \   00000000   7370656300         DC8 "spec"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "><span class=">`:
+   \   00000000   3E3C7370616E       DC8 "><span class="
+   \              20636C617373
+   \              3D00        
+   \   0000000E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "<img src">`:
+   \   00000000   3C696D672073       DC8 "<img src"
+   \              726300      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "<img src=">`:
+   \   00000000   3C696D672073       DC8 "<img src="
+   \              72633D00    
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s%s.png">`:
+   \   00000000   257325732E70       DC8 "%s%s.png"
+   \              6E6700      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "/img/new/">`:
+   \   00000000   2F696D672F6E       DC8 "/img/new/"
+   \              65772F00    
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "forecasttext">`:
+   \   00000000   666F72656361       DC8 "forecasttext"
+   \              737474657874
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "forecast">`:
+   \   00000000   666F72656361       DC8 "forecast"
+   \              737400      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "GET /index.xhtml?&cit...">`:
+   \   00000000   474554202F69       DC8 47H, 45H, 54H, 20H, 2FH, 69H, 6EH, 64H
+   \              6E64        
+   \   00000008   65782E786874       DC8 65H, 78H, 2EH, 78H, 68H, 74H, 6DH, 6CH
+   \              6D6C        
+   \   00000010   3F2663697479       DC8 3FH, 26H, 63H, 69H, 74H, 79H, 3DH, 25H
+   \              3D25        
+   \   00000018   732048545450       DC8 73H, 20H, 48H, 54H, 54H, 50H, 2FH, 31H
+   \              2F31        
+   \   00000020   2E310A416363       DC8 2EH, 31H, 0AH, 41H, 63H, 63H, 65H, 70H
+   \              6570        
+   \   00000028   742D4C616E67       DC8 74H, 2DH, 4CH, 61H, 6EH, 67H, 75H, 61H
+   \              7561        
+   \   00000030   67653A20656E       DC8 67H, 65H, 3AH, 20H, 65H, 6EH, 2DH, 75H
+   \              2D75        
+   \   00000038   730A41636365       DC8 73H, 0AH, 41H, 63H, 63H, 65H, 70H, 74H
+   \              7074        
+   \   00000040   2D456E636F64       DC8 2DH, 45H, 6EH, 63H, 6FH, 64H, 69H, 6EH
+   \              696E        
+   \   00000048   673A20677A69       DC8 67H, 3AH, 20H, 67H, 7AH, 69H, 70H, 2CH
+   \              702C        
+   \   00000050   206465666C61       DC8 20H, 64H, 65H, 66H, 6CH, 61H, 74H, 65H
+   \              7465        
+   \   00000058   0A557365722D       DC8 0AH, 55H, 73H, 65H, 72H, 2DH, 41H, 67H
+   \              4167        
+   \   00000060   656E743A204D       DC8 65H, 6EH, 74H, 3AH, 20H, 4DH, 6FH, 7AH
+   \              6F7A        
+   \   00000068   696C6C612F34       DC8 69H, 6CH, 6CH, 61H, 2FH, 34H, 2EH, 30H
+   \              2E30        
+   \   00000070   2028636F6D70       DC8 20H, 28H, 63H, 6FH, 6DH, 70H, 61H, 74H
+   \              6174        
+   \   00000078   69626C653B20       DC8 69H, 62H, 6CH, 65H, 3BH, 20H, 4DH, 53H
+   \              4D53        
+   \   00000080   494520362E30       DC8 49H, 45H, 20H, 36H, 2EH, 30H, 3BH, 20H
+   \              3B20        
+   \   00000088   57696E646F77       DC8 57H, 69H, 6EH, 64H, 6FH, 77H, 73H, 20H
+   \              7320        
+   \   00000090   4E5420352E31       DC8 4EH, 54H, 20H, 35H, 2EH, 31H, 3BH, 20H
+   \              3B20        
+   \   00000098   535631290A48       DC8 53H, 56H, 31H, 29H, 0AH, 48H, 6FH, 73H
+   \              6F73        
+   \   000000A0   743A20776170       DC8 74H, 3AH, 20H, 77H, 61H, 70H, 2EH, 77H
+   \              2E77        
+   \   000000A8   656174686572       DC8 65H, 61H, 74H, 68H, 65H, 72H, 2EH, 6DH
+   \              2E6D        
+   \   000000B0   61696C2E7275       DC8 61H, 69H, 6CH, 2EH, 72H, 75H, 0AH, 43H
+   \              0A43        
+   \   000000B8   6F6E6E656374       DC8 6FH, 6EH, 6EH, 65H, 63H, 74H, 69H, 6FH
+   \              696F        
+   \   000000C0   6E3A20436C6F       DC8 6EH, 3AH, 20H, 43H, 6CH, 6FH, 73H, 65H
+   \              7365        
+   \   000000C8   0A0A00             DC8 0AH, 0AH, 0
+   \   000000CB   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "MailWeather 2.4 confi...">`:
+   \   00000000   4D61696C5765       DC8 "MailWeather 2.4 config updated!"
+   \              617468657220
+   \              322E3420636F
+   \              6E6669672075
+   \              706461746564
+   \              2100        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "MailWeather v3.0">`:
+   \   00000000   4D61696C5765       DC8 "MailWeather v3.0"
+   \              617468657220
+   \              76332E3000  
+   \   00000011   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Please set config!">`:
+   \   00000000   506C65617365       DC8 "Please set config!"
+   \              207365742063
+   \              6F6E66696721
+   \              00          
+   \   00000013   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "MailWeather v3.0 (c)e...">`:
+   \   00000000   4D61696C5765       DC8 "MailWeather v3.0 (c)evilfox, kluchnik"
+   \              617468657220
+   \              76332E302028
+   \              63296576696C
+   \              666F782C206B
+   \              6C7563686E69
+   \              6B00        
+   \   00000026   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function          CSTACK
+     --------          ------
+     DrawComfort          36
+     DrawDavlenie         36
+     DrawScrollStr        36
+     DrawSpeed            36
+     DrawTemp             36
+     DrawVlaznost         32
+     Killer                4
+     Parsing             224
+     SaveWeath            20
+     TimerProc             4
+     checkGui              8
+     create_connect       48
+     end_socket            8
+     get_answer         1028
+     main                 60
+     maincsm_onclose       4
+     maincsm_oncreate      0
+     maincsm_onmessage    44
+     send_req              8
+     start_again           4
+     strcmp_nocase         0
+     utf82win              0
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     ipc_my_name                       32
+     gipc                              12
+     minus11                            4
+     ??strcmp_nocase_0                 76
+     temp                              32
+     speed                             32
+     davlenie                          32
+     vlaznost                          32
+     prognoze                         128
+     ICON                             128
+     buf                            16384
+     sock                               4
+     connect_state                      4
+     pbuf                               4
+     traf                               4
+     per_d                              3
+     per_s                              3
+     canvasdata                         4
+     mytmr                             16
+     create_connect                   184
+     start_again                       48
+     send_req                          92
+     end_socket                        52
+     buf_len                            4
+     get_answer                       124
+     utf82win                         120
+     delaytmr                          16
+     flags                             24
+     Parsing                         1132
+     DrawTemp                         224
+     DrawSpeed                        180
+     DrawComfort                      212
+     DrawDavlenie                     216
+     DrawVlaznost                     224
+     s                                  4
+     scrollTmr                         16
+     icsm                               4
+     igui                               4
+     scrollstr                        256
+     checkGui                          72
+     DrawScrollStr                    216
+     SaveWeath                        296
+     TimerProc                         40
+     maincsm_onmessage                844
+     maincsm_oncreate                   4
+     Killer                            48
+     maincsm_onclose                   16
+     maincsm_name_body                280
+     MAINCSM                           44
+     main                             336
+     ??DataTable6                       4
+     ??DataTable13                      4
+     ??DataTable14                      4
+     ??DataTable15                      4
+     ??DataTable17                      4
+     ??DataTable18                      4
+     ??DataTable19                      4
+     ??DataTable26                      4
+     ??DataTable49                      4
+     ??DataTable54                      4
+     ??DataTable56                      4
+     ??DataTable57                      4
+     ??DataTable58                      4
+     ??DataTable59                      4
+     ??DataTable60                      4
+     ??DataTable61                      4
+     ??DataTable64                      4
+     ??DataTable66                      4
+     ??DataTable68                      4
+     ??DataTable70                      4
+     ??DataTable72                      4
+     ??DataTable81                      4
+     ??DataTable82                      4
+     ??DataTable83                      4
+     ??DataTable84                      4
+     ??DataTable85                      4
+     ??DataTable86                      4
+     ??DataTable87                      4
+     ??DataTable88                      4
+     ??DataTable89                      4
+     ??DataTable90                      4
+     ??DataTable91                      4
+     ??DataTable92                      4
+     ??DataTable93                      4
+     ??DataTable94                      4
+     ??DataTable96                      4
+     ??DataTable97                      4
+     ??DataTable98                      4
+     ??DataTable99                      4
+     ??DataTable100                     4
+     ??DataTable101                     4
+     ??DataTable102                     4
+     ??DataTable103                     4
+     ?<Constant "%s%s%c">               8
+     ?<Constant " | ">                  4
+     ?<Constant "%s%s">                 8
+     ?<Constant "Wrong reciev data! Wa...">
+                                       40
+     ?<Constant "All data reciev and p...">
+                                       28
+     ?<Constant "</div>">               8
+     ?<Constant " \354/\361">           8
+     ?<Constant " %">                   3
+     ?<Constant " mmHg">                8
+     ?<Constant "<strong>">            12
+     ?<Constant "spec">                 8
+     ?<Constant "><span class=">       16
+     ?<Constant "<img src">            12
+     ?<Constant "<img src=">           12
+     ?<Constant "%s%s.png">            12
+     ?<Constant "/img/new/">           12
+     ?<Constant "forecasttext">        16
+     ?<Constant "forecast">            12
+     ?<Constant "GET /index.xhtml?&cit...">
+                                      204
+     ?<Constant "MailWeather 2.4 confi...">
+                                       32
+     ?<Constant "MailWeather v3.0">    20
+     ?<Constant "Please set config!">
+                                       20
+     ?<Constant "MailWeather v3.0 (c)e...">
+                                       40
+      Others                          208
+
+ 
+  5 124 bytes in segment CODE
+    641 bytes in segment DATA_C
+ 17 412 bytes in segment DATA_Z
+     12 bytes in segment INITTAB
+ 
+  4 928 bytes of CODE  memory (+ 208 bytes shared)
+    641 bytes of CONST memory
+ 17 412 bytes of DATA  memory
+
+Errors: none
+Warnings: none

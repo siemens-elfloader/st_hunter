@@ -1,0 +1,729 @@
+################################################################################
+#                                                                              #
+#      IAR Universal Linker V4.60I/386                                         #
+#                                                                              #
+#           Link time     =  10/Nov/2010  19:42:22                             #
+#           Target CPU    =  ARM                                               #
+#           List file     =  D:\pasha\elf\_MY_PROJECT_\hider\Release\List\XTas #
+#                            k3.map                                            #
+#           Output file 1 =  D:\pasha\elf\_MY_PROJECT_\hider\Release\Exe\XTask #
+#                            3.elf                                             #
+#                            Format: elf, variant: -ynpra                      #
+#           Command line  =  D:\pasha\elf\_MY_PROJECT_\hider\Release\Obj\conf_ #
+#                            loader.r79                                        #
+#                            D:\pasha\elf\_MY_PROJECT_\hider\Release\Obj\confi #
+#                            g_data.r79                                        #
+#                            D:\pasha\elf\_MY_PROJECT_\hider\Release\Obj\func. #
+#                            r79                                               #
+#                            D:\pasha\elf\_MY_PROJECT_\hider\Release\Obj\main. #
+#                            r79                                               #
+#                            -o                                                #
+#                            D:\pasha\elf\_MY_PROJECT_\hider\Release\Exe\XTask #
+#                            3.elf                                             #
+#                            -Felf -l                                          #
+#                            D:\pasha\elf\_MY_PROJECT_\hider\Release\List\XTas #
+#                            k3.map                                            #
+#                            -xmsnio -f                                        #
+#                            D:\pasha\elf\_MY_PROJECT_\hider\test.xcl (-carm   #
+#                            -V(CODE)CODE_AREA,12 -V(DATA)DATA_AREA,12         #
+#                            -Z(CODE_AREA)ELFBEGIN,DATA_ID,START,CODE,DATA_C,I #
+#                            NITTAB,DATA_Z,DATA_N,CONFIG_C=0-FFFFFFFF          #
+#                            -Z(DATA_AREA)DATA_I=0-FFFFFFFF) -ynpra            #
+#                            "D:\pasha\Embedded Workbench 4.0 Evaluation2\ARM\ #
+#                            LIB\dl5tpainl8n.r79"                              #
+#                            -s main                                           #
+#                                                                              #
+#                        Copyright 1987-2007 IAR Systems. All rights reserved. #
+################################################################################
+
+
+
+
+
+                ****************************************
+                *                                      *
+                *           CROSS REFERENCE            *
+                *                                      *
+                ****************************************
+
+       Program entry at : CODE_AREA 000003AC  Relocatable, from module : main
+
+
+
+
+                ****************************************
+                *                                      *
+                *            RUNTIME MODEL             *
+                *                                      *
+                ****************************************
+
+  StackAlign4  = USED
+  StackAlign8  = USED
+  __cpu_mode   = __pcs__interwork
+  __data_model = absolute
+  __endian     = little
+  __rt_version = 6
+
+
+
+                ****************************************
+                *                                      *
+                *              MODULE MAP              *
+                *                                      *
+                ****************************************
+
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  FILE NAME : D:\pasha\elf\_MY_PROJECT_\hider\Release\Obj\conf_loader.r79
+  PROGRAM MODULE, NAME : conf_loader
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_I
+  Relative segment, address: DATA_AREA 00000000 - 00000003 (0x4 bytes), align: 2
+  Segment part 5.             Intra module refs:   LoadConfigData
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           successed_config_filename
+                                   00000000        Segment part 17 (main)
+    -------------------------------------------------------------------------
+CODE
+  Segment part 7. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000004 - 0000006B (0x68 bytes), align: 2
+  Segment part 8.             Intra module refs:   LoadConfigData
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SaveConfigData          00000004        GetUnderIdleCSM (main)
+               stack 1 = 00000000 ( 00000018 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 9. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000006C - 0000014B (0xe0 bytes), align: 2
+  Segment part 10.            Intra module refs:   InitConfig
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           LoadConfigData          0000006C 
+               stack 1 = 00000000 ( 00000028 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000014C - 0000014F (0x4 bytes), align: 2
+  Segment part 11.            Intra module refs:   LoadConfigData
+                                                   SaveConfigData
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000150 - 00000153 (0x4 bytes), align: 2
+  Segment part 12.            Intra module refs:   LoadConfigData
+                                                   SaveConfigData
+    -------------------------------------------------------------------------
+CODE
+  Segment part 13. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000154 - 0000017B (0x28 bytes), align: 2
+  Segment part 14.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           InitConfig              00000154        main (main)
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000000 - 00000003 (0x4 bytes), align: 2
+  Segment part 6.             Intra module refs:   successed_config_filename
+    -------------------------------------------------------------------------
+DATA_ID
+  Segment part 15. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?*?DATA_ID              
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 000007D8 - 000007E3 (0xc bytes), align: 2
+  Segment part 16. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_I        000007D8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Segment part 17. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000007D4 - 000007D4 (0x1 bytes), align: 0
+  Segment part 2.             Intra module refs:   Segment part 6
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00000734 - 0000074B (0x18 bytes), align: 2
+  Segment part 3.             Intra module refs:   InitConfig
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000074C - 00000763 (0x18 bytes), align: 2
+  Segment part 4.             Intra module refs:   InitConfig
+
+    *************************************************************************
+
+  FILE NAME : D:\pasha\elf\_MY_PROJECT_\hider\Release\Obj\config_data.r79
+  PROGRAM MODULE, NAME : config_data
+
+  SEGMENTS IN THE MODULE
+  ======================
+CONFIG_C
+  Relative segment, address: CODE_AREA 000007FC - 00000827 (0x2c bytes), align: 2
+  Segment part 2. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr25                000007FC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000828 - 00000833 (0xc bytes), align: 2
+  Segment part 3. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           UNDER_IDLE_CONSTR       00000828        Segment part 15 (main)
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+
+    *************************************************************************
+
+  FILE NAME : D:\pasha\elf\_MY_PROJECT_\hider\Release\Obj\func.r79
+  PROGRAM MODULE, NAME : func
+
+  SEGMENTS IN THE MODULE
+  ======================
+ELFBEGIN
+  Relative segment, address: CODE_AREA 00000000, align: 0
+  Segment part 0. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ELF_BEGIN               00000000 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000017C - 00000183 (0x8 bytes), align: 2
+  Segment part 1. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           kill_data               0000017C 
+           seqkill                 00000180 
+
+    *************************************************************************
+
+  FILE NAME : D:\pasha\elf\_MY_PROJECT_\hider\Release\Obj\main.r79
+  PROGRAM MODULE, NAME : main
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_Z
+  Relative segment, address: CODE_AREA 000007F0 - 000007F3 (0x4 bytes), align: 2
+  Segment part 4.             Intra module refs:   Segment part 16
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           under_idle              000007F0 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 5. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000184 - 0000021B (0x98 bytes), align: 2
+  Segment part 6.             Intra module refs:   main
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           GetUnderIdleCSM         00000184 
+               stack 1 = 00000000 ( 0000000C )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 7. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000021C - 0000032B (0x110 bytes), align: 2
+  Segment part 8.             Intra module refs:   CSMtoTop
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           do_CSMtoTop             0000021C 
+               stack 1 = 00000000 ( 00000018 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 9. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000032C - 00000343 (0x18 bytes), align: 2
+  Segment part 10.            Intra module refs:   CSMtoTop
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           LLaddToEnd              0000032D 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 11. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000344 - 000003AB (0x68 bytes), align: 2
+  Segment part 12.            Intra module refs:   main
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           CSMtoTop                00000344 
+               stack 1 = 00000000 ( 00000010 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 13. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000003AC - 0000042F (0x84 bytes), align: 2
+  Segment part 14.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           main                    000003AC        Absolute parts (?ABS_ENTRY_MOD)
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000430 - 00000433 (0x4 bytes), align: 2
+  Segment part 15.            Intra module refs:   GetUnderIdleCSM
+                                                   main
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000434 - 00000437 (0x4 bytes), align: 2
+  Segment part 16.            Intra module refs:   do_CSMtoTop
+                                                   main
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000438 - 0000043B (0x4 bytes), align: 2
+  Segment part 17.            Intra module refs:   GetUnderIdleCSM
+                                                   main
+    -------------------------------------------------------------------------
+CODE
+  Segment part 18. NOT NEEDED.Intra module refs:   GetUnderIdleCSM
+    -------------------------------------------------------------------------
+CODE
+  Segment part 19. NOT NEEDED.Intra module refs:   GetUnderIdleCSM
+    -------------------------------------------------------------------------
+CODE
+  Segment part 20. NOT NEEDED.Intra module refs:   main
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 000007E4 - 000007EF (0xc bytes), align: 2
+  Segment part 21. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_Z        000007E4 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00000764 - 0000076B (0x8 bytes), align: 2
+  Segment part 2.             Intra module refs:   GetUnderIdleCSM
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000076C - 00000783 (0x18 bytes), align: 2
+  Segment part 3.             Intra module refs:   main
+
+    *************************************************************************
+
+  FILE NAME : D:\pasha\Embedded Workbench 4.0 Evaluation2\ARM\LIB\dl5tpainl8n.r79
+  LIBRARY MODULE, NAME : ?errno
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_Z
+  Relative segment, address: CODE_AREA 000007F4 - 000007FB (0x8 bytes), align: 2
+  Segment part 2.             Intra module refs:   _Geterrno
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _Errno                  000007F8 
+           _Tls_setup__Errno       000007F4 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 3. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000043C - 0000045F (0x24 bytes), align: 2
+  Segment part 4.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _Geterrno               0000043C        _Stoul (?xstoul)
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+INITTAB
+  Segment part 5. TENTATIVE. Used definition from main
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_Z        
+
+    -------------------------------------------------------------------------
+  LIBRARY MODULE, NAME : ?memchr
+
+  SEGMENTS IN THE MODULE
+  ======================
+CODE
+  Segment part 3. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           memchr                  
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 4. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 2. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _Instansiator_memchr    
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000460 - 0000048F (0x30 bytes), align: 2
+  Segment part 5.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _Memchr                 00000460        _Stoul (?xstoul)
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+
+    -------------------------------------------------------------------------
+  LIBRARY MODULE, NAME : ?strtoul
+
+  SEGMENTS IN THE MODULE
+  ======================
+CODE
+  Relative segment, address: CODE_AREA 00000490 - 0000049F (0x10 bytes), align: 2
+  Segment part 3.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           strtoul                 00000490        GetUnderIdleCSM (main)
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 4. NOT NEEDED. Intra module refs:   strtoul
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 2. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _Instansiator_strtoul   
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+
+    -------------------------------------------------------------------------
+  LIBRARY MODULE, NAME : ?xstoul
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_C
+  Relative segment, address: CODE_AREA 00000784 - 000007D3 (0x50 bytes), align: 2
+  Segment part 2.             Intra module refs:   _Stoul
+    -------------------------------------------------------------------------
+CODE
+  Segment part 3. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000004A0 - 0000064F (0x1b0 bytes), align: 2
+  Segment part 4.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _Stoul                  000004A0        strtoul (?strtoul)
+               stack 1 = 00000000 ( 00000030 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 5. NOT NEEDED. Intra module refs:   _Stoul
+    -------------------------------------------------------------------------
+CODE
+  Segment part 6. NOT NEEDED. Intra module refs:   _Stoul
+    -------------------------------------------------------------------------
+CODE
+  Segment part 7. NOT NEEDED. Intra module refs:   _Stoul
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+
+    -------------------------------------------------------------------------
+  LIBRARY MODULE, NAME : ?div_module
+
+  SEGMENTS IN THE MODULE
+  ======================
+CODE
+  Segment part 0. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu8_t               
+    -------------------------------------------------------------------------
+CODE
+  Segment part 1. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu8_a               
+    -------------------------------------------------------------------------
+CODE
+  Segment part 2. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu16_t              
+    -------------------------------------------------------------------------
+CODE
+  Segment part 3. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu16_a              
+    -------------------------------------------------------------------------
+CODE
+  Segment part 4. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu32_t              
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000650 - 0000065B (0xc bytes), align: 2
+  Segment part 5.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu32_a              00000650        _Stoul (?xstoul)
+    -------------------------------------------------------------------------
+CODE
+  Segment part 6. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div8_t                
+    -------------------------------------------------------------------------
+CODE
+  Segment part 7. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div8_a                
+    -------------------------------------------------------------------------
+CODE
+  Segment part 8. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div16_t               
+    -------------------------------------------------------------------------
+CODE
+  Segment part 9. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div16_a               
+    -------------------------------------------------------------------------
+CODE
+  Segment part 10. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div32_t               
+    -------------------------------------------------------------------------
+CODE
+  Segment part 11. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div32_a               
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000065C - 00000733 (0xd8 bytes), align: 2
+  Segment part 12.            Intra module refs:   ??divu32_a
+
+
+
+
+                ****************************************
+                *                                      *
+                *            MODULE SUMMARY            *
+                *                                      *
+                ****************************************
+
+Module            CODE   DATA
+------            ----   ----
+                 (Rel)  (Rel)
+?div_module        228
+?errno              44
+?memchr             48
+?strtoul            16
+?xstoul            512
+conf_loader        441      4
+config_data         56
+func                 8
+main               732
+  + shared          12
+N/A (alignment)
+------           -----      -
+Total:           2 097      4
+
+
+                ****************************************
+                *                                      *
+                *              CALL GRAPH              *
+                *                                      *
+                ****************************************
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  do_CSMtoTop
+      | Stack used (prev) :  00000000
+      | + function block  :  00000018
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000018
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  strtoul
+      | Stack used (prev) :  00000000
+      | + function block  :  00000008
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000008
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000018
+  01  SaveConfigData
+      | Stack used (prev) :  00000018
+      | + function block  :  00000018
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000030
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000030
+  01  LoadConfigData
+      | Stack used (prev) :  00000030
+      | + function block  :  00000028
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000058
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000058
+  01  InitConfig
+      | Stack used (prev) :  00000058
+      | + function block  :  00000004
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000005C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000005C
+  01  GetUnderIdleCSM
+      | Stack used (prev) :  0000005C
+      | + function block  :  0000000C
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000068
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000068
+  01  LLaddToEnd
+      | Stack used (prev) :  00000068
+      | + function block  :  00000004
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000006C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000006C
+  01  CSMtoTop
+      | Stack used (prev) :  0000006C
+      | + function block  :  00000010
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000007C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000007C
+  01  main
+      | Stack used (prev) :  0000007C
+      | + function block  :  00000008
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000084
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000084
+  01  _Geterrno
+      | Stack used (prev) :  00000084
+      | + function block  :  00000008
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000008C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000008C
+  01  _Memchr
+      | Stack used (prev) :  0000008C
+      | + function block  :  00000000
+  <-Sub-tree of type: Function tree
+    | Stack used          :  0000008C
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  0000008C
+  01  _Stoul
+      | Stack used (prev) :  0000008C
+      | + function block  :  00000030
+  <-Sub-tree of type: Function tree
+    | Stack used          :  000000BC
+
+
+
+
+                ****************************************
+                *                                      *
+                *      SEGMENTS IN ADDRESS ORDER       *
+                *                                      *
+                ****************************************
+
+
+SEGMENT              SPACE    START ADDRESS   END ADDRESS     SIZE  TYPE  ALIGN
+=======              =====    =============   ===========     ====  ====  =====
+ELFBEGIN             CODE_AREA           00000000                     rel    0
+DATA_ID              CODE_AREA      00000000 - 00000003           4   rel    2
+START                CODE_AREA           00000004                     dse    0
+CODE                 CODE_AREA      00000004 - 00000733         730   rel    2
+DATA_C               CODE_AREA      00000734 - 000007D4          A1   rel    2
+INITTAB              CODE_AREA      000007D8 - 000007EF          18   rel    2
+DATA_Z               CODE_AREA      000007F0 - 000007FB           C   rel    2
+DATA_N               CODE_AREA           000007FC                     dse    0
+CONFIG_C             CODE_AREA      000007FC - 00000833          38   rel    2
+DATA_I               DATA_AREA      00000000 - 00000003           4   rel    2
+
+                ****************************************
+                *                                      *
+                *        END OF CROSS REFERENCE        *
+                *                                      *
+                ****************************************
+
+ 2 097 bytes of CODE memory
+     4 bytes of DATA memory
+
+Errors: none
+Warnings: none
+

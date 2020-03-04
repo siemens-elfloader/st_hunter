@@ -1,0 +1,139 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+Patch	equ	Patches + 0x6A00
+Vrezka1 equ	0x0977724
+Vrezka2 equ	0x058B256
+Vrezka3 equ	0x0968642
+Vrezka4 equ	0x02C9152
+;Vrezka5 equ	0x097F758
+;---------------------------------------------------------------------------
+org Patch
+            mov     r3, #0
+            push    {r0-r1,r3-r6, LR}
+            pop     {r4,r5}
+
+            LoadReg 0, aStartup
+            cmp     r0, r4
+            bne     CheckBuf
+            AddrLib SwitchPhoneOff
+            add     r0, #0xC
+            str     r0, [SP]
+            b       KillPopup
+
+CheckBuf:   LoadReg 0, config+4
+            CallLib GetBuffer
+            beq     ex
+            mov     r6, r0
+
+            add     r0, #16
+            mov     r1, #25
+loop:       ldr     r3, [r0]
+            cmp     r3, r4
+            beq     KillPopup
+            add     r0, #4
+            sub     r1, #1
+            bne     loop
+
+            ldrb    r0, [r6, #1]
+            cmp     r0, #0
+            beq     ex
+            mov     r0, r5
+            add     r1, r6,#2
+            mov     r2, r4
+            mov     r3, r4
+            CallLib wsprintf
+            
+ex:         mov     r0, r4
+            ldr     r5, [r5]
+            ldrh    r1, [r5]
+            add     r1, #1
+            lsl     r1, #1
+            add     r1, r5
+            CallLib GetLP
+            sub     r1, r5
+            lsr     r1, #1
+            sub     r1, #1
+            strh    r1, [r5]
+
+            pop     {r3-r6}
+            mov     r0, r4
+            pop     {r3}
+            add     r3, #4
+            blx     r3
+
+KillPopup:  pop     {r3-r7}
+            add     SP, r2
+            cmp     r3, #0
+            beq     ex2
+            blx     r3
+ex2:        mov     r0, #0
+            pop     {r4-r7,PC}
+    Align4
+aStartup:   dd      0x1B82
+;----------------------------------------------------------------------------
+    Align16
+Patch1:     neg     r2, r4
+            MOV     R4, R0
+            MOV     R1, R0
+            MOV     R0, R5
+            add     r2, #16
+            mov     r3, r6
+            b       Patch+2
+;----------------------------------------------------------------------------
+    Align16
+Patch2:     STR     R0, [R3,#0x38]
+            LDR     R1, [R3,#0x48]
+            ADD     R0, R6, #0
+            mvi     r2, 0x1384
+            b       Patch
+;----------------------------------------------------------------------------
+    Align16
+Patch3:     STR     R1, [R2]
+            STR     R0, [SP,#4]
+            LDR     R1, [SP,#8]
+            mov     r2, #0x030C >> 2
+            lsl     r2, #2
+            b       Patch
+;----------------------------------------------------------------------------
+    Align16
+Patch4:
+            ADD     R1, R4, #0
+            ADD     R0, R6, #0
+            mvi     r2, 0x9AC
+            b       Patch
+;----------------------------------------------------------------------------
+    Align16
+config:     dd Magic, 0xAB14, 0, 0
+db "{p=PopupKiller cp=avkiev id=AB14}"
+db "{1 cb ShowID v=1}"
+db "{2 s Format ml=13 v=`%u = 0x%04X `}"
+db "{16 i(5) `Disable messages :` v=0,639,1241,1242,2766}"
+db "{36 i(5) ` ` v=0,0,0,0,0}"
+db "{56 i(5) ` ` v=0,0,0,0,0}"
+db "{76 i(5) ` ` v=0,0,0,0,0}"
+db "{96 i(5) ` ` v=0,0,0,0,0}"
+db 0
+;----------------------------------------------------------------------------
+org Vrezka4
+            nop
+            CallReg 2, aPatch4
+aPatch4:    dd      q1+Patch4
+;----------------------------------------------------------------------------
+org Vrezka2
+            nop
+            CallReg 2, aPatch2
+aPatch2:    dd      q1+Patch2
+;----------------------------------------------------------------------------
+org Vrezka3
+            nop
+            CallReg 3, aPatch3
+aPatch3:    dd      q1+Patch3
+;----------------------------------------------------------------------------
+org Vrezka1
+            CallReg 2, aPatch1
+aPatch1:    dd      q1+Patch1
+            nop
+;----------------------------------------------------------------------------
+org 0x0B08290
+END

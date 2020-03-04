@@ -1,0 +1,88 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+Vrezka	equ	0x0C37BFC
+Patch	equ	Patches + 0x000
+;---------------------------------------------------------------------------
+org     Vrezka
+            CallReg 5, aPatch
+aPatch:     dd      q1+Patch
+        Align16
+;---------------------------------------------------------------------------
+org     Patch
+            PUSH    {r0-r3,LR}
+            mov     r5, #4
+            cmp     r7, #0
+            bne     ex
+
+            LoadReg 0, config+4
+            bl      GetBuffer
+            beq     ex
+
+            mov     r4, SP
+            add     r4, #20
+
+            add     r0, r6,#4
+            mov     r1, r0
+            add     r1, #8
+            bl      GetDateTime
+
+            add     r0, r6, #4
+            bl      GetWeek
+            add     r0, #13
+            bl      AddMes
+
+            mov     r3, #95h
+            ldrb	r1, [r4, #2]
+            cmp     r1, #0
+            bne     $+4
+            strb	r3, [r4, #2]
+            strb	r3, [r4, #3]
+
+            mov     r3, #","
+            ldrb    r0, [r6, #1]
+            cmp     r0, #0
+            bne     $+4
+            mov     r3, #95h
+            strb	r3, [r4, #4]
+
+            mov     r3, #" "
+            strb	r3, [r4, #5]
+            strb	r3, [r4, #8]
+
+            ldrb    r1, [r6, #9]
+            mov     r0, #10
+            bl      dwMODdw
+            add     r0, #30h
+            strb	r0, [r4, #6]
+            add     r1, #30h
+            strb	r1, [r4, #7]
+
+            ldrb    r0, [r6, #8]
+            add     r4, #9
+            bl      AddMes
+
+            mov     r3, #0
+            str     r3, [SP, #8]
+            mov     r5, #12
+
+ex:         pop     {r4}
+            pop     {r0-r2,r7}
+            mov     r3, r1
+            add     r7, r5
+            bx      r7
+; ---------------------------------------------------------------------------
+AddMes:     push    {LR}
+            bl      LP_MonthShort
+            add     r0, r7
+            mov     r1, r4
+            bl      GetLP
+            pop     {PC}
+; ---------------------------------------------------------------------------
+        Align16
+config:     dd Magic, 0xAB01, 0,0
+db "{patch=BottomDate version=8 copyright=avkiev id=AB01 memory=20}"
+db "{1 cb ShowComma v=1}"
+db 0
+Align16
+END

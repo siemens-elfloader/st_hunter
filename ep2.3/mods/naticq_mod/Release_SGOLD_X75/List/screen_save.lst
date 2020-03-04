@@ -1,0 +1,305 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    28/Jul/2010  10:50:16 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod\screen_save.c   #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\naticq_mod\screen_save.c   #
+#                       -D X75 -D kluchnik2 --preprocess                     #
+#                       D:\pasha\elf\_MY_PROJECT_\naticq_mod\Release_SGOLD_X #
+#                       75\List\ -lC D:\pasha\elf\_MY_PROJECT_\naticq_mod\Re #
+#                       lease_SGOLD_X75\List\ -o D:\pasha\elf\_MY_PROJECT_\n #
+#                       aticq_mod\Release_SGOLD_X75\Obj\ -s9 --no_unroll     #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --fpu None            #
+#                       --dlib_config "D:\pasha\Embedded Workbench 4.0       #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\naticq_mod\Release_SGOLD_X #
+#                       75\List\screen_save.lst                              #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod\Release_SGOLD_X #
+#                       75\Obj\screen_save.r79                               #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\naticq_mod\screen_save.c
+      1          #ifdef NEWSGOLD
+      2          #include "../inc/swilib.h"
+      3          #include "../inc/pnglist.h"
+      4          #include "NatICQ.h"
+      5          #include "main.h"
+      6          #include "rect_patcher.h"
+      7          #include "screen_save.h"
+      8          #include "strings.h"
+      9          
+     10          typedef struct
+     11          {
+     12            GUI gui;
+     13            WSHDR *ws;
+     14          }SCREEN_GUI;
+     15          
+     16          int battery;
+     17          int iks,igrek;
+     18          char laiks[32];
+     19          TTime time;
+     20          int color_SS;
+     21          int menu;
+     22          //extern WSHDR *wsLogBuffer;
+     23          
+     24          
+     25          void Draw()
+     26          {
+     27            WSHDR *ws=AllocWS(32);
+     28            GetDateTime(NULL, &time);
+     29            wsprintf(ws, "%02d:%02d", time.hour, time.min);
+     30            DrawString(ws,iks-10,igrek-40,iks-10+Get_WS_width(ws,FONT_MEDIUM_BOLD)+2,igrek-40+GetFontYSIZE(FONT_MEDIUM_BOLD),FONT_SMALL,0,GetPaletteAdrByColorIndex(5),GetPaletteAdrByColorIndex(23));
+     31            FreeWS(ws);
+     32          }
+     33          
+     34          void Draw2()
+     35          {
+     36            battery = *RamCap();
+     37            iks=iks-10;
+     38            igrek = igrek-7+GetFontYSIZE(11);
+     39            WSHDR *ws=AllocWS(32);
+     40            wsprintf(ws,"Bat:%d%", battery);
+     41            DrawString(ws,ScreenW()-Get_WS_width(ws,FONT_SMALL_ITALIC_BOLD)-2,igrek,ScreenW()-1,igrek+GetFontYSIZE(FONT_SMALL_ITALIC_BOLD),
+     42                          FONT_SMALL_ITALIC_BOLD,TEXT_ALIGNRIGHT,GetPaletteAdrByColorIndex(2),GetPaletteAdrByColorIndex(23));
+     43            FreeWS(ws);
+     44          }
+     45          
+     46          extern int total_unread;
+     47          extern int total_unread2;
+     48          
+     49          void Draw3()
+     50          {
+     51            iks=iks-15;
+     52            igrek = igrek-2+GetFontYSIZE(11);
+     53            WSHDR *ws=AllocWS(32);
+     54            wsprintf(ws, "Unread: %d/%d", total_unread, total_unread2);
+     55            DrawString(ws,ScreenW()-Get_WS_width(ws,FONT_SMALL_ITALIC_BOLD)-2,igrek,ScreenW()-1,igrek+GetFontYSIZE(FONT_SMALL_ITALIC_BOLD),
+     56                       FONT_SMALL_ITALIC_BOLD,0,GetPaletteAdrByColorIndex(2),GetPaletteAdrByColorIndex(23));
+     57            FreeWS(ws);
+     58          }
+     59          
+     60          extern unsigned int UIN;
+     61          
+     62          void Draw5()
+     63          {
+     64            WSHDR *ws=AllocWS(32);
+     65            wsprintf(ws, "NatICQ: %d", UIN);
+     66            DrawString(ws,0,YDISP+15,ScreenW()-1,40+GetFontYSIZE(FONT_SMALL_ITALIC_BOLD),FONT_SMALL_ITALIC_BOLD,TEXT_ALIGNMIDDLE,GetPaletteAdrByColorIndex(4),GetPaletteAdrByColorIndex(23));
+     67            FreeWS(ws);
+     68          }
+     69          
+     70          extern int uptimeHour;
+     71          extern int uptimeMin;
+     72          extern int uptimeSec;
+     73          extern char hostbuf2[128];
+     74          extern char PINGO[256];
+     75          extern int main2_count;
+     76          extern int main_count;
+     77          extern int msg_away_timer;
+     78          extern int connect_state;
+     79          extern volatile unsigned long ALLTOTALRECEIVED;	//by BoBa 10.07
+     80          extern volatile unsigned long ALLTOTALSENDED;
+     81          extern volatile int sendq_l; //Длинна очереди для send
+     82          extern int kopa_online;
+     83          extern int kopa_kontaktu;
+     84          extern int away_m;
+     85          extern int CurrentPrivateStatus;
+     86          extern int Is_Vibra_Enabled;
+     87          extern unsigned int Is_Sounds_Enabled;
+     88          extern int Is_Double_Vibra_On;
+     89          extern char away_msg_time_dace[];
+     90          extern int saver_on;
+     91          extern int dace_unread;
+     92          
+     93          char black[]={0x00,0x00,0x00,0x20};
+     94          void reftes()
+     95          {
+     96            iks=95;
+     97            igrek=130;
+     98            int scr_w=ScreenW()-1;
+     99            int scr_h=ScreenH()-1;
+    100            WSHDR *ws=AllocWS(128);
+    101          
+    102            DrawRectangle(0,YDISP,scr_w,scr_h,0,black,black); 
+    103            char *sws=malloc(64);
+    104            *(sws)=0;
+    105            
+    106            int y=YDISP+60;
+    107            char ss[64];
+    108            if(away_m){ sprintf(ss,"[A:%s]",away_msg_time_dace); strcat(sws,ss); }    
+    109            if(CurrentPrivateStatus==1) { strcat(sws,"[I]");  }  
+    110            if(Is_Vibra_Enabled)        { strcat(sws,"[V]");  }  
+    111            if(Is_Sounds_Enabled)       { strcat(sws,"[S]");  }  
+    112            if(Is_Double_Vibra_On)      { strcat(sws,"[Vr]"); }
+    113          
+    114            wsprintf(ws,"%s",sws);
+    115            DrawString(ws,2,ScreenH()-GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)-4,ScreenW(),ScreenH(),FONT_SMALL_ITALIC_BOLD,TEXT_ALIGNMIDDLE,GetPaletteAdrByColorIndex(2),GetPaletteAdrByColorIndex(23));
+    116            
+    117            if(connect_state==3)   
+    118               wsprintf(ws,"Online: %02d:%02d:%02d\nServer: %s \n%s\n", uptimeHour, uptimeMin, uptimeSec, hostbuf2,PINGO);   
+    119            else
+    120               wsprintf(ws,"Offline\n");
+    121               
+    122            DrawString(ws,2,y,ScreenW()-1,y+(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*3),FONT_SMALL_ITALIC_BOLD,0,GetPaletteAdrByColorIndex(2),GetPaletteAdrByColorIndex(23));
+    123            if(connect_state==3)   
+    124              y+=(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*3);
+    125            else
+    126              y+=(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*1);
+    127          
+    128            wsprintf(ws, "Send mess: %d \nRecv mess: %d \n", main2_count, main_count);
+    129            DrawString(ws,2,y,ScreenW()-1,y+(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*2),FONT_SMALL_ITALIC_BOLD,0,GetPaletteAdrByColorIndex(2),GetPaletteAdrByColorIndex(23));
+    130            y+=(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*2);
+    131             
+    132            wsprintf(ws,"Not action %d sec",msg_away_timer*5);
+    133            DrawString(ws,2,y,ScreenW()-1,y+GetFontYSIZE(FONT_SMALL_ITALIC_BOLD),FONT_SMALL_ITALIC_BOLD,0,GetPaletteAdrByColorIndex(2),GetPaletteAdrByColorIndex(23));
+    134            y+=(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*1);
+    135            
+    136            unsigned long RX=ALLTOTALRECEIVED;
+    137            unsigned long TX=ALLTOTALSENDED;//sendq_l	
+    138          
+    139            wsprintf(ws, "Traffic:\n->Rx: %db\n->Tx: %db \n->Queue: %db \n"
+    140                         "Online contact: %d [total: %d] \n",RX,TX,sendq_l,kopa_kontaktu, kopa_online);
+    141            DrawString(ws,2,y,ScreenW()-1,y+(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*5),FONT_SMALL_ITALIC_BOLD,0,GetPaletteAdrByColorIndex(2),GetPaletteAdrByColorIndex(23));
+    142          
+    143            Draw5();
+    144            
+    145            FreeWS(ws);
+    146            mfree(sws);
+    147          }
+    148          /*
+    149          int y_log=0;
+    150          char black1[]={0x00,0x00,0x00,100};
+    151          extern int line_log;
+    152          static void ShowLog()
+    153          {
+    154            DisableIconBar(1);
+    155            DrawRectangle(0,0,ScreenW()-1,ScreenH()-1,0,black1,black1); 
+    156            DrawString(wsLogBuffer,2,2+y_log,ScreenW()-1,y_log+ScreenH()-1,FONT_SMALL_ITALIC_BOLD,0,GetPaletteAdrByColorIndex(2),GetPaletteAdrByColorIndex(23));
+    157          }
+    158          */
+    159          static void method0(SCREEN_GUI *data)
+    160          {
+    161            //if(!menu) 
+    162            reftes();
+    163          //  else ShowLog();
+    164          }
+    165          
+    166          static void method1(SCREEN_GUI *data,void *(*malloc_adr)(int))
+    167          {
+    168            data->ws=AllocWS(50);
+    169            data->gui.state=1;
+    170            DrawRectangle(0,YDISP,ScreenW()-1,ScreenH()-1,0,black,black); 
+    171            color_SS=0;
+    172            reftes();
+    173          }
+    174          
+    175          static void method2(SCREEN_GUI *data,void (*mfree_adr)(void *))
+    176          {
+    177            data->gui.state=0;
+    178            FreeWS(data->ws);
+    179          }
+    180          
+    181          static void method3(SCREEN_GUI *data,void *(*malloc_adr)(int),void (*mfree_adr)(void *))//fokus
+    182          {
+    183            saver_on=1;
+    184            DisableIDLETMR();
+    185            data->gui.state=2;
+    186            reftes();
+    187          }
+    188          
+    189          static void method4(SCREEN_GUI *data,void (*mfree_adr)(void *))//unfokus
+    190          {
+    191            saver_on=0;
+    192            if (data->gui.state!=2)
+    193              return;
+    194            data->gui.state=1;
+    195          }
+    196          
+    197          static int method5(SCREEN_GUI *data,GUI_MSG *msg)
+    198          {
+    199            int m=msg->gbsmsg->msg;
+    200            int key=msg->gbsmsg->submess;
+    201            DirectRedrawGUI();
+    202            if(m==KEY_DOWN)
+    203            {
+    204              if(key==UP_BUTTON && !menu)
+    205                return 0;
+    206          /*    else
+    207                if(key==LEFT_BUTTON || key==RIGHT_BUTTON) menu=!menu;
+    208              else
+    209                if(key==UP_BUTTON && menu)   y_log++;
+    210              else
+    211                if(key==DOWN_BUTTON && menu) y_log--;
+    212              else
+    213                if(key=='9') y_log=-(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*(line_log-1));
+    214              else 
+    215                if(key=='3') y_log=2;*/
+    216              else
+    217                return 1;
+    218            }
+    219            /*
+    220            if(m==LONG_PRESS && menu)
+    221            {
+    222              if(key==UP_BUTTON)   y_log+=10;
+    223              if(key==DOWN_BUTTON) y_log-=10;
+    224            }*/
+    225            
+    226            return(0);
+    227          }
+    228          
+    229          static int method8(void){return(0);}
+    230          
+    231          static int method9(void){return(0);}
+    232          
+    233          extern void kill_data(void *p, void (*func_p)(void *));
+    234          static const void * const gui_methods[11]={
+    235            (void *)method0,  //Redraw
+    236            (void *)method1,  //Create
+    237            (void *)method2,  //Close
+    238            (void *)method3,  //Focus
+    239            (void *)method4,  //Unfocus
+    240            (void *)method5,  //OnKey
+    241            0,
+    242            (void *)kill_data, //method7, //Destroy
+    243            (void *)method8,
+    244            (void *)method9,
+    245            0
+    246          };
+    247          
+    248          int CreateScreenSelectGUI()
+    249          {
+    250            saver_on=1;
+    251          //  char* iconbars = RamIconBar();
+    252          //  *iconbars = 0;
+    253            static const RECT Canvas={0,0,0,0};
+    254            SCREEN_GUI *screen_gui=malloc(sizeof(SCREEN_GUI));
+    255            zeromem(screen_gui,sizeof(SCREEN_GUI));
+    256            patch_rect((RECT*)&Canvas,0,0,ScreenW()-1,ScreenH()-1);
+    257            screen_gui->gui.canvas=(void *)(&Canvas);
+    258            screen_gui->gui.methods=(void *)gui_methods;
+    259            screen_gui->gui.item_ll.data_mfree=(void (*)(void *))mfree_adr();
+    260            return CreateGUI(screen_gui);
+    261          }
+    262          #endif
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+
+ 
+ 
+ 0 bytes of memory
+
+Errors: none
+Warnings: none

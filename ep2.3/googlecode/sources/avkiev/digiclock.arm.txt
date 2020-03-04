@@ -1,0 +1,122 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+Vrezka  equ 0x16B7A00
+Patch	equ	Patches + 0x400
+;---------------------------------------------------------------------------
+org     Patch
+            push    {r0,r4-r7,LR}
+            LoadReg 0, config+4
+            bl      GetBuffer
+            beq     exit
+
+            bl      RamStby
+            ldr     r0, [r7]
+            cmp     r0, #0
+            beq     exit
+
+            ldrb    r0, [r6, #3]
+            mov     r1, #2
+            and     r0, r1
+            bne     DoPatch
+
+            bl      IsUnlocked
+            bne     exit
+
+DoPatch:    add     r0, r6, #4
+            mov     r1, r0
+            add     r1, #8
+            bl      GetDateTime
+
+            mov     r4, #15
+            ldrb    r5, [r6, #1]
+
+            sub     SP, #8
+            mov     r1, r4
+            mov     r2, r5
+            mov     r3, r1
+            add     r3, #102
+            mov     r0, r2
+            add     r0, #36
+            str     r0, [SP]
+            mov     r0, #1
+            str     r0, [SP, #4]
+            ldr     r0, [SP, #8]
+            ldr     r0, [r0, #0x14]
+            bl      DrawCanvas
+            add     SP, #8
+
+            ldrb    r1, [r6, #12]
+            bl      Add2Dig
+
+            ldrb    r0, [r6, #2]
+            cmp     r0, #2
+            beq     ShowMin
+            cmp     r0, #1
+            beq     ShowColon
+
+            ldr     r0, [r6, #20]
+            mvn     r1, r0
+            str     r1, [r6, #20]
+            bmi     ShowMin
+
+ShowColon:  mov     r0, #11
+            bl      AddChar
+            sub     r4, #24
+
+ShowMin:    add     r4, #12
+            ldrb    r1, [r6, #13]
+            bl      Add2Dig
+
+            ldrb    r0, [r6, #3]
+            mov     r1, #1
+            and     r0, r1
+            beq     exit
+
+            sub     r4, #64
+            add     r5, #28
+            ldrb    r1, [r6, #14]
+            bl      Add2Dig
+
+exit:       pop     {r0,r4-r7}
+            CallReg 1, aSub
+            pop     {PC}
+;---------------------------------------------------------------------------
+Add2Dig:    push    {r0, LR}
+            mov     r0, #10
+            bl      dwMODdw
+            bl      AddChar
+            b       AddChar+2
+;---------------------------------------------------------------------------
+AddChar:    push    {r1, LR}
+            bl      Pic_Big0
+            cmp     r5, #90
+            bcc     $+6
+            bl      Pic_Little0
+            add     r2, r7, r0     
+            mov     r0, r4
+            mov     r1, r5
+            bl      DrawImage2
+            add     r4, #24
+            cmp     r5, #90
+            bcc     $+4
+            sub     r4, #16
+exAddChar:  pop     {r0, PC}
+;---------------------------------------------------------------------------
+            Align4
+aSub:       dd      0xA1698BC7
+        Align16
+config:     dd Magic, 0xAB02, 0,0
+db "{patch=`Big Digital Clock` version=4 copyright=avkiev id=AB02 memory=21 profiles=y}"
+db "{1 slider Y range=62..89 v=73}"
+db "{2 o Colon `Blink`=0 `On`=1 `Off`=2}"
+db "{3.0 cb `Show seconds` v=1}"
+db "{3.1 cb `Show in unlock`}"
+db 0
+Align16
+;---------------------------------------------------------------------------
+org     Vrezka
+            dd  q1+Patch
+        Align16
+;---------------------------------------------------------------------------
+END

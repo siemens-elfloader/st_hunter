@@ -1,0 +1,3314 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   19/May/2008  22:00:12 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\mai /
+//                       n.c                                                 /
+//    Command line    =  D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\mai /
+//                       n.c -D NEWSGOLD -D ELKA -lcN                        /
+//                       D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rel /
+//                       ease_ELKA\List\ -la D:\Pasha\elf\_MY_PROJECT_\MailC /
+//                       lient\MailDaemon\Release_ELKA\List\ -o              /
+//                       D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rel /
+//                       ease_ELKA\Obj\ -s9 --no_unroll --cpu_mode arm       /
+//                       --endian little --cpu ARM926EJ-S --stack_align 4    /
+//                       --interwork -e --fpu None --dlib_config             /
+//                       "D:\Pasha\Embedded Workbench 4.0                    /
+//                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I               /
+//                       "D:\Pasha\Embedded Workbench 4.0                    /
+//                       Evaluation2\ARM\INC\" --inline_threshold=2          /
+//    List file       =  D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rel /
+//                       ease_ELKA\List\main.s79                             /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME main
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+        RSEG ELFBEGIN:DATA:REORDER:NOROOT(0)
+
+        PUBWEAK `?*?DATA_ID`
+        MULTWEAK ??CheckDoubleRun??rT
+        MULTWEAK ??ClearSendQ??rT
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+??DataTable10 EQU 0
+??DataTable13 EQU 0
+??DataTable14 EQU 0
+??DataTable15 EQU 0
+??DataTable16 EQU 0
+??DataTable17 EQU 0
+??DataTable18 EQU 0
+??DataTable19 EQU 0
+??DataTable2 EQU 0
+??DataTable21 EQU 0
+??DataTable22 EQU 0
+??DataTable23 EQU 0
+??DataTable25 EQU 0
+??DataTable26 EQU 0
+??DataTable27 EQU 0
+??DataTable28 EQU 0
+??DataTable29 EQU 0
+??DataTable3 EQU 0
+??DataTable30 EQU 0
+??DataTable31 EQU 0
+??DataTable32 EQU 0
+??DataTable35 EQU 0
+??DataTable36 EQU 0
+??DataTable37 EQU 0
+??DataTable38 EQU 0
+??DataTable39 EQU 0
+??DataTable4 EQU 0
+??DataTable44 EQU 0
+??DataTable5 EQU 0
+??DataTable6 EQU 0
+??DataTable9 EQU 0
+        MULTWEAK ??ElfKiller??rT
+        MULTWEAK ??FontPathInit??rA
+        MULTWEAK ??FreeMailDB??rT
+        MULTWEAK ??GetSMSNumber??rT
+        MULTWEAK ??InitConfig??rA
+        MULTWEAK ??InitMailDB??rT
+        MULTWEAK ??PrintField??rA
+        MULTWEAK ??PrintLibInit??rA
+        MULTWEAK ??SetIconBarHandler??rT
+        MULTWEAK ??addIconBar??rT
+        MULTWEAK ??add_uidl_if_exist??rT
+        MULTWEAK ??checkGui??rT
+        MULTWEAK ??create_connect??rT
+        MULTWEAK ??do_losted_mes??rT
+        MULTWEAK ??do_reconnect??rT
+        MULTWEAK ??end_connect??rT
+        MULTWEAK ??end_socket??rT
+        MULTWEAK ??get_answer??rT
+        MULTWEAK ??get_list??rT
+        MULTWEAK ??kill_data??rA
+        MULTWEAK ??main??rT
+        MULTWEAK ??maincsm_onmessage??rT
+        MULTWEAK ??numbercmp??rT
+        MULTWEAK ??process_line??rT
+        MULTWEAK ??remove_cur_from_list??rT
+        MULTWEAK ??resp_ok??rT
+        MULTWEAK ??send_del_mes??rT
+        MULTWEAK ??send_get_headers??rT
+        MULTWEAK ??send_get_mes??rT
+        MULTWEAK ??send_get_stat??rT
+        MULTWEAK ??send_get_uidl_list??rT
+        MULTWEAK ??send_login??rT
+        MULTWEAK ??send_pass??rT
+        MULTWEAK ??send_quit??rT
+        MULTWEAK ??send_str??rT
+        MULTWEAK ??set_mes_size??rT
+        MULTWEAK ??strcmp_nocase??rT
+        MULTWEAK ??strtoul??rA
+        MULTWEAK ??write_mail_DB??rT
+        PUBWEAK ?init?tab?DATA_I
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC CheckDoubleRun
+        FUNCTION CheckDoubleRun,0603H
+        LOCFRAME CSTACK, 12, STACK
+        PUBLIC ClearSendQ
+        FUNCTION ClearSendQ,0603H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC DNR_ID
+        PUBLIC DNR_TRIES
+        PUBLIC ElfKiller
+        FUNCTION ElfKiller,0603H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC FreeMailDB
+        FUNCTION FreeMailDB,0201H
+        LOCFRAME CSTACK, 12, STACK
+        PUBLIC GetSMSNumber
+        FUNCTION GetSMSNumber,0203H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC InitMailDB
+        FUNCTION InitMailDB,0201H
+        LOCFRAME CSTACK, 424, STACK
+        PUBLIC MAINCSM
+        PUBLIC SetIconBarHandler
+        FUNCTION SetIconBarHandler,0201H
+        PUBLIC addIconBar
+        FUNCTION addIconBar,0603H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC add_uidl_if_exist
+        FUNCTION add_uidl_if_exist,0203H
+        LOCFRAME CSTACK, 24, STACK
+        PUBLIC canvasdata
+        PUBLIC checkGui
+        FUNCTION checkGui,0203H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC create_connect
+        FUNCTION create_connect,0603H
+        LOCFRAME CSTACK, 120, STACK
+        PUBLIC cur_ml
+        PUBLIC do_losted_mes
+        FUNCTION do_losted_mes,0201H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC do_reconnect
+        FUNCTION do_reconnect,0603H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC empty_str
+        PUBLIC end_connect
+        FUNCTION end_connect,0603H
+        LOCFRAME CSTACK, 24, STACK
+        PUBLIC end_socket
+        FUNCTION end_socket,0603H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC eol
+        PUBLIC fhandler
+        PUBLIC get_answer
+        FUNCTION get_answer,0603H
+        LOCFRAME CSTACK, 1048, STACK
+        PUBLIC get_list
+        FUNCTION get_list,0201H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC gipc
+        PUBLIC ipc_my_name
+        PUBLIC ipc_viewer_name
+        PUBLIC is_gprs_online
+        PUBLIC mailer_db_name
+        PUBLIC mails
+        PUBLIC main
+        FUNCTION main,0a03H
+        LOCFRAME CSTACK, 56, STACK
+        PUBLIC maincsm_id
+        FUNCTION maincsm_onclose,0603H
+        LOCFRAME CSTACK, 12, STACK
+        FUNCTION maincsm_oncreate,0603H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC maincsm_onmessage
+        FUNCTION maincsm_onmessage,0603H
+        LOCFRAME CSTACK, 184, STACK
+        PUBLIC mes_rec
+        PUBLIC minus11
+        PUBLIC numbercmp
+        FUNCTION numbercmp,0203H
+        LOCFRAME CSTACK, 12, STACK
+        PUBLIC percent_t
+        PUBLIC pop_stat
+        PUBLIC process_line
+        FUNCTION process_line,0203H
+        LOCFRAME CSTACK, 168, STACK
+        PUBLIC recived_line
+        PUBLIC reconnect_tmr
+        PUBLIC remove_cur_from_list
+        FUNCTION remove_cur_from_list,0201H
+        LOCFRAME CSTACK, 148, STACK
+        PUBLIC resp_ok
+        FUNCTION resp_ok,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC send_del_mes
+        FUNCTION send_del_mes,0203H
+        LOCFRAME CSTACK, 68, STACK
+        PUBLIC send_get_headers
+        FUNCTION send_get_headers,0203H
+        LOCFRAME CSTACK, 68, STACK
+        PUBLIC send_get_mes
+        FUNCTION send_get_mes,0203H
+        LOCFRAME CSTACK, 68, STACK
+        PUBLIC send_get_stat
+        FUNCTION send_get_stat,0201H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC send_get_uidl_list
+        FUNCTION send_get_uidl_list,0201H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC send_login
+        FUNCTION send_login,0201H
+        LOCFRAME CSTACK, 132, STACK
+        PUBLIC send_pass
+        FUNCTION send_pass,0201H
+        LOCFRAME CSTACK, 132, STACK
+        PUBLIC send_quit
+        FUNCTION send_quit,0201H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC send_str
+        FUNCTION send_str,0603H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC sendq_l
+        PUBLIC sendq_p
+        PUBLIC set_mes_size
+        FUNCTION set_mes_size,0203H
+        LOCFRAME CSTACK, 12, STACK
+        PUBLIC sock
+        PUBLIC strcmp_nocase
+        FUNCTION strcmp_nocase,0203H
+        PUBLIC unread
+        PUBLIC viewer_present
+        PUBLIC write_mail_DB
+        FUNCTION write_mail_DB,0201H
+        LOCFRAME CSTACK, 288, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+FontPathInit        SYMBOL "FontPathInit"
+InitConfig          SYMBOL "InitConfig"
+PrintField          SYMBOL "PrintField"
+PrintLibInit        SYMBOL "PrintLibInit"
+kill_data           SYMBOL "kill_data"
+strtoul             SYMBOL "strtoul"
+CheckDoubleRun      SYMBOL "CheckDoubleRun"
+??CheckDoubleRun??rT SYMBOL "??rT", CheckDoubleRun
+ClearSendQ          SYMBOL "ClearSendQ"
+??ClearSendQ??rT    SYMBOL "??rT", ClearSendQ
+ElfKiller           SYMBOL "ElfKiller"
+??ElfKiller??rT     SYMBOL "??rT", ElfKiller
+??FontPathInit??rA  SYMBOL "??rA", FontPathInit
+FreeMailDB          SYMBOL "FreeMailDB"
+??FreeMailDB??rT    SYMBOL "??rT", FreeMailDB
+GetSMSNumber        SYMBOL "GetSMSNumber"
+??GetSMSNumber??rT  SYMBOL "??rT", GetSMSNumber
+??InitConfig??rA    SYMBOL "??rA", InitConfig
+InitMailDB          SYMBOL "InitMailDB"
+??InitMailDB??rT    SYMBOL "??rT", InitMailDB
+??PrintField??rA    SYMBOL "??rA", PrintField
+??PrintLibInit??rA  SYMBOL "??rA", PrintLibInit
+SetIconBarHandler   SYMBOL "SetIconBarHandler"
+??SetIconBarHandler??rT SYMBOL "??rT", SetIconBarHandler
+addIconBar          SYMBOL "addIconBar"
+??addIconBar??rT    SYMBOL "??rT", addIconBar
+add_uidl_if_exist   SYMBOL "add_uidl_if_exist"
+??add_uidl_if_exist??rT SYMBOL "??rT", add_uidl_if_exist
+checkGui            SYMBOL "checkGui"
+??checkGui??rT      SYMBOL "??rT", checkGui
+create_connect      SYMBOL "create_connect"
+??create_connect??rT SYMBOL "??rT", create_connect
+do_losted_mes       SYMBOL "do_losted_mes"
+??do_losted_mes??rT SYMBOL "??rT", do_losted_mes
+do_reconnect        SYMBOL "do_reconnect"
+??do_reconnect??rT  SYMBOL "??rT", do_reconnect
+end_connect         SYMBOL "end_connect"
+??end_connect??rT   SYMBOL "??rT", end_connect
+end_socket          SYMBOL "end_socket"
+??end_socket??rT    SYMBOL "??rT", end_socket
+get_answer          SYMBOL "get_answer"
+??get_answer??rT    SYMBOL "??rT", get_answer
+get_list            SYMBOL "get_list"
+??get_list??rT      SYMBOL "??rT", get_list
+??kill_data??rA     SYMBOL "??rA", kill_data
+main                SYMBOL "main"
+??main??rT          SYMBOL "??rT", main
+maincsm_onmessage   SYMBOL "maincsm_onmessage"
+??maincsm_onmessage??rT SYMBOL "??rT", maincsm_onmessage
+numbercmp           SYMBOL "numbercmp"
+??numbercmp??rT     SYMBOL "??rT", numbercmp
+process_line        SYMBOL "process_line"
+??process_line??rT  SYMBOL "??rT", process_line
+remove_cur_from_list SYMBOL "remove_cur_from_list"
+??remove_cur_from_list??rT SYMBOL "??rT", remove_cur_from_list
+resp_ok             SYMBOL "resp_ok"
+??resp_ok??rT       SYMBOL "??rT", resp_ok
+send_del_mes        SYMBOL "send_del_mes"
+??send_del_mes??rT  SYMBOL "??rT", send_del_mes
+send_get_headers    SYMBOL "send_get_headers"
+??send_get_headers??rT SYMBOL "??rT", send_get_headers
+send_get_mes        SYMBOL "send_get_mes"
+??send_get_mes??rT  SYMBOL "??rT", send_get_mes
+send_get_stat       SYMBOL "send_get_stat"
+??send_get_stat??rT SYMBOL "??rT", send_get_stat
+send_get_uidl_list  SYMBOL "send_get_uidl_list"
+??send_get_uidl_list??rT SYMBOL "??rT", send_get_uidl_list
+send_login          SYMBOL "send_login"
+??send_login??rT    SYMBOL "??rT", send_login
+send_pass           SYMBOL "send_pass"
+??send_pass??rT     SYMBOL "??rT", send_pass
+send_quit           SYMBOL "send_quit"
+??send_quit??rT     SYMBOL "??rT", send_quit
+send_str            SYMBOL "send_str"
+??send_str??rT      SYMBOL "??rT", send_str
+set_mes_size        SYMBOL "set_mes_size"
+??set_mes_size??rT  SYMBOL "??rT", set_mes_size
+strcmp_nocase       SYMBOL "strcmp_nocase"
+??strcmp_nocase??rT SYMBOL "??rT", strcmp_nocase
+??strtoul??rA       SYMBOL "??rA", strtoul
+write_mail_DB       SYMBOL "write_mail_DB"
+??write_mail_DB??rT SYMBOL "??rT", write_mail_DB
+
+        EXTERN DEFAULT_ACTION
+        EXTERN DEL_AFTER_LOAD
+        EXTERN EML_PATH
+        EXTERN FontPathInit
+        FUNCTION FontPathInit,0202H
+        EXTERN IF_DEL_AUX
+        EXTERN InitConfig
+        FUNCTION InitConfig,0200H
+        EXTERN LOAD_IF_LESS
+        EXTERN MAIL_LOGIN
+        EXTERN MAIL_PASS
+        EXTERN POP3_ADRESS
+        EXTERN POP3_PORT
+        EXTERN PrintField
+        FUNCTION PrintField,0202H
+        EXTERN PrintLibInit
+        FUNCTION PrintLibInit,0202H
+        EXTERN SMSFORWARD
+        EXTERN X
+        EXTERN Y
+        EXTERN align
+        EXTERN fontpath
+        EXTERN kill_data
+        FUNCTION kill_data,0202H
+        EXTERN strtoul
+        FUNCTION strtoul,0202H
+        EXTERN successed_config_filename
+
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "Mailbox is empty">`:
+        DATA
+        DC8 "Mailbox is empty"
+        DC8 0, 0, 0
+        DC8 "Can't write headers!"
+        DC8 0, 0, 0
+        DC8 "Can't write message!"
+        DC8 0, 0, 0
+        DC8 "Can't delete!"
+        DC8 0, 0
+        DC8 "Done!"
+        DC8 0, 0
+        DC8 "UIDL\015\012"
+        DC8 0
+        DC8 "%s%s.eml"
+        DC8 0, 0, 0
+        DC8 "STAT\015\012"
+        DC8 0
+        DC8 "LIST\015\012"
+        DC8 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "Wait for GPRS up!">`:
+        DATA
+        DC8 "Wait for GPRS up!"
+        DC8 0, 0
+        DC8 "Connect via IP..."
+        DC8 0, 0
+        DC8 "Send DNR..."
+        DC8 "DNR ERROR %d!"
+        DC8 0, 0
+        DC8 "DNR Ok, connecting..."
+        DC8 0, 0
+        DC8 "Can't connect!"
+        DC8 0
+        DC8 "Can't create socket, GPRS restarted!"
+        DC8 0, 0, 0
+        DC8 "Host not found!"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+        DATA
+        DC8 ".\015\012"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "MailDaemon already st...">`:
+        DATA
+        DC8 "MailDaemon already started!"
+        DC8 "MailDaemon config updated!"
+        DC8 0
+        DC8 "Manually stopped"
+        DC8 0, 0, 0
+        DC8 "Try to login..."
+        DC8 "Illegal message ENIP_DATA_READ"
+        DC8 0
+        DC8 "Illegal ENIP_BUFFER_FREE!"
+        DC8 0, 0
+        DC8 "ENIP_BUFFER_FREE"
+        DC8 0, 0, 0
+        DC8 "Illegal ENIP_BUFFER_FREE1!"
+        DC8 0
+        DC8 "ENIP_BUFFER_FREE1"
+        DC8 0, 0
+        DC8 "Disconnected, %d bytes not sended!"
+        DC8 0
+        DC8 "Recv msg: %d/%d"
+        DC8 "Illegal message ENIP_SOCK_CONNECTED!"
+        DC8 0, 0, 0
+        DC8 "QUIT\015\012"
+        DC8 0
+ipc_viewer_name:
+        DC8 "MailViewer"
+        DC8 0
+ipc_my_name:
+        DC8 "MailDaemon"
+        DC8 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "MailDaemon">`:
+        DATA
+        DC8 "MailDaemon"
+        DC8 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "send res %d">`:
+        DATA
+        DC8 "send res %d"
+        DC8 "Send delayed..."
+        DC8 "send error!"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "USER %s\\r\\n">`:
+        DATA
+        DC8 "USER %s\015\012"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "PASS %s\\r\\n">`:
+        DATA
+        DC8 "PASS %s\015\012"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "RETR %u\\r\\n">`:
+        DATA
+        DC8 "RETR %u\015\012"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "TOP %u 0\\r\\n">`:
+        DATA
+        DC8 "TOP %u 0\015\012"
+        DC8 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "DELE %u\\r\\n">`:
+        DATA
+        DC8 "DELE %u\015\012"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+        DATA
+        DC8 "+OK"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+mailer_db_name:
+        DATA
+        DC8 "mails.db"
+        DC8 0, 0, 0
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??strcmp_nocase??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE strcmp_nocase
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function strcmp_nocase
+        ARM
+strcmp_nocase:
+??strcmp_nocase_0:
+        LDRB     R2,[R0, #+0]
+        CMP      R2,#+97
+        BLT      ??strcmp_nocase_1
+        CMP      R2,#+123
+        SUBLT    R2,R2,#+32
+??strcmp_nocase_1:
+        LDRB     R12,[R1, #+0]
+        ADD      R0,R0,#+1
+        MOV      R3,R2
+        CMP      R12,#+97
+        BLT      ??strcmp_nocase_2
+        CMP      R12,#+123
+        SUBLT    R12,R12,#+32
+??strcmp_nocase_2:
+        ADD      R1,R1,#+1
+        SUBS     R2,R2,R12
+        BNE      ??strcmp_nocase_3
+        CMP      R3,#+0
+        BNE      ??strcmp_nocase_0
+??strcmp_nocase_3:
+        MOV      R0,R2
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ElfKiller??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE ElfKiller
+
+        RSEG DATA_C:CONST:SORT:NOROOT(0)
+percent_t:
+        DATA
+        DC8 "%t"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(0)
+empty_str:
+        DATA
+        DC8 ""
+
+        RSEG DATA_C:CONST:SORT:NOROOT(0)
+eol:
+        DATA
+        DC8 "\015\012"
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ElfKiller
+        ARM
+ElfKiller:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SWI      +32789
+        MOV      R1,R0
+        LDR      R0,??ElfKiller_0  ;; SFB(ELFBEGIN)
+        POP      {LR}             ;; Pop
+        CFI ?RET R14
+        CFI CFA R13+0
+        _BF      kill_data,??kill_data??rA  ;; tailcall
+        DATA
+??ElfKiller_0:
+        DC32     SFB(ELFBEGIN)
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??FreeMailDB??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE FreeMailDB
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function FreeMailDB
+        ARM
+FreeMailDB:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        LDR      R4,??DataTable24  ;; MAINCSM
+        LDR      R5,[R4, #+396]
+        CMP      R5,#+0
+        BEQ      ??FreeMailDB_0
+??FreeMailDB_1:
+        LDR      R0,[R5, #+4]
+        CMP      R0,#+0
+        BEQ      ??FreeMailDB_2
+        SWI      +21
+??FreeMailDB_2:
+        MOV      R0,R5
+        LDR      R5,[R5, #+0]
+        SWI      +21
+        CMP      R5,#+0
+        BNE      ??FreeMailDB_1
+??FreeMailDB_0:
+        MOV      R0,#+0
+        STR      R0,[R4, #+396]
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??InitMailDB??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE InitMailDB
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function InitMailDB
+        ARM
+InitMailDB:
+        LDR      R1,??DataTable20  ;; EML_PATH
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        LDR      R4,??DataTable11  ;; MAINCSM + 396
+        SUB      SP,SP,#+400
+        CFI CFA R13+424
+        ADD      R0,SP,#+4
+        SWI      +26
+        LDR      R1,??DataTable7  ;; mailer_db_name
+        ADD      R0,SP,#+4
+        SWI      +23
+        BL       FreeMailDB
+        MOV      R3,SP
+        MOV      R2,#+128
+        MOV      R1,#+32768
+        ADD      R0,SP,#+4
+        SWI      +10
+        MOV      R6,R0
+        MVN      R5,#+0
+        CMP      R6,R5
+        MOV      R7,#+0
+        BNE      ??InitMailDB_0
+        ADD      SP,SP,#+400
+        CFI CFA R13+24
+        POP      {R4-R8,PC}
+        CFI CFA R13+424
+??InitMailDB_1:
+        MOV      R8,#+0
+??InitMailDB_2:
+        STR      R8,[R4, #+4]
+        STR      R5,[R4, #+20]
+??InitMailDB_0:
+        MOV      R3,SP
+        MOV      R2,#+140
+        ADD      R1,SP,#+260
+        MOV      R0,R6
+        SWI      +11
+        CMP      R0,#+140
+        BNE      ??InitMailDB_3
+        LDR      R0,[SP, #+260]
+        LDR      R1,??DataTable8  ;; 0x1024244
+        CMP      R0,R1
+        BNE      ??InitMailDB_3
+        MOV      R0,#+24
+        SWI      +20
+        STR      R0,[R4, #+0]
+        MOV      R4,R0
+        STR      R7,[R4, #+0]
+        LDRB     R0,[SP, #+266]
+        STR      R0,[R4, #+8]
+        LDRB     R0,[SP, #+267]
+        STR      R0,[R4, #+12]
+        LDR      R0,[SP, #+268]
+        STR      R0,[R4, #+16]
+        ADD      R0,SP,#+264
+        LDRH     R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??InitMailDB_1
+        ADD      R0,R0,#+1
+        SWI      +20
+        MOV      R8,R0
+        ADD      R0,SP,#+264
+        LDRH     R0,[R0, #+0]
+        MOV      R3,SP
+        ADD      R2,SP,#+264
+        STRB     R7,[R0, +R8]
+        LDRH     R2,[R2, #+0]
+        MOV      R1,R8
+        MOV      R0,R6
+        SWI      +11
+        B        ??InitMailDB_2
+??InitMailDB_3:
+        MOV      R1,SP
+        MOV      R0,R6
+        SWI      +13
+        ADD      SP,SP,#+400
+        CFI CFA R13+24
+        POP      {R4-R8,PC}       ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??write_mail_DB??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE write_mail_DB
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function write_mail_DB
+        ARM
+write_mail_DB:
+        LDR      R1,??DataTable20  ;; EML_PATH
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        LDR      R4,??DataTable11  ;; MAINCSM + 396
+        SUB      SP,SP,#+272
+        CFI CFA R13+288
+        ADD      R0,SP,#+144
+        SWI      +26
+        LDR      R1,??DataTable7  ;; mailer_db_name
+        ADD      R0,SP,#+144
+        SWI      +23
+        MOV      R3,SP
+        MOV      R2,#+256
+        MOV      R1,#+1
+        ORR      R1,R1,#0x8300
+        ADD      R0,SP,#+144
+        SWI      +10
+        MOV      R6,R0
+        CMN      R6,#+1
+        MOV      R5,#+0
+        BNE      ??write_mail_DB_0
+        ADD      SP,SP,#+272
+        CFI CFA R13+16
+        POP      {R4-R6,PC}
+        CFI CFA R13+288
+??write_mail_DB_1:
+        STRH     R0,[SP, #+8]
+        LDR      R1,[R4, #+8]
+        MOV      R3,SP
+        STRB     R1,[SP, #+10]
+        LDR      R1,[R4, #+12]
+        MOV      R2,#+140
+        STRB     R1,[SP, #+11]
+        LDR      R1,[R4, #+16]
+        MOV      R0,R6
+        STR      R1,[SP, #+12]
+        STRB     R5,[SP, #+16]
+        ADD      R1,SP,#+4
+        SWI      +12
+        LDRH     R2,[SP, #+8]
+        CMP      R2,#+0
+        BEQ      ??write_mail_DB_0
+        LDR      R1,[R4, #+4]
+        MOV      R3,SP
+        MOV      R0,R6
+        SWI      +12
+??write_mail_DB_0:
+        LDR      R4,[R4, #+0]
+        CMP      R4,#+0
+        BEQ      ??write_mail_DB_2
+        LDR      R1,??DataTable8  ;; 0x1024244
+        STR      R1,[SP, #+4]
+        LDR      R0,[R4, #+4]
+        CMP      R0,#+0
+        BEQ      ??write_mail_DB_1
+        SWI      +27
+        B        ??write_mail_DB_1
+??write_mail_DB_2:
+        MOV      R1,SP
+        MOV      R0,R6
+        SWI      +13
+        ADD      SP,SP,#+272
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable7:
+        DC32     mailer_db_name
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable8:
+        DC32     0x1024244
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??add_uidl_if_exist??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE add_uidl_if_exist
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function add_uidl_if_exist
+        ARM
+add_uidl_if_exist:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        MOV      R4,R0
+        MOV      R2,#+10
+        LDR      R8,??DataTable11  ;; MAINCSM + 396
+        MOV      R1,#+0
+        _BLF     strtoul,??strtoul??rA
+        MOV      R6,R0
+        MOV      R1,#+32
+        MOV      R0,R4
+        SWI      +24
+        ADD      R7,R0,#+1
+        MOV      R4,#+0
+        MOV      R1,#+13
+        MOV      R0,R7
+        SWI      +279
+        STRB     R4,[R0, #+0]
+??add_uidl_if_exist_0:
+        LDR      R0,[R8, #+0]
+        CMP      R0,#+0
+        BEQ      ??add_uidl_if_exist_1
+        MOV      R8,R0
+        LDR      R1,[R8, #+4]
+        CMP      R1,#+0
+        BEQ      ??add_uidl_if_exist_0
+        MOV      R0,R7
+        SWI      +25
+        CMP      R0,#+0
+        BNE      ??add_uidl_if_exist_0
+        STR      R6,[R8, #+20]
+        POP      {R4-R8,PC}
+??add_uidl_if_exist_1:
+        MOV      R0,#+24
+        SWI      +20
+        MOV      R5,R0
+        STR      R5,[R8, #+0]
+        STR      R6,[R5, #+20]
+        STR      R4,[R5, #+0]
+        MOV      R0,R7
+        SWI      +27
+        ADD      R0,R0,#+1
+        SWI      +20
+        STR      R0,[R5, #+4]
+        MOV      R1,R7
+        SWI      +26
+        LDR      R0,??add_uidl_if_exist_2  ;; DEFAULT_ACTION
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+1
+        BNE      ??add_uidl_if_exist_3
+        LDR      R1,??DataTable12  ;; LOAD_IF_LESS
+        LDR      R1,[R1, #+0]
+        CMP      R1,#+0
+        MVNNE    R0,R4
+??add_uidl_if_exist_3:
+        STR      R0,[R5, #+8]
+        STR      R4,[R5, #+12]
+        STR      R4,[R5, #+16]
+        POP      {R4-R8,PC}       ;; return
+        DATA
+??add_uidl_if_exist_2:
+        DC32     DEFAULT_ACTION
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??set_mes_size??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock12
+        REQUIRE set_mes_size
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function set_mes_size
+        ARM
+set_mes_size:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R2,#+10
+        MOV      R4,R0
+        MOV      R1,#+0
+        _BLF     strtoul,??strtoul??rA
+        MOV      R5,R0
+        MOV      R1,#+32
+        MOV      R0,R4
+        SWI      +24
+        MOV      R2,#+10
+        MOV      R1,#+0
+        ADD      R0,R0,#+1
+        _BLF     strtoul,??strtoul??rA
+        LDR      R1,??DataTable11  ;; MAINCSM + 396
+??set_mes_size_0:
+        LDR      R1,[R1, #+0]
+        CMP      R1,#+0
+        POPEQ    {R4,R5,PC}
+        LDR      R2,[R1, #+20]
+        CMP      R2,R5
+        BNE      ??set_mes_size_0
+        STR      R0,[R1, #+16]
+        LDR      R2,[R1, #+8]
+        CMN      R2,#+1
+        POPNE    {R4,R5,PC}
+        LDR      R2,??DataTable12  ;; LOAD_IF_LESS
+        LDR      R2,[R2, #+0]
+        CMP      R2,R0
+        MOVCC    R0,#+0
+        MOVCS    R0,#+1
+        STR      R0,[R1, #+8]
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock13
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable11:
+        DC32     MAINCSM + 396
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable12:
+        DC32     LOAD_IF_LESS
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??remove_cur_from_list??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock14
+        REQUIRE remove_cur_from_list
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function remove_cur_from_list
+        ARM
+remove_cur_from_list:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        LDR      R4,??DataTable24  ;; MAINCSM
+        SUB      SP,SP,#+132
+        CFI CFA R13+148
+        ADD      R5,R4,#+396
+        ADD      R6,R4,#+396
+        B        ??remove_cur_from_list_0
+??remove_cur_from_list_1:
+        MOV      R6,R5
+??remove_cur_from_list_0:
+        LDR      R5,[R5, #+0]
+        CMP      R5,#+0
+        BEQ      ??remove_cur_from_list_2
+        LDR      R0,[R4, #+400]
+        LDR      R1,[R0, #+4]
+        LDR      R0,[R5, #+4]
+        SWI      +25
+        CMP      R0,#+0
+        BNE      ??remove_cur_from_list_1
+        LDR      R0,[R4, #+400]
+        LDR      R2,??DataTable20  ;; EML_PATH
+        LDR      R3,[R0, #+4]
+        LDR      R1,??remove_cur_from_list_3  ;; `?<Constant "Mailbox is empty">` + 100
+        ADD      R0,SP,#+4
+        SWI      +22
+        MOV      R1,SP
+        ADD      R0,SP,#+4
+        SWI      +363
+        LDR      R0,[R4, #+400]
+        LDR      R0,[R0, #+0]
+        STR      R0,[R6, #+0]
+        LDR      R0,[R4, #+400]
+        LDR      R0,[R0, #+4]
+        SWI      +21
+        LDR      R0,[R4, #+400]
+        SWI      +21
+        STR      R6,[R4, #+400]
+??remove_cur_from_list_2:
+        ADD      SP,SP,#+132      ;; stack cleaning
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??remove_cur_from_list_3:
+        DC32     `?<Constant "Mailbox is empty">` + 100
+        CFI EndBlock cfiBlock15
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??do_losted_mes??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock16
+        REQUIRE do_losted_mes
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function do_losted_mes
+        ARM
+do_losted_mes:
+        LDR      R0,??do_losted_mes_0  ;; IF_DEL_AUX
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??do_losted_mes_1
+        LDR      R0,??do_losted_mes_0+0x4  ;; MAINCSM + 400
+        LDR      R0,[R0, #+0]
+        LDR      R0,[R0, #+8]
+        CMP      R0,#+4
+        POPNE    {PC}
+??do_losted_mes_1:
+        BL       remove_cur_from_list
+        POP      {PC}             ;; return
+        DATA
+??do_losted_mes_0:
+        DC32     IF_DEL_AUX
+        DC32     MAINCSM + 400
+        CFI EndBlock cfiBlock17
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ClearSendQ??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock18
+        REQUIRE ClearSendQ
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function ClearSendQ
+        ARM
+ClearSendQ:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        LDR      R4,??DataTable24  ;; MAINCSM
+        LDR      R0,[R4, #+380]
+        SWI      +21
+        MOV      R0,#+0
+        STR      R0,[R4, #+380]
+        STR      R0,[R4, #+376]
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock19
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??send_str??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock20
+        REQUIRE send_str
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI Function send_str
+        ARM
+send_str:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        LDR      R4,??DataTable24  ;; MAINCSM
+        MOVS     R6,R0
+        BEQ      ??send_str_0
+        SWI      +27
+        MOV      R5,R0
+        LDR      R0,[R4, #+380]
+        CMP      R0,#+0
+        BEQ      ??send_str_1
+        LDR      R1,[R4, #+376]
+        ADD      R1,R5,R1
+        SWI      +186
+        STR      R0,[R4, #+380]
+        LDR      R0,[R4, #+376]
+        LDR      R3,[R4, #+380]
+        MOV      R2,R5
+        MOV      R1,R6
+        ADD      R0,R0,R3
+        SWI      +286
+        LDR      R0,[R4, #+376]
+        ADD      R0,R5,R0
+        STR      R0,[R4, #+376]
+        POP      {R4-R7,PC}
+??send_str_1:
+        MOV      R0,R5
+        SWI      +20
+        STR      R0,[R4, #+380]
+        MOV      R2,R5
+        MOV      R1,R6
+        SWI      +286
+        STR      R5,[R4, #+376]
+        B        ??send_str_0
+??send_str_2:
+        LDR      R0,[R4, #+376]
+        SUB      R2,R0,R5
+        STR      R2,[R4, #+376]
+        LDR      R0,[R4, #+380]
+        ADD      R1,R5,R0
+        SWI      +286
+        CMP      R5,R6
+        POPLT    {R4-R7,PC}
+??send_str_0:
+        LDR      R6,[R4, #+376]
+        LDR      R1,[R4, #+380]
+        CMP      R6,#+0
+        BEQ      ??send_str_3
+        LDR      R7,??send_str_4  ;; `?<Constant "send res %d">`
+        MOV      R0,#+1
+        ORR      R0,R0,#0x400
+        CMP      R6,R0
+        LDR      R0,[R4, #+404]
+        MOVGE    R6,#+1024
+        MOV      R3,#+0
+        MOV      R2,R6
+        SWI      +377
+        MOV      R5,R0
+        LDR      R0,[R4, #+96]
+        MOV      R3,R5
+        ADD      R0,R5,R0
+        STR      R0,[R4, #+96]
+        MOV      R2,R7
+        MOV      R1,#+255
+        ADD      R0,R4,#+100
+        SWI      +283
+        SWI      +370
+        CMP      R5,#+0
+        BPL      ??send_str_2
+        SWI      +33148
+        LDR      R5,[R0, #+0]
+        CMP      R5,#+201
+        CMPNE    R5,#+214
+        BNE      ??send_str_5
+        ADD      R1,R7,#+12
+        ADD      R0,R4,#+100
+        SWI      +26
+        POP      {R4-R7,PC}
+??send_str_5:
+        SWI      +326
+        ADD      R1,R7,#+28
+        MOV      R0,#+1
+        SWI      +328
+        SWI      +327
+        BL       end_socket
+        POP      {R4-R7,PC}
+??send_str_3:
+        MOV      R0,R1
+        SWI      +21
+        MOV      R0,#+0
+        STR      R0,[R4, #+380]
+        POP      {R4-R7,PC}       ;; return
+        DATA
+??send_str_4:
+        DC32     `?<Constant "send res %d">`
+        CFI EndBlock cfiBlock21
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??send_login??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock22
+        REQUIRE send_login
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI Function send_login
+        ARM
+send_login:
+        LDR      R2,??send_login_0  ;; MAIL_LOGIN
+        LDR      R1,??send_login_0+0x4  ;; `?<Constant "USER %s\\r\\n">`
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SUB      SP,SP,#+128
+        CFI CFA R13+132
+        MOV      R0,SP
+        SWI      +22
+        MOV      R0,SP
+        BL       send_str
+        ADD      SP,SP,#+128
+        CFI CFA R13+4
+        POP      {PC}             ;; return
+        DATA
+??send_login_0:
+        DC32     MAIL_LOGIN
+        DC32     `?<Constant "USER %s\\r\\n">`
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??send_pass??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock24
+        REQUIRE send_pass
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock25 Using cfiCommon1
+        CFI Function send_pass
+        ARM
+send_pass:
+        LDR      R2,??send_pass_0  ;; MAIL_PASS
+        LDR      R1,??send_pass_0+0x4  ;; `?<Constant "PASS %s\\r\\n">`
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SUB      SP,SP,#+128
+        CFI CFA R13+132
+        MOV      R0,SP
+        SWI      +22
+        MOV      R0,SP
+        BL       send_str
+        ADD      SP,SP,#+128
+        CFI CFA R13+4
+        POP      {PC}             ;; return
+        DATA
+??send_pass_0:
+        DC32     MAIL_PASS
+        DC32     `?<Constant "PASS %s\\r\\n">`
+        CFI EndBlock cfiBlock25
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock26 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??send_get_stat??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock26
+        REQUIRE send_get_stat
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock27 Using cfiCommon1
+        CFI Function send_get_stat
+        ARM
+send_get_stat:
+        LDR      R0,??send_get_stat_0  ;; `?<Constant "Mailbox is empty">` + 112
+        B        send_str         ;; tailcall
+        DATA
+??send_get_stat_0:
+        DC32     `?<Constant "Mailbox is empty">` + 112
+        CFI EndBlock cfiBlock27
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock28 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??send_get_uidl_list??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock28
+        REQUIRE send_get_uidl_list
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock29 Using cfiCommon1
+        CFI Function send_get_uidl_list
+        ARM
+send_get_uidl_list:
+        LDR      R0,??send_get_uidl_list_0  ;; `?<Constant "Mailbox is empty">` + 92
+        B        send_str         ;; tailcall
+        DATA
+??send_get_uidl_list_0:
+        DC32     `?<Constant "Mailbox is empty">` + 92
+        CFI EndBlock cfiBlock29
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock30 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??get_list??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock30
+        REQUIRE get_list
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock31 Using cfiCommon1
+        CFI Function get_list
+        ARM
+get_list:
+        LDR      R0,??get_list_0  ;; `?<Constant "Mailbox is empty">` + 120
+        B        send_str         ;; tailcall
+        DATA
+??get_list_0:
+        DC32     `?<Constant "Mailbox is empty">` + 120
+        CFI EndBlock cfiBlock31
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock32 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??send_get_mes??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock32
+        REQUIRE send_get_mes
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock33 Using cfiCommon1
+        CFI Function send_get_mes
+        ARM
+send_get_mes:
+        LDR      R1,??send_get_mes_0  ;; `?<Constant "RETR %u\\r\\n">`
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SUB      SP,SP,#+64
+        CFI CFA R13+68
+        MOV      R2,R0
+        MOV      R0,SP
+        SWI      +22
+        MOV      R0,SP
+        BL       send_str
+        ADD      SP,SP,#+64
+        CFI CFA R13+4
+        POP      {PC}             ;; return
+        DATA
+??send_get_mes_0:
+        DC32     `?<Constant "RETR %u\\r\\n">`
+        CFI EndBlock cfiBlock33
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock34 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??send_get_headers??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock34
+        REQUIRE send_get_headers
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock35 Using cfiCommon1
+        CFI Function send_get_headers
+        ARM
+send_get_headers:
+        LDR      R1,??send_get_headers_0  ;; `?<Constant "TOP %u 0\\r\\n">`
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SUB      SP,SP,#+64
+        CFI CFA R13+68
+        MOV      R2,R0
+        MOV      R0,SP
+        SWI      +22
+        MOV      R0,SP
+        BL       send_str
+        ADD      SP,SP,#+64
+        CFI CFA R13+4
+        POP      {PC}             ;; return
+        DATA
+??send_get_headers_0:
+        DC32     `?<Constant "TOP %u 0\\r\\n">`
+        CFI EndBlock cfiBlock35
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock36 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??send_del_mes??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock36
+        REQUIRE send_del_mes
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock37 Using cfiCommon1
+        CFI Function send_del_mes
+        ARM
+send_del_mes:
+        LDR      R1,??send_del_mes_0  ;; `?<Constant "DELE %u\\r\\n">`
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SUB      SP,SP,#+64
+        CFI CFA R13+68
+        MOV      R2,R0
+        MOV      R0,SP
+        SWI      +22
+        MOV      R0,SP
+        BL       send_str
+        ADD      SP,SP,#+64
+        CFI CFA R13+4
+        POP      {PC}             ;; return
+        DATA
+??send_del_mes_0:
+        DC32     `?<Constant "DELE %u\\r\\n">`
+        CFI EndBlock cfiBlock37
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock38 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??send_quit??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock38
+        REQUIRE send_quit
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock39 Using cfiCommon1
+        CFI Function send_quit
+        ARM
+send_quit:
+        LDR      R0,??send_quit_0  ;; `?<Constant "MailDaemon already st...">` + 312
+        B        send_str         ;; tailcall
+        DATA
+??send_quit_0:
+        DC32     `?<Constant "MailDaemon already st...">` + 312
+        CFI EndBlock cfiBlock39
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock40 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??resp_ok??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock40
+        REQUIRE resp_ok
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock41 Using cfiCommon1
+        CFI Function resp_ok
+        ARM
+resp_ok:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R2,#+3
+        ADR      R1,??resp_ok_0   ;; "+OK"
+        SWI      +277
+        CMP      R0,#+0
+        MVNNE    R0,#+0
+        POP      {PC}             ;; return
+        DATA
+??resp_ok_0:
+        DC8      "+OK"
+        CFI EndBlock cfiBlock41
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock42 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??end_connect??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock42
+        REQUIRE end_connect
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock43 Using cfiCommon1
+        CFI Function end_connect
+        ARM
+end_connect:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        LDR      R5,??DataTable24  ;; MAINCSM
+        LDR      R6,??DataTable40  ;; `?<Constant "MailDaemon already st...">`
+        SUB      SP,SP,#+4
+        CFI CFA R13+24
+        MOV      R1,R0
+        ADD      R0,R5,#+100
+        SWI      +26
+        SWI      +370
+        ADD      R0,R6,#+312
+        BL       send_str
+        BL       end_socket
+        LDR      R0,[R5, #+372]
+        MOV      R4,#+0
+        CMP      R0,#+0
+        BEQ      ??end_connect_0
+        SWI      +21
+        STR      R4,[R5, #+372]
+??end_connect_0:
+        LDR      R0,[R5, #+408]
+        MVN      R7,R4
+        CMP      R0,R7
+        BEQ      ??end_connect_1
+        MOV      R1,SP
+        SWI      +13
+??end_connect_1:
+        LDR      R0,[R5, #+368]
+        CMP      R0,R7
+        POPEQ    {R0,R4-R7,PC}
+        MOV      R0,#+12
+        SWI      +20
+        MOV      R3,R0
+        ADD      R0,R6,#+320
+        STR      R0,[R3, #+0]
+        ADD      R0,R6,#+332
+        STR      R0,[R3, #+4]
+        STR      R4,[R3, #+8]
+        MOV      R2,#+5
+        MOV      R1,#+176
+        ORR      R1,R1,#0xDE00
+        MOV      R0,#+9
+        ORR      R0,R0,#0x4200
+        SWI      +256
+        POP      {R0,R4-R7,PC}    ;; return
+        CFI EndBlock cfiBlock43
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock44 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??process_line??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock44
+        REQUIRE process_line
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock45 Using cfiCommon1
+        CFI Function process_line
+        ARM
+process_line:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        LDR      R4,??DataTable24  ;; MAINCSM
+        LDR      R5,??process_line_1+0x4  ;; `?<Constant "Mailbox is empty">`
+        SUB      SP,SP,#+132
+        CFI CFA R13+168
+        LDR      R1,[R4, #+76]
+        MOV      R9,R0
+        LDR      R0,[R4, #+388]
+        MOV      R7,#+1
+        MOV      R10,#+6
+        ADR      R11,??process_line_1  ;; ".\r\n"
+        MOV      R8,#+0
+        CMP      R1,#+9
+        BHI      ??process_line_2
+        ADR      R2,??process_line_0
+        LDRB     R2,[R2, R1]
+        ADD      PC,PC,R2, LSL #+2
+        DATA
+??process_line_0:
+        DC8      +2,+10,+18,+27
+        DC8      +48,+70,+92,+92
+        DC8      +92,+92,+0,+0
+        ARM
+??process_line_3:
+        MOV      R0,R9
+        BL       resp_ok
+        CMP      R0,#+0
+        MOVNE    R0,R9
+        BNE      ??process_line_4
+        BL       send_login
+        STR      R7,[R4, #+76]
+        B        ??process_line_5
+??process_line_6:
+        MOV      R0,R9
+        BL       resp_ok
+        CMP      R0,#+0
+        MOVNE    R0,R9
+        BNE      ??process_line_4
+        BL       send_pass
+        MOV      R0,#+2
+        B        ??process_line_7
+??process_line_8:
+        MOV      R0,R9
+        BL       resp_ok
+        CMP      R0,#+0
+        MOVNE    R0,R9
+        BNE      ??process_line_4
+        ADD      R0,R5,#+112
+        BL       send_str
+        MOV      R0,#+3
+        B        ??process_line_7
+??process_line_9:
+        MOV      R0,R9
+        BL       resp_ok
+        CMP      R0,#+0
+        MOVNE    R0,R9
+        BNE      ??process_line_4
+        MOV      R1,#+32
+        MOV      R0,R9
+        SWI      +24
+        MOV      R2,#+10
+        MOV      R1,#+0
+        ADD      R0,R0,#+1
+        _BLF     strtoul,??strtoul??rA
+        STR      R0,[R4, #+80]
+        CMP      R0,#+0
+        STREQ    R8,[R4, #+76]
+        MOVEQ    R0,R5
+        BEQ      ??process_line_4
+        ADD      R0,R5,#+92
+        BL       send_str
+        MOV      R0,#+4
+        B        ??process_line_7
+??process_line_10:
+        CMP      R0,#+0
+        BNE      ??process_line_11
+        MOV      R0,R9
+        BL       resp_ok
+        CMP      R0,#+0
+        MOVNE    R0,R9
+        BNE      ??process_line_4
+??process_line_12:
+        STR      R7,[R4, #+388]
+        B        ??process_line_13
+??process_line_11:
+        MOV      R1,R11
+        MOV      R0,R9
+        SWI      +25
+        CMP      R0,#+0
+        BEQ      ??process_line_14
+        MOV      R0,R9
+        BL       add_uidl_if_exist
+        B        ??process_line_13
+??process_line_14:
+        STR      R8,[R4, #+388]
+        ADD      R0,R5,#+120
+        BL       send_str
+        MOV      R0,#+5
+        B        ??process_line_7
+??process_line_15:
+        CMP      R0,#+0
+        BNE      ??process_line_16
+        MOV      R0,R9
+        BL       resp_ok
+        CMP      R0,#+0
+        BEQ      ??process_line_12
+        MOV      R0,R9
+        B        ??process_line_4
+??process_line_16:
+        MOV      R1,R11
+        MOV      R0,R9
+        SWI      +25
+        CMP      R0,#+0
+        BEQ      ??process_line_17
+        MOV      R0,R9
+        BL       set_mes_size
+        B        ??process_line_13
+??process_line_17:
+        STR      R8,[R4, #+388]
+        ADD      R0,R4,#+396
+        STR      R0,[R4, #+400]
+        BL       write_mail_DB
+        STR      R10,[R4, #+76]
+        SWI      +370
+??process_line_18:
+        LDR      R0,[R4, #+76]
+        RSB      R6,R7,#+0
+        CMP      R0,#+7
+        CMPNE    R0,#+8
+        BNE      ??process_line_19
+        LDR      R0,[R4, #+388]
+        CMP      R0,#+0
+        BNE      ??process_line_20
+        MOV      R0,R9
+        BL       resp_ok
+        CMP      R0,#+0
+        MOVNE    R0,R9
+        BNE      ??process_line_4
+        LDR      R0,[R4, #+400]
+        LDR      R2,??DataTable20  ;; EML_PATH
+        LDR      R3,[R0, #+4]
+        ADD      R1,R5,#+100
+        ADD      R0,SP,#+4
+        SWI      +22
+        MOV      R3,SP
+        MOV      R2,#+256
+        ORR      R1,R7,#0x8300
+        ADD      R0,SP,#+4
+        SWI      +10
+        STR      R0,[R4, #+408]
+        CMP      R0,R6
+        BNE      ??process_line_12
+        LDR      R0,[R4, #+76]
+        CMP      R0,#+7
+        ADDNE    R0,R5,#+44
+        ADDEQ    R0,R5,#+20
+        B        ??process_line_4
+??process_line_20:
+        MOV      R1,R11
+        MOV      R0,R9
+        SWI      +25
+        CMP      R0,#+0
+        BEQ      ??process_line_21
+        MOV      R0,R9
+        SWI      +27
+        MOV      R2,R0
+        LDR      R0,[R4, #+408]
+        MOV      R3,SP
+        MOV      R1,R9
+        SWI      +12
+        B        ??process_line_13
+??process_line_21:
+        LDR      R0,[R4, #+76]
+        LDR      R1,[R4, #+400]
+        CMP      R0,#+7
+        MOVEQ    R0,#+2
+        MOVNE    R0,#+3
+        STR      R0,[R1, #+8]
+        LDR      R0,[R4, #+408]
+        MOV      R1,SP
+        SWI      +13
+        STR      R6,[R4, #+408]
+        STR      R8,[R4, #+388]
+        BL       write_mail_DB
+        LDR      R0,[R4, #+84]
+        ADD      R0,R0,#+1
+        STR      R0,[R4, #+84]
+        LDR      R0,[R4, #+76]
+        CMP      R0,#+8
+        BNE      ??process_line_22
+        LDR      R0,??process_line_1+0x8  ;; DEL_AFTER_LOAD
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??process_line_22
+        LDR      R0,[R4, #+400]
+        LDR      R0,[R0, #+20]
+        BL       send_del_mes
+        B        ??process_line_23
+??process_line_22:
+        STR      R10,[R4, #+76]
+        SWI      +370
+        B        ??process_line_24
+??process_line_19:
+        CMP      R0,#+9
+        BNE      ??process_line_24
+        MOV      R0,R9
+        BL       resp_ok
+        CMP      R0,#+0
+        ADDNE    R0,R5,#+68
+        BNE      ??process_line_4
+        LDR      R0,[R4, #+88]
+        ADD      R0,R0,#+1
+        STR      R0,[R4, #+88]
+        B        ??process_line_22
+??process_line_25:
+        BL       do_losted_mes
+??process_line_24:
+        LDR      R0,[R4, #+400]
+        LDR      R0,[R0, #+0]
+        STR      R0,[R4, #+400]
+        MOV      R1,R0
+        CMP      R1,#+0
+        BEQ      ??process_line_26
+        LDR      R0,[R1, #+20]
+        CMP      R0,R6
+        BEQ      ??process_line_25
+        LDR      R1,[R1, #+8]
+        CMP      R1,#+0
+        BEQ      ??process_line_27
+        SUBS     R1,R1,#+1
+        BEQ      ??process_line_28
+        SUBS     R1,R1,#+3
+        BEQ      ??process_line_29
+        B        ??process_line_24
+??process_line_27:
+        BL       send_get_headers
+        MOV      R0,#+7
+        B        ??process_line_7
+??process_line_28:
+        BL       send_get_mes
+        MOV      R0,#+8
+        B        ??process_line_7
+??process_line_29:
+        BL       send_del_mes
+        BL       remove_cur_from_list
+??process_line_23:
+        MOV      R0,#+9
+??process_line_7:
+        STR      R0,[R4, #+76]
+??process_line_5:
+        SWI      +370
+??process_line_13:
+        ADD      SP,SP,#+132
+        CFI CFA R13+36
+        POP      {R4-R11,PC}
+        CFI CFA R13+168
+??process_line_26:
+        STR      R8,[R4, #+76]
+        BL       write_mail_DB
+        ADD      R0,R5,#+84
+??process_line_4:
+        BL       end_connect
+??process_line_2:
+        ADD      SP,SP,#+132      ;; stack cleaning
+        CFI CFA R13+36
+        POP      {R4-R11,PC}      ;; return
+        DATA
+??process_line_1:
+        DC8      ".\r\n"
+        DC32     `?<Constant "Mailbox is empty">`
+        DC32     DEL_AFTER_LOAD
+        CFI EndBlock cfiBlock45
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable20:
+        DC32     EML_PATH
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock46 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??get_answer??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock46
+        REQUIRE get_answer
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock47 Using cfiCommon1
+        CFI Function get_answer
+        ARM
+get_answer:
+        PUSH     {R4-R8,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R8 Frame(CFA, -8)
+        CFI R7 Frame(CFA, -12)
+        CFI R6 Frame(CFA, -16)
+        CFI R5 Frame(CFA, -20)
+        CFI R4 Frame(CFA, -24)
+        CFI CFA R13+24
+        LDR      R5,??DataTable24  ;; MAINCSM
+        SUB      SP,SP,#+1024
+        CFI CFA R13+1048
+        LDR      R0,[R5, #+404]
+        MOV      R4,SP
+        MOV      R3,#+0
+        MOV      R2,#+255
+        ORR      R2,R2,#0x300
+        MOV      R1,SP
+        SWI      +376
+        MOV      R6,R0
+        CMP      R6,#+1
+        BLT      ??get_answer_0
+        LDR      R0,[R5, #+92]
+        MOV      R7,#+0
+        ADD      R0,R6,R0
+        STR      R0,[R5, #+92]
+        SWI      +370
+        LDR      R0,[R5, #+372]
+        CMP      R0,#+0
+        BEQ      ??get_answer_1
+        SWI      +27
+        ADD      R0,R6,R0
+        ADD      R1,R0,#+1
+        LDR      R0,[R5, #+372]
+        SWI      +186
+        STR      R0,[R5, #+372]
+        MOV      R8,R0
+        SWI      +27
+        ADD      R0,R0,R8
+??get_answer_2:
+        LDRB     R1,[R4], #+1
+        SUB      R6,R6,#+1
+        STRB     R1,[R0], #+1
+        CMP      R1,#+10
+        BNE      ??get_answer_3
+        STRB     R7,[R0, #+0]
+        LDR      R0,[R5, #+372]
+        BL       process_line
+        LDR      R0,[R5, #+372]
+        SWI      +21
+??get_answer_1:
+        ADD      R0,R6,#+1
+        SWI      +20
+        STR      R0,[R5, #+372]
+??get_answer_3:
+        CMP      R6,#+0
+        BNE      ??get_answer_2
+        STRB     R7,[R0, #+0]
+??get_answer_0:
+        ADD      SP,SP,#+1024     ;; stack cleaning
+        CFI CFA R13+24
+        POP      {R4-R8,PC}       ;; return
+        CFI EndBlock cfiBlock47
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock48 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??create_connect??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock48
+        REQUIRE create_connect
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock49 Using cfiCommon1
+        CFI Function create_connect
+        ARM
+create_connect:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        LDR      R4,??DataTable24  ;; MAINCSM
+        LDR      R5,??create_connect_0  ;; `?<Constant "Wait for GPRS up!">`
+        SUB      SP,SP,#+84
+        CFI CFA R13+120
+        MOV      R9,#+0
+        STR      R9,[SP, #+0]
+        STR      R9,[R4, #+72]
+        ADD      R0,R4,#+424
+        SWI      +396
+        BL       ClearSendQ
+        SWI      +167
+        CMP      R0,#+0
+        BNE      ??create_connect_1
+        STR      R9,[R4, #+392]
+        MOV      R2,R5
+        MOV      R1,#+255
+        ADD      R0,R4,#+100
+        SWI      +283
+        B        ??create_connect_2
+??create_connect_1:
+        LDR      R11,??create_connect_0+0x4  ;; POP3_ADRESS
+        LDR      R8,??DataTable33  ;; do_reconnect
+        STR      R9,[R4, #+412]
+        MOV      R1,R11
+        ADD      R0,SP,#+20
+        SWI      +26
+        MOV      R1,#+58
+        ADD      R0,SP,#+20
+        SWI      +279
+        CMP      R0,#+0
+        STRBNE   R9,[R0, #+0]
+        ADD      R0,SP,#+20
+        SWI      +439
+        MOV      R10,R0
+        MVN      R6,R9
+        MOV      R7,#+64
+        ORR      R7,R7,#0x6500
+        CMP      R10,R6
+        BEQ      ??create_connect_3
+        ADD      R2,R5,#+20
+        MOV      R1,#+255
+        ADD      R0,R4,#+100
+        SWI      +283
+        SWI      +370
+        STR      R10,[SP, #+8]
+        B        ??create_connect_4
+??create_connect_3:
+        ADD      R2,R5,#+40
+        MOV      R1,#+255
+        ADD      R0,R4,#+100
+        SWI      +283
+        SWI      +370
+        SWI      +33148
+        STR      R9,[R0, #+0]
+        ADD      R2,R4,#+412
+        MOV      R1,SP
+        MOV      R0,R11
+        SWI      +438
+        MOVS     R3,R0
+        BEQ      ??create_connect_5
+        CMP      R3,#+201
+        CMPNE    R3,#+214
+        BNE      ??create_connect_6
+        LDR      R0,[R4, #+412]
+        CMP      R0,#+0
+        BNE      ??create_connect_7
+??create_connect_5:
+        LDR      R0,[SP, #+0]
+        CMP      R0,#+0
+        BEQ      ??create_connect_8
+        LDR      R0,[R0, #+12]
+        CMP      R0,#+0
+        BEQ      ??create_connect_7
+        ADD      R2,R5,#+68
+        MOV      R1,#+255
+        ADD      R0,R4,#+100
+        SWI      +283
+        SWI      +370
+        STR      R9,[R4, #+416]
+        LDR      R1,[SP, #+0]
+        LDR      R1,[R1, #+12]
+        LDR      R1,[R1, #+0]
+        LDR      R1,[R1, #+0]
+        STR      R1,[SP, #+8]
+??create_connect_4:
+        MOV      R1,#+284
+        ADD      R0,R4,#+72
+        SWI      +285
+        MOV      R2,#+0
+        MOV      R1,#+1
+        MOV      R0,R1
+        SWI      +371
+        STR      R0,[R4, #+404]
+        CMP      R0,R6
+        BEQ      ??create_connect_9
+        LDR      R0,??create_connect_0+0x8  ;; POP3_PORT
+        MOV      R9,#+1
+        STRH     R9,[SP, #+4]
+        LDR      R0,[R0, #+0]
+        MOV      R0,R0, LSL #+16
+        MOV      R0,R0, LSR #+16
+        SWI      +378
+        STRH     R0,[SP, #+6]
+        LDR      R0,[R4, #+404]
+        MOV      R2,#+16
+        ADD      R1,SP,#+4
+        SWI      +372
+        CMP      R0,R6
+        BEQ      ??create_connect_10
+        STR      R9,[R4, #+72]
+        SWI      +370
+??create_connect_2:
+        ADD      SP,SP,#+84
+        CFI CFA R13+36
+        POP      {R4-R11,PC}
+        CFI CFA R13+120
+??create_connect_6:
+        ADD      R2,R5,#+52
+        MOV      R1,#+255
+        ADD      R0,R4,#+100
+        SWI      +283
+        SWI      +370
+??create_connect_11:
+        MOV      R2,R8
+        MOV      R1,R7
+        ADD      R0,R4,#+424
+        SWI      +77
+        B        ??create_connect_2
+??create_connect_10:
+        LDR      R0,[R4, #+404]
+        SWI      +374
+        STR      R6,[R4, #+404]
+        SWI      +326
+        ADD      R1,R5,#+92
+        MOV      R0,#+1
+        SWI      +328
+        SWI      +327
+        B        ??create_connect_11
+??create_connect_9:
+        SWI      +326
+        ADD      R1,R5,#+108
+        MOV      R0,#+1
+        SWI      +328
+        SWI      +327
+        MOV      R1,#+1
+        MOV      R0,#+0
+        SWI      +398
+        B        ??create_connect_2
+??create_connect_8:
+        LDR      R0,[R4, #+416]
+        SUB      R0,R0,#+1
+        STR      R0,[R4, #+416]
+        SWI      +326
+        ADD      R1,R5,#+148
+        MOV      R0,#+1
+        SWI      +328
+        SWI      +327
+??create_connect_7:
+        ADD      SP,SP,#+84       ;; stack cleaning
+        CFI CFA R13+36
+        POP      {R4-R11,PC}      ;; return
+        DATA
+??create_connect_0:
+        DC32     `?<Constant "Wait for GPRS up!">`
+        DC32     POP3_ADRESS
+        DC32     POP3_PORT
+        CFI EndBlock cfiBlock49
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock50 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??do_reconnect??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock50
+        REQUIRE do_reconnect
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock51 Using cfiCommon1
+        CFI Function do_reconnect
+        ARM
+do_reconnect:
+        LDR      R0,??DataTable24  ;; MAINCSM
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R1,[R0, #+392]
+        CMP      R1,#+0
+        POPEQ    {PC}
+        MOV      R1,#+3
+        STR      R1,[R0, #+416]
+        LDR      R0,??DataTable34  ;; create_connect
+        SWI      +369
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock51
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable24:
+        DC32     MAINCSM
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock52 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??end_socket??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock52
+        REQUIRE end_socket
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock53 Using cfiCommon1
+        CFI Function end_socket
+        ARM
+end_socket:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        LDR      R4,??DataTable41  ;; MAINCSM
+        LDR      R0,[R4, #+404]
+        CMP      R0,#+0
+        POPMI    {R4,PC}
+        MOV      R1,#+2
+        SWI      +375
+        LDR      R0,[R4, #+404]
+        SWI      +374
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock53
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock54 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??numbercmp??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock54
+        REQUIRE numbercmp
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock55 Using cfiCommon1
+        CFI Function numbercmp
+        ARM
+numbercmp:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R2,R0
+        MOV      R0,R1
+        MOV      R4,R2
+        B        ??numbercmp_0
+??numbercmp_1:
+        ADD      R0,R0,#+1
+        MOV      R2,R4
+??numbercmp_0:
+        LDRB     R1,[R2], #+1
+        LDRB     R3,[R0], #+1
+        CMP      R3,#+44
+        MOVEQ    R3,#+0
+        SUBS     R5,R1,R3
+        BNE      ??numbercmp_2
+        CMP      R1,#+0
+        BNE      ??numbercmp_0
+        MOV      R0,R5
+        POP      {R4,R5,PC}
+??numbercmp_2:
+        MOV      R1,#+44
+        SWI      +24
+        CMP      R0,#+0
+        BNE      ??numbercmp_1
+        MOV      R0,R5
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock55
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock56 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??CheckDoubleRun??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock56
+        REQUIRE CheckDoubleRun
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock57 Using cfiCommon1
+        CFI Function CheckDoubleRun
+        ARM
+CheckDoubleRun:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        LDR      R4,??DataTable40  ;; `?<Constant "MailDaemon already st...">`
+        LDR      R5,??DataTable41  ;; MAINCSM
+        MOV      R0,#+364
+        LDR      R1,[R0, +R5]
+        CMP      R1,#+2
+        BLT      ??CheckDoubleRun_0
+        SWI      +326
+        LDR      R0,[R5, #+384]
+        SWI      +508
+        MOV      R1,R4
+        MOV      R0,#+1
+        SWI      +328
+        SWI      +327
+        POP      {R4,R5,PC}
+??CheckDoubleRun_0:
+        MOV      R1,#+356
+        ADD      R2,R4,#+320
+        STR      R2,[R1, +R5]
+        ADD      R2,R4,#+332
+        STR      R2,[R5, #+360]
+        ADD      R2,R5,#+72
+        STR      R2,[R0, +R5]
+        ADD      R3,R1,R5
+        MOV      R2,#+0
+        MOV      R1,#+176
+        ORR      R1,R1,#0xDE00
+        MOV      R0,#+9
+        ORR      R0,R0,#0x4200
+        SWI      +256
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock57
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock58 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??checkGui??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock58
+        REQUIRE checkGui
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock59 Using cfiCommon1
+        CFI Function checkGui
+        ARM
+checkGui:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,#+0
+        SWI      +309
+        CMP      R0,#+0
+        BEQ      ??checkGui_0
+        SWI      +333
+        CMP      R0,#+0
+        BEQ      ??checkGui_0
+        SWI      +33009
+        LDR      R1,??checkGui_1  ;; canvasdata
+        MOV      R4,#+1
+        STR      R0,[R1, #+0]
+??checkGui_0:
+        MOV      R0,R4
+        POP      {R4,PC}          ;; return
+        DATA
+??checkGui_1:
+        DC32     canvasdata
+        CFI EndBlock cfiBlock59
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock60 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??maincsm_onmessage??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock60
+        REQUIRE maincsm_onmessage
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+canvasdata:
+        DS8 4
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock61 Using cfiCommon1
+        CFI Function maincsm_onmessage
+        ARM
+maincsm_onmessage:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        SUB      SP,SP,#+140
+        CFI CFA R13+176
+        LDR      R4,??DataTable45  ;; MAINCSM
+        LDR      R5,??DataTable40  ;; `?<Constant "MailDaemon already st...">`
+        MOV      R6,R1
+        LDR      R0,[R6, #+4]
+        MOV      R1,#+175
+        ORR      R1,R1,#0xDE00
+        CMP      R0,R1
+        BNE      ??maincsm_onmessage_2
+        LDR      R0,??maincsm_onmessage_3  ;; successed_config_filename
+        LDR      R1,[R6, #+12]
+        LDR      R0,[R0, #+0]
+        BL       strcmp_nocase
+        CMP      R0,#+0
+        BNE      ??maincsm_onmessage_4
+        ADD      R1,R5,#+28
+        MOV      R0,#+1
+        SWI      +328
+        _BLF     InitConfig,??InitConfig??rA
+??maincsm_onmessage_2:
+        LDR      R0,[R6, #+4]
+        MOV      R7,#+176
+        ORR      R7,R7,#0xDE00
+        MOV      R8,#+0
+        CMP      R0,R7
+        BNE      ??maincsm_onmessage_5
+        LDR      R9,[R6, #+12]
+        CMP      R9,#+0
+        BEQ      ??maincsm_onmessage_4
+        LDR      R0,[R9, #+0]
+        MOV      R10,#+332
+        ADD      R1,R10,R5
+        BL       strcmp_nocase
+        CMP      R0,#+0
+        BNE      ??maincsm_onmessage_4
+        LDR      R1,[R6, #+8]
+        LDR      R0,[R9, #+4]
+        MOV      R11,#+9
+        ORR      R11,R11,#0x4200
+        SUB      R1,R1,#+2
+        CMP      R1,#+5
+        BHI      ??maincsm_onmessage_5
+        ADR      R2,??maincsm_onmessage_0
+        LDRB     R2,[R2, R1]
+        ADD      PC,PC,R2, LSL #+2
+        DATA
+??maincsm_onmessage_0:
+        DC8      +1,+16,+22,+57
+        DC8      +43,+49,+0,+0
+        ARM
+??maincsm_onmessage_6:
+        LDR      R1,[R4, #+368]
+        CMP      R1,#+0
+        BEQ      ??maincsm_onmessage_4
+        STR      R8,[R4, #+368]
+        STR      R0,[R9, #+0]
+        ADD      R0,R10,R5
+        STR      R0,[R9, #+4]
+        ADD      R0,R4,#+72
+        STR      R0,[R9, #+8]
+        MOV      R3,R9
+        MOV      R2,#+0
+??maincsm_onmessage_7:
+        MOV      R1,R7
+        MOV      R0,R11
+        SWI      +256
+        B        ??maincsm_onmessage_5
+??maincsm_onmessage_8:
+        LDR      R0,[R4, #+368]
+        CMP      R0,#+0
+        BNE      ??maincsm_onmessage_4
+        MVN      R0,R8
+        STR      R0,[R4, #+368]
+        B        ??maincsm_onmessage_5
+??maincsm_onmessage_9:
+        STR      R0,[R9, #+0]
+        ADD      R0,R10,R5
+        STR      R0,[R9, #+4]
+        LDR      R0,[R4, #+72]
+        CMP      R0,#+0
+        LDREQ    R0,[R4, #+404]
+        CMNEQ    R0,#+1
+        BNE      ??maincsm_onmessage_10
+        ADD      R0,R4,#+424
+        SWI      +396
+        MOV      R0,#+3
+        STR      R0,[R4, #+416]
+        LDR      R0,??DataTable34  ;; create_connect
+        SWI      +369
+        MOV      R0,#+1
+        B        ??maincsm_onmessage_11
+??maincsm_onmessage_10:
+        MOV      R0,#+0
+??maincsm_onmessage_11:
+        STR      R0,[R9, #+8]
+        MOV      R3,R9
+        MOV      R2,#+4
+        B        ??maincsm_onmessage_7
+??maincsm_onmessage_12:
+        MOV      R0,R9
+        SWI      +21
+        LDR      R0,??maincsm_onmessage_3+0x4  ;; end_connect
+        ADD      R1,R5,#+56
+        SWI      +369
+        B        ??maincsm_onmessage_5
+??maincsm_onmessage_13:
+        LDR      R1,[R9, #+8]
+        ADD      R1,R1,#+1
+        STR      R1,[R9, #+8]
+        ADD      R1,R10,R5
+        CMP      R0,R1
+        BNE      ??maincsm_onmessage_4
+        LDR      R0,??maincsm_onmessage_3+0x8  ;; CheckDoubleRun
+        SWI      +369
+??maincsm_onmessage_5:
+        LDR      R0,[R6, #+4]
+        MOV      R1,#+3
+        ORR      R1,R1,#0x5800
+        CMP      R0,R1
+        BNE      ??maincsm_onmessage_14
+        LDR      R0,[R6, #+8]
+        CMP      R0,#+38
+        BNE      ??maincsm_onmessage_4
+        SWI      +33243
+        ADD      R1,SP,#+12
+        BL       GetSMSNumber
+        CMP      R0,#+0
+        BEQ      ??maincsm_onmessage_14
+        LDR      R1,??maincsm_onmessage_3+0xC  ;; SMSFORWARD
+        ADD      R0,SP,#+12
+        BL       numbercmp
+        CMP      R0,#+0
+        LDREQ    R0,[R4, #+72]
+        CMPEQ    R0,#+0
+        LDREQ    R0,[R4, #+404]
+        CMNEQ    R0,#+1
+        BNE      ??maincsm_onmessage_14
+        ADD      R0,R4,#+424
+        SWI      +396
+        MOV      R0,#+3
+        STR      R0,[R4, #+416]
+        LDR      R0,??DataTable34  ;; create_connect
+        SWI      +369
+??maincsm_onmessage_14:
+        LDR      R0,[R6, #+4]
+        SUB      R1,R7,#+2
+        CMP      R0,R1
+        BNE      ??maincsm_onmessage_4
+        LDR      R0,[R6, #+12]
+        SUBS     R0,R0,#+128
+        BEQ      ??maincsm_onmessage_15
+        SUBS     R0,R0,#+2
+        BEQ      ??maincsm_onmessage_16
+        SUBS     R0,R0,#+18
+        BEQ      ??maincsm_onmessage_17
+        B        ??maincsm_onmessage_18
+??maincsm_onmessage_16:
+        STR      R8,[R4, #+392]
+        B        ??maincsm_onmessage_18
+??maincsm_onmessage_15:
+        LDR      R2,??DataTable33  ;; do_reconnect
+        MOV      R0,#+1
+        STR      R0,[R4, #+392]
+        MOV      R1,#+64
+        ORR      R1,R1,#0x6500
+        ADD      R0,R4,#+424
+        SWI      +77
+        B        ??maincsm_onmessage_18
+??maincsm_onmessage_17:
+        LDR      R0,[R6, #+16]
+        LDR      R1,[R4, #+412]
+        CMP      R0,R1
+        BNE      ??maincsm_onmessage_18
+        LDR      R0,[R4, #+416]
+        CMP      R0,#+0
+        BEQ      ??maincsm_onmessage_18
+        LDR      R0,??DataTable34  ;; create_connect
+        SWI      +369
+??maincsm_onmessage_18:
+        LDR      R0,[R6, #+16]
+        LDR      R1,[R4, #+404]
+        CMP      R0,R1
+        BNE      ??maincsm_onmessage_4
+        LDR      R2,[R6, #+12]
+        LDR      R0,[R4, #+380]
+        LDR      R1,[R4, #+72]
+        LDR      R7,??maincsm_onmessage_3+0x10  ;; send_str
+        LDR      R9,??DataTable42  ;; end_socket
+        SUB      R2,R2,#+138
+        CMP      R2,#+5
+        BHI      ??maincsm_onmessage_4
+        ADR      R3,??maincsm_onmessage_1
+        LDRB     R3,[R3, R2]
+        ADD      PC,PC,R3, LSL #+2
+        DATA
+??maincsm_onmessage_1:
+        DC8      +20,+36,+15,+1
+        DC8      +46,+42,+0,+0
+        ARM
+??maincsm_onmessage_19:
+        CMP      R1,#+1
+        BNE      ??maincsm_onmessage_20
+        BL       InitMailDB
+        ADD      R1,R5,#+76
+        ADD      R0,R4,#+100
+        SWI      +26
+        MOV      R0,#+2
+        STR      R0,[R4, #+72]
+        SWI      +370
+        B        ??maincsm_onmessage_4
+??maincsm_onmessage_20:
+        ADD      R1,R5,#+272
+??maincsm_onmessage_21:
+        MOV      R0,#+1
+        SWI      +328
+        B        ??maincsm_onmessage_4
+??maincsm_onmessage_22:
+        CMP      R1,#+2
+        LDRGE    R0,??maincsm_onmessage_3+0x14  ;; get_answer
+        BGE      ??maincsm_onmessage_23
+        ADD      R1,R5,#+92
+        B        ??maincsm_onmessage_21
+??maincsm_onmessage_24:
+        CMP      R0,#+0
+        BNE      ??maincsm_onmessage_25
+        ADD      R1,R5,#+124
+??maincsm_onmessage_26:
+        MOV      R0,#+1
+        SWI      +328
+        MOV      R0,R9
+        B        ??maincsm_onmessage_23
+??maincsm_onmessage_25:
+        ADD      R2,R5,#+152
+??maincsm_onmessage_27:
+        MOV      R1,#+255
+        ADD      R0,R4,#+100
+        SWI      +283
+        SWI      +370
+        MOV      R1,#+0
+        MOV      R0,R7
+        SWI      +369
+        B        ??maincsm_onmessage_4
+??maincsm_onmessage_28:
+        CMP      R0,#+0
+        BNE      ??maincsm_onmessage_29
+        ADD      R1,R5,#+172
+        B        ??maincsm_onmessage_26
+??maincsm_onmessage_29:
+        ADD      R2,R5,#+200
+        B        ??maincsm_onmessage_27
+??maincsm_onmessage_30:
+        CMP      R1,#+0
+        BEQ      ??maincsm_onmessage_4
+        MOV      R0,R9
+        B        ??maincsm_onmessage_23
+??maincsm_onmessage_31:
+        STR      R8,[R4, #+72]
+        MVN      R1,R8
+        STR      R1,[R4, #+404]
+        CMP      R0,#+0
+        BEQ      ??maincsm_onmessage_32
+        LDR      R3,[R4, #+376]
+        ADD      R2,R5,#+220
+        MOV      R1,#+255
+        ADD      R0,R4,#+100
+        SWI      +283
+??maincsm_onmessage_32:
+        SWI      +370
+        LDR      R0,??DataTable43  ;; ClearSendQ
+??maincsm_onmessage_23:
+        SWI      +369
+??maincsm_onmessage_4:
+        SWI      +33030
+        LDR      R0,[R0, #+4]
+        SWI      +264
+        LDR      R1,[R4, #+84]
+        CMP      R0,#+0
+        STR      R1,[R4, #+420]
+        LDR      R1,??DataTable46  ;; addIconBar
+        STR      R1,[R4, #+68]
+        BEQ      ??maincsm_onmessage_33
+        LDR      R0,[R0, #+44]
+        BL       checkGui
+        CMP      R0,#+0
+        BEQ      ??maincsm_onmessage_33
+        LDR      R3,[R4, #+80]
+        LDR      R2,[R4, #+84]
+        ADD      R1,R5,#+256
+        ADD      R0,SP,#+76
+        SWI      +22
+        MOV      R0,#+1
+        PUSH     {R0}
+        CFI CFA R13+180
+        PUSH     {R0}
+        CFI CFA R13+184
+        LDR      R0,??maincsm_onmessage_3+0x18  ;; align
+        ADD      R2,SP,#+84
+        LDR      R3,[R0, #+0]
+        LDR      R0,??maincsm_onmessage_3+0x1C  ;; Y
+        LDR      R1,[R0, #+0]
+        LDR      R0,??maincsm_onmessage_3+0x20  ;; X
+        LDR      R0,[R0, #+0]
+        _BLF     PrintField,??PrintField??rA
+        ADD      SP,SP,#+8
+        CFI CFA R13+176
+??maincsm_onmessage_33:
+        MOV      R0,#+1
+        ADD      SP,SP,#+140
+        CFI CFA R13+36
+        POP      {R4-R11,PC}      ;; return
+        DATA
+??maincsm_onmessage_3:
+        DC32     successed_config_filename
+        DC32     end_connect
+        DC32     CheckDoubleRun
+        DC32     SMSFORWARD
+        DC32     send_str
+        DC32     get_answer
+        DC32     align
+        DC32     Y
+        DC32     X
+        CFI EndBlock cfiBlock61
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable33:
+        DC32     do_reconnect
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable34:
+        DC32     create_connect
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock62 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??maincsm_oncreate??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock62
+        REQUIRE maincsm_oncreate
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock63 Using cfiCommon1
+        CFI Function maincsm_oncreate
+        ARM
+maincsm_oncreate:
+        LDR      R1,??DataTable41  ;; MAINCSM
+        LDR      R3,??DataTable40  ;; `?<Constant "MailDaemon already st...">`
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOV      R0,#+356
+        MOV      R2,#+332
+        ADD      R12,R2,R3
+        STR      R12,[R0, +R1]
+        ADD      R2,R2,R3
+        STR      R2,[R1, #+360]
+        MOV      R2,#+0
+        STR      R2,[R1, #+364]
+        ADD      R3,R0,R1
+        MOV      R2,#+7
+        MOV      R1,#+176
+        ORR      R1,R1,#0xDE00
+        MOV      R0,#+9
+        ORR      R0,R0,#0x4200
+        SWI      +256
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock63
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock64 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??maincsm_onclose??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock64
+        REQUIRE maincsm_onclose
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock65 Using cfiCommon1
+        CFI Function maincsm_onclose
+        ARM
+maincsm_onclose:
+        LDR      R1,??DataTable40  ;; `?<Constant "MailDaemon already st...">`
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        LDR      R4,??DataTable41  ;; MAINCSM
+        MOV      R0,#+356
+        ADD      R2,R1,#+320
+        STR      R2,[R0, +R4]
+        ADD      R1,R1,#+332
+        STR      R1,[R4, #+360]
+        MOV      R5,#+0
+        STR      R5,[R4, #+364]
+        ADD      R3,R0,R4
+        MOV      R2,#+1
+        MOV      R1,#+176
+        ORR      R1,R1,#0xDE00
+        MOV      R0,#+9
+        ORR      R0,R0,#0x4200
+        SWI      +256
+        ADD      R0,R4,#+424
+        SWI      +396
+        LDR      R0,[R4, #+372]
+        CMP      R0,#+0
+        BEQ      ??maincsm_onclose_0
+        SWI      +21
+        STR      R5,[R4, #+372]
+??maincsm_onclose_0:
+        BL       FreeMailDB
+        LDR      R0,??DataTable42  ;; end_socket
+        SWI      +369
+        LDR      R0,??DataTable43  ;; ClearSendQ
+        SWI      +369
+        LDR      R0,??maincsm_onclose_1  ;; ElfKiller
+        SWI      +369
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??maincsm_onclose_1:
+        DC32     ElfKiller
+        CFI EndBlock cfiBlock65
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable40:
+        DC32     `?<Constant "MailDaemon already st...">`
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable41:
+        DC32     MAINCSM
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable42:
+        DC32     end_socket
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable43:
+        DC32     ClearSendQ
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock66 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??addIconBar??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock66
+        REQUIRE addIconBar
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+maincsm_name_body:
+        DS8 280
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+minus11:
+        DATA
+        DC32 -11
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock67 Using cfiCommon1
+        CFI Function addIconBar
+        ARM
+addIconBar:
+        LDR      R1,??addIconBar_0  ;; MAINCSM + 420
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        LDR      R1,[R1, #+0]
+        CMP      R1,#+0
+        POPEQ    {PC}
+        MOV      R1,R0
+        MOV      R0,#+88
+        ORR      R0,R0,#0x1B00
+        SWI      +39
+        POP      {PC}             ;; return
+        DATA
+??addIconBar_0:
+        DC32     MAINCSM + 420
+        CFI EndBlock cfiBlock67
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock68 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??SetIconBarHandler??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock68
+        REQUIRE SetIconBarHandler
+
+        RSEG DATA_I:DATA:SORT:NOROOT(2)
+MAINCSM:
+        DS8 72
+        REQUIRE `?<Initializer for MAINCSM>`
+pop_stat:
+        DS8 284
+        REQUIRE `?<Initializer for pop_stat>`
+gipc:
+        DS8 12
+        REQUIRE `?<Initializer for gipc>`
+viewer_present:
+        DS8 4
+        REQUIRE `?<Initializer for viewer_present>`
+recived_line:
+        DS8 4
+        REQUIRE `?<Initializer for recived_line>`
+sendq_l:
+        DS8 4
+        REQUIRE `?<Initializer for sendq_l>`
+sendq_p:
+        DS8 4
+        REQUIRE `?<Initializer for sendq_p>`
+maincsm_id:
+        DS8 4
+        REQUIRE `?<Initializer for maincsm_id>`
+mes_rec:
+        DS8 4
+        REQUIRE `?<Initializer for mes_rec>`
+is_gprs_online:
+        DS8 4
+        REQUIRE `?<Initializer for is_gprs_online>`
+mails:
+        DS8 4
+        REQUIRE `?<Initializer for mails>`
+cur_ml:
+        DS8 4
+        REQUIRE `?<Initializer for cur_ml>`
+sock:
+        DS8 4
+        REQUIRE `?<Initializer for sock>`
+fhandler:
+        DS8 4
+        REQUIRE `?<Initializer for fhandler>`
+DNR_ID:
+        DS8 4
+        REQUIRE `?<Initializer for DNR_ID>`
+DNR_TRIES:
+        DS8 4
+        REQUIRE `?<Initializer for DNR_TRIES>`
+unread:
+        DS8 4
+        REQUIRE `?<Initializer for unread>`
+reconnect_tmr:
+        DS8 16
+        REQUIRE `?<Initializer for reconnect_tmr>`
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock69 Using cfiCommon1
+        CFI Function SetIconBarHandler
+        ARM
+SetIconBarHandler:
+        LDR      R0,??SetIconBarHandler_0  ;; MAINCSM + 68
+        LDR      R1,??DataTable46  ;; addIconBar
+        STR      R1,[R0, #+0]
+        BX       LR               ;; return
+        DATA
+??SetIconBarHandler_0:
+        DC32     MAINCSM + 68
+        CFI EndBlock cfiBlock69
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock70 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??main??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock70
+        REQUIRE main
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock71 Using cfiCommon1
+        CFI Function main
+        ARM
+main:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        LDR      R4,??DataTable45  ;; MAINCSM
+        SUB      SP,SP,#+40
+        CFI CFA R13+56
+        _BLF     InitConfig,??InitConfig??rA
+        LDR      R1,??main_0      ;; `?<Constant "MailDaemon">`
+        ADD      R0,R4,#+40
+        SWI      +292
+        SWI      +326
+        MOV      R0,#+1
+        _BLF     PrintLibInit,??PrintLibInit??rA
+        LDR      R0,??main_0+0x4  ;; fontpath
+        MOV      R1,#+1
+        _BLF     FontPathInit,??FontPathInit??rA
+        LDR      R0,??DataTable46  ;; addIconBar
+        STR      R0,[R4, #+68]
+        SWI      +33030
+        LDR      R0,[R0, #+8]
+        LDR      R5,[R0, #+4]
+        SWI      +33030
+        MOV      R6,R0
+        SWI      +33030
+        LDR      R0,[R0, #+8]
+        LDR      R1,[R6, #+8]
+        LDR      R0,[R0, #+8]
+        MOV      R2,#+0
+        STR      R0,[R1, #+4]
+        MOV      R1,SP
+        MOV      R0,R4
+        SWI      +263
+        STR      R0,[R4, #+384]
+        SWI      +33030
+        LDR      R0,[R0, #+8]
+        STR      R5,[R0, #+4]
+        SWI      +327
+        MOV      R0,#+0
+        ADD      SP,SP,#+40
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??main_0:
+        DC32     `?<Constant "MailDaemon">`
+        DC32     fontpath
+        CFI EndBlock cfiBlock71
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable45:
+        DC32     MAINCSM
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable46:
+        DC32     addIconBar
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock72 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??GetSMSNumber??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock72
+        REQUIRE GetSMSNumber
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock73 Using cfiCommon1
+        CFI Function GetSMSNumber
+        ARM
+GetSMSNumber:
+        PUSH     {R4,R5}
+        CFI R5 Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        LDRB     R2,[R0, #+0]
+        CMP      R2,#+17
+        BEQ      ??GetSMSNumber_0
+??GetSMSNumber_1:
+        POP      {R4,R5}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI CFA R13+0
+        MOV      R0,#+0
+        BX       LR
+        CFI R4 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -4)
+        CFI CFA R13+8
+??GetSMSNumber_0:
+        ADD      R2,R0,#+1
+        ADD      R0,R2,#+1
+        LDRB     R2,[R2, #+0]
+        CMP      R2,#+17
+        BNE      ??GetSMSNumber_1
+        LDRB     R2,[R0], #+1
+        CMP      R2,#+0
+        BEQ      ??GetSMSNumber_1
+        LDRB     R2,[R0], #+1
+        ADD      R2,R2,R0
+        ADD      R0,R2,#+1
+        LDRB     R2,[R2, #+0]
+        TST      R2,#0x3
+        BNE      ??GetSMSNumber_1
+        LDRB     R3,[R0], #+1
+        LDRB     R2,[R0], #+1
+        MOV      R12,#+0
+        MOV      R4,#+0
+        CMP      R2,#+145
+        MOVEQ    R2,#+43
+        STRBEQ   R2,[R1], #+1
+        MOV      R2,R4
+        B        ??GetSMSNumber_2
+??GetSMSNumber_3:
+        ADD      R5,R5,#+48
+        STRB     R5,[R1], #+1
+        ADD      R4,R4,#+1
+??GetSMSNumber_2:
+        CMP      R4,R3
+        CMPCC    R4,#+32
+        BCS      ??GetSMSNumber_4
+        TST      R4,#0x1
+        LDRBEQ   R2,[R0], #+1
+        ANDEQ    R5,R2,#0xF
+        LSRNE    R5,R2,#+4
+        B        ??GetSMSNumber_3
+??GetSMSNumber_4:
+        STRB     R12,[R1, #+0]
+        POP      {R4,R5}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI CFA R13+0
+        MOV      R0,#+1
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock73
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock74 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??kill_data??rA:
+        LDR      R12,??Subroutine37_0  ;; kill_data
+        BX       R12
+        DATA
+??Subroutine37_0:
+        DC32     kill_data
+        CFI EndBlock cfiBlock74
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock75 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??strtoul??rA:
+        LDR      R12,??Subroutine38_0  ;; strtoul
+        BX       R12
+        DATA
+??Subroutine38_0:
+        DC32     strtoul
+        CFI EndBlock cfiBlock75
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock76 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??InitConfig??rA:
+        LDR      R12,??Subroutine39_0  ;; InitConfig
+        BX       R12
+        DATA
+??Subroutine39_0:
+        DC32     InitConfig
+        CFI EndBlock cfiBlock76
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock77 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??PrintField??rA:
+        LDR      R12,??Subroutine40_0  ;; PrintField
+        BX       R12
+        DATA
+??Subroutine40_0:
+        DC32     PrintField
+        CFI EndBlock cfiBlock77
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock78 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??PrintLibInit??rA:
+        LDR      R12,??Subroutine41_0  ;; PrintLibInit
+        BX       R12
+        DATA
+??Subroutine41_0:
+        DC32     PrintLibInit
+        CFI EndBlock cfiBlock78
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock79 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??FontPathInit??rA:
+        LDR      R12,??Subroutine42_0  ;; FontPathInit
+        BX       R12
+        DATA
+??Subroutine42_0:
+        DC32     FontPathInit
+        CFI EndBlock cfiBlock79
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?<Initializer for MAINCSM>`:
+        DATA
+        DC32 maincsm_onmessage, maincsm_oncreate, 0, 0, 0, 0, maincsm_onclose
+        DC32 40, 1, minus11, maincsm_name_body, 55AACCCCH, 3333AA55H, 0
+        DC16 139
+        DC8 0, 0
+        DC8 "IconBar"
+        DC8 0, 0, 0, 0
+`?<Initializer for pop_stat>`:
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for gipc>`:
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+`?<Initializer for viewer_present>`:
+        DC32 -1
+`?<Initializer for recived_line>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for sendq_l>`:
+        DC32 0
+`?<Initializer for sendq_p>`:
+        DC32 0H
+`?<Initializer for maincsm_id>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for mes_rec>`:
+        DC32 0
+`?<Initializer for is_gprs_online>`:
+        DC32 1
+`?<Initializer for mails>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for cur_ml>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for sock>`:
+        DC32 -1
+`?<Initializer for fhandler>`:
+        DC32 -1
+`?<Initializer for DNR_ID>`:
+        DC32 0
+`?<Initializer for DNR_TRIES>`:
+        DC32 3
+`?<Initializer for unread>`:
+        DC8 0, 0, 0, 0
+`?<Initializer for reconnect_tmr>`:
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        RSEG DATA_ID:CONST:SORT:NOROOT(2)
+`?*?DATA_ID`:
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_I:
+        DCD      sfe(DATA_I) - sfb(DATA_I), sfb(DATA_I), sfb(DATA_ID)
+
+        RSEG ELFBEGIN:DATA:REORDER:NOROOT(0)
+
+        END
+// 
+// 6 148 bytes in segment CODE
+//   779 bytes in segment DATA_C
+//   440 bytes in segment DATA_I
+//   440 bytes in segment DATA_ID
+//   284 bytes in segment DATA_Z
+//    24 bytes in segment INITTAB
+// 
+// 5 928 bytes of CODE  memory (+ 244 bytes shared)
+// 1 219 bytes of CONST memory
+//   724 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

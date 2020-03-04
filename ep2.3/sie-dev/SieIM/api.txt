@@ -1,0 +1,28 @@
+////////////////////////////////////////////////////////////////
+Методы вызываемые гуи из плагина
+
+void reconnect(void) 
+void connect(void) 
+void disconnect(void)
+void ping(void)
+void RequestXText(char * id) 
+void set_normal_status(int StatusId) 
+void set_extended_status(int StatusId) 
+void set_private_status(int StatusId) 
+void SendMSG(char *id, char *msg)
+void get_extended_status(char * id) 
+void get_short_info(char * id) 
+void addcontact2list(char * id, char * nickname, char * group) 
+
+////////////////////////////////////////////////////////////////
+Методы вызываемые плагином из гуи
+void connected(void) - тут обработка изменения статуса
+void(int) addcontact(char * id, char * nikename) - добавление контакта
+void(int) movecontact(char * id, char * group)	- перемещение в группу
+void(int) removecontact(char * id) - удаление контакта
+void(int) changestatus(char * id,int status) - изменение статуса контакта
+void(int) recvmsg(char * id,char * msg) - сообщение от контакта
+void(int) srvask(char * id) - сообщение дошло до сервера
+void(int) clientask(char * id) - сообщение дошло до контакта
+void(int) changesextendedstatus(char * id,int status) - изменение дополнительного статуса контакта
+void(int) privatestatus(char * id, int status) - изменение приватного статуса

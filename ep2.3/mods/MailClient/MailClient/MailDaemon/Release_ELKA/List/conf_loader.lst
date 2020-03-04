@@ -1,0 +1,121 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    19/May/2008  22:00:06 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT_\MailClient\conf_loader.c   #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT_\MailClient\conf_loader.c   #
+#                       -D NEWSGOLD -D ELKA -lcN D:\Pasha\elf\_MY_PROJECT_\M #
+#                       ailClient\MailDaemon\Release_ELKA\List\ -la          #
+#                       D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rele #
+#                       ase_ELKA\List\ -o D:\Pasha\elf\_MY_PROJECT_\MailClie #
+#                       nt\MailDaemon\Release_ELKA\Obj\ -s9 --no_unroll      #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --fpu None            #
+#                       --dlib_config "D:\Pasha\Embedded Workbench 4.0       #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rele #
+#                       ase_ELKA\List\conf_loader.lst                        #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rele #
+#                       ase_ELKA\Obj\conf_loader.r79                         #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT_\MailClient\conf_loader.c
+      1          #include "..\inc\swilib.h"
+      2          #include "..\inc\cfg_items.h"
+      3          #include "conf_loader.h"
+      4          
+      5          const char *successed_config_filename="";
+      6          
+      7          #pragma segment="CONFIG_C"
+      8          int LoadConfigData(const char *fname)
+      9          {
+     10            int f;
+     11            unsigned int ul;
+     12            char *buf;
+     13            int result=0;
+     14            void *cfg;
+     15            unsigned int rlen, end;
+     16          
+     17            cfg=(char *)__segment_begin("CONFIG_C");
+     18          
+     19            unsigned int len=(char *)__segment_end("CONFIG_C")-(char *)__segment_begin("CONFIG_C");
+     20          
+     21            if (!(buf=malloc(len))) return -1;
+     22            if ((f=fopen(fname,A_ReadOnly+A_BIN,P_READ,&ul))!=-1)
+     23            {
+     24              rlen=fread(f,buf,len,&ul);
+     25              end=lseek(f,0,S_END,&ul,&ul);
+     26              fclose(f,&ul);
+     27              if (rlen!=end || rlen!=len)  goto L_SAVENEWCFG;
+     28              memcpy(cfg,buf,len);
+     29            }
+     30            else
+     31            {
+     32            L_SAVENEWCFG:
+     33              if ((f=fopen(fname,A_ReadWrite+A_Create+A_Truncate,P_READ+P_WRITE,&ul))!=-1)
+     34              {
+     35                if (fwrite(f,cfg,len,&ul)!=len) result=-1;
+     36                fclose(f,&ul);
+     37              }
+     38              else
+     39                result=-1;
+     40            }
+     41            mfree(buf);
+     42            if (result>=0) successed_config_filename=fname;
+     43            return(result);
+     44          }
+     45          
+     46          void InitConfig()
+     47          {
+     48            if (LoadConfigData("4:\\ZBin\\etc\\EMailClient3.bcfg")<0)
+     49            {
+     50              LoadConfigData("0:\\ZBin\\etc\\EMailClient3.bcfg");
+     51            }
+     52          }
+     53          
+     54          
+     55          
+
+   Maximum stack usage in bytes:
+
+     Function       CSTACK
+     --------       ------
+     InitConfig         8
+     LoadConfigData    48
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     successed_config_filename         4
+     LoadConfigData                  304
+     InitConfig                       40
+     ?<Initializer for successed_config_filename>
+                                       4
+     ?<Constant "">                    1
+     ?<Constant "0:\\ZBin\\etc\\EMailClie...">
+                                      64
+      Others                          20
+
+ 
+ 352 bytes in segment CODE
+  65 bytes in segment DATA_C
+   4 bytes in segment DATA_I
+   4 bytes in segment DATA_ID
+  12 bytes in segment INITTAB
+ 
+ 344 bytes of CODE  memory (+ 20 bytes shared)
+  69 bytes of CONST memory
+   4 bytes of DATA  memory
+
+Errors: none
+Warnings: none

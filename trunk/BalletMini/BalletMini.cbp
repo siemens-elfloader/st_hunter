@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="BalletMini" />
+		<Option makefile="makefile" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Option show_notes="0">
+			<notes>
+				<![CDATA[Ported by STANOK]]>
+			</notes>
+		</Option>
+		<Build>
+			<Target title="NSG">
+				<Option output="..\..\elfs\$(PROJECT_NAME)\$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\Objects\$(PROJECT_NAME)\$(TARGET_NAME)\" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="SG">
+				<Option output="..\..\elfs\$(PROJECT_NAME)\$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\Objects\$(PROJECT_NAME)\$(TARGET_NAME)\" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="ELKA">
+				<Option output="..\..\elfs\$(PROJECT_NAME)\$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\Objects\$(PROJECT_NAME)\$(TARGET_NAME)\" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DELKA" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-marm" />
+			<Add option="-O2" />
+			<Add option="-Wextra" />
+			<Add option="-std=gnu99" />
+			<Add directory="..\include" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add option="--defsym __ex=0" />
+			<Add option="--gc-section" />
+			<Add library="crt_helper" />
+			<Add library="crt" />
+			<Add library="c-1.0" />
+			<Add library="gcc-4.6.1" />
+			<Add library="jpeg-62" />
+			<Add library="png-12" />
+			<Add library="z-1.2.5" />
+			<Add library="m-1.0" />
+			<Add directory="..\libs" />
+		</Linker>
+		<Unit filename="additems.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="additems.h" />
+		<Unit filename="conf_loader.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="conf_loader.h" />
+		<Unit filename="config_data.c">
+			<Option compilerVar="CC" />
+			<Option compiler="armelfgcc" use="1" buildCommand="$compiler $options -xc $includes -c $file -o $object -O0" />
+		</Unit>
+		<Unit filename="debug.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="destructors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="destructors.h" />
+		<Unit filename="display_utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="display_utils.h" />
+		<Unit filename="file_works.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="file_works.h" />
+		<Unit filename="fileman.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fileman.h" />
+		<Unit filename="history.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="history.h" />
+		<Unit filename="inet.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="inet.h" />
+		<Unit filename="lang.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lang.h" />
+		<Unit filename="local_ipc.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="main.h" />
+		<Unit filename="mainmenu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mainmenu.h" />
+		<Unit filename="parse_oms.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="parse_oms.h" />
+		<Unit filename="readimg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="readimg.h" />
+		<Unit filename="rect_patcher.h" />
+		<Unit filename="revision.h" />
+		<Unit filename="siemens_unicode.h" />
+		<Unit filename="string_works.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="string_works.h" />
+		<Unit filename="upload.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="upload.h" />
+		<Unit filename="url_utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="url_utils.h" />
+		<Unit filename="urlstack.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="urlstack.h" />
+		<Unit filename="view.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

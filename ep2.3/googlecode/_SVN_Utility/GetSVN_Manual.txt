@@ -1,0 +1,18 @@
+Instructions for use of utility getsvn.exe 
+============================================= 
+I. Appointment 
+This utility is needed for automatic prescription SVN revision number to file revision.h when compiling the project. 
+
+II. Requirements 
+1. The presence of a file revision.h of the project, the contents of the following: 
+# Define __SVN_REVISION__ 000 
+
+000 subsequently changed the revision number. 
+2. Availability kit utilities subversion (you can take here: http://subversion.tigris.org/servlets/ProjectDocumentList?folderID=91) 
+
+III. Use 
+1. Register in getsvn.bat correct path to the repository, the utilities subversion. 
+2. Send in the options of the project path getsvn.bat in Pre-Build. 
+3. Put getsvn.bat and getsvcn.exu near revison.h in the folder with the project. 
+
+Now, before assembling a draft IAR machine, run the file, prescribe the correct version in revision.h and compile the project. Good luck;)

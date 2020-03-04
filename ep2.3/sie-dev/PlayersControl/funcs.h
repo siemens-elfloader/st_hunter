@@ -1,0 +1,20 @@
+#include "C:\ARM\inc\xtask_ipc.h"
+void Lock();
+void SendCmd(int player,int cmd);
+void PlayPause();
+void Stop();
+void Prev();
+void Next();
+void Start(int player);
+void Close();
+void VolUP();
+void VolDOWN();
+void Mute();
+int HeadsetDisconnect();
+int HeadsetConnect();
+void ShowMessage(char * message);
+void TmrSec();
+void GetAccesory();
+void StartCloseTimer();
+void StopCloseTimer();
+void CloseTimer();

@@ -1,0 +1,164 @@
+################################################################################
+#                                                                              #
+#      IAR Universal Linker V4.60I/386                                         #
+#                                                                              #
+#           Link time     =  10/Nov/2010  19:45:54                             #
+#           Target CPU    =  ARM                                               #
+#           List file     =  D:\pasha\elf\_MY_PROJECT_\IconbarCpuLoad\Release\ #
+#                            List\lihgt.map                                    #
+#           Output file 1 =  D:\pasha\elf\_MY_PROJECT_\IconbarCpuLoad\Release\ #
+#                            Exe\lihgt.elf                                     #
+#                            Format: elf, variant: -ynpra                      #
+#           Command line  =  D:\pasha\elf\_MY_PROJECT_\IconbarCpuLoad\Release\ #
+#                            Obj\main.r79                                      #
+#                            -o                                                #
+#                            D:\pasha\elf\_MY_PROJECT_\IconbarCpuLoad\Release\ #
+#                            Exe\lihgt.elf                                     #
+#                            -Felf -l                                          #
+#                            D:\pasha\elf\_MY_PROJECT_\IconbarCpuLoad\Release\ #
+#                            List\lihgt.map                                    #
+#                            -xms -f D:\Pasha\elf\_MY_PROJECT_\test.xcl        #
+#                            (-carm -V(CODE)CODE_AREA,12                       #
+#                            -V(DATA)DATA_AREA,12                              #
+#                            -Z(CODE_AREA)ELFBEGIN,DATA_ID,START,CODE,DATA_C,I #
+#                            NITTAB,DATA_Z,DATA_N,CONFIG_C=0-FFFFFFFF          #
+#                            -Z(DATA_AREA)DATA_I=0-FFFFFFFF) -ynpra            #
+#                            "D:\pasha\Embedded Workbench 4.0 Evaluation2\ARM\ #
+#                            LIB\dl5tpainl8n.r79"                              #
+#                            -s main                                           #
+#                                                                              #
+#                        Copyright 1987-2007 IAR Systems. All rights reserved. #
+################################################################################
+
+
+
+
+
+                ****************************************
+                *                                      *
+                *           CROSS REFERENCE            *
+                *                                      *
+                ****************************************
+
+       Program entry at : CODE_AREA 00000010  Relocatable, from module : main
+
+
+
+
+                ****************************************
+                *                                      *
+                *            RUNTIME MODEL             *
+                *                                      *
+                ****************************************
+
+  StackAlign4  = USED
+  __cpu_mode   = __pcs__interwork
+  __data_model = absolute
+  __endian     = little
+  __rt_version = 6
+
+
+
+                ****************************************
+                *                                      *
+                *              MODULE MAP              *
+                *                                      *
+                ****************************************
+
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  FILE NAME : D:\pasha\elf\_MY_PROJECT_\IconbarCpuLoad\Release\Obj\main.r79
+  PROGRAM MODULE, NAME : main
+
+  SEGMENTS IN THE MODULE
+  ======================
+CODE
+  Relative segment, address: CODE_AREA 00000000 - 00000007 (0x8 bytes), align: 2
+  Segment part 10.            Intra module refs:   Segment part 2
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           maincsm_onmessage       00000000 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000008 - 0000000B (0x4 bytes), align: 2
+  Segment part 12.            Intra module refs:   Segment part 2
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           maincsm_oncreate        00000008 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000000C - 0000000F (0x4 bytes), align: 2
+  Segment part 14.            Intra module refs:   Segment part 2
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           maincsm_onclose         0000000C 
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 000000D8 - 000001EF (0x118 bytes), align: 2
+  Segment part 4.             Intra module refs:   Segment part 2
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00000070 - 000000C7 (0x58 bytes), align: 2
+  Segment part 2.             Intra module refs:   main
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000000C8 - 000000CB (0x4 bytes), align: 2
+  Segment part 5.             Intra module refs:   Segment part 2
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           minus11                 000000C8 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000010 - 0000006F (0x60 bytes), align: 2
+  Segment part 18.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           main                    00000010        Absolute parts (?ABS_ENTRY_MOD)
+               stack 1 = 00000000 ( 00000038 )
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 000000CC - 000000D7 (0xc bytes), align: 2
+  Segment part 21. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_Z        000000CC 
+
+    *************************************************************************
+
+  FILE NAME : D:\pasha\Embedded Workbench 4.0 Evaluation2\ARM\LIB\dl5tpainl8n.r79
+
+
+
+                ****************************************
+                *                                      *
+                *      SEGMENTS IN ADDRESS ORDER       *
+                *                                      *
+                ****************************************
+
+
+SEGMENT              SPACE    START ADDRESS   END ADDRESS     SIZE  TYPE  ALIGN
+=======              =====    =============   ===========     ====  ====  =====
+DATA_ID              CODE_AREA           00000000                     dse    0
+START                CODE_AREA           00000000                     dse    0
+ELFBEGIN             CODE_AREA           00000000                     dse    0
+CODE                 CODE_AREA      00000000 - 0000006F          70   rel    2
+DATA_C               CODE_AREA      00000070 - 000000CB          5C   rel    2
+INITTAB              CODE_AREA      000000CC - 000000D7           C   rel    2
+DATA_Z               CODE_AREA      000000D8 - 000001EF         118   rel    2
+
+                ****************************************
+                *                                      *
+                *        END OF CROSS REFERENCE        *
+                *                                      *
+                ****************************************
+
+ 496 bytes of CODE memory
+
+Errors: none
+Warnings: none
+

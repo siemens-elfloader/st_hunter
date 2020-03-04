@@ -1,0 +1,85 @@
+#!/bin/bash
+
+iarpath="/media/Soft/SieELF/IAR/common/bin/iarbuild.exe"
+
+icq="ICQ/ICQ.ewp"
+gui="SieIM/SieIM.ewp"
+date="datelib/datelib.ewp"
+dbg="dbglib/dbglib.ewp"
+gprs="gprslib/gprslib.ewp"
+mesg="mesglib/mesglib.ewp"
+str="strlib/strlib.ewp"
+type="typelib/typelib.ewp"
+
+if [ $# == 0 ] ; then
+  ./compilation --help
+  exit 0
+fi
+
+if [ "$1" == "--help" ] ; then
+  echo -ne "Скрипт компиляции SieIM\n"
+  echo -ne "Использование: ./`basename $0` [ key ] [ name_project | all ] [ -build | -make ] [ target ]\n"
+  echo -ne "key:\n  --help - показать эту справку и выйти\n  --make - собираем папку\n\n"
+  echo -ne "name_project - имя проекта без .ewp\nall - для того, чтобы собрать все\n\n"
+  echo -ne "-build - пересобрать\n-make - собрать\n\n"
+  echo -ne "target:\n  ELKA\n  NEWSGOLD\n  SGOLD\n  all - собрать все\n\n"
+  echo -ne "Пример\n$ `basename $0` datelib -build SGOLD\n"
+elif [ "$1" != "all" ] ;then
+  if [ "$3" != "all" ] ;then
+    wine $iarpath $1/$1.ewp $2 $3	2> /dev/null
+  else
+    wine $iarpath $1/$1.ewp $2 SGOLD	2> /dev/null
+    wine $iarpath $1/$1.ewp $2 ELKA	2> /dev/null
+    wine $iarpath $1/$1.ewp $2 NEWSGOLD	2> /dev/null
+  fi
+else
+  if [ "$3" != "all" ] ;then
+    wine $iarpath $icq	$2 $3	2> /dev/null
+    
+    wine $iarpath $gui	$2 $3	2> /dev/null
+    
+    wine $iarpath $date	$2 $3	2> /dev/null
+    
+    wine $iarpath $dbg	$2 $3	2> /dev/null
+    
+    wine $iarpath $gprs	$2 $3	2> /dev/null
+    
+    wine $iarpath $mesg	$2 $3	2> /dev/null
+    
+    wine $iarpath $str	$2 $3	2> /dev/null
+    
+    wine $iarpath $type	$2 $3	2> /dev/null
+  else
+    wine $iarpath $icq	$2 ELKA		2> /dev/null
+    wine $iarpath $icq	$2 SGOLD	2> /dev/null
+    wine $iarpath $icq	$2 NEWSGOLD	2> /dev/null
+    
+    wine $iarpath $gui	$2 ELKA		2> /dev/null
+    wine $iarpath $gui	$2 SGOLD	2> /dev/null
+    wine $iarpath $gui	$2 NEWSGOLD	2> /dev/null
+    
+    wine $iarpath $date	$2 ELKA		2> /dev/null
+    wine $iarpath $date	$2 SGOLD	2> /dev/null
+    wine $iarpath $date	$2 NEWSGOLD	2> /dev/null
+    
+    wine $iarpath $dbg	$2 ELKA		2> /dev/null
+    wine $iarpath $dbg	$2 SGOLD	2> /dev/null
+    wine $iarpath $dbg	$2 NEWSGOLD	2> /dev/null
+    
+    wine $iarpath $gprs	$2 ELKA		2> /dev/null
+    wine $iarpath $gprs	$2 SGOLD	2> /dev/null
+    wine $iarpath $gprs	$2 NEWSGOLD	2> /dev/null
+    
+    wine $iarpath $mesg	$2 ELKA		2> /dev/null
+    wine $iarpath $mesg	$2 SGOLD	2> /dev/null
+    wine $iarpath $mesg	$2 NEWSGOLD	2> /dev/null
+    
+    wine $iarpath $str	$2 ELKA		2> /dev/null
+    wine $iarpath $str	$2 SGOLD	2> /dev/null
+    wine $iarpath $str	$2 NEWSGOLD	2> /dev/null
+    
+    wine $iarpath $type	$2 ELKA		2> /dev/null
+    wine $iarpath $type	$2 SGOLD	2> /dev/null
+    wine $iarpath $type	$2 NEWSGOLD	2> /dev/null
+  fi
+fi

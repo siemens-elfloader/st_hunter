@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="dietlibc" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="NSG">
+				<Option output="exe/libc-1.0.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/nsg" />
+				<Option type="3" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="SG">
+				<Option output="exe/libc-1.0.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/sg" />
+				<Option type="3" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="ELKA">
+				<Option output="exe/elf_el.elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/elka" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DELKA" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-marm" />
+			<Add option="-fomit-frame-pointer" />
+			<Add option="-Os" />
+			<Add option="-Wall" />
+			<Add option="-std=gnu99" />
+			<Add option="-D__ARM_EABI__" />
+			<Add option="-D__arm__" />
+			<Add directory="src/include" />
+			<Add directory="src" />
+			<Add directory="../CoreProc" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add option="--defsym __ex=0" />
+			<Add library="crt_helper" />
+			<Add library="gcc" />
+			<Add library="spl" />
+		</Linker>
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dietfeatures.h" />
+		<Unit filename="src/dietlocale.h" />
+		<Unit filename="src/dietstdio.h" />
+		<Unit filename="src/dietstring.h" />
+		<Unit filename="src/dietwarning.h" />
+		<Unit filename="src/errlist.S" />
+		<Unit filename="src/lib/__dtostr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/__isinf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/__lltostr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/__ltostr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/__v_printf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/__v_scanf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/assert_fail.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/atexit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/atof.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/atol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/chdir.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/closedir.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/errlistu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/errno_location.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/getcwd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/getopt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/isalnum.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/isalpha.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/isascii.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/isblank.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/isdigit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/isgraph.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/islower.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/isprint.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/ispunct.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/isspace.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/isupper.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/isxdigit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/latin1-iscntrl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/lseek64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/memccpy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/memchr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/memcmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/memcpy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/memmove.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/memset.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/opendir.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/perror.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/qsort.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/rand.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/rand48.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/rand_r.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/readdir.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/remove.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/rewind.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/snprintf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/sprintf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/sscanf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strcasecmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strcat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strchr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strcmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strcpy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strcspn.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strdup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strerror.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strlcat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strlcpy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strlen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strncasecmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strncat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strncmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strncpy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strpbrk.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strrchr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strsep.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strspn.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strstr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strtod.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strtof.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strtok.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strtok_r.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strtol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strtold.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strtoll.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strtoul.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strtoull.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/strxfrm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/swab.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/tolower.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/toupper.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/uname.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/vsnprintf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/vsprintf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/lib/vsscanf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcompat/mempcpy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcompat/stpcpy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcompat/stpncpy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcompat/strnlen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcompat/toascii.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/bindtextdomain.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/dcgettext.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/getopt_data.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/inet_ntoa.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/inet_ntoa_r.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/lc_ctype.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/localeconv.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/mkstemp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/mktemp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/nl_langinfo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/setlocale.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/textdomain.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libcruft/tmpnam.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libdl/dlclose.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libdl/dlerror.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libdl/dlopen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libdl/dlsym.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libshell/fnmatch.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/clearerr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fclose.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fdglue.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fdglue2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fdopen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fdprintf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/feof.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/ferror.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fflush.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fgetc_unlocked.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fgetpos.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fgets.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fileno.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fopen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fprintf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fputc_unlocked.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fputs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fread.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/freopen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fscanf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fseek.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fseeko.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fseeko64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fsetopen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fsetpos.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/ftell.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/ftello.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/ftello64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/fwrite.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/printf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/putchar.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/puts.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/scanf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/setvbuf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/stderr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/stdin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/stdout.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/tmpfile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/ungetc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/vfdprintf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/vfprintf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/vfscanf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/vprintf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libstdio/vscanf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libugly/asctime.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libugly/difftime.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libugly/grantpt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libugly/isleap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libugly/localtime.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libugly/private.h" />
+		<Unit filename="src/libugly/strftime.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libugly/strndup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libugly/strptime.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/libugly/time64.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option compiler="armelfgcc" use="0" buildCommand="$compiler -Os $options $includes -c $file -o $object" />
+		</Unit>
+		<Unit filename="src/libugly/time64.h" />
+		<Unit filename="src/libugly/time64_config.h" />
+		<Unit filename="src/libugly/tzfile.h" />
+		<Unit filename="src/stubs/chmod.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/chroot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/dup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/dup2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/env.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/fchdir.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/fchown.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/fstat64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/ftruncate64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/getgrnam.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/getopt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/getpid.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/getpwuid.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/lstat64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/open64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/pclose.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/popen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/ptsname.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/readdir64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/readlink.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/signal.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/symlink.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/umask.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/unlockpt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/stubs/utime.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/__clear_cache.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/calloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/clock.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/environment.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/free.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/fstat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/gettimeofday.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/isatty.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/jmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/malloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/mmap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/munmap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/realloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/rmdir.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/time.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/syscall/unlink.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/mbrtowc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/mbsrtowcs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/mbstowcs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/wchar.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/wcscat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/wcschr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/wcscmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/wcscpy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/wcslen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/wcsncat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/wcsncmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/wcsncpy.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/wcspbrk.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/wcsrchr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/wchar/wcsstr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

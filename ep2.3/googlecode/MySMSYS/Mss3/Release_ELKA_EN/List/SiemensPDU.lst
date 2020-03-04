@@ -1,0 +1,446 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    14/Jan/2011  23:28:29 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\googlecode\MySMSYS\Mss3\SiemensPDU.cpp  #
+#    Command line    =  D:\pasha\elf\googlecode\MySMSYS\Mss3\SiemensPDU.cpp  #
+#                       -D NEWSGOLD -D ELKA -D LANG_EN -lcN                  #
+#                       D:\pasha\elf\googlecode\MySMSYS\Mss3\Release_ELKA_EN #
+#                       \List\ -o D:\pasha\elf\googlecode\MySMSYS\Mss3\Relea #
+#                       se_ELKA_EN\Obj\ -s9 --no_unroll --cpu_mode arm       #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --fpu None --eec++ --dlib_config      #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\googlecode\MySMSYS\Mss3\Release_ELKA_EN #
+#                       \List\SiemensPDU.lst                                 #
+#    Object file     =  D:\pasha\elf\googlecode\MySMSYS\Mss3\Release_ELKA_EN #
+#                       \Obj\SiemensPDU.r79                                  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\googlecode\MySMSYS\Mss3\SiemensPDU.cpp
+      1          #include "include.h"
+      2          #include "SiemensPDU.h"
+      3          
+      4          void SiememPDU::Add2WS(char *data, WSHDR *ws, int len)
+      5          {
+      6          /*  int i;
+      7            int mlen;
+      8            char *p;
+      9            if(!data || !ws) return 0;
+     10            mlen=(ws->maxlen < len)?ws->maxlen : len;
+     11            p=(char *)(ws->wsbody+1);
+     12            for(i=0;i<mlen;i+=2)
+     13            {
+     14              p[i]=data[i+1];
+     15              p[i+1]=data[i];
+     16            }
+     17            ws->wsbody[0]=mlen/2;
+     18            return (mlen/2);*/
+     19            unsigned short c;
+     20            int i=0;
+     21            CutWSTR(ws, 0);
+     22            if(len<2) return;
+     23            if((len&1)) len--;
+     24            while(i<len)
+     25            {
+     26              c=data[i++];
+     27              c<<=8;
+     28              c|=data[i++];
+     29              wsAppendChar(ws, c);
+     30            }
+     31          }
+     32          
+     33          void SiememPDU::Hex2Num(char *hex, char *num, int len)
+     34          {
+     35            char *p=hex;
+     36            char *pp=num;
+     37            int m=0;
+     38            int c=0;
+     39            int c1;
+     40            if((c1=*p++)==0x91) {*pp='+'; pp++;}
+     41            else if(c1==0xD0) //7bit ?
+     42            {
+     43              len=((len&1)?1:0) + (len>>1);
+     44              while(len)
+     45              {
+     46                c=0x80;
+     47                do
+     48                {
+     49          	if(!m) {c1=*p++; m=8;}
+     50          	c>>=1;
+     51          	if(c1&1) c|=0x80;
+     52          	c1>>=1; m--;
+     53                }while(!(c&1));
+     54                c>>=1;
+     55                if(!c) c='@';
+     56                if(c==2) c='$';
+     57                *pp=c;
+     58                pp++;
+     59                len--;
+     60              }
+     61              *pp=0;
+     62              return;
+     63            }
+     64            while(m<len)
+     65            {
+     66              if(m&1) c1=c>>4;
+     67              else c1=(c=(*p++))&0x0F;
+     68              *pp=c1+0x30; pp++;
+     69              m++;
+     70            }
+     71            *pp=0;
+     72          }
+     73          
+     74          void SiememPDU::Bit7Decode(WSHDR *ws, char *pdata, int skip, int len) //big respect to Rst7(LogSms),
+     75          {
+     76            char *p=pdata;
+     77            int c, c2, i=0;
+     78            while(len)
+     79            {
+     80              c=0x80;
+     81              do
+     82              {
+     83                if(!i) {c2=*p++; i=8;}
+     84                c>>=1;
+     85                if(c2&1) c|=0x80;
+     86                c2>>=1; i--;
+     87              }while(!(c&1));
+     88              c>>=1;
+     89              if(!c) c='@';
+     90              if(c==2) c='$';
+     91              if(skip) skip--;
+     92              else wsAppendChar(ws, c);
+     93              len--;
+     94            }
+     95          }
+     96          
+     97          int SiememPDU::PduDecodeTxt(SDLIST *sd, char *data) //0: fail, 1: successful, //2: unktype
+     98          {
+     99            int c;
+    100            int ttype;
+    101            int isplus, wlen, isems, skip=0;
+    102            char *p;
+    103            WSHDR *ws, wsn, *wst;
+    104            unsigned short wsb[300];
+    105            ws=CreateLocalWS(&wsn, wsb, 300);
+    106            p=data;
+    107            if(*p++!=0x11)
+    108              return 0;
+    109            if(*p++!=0x11)
+    110              return 0;
+    111            c=*p++;
+    112            if(!c)
+    113              return 0;
+    114            c=*p++; //sms center
+    115            p+=c;
+    116            c=*p++;
+    117            if((c>>4)%2) isplus=1;
+    118            else isplus=0;
+    119            if((c>>6)%2) isems=1;
+    120            else isems=0;
+    121            if((sd->type==TYPE_SENT)||(sd->type==TYPE_DRAFT)) //out
+    122            {
+    123              p++;
+    124            }
+    125            c=*p++;
+    126            c=((c&1)?1:0) + (c>>1) +1;
+    127          
+    128            p+=c+1; //num
+    129            ttype=*p++;
+    130            if((sd->type==TYPE_IN_R)||(sd->type==TYPE_IN_N))
+    131            {
+    132              p+=7; //time
+    133            }
+    134            if(isplus&&((sd->type==TYPE_SENT)||(sd->type==TYPE_DRAFT))) p++; //
+    135            c=*p++;
+    136            //...text,
+    137            if(isems)
+    138            {
+    139              skip=(*p)+1;
+    140              if(ttype!=8) skip=((skip*8)+6)/7;
+    141              else
+    142              {
+    143                p+=skip;
+    144                c-=skip;
+    145              }
+    146            }
+    147            if(ttype==0x8)
+    148            {
+    149              Add2WS(p, ws, c);
+    150            }
+    151            else if(ttype==0x0) //7bit
+    152            {
+    153              Bit7Decode(ws, p, skip, c);
+    154              if(wstrlen(ws)>c)
+    155              {
+    156                CutWSTR(ws, c);
+    157              }
+    158            }
+    159            else 
+    160            {
+    161              //sd->msg_prop=sd->msg_prop|ISUNKE;
+    162          	GSMTXT_Decode(ws, p, c, ttype, (void *(*)(int))malloc_adr(), (void (*)())mfree_adr());
+    163          	if (ws->wsbody[0] == 0)
+    164          	{
+    165          		wsprintf(ws, STR_UNK_TXTT, ttype);
+    166          		sd->msg_prop |= ISUNKE;
+    167          	}
+    168          	else
+    169          	{
+    170          		CutWSTR(ws, c);
+    171          	}
+    172            }
+    173            wst=sd->text;
+    174            wlen=wstrlen(ws);
+    175            if(wlen)
+    176            {
+    177              if(wst)
+    178              {
+    179                wlen+=wstrlen(wst);
+    180                sd->text=AllocWS(wlen);
+    181                wstrcpy(sd->text, wst);
+    182                wstrcat(sd->text, ws);
+    183                FreeWS(wst);
+    184              }
+    185              else
+    186              {
+    187                sd->text=AllocWS(wlen);
+    188                wstrcpy(sd->text, ws);
+    189              }
+    190            }
+    191            return 1;
+    192          }
+    193          
+    194          
+    195          int SiememPDU::PduDecodeAll(SDLIST *sd, char *data) //0: fail, 1: successful, //2: unktype
+    196          {
+    197            int c;
+    198            int ttype, wlen;
+    199            int isplus, isems, skip=0, isreport=0;
+    200            char *p;
+    201            WSHDR *ws, wsn;
+    202            unsigned short wsb[300];
+    203            ws=CreateLocalWS(&wsn, wsb, 300);
+    204            p=data;
+    205            if(*p++!=0x11)
+    206              return 0;
+    207            if(*p++!=0x11)
+    208              return 0;
+    209            c=*p++;
+    210            if(!c)
+    211              return 0;
+    212            switch(c)
+    213            {
+    214            case 0x01:
+    215              sd->type=TYPE_IN_R;
+    216              break;
+    217            case 0x03:
+    218              sd->type=TYPE_IN_N;
+    219              break;
+    220            case 0x05:
+    221              sd->type=TYPE_SENT;
+    222              break;
+    223            case 0x07:
+    224              sd->type=TYPE_DRAFT;
+    225              break;
+    226            default:
+    227              sd->type=TYPE_UNK;
+    228              sd->msg_prop=sd->msg_prop|ISUNKT;
+    229              wsprintf(ws, STR_UNK_TYPE, c);
+    230              goto TEND;
+    231              //return 2; //back 
+    232            }
+    233            c=*p++; //sms center
+    234            p+=c;
+    235            c=*p++;
+    236            if(c==0x6)
+    237            {
+    238              isreport=1;
+    239              p++;
+    240            }
+    241            if((c>>4)%2) isplus=1;
+    242            else isplus=0;
+    243            if((c>>6)%2) isems=1;
+    244            else isems=0;
+    245            if((sd->type==TYPE_SENT)||(sd->type==TYPE_DRAFT)) //out
+    246            {
+    247              p++;
+    248            }
+    249            c=*p++;
+    250            if(c)
+    251            {
+    252              Hex2Num(p, sd->number, c);
+    253              c=((c&1)?1:0) + (c>>1) +1;
+    254            }
+    255            else
+    256            {
+    257              c=1;
+    258              sd->number[0]=0;
+    259            }
+    260            if(isreport)
+    261              p+=c;
+    262            else
+    263            {
+    264              p+=c+1; //num
+    265              ttype=*p++;
+    266            }
+    267            if((sd->type==TYPE_IN_R)||(sd->type==TYPE_IN_N))
+    268            {
+    269              char *pp=sd->time;
+    270              int i;
+    271              for(i=0;i<6;i++) //time
+    272              {
+    273                *pp++=p[i]%0x10+'0';
+    274                *pp++=p[i]/0x10+'0';
+    275                if(i<2)
+    276          	*pp++='-';
+    277                if(i==2)
+    278          	*pp++=' ';
+    279                if(i>2&&i<5)
+    280          	*pp++=':';
+    281              }
+    282              *pp=0;
+    283              p+=7; //time
+    284            }
+    285            if(isreport)
+    286            {
+    287              sd->msg_prop=sd->msg_prop|ISREPORT;
+    288              DoSmsReport(sd, p, ws);
+    289              goto TEND;
+    290            }
+    291            if(isplus&&((sd->type==TYPE_SENT)||(sd->type==TYPE_DRAFT))) p++; //
+    292            c=*p++;
+    293            //...text,
+    294            if(isems)
+    295            {
+    296              skip=(*p)+1;
+    297              if(ttype!=8) skip=((skip*8)+6)/7;
+    298              else
+    299              {
+    300                p+=skip;
+    301                c-=skip;
+    302              }
+    303            }
+    304            if(ttype==0x8)
+    305            {
+    306              Add2WS(p, ws, c);
+    307            }
+    308            else if(ttype==0x0) //7bit
+    309            {
+    310              Bit7Decode(ws, p, skip, c);
+    311              sd->msg_prop=sd->msg_prop|IS7BIT;
+    312              if(wstrlen(ws)>c)
+    313              {
+    314                CutWSTR(ws, c);
+    315              }
+    316            }
+    317            else 
+    318            {
+    319              //sd->msg_prop=sd->msg_prop|ISUNKE;
+    320          	GSMTXT_Decode(ws, p, c, ttype, (void *(*)(int))malloc_adr(), (void (*)())mfree_adr());
+    321          	if (ws->wsbody[0] == 0)
+    322          	{
+    323          		wsprintf(ws, STR_UNK_TXTT, ttype);
+    324          		sd->msg_prop |= ISUNKE;
+    325          	}
+    326          	else
+    327          	{
+    328          		CutWSTR(ws, c);
+    329          	}
+    330            }
+    331          TEND:
+    332            wlen=wstrlen(ws);
+    333            if(!wlen)
+    334              wlen=1;
+    335            sd->text=AllocWS(wlen);
+    336            wstrcpy(sd->text, ws);
+    337            return 1;
+    338          }
+    339          
+    340          void SiememPDU::DoSmsReport(SDLIST *sd, char *data, WSHDR *ws)
+    341          {
+    342            char time[32];
+    343            int status, i;
+    344            char *pp=time, *p=data;
+    345            for(i=0;i<6;i++) //time
+    346            {
+    347              *pp++=p[i]%0x10+'0';
+    348              *pp++=p[i]/0x10+'0';
+    349              if(i<2)
+    350                *pp++='-';
+    351              if(i==2)
+    352                *pp++=' ';
+    353              if(i>2&&i<5)
+    354                *pp++=':';
+    355            }
+    356            *pp=0;
+    357            p+=7; //time 
+    358            status=*p;
+    359            if(status==0)
+    360              wsprintf(ws, "%t\r%t: 20%s", LGP->lgp.LGP_MSG_REPORT, LGP->lgp.LGP_MSG_REVEICED, time);
+    361            else
+    362              wsprintf(ws, "%t\r%t: 20%s\r%s (%d)!", LGP->lgp.LGP_MSG_REPORT, LGP->lgp.LGP_TIME, time, LGP->lgp.LGP_UNK_RP_STATUS, status);
+    363          }
+    364          
+    365          
+    366          
+    367          
+    368          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     SiememPDU::Add2WS(char *, WSHDR *, int)
+                                       20
+     SiememPDU::Bit7Decode(WSHDR *, char *, int, int)
+                                       28
+     SiememPDU::DoSmsReport(SDLIST *, char *, WSHDR *)
+                                       52
+     SiememPDU::Hex2Num(char *, char *, int)
+                                        4
+     SiememPDU::PduDecodeAll(SDLIST *, char *)
+                                      668
+     SiememPDU::PduDecodeTxt(SDLIST *, char *)
+                                      656
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     SiememPDU::Add2WS(char *, WSHDR *, int)
+                                      96
+     SiememPDU::Hex2Num(char *, char *, int)
+                                     188
+     SiememPDU::Bit7Decode(WSHDR *, char *, int, int)
+                                     124
+     SiememPDU::PduDecodeTxt(SDLIST *, char *)
+                                     580
+     SiememPDU::PduDecodeAll(SDLIST *, char *)
+                                     880
+     SiememPDU::DoSmsReport(SDLIST *, char *, WSHDR *)
+                                     236
+     ??DataTable2                      4
+     ??DataTable3                      4
+     ?<Constant "%t\r%t: 20%s">       36
+      Others                          24
+
+ 
+ 2 136 bytes in segment CODE
+    36 bytes in segment DATA_C
+ 
+ 2 112 bytes of CODE  memory (+ 24 bytes shared)
+    36 bytes of CONST memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,971 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION    09/Dec/2007  21:14:58 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\googlecode\SieTextView\code.c           #
+#    Command line    =  D:\Pasha\elf\googlecode\SieTextView\code.c -D        #
+#                       NEWSGOLD -D ELKA -lC D:\Pasha\elf\googlecode\SieText #
+#                       View\Release\List\ -lA D:\Pasha\elf\googlecode\SieTe #
+#                       xtView\Release\List\ -o D:\Pasha\elf\googlecode\SieT #
+#                       extView\Release\Obj\ -s9 --no_unroll --cpu_mode arm  #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --fpu None -I                         #
+#                       "D:\Pasha\ARM_Embedded_Workbench\Embedded Workbench  #
+#                       4.0 Evaluation\ARM\INC\" --inline_threshold=2        #
+#    List file       =  D:\Pasha\elf\googlecode\SieTextView\Release\List\cod #
+#                       e.lst                                                #
+#    Object file     =  D:\Pasha\elf\googlecode\SieTextView\Release\Obj\code #
+#                       .r79                                                 #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\googlecode\SieTextView\code.c
+      1          #include "..\inc\swilib.h"
+      2          #include "conf_loader.h"
+      3          #include "code.h"
+      4          
+      5          extern const char MAP0[];
+      6          extern const char MAP1[];
+      7          
+      8          #define MAP_SIZE 32768
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+      9          char gb2312map[MAP_SIZE];
+   \                     gb2312map:
+   \   00000000                      DS8 32768
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     10          int maplen = 0, maplen1 = 0;
+   \                     maplen:
+   \   00000000                      DS8 4
+   \                     maplen1:
+   \   00000004                      DS8 4
+     11          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     12          int getCodeType(char* str) {
+     13            if (!str || (str[0] == 0 && str[1] == 0)) return 0;
+   \                     getCodeType:
+   \   00000000   000050E3           CMP      R0,#+0
+   \   00000004   1EFF2F01           BXEQ     LR
+   \   00000008   0010D0E5           LDRB     R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110D005           LDRBEQ   R1,[R0, #+1]
+   \   00000014   00005103           CMPEQ    R1,#+0
+   \   00000018   0000A003           MOVEQ    R0,#+0
+   \   0000001C   1EFF2F01           BXEQ     LR
+     14            int result = 1;	//ansi
+     15            if (str[0] == 0xff && str[1] == 0xfe) {
+   \   00000020   0020D0E5           LDRB     R2,[R0, #+0]
+   \   00000024   0110A0E3           MOV      R1,#+1
+   \   00000028   FF0052E3           CMP      R2,#+255
+   \   0000002C   0120D005           LDRBEQ   R2,[R0, #+1]
+   \   00000030   FE005203           CMPEQ    R2,#+254
+     16              result = 2; //unicode le
+   \   00000034   0210A003           MOVEQ    R1,#+2
+   \   00000038   0C00000A           BEQ      ??getCodeType_0
+     17            }
+     18            else if (str[0] == 0xfe && str[1] == 0xff) {
+   \   0000003C   0020D0E5           LDRB     R2,[R0, #+0]
+   \   00000040   FE0052E3           CMP      R2,#+254
+   \   00000044   0120D005           LDRBEQ   R2,[R0, #+1]
+   \   00000048   FF005203           CMPEQ    R2,#+255
+     19              result = 3; //unicode be
+   \   0000004C   0310A003           MOVEQ    R1,#+3
+   \   00000050   0600000A           BEQ      ??getCodeType_0
+     20            }
+     21            else if (str[0] == 0xef && str[1] == 0xbb && str[2] == 0xbf) {
+   \   00000054   0020D0E5           LDRB     R2,[R0, #+0]
+   \   00000058   EF0052E3           CMP      R2,#+239
+   \   0000005C   0120D005           LDRBEQ   R2,[R0, #+1]
+   \   00000060   BB005203           CMPEQ    R2,#+187
+   \   00000064   0200D005           LDRBEQ   R0,[R0, #+2]
+   \   00000068   BF005003           CMPEQ    R0,#+191
+     22              result = 4; //utf8
+   \   0000006C   0410A003           MOVEQ    R1,#+4
+     23            }
+     24            return result;
+   \                     ??getCodeType_0:
+   \   00000070   0100A0E1           MOV      R0,R1
+   \   00000074   1EFF2FE1           BX       LR               ;; return
+     25          }
+     26          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     27          void loadGB2UnicodeMap(void) {
+   \                     loadGB2UnicodeMap:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     28          	int fd1 = 0;
+     29            unsigned int ul1 = 0;
+     30          	maplen = maplen1 = 0;
+   \   00000004   ........           LDR      R4,??DataTable4  ;; maplen
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   00008DE5           STR      R0,[SP, #+0]
+   \   00000014   040084E5           STR      R0,[R4, #+4]
+   \   00000018   000084E5           STR      R0,[R4, #+0]
+     31          	if ((fd1 = fopen(MAP0, A_ReadOnly + A_BIN, P_READ, &ul1)) != -1) {
+   \   0000001C   3C009FE5           LDR      R0,??loadGB2UnicodeMap_0  ;; MAP0
+   \   00000020   0D30A0E1           MOV      R3,SP
+   \   00000024   8020A0E3           MOV      R2,#+128
+   \   00000028   801CA0E3           MOV      R1,#+32768
+   \   0000002C   0A0000EF           SWI      +10
+   \   00000030   0050A0E1           MOV      R5,R0
+   \   00000034   010075E3           CMN      R5,#+1
+   \   00000038   3180BD08           POPEQ    {R0,R4,R5,PC}
+     32          		maplen = fread(fd1, gb2312map, MAP_SIZE, &ul1);
+   \   0000003C   ........           LDR      R1,??DataTable7  ;; gb2312map
+   \   00000040   0D30A0E1           MOV      R3,SP
+   \   00000044   802CA0E3           MOV      R2,#+32768
+   \   00000048   0B0000EF           SWI      +11
+   \   0000004C   000084E5           STR      R0,[R4, #+0]
+     33          		fclose(fd1, &ul1);
+   \   00000050   0D10A0E1           MOV      R1,SP
+   \   00000054   0500A0E1           MOV      R0,R5
+   \   00000058   0D0000EF           SWI      +13
+     34          	}
+     35          }
+   \   0000005C   3180BDE8           POP      {R0,R4,R5,PC}    ;; return
+   \                     ??loadGB2UnicodeMap_0:
+   \   00000060   ........           DC32     MAP0
+     36          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     37          void loadUnicode2GBMap(void) {
+   \                     loadUnicode2GBMap:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     38          	int fd1 = 0;
+     39            unsigned int ul1 = 0;
+     40          	maplen = maplen1 = 0;
+   \   00000004   ........           LDR      R4,??DataTable4  ;; maplen
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   00008DE5           STR      R0,[SP, #+0]
+   \   00000014   040084E5           STR      R0,[R4, #+4]
+   \   00000018   000084E5           STR      R0,[R4, #+0]
+     41          	if ((fd1 = fopen(MAP1, A_ReadOnly + A_BIN, P_READ, &ul1)) != -1) {
+   \   0000001C   3C009FE5           LDR      R0,??loadUnicode2GBMap_0  ;; MAP1
+   \   00000020   0D30A0E1           MOV      R3,SP
+   \   00000024   8020A0E3           MOV      R2,#+128
+   \   00000028   801CA0E3           MOV      R1,#+32768
+   \   0000002C   0A0000EF           SWI      +10
+   \   00000030   0050A0E1           MOV      R5,R0
+   \   00000034   010075E3           CMN      R5,#+1
+   \   00000038   3180BD08           POPEQ    {R0,R4,R5,PC}
+     42          		maplen1 = fread(fd1, gb2312map, MAP_SIZE, &ul1);
+   \   0000003C   ........           LDR      R1,??DataTable7  ;; gb2312map
+   \   00000040   0D30A0E1           MOV      R3,SP
+   \   00000044   802CA0E3           MOV      R2,#+32768
+   \   00000048   0B0000EF           SWI      +11
+   \   0000004C   040084E5           STR      R0,[R4, #+4]
+     43          		fclose(fd1, &ul1);
+   \   00000050   0D10A0E1           MOV      R1,SP
+   \   00000054   0500A0E1           MOV      R0,R5
+   \   00000058   0D0000EF           SWI      +13
+     44          	}
+     45          }
+   \   0000005C   3180BDE8           POP      {R0,R4,R5,PC}    ;; return
+   \                     ??loadUnicode2GBMap_0:
+   \   00000060   ........           DC32     MAP1
+     46          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     47          void str2ws_unicode(WSHDR* ws, char* str, int len) {
+   \                     str2ws_unicode:
+   \   00000000   F0002DE9           PUSH     {R4-R7}
+     48            int i = 0;
+     49            char *p;
+     50            p = str;
+   \   00000004   000090E5           LDR      R0,[R0, #+0]
+   \   00000008   00C0A0E3           MOV      R12,#+0
+   \   0000000C   0130A0E1           MOV      R3,R1
+   \   00000010   024080E2           ADD      R4,R0,#+2
+   \   00000014   015083E2           ADD      R5,R3,#+1
+   \   00000018   012042E2           SUB      R2,R2,#+1
+   \   0000001C   040000EA           B        ??str2ws_unicode_0
+     51            while ((p - str) < len - 1) {
+     52              ws->wsbody[++i] = (*(p + 1) << 8) + *p;
+   \                     ??str2ws_unicode_1:
+   \   00000020   ........           LDRB     R6,[R5], #+2
+   \   00000024   ........           LDRB     R7,[R3], #+2
+   \   00000028   01C08CE2           ADD      R12,R12,#+1
+   \   0000002C   066487E0           ADD      R6,R7,R6, LSL #+8
+   \   00000030   ........           STRH     R6,[R4], #+2
+     53              p += 2;
+     54            }
+   \                     ??str2ws_unicode_0:
+   \   00000034   016043E0           SUB      R6,R3,R1
+   \   00000038   020056E1           CMP      R6,R2
+   \   0000003C   F7FFFFBA           BLT      ??str2ws_unicode_1
+     55            ws->wsbody[0] = i;
+   \   00000040   B0C0C0E1           STRH     R12,[R0, #+0]
+     56          }
+   \   00000044   F000BDE8           POP      {R4-R7}
+   \   00000048   1EFF2FE1           BX       LR               ;; return
+     57          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     58          void ws2str_unicode(char* str, WSHDR* ws, int *len) {	//注意范围
+   \                     ws2str_unicode:
+   \   00000000   10002DE9           PUSH     {R4}
+     59            for (int i = 0; i < ws->wsbody[0]; i++) {
+   \   00000004   0030A0E3           MOV      R3,#+0
+   \   00000008   080000EA           B        ??ws2str_unicode_0
+     60            	*(str + (i << 1)) = ws->wsbody[i + 1] & 0xFF;
+   \                     ??ws2str_unicode_1:
+   \   0000000C   83C08CE0           ADD      R12,R12,R3, LSL #+1
+   \   00000010   B2C0DCE1           LDRH     R12,[R12, #+2]
+   \   00000014   ........           STRB     R12,[R0], #+1
+     61            	*(str + (i << 1) + 1) = ws->wsbody[i + 1] >> 8;
+   \   00000018   00C091E5           LDR      R12,[R1, #+0]
+   \   0000001C   83C08CE0           ADD      R12,R12,R3, LSL #+1
+   \   00000020   B2C0DCE1           LDRH     R12,[R12, #+2]
+     62          	}
+   \   00000024   013083E2           ADD      R3,R3,#+1
+   \   00000028   2CC4A0E1           LSR      R12,R12,#+8
+   \   0000002C   ........           STRB     R12,[R0], #+1
+   \                     ??ws2str_unicode_0:
+   \   00000030   00C091E5           LDR      R12,[R1, #+0]
+   \   00000034   B040DCE1           LDRH     R4,[R12, #+0]
+   \   00000038   040053E1           CMP      R3,R4
+   \   0000003C   F2FFFFBA           BLT      ??ws2str_unicode_1
+     63          	*len = ws->wsbody[0] << 1;
+   \   00000040   0400A0E1           MOV      R0,R4
+   \   00000044   8000A0E1           LSL      R0,R0,#+1
+   \   00000048   000082E5           STR      R0,[R2, #+0]
+     64          }
+   \   0000004C   1000BDE8           POP      {R4}
+   \   00000050   1EFF2FE1           BX       LR               ;; return
+     65          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     66          char* unicodeSwitch(char *str, int len, int *rlen, int *llen) {
+   \                     unicodeSwitch:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0070A0E1           MOV      R7,R0
+   \   00000008   0240A0E1           MOV      R4,R2
+   \   0000000C   0350A0E1           MOV      R5,R3
+     67            if (!str) return NULL;
+   \   00000010   000057E3           CMP      R7,#+0
+   \   00000014   0000A003           MOVEQ    R0,#+0
+   \   00000018   F083BD08           POPEQ    {R4-R9,PC}
+     68            int i = 0, l = len >> 1 << 1;
+   \   0000001C   0060A0E3           MOV      R6,#+0
+   \   00000020   C100A0E1           ASR      R0,R1,#+1
+   \   00000024   8080A0E1           LSL      R8,R0,#+1
+   \   00000028   0890A0E1           MOV      R9,R8
+     69            char *p = malloc(l);
+   \   0000002C   0900A0E1           MOV      R0,R9
+   \   00000030   140000EF           SWI      +20
+   \   00000034   010059E3           CMP      R9,#+1
+   \   00000038   070000BA           BLT      ??unicodeSwitch_0
+   \   0000003C   0010A0E1           MOV      R1,R0
+     70            while (i < l) {
+     71              *(p + i) = *(str + i + 1);
+   \                     ??unicodeSwitch_1:
+   \   00000040   0120D7E5           LDRB     R2,[R7, #+1]
+     72              *(p + i + 1) = *(str + i);
+     73              i += 2;
+   \   00000044   026086E2           ADD      R6,R6,#+2
+     74            }
+   \   00000048   090056E1           CMP      R6,R9
+   \   0000004C   ........           STRB     R2,[R1], #+1
+   \   00000050   ........           LDRB     R2,[R7], #+2
+   \   00000054   ........           STRB     R2,[R1], #+1
+   \   00000058   F8FFFFBA           BLT      ??unicodeSwitch_1
+     75            *rlen = *llen = l;
+   \                     ??unicodeSwitch_0:
+   \   0000005C   009085E5           STR      R9,[R5, #+0]
+   \   00000060   008084E5           STR      R8,[R4, #+0]
+     76            return p;
+   \   00000064   F083BDE8           POP      {R4-R9,PC}       ;; return
+     77          }
+     78          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     79          char* gb2unicode(char *str, int len, int *rlen, int *llen) {
+   \                     gb2unicode:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+   \   00000010   0370A0E1           MOV      R7,R3
+     80          	
+     81          	if (!str) return NULL;
+   \   00000014   000054E3           CMP      R4,#+0
+   \   00000018   5100000A           BEQ      ??gb2unicode_0
+     82            if (!maplen) loadGB2UnicodeMap();	//读取map文件
+   \   0000001C   ........           LDR      R8,??DataTable4  ;; maplen
+   \   00000020   000098E5           LDR      R0,[R8, #+0]
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   0000001A           BNE      ??gb2unicode_1
+   \   0000002C   ........           BL       loadGB2UnicodeMap
+     83            if (maplen) {
+   \                     ??gb2unicode_1:
+   \   00000030   000098E5           LDR      R0,[R8, #+0]
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   4600000A           BEQ      ??gb2unicode_2
+     84              int ad = 0, i = 0, j = 0, l = len, bl = len << 1;
+   \   0000003C   00B0A0E3           MOV      R11,#+0
+   \   00000040   00A0A0E3           MOV      R10,#+0
+   \   00000044   8500A0E1           LSL      R0,R5,#+1
+     85              char *s = malloc(bl);
+   \   00000048   140000EF           SWI      +20
+   \   0000004C   0090A0E1           MOV      R9,R0
+     86              *llen = *rlen = 0;
+   \   00000050   0A00A0E1           MOV      R0,R10
+   \   00000054   000086E5           STR      R0,[R6, #+0]
+   \   00000058   000087E5           STR      R0,[R7, #+0]
+     87              bl -= 3;
+   \   0000005C   090000EA           B        ??gb2unicode_3
+     88              while (i < l) {
+     89              	if (str[i] < 0xa1) { //单字节编码
+     90                  s[j++] = str[i++];
+   \                     ??gb2unicode_4:
+   \   00000060   0930CAE7           STRB     R3,[R10, +R9]
+     91                  s[j++] = 0x0;
+   \   00000064   0900C1E7           STRB     R0,[R1, +R9]
+   \   00000068   01A081E2           ADD      R10,R1,#+1
+     92                  (*llen)++;
+   \   0000006C   001097E5           LDR      R1,[R7, #+0]
+   \   00000070   02B0A0E1           MOV      R11,R2
+   \   00000074   011081E2           ADD      R1,R1,#+1
+   \                     ??gb2unicode_5:
+   \   00000078   001087E5           STR      R1,[R7, #+0]
+     93                  (*rlen) += 2;
+   \   0000007C   001096E5           LDR      R1,[R6, #+0]
+   \   00000080   021081E2           ADD      R1,R1,#+2
+   \   00000084   001086E5           STR      R1,[R6, #+0]
+     94                }
+   \                     ??gb2unicode_3:
+   \   00000088   05005BE1           CMP      R11,R5
+   \   0000008C   240000AA           BGE      ??gb2unicode_6
+   \   00000090   0430DBE7           LDRB     R3,[R11, +R4]
+   \   00000094   01108AE2           ADD      R1,R10,#+1
+   \   00000098   01208BE2           ADD      R2,R11,#+1
+   \   0000009C   A10053E3           CMP      R3,#+161
+   \   000000A0   EEFFFF3A           BCC      ??gb2unicode_4
+     95                else {
+     96                	if (i > l - 2) break;
+   \   000000A4   023045E2           SUB      R3,R5,#+2
+   \   000000A8   0B0053E1           CMP      R3,R11
+   \   000000AC   1C0000BA           BLT      ??gb2unicode_6
+     97                  ad = str[i] - 0xa1;
+   \   000000B0   0430DBE7           LDRB     R3,[R11, +R4]
+     98                  if (str[i++] > 0xa9) ad -= 0x6;
+   \   000000B4   04B0DBE7           LDRB     R11,[R11, +R4]
+   \   000000B8   A0C0E0E3           MVN      R12,#+160
+   \   000000BC   03308CE0           ADD      R3,R12,R3
+   \   000000C0   AA005BE3           CMP      R11,#+170
+     99                  ad = (((ad << 8) | str[i++]) - ad * 0xa2 - 0xa1) << 1;
+   \   000000C4   04B0D2E7           LDRB     R11,[R2, +R4]
+   \   000000C8   06304322           SUBCS    R3,R3,#+6
+   \   000000CC   A2C0A0E3           MOV      R12,#+162
+   \   000000D0   03B48BE1           ORR      R11,R11,R3, LSL #+8
+   \   000000D4   9C0303E0           MUL      R3,R12,R3
+   \   000000D8   03304BE0           SUB      R3,R11,R3
+   \   000000DC   A0B0E0E3           MVN      R11,#+160
+   \   000000E0   03308BE0           ADD      R3,R11,R3
+   \   000000E4   01B082E2           ADD      R11,R2,#+1
+    100                  if (ad < maplen - 1) {
+   \   000000E8   002098E5           LDR      R2,[R8, #+0]
+   \   000000EC   8330A0E1           LSL      R3,R3,#+1
+   \   000000F0   012042E2           SUB      R2,R2,#+1
+   \   000000F4   020053E1           CMP      R3,R2
+   \   000000F8   060000AA           BGE      ??gb2unicode_7
+    101                    s[j++] = gb2312map[ad];
+   \   000000FC   ........           LDR      R2,??DataTable7  ;; gb2312map
+   \   00000100   02C0D3E7           LDRB     R12,[R3, +R2]
+    102                    s[j++] = gb2312map[ad + 1];
+   \   00000104   022083E0           ADD      R2,R3,R2
+   \   00000108   09C0CAE7           STRB     R12,[R10, +R9]
+   \   0000010C   0120D2E5           LDRB     R2,[R2, #+1]
+   \   00000110   01A081E2           ADD      R10,R1,#+1
+   \   00000114   0920C1E7           STRB     R2,[R1, +R9]
+    103                  }
+    104                  (*llen) += 2;
+   \                     ??gb2unicode_7:
+   \   00000118   001097E5           LDR      R1,[R7, #+0]
+   \   0000011C   021081E2           ADD      R1,R1,#+2
+   \   00000120   D4FFFFEA           B        ??gb2unicode_5
+    105                  (*rlen) += 2;
+    106                }
+    107              }
+    108              if (*rlen < (l << 1)) {
+   \                     ??gb2unicode_6:
+   \   00000124   000096E5           LDR      R0,[R6, #+0]
+   \   00000128   850050E1           CMP      R0,R5, LSL #+1
+   \   0000012C   070000AA           BGE      ??gb2unicode_8
+    109              	char *r = malloc(*rlen);
+   \   00000130   140000EF           SWI      +20
+    110              	memcpy(r, s, *rlen);
+   \   00000134   002096E5           LDR      R2,[R6, #+0]
+   \   00000138   0040A0E1           MOV      R4,R0
+   \   0000013C   0910A0E1           MOV      R1,R9
+   \   00000140   1E0100EF           SWI      +286
+    111              	mfree(s);
+   \   00000144   0900A0E1           MOV      R0,R9
+   \   00000148   150000EF           SWI      +21
+    112              	s = r;
+   \   0000014C   0490A0E1           MOV      R9,R4
+    113              }
+    114              return s;
+   \                     ??gb2unicode_8:
+   \   00000150   0900A0E1           MOV      R0,R9
+   \   00000154   F08FBDE8           POP      {R4-R11,PC}
+    115            }
+    116            else {
+    117            	ShowMSG(1, (int) "open map file failed!");
+   \                     ??gb2unicode_2:
+   \   00000158   ........           LDR      R1,??DataTable8  ;; `?<Constant "open map file failed!">`
+   \   0000015C   0100A0E3           MOV      R0,#+1
+   \   00000160   480100EF           SWI      +328
+    118            	return NULL;  
+   \                     ??gb2unicode_0:
+   \   00000164   0000A0E3           MOV      R0,#+0
+   \   00000168   F08FBDE8           POP      {R4-R11,PC}      ;; return
+    119            }
+    120          }
+    121          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    122          char* utf82unicode(char *str, int len, int *rlen, int *llen) {
+   \                     utf82unicode:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+   \   00000010   0370A0E1           MOV      R7,R3
+    123            if (!str) return NULL;
+   \   00000014   000054E3           CMP      R4,#+0
+   \   00000018   0000A003           MOVEQ    R0,#+0
+   \   0000001C   F087BD08           POPEQ    {R4-R10,PC}
+    124            
+    125          /*
+    126            char *ms = malloc (50);
+    127            sprintf(ms, "%d, %d", j, l);
+    128            ShowMSG(1, (int) ms);
+    129            mfree(ms);*/
+    130            
+    131            int i = 0, j = 0, l = len, bl = len << 1;
+   \   00000020   00A0A0E3           MOV      R10,#+0
+    132            char* s = malloc(bl);
+   \   00000024   8580A0E1           LSL      R8,R5,#+1
+   \   00000028   0800A0E1           MOV      R0,R8
+   \   0000002C   140000EF           SWI      +20
+   \   00000030   0090A0E1           MOV      R9,R0
+    133            char c;
+    134            *rlen = *llen = 0;
+   \   00000034   0000A0E3           MOV      R0,#+0
+   \   00000038   000087E5           STR      R0,[R7, #+0]
+   \   0000003C   000086E5           STR      R0,[R6, #+0]
+    135            bl -= 3;
+    136            for (i = 0; i < l; i++) {
+   \   00000040   00C0A0E1           MOV      R12,R0
+   \   00000044   1A0000EA           B        ??utf82unicode_0
+    137              c = str[i];
+    138              if ((c >> 7) == 0x0) {  //单字节编码
+    139                s[j++] = c;
+    140                s[j++] = 0x0;
+    141                (*llen)++;
+    142              }
+    143              else if ((c >> 5) == 0x6 && i < l - 1) { //双字节编码
+    144                s[++j] = ((c & 0x1f) >> 2);
+    145                s[j - 1] = c << 6;
+    146                c = str[++i];
+    147                s[j - 1] = s[j - 1] | (c & 0x3f);
+    148                j++;
+    149                (*llen) += 2;
+    150              }
+    151              else if ((c >> 4) == 0xe && i < l - 2) { //三字节编码
+    152                s[++j] = c << 4;
+   \                     ??utf82unicode_1:
+   \   00000048   0332A0E1           LSL      R3,R3,#+4
+   \   0000004C   0930C1E7           STRB     R3,[R1, +R9]
+    153                c = str[++i];
+   \   00000050   0430D2E7           LDRB     R3,[R2, +R4]
+    154                s[j] = s[j] | ((c >> 2) & 0xf);
+   \   00000054   09A0D1E7           LDRB     R10,[R1, +R9]
+   \   00000058   43C1A0E1           ASR      R12,R3,#+2
+   \   0000005C   0FC00CE2           AND      R12,R12,#0xF
+   \   00000060   0AA08CE1           ORR      R10,R12,R10
+   \   00000064   09A0C1E7           STRB     R10,[R1, +R9]
+    155                s[j - 1] = c << 6;
+   \   00000068   09A081E0           ADD      R10,R1,R9
+   \   0000006C   0333A0E1           LSL      R3,R3,#+6
+   \   00000070   01304AE5           STRB     R3,[R10, #-1]
+    156                c = str[++i];
+   \   00000074   01C082E2           ADD      R12,R2,#+1
+    157                s[j - 1] = s[j - 1] | (c & 0x3f);
+   \   00000078   04A0DCE7           LDRB     R10,[R12, +R4]
+   \   0000007C   093081E0           ADD      R3,R1,R9
+   \   00000080   013053E5           LDRB     R3,[R3, #-1]
+   \   00000084   092081E0           ADD      R2,R1,R9
+   \   00000088   3FA00AE2           AND      R10,R10,#0x3F
+   \   0000008C   03308AE1           ORR      R3,R10,R3
+   \   00000090   013042E5           STRB     R3,[R2, #-1]
+    158                j++;
+   \   00000094   01A081E2           ADD      R10,R1,#+1
+    159                (*llen) += 3;
+   \   00000098   001097E5           LDR      R1,[R7, #+0]
+   \   0000009C   031081E2           ADD      R1,R1,#+3
+   \                     ??utf82unicode_2:
+   \   000000A0   001087E5           STR      R1,[R7, #+0]
+    160                
+    161              }
+    162              else
+    163              	break;
+    164              (*rlen) += 2;
+   \   000000A4   001096E5           LDR      R1,[R6, #+0]
+   \   000000A8   01C08CE2           ADD      R12,R12,#+1
+   \   000000AC   021081E2           ADD      R1,R1,#+2
+   \   000000B0   001086E5           STR      R1,[R6, #+0]
+   \                     ??utf82unicode_0:
+   \   000000B4   05005CE1           CMP      R12,R5
+   \   000000B8   2A0000AA           BGE      ??utf82unicode_3
+   \   000000BC   0430DCE7           LDRB     R3,[R12, +R4]
+   \   000000C0   01108AE2           ADD      R1,R10,#+1
+   \   000000C4   800013E3           TST      R3,#0x80
+   \   000000C8   0500001A           BNE      ??utf82unicode_4
+   \   000000CC   0930CAE7           STRB     R3,[R10, +R9]
+   \   000000D0   0900C1E7           STRB     R0,[R1, +R9]
+   \   000000D4   01A081E2           ADD      R10,R1,#+1
+   \   000000D8   001097E5           LDR      R1,[R7, #+0]
+   \   000000DC   011081E2           ADD      R1,R1,#+1
+   \   000000E0   EEFFFFEA           B        ??utf82unicode_2
+   \                     ??utf82unicode_4:
+   \   000000E4   01208CE2           ADD      R2,R12,#+1
+   \   000000E8   03A0A0E1           MOV      R10,R3
+   \   000000EC   AAA2A0E1           LSR      R10,R10,#+5
+   \   000000F0   06005AE3           CMP      R10,#+6
+   \   000000F4   1400001A           BNE      ??utf82unicode_5
+   \   000000F8   01A045E2           SUB      R10,R5,#+1
+   \   000000FC   0A005CE1           CMP      R12,R10
+   \   00000100   110000AA           BGE      ??utf82unicode_5
+   \   00000104   1FA003E2           AND      R10,R3,#0x1F
+   \   00000108   4AA1A0E1           ASR      R10,R10,#+2
+   \   0000010C   09A0C1E7           STRB     R10,[R1, +R9]
+   \   00000110   09A081E0           ADD      R10,R1,R9
+   \   00000114   0333A0E1           LSL      R3,R3,#+6
+   \   00000118   01304AE5           STRB     R3,[R10, #-1]
+   \   0000011C   02C0A0E1           MOV      R12,R2
+   \   00000120   04A0DCE7           LDRB     R10,[R12, +R4]
+   \   00000124   093081E0           ADD      R3,R1,R9
+   \   00000128   013053E5           LDRB     R3,[R3, #-1]
+   \   0000012C   092081E0           ADD      R2,R1,R9
+   \   00000130   3FA00AE2           AND      R10,R10,#0x3F
+   \   00000134   03308AE1           ORR      R3,R10,R3
+   \   00000138   013042E5           STRB     R3,[R2, #-1]
+   \   0000013C   01A081E2           ADD      R10,R1,#+1
+   \   00000140   001097E5           LDR      R1,[R7, #+0]
+   \   00000144   021081E2           ADD      R1,R1,#+2
+   \   00000148   D4FFFFEA           B        ??utf82unicode_2
+   \                     ??utf82unicode_5:
+   \   0000014C   03A0A0E1           MOV      R10,R3
+   \   00000150   2AA2A0E1           LSR      R10,R10,#+4
+   \   00000154   0E005AE3           CMP      R10,#+14
+   \   00000158   0200001A           BNE      ??utf82unicode_3
+   \   0000015C   02A045E2           SUB      R10,R5,#+2
+   \   00000160   0A005CE1           CMP      R12,R10
+   \   00000164   B7FFFFBA           BLT      ??utf82unicode_1
+    165            }
+    166          
+    167            if (*rlen < (l << 1)) {
+   \                     ??utf82unicode_3:
+   \   00000168   000096E5           LDR      R0,[R6, #+0]
+   \   0000016C   080050E1           CMP      R0,R8
+   \   00000170   070000AA           BGE      ??utf82unicode_6
+    168             	char *r = malloc(*rlen);
+   \   00000174   140000EF           SWI      +20
+    169             	memcpy(r, s, *rlen);
+   \   00000178   002096E5           LDR      R2,[R6, #+0]
+   \   0000017C   0040A0E1           MOV      R4,R0
+   \   00000180   0910A0E1           MOV      R1,R9
+   \   00000184   1E0100EF           SWI      +286
+    170             	mfree(s);
+   \   00000188   0900A0E1           MOV      R0,R9
+   \   0000018C   150000EF           SWI      +21
+    171             	s = r;
+   \   00000190   0490A0E1           MOV      R9,R4
+    172            }
+    173            return s; 
+   \                     ??utf82unicode_6:
+   \   00000194   0900A0E1           MOV      R0,R9
+   \   00000198   F087BDE8           POP      {R4-R10,PC}      ;; return
+    174          }
+    175          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    176          char* unicode2gb(char *str, int *len) {
+   \                     unicode2gb:
+   \   00000000   F2472DE9           PUSH     {R1,R4-R10,LR}
+   \   00000004   40DE4DE2           SUB      SP,SP,#+1024
+   \   00000008   0040B0E1           MOVS     R4,R0
+    177          		
+    178          	if (!str) return NULL;
+   \   0000000C   5500000A           BEQ      ??unicode2gb_0
+    179          	if (!maplen1) loadUnicode2GBMap();
+   \   00000010   60519FE5           LDR      R5,??unicode2gb_1  ;; maplen
+   \   00000014   040095E5           LDR      R0,[R5, #+4]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   0000001A           BNE      ??unicode2gb_2
+   \   00000020   ........           BL       loadUnicode2GBMap
+    180          	if (maplen1) {
+   \                     ??unicode2gb_2:
+   \   00000024   040095E5           LDR      R0,[R5, #+4]
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   4A00000A           BEQ      ??unicode2gb_3
+    181          		int aj[256];
+    182          		int i = 0;
+    183          		for(int k = 0; i < 256; k += 2) {
+   \   00000030   ........           LDR      R6,??DataTable7  ;; gb2312map
+   \   00000034   0D00A0E1           MOV      R0,SP
+   \   00000038   0610A0E1           MOV      R1,R6
+   \   0000003C   402FA0E3           MOV      R2,#+256
+    184          			aj[i++] = ((gb2312map[k] & 0xff) << 8) | (gb2312map[k + 1] & 0xff);
+   \                     ??unicode2gb_4:
+   \   00000040   0030D1E5           LDRB     R3,[R1, #+0]
+   \   00000044   0170D1E5           LDRB     R7,[R1, #+1]
+    185          		}
+   \   00000048   021081E2           ADD      R1,R1,#+2
+   \   0000004C   012052E2           SUBS     R2,R2,#+1
+   \   00000050   033487E1           ORR      R3,R7,R3, LSL #+8
+   \   00000054   ........           STR      R3,[R0], #+4
+   \   00000058   F8FFFF1A           BNE      ??unicode2gb_4
+    186          		char *abyte0 = malloc(*len);
+   \   0000005C   00049DE5           LDR      R0,[SP, #+1024]
+    187            	int l = 0;
+   \   00000060   0080A0E3           MOV      R8,#+0
+   \   00000064   000090E5           LDR      R0,[R0, #+0]
+   \   00000068   140000EF           SWI      +20
+   \   0000006C   0070A0E1           MOV      R7,R0
+    188            	for(int i1 = 0; i1 < (*len) - 1; i1 += 2) {
+   \   00000070   0000A0E3           MOV      R0,#+0
+   \   00000074   040000EA           B        ??unicode2gb_5
+    189          			char c1 = str[i1 + 1];			//高位
+    190              	char byte0 = str[i1];		//低位
+    191          			if(c1 == 0 && (byte0 & 0x80) == 0) {			//小于 0x0080 */
+    192          			/*
+    193          			if(byte0 == 10)
+    194          				abyte0[l++] = 13;*/
+    195          				
+    196          				abyte0[l++] = byte0;
+    197              	}
+    198              	else {
+    199              		int c2 = aj[c1];
+    200              		if (c2 > maplen1) return NULL;
+    201          				int j1 = gb2312map[c2] & 0xff;
+    202                	int k1 = j1 * 3 + 1;				//长度
+    203                	int l1 = 1;
+    204                	do {
+    205          					if(l1 >= k1) break;
+    206                  	if(gb2312map[c2 + l1] == byte0) {
+    207          						abyte0[l++] = gb2312map[++l1 + c2];
+    208          						abyte0[l++] = gb2312map[++l1 + c2];
+    209          						break;
+    210          					}
+    211                  	l1 += 3;
+   \                     ??unicode2gb_6:
+   \   00000078   03E08EE2           ADD      LR,LR,#+3
+    212          				} while(1);
+   \   0000007C   0C005EE1           CMP      LR,R12
+   \   00000080   1B0000BA           BLT      ??unicode2gb_7
+   \                     ??unicode2gb_8:
+   \   00000084   020080E2           ADD      R0,R0,#+2
+   \   00000088   024084E2           ADD      R4,R4,#+2
+   \                     ??unicode2gb_5:
+   \   0000008C   00149DE5           LDR      R1,[SP, #+1024]
+   \   00000090   001091E5           LDR      R1,[R1, #+0]
+   \   00000094   011041E2           SUB      R1,R1,#+1
+   \   00000098   010050E1           CMP      R0,R1
+   \   0000009C   200000AA           BGE      ??unicode2gb_9
+   \   000000A0   0130D4E5           LDRB     R3,[R4, #+1]
+   \   000000A4   0020D4E5           LDRB     R2,[R4, #+0]
+   \   000000A8   011088E2           ADD      R1,R8,#+1
+   \   000000AC   0390B0E1           MOVS     R9,R3
+   \   000000B0   80001203           TSTEQ    R2,#0x80
+   \   000000B4   0720C807           STRBEQ   R2,[R8, +R7]
+   \   000000B8   0180A001           MOVEQ    R8,R1
+   \   000000BC   F0FFFF0A           BEQ      ??unicode2gb_8
+   \   000000C0   0D90A0E1           MOV      R9,SP
+   \   000000C4   033199E7           LDR      R3,[R9, +R3, LSL #+2]
+   \   000000C8   049095E5           LDR      R9,[R5, #+4]
+   \   000000CC   030059E1           CMP      R9,R3
+   \   000000D0   240000BA           BLT      ??unicode2gb_0
+   \   000000D4   0690D3E7           LDRB     R9,[R3, +R6]
+   \   000000D8   01E0A0E3           MOV      LR,#+1
+   \   000000DC   899089E0           ADD      R9,R9,R9, LSL #+1
+   \   000000E0   01C089E2           ADD      R12,R9,#+1
+   \   000000E4   02005CE3           CMP      R12,#+2
+   \   000000E8   E5FFFFBA           BLT      ??unicode2gb_8
+   \   000000EC   069083E0           ADD      R9,R3,R6
+   \   000000F0   019089E2           ADD      R9,R9,#+1
+   \                     ??unicode2gb_7:
+   \   000000F4   ........           LDRB     R10,[R9], #+3
+   \   000000F8   02005AE1           CMP      R10,R2
+   \   000000FC   DDFFFF1A           BNE      ??unicode2gb_6
+   \   00000100   01E08EE2           ADD      LR,LR,#+1
+   \   00000104   0E2083E0           ADD      R2,R3,LR
+   \   00000108   062082E0           ADD      R2,R2,R6
+   \   0000010C   0030D2E5           LDRB     R3,[R2, #+0]
+   \   00000110   0730C8E7           STRB     R3,[R8, +R7]
+   \   00000114   0120D2E5           LDRB     R2,[R2, #+1]
+   \   00000118   018081E2           ADD      R8,R1,#+1
+   \   0000011C   0720C1E7           STRB     R2,[R1, +R7]
+   \   00000120   D7FFFFEA           B        ??unicode2gb_8
+    213          			}
+    214          		}
+    215          		char *abyte1 = malloc(l);
+   \                     ??unicode2gb_9:
+   \   00000124   0800A0E1           MOV      R0,R8
+   \   00000128   140000EF           SWI      +20
+   \   0000012C   0040A0E1           MOV      R4,R0
+    216          		memcpy(abyte1, abyte0, l);
+   \   00000130   0820A0E1           MOV      R2,R8
+   \   00000134   0710A0E1           MOV      R1,R7
+   \   00000138   1E0100EF           SWI      +286
+    217          		*len = l;
+   \   0000013C   00049DE5           LDR      R0,[SP, #+1024]
+   \   00000140   008080E5           STR      R8,[R0, #+0]
+    218          		mfree(abyte0);
+   \   00000144   0700A0E1           MOV      R0,R7
+   \   00000148   150000EF           SWI      +21
+    219          		return abyte1;
+   \   0000014C   0400A0E1           MOV      R0,R4
+   \   00000150   04D08DE2           ADD      SP,SP,#+4
+   \   00000154   40DE8DE2           ADD      SP,SP,#+1024
+   \   00000158   F087BDE8           POP      {R4-R10,PC}
+    220          	}
+    221          	else {
+    222          		ShowMSG(1, (int) "open map file failed!");
+   \                     ??unicode2gb_3:
+   \   0000015C   ........           LDR      R1,??DataTable8  ;; `?<Constant "open map file failed!">`
+   \   00000160   0100A0E3           MOV      R0,#+1
+   \   00000164   480100EF           SWI      +328
+    223          		return NULL;
+   \                     ??unicode2gb_0:
+   \   00000168   0000A0E3           MOV      R0,#+0
+   \   0000016C   04D08DE2           ADD      SP,SP,#+4
+   \   00000170   40DE8DE2           ADD      SP,SP,#+1024
+   \   00000174   F087BDE8           POP      {R4-R10,PC}
+   \                     ??unicode2gb_1:
+   \   00000178   ........           DC32     maplen
+    224          	}
+    225          	/*
+    226          	int ag = 0;
+    227          	unsigned int ul1 = 0;
+    228          	int aj[256];
+    229          	char ai[768];
+    230          	if ((ag = fopen(MAP1, A_ReadOnly + A_BIN, P_READ, &ul1)) != -1) {
+    231          		fread(ag, ai, 512, &ul1);
+    232          		int i = 0;
+    233          		for(int k = 0; i < 256; k += 2) {
+    234          			aj[i++] = ((ai[k] & 0xff) << 8) | (ai[k + 1] & 0xff);
+    235          		}
+    236          	}
+    237          	else {
+    238          		ShowMSG(1, (int) "open map file Error!");
+    239          		return NULL;
+    240          	}
+    241            
+    242            char *abyte0 = malloc(*len);
+    243            int l = 0;
+    244          
+    245            for(int i1 = 0; i1 < (*len) - 1; i1 += 2) {
+    246          		char c1 = str[i1 + 1];			//高位
+    247              char byte0 = str[i1];		//低位
+    248          		if(c1 == 0 && (byte0 & 0x80) == 0) {			//小于 0x0080 */
+    249          			/*
+    250          			if(byte0 == 10)
+    251          				abyte0[l++] = 13;*/
+    252          				/*
+    253          			abyte0[l++] = byte0;
+    254              }
+    255              else {
+    256              	int c2 = aj[c1];
+    257              	if (!lseek(ag, c2, S_SET, &ul1, &ul1)) {
+    258              		mfree(abyte0);
+    259              		fclose(ag, &ul1);
+    260              		return NULL;
+    261              	}
+    262          			fread(ag, ai, 768, &ul1);
+    263          			int j1 = ai[0] & 0xff;
+    264                int k1 = j1 * 3 + 1;				//长度
+    265                int l1 = 1;
+    266                do {
+    267          				if(l1 >= k1) break;
+    268                  if(ai[l1] == byte0) {
+    269          					abyte0[l++] = ai[++l1];
+    270          					abyte0[l++] = ai[++l1];
+    271          					break;
+    272          				}
+    273                  l1 += 3;
+    274          			} while(1);
+    275          		}
+    276          	}
+    277            
+    278          	char *abyte1 = malloc(l);
+    279          	memcpy(abyte1, abyte0, l);
+    280          	*len = l;
+    281          	mfree(abyte0);
+    282          	fclose(ag, &ul1);
+    283            return abyte1;*/
+    284          }
+    285          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    286          char* unicode2utf8(char *str, int *len) {
+   \                     unicode2utf8:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+   \   00000008   0060A0E1           MOV      R6,R0
+    287          if (!str) return NULL;
+   \   0000000C   000056E3           CMP      R6,#+0
+   \   00000010   0000A003           MOVEQ    R0,#+0
+   \   00000014   7080BD08           POPEQ    {R4-R6,PC}
+    288          
+    289            int i = 0, j = 0;
+    290            char* s = malloc((*len) << 1);
+   \   00000018   000094E5           LDR      R0,[R4, #+0]
+   \   0000001C   0050A0E3           MOV      R5,#+0
+   \   00000020   8000A0E1           LSL      R0,R0,#+1
+   \   00000024   140000EF           SWI      +20
+    291            
+    292            int c;
+    293            for (i = 0; i < (*len) - 1; i += 2) {
+   \   00000028   0010A0E3           MOV      R1,#+0
+   \   0000002C   0C0000EA           B        ??unicode2utf8_0
+    294              c = (str[i + 1] << 8) | str[i];
+    295              if (c < 0x80) {  //单字节编码
+    296                s[j++] = (char) c;
+    297              }
+    298              else if (c > 0x7f && c < 0x800) { //双字节编码
+    299              	s[j++] = (c >> 6) | 0xc0;
+    300              	s[j++] = c & 0x3f | 0x80;
+    301              }
+    302              else if (c > 0x7ff && c < 0x10000) { //三字节编码
+   \                     ??unicode2utf8_1:
+   \   00000030   400B5CE3           CMP      R12,#+65536
+   \   00000034   080000AA           BGE      ??unicode2utf8_2
+    303                s[j++] = (c >> 12) | 0xe0;
+   \   00000038   4CC6A0E1           ASR      R12,R12,#+12
+   \   0000003C   E0C08CE3           ORR      R12,R12,#0xE0
+   \   00000040   00C0C5E7           STRB     R12,[R5, +R0]
+    304                s[j++] = (c >> 6) & 0x3f | 0x80;
+   \   00000044   3F500EE2           AND      R5,LR,#0x3F
+   \   00000048   805085E3           ORR      R5,R5,#0x80
+   \   0000004C   0050C2E7           STRB     R5,[R2, +R0]
+   \   00000050   012082E2           ADD      R2,R2,#+1
+    305                s[j++] = c & 0x3f | 0x80;
+   \                     ??unicode2utf8_3:
+   \   00000054   0030C2E7           STRB     R3,[R2, +R0]
+   \   00000058   015082E2           ADD      R5,R2,#+1
+    306              }
+   \                     ??unicode2utf8_2:
+   \   0000005C   021081E2           ADD      R1,R1,#+2
+   \   00000060   026086E2           ADD      R6,R6,#+2
+   \                     ??unicode2utf8_0:
+   \   00000064   002094E5           LDR      R2,[R4, #+0]
+   \   00000068   012042E2           SUB      R2,R2,#+1
+   \   0000006C   020051E1           CMP      R1,R2
+   \   00000070   0F0000AA           BGE      ??unicode2utf8_4
+   \   00000074   0120D6E5           LDRB     R2,[R6, #+1]
+   \   00000078   0030D6E5           LDRB     R3,[R6, #+0]
+   \   0000007C   02C483E1           ORR      R12,R3,R2, LSL #+8
+   \   00000080   012085E2           ADD      R2,R5,#+1
+   \   00000084   80005CE3           CMP      R12,#+128
+   \   00000088   00C0C5B7           STRBLT   R12,[R5, +R0]
+   \   0000008C   0250A0B1           MOVLT    R5,R2
+   \   00000090   F1FFFFBA           BLT      ??unicode2utf8_2
+   \   00000094   3F300CE2           AND      R3,R12,#0x3F
+   \   00000098   803083E3           ORR      R3,R3,#0x80
+   \   0000009C   4CE3A0E1           ASR      LR,R12,#+6
+   \   000000A0   800E5CE3           CMP      R12,#+2048
+   \   000000A4   E1FFFFAA           BGE      ??unicode2utf8_1
+   \   000000A8   C0C08EE3           ORR      R12,LR,#0xC0
+   \   000000AC   00C0C5E7           STRB     R12,[R5, +R0]
+   \   000000B0   E7FFFFEA           B        ??unicode2utf8_3
+    307            }
+    308            *len = j;
+   \                     ??unicode2utf8_4:
+   \   000000B4   005084E5           STR      R5,[R4, #+0]
+    309            return s; 
+   \   000000B8   7080BDE8           POP      {R4-R6,PC}       ;; return
+    310          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     maplen
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     gb2312map
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     `?<Constant "open map file failed!">`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "open map file failed!">`:
+   \   00000000   6F70656E206D       DC8 "open map file failed!"
+   \              61702066696C
+   \              65206661696C
+   \              65642100    
+   \   00000016   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function          CSTACK
+     --------          ------
+     gb2unicode           36
+     getCodeType           0
+     loadGB2UnicodeMap    16
+     loadUnicode2GBMap    16
+     str2ws_unicode       16
+     unicode2gb         1064
+     unicode2utf8         16
+     unicodeSwitch        28
+     utf82unicode         32
+     ws2str_unicode        4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     gb2312map                      32768
+     maplen                             8
+     getCodeType                      120
+     loadGB2UnicodeMap                100
+     loadUnicode2GBMap                100
+     str2ws_unicode                    76
+     ws2str_unicode                    84
+     unicodeSwitch                    104
+     gb2unicode                       364
+     utf82unicode                     412
+     unicode2gb                       380
+     unicode2utf8                     188
+     ??DataTable4                       4
+     ??DataTable7                       4
+     ??DataTable8                       4
+     ?<Constant "open map file failed!">
+                                       24
+      Others                           52
+
+ 
+  1 980 bytes in segment CODE
+     24 bytes in segment DATA_C
+ 32 776 bytes in segment DATA_Z
+     12 bytes in segment INITTAB
+ 
+  1 940 bytes of CODE  memory (+ 52 bytes shared)
+     24 bytes of CONST memory
+ 32 776 bytes of DATA  memory
+
+Errors: none
+Warnings: none

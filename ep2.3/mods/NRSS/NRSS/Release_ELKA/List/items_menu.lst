@@ -1,0 +1,1747 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    29/Oct/2008  03:34:17 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT_\NRSS\items_menu.c          #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT_\NRSS\items_menu.c -D       #
+#                       NEWSGOLD -D ELKA -lCN D:\Pasha\elf\_MY_PROJECT_\NRSS #
+#                       \Release_ELKA\List\ -la D:\Pasha\elf\_MY_PROJECT_\NR #
+#                       SS\Release_ELKA\List\ -o D:\Pasha\elf\_MY_PROJECT_\N #
+#                       RSS\Release_ELKA\Obj\ -s9 --no_unroll --cpu_mode     #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --dlib_config            #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT_\NRSS\Release_ELKA\List\ite #
+#                       ms_menu.lst                                          #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT_\NRSS\Release_ELKA\Obj\item #
+#                       s_menu.r79                                           #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT_\NRSS\items_menu.c
+      1          #include "..\inc\swilib.h"
+      2          #include "rect_patcher.h"
+      3          #include "items_menu.h"
+      4          #include "view_item.h"
+      5          #include "main.h"
+      6          #include "strings.h"
+      7          #include "print.h"
+      8          /*
+      9          static const HEADER_DESC items_menu_hdr = {0, 0, 0, 0, NULL, (int)"RSS2.0 Reader", LGP_NULL};
+     10          
+     11          static const int items_menu_softkeys[] = {0,1,2};
+     12          
+     13          static const SOFTKEY_DESC items_menu_sk[]=
+     14          {
+     15            {0x0018, 0x0000, (int)"View"},
+     16            {0x0001, 0x0000, (int)"Close"},
+     17            {0x003D, 0x0000, (int)LGP_DOIT_PIC}
+     18          };
+     19          
+     20          static const SOFTKEYSTAB items_menu_skt =
+     21          {
+     22            items_menu_sk, 0
+     23          };
+     24          
+     25          static int items_menu_onkey(void *data, GUI_MSG *msg)
+     26          {
+     27            int i;
+     28            RSS_ITEM *p=rss_first;
+     29            i=GetCurMenuItem(data);
+     30            for (int n=0; p && n!=i; n++)
+     31            {
+     32              p=p->next;    
+     33            }
+     34            if (msg->keys==0x3D)
+     35            {
+     36              if (p)
+     37              {
+     38                create_view_item(p);
+     39              }
+     40              return(-1);
+     41            }
+     42            return (0); 
+     43          }
+     44          
+     45          static void items_menu_ghook(void *data, int cmd)
+     46          {
+     47            if (cmd==0x0A)
+     48            {
+     49              DisableIDLETMR();
+     50            } 
+     51          }
+     52          
+     53          static void items_menu_iconhndl(void *data, int curitem, void *user_pointer)
+     54          {
+     55            RSS_ITEM *p=rss_first;
+     56            void *item=AllocMLMenuItem(data);
+     57            
+     58            WSHDR *ws2;
+     59            WSHDR *ws4;
+     60          
+     61            WSHDR ws1loc, *ws1;
+     62            unsigned short num[128];
+     63            ws1=CreateLocalWS(&ws1loc,num,128);
+     64          
+     65            WSHDR ws3loc, *ws3;
+     66            unsigned short num3[128];
+     67            ws3=CreateLocalWS(&ws3loc,num3,128);
+     68            
+     69            for (int i=0; p && i!=curitem; i++)
+     70            {
+     71              p=p->next;    
+     72            }
+     73            if (p)
+     74            {
+     75              if (p->title)
+     76              {
+     77                ascii2ws(ws1, p->title);
+     78              }
+     79              else
+     80              {
+     81                ascii2ws(ws1, "Unknown title");
+     82              }
+     83              
+     84              
+     85              if (p->description)
+     86              {
+     87                ascii2ws(ws3, p->description);
+     88              }
+     89              else
+     90              {
+     91                ascii2ws(ws3, "No description");
+     92              }
+     93            }
+     94            else
+     95            {
+     96              ascii2ws(ws1, "Error!");
+     97            }
+     98          
+     99            ws2=AllocMenuWS(data,ws1->wsbody[0]);
+    100            wstrcpy(ws2,ws1);
+    101            
+    102            ws4=AllocMenuWS(data,ws3->wsbody[0]);
+    103            wstrcpy(ws4,ws3);
+    104            
+    105            SetMLMenuItemText(data, item, ws2, ws4, curitem);
+    106          }
+    107          
+    108          
+    109          static const ML_MENU_DESC items_menu_desc=
+    110          {
+    111            8,items_menu_onkey,items_menu_ghook,NULL,
+    112            items_menu_softkeys,
+    113            &items_menu_skt,
+    114            0x10, //+0x400
+    115            items_menu_iconhndl,
+    116            NULL,   //Items
+    117            NULL,   //Procs
+    118            0,   //n
+    119            1 //Добавочных строк  
+    120          };
+    121          
+    122          int create_rssitems_menu(void)
+    123          {
+    124            int i=0;
+    125            RSS_ITEM *p=(RSS_ITEM *)&rss_first;
+    126            while((p=p->next)) i++;
+    127            patch_header(&items_menu_hdr);
+    128            return CreateMultiLinesMenu(0,0,&items_menu_desc,&items_menu_hdr,0,i);
+    129          }
+    130          
+    131          
+    132          */
+    133          
+    134          /*------------------------------------------------------------------------*/
+    135          /*-------------------- Весь процесс отрисовки списка ---------------------*/
+    136          /*------------------------------------------------------------------------*/
+    137          
+    138          int itemFromDisp;//кол-во на экране
+    139          int totalItems;//общее количество итемов
+    140          int curpos=0;//позичия курсора
+    141          int curpage=1;//текущая страница
+    142          int collum=0;//какая колонка
+    143          int scr_w, scr_h;
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    144          void *canvasdata;
+   \                     canvasdata:
+   \   00000000                      DS8 4
+    145          int font=108;
+    146          int space=1;
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    147          const char clrSelect[4];//={0xFF,0x00,0x00,0x20};
+   \                     clrSelect:
+   \   00000000   00000000           DC8 0, 0, 0, 0
+    148          
+    149          char clrBlack[]={0x00,0x00,0x00,0x64};
+    150          char clrWhite[]={0xFF,0xFF,0xFF,0x64};
+    151          char clrRed[]={0xFF,0x00,0x48,0x64};
+    152          char transparent[]={0x00,0x00,0x00,0x00};
+
+   \                                 In segment DATA_C, align 1, align-sorted
+    153          const char _t[]="%t";
+   \                     _t:
+   \   00000000   257400             DC8 "%t"
+    154          char *CursorClr="\xFF\x00\x00\x1B";
+    155          
+    156          #define CLIST_Y1 (YDISP + 2 + FontH(font))
+    157          //#define CLIST_Y1 (2 + ( FontH(font)>(headpic->h+1)?(FontH(font)):(headpic->h+1)) )
+    158          #define SF_Y  scr_h - FontH(font)-2 //SoftKey Y
+    159          #define Y1 FontH(font)+2  
+    160          
+    161          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    162          int DrwImage(IMGHDR *img, int x, int y)
+    163          {
+   \                     DrwImage:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   2CD04DE2           SUB      SP,SP,#+44
+   \   00000008   0040A0E1           MOV      R4,R0
+    164            if(!img->bitmap) return 0;
+   \   0000000C   080094E5           LDR      R0,[R4, #+8]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   1100000A           BEQ      ??DrwImage_0
+    165            RECT rc;
+    166            DRWOBJ drwobj;
+    167            StoreXYWHtoRECT(&rc,x,y,img->w,img->h);
+   \   00000018   B200D4E1           LDRH     R0,[R4, #+2]
+   \   0000001C   01002DE9           PUSH     {R0}
+   \   00000020   B030D4E1           LDRH     R3,[R4, #+0]
+   \   00000024   04008DE2           ADD      R0,SP,#+4
+   \   00000028   330100EF           SWI      +307
+    168            SetPropTo_Obj5(&drwobj,&rc,0,img);
+   \   0000002C   0430A0E1           MOV      R3,R4
+   \   00000030   0020A0E3           MOV      R2,#+0
+   \   00000034   04108DE2           ADD      R1,SP,#+4
+   \   00000038   0C008DE2           ADD      R0,SP,#+12
+   \   0000003C   510100EF           SWI      +337
+    169            SetColor(&drwobj,0,0);
+   \   00000040   0020A0E3           MOV      R2,#+0
+   \   00000044   0010A0E3           MOV      R1,#+0
+   \   00000048   0C008DE2           ADD      R0,SP,#+12
+   \   0000004C   4B0100EF           SWI      +331
+    170            DrawObject(&drwobj);
+   \   00000050   0C008DE2           ADD      R0,SP,#+12
+   \   00000054   2A0100EF           SWI      +298
+    171            return 1;
+   \   00000058   0100A0E3           MOV      R0,#+1
+   \   0000005C   04D08DE2           ADD      SP,SP,#+4
+   \                     ??DrwImage_0:
+   \   00000060   2CD08DE2           ADD      SP,SP,#+44       ;; stack cleaning
+   \   00000064   1080BDE8           POP      {R4,PC}          ;; return
+    172          }
+    173          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    174          IMGHDR DoScreen(int ScrH,int HSIZE)
+    175          {
+   \                     DoScreen:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0160A0E1           MOV      R6,R1
+    176            IMGHDR screen={0,0,8,""};
+   \   00000008   60109FE5           LDR      R1,??DoScreen_0  ;; `?<Constant {0, 0, 8, &""}>`
+   \   0000000C   0CD04DE2           SUB      SP,SP,#+12
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   0250A0E1           MOV      R5,R2
+   \   00000018   8C0091E8           LDM      R1,{R2,R3,R7}
+   \   0000001C   0D00A0E1           MOV      R0,SP
+   \   00000020   8C0080E8           STM      R0,{R2,R3,R7}
+    177            int ScrW=ScreenW();
+   \   00000024   888100EF           SWI      +33160
+   \   00000028   0080A0E1           MOV      R8,R0
+    178            char *ms=RamScreenBuffer();
+   \   0000002C   E08000EF           SWI      +32992
+   \   00000030   0070A0E1           MOV      R7,R0
+    179            screen.w=ScrW;
+    180            screen.h=ScrH;
+    181            char *bitmap=malloc(ScrW*ScrH*2);
+   \   00000034   960800E0           MUL      R0,R6,R8
+   \   00000038   B080CDE1           STRH     R8,[SP, #+0]
+   \   0000003C   B260CDE1           STRH     R6,[SP, #+2]
+   \   00000040   8060A0E1           LSL      R6,R0,#+1
+   \   00000044   0600A0E1           MOV      R0,R6
+   \   00000048   140000EF           SWI      +20
+    182            screen.bitmap=bitmap;
+   \   0000004C   08008DE5           STR      R0,[SP, #+8]
+    183            ms+=(HSIZE*2);
+    184            memcpy(screen.bitmap, ms, ScrW*ScrH*2);
+   \   00000050   0620A0E1           MOV      R2,R6
+   \   00000054   851087E0           ADD      R1,R7,R5, LSL #+1
+   \   00000058   1E0100EF           SWI      +286
+    185            return screen;
+   \   0000005C   0D00A0E1           MOV      R0,SP
+   \   00000060   0E0090E8           LDM      R0,{R1-R3}
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   0E0084E8           STM      R4,{R1-R3}
+   \   0000006C   FE81BDE8           POP      {R1-R8,PC}       ;; return
+   \                     ??DoScreen_0:
+   \   00000070   ........           DC32     `?<Constant {0, 0, 8, &""}>`
+    186          }
+    187          
+    188          IMGHDR SoftShot={0,0,8,""};
+    189          int soft_shot=0;
+    190          
+    191          IMGHDR HeaderShot={0,0,8,""};
+    192          int header_shot=0;
+    193          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    194          static DrawSoftKeys(char *right,char *left)
+    195          {
+   \                     DrawSoftKeys:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+    196            TTime t;
+    197            GetDateTime(0,&t);
+    198            char *s=malloc(32);
+    199            LockSched();
+    200            int FntH=FontH(font);
+   \   00000004   FC419FE5           LDR      R4,??DrawSoftKeys_0  ;; SoftShot
+   \   00000008   08D04DE2           SUB      SP,SP,#+8
+   \   0000000C   0080A0E1           MOV      R8,R0
+   \   00000010   0170A0E1           MOV      R7,R1
+   \   00000014   0D10A0E1           MOV      R1,SP
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   B40000EF           SWI      +180
+   \   00000020   2000A0E3           MOV      R0,#+32
+   \   00000024   140000EF           SWI      +20
+   \   00000028   0050A0E1           MOV      R5,R0
+   \   0000002C   460100EF           SWI      +326
+   \   00000030   280094E5           LDR      R0,[R4, #+40]
+   \   00000034   ........           _BLF     FontH,??FontH??rA
+   \   00000038   0060A0E1           MOV      R6,R0
+    201            DrawRoundedFrame(0,scr_h-FntH-2,scr_w,scr_h,0,0,0,clrBlack,clrBlack);
+   \   0000003C   240094E5           LDR      R0,[R4, #+36]
+   \   00000040   401084E2           ADD      R1,R4,#+64
+   \   00000044   02002DE9           PUSH     {R1}
+   \   00000048   02002DE9           PUSH     {R1}
+   \   0000004C   0030A0E1           MOV      R3,R0
+   \   00000050   060040E0           SUB      R0,R0,R6
+   \   00000054   0010A0E3           MOV      R1,#+0
+   \   00000058   02002DE9           PUSH     {R1}
+   \   0000005C   02002DE9           PUSH     {R1}
+   \   00000060   02002DE9           PUSH     {R1}
+   \   00000064   202094E5           LDR      R2,[R4, #+32]
+   \   00000068   021040E2           SUB      R1,R0,#+2
+   \   0000006C   0000A0E3           MOV      R0,#+0
+   \   00000070   500100EF           SWI      +336
+    202            if(soft_shot!=2)
+   \   00000074   340094E5           LDR      R0,[R4, #+52]
+   \   00000078   14D08DE2           ADD      SP,SP,#+20
+   \   0000007C   020050E3           CMP      R0,#+2
+   \   00000080   2300000A           BEQ      ??DrawSoftKeys_1
+    203            {
+    204              for(int i=FontH(font);i>0;i-=2)
+   \   00000084   280094E5           LDR      R0,[R4, #+40]
+   \   00000088   ........           _BLF     FontH,??FontH??rA
+   \   0000008C   0050A0E1           MOV      R5,R0
+   \   00000090   010055E3           CMP      R5,#+1
+   \   00000094   120000BA           BLT      ??DrawSoftKeys_2
+    205                {
+    206                  DrawRoundedFrame(0,scr_h-FntH-2,scr_w,scr_h-FntH+i,0,0,0,CursorClr,CursorClr);
+   \                     ??DrawSoftKeys_3:
+   \   00000098   301094E5           LDR      R1,[R4, #+48]
+   \   0000009C   240094E5           LDR      R0,[R4, #+36]
+   \   000000A0   0120A0E1           MOV      R2,R1
+   \   000000A4   04002DE9           PUSH     {R2}
+   \   000000A8   02002DE9           PUSH     {R1}
+   \   000000AC   060040E0           SUB      R0,R0,R6
+   \   000000B0   003085E0           ADD      R3,R5,R0
+    207                }
+   \   000000B4   025045E2           SUB      R5,R5,#+2
+   \   000000B8   0010A0E3           MOV      R1,#+0
+   \   000000BC   02002DE9           PUSH     {R1}
+   \   000000C0   02002DE9           PUSH     {R1}
+   \   000000C4   02002DE9           PUSH     {R1}
+   \   000000C8   202094E5           LDR      R2,[R4, #+32]
+   \   000000CC   021040E2           SUB      R1,R0,#+2
+   \   000000D0   0000A0E3           MOV      R0,#+0
+   \   000000D4   500100EF           SWI      +336
+   \   000000D8   010055E3           CMP      R5,#+1
+   \   000000DC   14D08DE2           ADD      SP,SP,#+20
+   \   000000E0   ECFFFFAA           BGE      ??DrawSoftKeys_3
+    208                
+    209              int ScrH = FntH+2;
+    210              int HSIZE = (scr_h-FntH)*ScreenW();
+   \                     ??DrawSoftKeys_2:
+   \   000000E4   888100EF           SWI      +33160
+   \   000000E8   241094E5           LDR      R1,[R4, #+36]
+   \   000000EC   061041E0           SUB      R1,R1,R6
+   \   000000F0   900102E0           MUL      R2,R0,R1
+    211              SoftShot = DoScreen(ScrH, HSIZE);
+   \   000000F4   021086E2           ADD      R1,R6,#+2
+   \   000000F8   0400A0E1           MOV      R0,R4
+   \   000000FC   ........           BL       DoScreen
+    212              soft_shot++;
+   \   00000100   340094E5           LDR      R0,[R4, #+52]
+   \   00000104   010080E2           ADD      R0,R0,#+1
+   \   00000108   340084E5           STR      R0,[R4, #+52]
+    213              REDRAW();
+   \   0000010C   720100EF           SWI      +370
+    214              return;
+   \   00000110   F381BDE8           POP      {R0,R1,R4-R8,PC}
+    215            }
+    216            else
+    217              DrwImage(&SoftShot,0,scr_h-FntH-2);
+   \                     ??DrawSoftKeys_1:
+   \   00000114   240094E5           LDR      R0,[R4, #+36]
+   \   00000118   0010A0E3           MOV      R1,#+0
+   \   0000011C   060040E0           SUB      R0,R0,R6
+   \   00000120   022040E2           SUB      R2,R0,#+2
+   \   00000124   0400A0E1           MOV      R0,R4
+   \   00000128   ........           BL       DrwImage
+    218            
+    219            SetFontColor(clrWhite,transparent,0);  
+   \   0000012C   0020A0E3           MOV      R2,#+0
+   \   00000130   481084E2           ADD      R1,R4,#+72
+   \   00000134   440084E2           ADD      R0,R4,#+68
+   \   00000138   ........           _BLF     SetFontColor,??SetFontColor??rA
+    220            PrintField(2,scr_h-1-FontH(font),right,0,font,space);
+   \   0000013C   280094E5           LDR      R0,[R4, #+40]
+   \   00000140   ........           _BLF     FontH,??FontH??rA
+   \   00000144   2C1094E5           LDR      R1,[R4, #+44]
+   \   00000148   0030A0E3           MOV      R3,#+0
+   \   0000014C   02002DE9           PUSH     {R1}
+   \   00000150   281094E5           LDR      R1,[R4, #+40]
+   \   00000154   0820A0E1           MOV      R2,R8
+   \   00000158   02002DE9           PUSH     {R1}
+   \   0000015C   241094E5           LDR      R1,[R4, #+36]
+   \   00000160   011041E2           SUB      R1,R1,#+1
+   \   00000164   001041E0           SUB      R1,R1,R0
+   \   00000168   0200A0E3           MOV      R0,#+2
+   \   0000016C   ........           _BLF     PrintField,??PrintField??rA
+    221            PrintField(scr_w,scr_h-1-FontH(font),left,2,font,space);
+   \   00000170   280094E5           LDR      R0,[R4, #+40]
+   \   00000174   ........           _BLF     FontH,??FontH??rA
+   \   00000178   2C1094E5           LDR      R1,[R4, #+44]
+   \   0000017C   0230A0E3           MOV      R3,#+2
+   \   00000180   02002DE9           PUSH     {R1}
+   \   00000184   281094E5           LDR      R1,[R4, #+40]
+   \   00000188   0720A0E1           MOV      R2,R7
+   \   0000018C   02002DE9           PUSH     {R1}
+   \   00000190   241094E5           LDR      R1,[R4, #+36]
+   \   00000194   011041E2           SUB      R1,R1,#+1
+   \   00000198   001041E0           SUB      R1,R1,R0
+   \   0000019C   200094E5           LDR      R0,[R4, #+32]
+   \   000001A0   ........           _BLF     PrintField,??PrintField??rA
+    222            
+    223            sprintf(s,"%02d:%02d",t.hour,t.min);
+   \   000001A4   1130DDE5           LDRB     R3,[SP, #+17]
+   \   000001A8   1020DDE5           LDRB     R2,[SP, #+16]
+   \   000001AC   58109FE5           LDR      R1,??DrawSoftKeys_0+0x4  ;; `?<Constant "%02d:%02d">`
+   \   000001B0   0500A0E1           MOV      R0,R5
+   \   000001B4   160000EF           SWI      +22
+    224            PrintField(scr_w/2,scr_h-1-FontH(font),s,1,font,space);
+   \   000001B8   280094E5           LDR      R0,[R4, #+40]
+   \   000001BC   ........           _BLF     FontH,??FontH??rA
+   \   000001C0   206094E5           LDR      R6,[R4, #+32]
+   \   000001C4   2C1094E5           LDR      R1,[R4, #+44]
+   \   000001C8   0130A0E3           MOV      R3,#+1
+   \   000001CC   02002DE9           PUSH     {R1}
+   \   000001D0   281094E5           LDR      R1,[R4, #+40]
+   \   000001D4   0520A0E1           MOV      R2,R5
+   \   000001D8   02002DE9           PUSH     {R1}
+   \   000001DC   241094E5           LDR      R1,[R4, #+36]
+   \   000001E0   011041E2           SUB      R1,R1,#+1
+   \   000001E4   001041E0           SUB      R1,R1,R0
+   \   000001E8   A60F86E0           ADD      R0,R6,R6, LSR #+31
+   \   000001EC   C000A0E1           ASR      R0,R0,#+1
+   \   000001F0   ........           _BLF     PrintField,??PrintField??rA
+    225            UnlockSched();
+   \   000001F4   470100EF           SWI      +327
+    226            
+    227            mfree(s);
+   \   000001F8   0500A0E1           MOV      R0,R5
+   \   000001FC   150000EF           SWI      +21
+    228          }
+   \   00000200   18D08DE2           ADD      SP,SP,#+24
+   \   00000204   F381BDE8           POP      {R0,R1,R4-R8,PC}  ;; return
+   \                     ??DrawSoftKeys_0:
+   \   00000208   ........           DC32     SoftShot
+   \   0000020C   ........           DC32     `?<Constant "%02d:%02d">`
+    229          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    230          static DrawHeader(char *s)
+    231          {
+   \                     DrawHeader:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+    232             int hy = FontH(font) + YDISP;
+   \   00000004   ........           LDR      R4,??DataTable8  ;; SoftShot
+    233             DrawRoundedFrame(0,YDISP,scr_w,hy+2,0,0,0,clrBlack,clrBlack);
+    234             if(header_shot!=2)
+   \   00000008   5C719FE5           LDR      R7,??DrawHeader_0  ;; HeaderShot
+   \   0000000C   0060A0E1           MOV      R6,R0
+   \   00000010   280094E5           LDR      R0,[R4, #+40]
+   \   00000014   ........           _BLF     FontH,??FontH??rA
+   \   00000018   185080E2           ADD      R5,R0,#+24
+   \   0000001C   400084E2           ADD      R0,R4,#+64
+   \   00000020   01002DE9           PUSH     {R0}
+   \   00000024   01002DE9           PUSH     {R0}
+   \   00000028   023085E2           ADD      R3,R5,#+2
+   \   0000002C   1810A0E3           MOV      R1,#+24
+   \   00000030   0000A0E3           MOV      R0,#+0
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   01002DE9           PUSH     {R0}
+   \   0000003C   01002DE9           PUSH     {R0}
+   \   00000040   202094E5           LDR      R2,[R4, #+32]
+   \   00000044   500100EF           SWI      +336
+   \   00000048   380094E5           LDR      R0,[R4, #+56]
+   \   0000004C   14D08DE2           ADD      SP,SP,#+20
+   \   00000050   020050E3           CMP      R0,#+2
+   \   00000054   1F00000A           BEQ      ??DrawHeader_1
+    235             {
+    236               for(int i=hy - YDISP; i>0 ;i-=2)
+   \   00000058   186045E2           SUB      R6,R5,#+24
+   \   0000005C   010056E3           CMP      R6,#+1
+   \   00000060   110000BA           BLT      ??DrawHeader_2
+    237                  DrawRoundedFrame(0,YDISP,scr_w,hy-i+4,0,0,0,CursorClr,CursorClr);
+   \                     ??DrawHeader_3:
+   \   00000064   300094E5           LDR      R0,[R4, #+48]
+   \   00000068   0010A0E1           MOV      R1,R0
+   \   0000006C   02002DE9           PUSH     {R1}
+   \   00000070   01002DE9           PUSH     {R0}
+   \   00000074   0000A0E3           MOV      R0,#+0
+   \   00000078   01002DE9           PUSH     {R0}
+   \   0000007C   01002DE9           PUSH     {R0}
+   \   00000080   01002DE9           PUSH     {R0}
+   \   00000084   202094E5           LDR      R2,[R4, #+32]
+   \   00000088   1810A0E3           MOV      R1,#+24
+   \   0000008C   060045E0           SUB      R0,R5,R6
+   \   00000090   043080E2           ADD      R3,R0,#+4
+   \   00000094   0000A0E3           MOV      R0,#+0
+   \   00000098   500100EF           SWI      +336
+   \   0000009C   026046E2           SUB      R6,R6,#+2
+   \   000000A0   010056E3           CMP      R6,#+1
+   \   000000A4   14D08DE2           ADD      SP,SP,#+20
+   \   000000A8   EDFFFFAA           BGE      ??DrawHeader_3
+    238               
+    239              // DoScreen(hy-YDISP+2, (hy-YDISP+2+8)*ScreenW());
+    240              int ScrH  =  hy - YDISP + 2;
+    241              int HSIZE = (hy - YDISP + 2 + 6)*ScreenW();
+   \                     ??DrawHeader_2:
+   \   000000AC   106045E2           SUB      R6,R5,#+16
+   \   000000B0   888100EF           SWI      +33160
+   \   000000B4   900602E0           MUL      R2,R0,R6
+    242              HeaderShot = DoScreen(ScrH, HSIZE);
+   \   000000B8   161045E2           SUB      R1,R5,#+22
+   \   000000BC   0700A0E1           MOV      R0,R7
+   \   000000C0   ........           BL       DoScreen
+    243              header_shot++;
+   \   000000C4   380094E5           LDR      R0,[R4, #+56]
+   \   000000C8   010080E2           ADD      R0,R0,#+1
+   \   000000CC   380084E5           STR      R0,[R4, #+56]
+    244              REDRAW();
+   \   000000D0   720100EF           SWI      +370
+    245              return;
+   \   000000D4   F080BDE8           POP      {R4-R7,PC}
+    246            }
+    247            else
+    248              DrwImage(&HeaderShot,0,YDISP);    
+   \                     ??DrawHeader_1:
+   \   000000D8   1820A0E3           MOV      R2,#+24
+   \   000000DC   0010A0E3           MOV      R1,#+0
+   \   000000E0   0700A0E1           MOV      R0,R7
+   \   000000E4   ........           BL       DrwImage
+    249            
+    250            SetFontColor(clrWhite,transparent,0);
+   \   000000E8   0020A0E3           MOV      R2,#+0
+   \   000000EC   481084E2           ADD      R1,R4,#+72
+   \   000000F0   440084E2           ADD      R0,R4,#+68
+   \   000000F4   ........           _BLF     SetFontColor,??SetFontColor??rA
+    251            PrintText(2,YDISP,"NRSS v3.0",0,font,space,0,1,0,scr_w-2);
+   \   000000F8   200094E5           LDR      R0,[R4, #+32]
+   \   000000FC   6C209FE5           LDR      R2,??DrawHeader_0+0x4  ;; `?<Constant "NRSS v3.0">`
+   \   00000100   020040E2           SUB      R0,R0,#+2
+   \   00000104   01002DE9           PUSH     {R0}
+   \   00000108   0030A0E3           MOV      R3,#+0
+   \   0000010C   1810A0E3           MOV      R1,#+24
+   \   00000110   0000A0E3           MOV      R0,#+0
+   \   00000114   01002DE9           PUSH     {R0}
+   \   00000118   0100A0E3           MOV      R0,#+1
+   \   0000011C   01002DE9           PUSH     {R0}
+   \   00000120   0000A0E3           MOV      R0,#+0
+   \   00000124   01002DE9           PUSH     {R0}
+   \   00000128   2C0094E5           LDR      R0,[R4, #+44]
+   \   0000012C   01002DE9           PUSH     {R0}
+   \   00000130   280094E5           LDR      R0,[R4, #+40]
+   \   00000134   01002DE9           PUSH     {R0}
+   \   00000138   0200A0E3           MOV      R0,#+2
+   \   0000013C   ........           _BLF     PrintText,??PrintText??rA
+    252            PrintField(scr_w,YDISP,s,2,font,space);
+   \   00000140   2C0094E5           LDR      R0,[R4, #+44]
+   \   00000144   0230A0E3           MOV      R3,#+2
+   \   00000148   01002DE9           PUSH     {R0}
+   \   0000014C   280094E5           LDR      R0,[R4, #+40]
+   \   00000150   0620A0E1           MOV      R2,R6
+   \   00000154   01002DE9           PUSH     {R0}
+   \   00000158   200094E5           LDR      R0,[R4, #+32]
+   \   0000015C   1810A0E3           MOV      R1,#+24
+   \   00000160   ........           _BLF     PrintField,??PrintField??rA
+    253          }
+   \   00000164   20D08DE2           ADD      SP,SP,#+32
+   \   00000168   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??DrawHeader_0:
+   \   0000016C   ........           DC32     HeaderShot
+   \   00000170   ........           DC32     `?<Constant "NRSS v3.0">`
+    254          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    255          static DrawScrollBar(int cur,int total)
+    256          {
+   \                     DrawScrollBar:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+    257            int y=scr_h-CLIST_Y1-FontH(font)-2;
+   \   00000004   ........           LDR      R4,??DataTable8  ;; SoftShot
+   \   00000008   0050A0E1           MOV      R5,R0
+   \   0000000C   280094E5           LDR      R0,[R4, #+40]
+   \   00000010   0160A0E1           MOV      R6,R1
+   \   00000014   ........           _BLF     FontH,??FontH??rA
+   \   00000018   0070A0E1           MOV      R7,R0
+   \   0000001C   280094E5           LDR      R0,[R4, #+40]
+   \   00000020   ........           _BLF     FontH,??FontH??rA
+   \   00000024   241094E5           LDR      R1,[R4, #+36]
+   \   00000028   071041E0           SUB      R1,R1,R7
+   \   0000002C   1A1041E2           SUB      R1,R1,#+26
+   \   00000030   000041E0           SUB      R0,R1,R0
+   \   00000034   022040E2           SUB      R2,R0,#+2
+    258            int pos=y*cur/total;
+   \   00000038   950200E0           MUL      R0,R5,R2
+   \   0000003C   0610A0E1           MOV      R1,R6
+   \   00000040   ........           _BLF     ??div32_a,??rA??div32_a
+   \   00000044   0150A0E1           MOV      R5,R1
+    259            int y2=y/total;
+   \   00000048   0200A0E1           MOV      R0,R2
+   \   0000004C   0610A0E1           MOV      R1,R6
+   \   00000050   ........           _BLF     ??div32_a,??rA??div32_a
+    260            DrawLine(scr_w-2,CLIST_Y1,scr_w-2,scr_h-FontH(font),1,clrBlack);
+   \   00000054   280094E5           LDR      R0,[R4, #+40]
+   \   00000058   0160A0E1           MOV      R6,R1
+   \   0000005C   ........           _BLF     FontH,??FontH??rA
+   \   00000060   0070A0E1           MOV      R7,R0
+   \   00000064   280094E5           LDR      R0,[R4, #+40]
+   \   00000068   ........           _BLF     FontH,??FontH??rA
+   \   0000006C   0010A0E1           MOV      R1,R0
+   \   00000070   200094E5           LDR      R0,[R4, #+32]
+   \   00000074   402084E2           ADD      R2,R4,#+64
+   \   00000078   04002DE9           PUSH     {R2}
+   \   0000007C   020040E2           SUB      R0,R0,#+2
+   \   00000080   1A1081E2           ADD      R1,R1,#+26
+   \   00000084   0120A0E3           MOV      R2,#+1
+   \   00000088   04002DE9           PUSH     {R2}
+   \   0000008C   242094E5           LDR      R2,[R4, #+36]
+   \   00000090   073042E0           SUB      R3,R2,R7
+   \   00000094   0020A0E1           MOV      R2,R0
+   \   00000098   B30100EF           SWI      +435
+    261            int i=0;
+    262            DrawRoundedFrame(scr_w-4,CLIST_Y1+pos+1,scr_w,CLIST_Y1+pos+y2,0,0,0,clrBlack,clrBlack);
+   \   0000009C   280094E5           LDR      R0,[R4, #+40]
+   \   000000A0   ........           _BLF     FontH,??FontH??rA
+   \   000000A4   0070A0E1           MOV      R7,R0
+   \   000000A8   280094E5           LDR      R0,[R4, #+40]
+   \   000000AC   ........           _BLF     FontH,??FontH??rA
+   \   000000B0   20C094E5           LDR      R12,[R4, #+32]
+   \   000000B4   401084E2           ADD      R1,R4,#+64
+   \   000000B8   02002DE9           PUSH     {R1}
+   \   000000BC   02002DE9           PUSH     {R1}
+   \   000000C0   0C20A0E1           MOV      R2,R12
+   \   000000C4   000085E0           ADD      R0,R5,R0
+   \   000000C8   0010A0E3           MOV      R1,#+0
+   \   000000CC   02002DE9           PUSH     {R1}
+   \   000000D0   02002DE9           PUSH     {R1}
+   \   000000D4   02002DE9           PUSH     {R1}
+   \   000000D8   071085E0           ADD      R1,R5,R7
+    263            for(i=0;i<y2;i+=1)
+   \   000000DC   0070A0E3           MOV      R7,#+0
+   \   000000E0   011086E0           ADD      R1,R6,R1
+   \   000000E4   1A3081E2           ADD      R3,R1,#+26
+   \   000000E8   1B1080E2           ADD      R1,R0,#+27
+   \   000000EC   04004CE2           SUB      R0,R12,#+4
+   \   000000F0   500100EF           SWI      +336
+   \   000000F4   010056E3           CMP      R6,#+1
+   \   000000F8   1CD08DE2           ADD      SP,SP,#+28
+   \   000000FC   180000AA           BGE      ??DrawScrollBar_0
+   \   00000100   F081BDE8           POP      {R4-R8,PC}
+    264            {
+    265              DrawRoundedFrame(scr_w-4,CLIST_Y1+pos+1,scr_w,CLIST_Y1+pos+i,0,0,0,CursorClr,CursorClr);
+   \                     ??DrawScrollBar_1:
+   \   00000104   280094E5           LDR      R0,[R4, #+40]
+   \   00000108   ........           _BLF     FontH,??FontH??rA
+   \   0000010C   0080A0E1           MOV      R8,R0
+   \   00000110   280094E5           LDR      R0,[R4, #+40]
+   \   00000114   ........           _BLF     FontH,??FontH??rA
+   \   00000118   301094E5           LDR      R1,[R4, #+48]
+   \   0000011C   20C094E5           LDR      R12,[R4, #+32]
+   \   00000120   0120A0E1           MOV      R2,R1
+   \   00000124   04002DE9           PUSH     {R2}
+   \   00000128   02002DE9           PUSH     {R1}
+   \   0000012C   050080E0           ADD      R0,R0,R5
+   \   00000130   0C20A0E1           MOV      R2,R12
+   \   00000134   0010A0E3           MOV      R1,#+0
+   \   00000138   02002DE9           PUSH     {R1}
+   \   0000013C   02002DE9           PUSH     {R1}
+   \   00000140   02002DE9           PUSH     {R1}
+   \   00000144   071088E0           ADD      R1,R8,R7
+    266            }
+   \   00000148   017087E2           ADD      R7,R7,#+1
+   \   0000014C   011085E0           ADD      R1,R5,R1
+   \   00000150   1A3081E2           ADD      R3,R1,#+26
+   \   00000154   1B1080E2           ADD      R1,R0,#+27
+   \   00000158   04004CE2           SUB      R0,R12,#+4
+   \   0000015C   500100EF           SWI      +336
+   \   00000160   14D08DE2           ADD      SP,SP,#+20
+   \                     ??DrawScrollBar_0:
+   \   00000164   060057E1           CMP      R7,R6
+   \   00000168   E5FFFFBA           BLT      ??DrawScrollBar_1
+    267          }
+   \   0000016C   F081BDE8           POP      {R4-R8,PC}       ;; return
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     SoftShot:
+   \   00000000                      DS8 12
+   \   0000000C                      REQUIRE `?<Initializer for SoftShot>`
+   \                     itemFromDisp:
+   \   0000000C                      DS8 4
+   \   00000010                      REQUIRE `?<Initializer for itemFromDisp>`
+   \                     totalItems:
+   \   00000010                      DS8 4
+   \   00000014                      REQUIRE `?<Initializer for totalItems>`
+   \                     curpos:
+   \   00000014                      DS8 4
+   \   00000018                      REQUIRE `?<Initializer for curpos>`
+   \                     curpage:
+   \   00000018                      DS8 4
+   \   0000001C                      REQUIRE `?<Initializer for curpage>`
+   \                     collum:
+   \   0000001C                      DS8 4
+   \   00000020                      REQUIRE `?<Initializer for collum>`
+   \                     scr_w:
+   \   00000020                      DS8 4
+   \   00000024                      REQUIRE `?<Initializer for scr_w>`
+   \                     scr_h:
+   \   00000024                      DS8 4
+   \   00000028                      REQUIRE `?<Initializer for scr_h>`
+   \                     font:
+   \   00000028                      DS8 4
+   \   0000002C                      REQUIRE `?<Initializer for font>`
+   \                     space:
+   \   0000002C                      DS8 4
+   \   00000030                      REQUIRE `?<Initializer for space>`
+   \                     CursorClr:
+   \   00000030                      DS8 4
+   \   00000034                      REQUIRE `?<Initializer for CursorClr>`
+   \                     soft_shot:
+   \   00000034                      DS8 4
+   \   00000038                      REQUIRE `?<Initializer for soft_shot>`
+   \                     header_shot:
+   \   00000038                      DS8 4
+   \   0000003C                      REQUIRE `?<Initializer for header_shot>`
+    268          
+    269          
+    270          int cursor_shot=0;
+   \                     cursor_shot:
+   \   0000003C                      DS8 4
+   \   00000040                      REQUIRE `?<Initializer for cursor_shot>`
+   \                     clrBlack:
+   \   00000040                      DS8 4
+   \   00000044                      REQUIRE `?<Initializer for clrBlack>`
+   \                     clrWhite:
+   \   00000044                      DS8 4
+   \   00000048                      REQUIRE `?<Initializer for clrWhite>`
+   \                     transparent:
+   \   00000048                      DS8 4
+   \   0000004C                      REQUIRE `?<Initializer for transparent>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     clrRed:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for clrRed>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     HeaderShot:
+   \   00000000                      DS8 12
+   \   0000000C                      REQUIRE `?<Initializer for HeaderShot>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    271          IMGHDR cursor={0,0,8,""};
+   \                     cursor:
+   \   00000000                      DS8 12
+   \   0000000C                      REQUIRE `?<Initializer for cursor>`
+    272          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    273          RSS_ITEM *GetItem(int curitem)
+    274          {
+    275            RSS_ITEM *p=rss_first;
+   \                     GetItem:
+   \   00000000   ........           LDR      R1,??DataTable9  ;; rss_first
+    276            for (int i=0; p && i!=curitem; i++)
+   \   00000004   0020A0E3           MOV      R2,#+0
+   \   00000008   001091E5           LDR      R1,[R1, #+0]
+   \   0000000C   010000EA           B        ??GetItem_0
+    277                  p=p->next;    
+   \                     ??GetItem_1:
+   \   00000010   001091E5           LDR      R1,[R1, #+0]
+   \   00000014   012082E2           ADD      R2,R2,#+1
+   \                     ??GetItem_0:
+   \   00000018   000051E3           CMP      R1,#+0
+   \   0000001C   00005211           CMPNE    R2,R0
+   \   00000020   FAFFFF1A           BNE      ??GetItem_1
+    278            
+    279            return p;
+   \   00000024   0100A0E1           MOV      R0,R1
+   \   00000028   1EFF2FE1           BX       LR               ;; return
+    280          }
+    281          
+    282          //const char CursorClr[4]={0xFF,0x00,0x00,0x32};
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\377\\000\\000\\025">`:
+   \   00000000   FF00001500         DC8 0FFH, 0, 0, 15H, 0
+   \   00000005   000000             DC8 0, 0, 0
+   \   00000008   25642F256400       DC8 "%d/%d"
+   \   0000000E   0000               DC8 0, 0
+   \   00000010   556E6B6E6F77       DC8 "Unknown title"
+   \              6E207469746C
+   \              6500        
+   \   0000001E   0000               DC8 0, 0
+   \   00000020   4E6F20646573       DC8 "No description"
+   \              637269707469
+   \              6F6E00      
+   \   0000002F   00                 DC8 0
+    283          const char CursorBGClr[4]={0x00,0x00,0x00,0x60};
+   \                     CursorBGClr:
+   \   00000030   00000060           DC8 0, 0, 0, 96
+    284          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    285          static void DrawList()
+    286          {
+   \                     DrawList:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+    287            int font_y = FontH(font)+4;//16+2
+   \   00000004   ........           LDR      R4,??DataTable8  ;; SoftShot
+    288            int ii;
+    289          
+    290            itemFromDisp = sdiv(font_y,scr_h-CLIST_Y1-FontH(font)-2)-2;
+    291          
+    292            LockSched(); 
+    293           
+    294            // Определяем количество страниц списка контактов
+    295            int pageNum = sdiv(itemFromDisp, totalItems);
+    296            
+    297            RSS_ITEM *p;
+    298            
+    299            int i=0;
+    300            int y2=1;
+    301            int start_y=0;
+    302            char *s=malloc(64);
+    303            RECT rc;
+    304            collum=0;
+   \   00000008   20939FE5           LDR      R9,??DrawList_0  ;; `?<Constant "\\377\\000\\000\\025">`
+   \   0000000C   20B39FE5           LDR      R11,??DrawList_0+0x4  ;; cursor
+   \   00000010   0CD04DE2           SUB      SP,SP,#+12
+   \   00000014   280094E5           LDR      R0,[R4, #+40]
+   \   00000018   ........           _BLF     FontH,??FontH??rA
+   \   0000001C   045080E2           ADD      R5,R0,#+4
+   \   00000020   280094E5           LDR      R0,[R4, #+40]
+   \   00000024   ........           _BLF     FontH,??FontH??rA
+   \   00000028   0060A0E1           MOV      R6,R0
+   \   0000002C   280094E5           LDR      R0,[R4, #+40]
+   \   00000030   ........           _BLF     FontH,??FontH??rA
+   \   00000034   241094E5           LDR      R1,[R4, #+36]
+   \   00000038   061041E0           SUB      R1,R1,R6
+   \   0000003C   1A1041E2           SUB      R1,R1,#+26
+   \   00000040   000041E0           SUB      R0,R1,R0
+   \   00000044   021040E2           SUB      R1,R0,#+2
+   \   00000048   0500A0E1           MOV      R0,R5
+   \   0000004C   B80000EF           SWI      +184
+   \   00000050   020040E2           SUB      R0,R0,#+2
+   \   00000054   0C0084E5           STR      R0,[R4, #+12]
+   \   00000058   460100EF           SWI      +326
+   \   0000005C   0C0094E5           LDR      R0,[R4, #+12]
+   \   00000060   101094E5           LDR      R1,[R4, #+16]
+   \   00000064   0060A0E3           MOV      R6,#+0
+   \   00000068   B80000EF           SWI      +184
+   \   0000006C   08008DE5           STR      R0,[SP, #+8]
+   \   00000070   4000A0E3           MOV      R0,#+64
+   \   00000074   140000EF           SWI      +20
+   \   00000078   0070A0E1           MOV      R7,R0
+   \   0000007C   0000A0E3           MOV      R0,#+0
+   \   00000080   1C0084E5           STR      R0,[R4, #+28]
+    305          
+    306            while(i<totalItems)
+   \                     ??DrawList_1:
+   \   00000084   10A094E5           LDR      R10,[R4, #+16]
+   \   00000088   0A0056E1           CMP      R6,R10
+   \   0000008C   A30000AA           BGE      ??DrawList_2
+    307            {
+    308              if((i>=(curpage-1)*itemFromDisp) && (i<=itemFromDisp*curpage))//если те итемы который нужно выводить на экран со страници curpage
+   \   00000090   0C0094E5           LDR      R0,[R4, #+12]
+   \   00000094   181094E5           LDR      R1,[R4, #+24]
+   \   00000098   012041E2           SUB      R2,R1,#+1
+   \   0000009C   900202E0           MUL      R2,R0,R2
+   \   000000A0   020056E1           CMP      R6,R2
+   \   000000A4   910000A0           MULGE    R0,R1,R0
+   \   000000A8   060050A1           CMPGE    R0,R6
+   \   000000AC   950000BA           BLT      ??DrawList_3
+    309               {   
+    310                  p=GetItem(i);
+   \   000000B0   0600A0E1           MOV      R0,R6
+   \   000000B4   ........           BL       GetItem
+   \   000000B8   0080B0E1           MOVS     R8,R0
+    311                  if (p)
+   \   000000BC   9100000A           BEQ      ??DrawList_3
+    312                  {
+    313                    sprintf(s,"%d/%d",curpos+1,totalItems);
+   \   000000C0   140094E5           LDR      R0,[R4, #+20]
+   \   000000C4   0A30A0E1           MOV      R3,R10
+   \   000000C8   012080E2           ADD      R2,R0,#+1
+   \   000000CC   081089E2           ADD      R1,R9,#+8
+   \   000000D0   0700A0E1           MOV      R0,R7
+   \   000000D4   160000EF           SWI      +22
+    314                    start_y=0;
+    315          
+    316                    if(i>curpos)  start_y+=font_y+3;
+   \   000000D8   140094E5           LDR      R0,[R4, #+20]
+   \   000000DC   00A0A0E3           MOV      R10,#+0
+   \   000000E0   060050E1           CMP      R0,R6
+    317                    y2=2; 
+    318          
+    319                    start_y += (CLIST_Y1 + 2 + (i - (curpage-1)*itemFromDisp)*font_y);    //определяем начальное смещение по у      
+   \   000000E4   280094E5           LDR      R0,[R4, #+40]
+   \   000000E8   03A085B2           ADDLT    R10,R5,#+3
+   \   000000EC   ........           _BLF     FontH,??FontH??rA
+   \   000000F0   181094E5           LDR      R1,[R4, #+24]
+   \   000000F4   0C2094E5           LDR      R2,[R4, #+12]
+   \   000000F8   011041E2           SUB      R1,R1,#+1
+   \   000000FC   920101E0           MUL      R1,R2,R1
+   \   00000100   011046E0           SUB      R1,R6,R1
+   \   00000104   950120E0           MLA      R0,R5,R1,R0
+   \   00000108   0210A0E3           MOV      R1,#+2
+   \   0000010C   1C0080E2           ADD      R0,R0,#+28
+   \   00000110   0A2080E0           ADD      R2,R0,R10
+   \   00000114   850082E0           ADD      R0,R2,R5, LSL #+1
+   \   00000118   01002DE9           PUSH     {R0}
+   \   0000011C   203094E5           LDR      R3,[R4, #+32]
+    320                    StoreXYXYtoRECT(&rc,2,start_y,scr_w,start_y+(font_y*y2));            
+    321                    
+    322                    if(i==curpos)//Если наш итем то выделяем
+   \   00000120   5EA0A0E3           MOV      R10,#+94
+   \   00000124   40AF8AE3           ORR      R10,R10,#0x100
+   \   00000128   04008DE2           ADD      R0,SP,#+4
+   \   0000012C   340100EF           SWI      +308
+   \   00000130   140094E5           LDR      R0,[R4, #+20]
+   \   00000134   04D08DE2           ADD      SP,SP,#+4
+   \   00000138   000056E1           CMP      R6,R0
+   \   0000013C   5800001A           BNE      ??DrawList_4
+    323                    {
+    324                       SetFontColor("\xFF\x00\x00\x15",0,0);              
+   \   00000140   0020A0E3           MOV      R2,#+0
+   \   00000144   0010A0E3           MOV      R1,#+0
+   \   00000148   0900A0E1           MOV      R0,R9
+   \   0000014C   ........           _BLF     SetFontColor,??SetFontColor??rA
+    325                       DrawRoundedFrame(rc.x,rc.y,rc.x2-5,rc.y2,0,0,0,clrBlack,clrBlack);//cursor        
+   \   00000150   400084E2           ADD      R0,R4,#+64
+   \   00000154   01002DE9           PUSH     {R0}
+   \   00000158   01002DE9           PUSH     {R0}
+   \   0000015C   0000A0E3           MOV      R0,#+0
+   \   00000160   01002DE9           PUSH     {R0}
+   \   00000164   01002DE9           PUSH     {R0}
+   \   00000168   01002DE9           PUSH     {R0}
+   \   0000016C   FA31DDE1           LDRSH    R3,[SP, #+26]
+   \   00000170   F611DDE1           LDRSH    R1,[SP, #+22]
+   \   00000174   F801DDE1           LDRSH    R0,[SP, #+24]
+   \   00000178   052040E2           SUB      R2,R0,#+5
+   \   0000017C   F401DDE1           LDRSH    R0,[SP, #+20]
+   \   00000180   500100EF           SWI      +336
+    326                        if(cursor_shot!=2)
+   \   00000184   3C0094E5           LDR      R0,[R4, #+60]
+   \   00000188   14D08DE2           ADD      SP,SP,#+20
+   \   0000018C   020050E3           CMP      R0,#+2
+   \   00000190   2500000A           BEQ      ??DrawList_5
+    327                        {
+    328                          for(ii=(font_y*y2);ii>0;ii-=4)
+   \   00000194   8550A0E1           LSL      R5,R5,#+1
+   \   00000198   010055E3           CMP      R5,#+1
+   \   0000019C   120000BA           BLT      ??DrawList_6
+    329                             DrawRoundedFrame(rc.x,rc.y,rc.x2-5,rc.y2-ii,0,0,0,CursorBGClr,CursorClr);
+   \                     ??DrawList_7:
+   \   000001A0   300094E5           LDR      R0,[R4, #+48]
+   \   000001A4   01002DE9           PUSH     {R0}
+   \   000001A8   300089E2           ADD      R0,R9,#+48
+   \   000001AC   01002DE9           PUSH     {R0}
+   \   000001B0   0000A0E3           MOV      R0,#+0
+   \   000001B4   01002DE9           PUSH     {R0}
+   \   000001B8   01002DE9           PUSH     {R0}
+   \   000001BC   01002DE9           PUSH     {R0}
+   \   000001C0   F611DDE1           LDRSH    R1,[SP, #+22]
+   \   000001C4   FA01DDE1           LDRSH    R0,[SP, #+26]
+   \   000001C8   053040E0           SUB      R3,R0,R5
+   \   000001CC   F801DDE1           LDRSH    R0,[SP, #+24]
+   \   000001D0   045045E2           SUB      R5,R5,#+4
+   \   000001D4   052040E2           SUB      R2,R0,#+5
+   \   000001D8   F401DDE1           LDRSH    R0,[SP, #+20]
+   \   000001DC   500100EF           SWI      +336
+   \   000001E0   010055E3           CMP      R5,#+1
+   \   000001E4   14D08DE2           ADD      SP,SP,#+20
+   \   000001E8   ECFFFFAA           BGE      ??DrawList_7
+    330          
+    331                          int ScrH  =  rc.y + 2;
+   \                     ??DrawList_6:
+   \   000001EC   F200DDE1           LDRSH    R0,[SP, #+2]
+   \   000001F0   025080E2           ADD      R5,R0,#+2
+    332                          int HSIZE = (rc.y2 - rc.y + 2 + 6)*ScreenW();
+   \   000001F4   888100EF           SWI      +33160
+   \   000001F8   F610DDE1           LDRSH    R1,[SP, #+6]
+   \   000001FC   F220DDE1           LDRSH    R2,[SP, #+2]
+   \   00000200   021041E0           SUB      R1,R1,R2
+   \   00000204   081081E2           ADD      R1,R1,#+8
+   \   00000208   900102E0           MUL      R2,R0,R1
+    333                          cursor = DoScreen(ScrH, HSIZE);        
+   \   0000020C   0510A0E1           MOV      R1,R5
+   \   00000210   0B00A0E1           MOV      R0,R11
+   \   00000214   ........           BL       DoScreen
+    334                          
+    335                          cursor_shot++;
+   \   00000218   3C0094E5           LDR      R0,[R4, #+60]
+   \   0000021C   010080E2           ADD      R0,R0,#+1
+   \   00000220   3C0084E5           STR      R0,[R4, #+60]
+    336                          REDRAW();
+   \   00000224   720100EF           SWI      +370
+    337                         return;
+   \   00000228   F78FBDE8           POP      {R0-R2,R4-R11,PC}
+    338                        }
+    339                        else
+    340                          DrwImage(&cursor,rc.x,rc.y);
+   \                     ??DrawList_5:
+   \   0000022C   F220DDE1           LDRSH    R2,[SP, #+2]
+   \   00000230   F010DDE1           LDRSH    R1,[SP, #+0]
+   \   00000234   0B00A0E1           MOV      R0,R11
+   \   00000238   ........           BL       DrwImage
+    341          
+    342                      DrawHeader(s);
+   \   0000023C   0700A0E1           MOV      R0,R7
+   \   00000240   ........           BL       DrawHeader
+    343                      DrawScrollBar(i,totalItems);
+   \   00000244   101094E5           LDR      R1,[R4, #+16]
+   \   00000248   0600A0E1           MOV      R0,R6
+   \   0000024C   ........           BL       DrawScrollBar
+    344                      
+    345                      PrintText(rc.x+5,rc.y+font_y,p->description ?  p->description : "No description",0,font,space,350,0,0,rc.x2);//description under item name
+   \   00000250   082098E5           LDR      R2,[R8, #+8]
+   \   00000254   F400DDE1           LDRSH    R0,[SP, #+4]
+   \   00000258   000052E3           CMP      R2,#+0
+   \   0000025C   20208902           ADDEQ    R2,R9,#+32
+   \   00000260   01002DE9           PUSH     {R0}
+   \   00000264   0030A0E3           MOV      R3,#+0
+   \   00000268   0000A0E3           MOV      R0,#+0
+   \   0000026C   01002DE9           PUSH     {R0}
+   \   00000270   01002DE9           PUSH     {R0}
+   \   00000274   0A00A0E1           MOV      R0,R10
+   \   00000278   01002DE9           PUSH     {R0}
+   \   0000027C   2C0094E5           LDR      R0,[R4, #+44]
+   \   00000280   01002DE9           PUSH     {R0}
+   \   00000284   280094E5           LDR      R0,[R4, #+40]
+   \   00000288   01002DE9           PUSH     {R0}
+   \   0000028C   FA01DDE1           LDRSH    R0,[SP, #+26]
+   \   00000290   001085E0           ADD      R1,R5,R0
+   \   00000294   F801DDE1           LDRSH    R0,[SP, #+24]
+   \   00000298   050080E2           ADD      R0,R0,#+5
+   \   0000029C   ........           _BLF     PrintText,??PrintText??rA
+   \   000002A0   18D08DE2           ADD      SP,SP,#+24
+    346                    }
+    347          
+    348                    SetFontColor((char*)clrBlack,(char*)transparent,0); 
+   \                     ??DrawList_4:
+   \   000002A4   0020A0E3           MOV      R2,#+0
+   \   000002A8   481084E2           ADD      R1,R4,#+72
+   \   000002AC   400084E2           ADD      R0,R4,#+64
+   \   000002B0   ........           _BLF     SetFontColor,??SetFontColor??rA
+    349                    PrintText(rc.x+5,rc.y+1,(p->title ? p->title : "Unknown title"),0,font,space,350,0,0,rc.x2-5);//item name          
+   \   000002B4   F400DDE1           LDRSH    R0,[SP, #+4]
+   \   000002B8   042098E5           LDR      R2,[R8, #+4]
+   \   000002BC   0030A0E3           MOV      R3,#+0
+   \   000002C0   050040E2           SUB      R0,R0,#+5
+   \   000002C4   01002DE9           PUSH     {R0}
+   \   000002C8   000052E3           CMP      R2,#+0
+   \   000002CC   10208902           ADDEQ    R2,R9,#+16
+   \   000002D0   0000A0E3           MOV      R0,#+0
+   \   000002D4   01002DE9           PUSH     {R0}
+   \   000002D8   01002DE9           PUSH     {R0}
+   \   000002DC   00042DE9           PUSH     {R10}
+   \   000002E0   2C0094E5           LDR      R0,[R4, #+44]
+   \   000002E4   01002DE9           PUSH     {R0}
+   \   000002E8   280094E5           LDR      R0,[R4, #+40]
+   \   000002EC   01002DE9           PUSH     {R0}
+   \   000002F0   FA01DDE1           LDRSH    R0,[SP, #+26]
+   \   000002F4   011080E2           ADD      R1,R0,#+1
+   \   000002F8   F801DDE1           LDRSH    R0,[SP, #+24]
+   \   000002FC   050080E2           ADD      R0,R0,#+5
+   \   00000300   ........           _BLF     PrintText,??PrintText??rA
+   \   00000304   18D08DE2           ADD      SP,SP,#+24
+    350                   }
+    351                 }
+    352                i++;
+    353                if(i>(pageNum*itemFromDisp)) break;
+   \                     ??DrawList_3:
+   \   00000308   08009DE5           LDR      R0,[SP, #+8]
+   \   0000030C   0C1094E5           LDR      R1,[R4, #+12]
+   \   00000310   016086E2           ADD      R6,R6,#+1
+   \   00000314   910000E0           MUL      R0,R1,R0
+   \   00000318   060050E1           CMP      R0,R6
+   \   0000031C   58FFFFAA           BGE      ??DrawList_1
+    354            }  
+    355            mfree(s);
+   \                     ??DrawList_2:
+   \   00000320   0700A0E1           MOV      R0,R7
+   \   00000324   150000EF           SWI      +21
+    356            UnlockSched();  
+   \   00000328   470100EF           SWI      +327
+    357          }
+   \   0000032C   F78FBDE8           POP      {R0-R2,R4-R11,PC}  ;; return
+   \                     ??DrawList_0:
+   \   00000330   ........           DC32     `?<Constant "\\377\\000\\000\\025">`
+   \   00000334   ........           DC32     cursor
+    358          
+    359          
+    360          
+    361          // Управление курсором
+
+   \                                 In segment CODE, align 4, keep-with-next
+    362          void MoveUp(int i)
+    363          {
+   \                     MoveUp:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    364            if(!itemFromDisp)return;
+   \   00000004   ........           LDR      R4,??DataTable8  ;; SoftShot
+   \   00000008   0C2094E5           LDR      R2,[R4, #+12]
+   \   0000000C   000052E3           CMP      R2,#+0
+   \   00000010   1080BD08           POPEQ    {R4,PC}
+    365            if(curpos<1)
+   \   00000014   141094E5           LDR      R1,[R4, #+20]
+   \   00000018   010051E3           CMP      R1,#+1
+   \   0000001C   0C0000AA           BGE      ??MoveUp_0
+    366            {
+    367              curpos=totalItems-1;
+   \   00000020   101094E5           LDR      R1,[R4, #+16]
+   \   00000024   010041E2           SUB      R0,R1,#+1
+   \   00000028   140084E5           STR      R0,[R4, #+20]
+    368              
+    369              if(itemFromDisp!=totalItems)
+   \   0000002C   010052E1           CMP      R2,R1
+   \   00000030   0400000A           BEQ      ??MoveUp_1
+    370              {
+    371                curpage = sdiv(itemFromDisp,totalItems)+1;
+   \   00000034   0200A0E1           MOV      R0,R2
+   \   00000038   B80000EF           SWI      +184
+   \   0000003C   010080E2           ADD      R0,R0,#+1
+   \   00000040   180084E5           STR      R0,[R4, #+24]
+   \   00000044   1080BDE8           POP      {R4,PC}
+    372              }
+    373              else
+    374                curpage = 1;
+   \                     ??MoveUp_1:
+   \   00000048   0100A0E3           MOV      R0,#+1
+   \   0000004C   180084E5           STR      R0,[R4, #+24]
+   \   00000050   1080BDE8           POP      {R4,PC}
+    375            }
+    376            else
+    377            {
+    378              if(i) curpos-=2;
+   \                     ??MoveUp_0:
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   02004112           SUBNE    R0,R1,#+2
+    379              else curpos--;
+   \   0000005C   01004102           SUBEQ    R0,R1,#+1
+   \   00000060   181094E5           LDR      R1,[R4, #+24]
+   \   00000064   140084E5           STR      R0,[R4, #+20]
+   \   00000068   011041E2           SUB      R1,R1,#+1
+   \   0000006C   920103E0           MUL      R3,R2,R1
+   \   00000070   030050E1           CMP      R0,R3
+    380              if(curpos<(curpage-1)*itemFromDisp){ curpos++; curpage--; }
+   \   00000074   010080B2           ADDLT    R0,R0,#+1
+   \   00000078   140084B5           STRLT    R0,[R4, #+20]
+   \   0000007C   181084B5           STRLT    R1,[R4, #+24]
+   \   00000080   1080BDE8           POP      {R4,PC}          ;; return
+    381            }
+    382           // REDRAW();
+    383          }
+    384          
+    385          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    386          void MoveDown(int i)
+    387          {
+    388            if(!totalItems)return;
+   \                     MoveDown:
+   \   00000000   ........           LDR      R1,??DataTable8  ;; SoftShot
+   \   00000004   102091E5           LDR      R2,[R1, #+16]
+   \   00000008   000052E3           CMP      R2,#+0
+   \   0000000C   1EFF2F01           BXEQ     LR
+    389            if(i) curpos+=2;  
+   \   00000010   143091E5           LDR      R3,[R1, #+20]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   02008312           ADDNE    R0,R3,#+2
+    390            else curpos++;
+   \   0000001C   01008302           ADDEQ    R0,R3,#+1
+    391            if(curpos>=totalItems) { curpos=0; curpage=1; }
+    392            if(curpage*itemFromDisp<curpos){ curpos--; curpage++; } 
+   \   00000020   0C3091E5           LDR      R3,[R1, #+12]
+   \   00000024   020050E1           CMP      R0,R2
+   \   00000028   0120A0A3           MOVGE    R2,#+1
+   \   0000002C   182081A5           STRGE    R2,[R1, #+24]
+   \   00000030   182091E5           LDR      R2,[R1, #+24]
+   \   00000034   0000A0A3           MOVGE    R0,#+0
+   \   00000038   93020CE0           MUL      R12,R3,R2
+   \   0000003C   140081E5           STR      R0,[R1, #+20]
+   \   00000040   00005CE1           CMP      R12,R0
+   \   00000044   1EFF2FA1           BXGE     LR
+   \   00000048   010040E2           SUB      R0,R0,#+1
+   \   0000004C   140081E5           STR      R0,[R1, #+20]
+   \   00000050   010082E2           ADD      R0,R2,#+1
+   \   00000054   180081E5           STR      R0,[R1, #+24]
+   \   00000058   1EFF2FE1           BX       LR               ;; return
+    393          }
+    394          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    395          static void OnRedraw(MAIN_GUI *data)
+    396          {
+   \                     OnRedraw:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    397            LockSched();
+    398            DrawRoundedFrame(0,YDISP,scr_w,scr_h,0,0,0,clrWhite,clrWhite);
+   \   00000004   ........           LDR      R4,??DataTable8  ;; SoftShot
+   \   00000008   460100EF           SWI      +326
+   \   0000000C   440084E2           ADD      R0,R4,#+68
+   \   00000010   01002DE9           PUSH     {R0}
+   \   00000014   01002DE9           PUSH     {R0}
+   \   00000018   1810A0E3           MOV      R1,#+24
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   01002DE9           PUSH     {R0}
+   \   00000024   01002DE9           PUSH     {R0}
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   243094E5           LDR      R3,[R4, #+36]
+   \   00000030   202094E5           LDR      R2,[R4, #+32]
+   \   00000034   500100EF           SWI      +336
+    399            
+    400            DrawLine(0,CLIST_Y1,scr_w,CLIST_Y1,0,clrWhite);
+   \   00000038   280094E5           LDR      R0,[R4, #+40]
+   \   0000003C   ........           _BLF     FontH,??FontH??rA
+   \   00000040   0050A0E1           MOV      R5,R0
+   \   00000044   280094E5           LDR      R0,[R4, #+40]
+   \   00000048   ........           _BLF     FontH,??FontH??rA
+   \   0000004C   441084E2           ADD      R1,R4,#+68
+   \   00000050   02002DE9           PUSH     {R1}
+   \   00000054   1A3085E2           ADD      R3,R5,#+26
+   \   00000058   0010A0E3           MOV      R1,#+0
+   \   0000005C   02002DE9           PUSH     {R1}
+   \   00000060   202094E5           LDR      R2,[R4, #+32]
+   \   00000064   1A1080E2           ADD      R1,R0,#+26
+   \   00000068   0000A0E3           MOV      R0,#+0
+   \   0000006C   B30100EF           SWI      +435
+    401            
+    402            DrawSoftKeys("Выбрать","Закрыть");
+   \   00000070   18009FE5           LDR      R0,??OnRedraw_0  ;; `?<Constant "\\307\\340\\352\\360\\373\\362\\374">`
+   \   00000074   0010A0E1           MOV      R1,R0
+   \   00000078   080080E2           ADD      R0,R0,#+8
+   \   0000007C   ........           BL       DrawSoftKeys
+    403            UnlockSched();
+   \   00000080   470100EF           SWI      +327
+    404          
+    405            DrawList();
+   \   00000084   ........           BL       DrawList
+    406          }
+   \   00000088   1CD08DE2           ADD      SP,SP,#+28
+   \   0000008C   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??OnRedraw_0:
+   \   00000090   ........           DC32     `?<Constant "\\307\\340\\352\\360\\373\\362\\374">`
+    407          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    408          static void onCreate(MAIN_GUI *data, void *(*malloc_adr)(int))
+    409          {
+   \                     onCreate:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    410            scr_w=ScreenW()-1;
+   \   00000004   ........           LDR      R5,??DataTable8  ;; SoftShot
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   888100EF           SWI      +33160
+   \   00000010   010040E2           SUB      R0,R0,#+1
+   \   00000014   200085E5           STR      R0,[R5, #+32]
+    411            scr_h=ScreenH()-1;
+   \   00000018   898100EF           SWI      +33161
+   \   0000001C   010040E2           SUB      R0,R0,#+1
+   \   00000020   240085E5           STR      R0,[R5, #+36]
+    412            data->ws1=AllocWS(256);
+   \   00000024   400FA0E3           MOV      R0,#+256
+   \   00000028   250100EF           SWI      +293
+   \   0000002C   340084E5           STR      R0,[R4, #+52]
+    413            data->gui.state=1;
+   \   00000030   0100A0E3           MOV      R0,#+1
+   \   00000034   0C00C4E5           STRB     R0,[R4, #+12]
+    414          }
+   \   00000038   3080BDE8           POP      {R4,R5,PC}       ;; return
+    415          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    416          static void onClose(MAIN_GUI *data, void (*mfree_adr)(void *))
+    417          {
+   \                     onClose:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    418            
+    419            FreeWS(data->ws1);
+   \   00000008   340094E5           LDR      R0,[R4, #+52]
+   \   0000000C   290100EF           SWI      +297
+    420            data->gui.state=0;
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   0C00C4E5           STRB     R0,[R4, #+12]
+    421          }
+   \   00000018   1080BDE8           POP      {R4,PC}          ;; return
+    422          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    423          static void onFocus(MAIN_GUI *data, void *(*malloc_adr)(int), void (*mfree_adr)(void *))
+    424          {
+   \                     onFocus:
+   \   00000000   00402DE9           PUSH     {LR}
+    425            data->gui.state=2;
+   \   00000004   0210A0E3           MOV      R1,#+2
+   \   00000008   0C10C0E5           STRB     R1,[R0, #+12]
+    426            DisableIDLETMR();
+   \   0000000C   7F0100EF           SWI      +383
+    427          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+    428          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    429          static void onUnfocus(MAIN_GUI *data, void (*mfree_adr)(void *))
+    430          {
+    431            if (data->gui.state!=2) return;
+   \                     onUnfocus:
+   \   00000000   0C10D0E5           LDRB     R1,[R0, #+12]
+   \   00000004   020051E3           CMP      R1,#+2
+    432            data->gui.state=1;
+   \   00000008   0110A003           MOVEQ    R1,#+1
+   \   0000000C   0C10C005           STRBEQ   R1,[R0, #+12]
+    433          }
+   \   00000010   1EFF2FE1           BX       LR               ;; return
+    434          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    435          static int OnKey(MAIN_GUI *data, GUI_MSG *msg)
+    436          {
+   \                     OnKey:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    437            DirectRedrawGUI(); 
+    438            int k=msg->gbsmsg->submess;
+    439          
+    440            if (msg->gbsmsg->msg==KEY_DOWN || msg->gbsmsg->msg==LONG_PRESS)
+   \   00000008   9360A0E3           MOV      R6,#+147
+   \   0000000C   406F86E3           ORR      R6,R6,#0x100
+   \   00000010   3F0100EF           SWI      +319
+   \   00000014   040094E5           LDR      R0,[R4, #+4]
+   \   00000018   085090E5           LDR      R5,[R0, #+8]
+   \   0000001C   041090E5           LDR      R1,[R0, #+4]
+   \   00000020   060051E1           CMP      R1,R6
+   \   00000024   0300000A           BEQ      ??OnKey_1
+   \   00000028   0100A0E1           MOV      R0,R1
+   \   0000002C   021086E2           ADD      R1,R6,#+2
+   \   00000030   010050E1           CMP      R0,R1
+   \   00000034   1600001A           BNE      ??OnKey_2
+    441            {
+    442              switch(k)
+   \                     ??OnKey_1:
+   \   00000038   040045E2           SUB      R0,R5,#+4
+   \   0000003C   3A0050E3           CMP      R0,#+58
+   \   00000040   1300008A           BHI      ??OnKey_2
+   \   00000044   011F8FE2           ADR      R1,??OnKey_0
+   \   00000048   0010D1E7           LDRB     R1,[R1, R0]
+   \   0000004C   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??OnKey_0:
+   \   00000050   35101010           DC8      +53,+16,+16,+16
+   \   00000054   10101010           DC8      +16,+16,+16,+16
+   \   00000058   35101010           DC8      +53,+16,+16,+16
+   \   0000005C   10101010           DC8      +16,+16,+16,+16
+   \   00000060   10101010           DC8      +16,+16,+16,+16
+   \   00000064   10101010           DC8      +16,+16,+16,+16
+   \   00000068   10101010           DC8      +16,+16,+16,+16
+   \   0000006C   10101026           DC8      +16,+16,+16,+38
+   \   00000070   10101010           DC8      +16,+16,+16,+16
+   \   00000074   10101010           DC8      +16,+16,+16,+16
+   \   00000078   10101010           DC8      +16,+16,+16,+16
+   \   0000007C   10101010           DC8      +16,+16,+16,+16
+   \   00000080   10101010           DC8      +16,+16,+16,+16
+   \   00000084   1010100E           DC8      +16,+16,+16,+14
+   \   00000088   1F222400           DC8      +31,+34,+36,+0
+    443              {  
+    444                case UP_BUTTON:    MoveUp(0);   break;
+   \                     ??OnKey_3:
+   \   0000008C   0000A0E3           MOV      R0,#+0
+   \                     ??OnKey_4:
+   \   00000090   ........           BL       MoveUp
+    445                case DOWN_BUTTON:  MoveDown(0); break;
+    446                case LEFT_BUTTON:  MoveUp(1);   break;
+    447                case RIGHT_BUTTON: MoveDown(1); break;
+    448                case '#' :
+    449                {
+    450                  WSHDR *ws;
+    451                  ws=AllocWS(150);
+    452                  extern const char *successed_config_filename;
+    453                  str_2ws(ws,successed_config_filename,128);
+    454                  ExecuteFile(ws,0,0);
+    455                  FreeWS(ws);       
+    456                }
+    457                break;
+    458                case RIGHT_SOFT:case RED_BUTTON: return (1);
+    459              }
+    460            } 
+    461          
+    462          
+    463            
+    464            if ((msg->gbsmsg->msg==KEY_DOWN) && (k==ENTER_BUTTON || k==LEFT_SOFT))
+   \                     ??OnKey_2:
+   \   00000094   040094E5           LDR      R0,[R4, #+4]
+   \   00000098   040090E5           LDR      R0,[R0, #+4]
+   \   0000009C   060050E1           CMP      R0,R6
+   \   000000A0   2200001A           BNE      ??OnKey_5
+   \   000000A4   1A0055E3           CMP      R5,#+26
+   \   000000A8   01005513           CMPNE    R5,#+1
+   \   000000AC   1F00001A           BNE      ??OnKey_5
+    465            {
+    466              RSS_ITEM *p=GetItem(curpos);
+   \   000000B0   80009FE5           LDR      R0,??OnKey_6     ;; SoftShot + 20
+   \   000000B4   000090E5           LDR      R0,[R0, #+0]
+   \   000000B8   ........           BL       GetItem
+    467              if (p)
+   \   000000BC   000050E3           CMP      R0,#+0
+   \   000000C0   0000000A           BEQ      ??OnKey_7
+    468              {
+    469                create_view_item(p);
+   \   000000C4   ........           _BLF     create_view_item,??create_view_item??rA
+    470              }
+    471              return(-1);
+   \                     ??OnKey_7:
+   \   000000C8   0000E0E3           MVN      R0,#+0
+   \   000000CC   F080BDE8           POP      {R4-R7,PC}
+    472            }
+   \                     ??OnKey_8:
+   \   000000D0   0000A0E3           MOV      R0,#+0
+   \                     ??OnKey_9:
+   \   000000D4   ........           BL       MoveDown
+   \   000000D8   EDFFFFEA           B        ??OnKey_2
+   \                     ??OnKey_10:
+   \   000000DC   0100A0E3           MOV      R0,#+1
+   \   000000E0   EAFFFFEA           B        ??OnKey_4
+   \                     ??OnKey_11:
+   \   000000E4   0100A0E3           MOV      R0,#+1
+   \   000000E8   F9FFFFEA           B        ??OnKey_9
+   \                     ??OnKey_12:
+   \   000000EC   9600A0E3           MOV      R0,#+150
+   \   000000F0   250100EF           SWI      +293
+   \   000000F4   0070A0E1           MOV      R7,R0
+   \   000000F8   3C009FE5           LDR      R0,??OnKey_6+0x4  ;; successed_config_filename
+   \   000000FC   8020A0E3           MOV      R2,#+128
+   \   00000100   001090E5           LDR      R1,[R0, #+0]
+   \   00000104   0700A0E1           MOV      R0,R7
+   \   00000108   6C0100EF           SWI      +364
+   \   0000010C   0020A0E3           MOV      R2,#+0
+   \   00000110   0010A0E3           MOV      R1,#+0
+   \   00000114   0700A0E1           MOV      R0,R7
+   \   00000118   940000EF           SWI      +148
+   \   0000011C   0700A0E1           MOV      R0,R7
+   \   00000120   290100EF           SWI      +297
+   \   00000124   DAFFFFEA           B        ??OnKey_2
+   \                     ??OnKey_13:
+   \   00000128   0100A0E3           MOV      R0,#+1
+   \   0000012C   F080BDE8           POP      {R4-R7,PC}
+    473            return(0);
+   \                     ??OnKey_5:
+   \   00000130   0000A0E3           MOV      R0,#+0
+   \   00000134   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??OnKey_6:
+   \   00000138   ........           DC32     SoftShot + 20
+   \   0000013C   ........           DC32     successed_config_filename
+    474          }
+    475          
+    476          extern void kill_data(void *p, void (*func_p)(void *));
+    477          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    478          static int method8(void){return(0);}
+   \                     method8:
+   \   00000000   0000A0E3           MOV      R0,#+0
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+    479          static int method9(void){return(0);}
+   \                     method9:
+   \   00000000   0000A0E3           MOV      R0,#+0
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+    480          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    481          static const void * const gui_methods[11]={
+   \                     gui_methods:
+   \   00000000   ............       DC32 OnRedraw, onCreate, onClose, onFocus, onUnfocus, OnKey, 0H
+   \              ............
+   \              ............
+   \              ............
+   \              00000000    
+   \   0000001C   ............       DC32 kill_data, method8, method9, 0H
+   \              ............
+   \              00000000    
+    482            (void *)OnRedraw,
+    483            (void *)onCreate,
+    484            (void *)onClose,
+    485            (void *)onFocus,
+    486            (void *)onUnfocus,
+    487            (void *)OnKey,
+    488            0,
+    489            (void *)kill_data,
+    490            (void *)method8,
+    491            (void *)method9,
+    492            0
+    493          };
+    494          
+    495          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    496          int create_rssitems_menu(void)
+    497          {
+    498            totalItems=0;
+   \                     create_rssitems_menu:
+   \   00000000   ........           LDR      R0,??DataTable8  ;; SoftShot
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   0010A0E3           MOV      R1,#+0
+   \   0000000C   101080E5           STR      R1,[R0, #+16]
+    499            RSS_ITEM *pp=(RSS_ITEM *)&rss_first;
+   \   00000010   ........           LDR      R1,??DataTable9  ;; rss_first
+   \   00000014   020000EA           B        ??create_rssitems_menu_0
+    500            while((pp=pp->next)) totalItems++;  
+   \                     ??create_rssitems_menu_1:
+   \   00000018   102090E5           LDR      R2,[R0, #+16]
+   \   0000001C   012082E2           ADD      R2,R2,#+1
+   \   00000020   102080E5           STR      R2,[R0, #+16]
+   \                     ??create_rssitems_menu_0:
+   \   00000024   001091E5           LDR      R1,[R1, #+0]
+   \   00000028   000051E3           CMP      R1,#+0
+   \   0000002C   F9FFFF1A           BNE      ??create_rssitems_menu_1
+    501            
+    502            MAIN_GUI *main_gui=malloc(sizeof(MAIN_GUI));
+   \   00000030   3800A0E3           MOV      R0,#+56
+   \   00000034   140000EF           SWI      +20
+   \   00000038   0040A0E1           MOV      R4,R0
+    503            zeromem(main_gui,sizeof(MAIN_GUI));
+   \   0000003C   3810A0E3           MOV      R1,#+56
+   \   00000040   1D0100EF           SWI      +285
+    504          //  main_gui->gui.canvas=(void *)(&MM_Canvas);
+    505            main_gui->gui.methods=(void *)gui_methods;
+   \   00000044   14009FE5           LDR      R0,??create_rssitems_menu_2  ;; gui_methods
+   \   00000048   040084E5           STR      R0,[R4, #+4]
+    506            main_gui->gui.item_ll.data_mfree=(void (*)(void *))mfree_adr();
+   \   0000004C   158000EF           SWI      +32789
+   \   00000050   200084E5           STR      R0,[R4, #+32]
+    507            return CreateGUI(main_gui);   
+   \   00000054   0400A0E1           MOV      R0,R4
+   \   00000058   370100EF           SWI      +311
+   \   0000005C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??create_rssitems_menu_2:
+   \   00000060   ........           DC32     gui_methods
+    508          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     SoftShot
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     rss_first
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for SoftShot>`:
+   \   00000000   00000000           DC16 0, 0
+   \   00000004   08000000....       DC32 8, `?<Constant "">`
+   \              ....        
+   \                     `?<Initializer for itemFromDisp>`:
+   \   0000000C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for totalItems>`:
+   \   00000010   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for curpos>`:
+   \   00000014   00000000           DC32 0
+   \                     `?<Initializer for curpage>`:
+   \   00000018   01000000           DC32 1
+   \                     `?<Initializer for collum>`:
+   \   0000001C   00000000           DC32 0
+   \                     `?<Initializer for scr_w>`:
+   \   00000020   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for scr_h>`:
+   \   00000024   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for font>`:
+   \   00000028   6C000000           DC32 108
+   \                     `?<Initializer for space>`:
+   \   0000002C   01000000           DC32 1
+   \                     `?<Initializer for CursorClr>`:
+   \   00000030   ........           DC32 `?<Constant "\\377\\000\\000\\033">`
+   \                     `?<Initializer for soft_shot>`:
+   \   00000034   00000000           DC32 0
+   \                     `?<Initializer for header_shot>`:
+   \   00000038   00000000           DC32 0
+   \                     `?<Initializer for cursor_shot>`:
+   \   0000003C   00000000           DC32 0
+   \                     `?<Initializer for clrBlack>`:
+   \   00000040   00000064           DC8 0, 0, 0, 100
+   \                     `?<Initializer for clrWhite>`:
+   \   00000044   FFFFFF64           DC8 255, 255, 255, 100
+   \                     `?<Initializer for transparent>`:
+   \   00000048   00000000           DC8 0, 0, 0, 0
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for clrRed>`:
+   \   00000000   FF004864           DC8 255, 0, 72, 100
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for HeaderShot>`:
+   \   00000000   00000000           DC16 0, 0
+   \   00000004   08000000....       DC32 8, `?<Constant "">`
+   \              ....        
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for cursor>`:
+   \   00000000   00000000           DC16 0, 0
+   \   00000004   08000000....       DC32 8, `?<Constant "">`
+   \              ....        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\307\\340\\352\\360\\373\\362\\374">`:
+   \   00000000   C7E0EAF0FBF2       DC8 "\307\340\352\360\373\362\374"
+   \              FC00        
+   \   00000008   C2FBE1F0E0F2       DC8 "\302\373\341\360\340\362\374"
+   \              FC00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "NRSS v3.0">`:
+   \   00000000   4E5253532076       DC8 "NRSS v3.0"
+   \              332E3000    
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%02d:%02d">`:
+   \   00000000   253032643A25       DC8 "%02d:%02d"
+   \              30326400    
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant {0, 0, 8, &""}>`:
+   \   00000000   00000000           DC16 0, 0
+   \   00000004   08000000....       DC32 8, `?<Constant "">`
+   \              ....        
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "">`:
+   \   00000000   00                 DC8 ""
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\377\\000\\000\\033">`:
+   \   00000000   FF00001B00         DC8 0FFH, 0, 0, 1BH, 0
+   \   00000005   000000             DC8 0, 0, 0
+    509          
+    510          
+
+   Maximum stack usage in bytes:
+
+     Function             CSTACK
+     --------             ------
+     DoScreen                36
+     DrawHeader              52
+     DrawList                72
+     DrawScrollBar           52
+     DrawSoftKeys            56
+     DrwImage                56
+     GetItem                  0
+     MoveDown                 0
+     MoveUp                   8
+     OnKey                   20
+     OnRedraw                40
+     create_rssitems_menu     8
+     method8                  0
+     method9                  0
+     onClose                  8
+     onCreate                12
+     onFocus                  4
+     onUnfocus                0
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     canvasdata                        4
+     clrSelect                         4
+     _t                                3
+     DrwImage                        104
+     DoScreen                        116
+     DrawSoftKeys                    528
+     DrawHeader                      372
+     DrawScrollBar                   368
+     SoftShot                         76
+     clrRed                            4
+     HeaderShot                       12
+     cursor                           12
+     GetItem                          44
+     ?<Constant "\377\000\000\025">   52
+     DrawList                        824
+     MoveUp                          132
+     MoveDown                         92
+     OnRedraw                        148
+     onCreate                         60
+     onClose                          28
+     onFocus                          20
+     onUnfocus                        20
+     OnKey                           320
+     method8                           8
+     method9                           8
+     gui_methods                      44
+     create_rssitems_menu            100
+     ??DataTable8                      4
+     ??DataTable9                      4
+     ?<Initializer for SoftShot>      76
+     ?<Initializer for clrRed>         4
+     ?<Initializer for HeaderShot>    12
+     ?<Initializer for cursor>        12
+     ?<Constant "\307\340\352\360\373\362\374">
+                                      16
+     ?<Constant "NRSS v3.0">          12
+     ?<Constant "%02d:%02d">          12
+     ?<Constant {0, 0, 8, &""}>       12
+     ?<Constant "">                    1
+     ?<Constant "\377\000\000\033">    8
+      Others                         168
+
+ 
+ 3 444 bytes in segment CODE
+   164 bytes in segment DATA_C
+   104 bytes in segment DATA_I
+   104 bytes in segment DATA_ID
+     4 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 3 300 bytes of CODE  memory (+ 168 bytes shared)
+   268 bytes of CONST memory
+   108 bytes of DATA  memory
+
+Errors: none
+Warnings: none

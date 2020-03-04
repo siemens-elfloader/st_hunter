@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="lua" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="NSG">
+				<Option output="exe/lua.elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/nsg" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="SG">
+				<Option output="exe/lua_sg.elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/sg" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-DSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="ELKA">
+				<Option output="exe/lua_el.elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/elka" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DELKA" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-O2" />
+			<Add option="-W" />
+			<Add option="-std=gnu99" />
+			<Add option="-DLJ_TARGET_ARM" />
+			<Add option="-D__ANDROID__" />
+			<Add option="-D__arm__" />
+			<Add option="-D_GNU_SOURCE" />
+			<Add directory="/home/vova7890/.siemens/include/luajit" />
+			<Add directory="/home/vova7890/compilers/include/luajit" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add option="--defsym __ex=0" />
+			<Add option="-gc-section" />
+			<Add library="crt" />
+			<Add library="crt_helper" />
+			<Add library="gcc" />
+			<Add library="luajit" />
+			<Add library="c" />
+			<Add library="m" />
+		</Linker>
+		<Unit filename="abort.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="api/init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="api/lj_lualib.h" />
+		<Unit filename="api/lsyslib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="conf_loader.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="config_data.c">
+			<Option compilerVar="CC" />
+			<Option compiler="armelfgcc" use="1" buildCommand="$compiler $options -xc $includes -c $file -o $object -O0" />
+		</Unit>
+		<Unit filename="curent_state.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="std_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="std_init.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

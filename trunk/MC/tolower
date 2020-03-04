@@ -1,0 +1,13 @@
+#!/bin/sh
+
+
+files="$(find ./ -name "*.H")"
+files+="$(find ./ -name "*.C")"
+
+arr=$(echo $files | tr " " "\n")
+
+for i in $arr
+do
+  mv $i ${i,,}
+  echo $i
+done

@@ -1,0 +1,165 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+Patch	equ	Patches + 0x1000
+;---------------------------------------------------------------------------
+org Patch
+            push    {r1-r7,LR}
+            LoadReg 0, config+4
+            CallLib GetBuffer
+            beq       ex
+            mov     r7, r0
+            CallLib FreeRAM
+            mov     r6, r0
+            add     r6, #0x20
+
+            CallLib RamNet
+            ldrh    r4, [r0, #2]    ;CI
+            ldrh    r5, [r0, #4]    ;LAC
+
+            ldrh    r0, [r6, #2]
+            cmp     r5, r0
+            bne     AddLog
+
+            ldrh    r1, [r6]
+            mov     r3, r4
+
+            ldrb    r2, [r7,#1]
+            cmp     r2, #0
+            beq     compCI
+
+            mov     r0, #250
+            lsl     r0, #2
+            CallLib dwMODdw
+            push    {r1}
+
+            mov     r0, #250
+            lsl     r0, #2
+            mov     r1, r4
+            CallLib dwMODdw
+            pop     {r3}
+
+compCI:     cmp     r3, r1
+            beq     ex
+
+AddLog:     strh    r4, [r6]
+            strh    r5, [r6,#2]
+
+            add     r7, #8
+            mov     r0, r7
+            ldr     r1, [SP]
+            CallLib strcpy
+            mov     r1, r7
+            add     r1, #48 - 8
+            CallLib strcat
+
+            mvi     r1, 0x109
+            mov     r2, #1
+            lsl     r2, #8
+            mov     r3, SP
+            CallLib fopen
+            mov     r6, r0
+
+            ldr     r1, [SP, #4*4 - 4]
+            ldr     r2, [SP, #4*5 - 4]
+            ldr     r3, [SP, #4*6 - 4]
+            push    {r1-r5}
+            ldr     r2, [SP, #4*2 - 4 + 20]
+            ldr     r3, [SP, #4*3 - 4 + 20]
+
+            mov     r0, r7
+            mov     r1, r7
+            add     r1, #64 - 8
+            CallLib sprintf
+            add     SP, #20
+
+            mov     r1, r7
+            sub     r1, #2
+            mvi     r3, 0x0A0D
+            strh    r3, [r1]
+            mov     r0, r6
+            sub     r2, r1
+            sub     r2, #1
+            mov     r3, SP
+            CallLib fwrite
+
+            mov     r2, r5
+            mov     r3, r4
+            push    {r2}
+            add     r0, r7,#4
+            mov     r1, r7
+            add     r1, #104 - 8
+            CallLib sprintf
+            pop     {r2}
+
+            add     r0, r7,#4
+            mov     r1, r7
+            CallLib OpenReadCloseFile
+            bmi     closefile
+
+            add     r0, r7,#4
+            ldr     r1, [r7]
+            ldrh    r2, [r1]
+            add     r1, #4
+            mov     r4, #0x4
+            lsl     r4, #8
+            push    {r6,r7}
+            
+nextch:     ldrh    r3, [r1]
+            cmp     r3, #0xFF
+            bls     savch3
+            sub     r3, r4
+
+            AdrReg  6, from
+            mov     r7, #10
+
+nextTrans:  ldrb    r5, [r6]
+            cmp     r5, r3
+            ldrb    r5, [r6, #1]
+            beq     savch5
+            add     r6, #2
+            sub     r7, #1
+            bne     nextTrans
+            add     r3, #0xB0
+
+savch3:     mov     r5, r3
+savch5:     strb    r5, [r0]
+            add     r1, #2
+            add     r0, #1
+            sub     r2, #1
+            bne     nextch
+
+            pop     {r6,r7}
+            add     r1, r7,#4
+            sub     r2, r0,r1
+            sub     r2, #1
+            mov     r0, r6
+            mov     r3, SP
+            CallLib fwrite
+
+            ldr     r0, [r7]
+            CallLib mfree
+
+closefile:  mov     r0, r6
+            mov     r1, SP
+            CallLib fclose
+
+ex:         mov     r0, #0
+            pop     {r1-r7,PC}
+;---------------------------------------------------------------------------
+        Align4
+from:       db      0x51, 0xB8, 0x54, 0xBA, 0x56, 0xB3, 0x57, 0xBF, 0x91, 0xB4
+            db      0x01, 0xA8, 0x04, 0xAA, 0x06, 0xB2, 0x07, 0xAF, 0x90, 0xA5
+        Align16
+config:     dd Magic, 0x0300AB18, config-Patch, 0
+db "{p=CellLogger ver=2 cp=avkiev id=0300AB18}"
+db "{1 cb `Check 3 digit in CI` v=1}"
+;6-0d0a
+;8-file
+db "{48 s CellLog v=`cell.log`}"
+db "{64 s Format ml=39 v=`%02u.%02u.%u %02u:%02u %05u-%04u`}"
+db "{104 s GPS ml=31 v=`0:\Misc\GPS\%i\%i-%i.tmo`}"
+db 00
+        Align16
+;---------------------------------------------------------------------------
+END

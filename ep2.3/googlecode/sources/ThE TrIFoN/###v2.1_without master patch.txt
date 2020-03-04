@@ -1,0 +1,89 @@
+$ARM9E
+$genonly
+
+//$INCLUDE (CX75_12.inc) 
+
+LoadReg macro   reg, ad
+              dw    0x4800 + (reg << 8) + (ad-$-2)/4
+endm
+
+AREA STARTUPCODE, CODE, at 0x100000
+
+code16
+
+/*NativeMenu equ 02BE840h
+Vrezka equ 04DE920h
+patch equ 07d4b08h
+TempLightOn equ 08595DCh+1
+IsUnlocked equ 07FE43Ah+1
+RamIsLocked equ 0xA84FF8A0
+  */
+
+NativeMenu equ 02BE8FCh
+Vrezka equ 04DE030h
+patch equ 07D57C8h
+TempLightOn equ 0859DF4h+1
+IsUnlocked equ 07FF1F2h+1
+RamIsLocked equ 0xA84FF8E8
+GetProfile  equ 0xA02BF390 + 1
+LOGAL_PROC equ 0xA08599FE+1
+MainMenu equ 0xA03268EA+1
+
+org Vrezka
+Vrez:
+push {r0-r7, lr}
+LoadReg 3,aGetProfile
+blx r3
+add r0, #1
+cmp r0,#7
+beq exit
+
+bl IsUnlocked
+cmp r0,#0
+
+bne goto_menu
+
+mov r0,#3
+bl TempLightOn
+
+unlock:
+push {r0-r6}
+LoadReg 1, aRamIsLocked
+mov r3, #0
+strb r3, [r1]
+pop {r0-r6}
+
+goto_menu:
+LoadReg 3,aGetProfile
+blx r3
+add r0, #1
+cmp r0,#8
+bne test_other
+//If profile is 8 - goto MainMenu, otherwise - Native
+LoadReg 3, aMainMenu
+blx r3
+bl _exit
+
+test_other:
+//Yet only NativeMenu is supported
+bl NativeMenu
+bl _exit
+exit:
+LoadReg 3, aLOGAL_PROC
+blx r3
+_exit:
+pop {r0-r7, pc}
+
+Align4
+
+aMainMenu: dd MainMenu
+aRamIsLocked: dd RamIsLocked
+aLOGAL_PROC: dd LOGAL_PROC
+aGetProfile: dd GetProfile
+org patch
+bl Vrez				 
+
+; ---------------------------------------------------------------------------
+
+; ---------------------------------------------------------------------------
+END

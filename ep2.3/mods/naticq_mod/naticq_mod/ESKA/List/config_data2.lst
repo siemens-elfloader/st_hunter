@@ -1,0 +1,344 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    01/Apr/2008  10:19:34 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod\config_data2.c  #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod\config_data2.c  #
+#                       -D NEWSGOLD -D UIN_WRITE --preprocess                #
+#                       D:\Pasha\elf\_MY_PROJECT_\naticq_mod\ESKA\List\ -lC  #
+#                       D:\Pasha\elf\_MY_PROJECT_\naticq_mod\ESKA\List\ -o   #
+#                       D:\Pasha\elf\_MY_PROJECT_\naticq_mod\ESKA\Obj\ -s9   #
+#                       --no_unroll --cpu_mode arm --endian little --cpu     #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --dlib_config "D:\Pasha\Embedded Workbench 4.0  #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod\ESKA\List\confi #
+#                       g_data2.lst                                          #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod\ESKA\Obj\config #
+#                       _data2.r79                                           #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT_\naticq_mod\config_data2.c
+      1          #include "..\inc\cfg_items.h"
+      2          #include "language.h"
+      3          //Конфигурация
+      4          
+      5          #ifdef NEWSGOLD
+      6          #define DEFAULT_DISK "4"
+      7          #else
+      8          #define DEFAULT_DISK "0"
+      9          #endif
+     10          /*
+     11          
+     12          
+     13          //Open url in. browser or BalleteMini
+     14            __root const CFG_HDR cfghdr4_34={CFG_CBOX,"Open url",0,2};
+     15            __root const int OpenBrowser = 0;
+     16            __root const CFG_CBOX_ITEM cfgcbox345_4[2]={"BalletMini","Browser"};
+     17            
+     18          
+     19          //Path to balletemini
+     20            __root const CFG_HDR cfghdr22_8={CFG_STR_UTF8,"Font to BalleteMini",0,63};
+     21            __root const char BalleteMiniPath[64]=DEFAULT_DISK ":\\ZBin\\BalletMini\\BalletMini.elf";
+     22          
+     23          */
+     24          //-----------------------------------------------------------------------------//
+     25          //                                НАСТРОЙКА КЛАВИШ
+     26          //-----------------------------------------------------------------------------//
+     27          #ifdef BCFG
+     28          __root const CFG_HDR cfghdr0={CFG_LEVEL,"",0,0};
+     29          
+     30          //View settings
+     31          __root const CFG_HDR cfghdr23_4={CFG_LEVEL,"Настройка кнопок",1,0};
+     32          /*
+     33            __root const CFG_HDR cfghdr23_4_1={CFG_CBOX,"Показ. сообщ.при дл.нажатии",0,2};
+     34            __root const int isShowMsgLongPress = 1;
+     35            __root const CFG_CBOX_ITEM cfgcbox23_4_2[2]={"Нет","Да"};
+     36            */
+     37          //Long press right in chat
+     38            __root const CFG_HDR cfghdr4_67={CFG_CBOX,"Длинное нажатие вправо в чате",0,3};
+     39            __root const int LongRightAction = 0;
+     40            __root const CFG_CBOX_ITEM cfgcbox4_56[3]={"Ничего","Слудующий чат","Вставить смайл"};    
+     41          
+     42          //Long press right in chat
+     43            __root const CFG_HDR cfghdr34_64={CFG_CBOX,"Длинное нажатие влево в чате",0,2};
+     44            __root const int LongLeftAction = 0;
+     45            __root const CFG_CBOX_ITEM cfgcbox444_56[2]={"Ничего","Предыдущий чат"};
+     46            
+     47            //Action on # button in contact list
+     48              __root const CFG_HDR cfghdr78_4520={CFG_CBOX,"Действие на # в КЛ",0,2};
+     49              __root const int ActionResh = 0;
+     50              __root const CFG_CBOX_ITEM cfgcbox_668_z[2]={"Очистить выделенный чат","След.акт.чат"};
+     51              
+     52          #ifdef ELKA
+     53          //Press vol up or vol down button in CL
+     54            __root const CFG_HDR cfghdr34_642={CFG_CBOX,"Вкл. действие на громк.вниз",0,2};
+     55            __root const int isVolDownButton = 1;
+     56            __root const CFG_CBOX_ITEM cfgcbox434_56[2]={"Нет","Да"};
+     57            
+     58            __root const CFG_HDR cfghdr34_6342={CFG_CBOX,"Вкл.действие на громк.вверх",0,2};
+     59            __root const int isVolUpButton = 1;
+     60            __root const CFG_CBOX_ITEM cfgcbox4134_56[2]={"Нет","Да"};
+     61          #endif
+     62          __root const CFG_HDR cfghdr223_5={CFG_LEVEL,"",0,0}; //НАСТРОКА КЛАВИШ
+     63          	
+     64          	
+     65          //-----------------------------------------------------------------------------//
+     66          //------------------------------- STATUS SETTING ------------------------------//
+     67          //-----------------------------------------------------------------------------//
+     68            
+     69          __root const CFG_HDR cfghdr_45={CFG_LEVEL,"Настройка статусов",1,0};
+     70          
+     71          //Status icon on mainscreen position
+     72          #ifdef ELKA
+     73          #ifdef kluchnik
+     74              __root const CFG_HDR cfghdr467_1 = {CFG_CBOX,"Показывать иконку статуса",0,5};
+     75              __root const int ShowStatusIcon = 1;
+     76              __root const CFG_CBOX_ITEM cfgcbox9_1[5]={"На главном экране","В иконбаре","В иконбаре(кроме гэ)","Везде","Нигде"};
+     77          #else
+     78              __root const CFG_HDR cfghdr467_1 = {CFG_CBOX,"Показывать иконку статуса",0,5};
+     79              __root const int ShowStatusIcon = 0;
+     80              __root const CFG_CBOX_ITEM cfgcbox9_1[5]={"На главном экране","В иконбаре","В иконбаре(кроме гэ)","Везде","Нигде"};
+     81          #endif
+     82          #endif
+     83                  
+     84          //Show x-status on iconbar or mainscreen
+     85          #ifdef kluchnik
+     86              __root const CFG_HDR cfghdrz_68 = {CFG_CBOX,"Показ.хстатус иконку",0,4};
+     87              __root const int show_xstatus = 2;
+     88              __root const CFG_CBOX_ITEM cfgcbox_8z[4]={"Нигде","На гэ","В иконбаре","Везде"};
+     89          #else
+     90          #ifdef ELKA
+     91              __root const CFG_HDR cfghdrz_68 = {CFG_CBOX,"Показ.хстатус иконку",0,4};
+     92              __root const int show_xstatus = 1;
+     93              __root const CFG_CBOX_ITEM cfgcbox_8z[4]={"Нигде","На гэ","В иконбаре","Везде"};
+     94          #else
+     95              __root const CFG_HDR cfghdrz_68 = {CFG_CBOX,"Показ.хстатус иконку",0,2};
+     96              __root const int show_xstatus = 1;
+     97              __root const CFG_CBOX_ITEM cfgcbox_8z[2]={"Нигде","На гэ"};
+     98          #endif
+     99          #endif    
+    100              __root const CFG_HDR cfghdrz_1={CFG_COORDINATES,"Позиция хстатус на гэ",0,0};
+    101              __root const unsigned int IDLEICON_XX=2;
+    102              __root const unsigned int IDLEICON_YX=70;
+    103              
+    104          #ifdef ELKA
+    105          //Number first pic status in folder img for show in iconbar
+    106              __root const CFG_HDR cfghdr19_22={CFG_UINT,"1я картика статуса в иконбаре",0,65535};
+    107              __root const unsigned int NumStatusToIconBar = 8000;  
+    108          
+    109          //Number first pic x-status in folder img for show in iconbar    
+    110              __root const CFG_HDR cfghdr19_242={CFG_UINT,"1я картика хстатуса в иконбаре",0,65535};
+    111              __root const unsigned int NumXStatusToIconBar = 8100;  
+    112          #endif
+    113          __root const CFG_HDR cfghdr_4={CFG_LEVEL,"",0,0};//STATUS SETTINGS
+    114            
+    115            
+    116          //-----------------------------------------------------------------------------//
+    117          //-------------------------------- PNGFONT SETTING ----------------------------//
+    118          //-----------------------------------------------------------------------------//
+    119            
+    120            
+    121          __root const CFG_HDR cfghdr1_45={CFG_LEVEL,"Настройка пнгшрифта",1,0};
+    122             
+    123          //Nember png-font or system
+    124             __root const CFG_HDR cfghdr65z={CFG_UINT,"Номер шрифта (1=png/1xx=system)",0,115};
+    125             __root const unsigned int fonto=1;
+    126              
+    127          //Path to png-font
+    128             __root const CFG_HDR cfghdr98={CFG_STR_UTF8,"Путь к шрифту",0,63};
+    129             __root const char fontpath[64]="";
+    130          
+    131          //Coordinates for message on idle
+    132             __root const CFG_HDR cfghd83 = {CFG_COORDINATES,"Позиция на гэ",0,0};
+    133             __root const unsigned int msg_d_x = 0;
+    134             __root const unsigned int msg_d_y = 65;   
+    135             
+    136            __root const CFG_HDR cfghdr60_2={CFG_COLOR,"Цвет шрифта",0,0};
+    137            __root const char fontColor[4]={0xFF,0xFF,0xFF,100};
+    138            
+    139            __root const CFG_HDR cfghdr60_3={CFG_COLOR,"Цвет фона",0,0};
+    140            __root const char bgrColor[4]={0x00,0x00,0x00,100};
+    141          
+    142          //Max show symbol on idle
+    143             __root const CFG_HDR cfghdr19a_1={CFG_UINT,"Количество символов",0,50};
+    144             __root const unsigned int main_lenght = 24;
+    145                
+    146             __root const CFG_HDR cfghdr9z9={CFG_CBOX,"Использовать .. в тектсе ",0,2};
+    147             __root const int use_cutter = 1;
+    148             __root const CFG_CBOX_ITEM cfgcbox18a_4[2]={"No","Yes"};
+    149          
+    150             __root const CFG_HDR cfghdr65y={CFG_UINT,"Расстояние между буквами",0,999999};
+    151             __root const unsigned int spaco1=1;
+    152                
+    153             //__root const CFG_HDR cfghdr65u={CFG_UINT,"Main msg space",0,999999};
+    154             //__root const unsigned int spaco2=0;
+    155              
+    156          __root const CFG_HDR cfghdrss_45={CFG_LEVEL,"",0,0};//PNGFONT SETTING
+    157            
+    158          
+    159           //-----------------------------------------------------------------------------//
+    160          //                                 ONLINE TIME
+    161          //-----------------------------------------------------------------------------//
+    162          
+    163          
+    164          __root const CFG_HDR cfghdr_m71={CFG_LEVEL,"Время онлайн",1,0};
+    165          
+    166              __root const CFG_HDR cfghdr699 = {CFG_COORDINATES,"Позиция времени",0,0};
+    167              __root const unsigned int onlineTime_x = 77;
+    168              __root const unsigned int onlineTime_y = 98;
+    169          
+    170              __root const CFG_HDR cfghdr698 = {CFG_CBOX,"Пауза при дисконнекте",0,2};
+    171              __root const int Pause_Time = 1;
+    172              __root const CFG_CBOX_ITEM cfgcbox85[2]={"No","Yes"};
+    173          
+    174          __root const CFG_HDR cfghdr_m70={CFG_LEVEL,"",0,0};
+    175          
+    176          
+    177          //-----------------------------------------------------------------------------//
+    178          //                              AUTO PING/UNREAD
+    179          //-----------------------------------------------------------------------------//
+    180          
+    181          
+    182          __root const CFG_HDR cfghdr_m91={CFG_LEVEL,"Автопинг/непрочитанные",1,0};
+    183          
+    184              __root const CFG_HDR cfghd66 = {CFG_COORDINATES,"Координаты автопинга",0,0};
+    185              __root const unsigned int Ping_X = 2;
+    186              __root const unsigned int Ping_Y = 262;
+    187              
+    188              __root const CFG_HDR cfghdr1z9a_1={CFG_UINT,"Звук пинга после(times)",0,50};
+    189              __root const unsigned int ping_time_config = 29;
+    190              
+    191              __root const CFG_HDR cfghdr298 = {CFG_CBOX,"Показывать непрочитанные",0,2};
+    192              __root const int Is_Unread_On = 0;
+    193              __root const CFG_CBOX_ITEM cfgcbox86[2]={"No","Yes"};
+    194              
+    195              __root const CFG_HDR cfghd67 = {CFG_COORDINATES,"Координаты непрочитанных",0,0};
+    196              __root const unsigned int unread_X = 99;
+    197              __root const unsigned int unread_Y = 65;
+    198          
+    199          __root const CFG_HDR cfghdr_m90={CFG_LEVEL,"",0,0};
+    200          
+    201          
+    202          
+    203          //-----------------------------------------------------------------------------//
+    204          //                                AUTO STATUS                                  //
+    205          //-----------------------------------------------------------------------------//
+    206          
+    207          
+    208          __root const CFG_HDR cfghdr_m61={CFG_LEVEL,"Автостатус",1,0};
+    209          
+    210              __root const CFG_HDR cfghdr668 = {CFG_CBOX,"Включить",0,2};
+    211              __root const int Auto_Status = 1;
+    212              __root const CFG_CBOX_ITEM cfgcbox89[2]={"No","Yes"};
+    213              
+    214              __root const CFG_HDR cfghdr667={CFG_UINT,"Время (1min=12)",120,500};
+    215              __root const unsigned int AUTO_ENGADE=120;
+    216              
+    217              __root const CFG_HDR cfghdr_13={CFG_CBOX,"GMT зона",0,33};
+    218              __root const int time_zone = 16;
+    219              __root const CFG_CBOX_ITEM cfgcbox_13[33]={"-12:00", "-11:00", "-10:00", "-09:00", "-08:00", "-07:00", "-06:00", "-05:00", "-04:00", "-03:30", "-03:00", "-02:00", "-01:00", "00:00", "+01:00", "+02:00", "+03:00", "+03:30", "+04:00", "+04:30", "+05:00", "+05:30", "+05:45", "+06:00", "+06:30", "+07:00", "+08:00", "+09:00", "+09:30", "+10:00", "+11:00", "+12:00", "+13:00"};
+    220              
+    221              __root const CFG_HDR cfghdrzz_8={CFG_STR_WIN1251,"Сообщение приветствия",0,23};
+    222              __root const char awayHelloMsg[24]="Привет";
+    223              
+    224              __root const CFG_HDR cfghdrzz_9={CFG_STR_WIN1251,"Сообщение отсутствия",0,63};
+    225              __root const char awayMsg[64]="я сейчас не могу ответить!";
+    226              
+    227              __root const CFG_HDR cfghdr66_2 = {CFG_CBOX,"Отключение автостатуса после",0,2};
+    228              __root const int Reset_timer = 0;
+    229              __root const CFG_CBOX_ITEM cfgcbox90[2]={"Отправки сообщения","Нажатия любой клавиши"};
+    230            
+    231          //Show away time on idle
+    232              __root const CFG_HDR cfghdr663 = {CFG_CBOX,"Показывать на гэ",0,2};
+    233              __root const int showAwayIdle = 0;
+    234              __root const CFG_CBOX_ITEM cfgcbox82[2]={"No","Yes"};
+    235              
+    236              __root const CFG_HDR cfghd6_7 = {CFG_COORDINATES,"Позиция",0,0};
+    237              __root const unsigned int auto_x = 0;
+    238              __root const unsigned int auto_y = 252;
+    239            
+    240          __root const CFG_HDR cfghdr_m60={CFG_LEVEL,"",0,0};
+    241          
+    242          
+    243          //------------------------------------------------------------------------------//
+    244          //                                EXTRA CONFIG                                  //
+    245          //------------------------------------------------------------------------------//
+    246          
+    247          
+    248          __root const CFG_HDR cfghdr_m51={CFG_LEVEL,"Экстра опции",1,0};
+    249          
+    250          //Show contact header with...
+    251              __root const CFG_HDR cfghdr467 = {CFG_CBOX,"Показывать в заголовке КЛ",0,5};
+    252              __root const int TIME_OR_MSG = 3;
+    253              __root const CFG_CBOX_ITEM cfgcbox91[5]={"Время","Сообщения","Контакты","Все","Пнг шрифт(все)"};
+    254            
+    255          //Vibra count in vibra remaider
+    256              __root const CFG_HDR cfghdr65={CFG_UINT,"Кол-во вибраций в реж.напомин.",0,10};
+    257              __root const unsigned int Vibra_cc=2;
+    258              
+    259          //CSM for player
+    260              __root const CFG_HDR cfghdr66={CFG_STR_UTF8,"CSM плеера",0,8};
+    261              __root const char CsmAdr[9]="A087B454";  //el=A087B454 //es=A068E244
+    262              
+    263          //Text before name track
+    264              __root const CFG_HDR cfghdr67={CFG_STR_WIN1251,"Текст для вывода песни",0,12};
+    265              __root const char playing[13]="MediaPlayer:";
+    266            
+    267          //Show command sending    
+    268              __root const CFG_HDR cfghdr780={CFG_CBOX,"Отображать запрос команд",0,2};
+    269              __root const int show_send_info = 1;
+    270              __root const CFG_CBOX_ITEM cfgcbox8_z[2]={"No","Yes"};
+    271          
+    272          //Show time offline contact
+    273              __root const CFG_HDR cfghdr7_80={CFG_CBOX,"Показывать время откл.контакта",0,2};
+    274              __root const int isLogOffline = 1;
+    275              __root const CFG_CBOX_ITEM cfgcbox8df_z[2]={"No","Yes"};
+    276              
+    277          //Show time onlain contact
+    278              __root const CFG_HDR cfghdr7_81={CFG_CBOX,"Показывать время подкл.контакта",0,2};
+    279              __root const int isLogOnline = 1;
+    280              __root const CFG_CBOX_ITEM cfgcbox9df_z[2]={"No","Yes"};
+    281             
+    282          //Show Loopback contact in CL
+    283              __root const CFG_HDR cfghdr71_30={CFG_CBOX,"Показывать Loopback в КЛ",0,2};
+    284              __root const int IsShowLoopback = 1;
+    285              __root const CFG_CBOX_ITEM cfgcbox_3z[2]={"No","Yes"};
+    286              
+    287          #ifdef kluchnik
+    288              __root const CFG_HDR cfghdr71280={CFG_CBOX,"Auto bot kel",0,2};
+    289              __root const int autobot_kel = 0;
+    290              __root const CFG_CBOX_ITEM cfgcbox8a_z[2]={"Off","On"};
+    291              
+    292              __root const CFG_HDR cfghdr781={CFG_UINT,"Autobot target",0,0xFFFFFFFF};
+    293              __root const unsigned int AUTOBOT_UIN=0;
+    294          #endif
+    295              
+    296          __root const CFG_HDR cfghdr_m50={CFG_LEVEL,"",0,0};
+    297          
+    298          
+    299          __root const CFG_HDR cfghdr11_9={CFG_STR_UTF8,"Небольшой игнор лист",0,255};
+    300          __root const char ignor_list[256]="";
+    301          
+    302          #endif
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+
+ 
+ 
+ 0 bytes of memory
+
+Errors: none
+Warnings: none

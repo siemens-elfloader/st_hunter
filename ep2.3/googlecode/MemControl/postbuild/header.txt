@@ -1,0 +1,46 @@
+; Memory Control 
+; Control Markup RAM at startup 
+; (c) Dimadze 
+; V1.1
+
+/*
+
+(!) Conflict with all the patches on the memory 
+   Cancel the previous version of the patch
+
+Description 
+Here on the basis of all knowledge and patches of RAM on X65, decided to make a single "mega" patch. 
+When you run the phone is counting the RAM, ie divided into 
+NonPermMemory, PermMemory, JavaHeap, the rest of us are not interested. 
+So, the patch loads configuration partition and, if necessary, stop 
+downloading a browser or Java-machine (or both). 
+Settings (1 byte) are in the 5304 block EEFULL, so to change them 
+require a special elf-configurator. 
+Options for work with PS / failami during the patch does not work, 
+therefore attributable to use EEPROM. 
+
+By the way, this patch does, and F-uw patch CutHeap. 
+
+Ect 8 fixed regimes, as opportunity 
+free, and most importantly, change the values of mismanagement 
+memory can lead to poor results, 
+and in particular pikoffu startup or non-inclusion of all, that's it! 
+
+  1 - Normal 
+  2 - Killed browser 
+  3 - Increase NonPermMmem 
+  4 - Murdered browser + Increase NonPermMmem (NonPermSize: 4 Mb) 
+  5 - Optimal NonPerm / JavaHeap # 1 (NonPermSize: 3.5 Mb, JavaHeap: 2 Mb) 
+  6 - Optimal NonPerm / JavaHeap # 2 (NonPermSize: 2.5 Mb, JavaHeap: 3 Mb) 
+  7 - Maximum NonPermMem (NonPermSize: 5,64 Mb) (Java does not work!) 
+  8 - Maximum JavaHeap (NonPermSize: 1 Mb, JavaHeap: 4.2 Mb) 
+
+Startup option set special elf-configurator 
+You can launch the browser without rebooting. 
+* Lists the full dimensions of memory (but not free!)
+
+
+*/
+
+
+

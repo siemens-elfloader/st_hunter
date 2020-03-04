@@ -1,0 +1,1981 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION    10/Feb/2008  21:37:56 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT\TextReader\menu.c           #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT\TextReader\menu.c -lC       #
+#                       D:\Pasha\elf\_MY_PROJECT\TextReader\Release_SGOLD\Li #
+#                       st\ -o D:\Pasha\elf\_MY_PROJECT\TextReader\Release_S #
+#                       GOLD\Obj\ -s9 --cpu_mode arm --endian little --cpu   #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --dlib_config "D:\Pasha\ARM_Embedded_Workbench\ #
+#                       Embedded Workbench 4.0 Evaluation\ARM\LIB\dl5tpainl8 #
+#                       n.h" -I "D:\Pasha\ARM_Embedded_Workbench\Embedded    #
+#                       Workbench 4.0 Evaluation\ARM\INC\"                   #
+#                       --inline_threshold=2                                 #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT\TextReader\Release_SGOLD\Li #
+#                       st\menu.lst                                          #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT\TextReader\Release_SGOLD\Ob #
+#                       j\menu.r79                                           #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT\TextReader\menu.c
+      1          #include "..\inc\swilib.h"
+      2          #include "main.h"
+      3          extern int codepage;
+      4          extern int id_ed;
+      5          extern int id_ed2;
+      6          extern char *file;
+      7          extern char exe_name[];
+      8          extern int curpos;
+      9          extern int atoi(char *attr);
+     10          extern void *about();
+     11          
+     12          extern const char per_d[];
+     13          extern const char per_t[];
+     14          extern const char per_s[];
+     15          extern const char empty_str[];
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     16          const char per_2s[]="%s%s";
+   \                     per_2s:
+   \   00000000   2573257300         DC8 "%s%s"
+   \   00000005   000000             DC8 0, 0, 0
+     17          
+     18          extern const char IMG_PATH[128];
+     19          extern const char HIST_PATH[128];
+     20          extern const char *successed_config_filename;
+     21          
+     22          extern void ShowBookmarks(void);
+     23          extern int LoadBookmark();
+     24          extern void UpdateCSMname();
+     25          void ShowMenuLast(void);
+     26          int LoadHist();
+     27          
+     28          
+     29          extern void patch_header( HEADER_DESC* head);
+     30          extern void patch_input( INPUTDIA_DESC* inp);
+     31          //------------------------MENU------------------------//
+     32          extern int id_ed;
+     33          int last_id;
+     34          int MenuCode_id;
+     35          int item=8;//cколько пунктов меню
+     36          int code=5;//Codepage
+     37          int go_to_item=4;//cколько пунктов для Go to...
+     38          int last_item=0;//Сколько есть истории...
+     39          int menu_id;
+     40          char *name[]={
+     41          /*
+     42            "Выбрать файл",
+     43            "Новый файл",
+     44            "Последние...",
+     45            "Перейти к...",
+     46            "Сохранить",
+     47            "Настройки",
+     48            "Об эльфе",
+     49            "Выход"*/
+     50            LG_SELECT_FILE,
+     51            LG_NEW_FILE,
+     52            LG_LAST,
+     53            LG_GOTO,
+     54            LG_SAVE,
+     55            LG_SET,
+     56            LG_ABOUT,
+     57            LG_EXIT
+     58          };
+     59          char *name_codepage[]={
+     60            "WIN1251",
+     61            "UTF8",
+     62            "KOI8",
+     63            "ASCII",
+     64            "WIN1250"
+     65          };
+     66          char *go_to_str[]={
+     67            /*"В начало",
+     68            "В конец",
+     69            "На линию...",
+     70            "Закладки..."*/
+     71            LG_START,
+     72            LG_END,
+     73            LG_LINE,
+     74            LG_BOOKMARK
+     75          };
+     76          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     77           char ICON0[128];//пути к иконкам меню
+   \                     ICON0:
+   \   00000000                      DS8 128
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     78           char ICON1[128];//"\\open.png";//пути к иконкам
+   \                     ICON1:
+   \   00000000                      DS8 128
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     79           char ICON2[128];//"\\arrow.png";
+   \                     ICON2:
+   \   00000000                      DS8 128
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     80           char ICON3[128];//"\\goto.png";
+   \                     ICON3:
+   \   00000000                      DS8 128
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     81           char ICON4[128];//"\\save.png";
+   \                     ICON4:
+   \   00000000                      DS8 128
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     82           char ICON5[128];//"\\options.png";
+   \                     ICON5:
+   \   00000000                      DS8 128
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     83           char ICON6[128];//"\\about.png";
+   \                     ICON6:
+   \   00000000                      DS8 128
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     84           char ICON7[128];//"\\quit.png";
+   \                     ICON7:
+   \   00000000                      DS8 128
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     85           char NO_ICON[128];//"\\no_icon.png";
+   \                     NO_ICON:
+   \   00000000                      DS8 128
+     86          
+     87          int S_ICONS[9]={
+     88          (int)ICON0,
+     89          (int)ICON1,
+     90          (int)ICON2,
+     91          (int)ICON3,
+     92          (int)ICON4,
+     93          (int)ICON5,
+     94          (int)ICON6,
+     95          (int)ICON7,
+     96          (int)NO_ICON
+     97          };
+     98          
+     99          //---------------------Создаем список меню-----------------------//
+    100          
+    101          void bm_menu_iconhnd(void *data, int curitem, void *unk);
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    102          const int menusoftkeys[]={0,1,2};
+   \                     menusoftkeys:
+   \   00000000   000000000100       DC32 0, 1, 2
+   \              000002000000
+    103          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    104          const SOFTKEY_DESC menu_sk2[]=
+   \                     menu_sk2:
+   \   00000000   01000000           DC16 1, 0
+   \   00000004   ........           DC32 `?<Constant "Select">`
+   \   00000008   04000000           DC16 4, 0
+   \   0000000C   ........           DC32 `?<Constant "Close">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   FBC0FF7F           DC32 2147467515
+    105          {
+    106            {0x0001,0x0000,(int)LG_SELECT},
+    107            {0x0004,0x0000,(int)LG_CLOSE},
+    108            {0x003D,0x0000,(int)LGP_DOIT_PIC}
+    109          };
+    110          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    111          const SOFTKEYSTAB menu_skt2=
+   \                     menu_skt2:
+   \   00000000   ........0000       DC32 menu_sk2, 0
+   \              0000        
+    112          {
+    113            menu_sk2,0
+    114          };
+    115          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    116          void bm_menu_ghook(void *data, int cmd){};
+   \                     bm_menu_ghook:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    117          int bm_menu_onkey2(void *data, GUI_MSG *msg);
+    118          HEADER_DESC bm_menuhdr2={0,0,131,21,NULL,(int)LG_MENU,LGP_NULL};
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    119          const MENU_DESC bmmenu=
+   \                     bmmenu:
+   \   00000000   08000000....       DC32 8, bm_menu_onkey2, bm_menu_ghook, 0H, menusoftkeys, menu_skt2, 16
+   \              ............
+   \              00000000....
+   \              ............
+   \              10000000    
+   \   0000001C   ........0000       DC32 bm_menu_iconhnd, 0H, 0H, 7
+   \              000000000000
+   \              07000000    
+    120          {
+    121            8,bm_menu_onkey2,bm_menu_ghook,NULL,
+    122            menusoftkeys,
+    123            &menu_skt2,
+    124            0x10,//0x11,
+    125            bm_menu_iconhnd,
+    126            NULL,   //Items
+    127            NULL,   //Procs
+    128            7   //n
+    129          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+    130          void bm_menu_iconhnd(void *data, int curitem, void *unk)
+    131          {
+   \                     bm_menu_iconhnd:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    132            WSHDR *ws;
+    133            char *s;
+    134            void *item=AllocMenuItem(data);
+    135            s=malloc(64);
+    136            sprintf(s,per_s,name[curitem]);
+    137            if (s)
+   \   00000008   ........           LDR      R8,??DataTable31  ;; `?<Constant "no name!">`
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   970100EF           SWI      +407
+   \   00000014   0060A0E1           MOV      R6,R0
+   \   00000018   4000A0E3           MOV      R0,#+64
+   \   0000001C   140000EF           SWI      +20
+   \   00000020   ........           LDR      R1,??DataTable32  ;; per_s
+   \   00000024   0070A0E1           MOV      R7,R0
+   \   00000028   A4009FE5           LDR      R0,??bm_menu_iconhnd_0  ;; name
+   \   0000002C   052190E7           LDR      R2,[R0, +R5, LSL #+2]
+   \   00000030   0700A0E1           MOV      R0,R7
+   \   00000034   160000EF           SWI      +22
+   \   00000038   000057E3           CMP      R7,#+0
+   \   0000003C   1400000A           BEQ      ??bm_menu_iconhnd_1
+    138            {
+    139              if (strlen(s))
+   \   00000040   ........           LDR      R9,??DataTable18  ;; per_t
+   \   00000044   0700A0E1           MOV      R0,R7
+   \   00000048   1B0000EF           SWI      +27
+   \   0000004C   000050E3           CMP      R0,#+0
+   \   00000050   0900000A           BEQ      ??bm_menu_iconhnd_2
+    140              { 
+    141                ws=AllocMenuWS(data,strlen(s)+4);
+   \   00000054   0700A0E1           MOV      R0,R7
+   \   00000058   1B0000EF           SWI      +27
+   \   0000005C   041080E2           ADD      R1,R0,#+4
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   980100EF           SWI      +408
+   \   00000068   00A0A0E1           MOV      R10,R0
+    142                wsprintf(ws,per_t,s);
+   \   0000006C   0720A0E1           MOV      R2,R7
+   \                     ??bm_menu_iconhnd_3:
+   \   00000070   0910A0E1           MOV      R1,R9
+   \   00000074   240100EF           SWI      +292
+   \   00000078   0F0000EA           B        ??bm_menu_iconhnd_4
+    143              }
+    144              else 
+    145              { 
+    146                ws=AllocMenuWS(data,10);
+   \                     ??bm_menu_iconhnd_2:
+   \   0000007C   0A10A0E3           MOV      R1,#+10
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   980100EF           SWI      +408
+   \   00000088   00A0A0E1           MOV      R10,R0
+    147                wsprintf(ws,per_t,"no name");
+   \   0000008C   142088E2           ADD      R2,R8,#+20
+   \   00000090   F6FFFFEA           B        ??bm_menu_iconhnd_3
+    148              }
+    149            }
+    150            else  
+    151            {
+    152              ws=AllocMenuWS(data,10);
+   \                     ??bm_menu_iconhnd_1:
+   \   00000094   0A10A0E3           MOV      R1,#+10
+   \   00000098   0400A0E1           MOV      R0,R4
+   \   0000009C   980100EF           SWI      +408
+   \   000000A0   00A0A0E1           MOV      R10,R0
+    153              wsprintf(ws,"error");
+   \   000000A4   0C1088E2           ADD      R1,R8,#+12
+   \   000000A8   240100EF           SWI      +292
+    154              wsInsertChar(ws,2,1);//Цвет надписей
+   \   000000AC   0120A0E3           MOV      R2,#+1
+   \   000000B0   0210A0E3           MOV      R1,#+2
+   \   000000B4   0A00A0E1           MOV      R0,R10
+   \   000000B8   1D0000EF           SWI      +29
+    155          
+    156            }
+    157            // SetMenuItemIconArray(data,item,S_ICONS + curitem + 1);
+    158             SetMenuItemText(data,item,ws,curitem);
+   \                     ??bm_menu_iconhnd_4:
+   \   000000BC   0530A0E1           MOV      R3,R5
+   \   000000C0   0A20A0E1           MOV      R2,R10
+   \   000000C4   0610A0E1           MOV      R1,R6
+   \   000000C8   0400A0E1           MOV      R0,R4
+   \   000000CC   9A0100EF           SWI      +410
+    159          }
+   \   000000D0   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??bm_menu_iconhnd_0:
+   \   000000D4   ........           DC32     name
+    160          
+    161          void ShowMenuGoTo(void);
+    162          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    163          int bm_menu_onkey2(void *data, GUI_MSG *msg)
+    164          {
+   \                     bm_menu_onkey2:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    165            int i;
+    166            i=GetCurMenuItem(data);
+   \   00000008   8F0100EF           SWI      +399
+    167            int k=msg->gbsmsg->submess;
+   \   0000000C   041094E5           LDR      R1,[R4, #+4]
+   \   00000010   041091E5           LDR      R1,[R1, #+4]
+    168           if(k=='*')
+   \   00000014   2A0051E3           CMP      R1,#+42
+   \   00000018   0200001A           BNE      ??bm_menu_onkey2_1
+    169             {
+    170               about();
+   \   0000001C   ........           _BLF     about,??about??rA
+    171               return (-1);
+   \   00000020   0000E0E3           MVN      R0,#+0
+   \   00000024   1080BDE8           POP      {R4,PC}
+    172             }
+    173            if (k==ENTER_BUTTON || k==LEFT_SOFT)
+   \                     ??bm_menu_onkey2_1:
+   \   00000028   ........           LDR      R4,??DataTable33  ;; last_id
+   \   0000002C   1A0051E3           CMP      R1,#+26
+   \   00000030   01005113           CMPNE    R1,#+1
+   \   00000034   2A00001A           BNE      ??bm_menu_onkey2_2
+    174            {
+    175              switch(i)
+   \   00000038   070050E3           CMP      R0,#+7
+   \   0000003C   2600008A           BHI      ??bm_menu_onkey2_3
+   \   00000040   011F8FE2           ADR      R1,??bm_menu_onkey2_0
+   \   00000044   0010D1E7           LDRB     R1,[R1, R0]
+   \   00000048   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??bm_menu_onkey2_0:
+   \   0000004C   01030609           DC8      +1,+3,+6,+9
+   \   00000050   0B0F1316           DC8      +11,+15,+19,+22
+    176                {
+    177                  case 0:  open_fm();    break;
+   \                     ??bm_menu_onkey2_4:
+   \   00000054   ........           _BLF     open_fm,??open_fm??rA
+   \   00000058   000000EA           B        ??bm_menu_onkey2_5
+    178                  case 1:  new_file_ec();break;
+   \                     ??bm_menu_onkey2_6:
+   \   0000005C   ........           _BLF     new_file_ec,??new_file_ec??rA
+   \                     ??bm_menu_onkey2_5:
+   \   00000060   0100A0E3           MOV      R0,#+1
+   \   00000064   1080BDE8           POP      {R4,PC}
+    179                  case 2: 
+    180                    LoadHist();
+   \                     ??bm_menu_onkey2_7:
+   \   00000068   ........           BL       LoadHist
+    181                    ShowMenuLast();
+   \   0000006C   ........           BL       ShowMenuLast
+   \   00000070   FAFFFFEA           B        ??bm_menu_onkey2_5
+    182                    break;
+    183                  case 3:  ShowMenuGoTo(); break;
+   \                     ??bm_menu_onkey2_8:
+   \   00000074   ........           BL       ShowMenuGoTo
+   \   00000078   F8FFFFEA           B        ??bm_menu_onkey2_5
+    184                  case 4:  SaveFile(file); break;
+   \                     ??bm_menu_onkey2_9:
+   \   0000007C   ........           LDR      R0,??DataTable28  ;; file
+   \   00000080   000090E5           LDR      R0,[R0, #+0]
+   \   00000084   ........           _BLF     SaveFile,??SaveFile??rA
+   \   00000088   F4FFFFEA           B        ??bm_menu_onkey2_5
+    185                  case 5:  start(successed_config_filename); break;
+   \                     ??bm_menu_onkey2_10:
+   \   0000008C   70009FE5           LDR      R0,??bm_menu_onkey2_11  ;; successed_config_filename
+   \   00000090   000090E5           LDR      R0,[R0, #+0]
+   \   00000094   ........           _BLF     start,??start??rA
+   \   00000098   F0FFFFEA           B        ??bm_menu_onkey2_5
+    186                  case 6:  about(); return 0;
+   \                     ??bm_menu_onkey2_12:
+   \   0000009C   ........           _BLF     about,??about??rA
+   \   000000A0   0000A0E3           MOV      R0,#+0
+   \   000000A4   1080BDE8           POP      {R4,PC}
+    187                  case 7:  //exit
+    188                      GeneralFunc_flag1(MenuCode_id,1);
+   \                     ??bm_menu_onkey2_13:
+   \   000000A8   040094E5           LDR      R0,[R4, #+4]
+   \   000000AC   0110A0E3           MOV      R1,#+1
+   \   000000B0   3D0100EF           SWI      +317
+    189                      GeneralFunc_flag1(last_id,1);
+   \   000000B4   000094E5           LDR      R0,[R4, #+0]
+   \   000000B8   0110A0E3           MOV      R1,#+1
+   \   000000BC   3D0100EF           SWI      +317
+    190                      GeneralFunc_flag1(id_ed,1);
+   \   000000C0   ........           LDR      R0,??DataTable27  ;; id_ed
+   \   000000C4   0110A0E3           MOV      R1,#+1
+   \   000000C8   000090E5           LDR      R0,[R0, #+0]
+   \   000000CC   3D0100EF           SWI      +317
+    191                      GeneralFunc_flag1(menu_id,1);
+   \   000000D0   140094E5           LDR      R0,[R4, #+20]
+   \   000000D4   0110A0E3           MOV      R1,#+1
+   \   000000D8   3D0100EF           SWI      +317
+    192                      break;
+    193                }
+    194              return(1);
+   \                     ??bm_menu_onkey2_3:
+   \   000000DC   0100A0E3           MOV      R0,#+1
+   \   000000E0   1080BDE8           POP      {R4,PC}
+    195            }
+    196           if(k==RIGHT_SOFT || k==RED_BUTTON)
+   \                     ??bm_menu_onkey2_2:
+   \   000000E4   040051E3           CMP      R1,#+4
+   \   000000E8   0C005113           CMPNE    R1,#+12
+   \   000000EC   0200001A           BNE      ??bm_menu_onkey2_14
+    197           {
+    198             GeneralFunc_flag1(menu_id,1);
+   \   000000F0   140094E5           LDR      R0,[R4, #+20]
+   \   000000F4   0110A0E3           MOV      R1,#+1
+   \   000000F8   3D0100EF           SWI      +317
+    199          //   GeneralFunc_flag1(MenuCode_id,1);
+    200            // GeneralFunc_flag1(last_id,1);
+    201           }
+    202            return(0);
+   \                     ??bm_menu_onkey2_14:
+   \   000000FC   0000A0E3           MOV      R0,#+0
+   \   00000100   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??bm_menu_onkey2_11:
+   \   00000104   ........           DC32     successed_config_filename
+    203          }
+    204          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    205          void ShowMainMenu(void)
+    206          { /*
+   \                     ShowMainMenu:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    207           snprintf(ICON1,127,per_2s,IMG_PATH,"\\open.png");
+    208           sprintf(ICON2,per_2s,IMG_PATH,"\\arrow.png");
+    209           sprintf(ICON3,per_2s,IMG_PATH,"\\goto.png");
+    210           sprintf(ICON4,per_2s,IMG_PATH,"\\save.png");
+    211           sprintf(ICON5,per_2s,IMG_PATH,"\\options.png");
+    212           sprintf(ICON6,per_2s,IMG_PATH,"\\about.png");
+    213           sprintf(ICON7,per_2s,IMG_PATH,"\\quit.png");
+    214           sprintf(NO_ICON,per_2s,IMG_PATH,"\\no_icon.png");*/
+    215           
+    216           patch_header(&bm_menuhdr2);
+   \   00000004   ........           LDR      R4,??DataTable23  ;; last_id
+   \   00000008   600084E2           ADD      R0,R4,#+96
+   \   0000000C   ........           _BLF     patch_header,??patch_header??rA
+    217           menu_id=CreateMenu(0,0,&bmmenu,&bm_menuhdr2,0,item,0,0);
+   \   00000010   2C209FE5           LDR      R2,??ShowMainMenu_0  ;; bmmenu
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   01002DE9           PUSH     {R0}
+   \   0000001C   01002DE9           PUSH     {R0}
+   \   00000020   080094E5           LDR      R0,[R4, #+8]
+   \   00000024   603084E2           ADD      R3,R4,#+96
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   0000A0E3           MOV      R0,#+0
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   520100EF           SWI      +338
+   \   0000003C   140084E5           STR      R0,[R4, #+20]
+    218          }
+   \   00000040   1F80BDE8           POP      {R0-R4,PC}       ;; return
+   \                     ??ShowMainMenu_0:
+   \   00000044   ........           DC32     bmmenu
+    219          
+    220          //----------------------------Выбор кодировки----------------------------//
+    221          
+    222          void codepage_iconhnd(void *data, int curitem, void *unk);
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    223          const int menusoftkeys_codepage[]={0,1,2};
+   \                     menusoftkeys_codepage:
+   \   00000000   000000000100       DC32 0, 1, 2
+   \              000002000000
+    224          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    225          const SOFTKEY_DESC menu_sk_codepage[]=
+   \                     menu_sk_codepage:
+   \   00000000   01000000           DC16 1, 0
+   \   00000004   ........           DC32 `?<Constant "Select">`
+   \   00000008   04000000           DC16 4, 0
+   \   0000000C   ........           DC32 `?<Constant "Close">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   FBC0FF7F           DC32 2147467515
+    226          {
+    227            {0x0001,0x0000,(int)LG_SELECT},
+    228            {0x0004,0x0000,(int)LG_CLOSE},
+    229            {0x003D,0x0000,(int)LGP_DOIT_PIC}
+    230          };
+    231          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    232          const SOFTKEYSTAB menu_skt_codepage=
+   \                     menu_skt_codepage:
+   \   00000000   ........0000       DC32 menu_sk_codepage, 0
+   \              0000        
+    233          {
+    234            menu_sk_codepage,0
+    235          };
+    236          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    237          void codepage_ghook(void *data, int cmd){};
+   \                     codepage_ghook:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    238          int codepage_onkey(void *data, GUI_MSG *msg);
+    239          HEADER_DESC codepage_menuhdr={0,0,131,21,NULL,(int)LG_CODEPAGE,LGP_NULL};
+    240          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    241          const MENU_DESC codepage_menu=
+   \                     codepage_menu:
+   \   00000000   08000000....       DC32 8, codepage_onkey, codepage_ghook, 0H, menusoftkeys_codepage
+   \              ............
+   \              00000000....
+   \              ....        
+   \   00000014   ........1000       DC32 menu_skt_codepage, 16, codepage_iconhnd, 0H, 0H, 5
+   \              0000........
+   \              000000000000
+   \              000005000000
+    242          {
+    243            8,codepage_onkey,codepage_ghook,NULL,
+    244            menusoftkeys_codepage,
+    245            &menu_skt_codepage,
+    246            0x10,//0x11,
+    247            codepage_iconhnd,
+    248            NULL,   //Items
+    249            NULL,   //Procs
+    250            5   //n
+    251          };
+    252          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    253          void codepage_iconhnd(void *data, int curitem, void *unk)
+    254          {
+   \                     codepage_iconhnd:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    255            WSHDR *ws;
+    256            char *s;
+    257            void *item=AllocMenuItem(data);
+    258            s=malloc(32);
+    259            sprintf(s,per_s,name_codepage[curitem]);
+   \   00000008   ........           LDR      R9,??DataTable32  ;; per_s
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   970100EF           SWI      +407
+   \   00000014   0070A0E1           MOV      R7,R0
+   \   00000018   2000A0E3           MOV      R0,#+32
+   \   0000001C   140000EF           SWI      +20
+   \   00000020   0080A0E1           MOV      R8,R0
+   \   00000024   8C009FE5           LDR      R0,??codepage_iconhnd_0  ;; name_codepage
+   \   00000028   0910A0E1           MOV      R1,R9
+   \   0000002C   052190E7           LDR      R2,[R0, +R5, LSL #+2]
+   \   00000030   0800A0E1           MOV      R0,R8
+   \   00000034   160000EF           SWI      +22
+    260            if (s)
+   \   00000038   000058E3           CMP      R8,#+0
+   \   0000003C   0D00000A           BEQ      ??codepage_iconhnd_1
+    261            {
+    262              if (strlen(s))
+   \   00000040   0800A0E1           MOV      R0,R8
+   \   00000044   1B0000EF           SWI      +27
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   1300000A           BEQ      ??codepage_iconhnd_2
+    263              { 
+    264                ws=AllocMenuWS(data,strlen(s)+4);
+   \   00000050   0800A0E1           MOV      R0,R8
+   \   00000054   1B0000EF           SWI      +27
+   \   00000058   041080E2           ADD      R1,R0,#+4
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   980100EF           SWI      +408
+   \   00000064   0060A0E1           MOV      R6,R0
+    265                wsprintf(ws,per_s,s);
+   \   00000068   0820A0E1           MOV      R2,R8
+   \   0000006C   0910A0E1           MOV      R1,R9
+   \   00000070   240100EF           SWI      +292
+   \   00000074   090000EA           B        ??codepage_iconhnd_2
+    266              }
+    267            }
+    268            else
+    269            {
+    270              ws=AllocMenuWS(data,10);
+   \                     ??codepage_iconhnd_1:
+   \   00000078   0A10A0E3           MOV      R1,#+10
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   980100EF           SWI      +408
+    271              wsprintf(ws,"error");
+   \   00000084   30109FE5           LDR      R1,??codepage_iconhnd_0+0x4  ;; `?<Constant "no name!">` + 12
+   \   00000088   0060A0E1           MOV      R6,R0
+   \   0000008C   240100EF           SWI      +292
+    272              wsInsertChar(ws,2,1);//Цвет надписей
+   \   00000090   0120A0E3           MOV      R2,#+1
+   \   00000094   0210A0E3           MOV      R1,#+2
+   \   00000098   0600A0E1           MOV      R0,R6
+   \   0000009C   1D0000EF           SWI      +29
+    273          
+    274            }
+    275            SetMenuItemText(data,item,ws,curitem);
+   \                     ??codepage_iconhnd_2:
+   \   000000A0   0530A0E1           MOV      R3,R5
+   \   000000A4   0620A0E1           MOV      R2,R6
+   \   000000A8   0710A0E1           MOV      R1,R7
+   \   000000AC   0400A0E1           MOV      R0,R4
+   \   000000B0   9A0100EF           SWI      +410
+    276          }
+   \   000000B4   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??codepage_iconhnd_0:
+   \   000000B8   ........           DC32     name_codepage
+   \   000000BC   ........           DC32     `?<Constant "no name!">` + 12
+    277          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    278          int ShowMenuCode()
+    279          { 
+   \                     ShowMenuCode:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    280            patch_header(&codepage_menuhdr);
+   \   00000004   ........           LDR      R4,??DataTable23  ;; last_id
+   \   00000008   740084E2           ADD      R0,R4,#+116
+   \   0000000C   ........           _BLF     patch_header,??patch_header??rA
+    281            return MenuCode_id=CreateMenu(0,0,&codepage_menu,&codepage_menuhdr,0,code,0,0);
+   \   00000010   30209FE5           LDR      R2,??ShowMenuCode_0  ;; codepage_menu
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   01002DE9           PUSH     {R0}
+   \   0000001C   01002DE9           PUSH     {R0}
+   \   00000020   0C0094E5           LDR      R0,[R4, #+12]
+   \   00000024   743084E2           ADD      R3,R4,#+116
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   0000A0E3           MOV      R0,#+0
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   520100EF           SWI      +338
+   \   0000003C   040084E5           STR      R0,[R4, #+4]
+   \   00000040   10D08DE2           ADD      SP,SP,#+16
+   \   00000044   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??ShowMenuCode_0:
+   \   00000048   ........           DC32     codepage_menu
+    282          }
+    283          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    284          int codepage_onkey(void *data, GUI_MSG *msg)
+    285          {
+   \                     codepage_onkey:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    286            int i;
+    287            i=GetCurMenuItem(data);
+   \   00000008   8F0100EF           SWI      +399
+    288            int k=msg->gbsmsg->submess;
+   \   0000000C   041094E5           LDR      R1,[R4, #+4]
+   \   00000010   041091E5           LDR      R1,[R1, #+4]
+    289            
+    290            if (k==ENTER_BUTTON || k==LEFT_SOFT)
+   \   00000014   1A0051E3           CMP      R1,#+26
+   \   00000018   01005113           CMPNE    R1,#+1
+   \   0000001C   1B00001A           BNE      ??codepage_onkey_1
+    291            {
+    292              switch(i)
+   \   00000020   ........           LDR      R4,??DataTable14  ;; codepage
+   \   00000024   040050E3           CMP      R0,#+4
+   \   00000028   0E00008A           BHI      ??codepage_onkey_2
+   \   0000002C   011F8FE2           ADR      R1,??codepage_onkey_0
+   \   00000030   0010D1E7           LDRB     R1,[R1, R0]
+   \   00000034   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??codepage_onkey_0:
+   \   00000038   01030507           DC8      +1,+3,+5,+7
+   \   0000003C   09000000           DC8      +9,+0,+0,+0
+    293               {
+    294                  case 0: codepage=0; break;//win1251      
+   \                     ??codepage_onkey_3:
+   \   00000040   0000A0E3           MOV      R0,#+0
+   \   00000044   060000EA           B        ??codepage_onkey_4
+    295                  case 1: codepage=1; break;//utf8
+   \                     ??codepage_onkey_5:
+   \   00000048   0100A0E3           MOV      R0,#+1
+   \   0000004C   040000EA           B        ??codepage_onkey_4
+    296                  case 2: codepage=2; break;//koi8
+   \                     ??codepage_onkey_6:
+   \   00000050   0200A0E3           MOV      R0,#+2
+   \   00000054   020000EA           B        ??codepage_onkey_4
+    297                  case 3: codepage=3; break;//ascii
+   \                     ??codepage_onkey_7:
+   \   00000058   0300A0E3           MOV      R0,#+3
+   \   0000005C   000000EA           B        ??codepage_onkey_4
+    298                  case 4: codepage=4; break;//win1250
+   \                     ??codepage_onkey_8:
+   \   00000060   0400A0E3           MOV      R0,#+4
+   \                     ??codepage_onkey_4:
+   \   00000064   000084E5           STR      R0,[R4, #+0]
+    299               }    
+    300             GeneralFunc_flag1(id_ed,1); 
+   \                     ??codepage_onkey_2:
+   \   00000068   ........           LDR      R0,??DataTable27  ;; id_ed
+   \   0000006C   0110A0E3           MOV      R1,#+1
+   \   00000070   000090E5           LDR      R0,[R0, #+0]
+   \   00000074   3D0100EF           SWI      +317
+    301             DrawText(file,codepage);
+   \   00000078   ........           LDR      R0,??DataTable28  ;; file
+   \   0000007C   001094E5           LDR      R1,[R4, #+0]
+   \   00000080   000090E5           LDR      R0,[R0, #+0]
+   \   00000084   ........           _BLF     DrawText,??DrawText??rA
+    302             return(0);
+   \   00000088   0000A0E3           MOV      R0,#+0
+   \   0000008C   1080BDE8           POP      {R4,PC}
+    303            }
+    304            
+    305           if(k==RIGHT_SOFT || k==RED_BUTTON) GeneralFunc_flag1(MenuCode_id,1); 
+   \                     ??codepage_onkey_1:
+   \   00000090   040051E3           CMP      R1,#+4
+   \   00000094   0C005113           CMPNE    R1,#+12
+   \   00000098   0300001A           BNE      ??codepage_onkey_9
+   \   0000009C   10009FE5           LDR      R0,??codepage_onkey_10  ;; last_id + 4
+   \   000000A0   0110A0E3           MOV      R1,#+1
+   \   000000A4   000090E5           LDR      R0,[R0, #+0]
+   \   000000A8   3D0100EF           SWI      +317
+    306          return(0);
+   \                     ??codepage_onkey_9:
+   \   000000AC   0000A0E3           MOV      R0,#+0
+   \   000000B0   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??codepage_onkey_10:
+   \   000000B4   ........           DC32     last_id + 4
+    307          }
+    308          
+    309          //--------------------------------menu GO TO...-------------------------------//
+    310          
+    311          void go_to_iconhnd(void *data, int curitem, void *unk);
+
+   \                                 In segment CODE, align 4, keep-with-next
+    312          void go_to_ghook(void *data, int cmd){};
+   \                     go_to_ghook:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+    313          int go_to_onkey2(void *data, GUI_MSG *msg)
+    314          {
+   \                     go_to_onkey2:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    315            int i;
+    316            i=GetCurMenuItem(data);
+   \   00000008   8F0100EF           SWI      +399
+   \   0000000C   0010A0E1           MOV      R1,R0
+    317            int k=msg->gbsmsg->submess;
+   \   00000010   040094E5           LDR      R0,[R4, #+4]
+   \   00000014   040090E5           LDR      R0,[R0, #+4]
+    318            
+    319            if (k==ENTER_BUTTON || k==LEFT_SOFT)
+   \   00000018   1A0050E3           CMP      R0,#+26
+   \   0000001C   01005013           CMPNE    R0,#+1
+   \   00000020   2000001A           BNE      ??go_to_onkey2_0
+    320            {
+    321              switch(i)
+   \   00000024   ........           LDR      R0,??DataTable27  ;; id_ed
+   \   00000028   ........           LDR      R4,??DataTable28  ;; file
+   \   0000002C   000090E5           LDR      R0,[R0, #+0]
+   \   00000030   ........           LDR      R5,??DataTable14  ;; codepage
+   \   00000034   ........           LDR      R2,??DataTable22  ;; curpos
+   \   00000038   000051E3           CMP      R1,#+0
+   \   0000003C   0600000A           BEQ      ??go_to_onkey2_1
+   \   00000040   011051E2           SUBS     R1,R1,#+1
+   \   00000044   0C00000A           BEQ      ??go_to_onkey2_2
+   \   00000048   011051E2           SUBS     R1,R1,#+1
+   \   0000004C   0E00000A           BEQ      ??go_to_onkey2_3
+   \   00000050   011051E2           SUBS     R1,R1,#+1
+   \   00000054   1000000A           BEQ      ??go_to_onkey2_4
+   \   00000058   050000EA           B        ??go_to_onkey2_5
+    322                {
+    323                   case 0:
+    324                      curpos=1;
+   \                     ??go_to_onkey2_1:
+   \   0000005C   0110A0E3           MOV      R1,#+1
+   \   00000060   001082E5           STR      R1,[R2, #+0]
+    325                      GeneralFunc_flag1(id_ed,1);//close
+   \                     ??go_to_onkey2_6:
+   \   00000064   3D0100EF           SWI      +317
+    326                      DrawText(file,codepage);//open
+   \   00000068   001095E5           LDR      R1,[R5, #+0]
+   \   0000006C   000094E5           LDR      R0,[R4, #+0]
+   \   00000070   ........           _BLF     DrawText,??DrawText??rA
+   \                     ??go_to_onkey2_5:
+   \   00000074   0100A0E3           MOV      R0,#+1
+   \   00000078   3080BDE8           POP      {R4,R5,PC}
+    327                      break;//В начало
+    328                   case 1:
+    329                      curpos=0;
+   \                     ??go_to_onkey2_2:
+   \   0000007C   0010A0E3           MOV      R1,#+0
+   \   00000080   001082E5           STR      R1,[R2, #+0]
+    330                      GeneralFunc_flag1(id_ed,1);
+   \   00000084   0110A0E3           MOV      R1,#+1
+   \   00000088   F5FFFFEA           B        ??go_to_onkey2_6
+    331                      DrawText(file,codepage);
+    332                      break;//В конец
+    333                   case 2:
+    334                      GeneralFunc_flag1(id_ed,1);
+   \                     ??go_to_onkey2_3:
+   \   0000008C   0110A0E3           MOV      R1,#+1
+   \   00000090   3D0100EF           SWI      +317
+    335                      pos();
+   \   00000094   ........           _BLF     pos,??pos??rA
+   \   00000098   F5FFFFEA           B        ??go_to_onkey2_5
+    336                      break;//Позиция
+    337                   case 3:
+    338                      ShowBookmarks();
+   \                     ??go_to_onkey2_4:
+   \   0000009C   ........           _BLF     ShowBookmarks,??ShowBookmarks??rA
+    339                      break;
+    340                }
+    341              return(1);
+   \   000000A0   0100A0E3           MOV      R0,#+1
+   \   000000A4   3080BDE8           POP      {R4,R5,PC}
+    342            }
+    343            return(0);
+   \                     ??go_to_onkey2_0:
+   \   000000A8   0000A0E3           MOV      R0,#+0
+   \   000000AC   3080BDE8           POP      {R4,R5,PC}       ;; return
+    344          }
+    345          HEADER_DESC go_to_menuhdr2={0,0,131,21,NULL,(int)LG_GOTO,LGP_NULL};
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    346          const MENU_DESC go_to_menu=
+   \                     go_to_menu:
+   \   00000000   08000000....       DC32 8, go_to_onkey2, go_to_ghook, 0H, menusoftkeys, menu_skt2, 16
+   \              ............
+   \              00000000....
+   \              ............
+   \              10000000    
+   \   0000001C   ........0000       DC32 go_to_iconhnd, 0H, 0H, 0
+   \              000000000000
+   \              00000000    
+    347          {
+    348            8,go_to_onkey2,go_to_ghook,NULL,
+    349            menusoftkeys,
+    350            &menu_skt2,
+    351            0x10,
+    352            go_to_iconhnd,
+    353            NULL,   //Items
+    354            NULL,   //Procs
+    355            0   //n
+    356          };
+    357          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    358          void go_to_iconhnd(void *data, int curitem, void *unk)
+    359          {
+   \                     go_to_iconhnd:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    360            WSHDR *ws;
+    361            char *s;
+    362            void *item=AllocMenuItem(data);
+    363            s=malloc(32);
+    364            sprintf(s,per_s,go_to_str[curitem]);
+    365            if (s)
+   \   00000008   ........           LDR      R8,??DataTable31  ;; `?<Constant "no name!">`
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   970100EF           SWI      +407
+   \   00000014   0060A0E1           MOV      R6,R0
+   \   00000018   2000A0E3           MOV      R0,#+32
+   \   0000001C   140000EF           SWI      +20
+   \   00000020   ........           LDR      R1,??DataTable32  ;; per_s
+   \   00000024   0070A0E1           MOV      R7,R0
+   \   00000028   AC009FE5           LDR      R0,??go_to_iconhnd_0  ;; go_to_str
+   \   0000002C   052190E7           LDR      R2,[R0, +R5, LSL #+2]
+   \   00000030   0700A0E1           MOV      R0,R7
+   \   00000034   160000EF           SWI      +22
+   \   00000038   000057E3           CMP      R7,#+0
+   \   0000003C   1400000A           BEQ      ??go_to_iconhnd_1
+    366            {
+    367              if (strlen(s))
+   \   00000040   0700A0E1           MOV      R0,R7
+   \   00000044   1B0000EF           SWI      +27
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   0900000A           BEQ      ??go_to_iconhnd_2
+    368              { 
+    369                ws=AllocMenuWS(data,strlen(s)+4);
+   \   00000050   0700A0E1           MOV      R0,R7
+   \   00000054   1B0000EF           SWI      +27
+   \   00000058   041080E2           ADD      R1,R0,#+4
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   980100EF           SWI      +408
+    370                wsprintf(ws,per_t,s);
+   \   00000064   ........           LDR      R1,??DataTable18  ;; per_t
+   \   00000068   0090A0E1           MOV      R9,R0
+   \   0000006C   0720A0E1           MOV      R2,R7
+   \   00000070   240100EF           SWI      +292
+   \   00000074   100000EA           B        ??go_to_iconhnd_3
+    371              }
+    372              else 
+    373              {
+    374                ws=AllocMenuWS(data,10);
+   \                     ??go_to_iconhnd_2:
+   \   00000078   0A10A0E3           MOV      R1,#+10
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   980100EF           SWI      +408
+   \   00000084   0090A0E1           MOV      R9,R0
+    375                wsprintf(ws,"no name!");
+   \   00000088   0810A0E1           MOV      R1,R8
+   \   0000008C   240100EF           SWI      +292
+   \   00000090   090000EA           B        ??go_to_iconhnd_3
+    376              }
+    377            }
+    378            else
+    379            {
+    380              ws=AllocMenuWS(data,10);
+   \                     ??go_to_iconhnd_1:
+   \   00000094   0A10A0E3           MOV      R1,#+10
+   \   00000098   0400A0E1           MOV      R0,R4
+   \   0000009C   980100EF           SWI      +408
+   \   000000A0   0090A0E1           MOV      R9,R0
+    381              wsprintf(ws,"error");
+   \   000000A4   0C1088E2           ADD      R1,R8,#+12
+   \   000000A8   240100EF           SWI      +292
+    382              wsInsertChar(ws,2,1);//Цвет надписей
+   \   000000AC   0120A0E3           MOV      R2,#+1
+   \   000000B0   0210A0E3           MOV      R1,#+2
+   \   000000B4   0900A0E1           MOV      R0,R9
+   \   000000B8   1D0000EF           SWI      +29
+    383            }
+    384            SetMenuItemText(data,item,ws,curitem);
+   \                     ??go_to_iconhnd_3:
+   \   000000BC   0530A0E1           MOV      R3,R5
+   \   000000C0   0920A0E1           MOV      R2,R9
+   \   000000C4   0610A0E1           MOV      R1,R6
+   \   000000C8   0400A0E1           MOV      R0,R4
+   \   000000CC   9A0100EF           SWI      +410
+    385            mfree(s);
+   \   000000D0   0700A0E1           MOV      R0,R7
+   \   000000D4   150000EF           SWI      +21
+    386          }
+   \   000000D8   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??go_to_iconhnd_0:
+   \   000000DC   ........           DC32     go_to_str
+    387          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    388          void ShowMenuGoTo(void)
+    389          { 
+   \                     ShowMenuGoTo:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    390             patch_header(&go_to_menuhdr2);
+   \   00000004   34409FE5           LDR      R4,??ShowMenuGoTo_0  ;; go_to_item
+   \   00000008   040084E2           ADD      R0,R4,#+4
+   \   0000000C   ........           _BLF     patch_header,??patch_header??rA
+    391             CreateMenu(0,0,&go_to_menu,&go_to_menuhdr2,0,go_to_item,0,0);
+   \   00000010   2C209FE5           LDR      R2,??ShowMenuGoTo_0+0x4  ;; go_to_menu
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   01002DE9           PUSH     {R0}
+   \   0000001C   01002DE9           PUSH     {R0}
+   \   00000020   000094E5           LDR      R0,[R4, #+0]
+   \   00000024   043084E2           ADD      R3,R4,#+4
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   0000A0E3           MOV      R0,#+0
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   520100EF           SWI      +338
+    392          }
+   \   0000003C   1F80BDE8           POP      {R0-R4,PC}       ;; return
+   \                     ??ShowMenuGoTo_0:
+   \   00000040   ........           DC32     go_to_item
+   \   00000044   ........           DC32     go_to_menu
+    393          
+    394          
+    395          //-----------------------------menu LAST OPEN...------------------------------//
+    396          
+    397          //бляяяя хз че я написал тут,сам путаюсь....а писал трезвый то....
+    398          //не стоит в дипрессии писать наверн все таки....
+    399          
+    400          typedef struct
+    401          {
+    402           char name[64];
+    403          }LAST;
+    404          
+    405          LAST last_op[];
+    406          extern char *file_name;
+    407          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    408          int RunHST(char *file)//Запуск в новом окне так сказать:)
+    409          {
+   \                     RunHST:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+    410            if (file)
+   \   00000008   1500000A           BEQ      ??RunHST_0
+    411            {
+    412              file_name=GetName(file,1);//Понятно из названия...получаем имя файла...:)
+   \   0000000C   0110A0E3           MOV      R1,#+1
+   \   00000010   ........           _BLF     GetName,??GetName??rA
+   \   00000014   50109FE5           LDR      R1,??RunHST_1    ;; file_name
+   \   00000018   000081E5           STR      R0,[R1, #+0]
+    413              if (strlen(file))
+   \   0000001C   0400A0E1           MOV      R0,R4
+   \   00000020   1B0000EF           SWI      +27
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   3080BD08           POPEQ    {R4,R5,PC}
+    414              {
+    415                WSHDR *ws;
+    416                ws=AllocWS(150);
+   \   0000002C   9600A0E3           MOV      R0,#+150
+   \   00000030   250100EF           SWI      +293
+    417                str_2ws(ws,exe_name,128);
+   \   00000034   34109FE5           LDR      R1,??RunHST_1+0x4  ;; exe_name
+   \   00000038   0050A0E1           MOV      R5,R0
+   \   0000003C   8020A0E3           MOV      R2,#+128
+   \   00000040   6C0100EF           SWI      +364
+    418                ExecuteFile(ws,0,file);
+   \   00000044   0420A0E1           MOV      R2,R4
+   \   00000048   0010A0E3           MOV      R1,#+0
+   \   0000004C   0500A0E1           MOV      R0,R5
+   \   00000050   940000EF           SWI      +148
+    419                FreeWS(ws);
+   \   00000054   0500A0E1           MOV      R0,R5
+   \   00000058   290100EF           SWI      +297
+    420                return(1);
+   \   0000005C   0100A0E3           MOV      R0,#+1
+   \   00000060   3080BDE8           POP      {R4,R5,PC}
+    421              }
+    422            }
+    423            return(0);
+   \                     ??RunHST_0:
+   \   00000064   0000A0E3           MOV      R0,#+0
+   \   00000068   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??RunHST_1:
+   \   0000006C   ........           DC32     file_name
+   \   00000070   ........           DC32     exe_name
+    424          }
+    425          
+    426          char *ff;//путь к файлу из истории, тобишь какой нам нужно запустить из пункта "Последние..."
+    427          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    428          void LoadHST(int curitem)//читаем путь к файлу из файла истории...о как замутил бля...
+    429          {
+   \                     LoadHST:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    430            unsigned int err; 
+    431            int f; 
+    432            char *mem;
+    433            ff=malloc(64);
+   \   00000004   ........           LDR      R4,??DataTable23  ;; last_id
+   \   00000008   41DF4DE2           SUB      SP,SP,#+260
+   \   0000000C   0060A0E1           MOV      R6,R0
+   \   00000010   4000A0E3           MOV      R0,#+64
+   \   00000014   140000EF           SWI      +20
+    434            char path[256];//="0:\\zbin\\TextReader\\history\\"
+    435            sprintf(path,per_s,HIST_PATH);
+   \   00000018   ........           LDR      R2,??DataTable29  ;; HIST_PATH
+   \   0000001C   ........           LDR      R1,??DataTable32  ;; per_s
+   \   00000020   180084E5           STR      R0,[R4, #+24]
+   \   00000024   04008DE2           ADD      R0,SP,#+4
+   \   00000028   160000EF           SWI      +22
+    436            strcat(path,last_op[curitem].name);
+   \   0000002C   060384E0           ADD      R0,R4,R6, LSL #+6
+   \   00000030   201080E2           ADD      R1,R0,#+32
+   \   00000034   04008DE2           ADD      R0,SP,#+4
+   \   00000038   170000EF           SWI      +23
+    437            f = fopen(path, A_ReadOnly + A_BIN, P_READ, & err ); 
+   \   0000003C   0D30A0E1           MOV      R3,SP
+   \   00000040   8020A0E3           MOV      R2,#+128
+   \   00000044   801CA0E3           MOV      R1,#+32768
+   \   00000048   04008DE2           ADD      R0,SP,#+4
+   \   0000004C   0A0000EF           SWI      +10
+   \   00000050   0060A0E1           MOV      R6,R0
+    438            if ( f!=-1 ) 
+   \   00000054   010076E3           CMN      R6,#+1
+   \   00000058   1800000A           BEQ      ??LoadHST_0
+    439             {
+    440               mem=malloc(256); 
+   \   0000005C   400FA0E3           MOV      R0,#+256
+   \   00000060   140000EF           SWI      +20
+   \   00000064   0050A0E1           MOV      R5,R0
+    441               int size=fread(f,mem,256,&err); 
+   \   00000068   0D30A0E1           MOV      R3,SP
+   \   0000006C   402FA0E3           MOV      R2,#+256
+   \   00000070   0510A0E1           MOV      R1,R5
+   \   00000074   0600A0E1           MOV      R0,R6
+   \   00000078   0B0000EF           SWI      +11
+    442               int i=0;
+   \   0000007C   0010A0E3           MOV      R1,#+0
+   \   00000080   010050E3           CMP      R0,#+1
+   \   00000084   090000BA           BLT      ??LoadHST_1
+   \   00000088   0520A0E1           MOV      R2,R5
+    443               while(i<size)//читаем строку из файла 
+    444               {
+    445                 if(*(mem+i)==' ') break;
+   \                     ??LoadHST_2:
+   \   0000008C   0030D2E5           LDRB     R3,[R2, #+0]
+   \   00000090   200053E3           CMP      R3,#+32
+   \   00000094   0500000A           BEQ      ??LoadHST_1
+    446                 *(ff+i)=*(mem+i);
+   \   00000098   ........           LDRB     R12,[R2], #+1
+   \   0000009C   183094E5           LDR      R3,[R4, #+24]
+   \   000000A0   03C0C1E7           STRB     R12,[R1, +R3]
+    447                 i++;
+   \   000000A4   011081E2           ADD      R1,R1,#+1
+    448               } 
+   \   000000A8   000051E1           CMP      R1,R0
+   \   000000AC   F6FFFFBA           BLT      ??LoadHST_2
+    449               *(ff+i)=0;
+   \                     ??LoadHST_1:
+   \   000000B0   180094E5           LDR      R0,[R4, #+24]
+   \   000000B4   0020A0E3           MOV      R2,#+0
+   \   000000B8   0020C1E7           STRB     R2,[R1, +R0]
+   \   000000BC   020000EA           B        ??LoadHST_3
+    450             }
+    451            else curpos=1;
+   \                     ??LoadHST_0:
+   \   000000C0   ........           LDR      R0,??DataTable22  ;; curpos
+   \   000000C4   0110A0E3           MOV      R1,#+1
+   \   000000C8   001080E5           STR      R1,[R0, #+0]
+    452           fclose(f,&err); 
+   \                     ??LoadHST_3:
+   \   000000CC   0D10A0E1           MOV      R1,SP
+   \   000000D0   0600A0E1           MOV      R0,R6
+   \   000000D4   0D0000EF           SWI      +13
+    453          mfree(mem); 
+   \   000000D8   0500A0E1           MOV      R0,R5
+   \   000000DC   150000EF           SWI      +21
+    454          }
+   \   000000E0   41DF8DE2           ADD      SP,SP,#+260
+   \   000000E4   7080BDE8           POP      {R4-R6,PC}       ;; return
+    455          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    456          int LoadHist()//Ищем все файлы истории и сохраняем имена
+    457          {
+   \                     LoadHist:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   6FDF4DE2           SUB      SP,SP,#+444
+    458             DIR_ENTRY de;
+    459             unsigned int err;
+    460             char *path=malloc(256);//="0:\\zbin\\TextReader\\history\\";
+    461             sprintf(path,per_s,HIST_PATH);
+    462          //   ShowMSG(1,(int)path);
+    463             char *ptr=path+strlen(path)+1;
+    464             strcat(path,"*.hst");
+    465             if (FindFirstFile(&de,path,&err))
+   \   00000008   ........           LDR      R6,??DataTable23  ;; last_id
+   \   0000000C   400FA0E3           MOV      R0,#+256
+   \   00000010   140000EF           SWI      +20
+   \   00000014   ........           LDR      R2,??DataTable29  ;; HIST_PATH
+   \   00000018   ........           LDR      R1,??DataTable32  ;; per_s
+   \   0000001C   0040A0E1           MOV      R4,R0
+   \   00000020   160000EF           SWI      +22
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   1B0000EF           SWI      +27
+   \   0000002C   84109FE5           LDR      R1,??LoadHist_0  ;; `?<Constant "*.hst">`
+   \   00000030   040080E0           ADD      R0,R0,R4
+   \   00000034   015080E2           ADD      R5,R0,#+1
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   170000EF           SWI      +23
+   \   00000040   0D20A0E1           MOV      R2,SP
+   \   00000044   0410A0E1           MOV      R1,R4
+   \   00000048   04008DE2           ADD      R0,SP,#+4
+   \   0000004C   6B0000EF           SWI      +107
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   0F00000A           BEQ      ??LoadHist_1
+    466                { 
+    467                 do{
+    468                    strcpy(ptr,de.file_name);  
+   \                     ??LoadHist_2:
+   \   00000058   AD108DE2           ADD      R1,SP,#+173
+   \   0000005C   0500A0E1           MOV      R0,R5
+   \   00000060   1A0000EF           SWI      +26
+    469                    strcpy(last_op[last_item].name,de.file_name);
+   \   00000064   100096E5           LDR      R0,[R6, #+16]
+   \   00000068   AD108DE2           ADD      R1,SP,#+173
+   \   0000006C   000386E0           ADD      R0,R6,R0, LSL #+6
+   \   00000070   200080E2           ADD      R0,R0,#+32
+   \   00000074   1A0000EF           SWI      +26
+    470                    last_item++;
+   \   00000078   100096E5           LDR      R0,[R6, #+16]
+    471                   }while(FindNextFile(&de,&err));
+   \   0000007C   0D10A0E1           MOV      R1,SP
+   \   00000080   010080E2           ADD      R0,R0,#+1
+   \   00000084   100086E5           STR      R0,[R6, #+16]
+   \   00000088   04008DE2           ADD      R0,SP,#+4
+   \   0000008C   6C0000EF           SWI      +108
+   \   00000090   000050E3           CMP      R0,#+0
+   \   00000094   EFFFFF1A           BNE      ??LoadHist_2
+    472                }FindClose(&de,&err);
+   \                     ??LoadHist_1:
+   \   00000098   0D10A0E1           MOV      R1,SP
+   \   0000009C   04008DE2           ADD      R0,SP,#+4
+   \   000000A0   6D0000EF           SWI      +109
+    473             mfree(path);
+   \   000000A4   0400A0E1           MOV      R0,R4
+   \   000000A8   150000EF           SWI      +21
+    474          return last_item;
+   \   000000AC   100096E5           LDR      R0,[R6, #+16]
+   \   000000B0   6FDF8DE2           ADD      SP,SP,#+444
+   \   000000B4   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??LoadHist_0:
+   \   000000B8   ........           DC32     `?<Constant "*.hst">`
+    475          }
+    476          
+    477          char *ss;
+    478          
+    479          void last_iconhnd(void *data, int curitem, void *unk);
+
+   \                                 In segment CODE, align 4, keep-with-next
+    480          void last_ghook(void *data, int cmd){};
+   \                     last_ghook:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    481          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    482          int last_onkey2(void *data, GUI_MSG *msg)
+    483          {
+   \                     last_onkey2:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0140A0E1           MOV      R4,R1
+    484            int i;
+    485            i=GetCurMenuItem(data);
+   \   0000000C   8F0100EF           SWI      +399
+   \   00000010   0050A0E1           MOV      R5,R0
+    486            int k=msg->gbsmsg->submess;
+   \   00000014   040094E5           LDR      R0,[R4, #+4]
+    487            unsigned int err;
+    488            
+    489            if(k==GREEN_BUTTON) //Открыть в новом окне
+   \   00000018   ........           LDR      R4,??DataTable33  ;; last_id
+   \   0000001C   040090E5           LDR      R0,[R0, #+4]
+   \   00000020   0B0050E3           CMP      R0,#+11
+   \   00000024   0700001A           BNE      ??last_onkey2_0
+    490            {
+    491              GeneralFunc_flag1(last_id,1);
+   \   00000028   000094E5           LDR      R0,[R4, #+0]
+   \   0000002C   0110A0E3           MOV      R1,#+1
+   \   00000030   3D0100EF           SWI      +317
+    492              LoadHST(i);
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   ........           BL       LoadHST
+    493              RunHST(ff);   
+   \   0000003C   180094E5           LDR      R0,[R4, #+24]
+   \   00000040   ........           BL       RunHST
+   \   00000044   0F0000EA           B        ??last_onkey2_1
+    494            }
+    495            
+    496            if(k==ENTER_BUTTON) //Открыть в текущем окне, без сохранения старого!!!
+   \                     ??last_onkey2_0:
+   \   00000048   1A0050E3           CMP      R0,#+26
+   \   0000004C   0F00001A           BNE      ??last_onkey2_2
+    497            {
+    498              LoadHST(i);
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   ........           BL       LoadHST
+    499              GeneralFunc_flag1(id_ed,1);
+   \   00000058   ........           LDR      R0,??DataTable27  ;; id_ed
+   \   0000005C   0110A0E3           MOV      R1,#+1
+   \   00000060   000090E5           LDR      R0,[R0, #+0]
+   \   00000064   3D0100EF           SWI      +317
+    500              GeneralFunc_flag1(last_id,1);
+   \   00000068   000094E5           LDR      R0,[R4, #+0]
+   \   0000006C   0110A0E3           MOV      R1,#+1
+   \   00000070   3D0100EF           SWI      +317
+    501              strcpy(file,ff);
+   \   00000074   ........           LDR      R0,??DataTable28  ;; file
+   \   00000078   181094E5           LDR      R1,[R4, #+24]
+   \   0000007C   000090E5           LDR      R0,[R0, #+0]
+   \   00000080   1A0000EF           SWI      +26
+    502              ShowMenuCode();
+   \   00000084   ........           BL       ShowMenuCode
+   \                     ??last_onkey2_1:
+   \   00000088   0000A0E3           MOV      R0,#+0
+   \   0000008C   F280BDE8           POP      {R1,R4-R7,PC}
+    503          //    DrawText(ff,0);
+    504            }
+    505            
+    506            if(k=='#')//Показываем путь к файлу
+   \                     ??last_onkey2_2:
+   \   00000090   B4609FE5           LDR      R6,??last_onkey2_3  ;; `?<Constant "%s%s">`
+   \   00000094   230050E3           CMP      R0,#+35
+   \   00000098   0C00001A           BNE      ??last_onkey2_4
+    507            {    
+    508              LoadHST(i);
+   \   0000009C   0500A0E1           MOV      R0,R5
+   \   000000A0   ........           BL       LoadHST
+    509              ss=malloc(128);
+   \   000000A4   8000A0E3           MOV      R0,#+128
+   \   000000A8   140000EF           SWI      +20
+    510              sprintf(ss,"%s%s",LG_PATHFILE,ff);
+   \   000000AC   183094E5           LDR      R3,[R4, #+24]
+   \   000000B0   1C0084E5           STR      R0,[R4, #+28]
+   \   000000B4   082086E2           ADD      R2,R6,#+8
+   \   000000B8   0610A0E1           MOV      R1,R6
+   \   000000BC   160000EF           SWI      +22
+    511              ShowMSG(2,(int)ss);
+   \   000000C0   1C1094E5           LDR      R1,[R4, #+28]
+   \                     ??last_onkey2_5:
+   \   000000C4   0200A0E3           MOV      R0,#+2
+   \   000000C8   480100EF           SWI      +328
+   \   000000CC   EDFFFFEA           B        ??last_onkey2_1
+    512            }
+    513            char *s;
+    514            
+    515            if(k=='*')//Удалить файл истории
+   \                     ??last_onkey2_4:
+   \   000000D0   2A0050E3           CMP      R0,#+42
+   \   000000D4   1500001A           BNE      ??last_onkey2_6
+    516            {    
+    517              s=malloc(128);
+   \   000000D8   8000A0E3           MOV      R0,#+128
+   \   000000DC   140000EF           SWI      +20
+   \   000000E0   0070A0E1           MOV      R7,R0
+    518              ss=malloc(128);
+   \   000000E4   8000A0E3           MOV      R0,#+128
+   \   000000E8   140000EF           SWI      +20
+    519              sprintf(ss,per_s,HIST_PATH);
+   \   000000EC   ........           LDR      R2,??DataTable29  ;; HIST_PATH
+   \   000000F0   ........           LDR      R1,??DataTable32  ;; per_s
+   \   000000F4   1C0084E5           STR      R0,[R4, #+28]
+   \   000000F8   160000EF           SWI      +22
+    520              strcat(ss,last_op[i].name);
+   \   000000FC   050384E0           ADD      R0,R4,R5, LSL #+6
+   \   00000100   201080E2           ADD      R1,R0,#+32
+   \   00000104   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000108   170000EF           SWI      +23
+    521              unlink(ss,&err);
+   \   0000010C   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000110   0D10A0E1           MOV      R1,SP
+   \   00000114   6B0100EF           SWI      +363
+    522              sprintf(s,LG_DELFILE,ss);
+   \   00000118   1C2094E5           LDR      R2,[R4, #+28]
+   \   0000011C   181086E2           ADD      R1,R6,#+24
+   \   00000120   0700A0E1           MOV      R0,R7
+   \   00000124   160000EF           SWI      +22
+    523              ShowMSG(2,(int)s);
+   \   00000128   0710A0E1           MOV      R1,R7
+   \   0000012C   E4FFFFEA           B        ??last_onkey2_5
+    524            }  
+    525            if(k==RIGHT_SOFT) GeneralFunc_flag1(last_id,1);
+   \                     ??last_onkey2_6:
+   \   00000130   040050E3           CMP      R0,#+4
+   \   00000134   0200001A           BNE      ??last_onkey2_7
+   \   00000138   000094E5           LDR      R0,[R4, #+0]
+   \   0000013C   0110A0E3           MOV      R1,#+1
+   \   00000140   3D0100EF           SWI      +317
+    526            return(0);
+   \                     ??last_onkey2_7:
+   \   00000144   0000A0E3           MOV      R0,#+0
+   \   00000148   F280BDE8           POP      {R1,R4-R7,PC}    ;; return
+   \                     ??last_onkey2_3:
+   \   0000014C   ........           DC32     `?<Constant "%s%s">`
+    527          }
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     last_id:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for last_id>`
+   \                     MenuCode_id:
+   \   00000004                      DS8 4
+   \   00000008                      REQUIRE `?<Initializer for MenuCode_id>`
+   \                     item:
+   \   00000008                      DS8 4
+   \   0000000C                      REQUIRE `?<Initializer for item>`
+   \                     code:
+   \   0000000C                      DS8 4
+   \   00000010                      REQUIRE `?<Initializer for code>`
+   \                     last_item:
+   \   00000010                      DS8 4
+   \   00000014                      REQUIRE `?<Initializer for last_item>`
+   \                     menu_id:
+   \   00000014                      DS8 4
+   \   00000018                      REQUIRE `?<Initializer for menu_id>`
+   \                     ff:
+   \   00000018                      DS8 4
+   \   0000001C                      REQUIRE `?<Initializer for ff>`
+   \                     ss:
+   \   0000001C                      DS8 4
+   \   00000020                      REQUIRE `?<Initializer for ss>`
+   \                     last_op:
+   \   00000020                      DS8 64
+   \   00000060                      REQUIRE `?<Initializer for last_op>`
+   \                     bm_menuhdr2:
+   \   00000060                      DS8 20
+   \   00000074                      REQUIRE `?<Initializer for bm_menuhdr2>`
+   \                     codepage_menuhdr:
+   \   00000074                      DS8 20
+   \   00000088                      REQUIRE `?<Initializer for codepage_menuhdr>`
+    528          
+    529          HEADER_DESC last_menuhdr2={0,0,131,21,NULL,(int)LG_LAST,LGP_NULL};
+   \                     last_menuhdr2:
+   \   00000088                      DS8 20
+   \   0000009C                      REQUIRE `?<Initializer for last_menuhdr2>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     go_to_item:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for go_to_item>`
+   \                     go_to_menuhdr2:
+   \   00000004                      DS8 20
+   \   00000018                      REQUIRE `?<Initializer for go_to_menuhdr2>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     name:
+   \   00000000                      DS8 32
+   \   00000020                      REQUIRE `?<Initializer for name>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     name_codepage:
+   \   00000000                      DS8 20
+   \   00000014                      REQUIRE `?<Initializer for name_codepage>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     go_to_str:
+   \   00000000                      DS8 16
+   \   00000010                      REQUIRE `?<Initializer for go_to_str>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     S_ICONS:
+   \   00000000                      DS8 36
+   \   00000024                      REQUIRE `?<Initializer for S_ICONS>`
+    530          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    531          const MENU_DESC last_menu=
+   \                     last_menu:
+   \   00000000   08000000....       DC32 8, last_onkey2, last_ghook, 0H, menusoftkeys, menu_skt2, 16
+   \              ............
+   \              00000000....
+   \              ............
+   \              10000000    
+   \   0000001C   ........0000       DC32 last_iconhnd, 0H, 0H, 0
+   \              000000000000
+   \              00000000    
+    532          {
+    533            8,last_onkey2,last_ghook,NULL,
+    534            menusoftkeys,
+    535            &menu_skt2,
+    536            0x10,//0x11,
+    537            last_iconhnd,
+    538            NULL,   //Items
+    539            NULL,   //Procs
+    540            0   //n
+    541          };
+    542          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    543          void last_iconhnd(void *data, int curitem, void *unk)
+    544          {
+   \                     last_iconhnd:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    545            WSHDR *ws;
+    546            char *s;
+    547            void *item=AllocMenuItem(data);
+    548            s=malloc(128);
+    549            LoadHST(curitem);
+    550            sprintf(s,per_s,ff);
+    551            if (s)
+   \   00000008   ........           LDR      R9,??DataTable31  ;; `?<Constant "no name!">`
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   970100EF           SWI      +407
+   \   00000014   0070A0E1           MOV      R7,R0
+   \   00000018   8000A0E3           MOV      R0,#+128
+   \   0000001C   140000EF           SWI      +20
+   \   00000020   0080A0E1           MOV      R8,R0
+   \   00000024   0500A0E1           MOV      R0,R5
+   \   00000028   ........           BL       LoadHST
+   \   0000002C   98009FE5           LDR      R0,??last_iconhnd_0  ;; last_id + 24
+   \   00000030   ........           LDR      R1,??DataTable32  ;; per_s
+   \   00000034   002090E5           LDR      R2,[R0, #+0]
+   \   00000038   0800A0E1           MOV      R0,R8
+   \   0000003C   160000EF           SWI      +22
+   \   00000040   000058E3           CMP      R8,#+0
+   \   00000044   0E00000A           BEQ      ??last_iconhnd_1
+    552            {
+    553              if (strlen(s))
+   \   00000048   0800A0E1           MOV      R0,R8
+   \   0000004C   1B0000EF           SWI      +27
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   1400000A           BEQ      ??last_iconhnd_2
+    554              { 
+    555                ws=AllocMenuWS(data,strlen(s)+4);
+   \   00000058   0800A0E1           MOV      R0,R8
+   \   0000005C   1B0000EF           SWI      +27
+   \   00000060   041080E2           ADD      R1,R0,#+4
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   980100EF           SWI      +408
+   \   0000006C   0060A0E1           MOV      R6,R0
+    556                wsprintf(ws,"%d.%s",curitem+1,s);
+   \   00000070   0830A0E1           MOV      R3,R8
+   \   00000074   012085E2           ADD      R2,R5,#+1
+   \   00000078   1C1089E2           ADD      R1,R9,#+28
+   \   0000007C   240100EF           SWI      +292
+   \   00000080   090000EA           B        ??last_iconhnd_2
+    557              }
+    558            }
+    559            else
+    560            {
+    561              ws=AllocMenuWS(data,10);
+   \                     ??last_iconhnd_1:
+   \   00000084   0A10A0E3           MOV      R1,#+10
+   \   00000088   0400A0E1           MOV      R0,R4
+   \   0000008C   980100EF           SWI      +408
+   \   00000090   0060A0E1           MOV      R6,R0
+    562              wsprintf(ws,"error");
+   \   00000094   0C1089E2           ADD      R1,R9,#+12
+   \   00000098   240100EF           SWI      +292
+    563              wsInsertChar(ws,2,1);//Цвет надписей
+   \   0000009C   0120A0E3           MOV      R2,#+1
+   \   000000A0   0210A0E3           MOV      R1,#+2
+   \   000000A4   0600A0E1           MOV      R0,R6
+   \   000000A8   1D0000EF           SWI      +29
+    564          
+    565            }
+    566             SetMenuItemText(data,item,ws,curitem);
+   \                     ??last_iconhnd_2:
+   \   000000AC   0530A0E1           MOV      R3,R5
+   \   000000B0   0620A0E1           MOV      R2,R6
+   \   000000B4   0710A0E1           MOV      R1,R7
+   \   000000B8   0400A0E1           MOV      R0,R4
+   \   000000BC   9A0100EF           SWI      +410
+    567             mfree(s);
+   \   000000C0   0800A0E1           MOV      R0,R8
+   \   000000C4   150000EF           SWI      +21
+    568          }
+   \   000000C8   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??last_iconhnd_0:
+   \   000000CC   ........           DC32     last_id + 24
+    569          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    570          void ShowMenuLast(void)
+    571          { 
+   \                     ShowMenuLast:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    572             patch_header(&last_menuhdr2);
+   \   00000004   ........           LDR      R4,??DataTable33  ;; last_id
+   \   00000008   880084E2           ADD      R0,R4,#+136
+   \   0000000C   ........           _BLF     patch_header,??patch_header??rA
+    573             last_id=CreateMenu(0,0,&last_menu,&last_menuhdr2,0,last_item,0,0);
+   \   00000010   2C209FE5           LDR      R2,??ShowMenuLast_0  ;; last_menu
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   01002DE9           PUSH     {R0}
+   \   0000001C   01002DE9           PUSH     {R0}
+   \   00000020   100094E5           LDR      R0,[R4, #+16]
+   \   00000024   883084E2           ADD      R3,R4,#+136
+   \   00000028   01002DE9           PUSH     {R0}
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   0000A0E3           MOV      R0,#+0
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   520100EF           SWI      +338
+   \   0000003C   000084E5           STR      R0,[R4, #+0]
+    574          }
+   \   00000040   1F80BDE8           POP      {R0-R4,PC}       ;; return
+   \                     ??ShowMenuLast_0:
+   \   00000044   ........           DC32     last_menu
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable14:
+   \   00000000   ........           DC32     codepage
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable18:
+   \   00000000   ........           DC32     per_t
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable22:
+   \   00000000   ........           DC32     curpos
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable23:
+   \   00000000   ........           DC32     last_id
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable27:
+   \   00000000   ........           DC32     id_ed
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable28:
+   \   00000000   ........           DC32     file
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable29:
+   \   00000000   ........           DC32     HIST_PATH
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable31:
+   \   00000000   ........           DC32     `?<Constant "no name!">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable32:
+   \   00000000   ........           DC32     per_s
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable33:
+   \   00000000   ........           DC32     last_id
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for last_id>`:
+   \   00000000   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for MenuCode_id>`:
+   \   00000004   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for item>`:
+   \   00000008   08000000           DC32 8
+   \                     `?<Initializer for code>`:
+   \   0000000C   05000000           DC32 5
+   \                     `?<Initializer for last_item>`:
+   \   00000010   00000000           DC32 0
+   \                     `?<Initializer for menu_id>`:
+   \   00000014   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ff>`:
+   \   00000018   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ss>`:
+   \   0000001C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for last_op>`:
+   \   00000020   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000030   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000040   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000050   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for bm_menuhdr2>`:
+   \   00000060   000000008300       DC16 0, 0, 131, 21
+   \              1500        
+   \   00000068   00000000....       DC32 0H, `?<Constant "Menu">`, 32767
+   \              ....FF7F0000
+   \                     `?<Initializer for codepage_menuhdr>`:
+   \   00000074   000000008300       DC16 0, 0, 131, 21
+   \              1500        
+   \   0000007C   00000000....       DC32 0H, `?<Constant "Codepage...">`, 32767
+   \              ....FF7F0000
+   \                     `?<Initializer for last_menuhdr2>`:
+   \   00000088   000000008300       DC16 0, 0, 131, 21
+   \              1500        
+   \   00000090   00000000....       DC32 0H, `?<Constant "Last open...">`, 32767
+   \              ....FF7F0000
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for go_to_item>`:
+   \   00000000   04000000           DC32 4
+   \                     `?<Initializer for go_to_menuhdr2>`:
+   \   00000004   000000008300       DC16 0, 0, 131, 21
+   \              1500        
+   \   0000000C   00000000....       DC32 0H, `?<Constant "Go to...">`, 32767
+   \              ....FF7F0000
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for name>`:
+   \   00000000   ............       DC32 `?<Constant "Select file">`, `?<Constant "New file">`
+   \              ....        
+   \   00000008   ............       DC32 `?<Constant "Last open...">`, `?<Constant "Go to...">`
+   \              ....        
+   \   00000010   ............       DC32 `?<Constant "Save">`, `?<Constant "Setting">`
+   \              ....        
+   \   00000018   ............       DC32 `?<Constant "About">`, `?<Constant "Exit">`
+   \              ....        
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for name_codepage>`:
+   \   00000000   ............       DC32 `?<Constant "WIN1251">`, `?<Constant "UTF8">`
+   \              ....        
+   \   00000008   ............       DC32 `?<Constant "KOI8">`, `?<Constant "ASCII">`
+   \              ....        
+   \   00000010   ........           DC32 `?<Constant "WIN1250">`
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for go_to_str>`:
+   \   00000000   ............       DC32 `?<Constant "Start">`, `?<Constant "End">`
+   \              ....        
+   \   00000008   ............       DC32 `?<Constant "line...">`, `?<Constant "Bookmarks...">`
+   \              ....        
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for S_ICONS>`:
+   \   00000000   ............       DC32 ICON0, ICON1, ICON2, ICON3, ICON4, ICON5, ICON6, ICON7, NO_ICON
+   \              ............
+   \              ............
+   \              ............
+   \              ............
+   \              ............
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "End">`:
+   \   00000000   456E6400           DC8 "End"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Save">`:
+   \   00000000   5361766500         DC8 "Save"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Last open...">`:
+   \   00000000   4C617374206F       DC8 "Last open..."
+   \              70656E2E2E2E
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "New file">`:
+   \   00000000   4E6577206669       DC8 "New file"
+   \              6C6500      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Select file">`:
+   \   00000000   53656C656374       DC8 "Select file"
+   \              2066696C6500
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s%s">`:
+   \   00000000   2573257300         DC8 "%s%s"
+   \   00000005   000000             DC8 0, 0, 0
+   \   00000008   506174682074       DC8 "Path to file: "
+   \              6F2066696C65
+   \              3A2000      
+   \   00000017   00                 DC8 0
+   \   00000018   46696C652025       DC8 "File %s delete!"
+   \              732064656C65
+   \              74652100    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Codepage...">`:
+   \   00000000   436F64657061       DC8 "Codepage..."
+   \              67652E2E2E00
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "*.hst">`:
+   \   00000000   2A2E68737400       DC8 "*.hst"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "no name!">`:
+   \   00000000   6E6F206E616D       DC8 "no name!"
+   \              652100      
+   \   00000009   000000             DC8 0, 0, 0
+   \   0000000C   6572726F7200       DC8 "error"
+   \   00000012   0000               DC8 0, 0
+   \   00000014   6E6F206E616D       DC8 "no name"
+   \              6500        
+   \   0000001C   25642E257300       DC8 "%d.%s"
+   \   00000022   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Menu">`:
+   \   00000000   4D656E7500         DC8 "Menu"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Close">`:
+   \   00000000   436C6F736500       DC8 "Close"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Select">`:
+   \   00000000   53656C656374       DC8 "Select"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Bookmarks...">`:
+   \   00000000   426F6F6B6D61       DC8 "Bookmarks..."
+   \              726B732E2E2E
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "line...">`:
+   \   00000000   6C696E652E2E       DC8 "line..."
+   \              2E00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Start">`:
+   \   00000000   537461727400       DC8 "Start"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "WIN1250">`:
+   \   00000000   57494E313235       DC8 "WIN1250"
+   \              3000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "ASCII">`:
+   \   00000000   415343494900       DC8 "ASCII"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "KOI8">`:
+   \   00000000   4B4F493800         DC8 "KOI8"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "UTF8">`:
+   \   00000000   5554463800         DC8 "UTF8"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "WIN1251">`:
+   \   00000000   57494E313235       DC8 "WIN1251"
+   \              3100        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Go to...">`:
+   \   00000000   476F20746F2E       DC8 "Go to..."
+   \              2E2E00      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Exit">`:
+   \   00000000   4578697400         DC8 "Exit"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "About">`:
+   \   00000000   41626F757400       DC8 "About"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Setting">`:
+   \   00000000   53657474696E       DC8 "Setting"
+   \              6700        
+    575          
+
+   Maximum stack usage in bytes:
+
+     Function         CSTACK
+     --------         ------
+     LoadHST            276
+     LoadHist           460
+     RunHST              12
+     ShowMainMenu        24
+     ShowMenuCode        24
+     ShowMenuGoTo        24
+     ShowMenuLast        24
+     bm_menu_ghook        0
+     bm_menu_iconhnd     32
+     bm_menu_onkey2       8
+     codepage_ghook       0
+     codepage_iconhnd    28
+     codepage_onkey       8
+     go_to_ghook          0
+     go_to_iconhnd       28
+     go_to_onkey2        12
+     last_ghook           0
+     last_iconhnd        28
+     last_onkey2         24
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     per_2s                            8
+     ICON0                           128
+     ICON1                           128
+     ICON2                           128
+     ICON3                           128
+     ICON4                           128
+     ICON5                           128
+     ICON6                           128
+     ICON7                           128
+     NO_ICON                         128
+     menusoftkeys                     12
+     menu_sk2                         24
+     menu_skt2                         8
+     bm_menu_ghook                     4
+     bmmenu                           44
+     bm_menu_iconhnd                 216
+     bm_menu_onkey2                  264
+     ShowMainMenu                     72
+     menusoftkeys_codepage            12
+     menu_sk_codepage                 24
+     menu_skt_codepage                 8
+     codepage_ghook                    4
+     codepage_menu                    44
+     codepage_iconhnd                192
+     ShowMenuCode                     76
+     codepage_onkey                  184
+     go_to_ghook                       4
+     go_to_onkey2                    176
+     go_to_menu                       44
+     go_to_iconhnd                   224
+     ShowMenuGoTo                     72
+     RunHST                          116
+     LoadHST                         232
+     LoadHist                        188
+     last_ghook                        4
+     last_onkey2                     336
+     last_id                         156
+     go_to_item                       24
+     name                             32
+     name_codepage                    20
+     go_to_str                        16
+     S_ICONS                          36
+     last_menu                        44
+     last_iconhnd                    208
+     ShowMenuLast                     72
+     ??DataTable14                     4
+     ??DataTable18                     4
+     ??DataTable22                     4
+     ??DataTable23                     4
+     ??DataTable27                     4
+     ??DataTable28                     4
+     ??DataTable29                     4
+     ??DataTable31                     4
+     ??DataTable32                     4
+     ??DataTable33                     4
+     ?<Initializer for last_id>      156
+     ?<Initializer for go_to_item>    24
+     ?<Initializer for name>          32
+     ?<Initializer for name_codepage>
+                                      20
+     ?<Initializer for go_to_str>     16
+     ?<Initializer for S_ICONS>       36
+     ?<Constant "End">                 4
+     ?<Constant "Save">                8
+     ?<Constant "Last open...">       16
+     ?<Constant "New file">           12
+     ?<Constant "Select file">        12
+     ?<Constant "%s%s">               40
+     ?<Constant "Codepage...">        12
+     ?<Constant "*.hst">               8
+     ?<Constant "no name!">           36
+     ?<Constant "Menu">                8
+     ?<Constant "Close">               8
+     ?<Constant "Select">              8
+     ?<Constant "Bookmarks...">       16
+     ?<Constant "line...">             8
+     ?<Constant "Start">               8
+     ?<Constant "WIN1250">             8
+     ?<Constant "ASCII">               8
+     ?<Constant "KOI8">                8
+     ?<Constant "UTF8">                8
+     ?<Constant "WIN1251">             8
+     ?<Constant "Go to...">           12
+     ?<Constant "Exit">                8
+     ?<Constant "About">               8
+     ?<Constant "Setting">             8
+      Others                         220
+
+ 
+ 2 880 bytes in segment CODE
+   552 bytes in segment DATA_C
+   284 bytes in segment DATA_I
+   284 bytes in segment DATA_ID
+ 1 152 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 2 684 bytes of CODE  memory (+ 220 bytes shared)
+   836 bytes of CONST memory
+ 1 436 bytes of DATA  memory
+
+Errors: none
+Warnings: none

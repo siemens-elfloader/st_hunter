@@ -1,0 +1,1293 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION   09/Dec/2007  21:14:58 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  D:\Pasha\elf\googlecode\SieTextView\code.c          /
+//    Command line    =  D:\Pasha\elf\googlecode\SieTextView\code.c -D       /
+//                       NEWSGOLD -D ELKA -lC D:\Pasha\elf\googlecode\SieTex /
+//                       tView\Release\List\ -lA D:\Pasha\elf\googlecode\Sie /
+//                       TextView\Release\List\ -o                           /
+//                       D:\Pasha\elf\googlecode\SieTextView\Release\Obj\    /
+//                       -s9 --no_unroll --cpu_mode arm --endian little      /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None -I "D:\Pasha\ARM_Embedded_Workbench\Embe /
+//                       dded Workbench 4.0 Evaluation\ARM\INC\"             /
+//                       --inline_threshold=2                                /
+//    List file       =  D:\Pasha\elf\googlecode\SieTextView\Release\List\co /
+//                       de.s79                                              /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME code
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+??DataTable2 EQU 0
+??DataTable3 EQU 0
+??DataTable5 EQU 0
+??DataTable6 EQU 0
+        MULTWEAK ??gb2unicode??rT
+        MULTWEAK ??getCodeType??rT
+        MULTWEAK ??loadGB2UnicodeMap??rT
+        MULTWEAK ??loadUnicode2GBMap??rT
+        MULTWEAK ??str2ws_unicode??rT
+        MULTWEAK ??unicode2gb??rT
+        MULTWEAK ??unicode2utf8??rT
+        MULTWEAK ??unicodeSwitch??rT
+        MULTWEAK ??utf82unicode??rT
+        MULTWEAK ??ws2str_unicode??rT
+        PUBWEAK ?init?tab?DATA_Z
+        PUBLIC gb2312map
+        PUBLIC gb2unicode
+        FUNCTION gb2unicode,0203H
+        LOCFRAME CSTACK, 36, STACK
+        PUBLIC getCodeType
+        FUNCTION getCodeType,0203H
+        PUBLIC loadGB2UnicodeMap
+        FUNCTION loadGB2UnicodeMap,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC loadUnicode2GBMap
+        FUNCTION loadUnicode2GBMap,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC maplen
+        PUBLIC maplen1
+        PUBLIC str2ws_unicode
+        FUNCTION str2ws_unicode,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC unicode2gb
+        FUNCTION unicode2gb,0203H
+        LOCFRAME CSTACK, 1064, STACK
+        PUBLIC unicode2utf8
+        FUNCTION unicode2utf8,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC unicodeSwitch
+        FUNCTION unicodeSwitch,0203H
+        LOCFRAME CSTACK, 28, STACK
+        PUBLIC utf82unicode
+        FUNCTION utf82unicode,0203H
+        LOCFRAME CSTACK, 32, STACK
+        PUBLIC ws2str_unicode
+        FUNCTION ws2str_unicode,0203H
+        LOCFRAME CSTACK, 4, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+gb2unicode          SYMBOL "gb2unicode"
+??gb2unicode??rT    SYMBOL "??rT", gb2unicode
+getCodeType         SYMBOL "getCodeType"
+??getCodeType??rT   SYMBOL "??rT", getCodeType
+loadGB2UnicodeMap   SYMBOL "loadGB2UnicodeMap"
+??loadGB2UnicodeMap??rT SYMBOL "??rT", loadGB2UnicodeMap
+loadUnicode2GBMap   SYMBOL "loadUnicode2GBMap"
+??loadUnicode2GBMap??rT SYMBOL "??rT", loadUnicode2GBMap
+str2ws_unicode      SYMBOL "str2ws_unicode"
+??str2ws_unicode??rT SYMBOL "??rT", str2ws_unicode
+unicode2gb          SYMBOL "unicode2gb"
+??unicode2gb??rT    SYMBOL "??rT", unicode2gb
+unicode2utf8        SYMBOL "unicode2utf8"
+??unicode2utf8??rT  SYMBOL "??rT", unicode2utf8
+unicodeSwitch       SYMBOL "unicodeSwitch"
+??unicodeSwitch??rT SYMBOL "??rT", unicodeSwitch
+utf82unicode        SYMBOL "utf82unicode"
+??utf82unicode??rT  SYMBOL "??rT", utf82unicode
+ws2str_unicode      SYMBOL "ws2str_unicode"
+??ws2str_unicode??rT SYMBOL "??rT", ws2str_unicode
+
+        EXTERN MAP0
+        EXTERN MAP1
+
+// D:\Pasha\elf\googlecode\SieTextView\code.c
+//    1 #include "..\inc\swilib.h"
+//    2 #include "conf_loader.h"
+//    3 #include "code.h"
+//    4 
+//    5 extern const char MAP0[];
+//    6 extern const char MAP1[];
+//    7 
+//    8 #define MAP_SIZE 32768
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+//    9 char gb2312map[MAP_SIZE];
+gb2312map:
+        DS8 32768
+
+        RSEG DATA_Z:DATA:SORT:NOROOT(2)
+//   10 int maplen = 0, maplen1 = 0;
+maplen:
+        DS8 4
+maplen1:
+        DS8 4
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??getCodeType??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE getCodeType
+//   11 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function getCodeType
+        ARM
+//   12 int getCodeType(char* str) {
+//   13   if (!str || (str[0] == 0 && str[1] == 0)) return 0;
+getCodeType:
+        CMP      R0,#+0
+        BXEQ     LR
+        LDRB     R1,[R0, #+0]
+        CMP      R1,#+0
+        LDRBEQ   R1,[R0, #+1]
+        CMPEQ    R1,#+0
+        MOVEQ    R0,#+0
+        BXEQ     LR
+//   14   int result = 1;	//ansi
+//   15   if (str[0] == 0xff && str[1] == 0xfe) {
+        LDRB     R2,[R0, #+0]
+        MOV      R1,#+1
+        CMP      R2,#+255
+        LDRBEQ   R2,[R0, #+1]
+        CMPEQ    R2,#+254
+//   16     result = 2; //unicode le
+        MOVEQ    R1,#+2
+        BEQ      ??getCodeType_0
+//   17   }
+//   18   else if (str[0] == 0xfe && str[1] == 0xff) {
+        LDRB     R2,[R0, #+0]
+        CMP      R2,#+254
+        LDRBEQ   R2,[R0, #+1]
+        CMPEQ    R2,#+255
+//   19     result = 3; //unicode be
+        MOVEQ    R1,#+3
+        BEQ      ??getCodeType_0
+//   20   }
+//   21   else if (str[0] == 0xef && str[1] == 0xbb && str[2] == 0xbf) {
+        LDRB     R2,[R0, #+0]
+        CMP      R2,#+239
+        LDRBEQ   R2,[R0, #+1]
+        CMPEQ    R2,#+187
+        LDRBEQ   R0,[R0, #+2]
+        CMPEQ    R0,#+191
+//   22     result = 4; //utf8
+        MOVEQ    R1,#+4
+//   23   }
+//   24   return result;
+??getCodeType_0:
+        MOV      R0,R1
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock1
+//   25 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??loadGB2UnicodeMap??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE loadGB2UnicodeMap
+//   26 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function loadGB2UnicodeMap
+        ARM
+//   27 void loadGB2UnicodeMap(void) {
+loadGB2UnicodeMap:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+//   28 	int fd1 = 0;
+//   29   unsigned int ul1 = 0;
+//   30 	maplen = maplen1 = 0;
+        LDR      R4,??DataTable4  ;; maplen
+        SUB      SP,SP,#+4
+        CFI CFA R13+16
+        MOV      R0,#+0
+        STR      R0,[SP, #+0]
+        STR      R0,[R4, #+4]
+        STR      R0,[R4, #+0]
+//   31 	if ((fd1 = fopen(MAP0, A_ReadOnly + A_BIN, P_READ, &ul1)) != -1) {
+        LDR      R0,??loadGB2UnicodeMap_0  ;; MAP0
+        MOV      R3,SP
+        MOV      R2,#+128
+        MOV      R1,#+32768
+        SWI      +10
+        MOV      R5,R0
+        CMN      R5,#+1
+        POPEQ    {R0,R4,R5,PC}
+//   32 		maplen = fread(fd1, gb2312map, MAP_SIZE, &ul1);
+        LDR      R1,??DataTable7  ;; gb2312map
+        MOV      R3,SP
+        MOV      R2,#+32768
+        SWI      +11
+        STR      R0,[R4, #+0]
+//   33 		fclose(fd1, &ul1);
+        MOV      R1,SP
+        MOV      R0,R5
+        SWI      +13
+//   34 	}
+//   35 }
+        POP      {R0,R4,R5,PC}    ;; return
+        DATA
+??loadGB2UnicodeMap_0:
+        DC32     MAP0
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??loadUnicode2GBMap??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE loadUnicode2GBMap
+//   36 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function loadUnicode2GBMap
+        ARM
+//   37 void loadUnicode2GBMap(void) {
+loadUnicode2GBMap:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+//   38 	int fd1 = 0;
+//   39   unsigned int ul1 = 0;
+//   40 	maplen = maplen1 = 0;
+        LDR      R4,??DataTable4  ;; maplen
+        SUB      SP,SP,#+4
+        CFI CFA R13+16
+        MOV      R0,#+0
+        STR      R0,[SP, #+0]
+        STR      R0,[R4, #+4]
+        STR      R0,[R4, #+0]
+//   41 	if ((fd1 = fopen(MAP1, A_ReadOnly + A_BIN, P_READ, &ul1)) != -1) {
+        LDR      R0,??loadUnicode2GBMap_0  ;; MAP1
+        MOV      R3,SP
+        MOV      R2,#+128
+        MOV      R1,#+32768
+        SWI      +10
+        MOV      R5,R0
+        CMN      R5,#+1
+        POPEQ    {R0,R4,R5,PC}
+//   42 		maplen1 = fread(fd1, gb2312map, MAP_SIZE, &ul1);
+        LDR      R1,??DataTable7  ;; gb2312map
+        MOV      R3,SP
+        MOV      R2,#+32768
+        SWI      +11
+        STR      R0,[R4, #+4]
+//   43 		fclose(fd1, &ul1);
+        MOV      R1,SP
+        MOV      R0,R5
+        SWI      +13
+//   44 	}
+//   45 }
+        POP      {R0,R4,R5,PC}    ;; return
+        DATA
+??loadUnicode2GBMap_0:
+        DC32     MAP1
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??str2ws_unicode??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE str2ws_unicode
+//   46 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function str2ws_unicode
+        ARM
+//   47 void str2ws_unicode(WSHDR* ws, char* str, int len) {
+str2ws_unicode:
+        PUSH     {R4-R7}
+        CFI R7 Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+//   48   int i = 0;
+//   49   char *p;
+//   50   p = str;
+        LDR      R0,[R0, #+0]
+        MOV      R12,#+0
+        MOV      R3,R1
+        ADD      R4,R0,#+2
+        ADD      R5,R3,#+1
+        SUB      R2,R2,#+1
+        B        ??str2ws_unicode_0
+//   51   while ((p - str) < len - 1) {
+//   52     ws->wsbody[++i] = (*(p + 1) << 8) + *p;
+??str2ws_unicode_1:
+        LDRB     R6,[R5], #+2
+        LDRB     R7,[R3], #+2
+        ADD      R12,R12,#+1
+        ADD      R6,R7,R6, LSL #+8
+        STRH     R6,[R4], #+2
+//   53     p += 2;
+//   54   }
+??str2ws_unicode_0:
+        SUB      R6,R3,R1
+        CMP      R6,R2
+        BLT      ??str2ws_unicode_1
+//   55   ws->wsbody[0] = i;
+        STRH     R12,[R0, #+0]
+//   56 }
+        POP      {R4-R7}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI CFA R13+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ws2str_unicode??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE ws2str_unicode
+//   57 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ws2str_unicode
+        ARM
+//   58 void ws2str_unicode(char* str, WSHDR* ws, int *len) {	//注意范围
+ws2str_unicode:
+        PUSH     {R4}
+        CFI R4 Frame(CFA, -4)
+        CFI CFA R13+4
+//   59   for (int i = 0; i < ws->wsbody[0]; i++) {
+        MOV      R3,#+0
+        B        ??ws2str_unicode_0
+//   60   	*(str + (i << 1)) = ws->wsbody[i + 1] & 0xFF;
+??ws2str_unicode_1:
+        ADD      R12,R12,R3, LSL #+1
+        LDRH     R12,[R12, #+2]
+        STRB     R12,[R0], #+1
+//   61   	*(str + (i << 1) + 1) = ws->wsbody[i + 1] >> 8;
+        LDR      R12,[R1, #+0]
+        ADD      R12,R12,R3, LSL #+1
+        LDRH     R12,[R12, #+2]
+//   62 	}
+        ADD      R3,R3,#+1
+        LSR      R12,R12,#+8
+        STRB     R12,[R0], #+1
+??ws2str_unicode_0:
+        LDR      R12,[R1, #+0]
+        LDRH     R4,[R12, #+0]
+        CMP      R3,R4
+        BLT      ??ws2str_unicode_1
+//   63 	*len = ws->wsbody[0] << 1;
+        MOV      R0,R4
+        LSL      R0,R0,#+1
+        STR      R0,[R2, #+0]
+//   64 }
+        POP      {R4}
+        CFI R4 SameValue
+        CFI CFA R13+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unicodeSwitch??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE unicodeSwitch
+//   65 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function unicodeSwitch
+        ARM
+//   66 char* unicodeSwitch(char *str, int len, int *rlen, int *llen) {
+unicodeSwitch:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        MOV      R7,R0
+        MOV      R4,R2
+        MOV      R5,R3
+//   67   if (!str) return NULL;
+        CMP      R7,#+0
+        MOVEQ    R0,#+0
+        POPEQ    {R4-R9,PC}
+//   68   int i = 0, l = len >> 1 << 1;
+        MOV      R6,#+0
+        ASR      R0,R1,#+1
+        LSL      R8,R0,#+1
+        MOV      R9,R8
+//   69   char *p = malloc(l);
+        MOV      R0,R9
+        SWI      +20
+        CMP      R9,#+1
+        BLT      ??unicodeSwitch_0
+        MOV      R1,R0
+//   70   while (i < l) {
+//   71     *(p + i) = *(str + i + 1);
+??unicodeSwitch_1:
+        LDRB     R2,[R7, #+1]
+//   72     *(p + i + 1) = *(str + i);
+//   73     i += 2;
+        ADD      R6,R6,#+2
+//   74   }
+        CMP      R6,R9
+        STRB     R2,[R1], #+1
+        LDRB     R2,[R7], #+2
+        STRB     R2,[R1], #+1
+        BLT      ??unicodeSwitch_1
+//   75   *rlen = *llen = l;
+??unicodeSwitch_0:
+        STR      R9,[R5, #+0]
+        STR      R8,[R4, #+0]
+//   76   return p;
+        POP      {R4-R9,PC}       ;; return
+        CFI EndBlock cfiBlock11
+//   77 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??gb2unicode??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock12
+        REQUIRE gb2unicode
+//   78 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function gb2unicode
+        ARM
+//   79 char* gb2unicode(char *str, int len, int *rlen, int *llen) {
+gb2unicode:
+        PUSH     {R4-R11,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R11 Frame(CFA, -8)
+        CFI R10 Frame(CFA, -12)
+        CFI R9 Frame(CFA, -16)
+        CFI R8 Frame(CFA, -20)
+        CFI R7 Frame(CFA, -24)
+        CFI R6 Frame(CFA, -28)
+        CFI R5 Frame(CFA, -32)
+        CFI R4 Frame(CFA, -36)
+        CFI CFA R13+36
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R7,R3
+//   80 	
+//   81 	if (!str) return NULL;
+        CMP      R4,#+0
+        BEQ      ??gb2unicode_0
+//   82   if (!maplen) loadGB2UnicodeMap();	//读取map文件
+        LDR      R8,??DataTable4  ;; maplen
+        LDR      R0,[R8, #+0]
+        CMP      R0,#+0
+        BNE      ??gb2unicode_1
+        BL       loadGB2UnicodeMap
+//   83   if (maplen) {
+??gb2unicode_1:
+        LDR      R0,[R8, #+0]
+        CMP      R0,#+0
+        BEQ      ??gb2unicode_2
+//   84     int ad = 0, i = 0, j = 0, l = len, bl = len << 1;
+        MOV      R11,#+0
+        MOV      R10,#+0
+        LSL      R0,R5,#+1
+//   85     char *s = malloc(bl);
+        SWI      +20
+        MOV      R9,R0
+//   86     *llen = *rlen = 0;
+        MOV      R0,R10
+        STR      R0,[R6, #+0]
+        STR      R0,[R7, #+0]
+//   87     bl -= 3;
+        B        ??gb2unicode_3
+//   88     while (i < l) {
+//   89     	if (str[i] < 0xa1) { //单字节编码
+//   90         s[j++] = str[i++];
+??gb2unicode_4:
+        STRB     R3,[R10, +R9]
+//   91         s[j++] = 0x0;
+        STRB     R0,[R1, +R9]
+        ADD      R10,R1,#+1
+//   92         (*llen)++;
+        LDR      R1,[R7, #+0]
+        MOV      R11,R2
+        ADD      R1,R1,#+1
+??gb2unicode_5:
+        STR      R1,[R7, #+0]
+//   93         (*rlen) += 2;
+        LDR      R1,[R6, #+0]
+        ADD      R1,R1,#+2
+        STR      R1,[R6, #+0]
+//   94       }
+??gb2unicode_3:
+        CMP      R11,R5
+        BGE      ??gb2unicode_6
+        LDRB     R3,[R11, +R4]
+        ADD      R1,R10,#+1
+        ADD      R2,R11,#+1
+        CMP      R3,#+161
+        BCC      ??gb2unicode_4
+//   95       else {
+//   96       	if (i > l - 2) break;
+        SUB      R3,R5,#+2
+        CMP      R3,R11
+        BLT      ??gb2unicode_6
+//   97         ad = str[i] - 0xa1;
+        LDRB     R3,[R11, +R4]
+//   98         if (str[i++] > 0xa9) ad -= 0x6;
+        LDRB     R11,[R11, +R4]
+        MVN      R12,#+160
+        ADD      R3,R12,R3
+        CMP      R11,#+170
+//   99         ad = (((ad << 8) | str[i++]) - ad * 0xa2 - 0xa1) << 1;
+        LDRB     R11,[R2, +R4]
+        SUBCS    R3,R3,#+6
+        MOV      R12,#+162
+        ORR      R11,R11,R3, LSL #+8
+        MUL      R3,R12,R3
+        SUB      R3,R11,R3
+        MVN      R11,#+160
+        ADD      R3,R11,R3
+        ADD      R11,R2,#+1
+//  100         if (ad < maplen - 1) {
+        LDR      R2,[R8, #+0]
+        LSL      R3,R3,#+1
+        SUB      R2,R2,#+1
+        CMP      R3,R2
+        BGE      ??gb2unicode_7
+//  101           s[j++] = gb2312map[ad];
+        LDR      R2,??DataTable7  ;; gb2312map
+        LDRB     R12,[R3, +R2]
+//  102           s[j++] = gb2312map[ad + 1];
+        ADD      R2,R3,R2
+        STRB     R12,[R10, +R9]
+        LDRB     R2,[R2, #+1]
+        ADD      R10,R1,#+1
+        STRB     R2,[R1, +R9]
+//  103         }
+//  104         (*llen) += 2;
+??gb2unicode_7:
+        LDR      R1,[R7, #+0]
+        ADD      R1,R1,#+2
+        B        ??gb2unicode_5
+//  105         (*rlen) += 2;
+//  106       }
+//  107     }
+//  108     if (*rlen < (l << 1)) {
+??gb2unicode_6:
+        LDR      R0,[R6, #+0]
+        CMP      R0,R5, LSL #+1
+        BGE      ??gb2unicode_8
+//  109     	char *r = malloc(*rlen);
+        SWI      +20
+//  110     	memcpy(r, s, *rlen);
+        LDR      R2,[R6, #+0]
+        MOV      R4,R0
+        MOV      R1,R9
+        SWI      +286
+//  111     	mfree(s);
+        MOV      R0,R9
+        SWI      +21
+//  112     	s = r;
+        MOV      R9,R4
+//  113     }
+//  114     return s;
+??gb2unicode_8:
+        MOV      R0,R9
+        POP      {R4-R11,PC}
+//  115   }
+//  116   else {
+//  117   	ShowMSG(1, (int) "open map file failed!");
+??gb2unicode_2:
+        LDR      R1,??DataTable8  ;; `?<Constant "open map file failed!">`
+        MOV      R0,#+1
+        SWI      +328
+//  118   	return NULL;  
+??gb2unicode_0:
+        MOV      R0,#+0
+        POP      {R4-R11,PC}      ;; return
+        CFI EndBlock cfiBlock13
+//  119   }
+//  120 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable4:
+        DC32     maplen
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??utf82unicode??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock14
+        REQUIRE utf82unicode
+//  121 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function utf82unicode
+        ARM
+//  122 char* utf82unicode(char *str, int len, int *rlen, int *llen) {
+utf82unicode:
+        PUSH     {R4-R10,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R10 Frame(CFA, -8)
+        CFI R9 Frame(CFA, -12)
+        CFI R8 Frame(CFA, -16)
+        CFI R7 Frame(CFA, -20)
+        CFI R6 Frame(CFA, -24)
+        CFI R5 Frame(CFA, -28)
+        CFI R4 Frame(CFA, -32)
+        CFI CFA R13+32
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+        MOV      R7,R3
+//  123   if (!str) return NULL;
+        CMP      R4,#+0
+        MOVEQ    R0,#+0
+        POPEQ    {R4-R10,PC}
+//  124   
+//  125 /*
+//  126   char *ms = malloc (50);
+//  127   sprintf(ms, "%d, %d", j, l);
+//  128   ShowMSG(1, (int) ms);
+//  129   mfree(ms);*/
+//  130   
+//  131   int i = 0, j = 0, l = len, bl = len << 1;
+        MOV      R10,#+0
+//  132   char* s = malloc(bl);
+        LSL      R8,R5,#+1
+        MOV      R0,R8
+        SWI      +20
+        MOV      R9,R0
+//  133   char c;
+//  134   *rlen = *llen = 0;
+        MOV      R0,#+0
+        STR      R0,[R7, #+0]
+        STR      R0,[R6, #+0]
+//  135   bl -= 3;
+//  136   for (i = 0; i < l; i++) {
+        MOV      R12,R0
+        B        ??utf82unicode_0
+//  137     c = str[i];
+//  138     if ((c >> 7) == 0x0) {  //单字节编码
+//  139       s[j++] = c;
+//  140       s[j++] = 0x0;
+//  141       (*llen)++;
+//  142     }
+//  143     else if ((c >> 5) == 0x6 && i < l - 1) { //双字节编码
+//  144       s[++j] = ((c & 0x1f) >> 2);
+//  145       s[j - 1] = c << 6;
+//  146       c = str[++i];
+//  147       s[j - 1] = s[j - 1] | (c & 0x3f);
+//  148       j++;
+//  149       (*llen) += 2;
+//  150     }
+//  151     else if ((c >> 4) == 0xe && i < l - 2) { //三字节编码
+//  152       s[++j] = c << 4;
+??utf82unicode_1:
+        LSL      R3,R3,#+4
+        STRB     R3,[R1, +R9]
+//  153       c = str[++i];
+        LDRB     R3,[R2, +R4]
+//  154       s[j] = s[j] | ((c >> 2) & 0xf);
+        LDRB     R10,[R1, +R9]
+        ASR      R12,R3,#+2
+        AND      R12,R12,#0xF
+        ORR      R10,R12,R10
+        STRB     R10,[R1, +R9]
+//  155       s[j - 1] = c << 6;
+        ADD      R10,R1,R9
+        LSL      R3,R3,#+6
+        STRB     R3,[R10, #-1]
+//  156       c = str[++i];
+        ADD      R12,R2,#+1
+//  157       s[j - 1] = s[j - 1] | (c & 0x3f);
+        LDRB     R10,[R12, +R4]
+        ADD      R3,R1,R9
+        LDRB     R3,[R3, #-1]
+        ADD      R2,R1,R9
+        AND      R10,R10,#0x3F
+        ORR      R3,R10,R3
+        STRB     R3,[R2, #-1]
+//  158       j++;
+        ADD      R10,R1,#+1
+//  159       (*llen) += 3;
+        LDR      R1,[R7, #+0]
+        ADD      R1,R1,#+3
+??utf82unicode_2:
+        STR      R1,[R7, #+0]
+//  160       
+//  161     }
+//  162     else
+//  163     	break;
+//  164     (*rlen) += 2;
+        LDR      R1,[R6, #+0]
+        ADD      R12,R12,#+1
+        ADD      R1,R1,#+2
+        STR      R1,[R6, #+0]
+??utf82unicode_0:
+        CMP      R12,R5
+        BGE      ??utf82unicode_3
+        LDRB     R3,[R12, +R4]
+        ADD      R1,R10,#+1
+        TST      R3,#0x80
+        BNE      ??utf82unicode_4
+        STRB     R3,[R10, +R9]
+        STRB     R0,[R1, +R9]
+        ADD      R10,R1,#+1
+        LDR      R1,[R7, #+0]
+        ADD      R1,R1,#+1
+        B        ??utf82unicode_2
+??utf82unicode_4:
+        ADD      R2,R12,#+1
+        MOV      R10,R3
+        LSR      R10,R10,#+5
+        CMP      R10,#+6
+        BNE      ??utf82unicode_5
+        SUB      R10,R5,#+1
+        CMP      R12,R10
+        BGE      ??utf82unicode_5
+        AND      R10,R3,#0x1F
+        ASR      R10,R10,#+2
+        STRB     R10,[R1, +R9]
+        ADD      R10,R1,R9
+        LSL      R3,R3,#+6
+        STRB     R3,[R10, #-1]
+        MOV      R12,R2
+        LDRB     R10,[R12, +R4]
+        ADD      R3,R1,R9
+        LDRB     R3,[R3, #-1]
+        ADD      R2,R1,R9
+        AND      R10,R10,#0x3F
+        ORR      R3,R10,R3
+        STRB     R3,[R2, #-1]
+        ADD      R10,R1,#+1
+        LDR      R1,[R7, #+0]
+        ADD      R1,R1,#+2
+        B        ??utf82unicode_2
+??utf82unicode_5:
+        MOV      R10,R3
+        LSR      R10,R10,#+4
+        CMP      R10,#+14
+        BNE      ??utf82unicode_3
+        SUB      R10,R5,#+2
+        CMP      R12,R10
+        BLT      ??utf82unicode_1
+//  165   }
+//  166 
+//  167   if (*rlen < (l << 1)) {
+??utf82unicode_3:
+        LDR      R0,[R6, #+0]
+        CMP      R0,R8
+        BGE      ??utf82unicode_6
+//  168    	char *r = malloc(*rlen);
+        SWI      +20
+//  169    	memcpy(r, s, *rlen);
+        LDR      R2,[R6, #+0]
+        MOV      R4,R0
+        MOV      R1,R9
+        SWI      +286
+//  170    	mfree(s);
+        MOV      R0,R9
+        SWI      +21
+//  171    	s = r;
+        MOV      R9,R4
+//  172   }
+//  173   return s; 
+??utf82unicode_6:
+        MOV      R0,R9
+        POP      {R4-R10,PC}      ;; return
+        CFI EndBlock cfiBlock15
+//  174 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unicode2gb??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock16
+        REQUIRE unicode2gb
+//  175 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function unicode2gb
+        ARM
+//  176 char* unicode2gb(char *str, int *len) {
+unicode2gb:
+        PUSH     {R1,R4-R10,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R10 Frame(CFA, -8)
+        CFI R9 Frame(CFA, -12)
+        CFI R8 Frame(CFA, -16)
+        CFI R7 Frame(CFA, -20)
+        CFI R6 Frame(CFA, -24)
+        CFI R5 Frame(CFA, -28)
+        CFI R4 Frame(CFA, -32)
+        CFI CFA R13+36
+        SUB      SP,SP,#+1024
+        CFI CFA R13+1060
+        MOVS     R4,R0
+//  177 		
+//  178 	if (!str) return NULL;
+        BEQ      ??unicode2gb_0
+//  179 	if (!maplen1) loadUnicode2GBMap();
+        LDR      R5,??unicode2gb_1  ;; maplen
+        LDR      R0,[R5, #+4]
+        CMP      R0,#+0
+        BNE      ??unicode2gb_2
+        BL       loadUnicode2GBMap
+//  180 	if (maplen1) {
+??unicode2gb_2:
+        LDR      R0,[R5, #+4]
+        CMP      R0,#+0
+        BEQ      ??unicode2gb_3
+//  181 		int aj[256];
+//  182 		int i = 0;
+//  183 		for(int k = 0; i < 256; k += 2) {
+        LDR      R6,??DataTable7  ;; gb2312map
+        MOV      R0,SP
+        MOV      R1,R6
+        MOV      R2,#+256
+//  184 			aj[i++] = ((gb2312map[k] & 0xff) << 8) | (gb2312map[k + 1] & 0xff);
+??unicode2gb_4:
+        LDRB     R3,[R1, #+0]
+        LDRB     R7,[R1, #+1]
+//  185 		}
+        ADD      R1,R1,#+2
+        SUBS     R2,R2,#+1
+        ORR      R3,R7,R3, LSL #+8
+        STR      R3,[R0], #+4
+        BNE      ??unicode2gb_4
+//  186 		char *abyte0 = malloc(*len);
+        LDR      R0,[SP, #+1024]
+//  187   	int l = 0;
+        MOV      R8,#+0
+        LDR      R0,[R0, #+0]
+        SWI      +20
+        MOV      R7,R0
+//  188   	for(int i1 = 0; i1 < (*len) - 1; i1 += 2) {
+        MOV      R0,#+0
+        B        ??unicode2gb_5
+//  189 			char c1 = str[i1 + 1];			//高位
+//  190     	char byte0 = str[i1];		//低位
+//  191 			if(c1 == 0 && (byte0 & 0x80) == 0) {			//小于 0x0080 */
+//  192 			/*
+//  193 			if(byte0 == 10)
+//  194 				abyte0[l++] = 13;*/
+//  195 				
+//  196 				abyte0[l++] = byte0;
+//  197     	}
+//  198     	else {
+//  199     		int c2 = aj[c1];
+//  200     		if (c2 > maplen1) return NULL;
+//  201 				int j1 = gb2312map[c2] & 0xff;
+//  202       	int k1 = j1 * 3 + 1;				//长度
+//  203       	int l1 = 1;
+//  204       	do {
+//  205 					if(l1 >= k1) break;
+//  206         	if(gb2312map[c2 + l1] == byte0) {
+//  207 						abyte0[l++] = gb2312map[++l1 + c2];
+//  208 						abyte0[l++] = gb2312map[++l1 + c2];
+//  209 						break;
+//  210 					}
+//  211         	l1 += 3;
+??unicode2gb_6:
+        ADD      LR,LR,#+3
+//  212 				} while(1);
+        CMP      LR,R12
+        BLT      ??unicode2gb_7
+??unicode2gb_8:
+        ADD      R0,R0,#+2
+        ADD      R4,R4,#+2
+??unicode2gb_5:
+        LDR      R1,[SP, #+1024]
+        LDR      R1,[R1, #+0]
+        SUB      R1,R1,#+1
+        CMP      R0,R1
+        BGE      ??unicode2gb_9
+        LDRB     R3,[R4, #+1]
+        LDRB     R2,[R4, #+0]
+        ADD      R1,R8,#+1
+        MOVS     R9,R3
+        TSTEQ    R2,#0x80
+        STRBEQ   R2,[R8, +R7]
+        MOVEQ    R8,R1
+        BEQ      ??unicode2gb_8
+        MOV      R9,SP
+        LDR      R3,[R9, +R3, LSL #+2]
+        LDR      R9,[R5, #+4]
+        CMP      R9,R3
+        BLT      ??unicode2gb_0
+        LDRB     R9,[R3, +R6]
+        MOV      LR,#+1
+        ADD      R9,R9,R9, LSL #+1
+        ADD      R12,R9,#+1
+        CMP      R12,#+2
+        BLT      ??unicode2gb_8
+        ADD      R9,R3,R6
+        ADD      R9,R9,#+1
+??unicode2gb_7:
+        LDRB     R10,[R9], #+3
+        CMP      R10,R2
+        BNE      ??unicode2gb_6
+        ADD      LR,LR,#+1
+        ADD      R2,R3,LR
+        ADD      R2,R2,R6
+        LDRB     R3,[R2, #+0]
+        STRB     R3,[R8, +R7]
+        LDRB     R2,[R2, #+1]
+        ADD      R8,R1,#+1
+        STRB     R2,[R1, +R7]
+        B        ??unicode2gb_8
+//  213 			}
+//  214 		}
+//  215 		char *abyte1 = malloc(l);
+??unicode2gb_9:
+        MOV      R0,R8
+        SWI      +20
+        MOV      R4,R0
+//  216 		memcpy(abyte1, abyte0, l);
+        MOV      R2,R8
+        MOV      R1,R7
+        SWI      +286
+//  217 		*len = l;
+        LDR      R0,[SP, #+1024]
+        STR      R8,[R0, #+0]
+//  218 		mfree(abyte0);
+        MOV      R0,R7
+        SWI      +21
+//  219 		return abyte1;
+        MOV      R0,R4
+        ADD      SP,SP,#+4
+        CFI CFA R13+1056
+        ADD      SP,SP,#+1024
+        CFI CFA R13+32
+        POP      {R4-R10,PC}
+        CFI CFA R13+1060
+//  220 	}
+//  221 	else {
+//  222 		ShowMSG(1, (int) "open map file failed!");
+??unicode2gb_3:
+        LDR      R1,??DataTable8  ;; `?<Constant "open map file failed!">`
+        MOV      R0,#+1
+        SWI      +328
+//  223 		return NULL;
+??unicode2gb_0:
+        MOV      R0,#+0
+        ADD      SP,SP,#+4
+        CFI CFA R13+1056
+        ADD      SP,SP,#+1024
+        CFI CFA R13+32
+        POP      {R4-R10,PC}
+        DATA
+??unicode2gb_1:
+        DC32     maplen
+        CFI EndBlock cfiBlock17
+//  224 	}
+//  225 	/*
+//  226 	int ag = 0;
+//  227 	unsigned int ul1 = 0;
+//  228 	int aj[256];
+//  229 	char ai[768];
+//  230 	if ((ag = fopen(MAP1, A_ReadOnly + A_BIN, P_READ, &ul1)) != -1) {
+//  231 		fread(ag, ai, 512, &ul1);
+//  232 		int i = 0;
+//  233 		for(int k = 0; i < 256; k += 2) {
+//  234 			aj[i++] = ((ai[k] & 0xff) << 8) | (ai[k + 1] & 0xff);
+//  235 		}
+//  236 	}
+//  237 	else {
+//  238 		ShowMSG(1, (int) "open map file Error!");
+//  239 		return NULL;
+//  240 	}
+//  241   
+//  242   char *abyte0 = malloc(*len);
+//  243   int l = 0;
+//  244 
+//  245   for(int i1 = 0; i1 < (*len) - 1; i1 += 2) {
+//  246 		char c1 = str[i1 + 1];			//高位
+//  247     char byte0 = str[i1];		//低位
+//  248 		if(c1 == 0 && (byte0 & 0x80) == 0) {			//小于 0x0080 */
+//  249 			/*
+//  250 			if(byte0 == 10)
+//  251 				abyte0[l++] = 13;*/
+//  252 				/*
+//  253 			abyte0[l++] = byte0;
+//  254     }
+//  255     else {
+//  256     	int c2 = aj[c1];
+//  257     	if (!lseek(ag, c2, S_SET, &ul1, &ul1)) {
+//  258     		mfree(abyte0);
+//  259     		fclose(ag, &ul1);
+//  260     		return NULL;
+//  261     	}
+//  262 			fread(ag, ai, 768, &ul1);
+//  263 			int j1 = ai[0] & 0xff;
+//  264       int k1 = j1 * 3 + 1;				//长度
+//  265       int l1 = 1;
+//  266       do {
+//  267 				if(l1 >= k1) break;
+//  268         if(ai[l1] == byte0) {
+//  269 					abyte0[l++] = ai[++l1];
+//  270 					abyte0[l++] = ai[++l1];
+//  271 					break;
+//  272 				}
+//  273         l1 += 3;
+//  274 			} while(1);
+//  275 		}
+//  276 	}
+//  277   
+//  278 	char *abyte1 = malloc(l);
+//  279 	memcpy(abyte1, abyte0, l);
+//  280 	*len = l;
+//  281 	mfree(abyte0);
+//  282 	fclose(ag, &ul1);
+//  283   return abyte1;*/
+//  284 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable7:
+        DC32     gb2312map
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable8:
+        DC32     `?<Constant "open map file failed!">`
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??unicode2utf8??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock18
+        REQUIRE unicode2utf8
+//  285 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function unicode2utf8
+        ARM
+//  286 char* unicode2utf8(char *str, int *len) {
+unicode2utf8:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOV      R4,R1
+        MOV      R6,R0
+//  287 if (!str) return NULL;
+        CMP      R6,#+0
+        MOVEQ    R0,#+0
+        POPEQ    {R4-R6,PC}
+//  288 
+//  289   int i = 0, j = 0;
+//  290   char* s = malloc((*len) << 1);
+        LDR      R0,[R4, #+0]
+        MOV      R5,#+0
+        LSL      R0,R0,#+1
+        SWI      +20
+//  291   
+//  292   int c;
+//  293   for (i = 0; i < (*len) - 1; i += 2) {
+        MOV      R1,#+0
+        B        ??unicode2utf8_0
+//  294     c = (str[i + 1] << 8) | str[i];
+//  295     if (c < 0x80) {  //单字节编码
+//  296       s[j++] = (char) c;
+//  297     }
+//  298     else if (c > 0x7f && c < 0x800) { //双字节编码
+//  299     	s[j++] = (c >> 6) | 0xc0;
+//  300     	s[j++] = c & 0x3f | 0x80;
+//  301     }
+//  302     else if (c > 0x7ff && c < 0x10000) { //三字节编码
+??unicode2utf8_1:
+        CMP      R12,#+65536
+        BGE      ??unicode2utf8_2
+//  303       s[j++] = (c >> 12) | 0xe0;
+        ASR      R12,R12,#+12
+        ORR      R12,R12,#0xE0
+        STRB     R12,[R5, +R0]
+//  304       s[j++] = (c >> 6) & 0x3f | 0x80;
+        AND      R5,LR,#0x3F
+        ORR      R5,R5,#0x80
+        STRB     R5,[R2, +R0]
+        ADD      R2,R2,#+1
+//  305       s[j++] = c & 0x3f | 0x80;
+??unicode2utf8_3:
+        STRB     R3,[R2, +R0]
+        ADD      R5,R2,#+1
+//  306     }
+??unicode2utf8_2:
+        ADD      R1,R1,#+2
+        ADD      R6,R6,#+2
+??unicode2utf8_0:
+        LDR      R2,[R4, #+0]
+        SUB      R2,R2,#+1
+        CMP      R1,R2
+        BGE      ??unicode2utf8_4
+        LDRB     R2,[R6, #+1]
+        LDRB     R3,[R6, #+0]
+        ORR      R12,R3,R2, LSL #+8
+        ADD      R2,R5,#+1
+        CMP      R12,#+128
+        STRBLT   R12,[R5, +R0]
+        MOVLT    R5,R2
+        BLT      ??unicode2utf8_2
+        AND      R3,R12,#0x3F
+        ORR      R3,R3,#0x80
+        ASR      LR,R12,#+6
+        CMP      R12,#+2048
+        BGE      ??unicode2utf8_1
+        ORR      R12,LR,#0xC0
+        STRB     R12,[R5, +R0]
+        B        ??unicode2utf8_3
+//  307   }
+//  308   *len = j;
+??unicode2utf8_4:
+        STR      R5,[R4, #+0]
+//  309   return s; 
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock19
+//  310 }
+
+        RSEG INITTAB:CODE:ROOT(2)
+        DATA
+?init?tab?DATA_Z:
+        DCD      sfe(DATA_Z) - sfb(DATA_Z), sfb(DATA_Z), sfb(DATA_Z)
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "open map file failed!">`:
+        DATA
+        DC8 "open map file failed!"
+        DC8 0, 0
+
+        END
+// 
+//  1 980 bytes in segment CODE
+//     24 bytes in segment DATA_C
+// 32 776 bytes in segment DATA_Z
+//     12 bytes in segment INITTAB
+// 
+//  1 940 bytes of CODE  memory (+ 52 bytes shared)
+//     24 bytes of CONST memory
+// 32 776 bytes of DATA  memory
+//
+//Errors: none
+//Warnings: none

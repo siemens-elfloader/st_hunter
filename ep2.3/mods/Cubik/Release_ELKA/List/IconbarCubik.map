@@ -1,0 +1,592 @@
+################################################################################
+#                                                                              #
+#      IAR Universal Linker V4.60I/386                                         #
+#                                                                              #
+#           Link time     =  10/Nov/2010  19:34:23                             #
+#           Target CPU    =  ARM                                               #
+#           List file     =  D:\pasha\elf\_MY_PROJECT_\Cubik\Release_ELKA\List #
+#                            \IconbarCubik.map                                 #
+#           Output file 1 =  D:\pasha\elf\_MY_PROJECT_\Cubik\Release_ELKA\Exe\ #
+#                            IconbarCubik.elf                                  #
+#                            Format: elf, variant: -ynpra                      #
+#           Command line  =  D:\pasha\elf\_MY_PROJECT_\Cubik\Release_ELKA\Obj\ #
+#                            func.r79                                          #
+#                            D:\pasha\elf\_MY_PROJECT_\Cubik\Release_ELKA\Obj\ #
+#                            main.r79                                          #
+#                            -o                                                #
+#                            D:\pasha\elf\_MY_PROJECT_\Cubik\Release_ELKA\Exe\ #
+#                            IconbarCubik.elf                                  #
+#                            -Felf -l                                          #
+#                            D:\pasha\elf\_MY_PROJECT_\Cubik\Release_ELKA\List #
+#                            \IconbarCubik.map                                 #
+#                            -xmsnio                                           #
+#                            "-ID:\pasha\Embedded Workbench 4.0 Evaluation2\AR #
+#                            M\LIB\"                                           #
+#                            -f D:\pasha\elf\_MY_PROJECT_\Cubik\test.xcl       #
+#                            (-carm -V(CODE)CODE_AREA,12                       #
+#                            -V(DATA)DATA_AREA,12                              #
+#                            -Z(CODE_AREA)ELFBEGIN,DATA_ID,START,CODE,DATA_C,I #
+#                            NITTAB,DATA_Z,DATA_N,CONFIG_C=0-FFFFFFFF          #
+#                            -Z(DATA_AREA)DATA_I=0-FFFFFFFF) -ynpra            #
+#                            "D:\pasha\Embedded Workbench 4.0 Evaluation2\ARM\ #
+#                            LIB\dl5tpainl8n.r79"                              #
+#                            -s main                                           #
+#                                                                              #
+#                        Copyright 1987-2007 IAR Systems. All rights reserved. #
+################################################################################
+
+
+
+
+
+                ****************************************
+                *                                      *
+                *           CROSS REFERENCE            *
+                *                                      *
+                ****************************************
+
+       Program entry at : CODE_AREA 000001F4  Relocatable, from module : main
+
+
+
+
+                ****************************************
+                *                                      *
+                *            RUNTIME MODEL             *
+                *                                      *
+                ****************************************
+
+  StackAlign4  = USED
+  __cpu_mode   = __pcs__interwork
+  __data_model = absolute
+  __endian     = little
+  __rt_version = 6
+
+
+
+                ****************************************
+                *                                      *
+                *              MODULE MAP              *
+                *                                      *
+                ****************************************
+
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  FILE NAME : D:\pasha\elf\_MY_PROJECT_\Cubik\Release_ELKA\Obj\func.r79
+  PROGRAM MODULE, NAME : func
+
+  SEGMENTS IN THE MODULE
+  ======================
+ELFBEGIN
+  Relative segment, address: CODE_AREA 00000000, align: 0
+  Segment part 0. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ELF_BEGIN               00000000 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000048 - 0000004F (0x8 bytes), align: 2
+  Segment part 1. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           kill_data               00000048 
+           seqkill                 0000004C 
+
+    *************************************************************************
+
+  FILE NAME : D:\pasha\elf\_MY_PROJECT_\Cubik\Release_ELKA\Obj\main.r79
+  PROGRAM MODULE, NAME : main
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_C
+  Relative segment, address: CODE_AREA 00000360 - 0000037B (0x1c bytes), align: 2
+  Segment part 2.             Intra module refs:   main
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000037C - 0000039B (0x20 bytes), align: 2
+  Segment part 3.             Intra module refs:   maincsm_onmessage
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ipc_my_name             0000037C 
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 4. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ipc_xtask_name          
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 000004EC - 000004F7 (0xc bytes), align: 2
+  Segment part 5.             Intra module refs:   Segment part 28
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           gipc                    000004EC 
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 000004F8 - 00000507 (0x10 bytes), align: 2
+  Segment part 6.             Intra module refs:   maincsm_onmessage
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           mytmr                   000004F8 
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 7. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           my_csm_id               
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 8. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ErrorNumber             
+    -------------------------------------------------------------------------
+DATA_C
+  Segment part 9. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           percent_t               
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 10. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           old_icsm_onMessage      
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 11. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           old_icsm_onClose        
+    -------------------------------------------------------------------------
+CODE
+  Segment part 18. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 19. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ElfKiller               
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 20. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000050 - 00000053 (0x4 bytes), align: 2
+  Segment part 21.            Intra module refs:   maincsm_onmessage
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           TimerProc               00000050 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 22. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000054 - 00000067 (0x14 bytes), align: 2
+  Segment part 23.            Intra module refs:   maincsm_onmessage
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           toupper                 00000054 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 24. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000068 - 000000EB (0x84 bytes), align: 2
+  Segment part 25.            Intra module refs:   Segment part 16
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           maincsm_onmessage       00000068 
+               stack 1 = 00000000 ( 00000014 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 26. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000000EC, align: 2
+  Segment part 27.            Intra module refs:   Segment part 16
+           LOCAL                   ADDRESS         
+           =====                   =======         
+           maincsm_oncreate        000000EC 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000000EC - 00000113 (0x28 bytes), align: 2
+  Segment part 28.            Intra module refs:   TimerProc
+                                                   maincsm_oncreate
+    -------------------------------------------------------------------------
+CODE
+  Segment part 29. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000114 - 00000117 (0x4 bytes), align: 2
+  Segment part 30.            Intra module refs:   Segment part 16
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           maincsm_onclose         00000114 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 31. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000118 - 000001BB (0xa4 bytes), align: 2
+  Segment part 32.            Intra module refs:   addIconBar
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Random                  00000118 
+               stack 1 = 00000000 ( 00000024 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 33. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 0000039C - 000004CF (0x134 bytes), align: 2
+  Segment part 12.            Intra module refs:   Random
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           rndtab                  000003D0 
+    -------------------------------------------------------------------------
+DATA_Z
+  Relative segment, address: CODE_AREA 00000508 - 0000061F (0x118 bytes), align: 2
+  Segment part 13.            Intra module refs:   Segment part 16
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000004D0 - 000004D3 (0x4 bytes), align: 2
+  Segment part 14.            Intra module refs:   Segment part 16
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           minus11                 000004D0 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000001BC - 000001F3 (0x38 bytes), align: 2
+  Segment part 34.            Intra module refs:   Segment part 39
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           addIconBar              000001BC 
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 35. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 00000000 - 00000047 (0x48 bytes), align: 2
+  Segment part 15.            Intra module refs:   main
+    -------------------------------------------------------------------------
+CODE
+  Segment part 36. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SetIconBarHandler       
+               not allocated function
+    -------------------------------------------------------------------------
+CODE
+  Segment part 37. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_Z
+  Segment part 17. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           icsmd                   
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 000001F4 - 0000025F (0x6c bytes), align: 2
+  Segment part 38.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           main                    000001F4        Absolute parts (?ABS_ENTRY_MOD)
+               stack 1 = 00000000 ( 00000038 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000260 - 00000263 (0x4 bytes), align: 2
+  Segment part 39.            Intra module refs:   main
+    -------------------------------------------------------------------------
+CODE
+  Segment part 40. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Segment part 41. NOT NEEDED.Intra module refs:   Random
+    -------------------------------------------------------------------------
+CODE
+  Segment part 42. NOT NEEDED.Intra module refs:   Random
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000000 - 00000047 (0x48 bytes), align: 2
+  Segment part 16.            Intra module refs:   Segment part 15
+    -------------------------------------------------------------------------
+DATA_ID
+  Segment part 43. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?*?DATA_ID              
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 000004D4 - 000004DF (0xc bytes), align: 2
+  Segment part 44. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_I        000004D4 
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 000004E0 - 000004EB (0xc bytes), align: 2
+  Segment part 45. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_Z        000004E0 
+    -------------------------------------------------------------------------
+ELFBEGIN
+  Segment part 46. NOT NEEDED.
+
+    *************************************************************************
+
+  FILE NAME : D:\pasha\Embedded Workbench 4.0 Evaluation2\ARM\LIB\dl5tpainl8n.r79
+  LIBRARY MODULE, NAME : ?div_module
+
+  SEGMENTS IN THE MODULE
+  ======================
+CODE
+  Segment part 0. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu8_t               
+    -------------------------------------------------------------------------
+CODE
+  Segment part 1. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu8_a               
+    -------------------------------------------------------------------------
+CODE
+  Segment part 2. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu16_t              
+    -------------------------------------------------------------------------
+CODE
+  Segment part 3. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu16_a              
+    -------------------------------------------------------------------------
+CODE
+  Segment part 4. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu32_t              
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000264 - 0000026F (0xc bytes), align: 2
+  Segment part 5.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??divu32_a              00000264        Random (main)
+    -------------------------------------------------------------------------
+CODE
+  Segment part 6. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div8_t                
+    -------------------------------------------------------------------------
+CODE
+  Segment part 7. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div8_a                
+    -------------------------------------------------------------------------
+CODE
+  Segment part 8. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div16_t               
+    -------------------------------------------------------------------------
+CODE
+  Segment part 9. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div16_a               
+    -------------------------------------------------------------------------
+CODE
+  Segment part 10. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div32_t               
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000270 - 00000287 (0x18 bytes), align: 2
+  Segment part 11.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ??div32_a               00000270        Random (main)
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000288 - 0000035F (0xd8 bytes), align: 2
+  Segment part 12.            Intra module refs:   ??div32_a
+                                                   ??divu32_a
+
+
+
+
+                ****************************************
+                *                                      *
+                *            MODULE SUMMARY            *
+                *                                      *
+                ****************************************
+
+Module        CODE   DATA
+------        ----   ----
+             (Rel)  (Rel)
+?div_module    252
+func             8
+main         1 308     72
+------       -----     --
+Total:       1 568     72
+
+
+                ****************************************
+                *                                      *
+                *              CALL GRAPH              *
+                *                                      *
+                ****************************************
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  TimerProc
+      | Stack used (prev) :  00000000
+      | + function block  :  00000004
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000004
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  maincsm_onmessage
+      | Stack used (prev) :  00000000
+      | + function block  :  00000014
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000014
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  maincsm_oncreate
+      | Stack used (prev) :  00000000
+      | + function block  :  00000004
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000004
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  maincsm_onclose
+      | Stack used (prev) :  00000000
+      | + function block  :  00000000
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000000
+
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  addIconBar
+      | Stack used (prev) :  00000000
+      | + function block  :  00000008
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000008
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000014
+  01  toupper
+      | Stack used (prev) :  00000014
+      | + function block  :  00000000
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000014
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000014
+  01  Random
+      | Stack used (prev) :  00000014
+      | + function block  :  00000024
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000038
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000038
+  01  main
+      | Stack used (prev) :  00000038
+      | + function block  :  00000038
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000070
+
+
+
+
+                ****************************************
+                *                                      *
+                *      SEGMENTS IN ADDRESS ORDER       *
+                *                                      *
+                ****************************************
+
+
+SEGMENT              SPACE    START ADDRESS   END ADDRESS     SIZE  TYPE  ALIGN
+=======              =====    =============   ===========     ====  ====  =====
+ELFBEGIN             CODE_AREA           00000000                     rel    0
+DATA_ID              CODE_AREA      00000000 - 00000047          48   rel    2
+START                CODE_AREA           00000048                     dse    0
+CODE                 CODE_AREA      00000048 - 0000035F         318   rel    2
+DATA_C               CODE_AREA      00000360 - 000004D3         174   rel    2
+INITTAB              CODE_AREA      000004D4 - 000004EB          18   rel    2
+DATA_Z               CODE_AREA      000004EC - 0000061F         134   rel    2
+DATA_I               DATA_AREA      00000000 - 00000047          48   rel    2
+
+                ****************************************
+                *                                      *
+                *        END OF CROSS REFERENCE        *
+                *                                      *
+                ****************************************
+
+ 1 568 bytes of CODE memory
+    72 bytes of DATA memory
+
+Errors: none
+Warnings: none
+

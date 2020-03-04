@@ -1,0 +1,1552 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    04/Apr/2008  21:10:18 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod\mainmenu.c      #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod\mainmenu.c -D   #
+#                       X75 --preprocess D:\Pasha\elf\_MY_PROJECT_\naticq_mo #
+#                       d\Release_SGOLD_X75\List\ -lC                        #
+#                       D:\Pasha\elf\_MY_PROJECT_\naticq_mod\Release_SGOLD_X #
+#                       75\List\ -o D:\Pasha\elf\_MY_PROJECT_\naticq_mod\Rel #
+#                       ease_SGOLD_X75\Obj\ -s9 --no_unroll --cpu_mode arm   #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --fpu None --dlib_config              #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod\Release_SGOLD_X #
+#                       75\List\mainmenu.lst                                 #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod\Release_SGOLD_X #
+#                       75\Obj\mainmenu.r79                                  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT_\naticq_mod\mainmenu.c
+      1          #include "../inc/swilib.h"
+      2          #include "../inc/cfg_items.h"
+      3          #include "../inc/pnglist.h"
+      4          #include "NatICQ.h"
+      5          #include "history.h"
+      6          #include "mainmenu.h"
+      7          #include "main.h"
+      8          #include "conf_loader.h"
+      9          #include "status_change.h"
+     10          #include "language.h"
+     11          #include "revision.h"
+     12          #include "manage_cl.h"
+     13          #include "rect_patcher.h"
+     14          #include "cl_work.h"
+     15          
+     16          //==============================================================================
+     17          int MainMenu_ID;
+     18          
+     19          extern int CurrentStatus;
+     20          extern int CurrentXStatus;
+     21          extern DYNPNGICONLIST *XStatusesImgList;
+     22          extern int *XStatusesIconArray;
+     23          extern  int S_ICONS[];
+     24          extern const SOFTKEYSTAB menu_skt;
+     25          extern int Is_INC_On;
+     26          extern int Is_SLI_On;
+     27          extern int Is_SMARTCPU_On;
+     28          extern int Is_ILU_On;
+     29          extern int Is_Double_Vibra_On;
+     30          int janis;
+     31          extern int Is_PING_On;
+     32          extern int Is_UPTIME_On;
+     33          extern int Is_Vibra_Enabled;
+     34          #ifdef NEWSGOLD
+     35          extern int Is_Id3tag_Enabled;
+     36          #endif
+     37          extern unsigned int Is_Sounds_Enabled; 
+     38          extern int Is_Show_Offline;
+     39          extern int Is_Show_Groups;
+     40          
+     41          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     42          static void ChangeVibraMode(void)
+     43          {
+     44            Is_Vibra_Enabled=!(Is_Vibra_Enabled);
+   \                     ChangeVibraMode:
+   \   00000000   ........           LDR      R0,??DataTable21  ;; Is_Vibra_Enabled
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+     45            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable18  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+     46            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+     47          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+     48          #ifdef NEWSGOLD
+     49          static void ChangeId3tagMode(void)
+     50          {
+     51            Is_Id3tag_Enabled=!(Is_Id3tag_Enabled);
+     52            SUBPROC((void*)WriteDefSettings);
+     53            RefreshGUI();
+     54            set_my_xstatus();
+     55          }
+     56          #endif
+     57          
+     58          extern int msg_away_timer;
+     59          extern GBSTMR away_tmr;
+     60          extern void away_timer();
+     61          extern int main_d;
+     62          extern int away_m;
+     63          extern unsigned int AUTO_ENGADE;
+     64          
+     65          extern void UpdateCLheader(void);
+     66          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     67          static void AutoAwayMSG(void)
+     68          {
+     69           if(!away_m)
+   \                     AutoAwayMSG:
+   \   00000000   ........           LDR      R0,??DataTable20  ;; away_m
+   \   00000004   30402DE9           PUSH     {R4,R5,LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   50409FE5           LDR      R4,??AutoAwayMSG_0  ;; msg_away_timer
+   \   00000010   000051E3           CMP      R1,#+0
+   \   00000014   0C00001A           BNE      ??AutoAwayMSG_1
+     70            {
+     71             away_m=!away_m;
+   \   00000018   0150A0E3           MOV      R5,#+1
+   \   0000001C   005080E5           STR      R5,[R0, #+0]
+     72             GBS_StopTimer(&away_tmr);
+   \   00000020   40009FE5           LDR      R0,??AutoAwayMSG_0+0x4  ;; away_tmr
+   \   00000024   440100EF           SWI      +324
+     73             msg_away_timer=AUTO_ENGADE;
+   \   00000028   3C009FE5           LDR      R0,??AutoAwayMSG_0+0x8  ;; AUTO_ENGADE
+   \   0000002C   000090E5           LDR      R0,[R0, #+0]
+   \   00000030   000084E5           STR      R0,[R4, #+0]
+     74             away_timer();
+   \   00000034   ........           _BLF     away_timer,??away_timer??rA
+     75             main_d=1;
+   \   00000038   30009FE5           LDR      R0,??AutoAwayMSG_0+0xC  ;; main_d
+   \   0000003C   005080E5           STR      R5,[R0, #+0]
+   \   00000040   ........           _BLF     UpdateCLheader,??UpdateCLheader??rA
+   \   00000044   960100EF           SWI      +406
+   \   00000048   3080BDE8           POP      {R4,R5,PC}
+     76            }
+     77           else
+     78            {
+     79             msg_away_timer=0;
+   \                     ??AutoAwayMSG_1:
+   \   0000004C   0010A0E3           MOV      R1,#+0
+   \   00000050   001084E5           STR      R1,[R4, #+0]
+     80             away_m=!away_m;
+   \   00000054   001080E5           STR      R1,[R0, #+0]
+     81            }
+     82           UpdateCLheader();
+   \   00000058   ........           _BLF     UpdateCLheader,??UpdateCLheader??rA
+     83           RefreshGUI();
+   \   0000005C   960100EF           SWI      +406
+     84          }
+   \   00000060   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??AutoAwayMSG_0:
+   \   00000064   ........           DC32     msg_away_timer
+   \   00000068   ........           DC32     away_tmr
+   \   0000006C   ........           DC32     AUTO_ENGADE
+   \   00000070   ........           DC32     main_d
+     85          
+     86          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     87          static void ChangeSoundMode(void)
+     88          {
+     89            Is_Sounds_Enabled=!(Is_Sounds_Enabled);
+   \                     ChangeSoundMode:
+   \   00000000   ........           LDR      R0,??DataTable22  ;; Is_Sounds_Enabled
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+     90            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable18  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+     91            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+     92          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+     93          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     94          static void ChangeShowOfflineMode(void)
+     95          {
+     96            void RecountMenu(CLIST *req, int needfocus);
+     97            Is_Show_Offline=!(Is_Show_Offline);
+   \                     ChangeShowOfflineMode:
+   \   00000000   ........           LDR      R0,??DataTable28  ;; Is_Show_Offline
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+     98            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable18  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+     99            RecountMenu(NULL,1);
+   \   00000024   0110A0E3           MOV      R1,#+1
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   ........           _BLF     RecountMenu,??RecountMenu??rA
+    100            RefreshGUI();
+   \   00000030   960100EF           SWI      +406
+    101          }
+   \   00000034   0080BDE8           POP      {PC}             ;; return
+    102          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    103          static void ChangeShowGroupsMode(void)
+    104          {
+    105            void RecountMenu(CLIST *req,int needfocus);
+    106            Is_Show_Groups=!(Is_Show_Groups);
+   \                     ChangeShowGroupsMode:
+   \   00000000   ........           LDR      R0,??DataTable29  ;; Is_Show_Groups
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    107            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable18  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    108            ResortCL();
+   \   00000024   ........           _BLF     ResortCL,??ResortCL??rA
+    109            RecountMenu(NULL,1);
+   \   00000028   0110A0E3           MOV      R1,#+1
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   ........           _BLF     RecountMenu,??RecountMenu??rA
+    110            RefreshGUI();
+   \   00000034   960100EF           SWI      +406
+    111          }
+   \   00000038   0080BDE8           POP      {PC}             ;; return
+    112          extern int get_file_size(char* fname);
+
+   \                                 In segment CODE, align 4, keep-with-next
+    113          static void EditConfig(void)
+    114          {
+   \                     EditConfig:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    115            WSHDR *ws;
+    116            ws=AllocWS(150);
+    117            if(get_file_size("4:\\zbin\\etc\\NATICQ.bcfg"))
+   \   00000004   4C509FE5           LDR      R5,??EditConfig_0  ;; `?<Constant "4:\\\\zbin\\\\etc\\\\NATICQ.bcfg">`
+   \   00000008   9600A0E3           MOV      R0,#+150
+   \   0000000C   250100EF           SWI      +293
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   0500A0E1           MOV      R0,R5
+   \   00000018   ........           _BLF     get_file_size,??get_file_size??rA
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   8020A0E3           MOV      R2,#+128
+    118              str_2ws(ws,"4:\\zbin\\etc\\NATICQ.bcfg",128);
+   \   00000024   0510A011           MOVNE    R1,R5
+    119            else
+    120              str_2ws(ws,"0:\\zbin\\etc\\NATICQ.bcfg",128);
+   \   00000028   18108502           ADDEQ    R1,R5,#+24
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   6C0100EF           SWI      +364
+    121            ExecuteFile(ws,0,0);
+   \   00000034   0020A0E3           MOV      R2,#+0
+   \   00000038   0010A0E3           MOV      R1,#+0
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   940000EF           SWI      +148
+    122            FreeWS(ws);
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   290100EF           SWI      +297
+    123            GeneralFuncF1(1);
+   \   0000004C   0100A0E3           MOV      R0,#+1
+   \   00000050   3B0100EF           SWI      +315
+    124          }
+   \   00000054   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??EditConfig_0:
+   \   00000058   ........           DC32     `?<Constant "4:\\\\zbin\\\\etc\\\\NATICQ.bcfg">`
+    125          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    126          static void EditConfigMod(void)
+    127          {
+   \                     EditConfigMod:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    128            WSHDR *ws;
+    129            ws=AllocWS(150);
+    130            if(get_file_size("4:\\zbin\\etc\\NATICQMod.bcfg"))
+   \   00000004   4C509FE5           LDR      R5,??EditConfigMod_0  ;; `?<Constant "4:\\\\zbin\\\\etc\\\\NATICQMod...">`
+   \   00000008   9600A0E3           MOV      R0,#+150
+   \   0000000C   250100EF           SWI      +293
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   0500A0E1           MOV      R0,R5
+   \   00000018   ........           _BLF     get_file_size,??get_file_size??rA
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   8020A0E3           MOV      R2,#+128
+    131              str_2ws(ws,"4:\\zbin\\etc\\NATICQMod.bcfg",128);
+   \   00000024   0510A011           MOVNE    R1,R5
+    132            else
+    133              str_2ws(ws,"0:\\zbin\\etc\\NATICQMod.bcfg",128);
+   \   00000028   1C108502           ADDEQ    R1,R5,#+28
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   6C0100EF           SWI      +364
+    134            ExecuteFile(ws,0,0);
+   \   00000034   0020A0E3           MOV      R2,#+0
+   \   00000038   0010A0E3           MOV      R1,#+0
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   940000EF           SWI      +148
+    135            FreeWS(ws);
+   \   00000044   0400A0E1           MOV      R0,R4
+   \   00000048   290100EF           SWI      +297
+    136            GeneralFuncF1(1);
+   \   0000004C   0100A0E3           MOV      R0,#+1
+   \   00000050   3B0100EF           SWI      +315
+    137          }
+   \   00000054   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??EditConfigMod_0:
+   \   00000058   ........           DC32     `?<Constant "4:\\\\zbin\\\\etc\\\\NATICQMod...">`
+    138          
+    139          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    140          static void Disconnect(void)
+    141          {
+    142            extern volatile int disautorecconect;
+    143            disautorecconect=1;
+   \                     Disconnect:
+   \   00000000   1C009FE5           LDR      R0,??Disconnect_0  ;; disautorecconect
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   0110A0E3           MOV      R1,#+1
+   \   0000000C   001080E5           STR      R1,[R0, #+0]
+    144            extern void end_socket(void);
+    145            SUBPROC((void*)end_socket);
+   \   00000010   10009FE5           LDR      R0,??Disconnect_0+0x4  ;; end_socket
+   \   00000014   710100EF           SWI      +369
+    146            GeneralFuncF1(1);
+   \   00000018   0100A0E3           MOV      R0,#+1
+   \   0000001C   3B0100EF           SWI      +315
+    147          }
+   \   00000020   0080BDE8           POP      {PC}             ;; return
+   \                     ??Disconnect_0:
+   \   00000024   ........           DC32     disautorecconect
+   \   00000028   ........           DC32     end_socket
+    148          
+    149          extern int uins;
+    150          char hmm1[64];
+    151          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    152          static void PingToServer(void)
+    153          {
+    154            janis=1;
+   \                     PingToServer:
+   \   00000000   4C009FE5           LDR      R0,??PingToServer_0  ;; janis
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   0110A0E3           MOV      R1,#+1
+   \   0000000C   001080E5           STR      R1,[R0, #+0]
+    155            TPKT *p;
+    156            p=malloc(sizeof(PKT)+sizeof(TTime));
+   \   00000010   1000A0E3           MOV      R0,#+16
+   \   00000014   140000EF           SWI      +20
+   \   00000018   0040A0E1           MOV      R4,R0
+    157            GetDateTime(NULL,(TTime *)p->data);
+   \   0000001C   081084E2           ADD      R1,R4,#+8
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   B40000EF           SWI      +180
+    158            p->pkt.uin=0;
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   000084E5           STR      R0,[R4, #+0]
+    159            p->pkt.type=T_ECHO;
+   \   00000030   1200A0E3           MOV      R0,#+18
+   \   00000034   B400C4E1           STRH     R0,[R4, #+4]
+    160            p->pkt.data_len=sizeof(TTime);
+   \   00000038   0800A0E3           MOV      R0,#+8
+   \   0000003C   B600C4E1           STRH     R0,[R4, #+6]
+    161            SUBPROC((void *)SendAnswer,0,p);
+   \   00000040   10009FE5           LDR      R0,??PingToServer_0+0x4  ;; SendAnswer
+   \   00000044   0420A0E1           MOV      R2,R4
+   \   00000048   0010A0E3           MOV      R1,#+0
+   \   0000004C   710100EF           SWI      +369
+    162          }
+   \   00000050   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??PingToServer_0:
+   \   00000054   ........           DC32     janis
+   \   00000058   ........           DC32     SendAnswer
+    163          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    164          static void AboutDlg()
+    165          {
+    166            char s[256];
+    167            snprintf(s,255,LG_COPYRIGHT,__SVN_REVISION__);
+   \                     AboutDlg:
+   \   00000000   2C209FE5           LDR      R2,??AboutDlg_0  ;; `?<Constant "NATICQ v2.0\\nRevision ...">`
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   40DF4DE2           SUB      SP,SP,#+256
+   \   0000000C   0A30A0E3           MOV      R3,#+10
+   \   00000010   803E83E3           ORR      R3,R3,#0x800
+   \   00000014   FF10A0E3           MOV      R1,#+255
+   \   00000018   0D00A0E1           MOV      R0,SP
+   \   0000001C   1B0100EF           SWI      +283
+    168            ShowMSG(2, (int)s);
+   \   00000020   0D10A0E1           MOV      R1,SP
+   \   00000024   0200A0E3           MOV      R0,#+2
+   \   00000028   480100EF           SWI      +328
+    169          }
+   \   0000002C   40DF8DE2           ADD      SP,SP,#+256
+   \   00000030   0080BDE8           POP      {PC}             ;; return
+   \                     ??AboutDlg_0:
+   \   00000034   ........           DC32     `?<Constant "NATICQ v2.0\\nRevision ...">`
+    170          
+    171          static const HEADER_DESC menuhdr={0,0,0,0,NULL,(int)LG_MENU,LGP_NULL};
+    172          
+    173          static const int mmenusoftkeys[]={0,1,2};
+    174          
+    175          //Переходим к универсальности!!!
+    176          #ifdef NEWSGOLD
+    177            #ifdef ELKA
+    178              #ifdef kluchnik
+    179                #define MENU_ITEMS 22
+    180              #else
+    181                #define MENU_ITEMS 22//ELKA
+    182              #endif
+    183            #else
+    184                #define MENU_ITEMS 21//NEWSGOLD
+    185            #endif
+    186          #else
+    187            #define MENU_ITEMS 19//SGOLD
+    188          #endif
+    189          
+    190          static const char * const menutexts[MENU_ITEMS]=
+    191          {
+    192            LG_MNUSTATUS,
+    193            LG_MNUXSTATUS,
+    194            LG_MANAGELIST,
+    195          #ifdef NEWSGOLD
+    196            LG_ID3TAG,
+    197          #endif
+    198            LG_AUTOANSWER,//"Автоответчик",
+    199            LG_MNUVIBRA,
+    200            LG_MNUSOUND,
+    201          #ifdef NEWSGOLD
+    202            LG_INCMSG,
+    203          #endif
+    204          #ifdef ELKA
+    205            LG_MNUSLION, 
+    206          #endif
+    207            LG_MNUSMARTCPU,
+    208            LG_REMINDERON,
+    209            LG_MNUILUON,
+    210            LG_MNUPINGON,
+    211            LG_MNUUPTIMEON,
+    212            LG_MNUSHOWOFF,
+    213            LG_MNUSHOWGROUP,
+    214            LG_MNUEDCFG,
+    215            LG_MNUEDCFG_MOD,
+    216            LG_MNUDISCONNECT,
+    217            LG_MSGINFO,
+    218            LG_MNUPING,
+    219            LG_MNUABOUT
+    220          };
+    221          
+    222          #ifdef ELKA
+    223          static void ChangeSLIMode(void)
+    224          {
+    225            Is_SLI_On=!(Is_SLI_On);
+    226            SUBPROC((void*)WriteDefSettings);
+    227            RefreshGUI();
+    228          }
+    229          #endif
+
+   \                                 In segment CODE, align 4, keep-with-next
+    230          static void ChangeSMARTCPUMode(void)
+    231          {
+    232            Is_SMARTCPU_On=!(Is_SMARTCPU_On);
+   \                     ChangeSMARTCPUMode:
+   \   00000000   ........           LDR      R0,??DataTable23  ;; Is_SMARTCPU_On
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    233            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable18  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    234            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    235          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+    236          #ifdef NEWSGOLD
+    237          static void ChangeINCMode(void)
+    238          {
+    239            Is_INC_On=!(Is_INC_On);
+    240            SUBPROC((void*)WriteDefSettings);
+    241            RefreshGUI();
+    242          }
+    243          #endif
+
+   \                                 In segment CODE, align 4, keep-with-next
+    244          static void ChangeILUMode(void)
+    245          {
+    246            Is_ILU_On=!(Is_ILU_On);
+   \                     ChangeILUMode:
+   \   00000000   ........           LDR      R0,??DataTable25  ;; Is_ILU_On
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    247            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable18  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    248            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    249          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+    250          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    251          static void ChangePINGMode(void)
+    252          {
+    253            Is_PING_On=!(Is_PING_On);
+   \                     ChangePINGMode:
+   \   00000000   ........           LDR      R0,??DataTable26  ;; Is_PING_On
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    254            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable18  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    255            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    256          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+    257          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    258          static void ChangeUPTIMEMode(void)
+    259          {
+    260            Is_UPTIME_On=!(Is_UPTIME_On);
+   \                     ChangeUPTIMEMode:
+   \   00000000   ........           LDR      R0,??DataTable27  ;; Is_UPTIME_On
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    261            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable18  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    262            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    263          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+    264          
+    265          int main_count;
+    266          int main2_count;
+    267          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    268          static void MSG_Info(void)
+    269          {
+   \                     MSG_Info:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    270            char *info=malloc(64);
+   \   00000004   4000A0E3           MOV      R0,#+64
+   \   00000008   140000EF           SWI      +20
+    271            sprintf(info, "Отправлено: %d\n"
+    272                          "Принято: %d", main2_count, main_count);
+   \   0000000C   2C109FE5           LDR      R1,??MSG_Info_0  ;; `?<Constant "\\316\\362\\357\\360\\340\\342\\353\\345\\3`
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   28009FE5           LDR      R0,??MSG_Info_0+0x4  ;; main_count
+   \   00000018   003090E5           LDR      R3,[R0, #+0]
+   \   0000001C   042090E5           LDR      R2,[R0, #+4]
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   160000EF           SWI      +22
+    273            ShowMSG(1,(int)info);
+   \   00000028   0410A0E1           MOV      R1,R4
+   \   0000002C   0100A0E3           MOV      R0,#+1
+   \   00000030   480100EF           SWI      +328
+    274            mfree(info);
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   150000EF           SWI      +21
+    275          }
+   \   0000003C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??MSG_Info_0:
+   \   00000040   ........           DC32     `?<Constant "\\316\\362\\357\\360\\340\\342\\353\\345\\3`
+   \   00000044   ........           DC32     main_count
+    276          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    277          static void ChangeDoubleVibra(void)
+    278          {
+    279            Is_Double_Vibra_On=!(Is_Double_Vibra_On);
+   \                     ChangeDoubleVibra:
+   \   00000000   ........           LDR      R0,??DataTable24  ;; Is_Double_Vibra_On
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   001090E5           LDR      R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0110A003           MOVEQ    R1,#+1
+   \   00000014   0010A013           MOVNE    R1,#+0
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    280            SUBPROC((void*)WriteDefSettings);
+   \   0000001C   ........           LDR      R0,??DataTable18  ;; WriteDefSettings
+   \   00000020   710100EF           SWI      +369
+    281            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    282          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    283          static const void *menuprocs[MENU_ITEMS]=
+   \                     menuprocs:
+   \   00000000                      DS8 76
+   \   0000004C                      REQUIRE `?<Initializer for menuprocs>`
+    284          {
+    285            (void *)DispStatusChangeMenu,
+    286            (void *)DispXStatusChangeMenu,
+    287            (void *)CreateManageCLMenu,
+    288          #ifdef NEWSGOLD
+    289            (void *)ChangeId3tagMode,
+    290          #endif
+    291            (void *)AutoAwayMSG,
+    292            (void *)ChangeVibraMode,
+    293            (void *)ChangeSoundMode,
+    294          #ifdef NEWSGOLD
+    295            (void *)ChangeINCMode,
+    296          #endif
+    297          #ifdef ELKA
+    298            (void *)ChangeSLIMode,
+    299          #endif
+    300            (void *)ChangeSMARTCPUMode,
+    301            (void *)ChangeDoubleVibra,
+    302            (void *)ChangeILUMode,
+    303            (void *)ChangePINGMode,
+    304            (void *)ChangeUPTIMEMode,
+    305            (void *)ChangeShowOfflineMode,
+    306            (void *)ChangeShowGroupsMode,
+    307            (void *)EditConfig,
+    308            (void *)EditConfigMod,
+    309            (void *)Disconnect, 
+    310            (void *)MSG_Info,
+    311            (void *)PingToServer,
+    312            (void *)AboutDlg,
+    313          };
+    314          
+    315          static const SOFTKEY_DESC mmenu_sk[]=
+    316          {
+    317            {0x0018,0x0000,(int)LG_SELECT},
+    318            {0x0001,0x0000,(int)LG_BACK},
+    319            {0x003D,0x0000,(int)LGP_DOIT_PIC}
+    320          };
+    321          
+    322          static const SOFTKEYSTAB mmenu_skt=
+    323          {
+    324            mmenu_sk,0
+    325          };
+    326          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    327          void tmenu_ghook(void *data, int cmd)
+    328          {
+   \                     tmenu_ghook:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    329            PNGTOP_DESC *pltop=PNG_TOP();
+   \   00000008   B98100EF           SWI      +33209
+    330            if (cmd==9)
+   \   0000000C   090054E3           CMP      R4,#+9
+    331            {
+    332              pltop->dyn_pltop=NULL;
+   \   00000010   0010A003           MOVEQ    R1,#+0
+   \   00000014   08108005           STREQ    R1,[R0, #+8]
+   \   00000018   1080BD08           POPEQ    {R4,PC}
+    333            }
+    334            if (cmd==0x0A)
+   \   0000001C   0A0054E3           CMP      R4,#+10
+   \   00000020   1080BD18           POPNE    {R4,PC}
+    335            {
+    336              pltop->dyn_pltop=XStatusesImgList;
+   \   00000024   0C109FE5           LDR      R1,??tmenu_ghook_0  ;; XStatusesImgList
+   \   00000028   001091E5           LDR      R1,[R1, #+0]
+   \   0000002C   081080E5           STR      R1,[R0, #+8]
+    337              DisableIDLETMR();
+   \   00000030   7F0100EF           SWI      +383
+    338            }
+    339          }
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??tmenu_ghook_0:
+   \   00000038   ........           DC32     XStatusesImgList
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    340          
+    341          static int icon_array[2];
+   \                     icon_array:
+   \   00000000                      DS8 8
+   \                     MainMenu_ID:
+   \   00000008                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     janis:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     hmm1:
+   \   00000000                      DS8 64
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     main_count:
+   \   00000000                      DS8 4
+   \                     main2_count:
+   \   00000004                      DS8 4
+    342          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    343          static void menuitemhandler(void *data, int curitem, void *unk)
+    344          {
+   \                     menuitemhandler:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+    345            WSHDR *ws;
+    346            void *item=AllocMenuItem(data);
+   \   0000000C   970100EF           SWI      +407
+   \   00000010   0060A0E1           MOV      R6,R0
+   \   00000014   4C019FE5           LDR      R0,??menuitemhandler_1  ;; menutexts
+   \   00000018   058190E7           LDR      R8,[R0, +R5, LSL #+2]
+   \   0000001C   0800A0E1           MOV      R0,R8
+    347            extern const char percent_t[];
+    348            ws=AllocMenuWS(data,strlen(menutexts[curitem]));
+   \   00000020   1B0000EF           SWI      +27
+   \   00000024   0010A0E1           MOV      R1,R0
+   \   00000028   0400A0E1           MOV      R0,R4
+   \   0000002C   980100EF           SWI      +408
+    349            wsprintf(ws,percent_t,menutexts[curitem]);
+   \   00000030   34119FE5           LDR      R1,??menuitemhandler_1+0x4  ;; percent_t
+   \   00000034   0070A0E1           MOV      R7,R0
+   \   00000038   0820A0E1           MOV      R2,R8
+   \   0000003C   240100EF           SWI      +292
+    350            switch(curitem)
+   \   00000040   ........           LDR      R0,??DataTable30  ;; icon_array
+   \   00000044   24219FE5           LDR      R2,??menuitemhandler_1+0x8  ;; S_ICONS
+   \   00000048   0510A0E1           MOV      R1,R5
+   \   0000004C   110051E3           CMP      R1,#+17
+   \   00000050   3E00008A           BHI      ??menuitemhandler_2
+   \   00000054   013F8FE2           ADR      R3,??menuitemhandler_0
+   \   00000058   0130D3E7           LDRB     R3,[R3, R1]
+   \   0000005C   03F18FE0           ADD      PC,PC,R3, LSL #+2
+   \                     ??menuitemhandler_0:
+   \   00000060   04080E10           DC8      +4,+8,+14,+16
+   \   00000064   17192022           DC8      +23,+25,+32,+34
+   \   00000068   24262D2F           DC8      +36,+38,+45,+47
+   \   0000006C   31333835           DC8      +49,+51,+56,+53
+   \   00000070   37370000           DC8      +55,+55,+0,+0
+    351            {
+    352            case 0:
+    353              SetMenuItemIconArray(data,item,S_ICONS+CurrentStatus);
+   \                     ??menuitemhandler_3:
+   \   00000074   F8009FE5           LDR      R0,??menuitemhandler_1+0xC  ;; CurrentStatus
+   \   00000078   000090E5           LDR      R0,[R0, #+0]
+   \   0000007C   002182E0           ADD      R2,R2,R0, LSL #+2
+   \   00000080   2F0000EA           B        ??menuitemhandler_4
+    354              break;
+    355            case 1:
+    356              SetMenuItemIconArray(data,item,XStatusesIconArray+CurrentXStatus);
+   \                     ??menuitemhandler_5:
+   \   00000084   EC009FE5           LDR      R0,??menuitemhandler_1+0x10  ;; CurrentXStatus
+   \   00000088   EC109FE5           LDR      R1,??menuitemhandler_1+0x14  ;; XStatusesIconArray
+   \   0000008C   000090E5           LDR      R0,[R0, #+0]
+   \   00000090   001091E5           LDR      R1,[R1, #+0]
+   \   00000094   002181E0           ADD      R2,R1,R0, LSL #+2
+   \   00000098   290000EA           B        ??menuitemhandler_4
+    357              break;
+    358            case 2:
+    359              SetMenuItemIconArray(data,item,S_ICONS+ICON_ADDCONTACT);
+   \                     ??menuitemhandler_6:
+   \   0000009C   482082E2           ADD      R2,R2,#+72
+   \   000000A0   270000EA           B        ??menuitemhandler_4
+    360              break;
+    361          #ifdef NEWSGOLD
+    362            case 3:
+    363              SetMenuItemIconArray(data,item,icon_array+(Is_Id3tag_Enabled?0:1));
+    364              break;
+    365            case 4:
+    366              SetMenuItemIconArray(data,item,icon_array+(away_m?0:1));
+    367              break;
+    368            case 5:
+    369              SetMenuItemIconArray(data,item,icon_array+(Is_Vibra_Enabled?0:1));
+    370              break;
+    371            case 6:
+    372              SetMenuItemIconArray(data,item,icon_array+(Is_Sounds_Enabled?0:1));
+    373              break;
+    374          #ifdef ELKA
+    375            case 7:
+    376              SetMenuItemIconArray(data,item,icon_array+(Is_INC_On?0:1));
+    377              break;  
+    378            case 8:
+    379              SetMenuItemIconArray(data,item,icon_array+(Is_SLI_On?0:1));
+    380              break;
+    381            case 9:
+    382              SetMenuItemIconArray(data,item,icon_array+(Is_SMARTCPU_On?0:1));
+    383              break;
+    384            case 10:
+    385              SetMenuItemIconArray(data,item,icon_array+(Is_Double_Vibra_On?0:1));
+    386              break;
+    387            case 11:
+    388              SetMenuItemIconArray(data,item,icon_array+(Is_ILU_On?0:1));
+    389              break;
+    390            case 12:
+    391              SetMenuItemIconArray(data,item,icon_array+(Is_PING_On?0:1));
+    392              break;
+    393            case 13:
+    394              SetMenuItemIconArray(data,item,icon_array+(Is_UPTIME_On?0:1));
+    395              break;  
+    396            case 14:
+    397              SetMenuItemIconArray(data,item,icon_array+(Is_Show_Offline?0:1));
+    398              break;
+    399            case 15:
+    400              SetMenuItemIconArray(data,item,icon_array+(Is_Show_Groups?0:1));
+    401              break;    
+    402            case 16:
+    403              SetMenuItemIconArray(data,item,S_ICONS+ICON_SETTINGS);
+    404              break;
+    405            case 17:
+    406              SetMenuItemIconArray(data,item,S_ICONS+ICON_SETTINGS);
+    407              break;
+    408            case 18:
+    409              SetMenuItemIconArray(data,item,S_ICONS+IS_OFFLINE);
+    410              break;
+    411            case 19:
+    412              SetMenuItemIconArray(data,item,S_ICONS+IS_UNKNOWN);
+    413              break;  
+    414            case 20:
+    415              SetMenuItemIconArray(data,item,S_ICONS+ICON_PING);
+    416              break;
+    417            case 21:
+    418              SetMenuItemIconArray(data,item,S_ICONS+IS_UNKNOWN);
+    419              break;
+    420          #else
+    421            case 7:
+    422              SetMenuItemIconArray(data,item,icon_array+(Is_INC_On?0:1));
+    423              break;
+    424            case 8:
+    425              SetMenuItemIconArray(data,item,icon_array+(Is_SMARTCPU_On?0:1));
+    426              break;
+    427            case 9:
+    428              SetMenuItemIconArray(data,item,icon_array+(Is_Double_Vibra_On?0:1));
+    429              break;
+    430            case 10:
+    431              SetMenuItemIconArray(data,item,icon_array+(Is_ILU_On?0:1));
+    432              break;
+    433            case 11:
+    434              SetMenuItemIconArray(data,item,icon_array+(Is_PING_On?0:1));
+    435              break;
+    436            case 12:
+    437              SetMenuItemIconArray(data,item,icon_array+(Is_UPTIME_On?0:1));
+    438              break;  
+    439            case 13:
+    440              SetMenuItemIconArray(data,item,icon_array+(Is_Show_Offline?0:1));
+    441              break;
+    442            case 14:
+    443              SetMenuItemIconArray(data,item,icon_array+(Is_Show_Groups?0:1));
+    444              break;    
+    445            case 15:
+    446              SetMenuItemIconArray(data,item,S_ICONS+ICON_SETTINGS);
+    447              break;
+    448            case 16:
+    449              SetMenuItemIconArray(data,item,S_ICONS+ICON_SETTINGS);
+    450              break;
+    451            case 17:
+    452              SetMenuItemIconArray(data,item,S_ICONS+IS_OFFLINE);
+    453              break;
+    454            case 18:
+    455              SetMenuItemIconArray(data,item,S_ICONS+IS_UNKNOWN);
+    456              break;
+    457            case 19:
+    458              SetMenuItemIconArray(data,item,S_ICONS+ICON_PING);
+    459              break;
+    460            case 20:
+    461              SetMenuItemIconArray(data,item,S_ICONS+IS_UNKNOWN);
+    462              break;
+    463          #endif
+    464          #else
+    465            case 3:
+    466              SetMenuItemIconArray(data,item,icon_array+(away_m?0:1));
+   \                     ??menuitemhandler_7:
+   \   000000A4   ........           LDR      R1,??DataTable20  ;; away_m
+   \                     ??menuitemhandler_8:
+   \   000000A8   001091E5           LDR      R1,[R1, #+0]
+   \   000000AC   000051E3           CMP      R1,#+0
+   \   000000B0   0010A013           MOVNE    R1,#+0
+   \   000000B4   0110A003           MOVEQ    R1,#+1
+   \   000000B8   012180E0           ADD      R2,R0,R1, LSL #+2
+   \   000000BC   200000EA           B        ??menuitemhandler_4
+    467              break;
+    468            case 4:
+    469              SetMenuItemIconArray(data,item,icon_array+(Is_Vibra_Enabled?0:1));
+   \                     ??menuitemhandler_9:
+   \   000000C0   ........           LDR      R1,??DataTable21  ;; Is_Vibra_Enabled
+   \   000000C4   F7FFFFEA           B        ??menuitemhandler_8
+    470              break;
+    471            case 5:
+    472              SetMenuItemIconArray(data,item,icon_array+(Is_Sounds_Enabled?0:1));
+   \                     ??menuitemhandler_10:
+   \   000000C8   ........           LDR      R1,??DataTable22  ;; Is_Sounds_Enabled
+   \                     ??menuitemhandler_11:
+   \   000000CC   001091E5           LDR      R1,[R1, #+0]
+   \   000000D0   000051E3           CMP      R1,#+0
+   \   000000D4   0010A013           MOVNE    R1,#+0
+   \   000000D8   0110A003           MOVEQ    R1,#+1
+   \   000000DC   012180E0           ADD      R2,R0,R1, LSL #+2
+   \   000000E0   170000EA           B        ??menuitemhandler_4
+    473              break;
+    474            case 6:
+    475              SetMenuItemIconArray(data,item,icon_array+(Is_SMARTCPU_On?0:1));
+   \                     ??menuitemhandler_12:
+   \   000000E4   ........           LDR      R1,??DataTable23  ;; Is_SMARTCPU_On
+   \   000000E8   EEFFFFEA           B        ??menuitemhandler_8
+    476              break;
+    477            case 7:
+    478              SetMenuItemIconArray(data,item,icon_array+(Is_Double_Vibra_On?0:1));
+   \                     ??menuitemhandler_13:
+   \   000000EC   ........           LDR      R1,??DataTable24  ;; Is_Double_Vibra_On
+   \   000000F0   F5FFFFEA           B        ??menuitemhandler_11
+    479              break;
+    480            case 8:
+    481              SetMenuItemIconArray(data,item,icon_array+(Is_ILU_On?0:1));
+   \                     ??menuitemhandler_14:
+   \   000000F4   ........           LDR      R1,??DataTable25  ;; Is_ILU_On
+   \   000000F8   EAFFFFEA           B        ??menuitemhandler_8
+    482              break;
+    483            case 9:
+    484              SetMenuItemIconArray(data,item,icon_array+(Is_PING_On?0:1));
+   \                     ??menuitemhandler_15:
+   \   000000FC   ........           LDR      R1,??DataTable26  ;; Is_PING_On
+   \   00000100   001091E5           LDR      R1,[R1, #+0]
+   \   00000104   000051E3           CMP      R1,#+0
+   \   00000108   0010A013           MOVNE    R1,#+0
+   \   0000010C   0110A003           MOVEQ    R1,#+1
+   \   00000110   012180E0           ADD      R2,R0,R1, LSL #+2
+   \   00000114   0A0000EA           B        ??menuitemhandler_4
+    485              break;
+    486            case 10:
+    487              SetMenuItemIconArray(data,item,icon_array+(Is_UPTIME_On?0:1));
+   \                     ??menuitemhandler_16:
+   \   00000118   ........           LDR      R1,??DataTable27  ;; Is_UPTIME_On
+   \   0000011C   E1FFFFEA           B        ??menuitemhandler_8
+    488              break;  
+    489            case 11:
+    490              SetMenuItemIconArray(data,item,icon_array+(Is_Show_Offline?0:1));
+   \                     ??menuitemhandler_17:
+   \   00000120   ........           LDR      R1,??DataTable28  ;; Is_Show_Offline
+   \   00000124   E8FFFFEA           B        ??menuitemhandler_11
+    491              break;
+    492            case 12:
+    493              SetMenuItemIconArray(data,item,icon_array+(Is_Show_Groups?0:1));
+   \                     ??menuitemhandler_18:
+   \   00000128   ........           LDR      R1,??DataTable29  ;; Is_Show_Groups
+   \   0000012C   DDFFFFEA           B        ??menuitemhandler_8
+    494              break;    
+    495            case 13:
+    496              SetMenuItemIconArray(data,item,S_ICONS+ICON_SETTINGS);
+   \                     ??menuitemhandler_19:
+   \   00000130   582082E2           ADD      R2,R2,#+88
+   \   00000134   020000EA           B        ??menuitemhandler_4
+    497              break;
+    498            case 14:
+    499              SetMenuItemIconArray(data,item,S_ICONS+IS_OFFLINE);
+    500              break;
+    501            case 15:
+    502              SetMenuItemIconArray(data,item,S_ICONS+ICON_PING);
+   \                     ??menuitemhandler_20:
+   \   00000138   542082E2           ADD      R2,R2,#+84
+   \   0000013C   000000EA           B        ??menuitemhandler_4
+    503              break;
+    504            case 16:
+    505              SetMenuItemIconArray(data,item,S_ICONS+IS_UNKNOWN);
+   \                     ??menuitemhandler_21:
+   \   00000140   382082E2           ADD      R2,R2,#+56
+   \                     ??menuitemhandler_4:
+   \   00000144   0610A0E1           MOV      R1,R6
+   \   00000148   0400A0E1           MOV      R0,R4
+   \   0000014C   990100EF           SWI      +409
+    506              break;
+    507            case 17:
+    508              SetMenuItemIconArray(data,item,S_ICONS+IS_UNKNOWN);
+    509              break;
+    510          #endif
+    511            }
+    512            SetMenuItemText(data, item, ws, curitem);
+   \                     ??menuitemhandler_2:
+   \   00000150   0530A0E1           MOV      R3,R5
+   \   00000154   0720A0E1           MOV      R2,R7
+   \   00000158   0610A0E1           MOV      R1,R6
+   \   0000015C   0400A0E1           MOV      R0,R4
+   \   00000160   9A0100EF           SWI      +410
+    513          }
+   \   00000164   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??menuitemhandler_1:
+   \   00000168   ........           DC32     menutexts
+   \   0000016C   ........           DC32     percent_t
+   \   00000170   ........           DC32     S_ICONS
+   \   00000174   ........           DC32     CurrentStatus
+   \   00000178   ........           DC32     CurrentXStatus
+   \   0000017C   ........           DC32     XStatusesIconArray
+    514          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    515          static int tmenu_keyhook(void *data, GUI_MSG *msg)
+    516          {
+   \                     tmenu_keyhook:
+   \   00000000   00402DE9           PUSH     {LR}
+    517            if ((msg->keys==0x18)||(msg->keys==0x3D))
+   \   00000004   F210D1E1           LDRSH    R1,[R1, #+2]
+   \   00000008   180051E3           CMP      R1,#+24
+   \   0000000C   3D005113           CMPNE    R1,#+61
+   \   00000010   0300001A           BNE      ??tmenu_keyhook_0
+    518            {
+    519              ((void (*)(void))(menuprocs[GetCurMenuItem(data)]))();
+   \   00000014   8F0100EF           SWI      +399
+   \   00000018   0C109FE5           LDR      R1,??tmenu_keyhook_1  ;; menuprocs
+   \   0000001C   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   00000020   30FF2FE1           BLX      R0
+    520            }
+    521            return(0);
+   \                     ??tmenu_keyhook_0:
+   \   00000024   0000A0E3           MOV      R0,#+0
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+   \                     ??tmenu_keyhook_1:
+   \   0000002C   ........           DC32     menuprocs
+    522          }
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     menuhdr:
+   \   00000000   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000008   00000000....       DC32 0H, `?<Constant "\\314\\345\\355\\376">`, 32767
+   \              ....FF7F0000
+   \   00000014   08000000....       DC32 8, tmenu_keyhook, tmenu_ghook, 0H, mmenusoftkeys, mmenu_skt, 17
+   \              ............
+   \              00000000....
+   \              ............
+   \              11000000    
+   \   00000030   ........0000       DC32 menuitemhandler, 0H, 0H, 19
+   \              000000000000
+   \              13000000    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     mmenusoftkeys:
+   \   00000000   000000000100       DC32 0, 1, 2
+   \              000002000000
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     menutexts:
+   \   00000000   ........           DC32 `?<Constant "\\321\\362\\340\\362\\363\\361">`
+   \   00000004   ........           DC32 `?<Constant "X-\\321\\362\\340\\362\\363\\361">`
+   \   00000008   ........           DC32 `?<Constant "\\323\\357\\360\\340\\342\\353\\345\\355\\3`
+   \   0000000C   ........           DC32 `?<Constant "\\300\\342\\362\\356\\356\\362\\342\\345\\3`
+   \   00000010   ........           DC32 `?<Constant "\\320\\345\\346\\350\\354 \\342\\350\\341\\`
+   \   00000014   ........           DC32 `?<Constant "\\320\\345\\346\\350\\354 \\347\\342\\363\\`
+   \   00000018   ........           DC32 `?<Constant "\\321\\356\\356\\341\\371\\345\\355\\350\\3`
+   \   0000001C   ........           DC32 `?<Constant "\\320\\345\\346\\350\\354 \\355\\340\\357\\`
+   \   00000020   ........           DC32 `?<Constant "\\320\\345\\346\\350\\354 \\357\\356\\344\\`
+   \   00000024   ........           DC32 `?<Constant "\\300\\342\\362\\356\\354\\340\\362\\350\\3`
+   \   00000028   ........           DC32 `?<Constant "\\302\\360\\345\\354\\377 \\360\\340\\341\\`
+   \   0000002C   ........           DC32 `?<Constant "\\316\\364\\364. \\352\\356\\355\\362\\340`
+   \   00000030   ........           DC32 `?<Constant "\\303\\360\\363\\357\\357\\373">`
+   \   00000034   ........           DC32 `?<Constant "\\315\\340\\361\\362\\360\\356\\351\\352\\3_1`
+   \   00000038   ........           DC32 `?<Constant "\\315\\340\\361\\362\\360\\356\\351\\352\\3`
+   \   0000003C   ........           DC32 `?<Constant "\\316\\341\\356\\360\\342\\340\\362\\374 \\`
+   \   00000040   ........           DC32 `?<Constant "\\310\\355\\364\\356 \\356 \\361\\356\\356`
+   \   00000044   ........           DC32 `?<Constant "\\317\\350\\355\\343">`
+   \   00000048   ........           DC32 `?<Constant "\\316\\341 \\375\\353\\374\\364\\345">`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     mmenu_sk:
+   \   00000000   18000000           DC16 24, 0
+   \   00000004   ........           DC32 `?<Constant "\\302\\373\\341\\356\\360">`
+   \   00000008   01000000           DC16 1, 0
+   \   0000000C   ........           DC32 `?<Constant "\\315\\340\\347\\340\\344">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   FBC0FF7F           DC32 2147467515
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     mmenu_skt:
+   \   00000000   ........0000       DC32 mmenu_sk, 0
+   \              0000        
+    523          
+    524          
+    525          static const MENU_DESC tmenu=
+    526          {
+    527            8,tmenu_keyhook,tmenu_ghook,NULL,
+    528            mmenusoftkeys,
+    529            &mmenu_skt,
+    530            0x11,//MENU_FLAG,
+    531            menuitemhandler,
+    532            NULL,//menuitems,
+    533            NULL,//menuprocs,
+    534            MENU_ITEMS
+    535          };
+    536          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    537          void ShowMainMenu()
+    538          {
+   \                     ShowMainMenu:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    539            icon_array[0]=GetPicNByUnicodeSymbol(CBOX_CHECKED);
+   \   00000004   ........           LDR      R4,??DataTable30  ;; icon_array
+    540            icon_array[1]=GetPicNByUnicodeSymbol(CBOX_UNCHECKED);
+    541            *((int **)(&menuhdr.icon))=S_ICONS+IS_ONLINE;
+   \   00000008   78509FE5           LDR      R5,??ShowMainMenu_0  ;; menuhdr
+   \   0000000C   0B00A0E3           MOV      R0,#+11
+   \   00000010   E10C80E3           ORR      R0,R0,#0xE100
+   \   00000014   E40100EF           SWI      +484
+   \   00000018   000084E5           STR      R0,[R4, #+0]
+   \   0000001C   0C00A0E3           MOV      R0,#+12
+   \   00000020   E10C80E3           ORR      R0,R0,#0xE100
+   \   00000024   E40100EF           SWI      +484
+   \   00000028   040084E5           STR      R0,[R4, #+4]
+   \   0000002C   58009FE5           LDR      R0,??ShowMainMenu_0+0x4  ;; S_ICONS + 44
+   \   00000030   080085E5           STR      R0,[R5, #+8]
+    542            patch_header(&menuhdr);
+   \   00000034   0000A0E3           MOV      R0,#+0
+   \   00000038   000085E5           STR      R0,[R5, #+0]
+   \   0000003C   888100EF           SWI      +33160
+   \   00000040   010040E2           SUB      R0,R0,#+1
+   \   00000044   B400C5E1           STRH     R0,[R5, #+4]
+   \   00000048   8A8100EF           SWI      +33162
+   \   0000004C   010040E2           SUB      R0,R0,#+1
+   \   00000050   B600C5E1           STRH     R0,[R5, #+6]
+    543            MainMenu_ID=CreateMenu(0,0,&tmenu,&menuhdr,0,MENU_ITEMS,0,0);
+   \   00000054   0000A0E3           MOV      R0,#+0
+   \   00000058   01002DE9           PUSH     {R0}
+   \   0000005C   01002DE9           PUSH     {R0}
+   \   00000060   0530A0E1           MOV      R3,R5
+   \   00000064   142085E2           ADD      R2,R5,#+20
+   \   00000068   0010A0E3           MOV      R1,#+0
+   \   0000006C   1300A0E3           MOV      R0,#+19
+   \   00000070   01002DE9           PUSH     {R0}
+   \   00000074   0000A0E3           MOV      R0,#+0
+   \   00000078   01002DE9           PUSH     {R0}
+   \   0000007C   520100EF           SWI      +338
+   \   00000080   080084E5           STR      R0,[R4, #+8]
+    544          }
+   \   00000084   3F80BDE8           POP      {R0-R5,PC}       ;; return
+   \                     ??ShowMainMenu_0:
+   \   00000088   ........           DC32     menuhdr
+   \   0000008C   ........           DC32     S_ICONS + 44
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable18:
+   \   00000000   ........           DC32     WriteDefSettings
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable20:
+   \   00000000   ........           DC32     away_m
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable21:
+   \   00000000   ........           DC32     Is_Vibra_Enabled
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable22:
+   \   00000000   ........           DC32     Is_Sounds_Enabled
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable23:
+   \   00000000   ........           DC32     Is_SMARTCPU_On
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable24:
+   \   00000000   ........           DC32     Is_Double_Vibra_On
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable25:
+   \   00000000   ........           DC32     Is_ILU_On
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable26:
+   \   00000000   ........           DC32     Is_PING_On
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable27:
+   \   00000000   ........           DC32     Is_UPTIME_On
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable28:
+   \   00000000   ........           DC32     Is_Show_Offline
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable29:
+   \   00000000   ........           DC32     Is_Show_Groups
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable30:
+   \   00000000   ........           DC32     icon_array
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for menuprocs>`:
+   \   00000000   ............       DC32 DispStatusChangeMenu, DispXStatusChangeMenu, CreateManageCLMenu
+   \              ............
+   \   0000000C   ............       DC32 AutoAwayMSG, ChangeVibraMode, ChangeSoundMode, ChangeSMARTCPUMode
+   \              ............
+   \              ........    
+   \   0000001C   ............       DC32 ChangeDoubleVibra, ChangeILUMode, ChangePINGMode, ChangeUPTIMEMode
+   \              ............
+   \              ........    
+   \   0000002C   ............       DC32 ChangeShowOfflineMode, ChangeShowGroupsMode, EditConfig
+   \              ............
+   \   00000038   ............       DC32 EditConfigMod, Disconnect, MSG_Info, PingToServer, AboutDlg
+   \              ............
+   \              ............
+   \              ....        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\356\\356\\341\\371\\345\\355\\350\\3`:
+   \   00000000   D1EEEEE1F9E5       DC8 "\321\356\356\341\371\345\355\350\377 \355\340 \343\375"
+   \              EDE8FF20EDE0
+   \              20E3FD00    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\315\\340\\361\\362\\360\\356\\351\\352\\3`:
+   \   00000000   CDE0F1F2F0EE       DC8 "\315\340\361\362\360\356\351\352\350 \354\356\344\340"
+   \              E9EAE820ECEE
+   \              E4E000      
+   \   0000000F   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\341\\356\\360\\342\\340\\362\\374 \\`:
+   \   00000000   CEE1EEF0E2E0       DC8 "\316\341\356\360\342\340\362\374 \361\342\377\347\374"
+   \              F2FC20F1E2FF
+   \              E7FC00      
+   \   0000000F   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\310\\355\\364\\356 \\356 \\361\\356\\356`:
+   \   00000000   C8EDF4EE20EE       DC8 "\310\355\364\356 \356 \361\356\356\341\371\345\355\350\377\365"
+   \              20F1EEEEE1F9
+   \              E5EDE8FFF500
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\317\\350\\355\\343">`:
+   \   00000000   CFE8EDE300         DC8 "\317\350\355\343"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\341 \\375\\353\\374\\364\\345">`:
+   \   00000000   CEE120FDEBFC       DC8 "\316\341 \375\353\374\364\345"
+   \              F4E500      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\302\\373\\341\\356\\360">`:
+   \   00000000   C2FBE1EEF000       DC8 "\302\373\341\356\360"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\315\\340\\347\\340\\344">`:
+   \   00000000   CDE0E7E0E400       DC8 "\315\340\347\340\344"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "4:\\\\zbin\\\\etc\\\\NATICQ.bcfg">`:
+   \   00000000   343A5C7A6269       DC8 "4:\\zbin\\etc\\NATICQ.bcfg"
+   \              6E5C6574635C
+   \              4E4154494351
+   \              2E6263666700
+   \   00000018   303A5C7A6269       DC8 "0:\\zbin\\etc\\NATICQ.bcfg"
+   \              6E5C6574635C
+   \              4E4154494351
+   \              2E6263666700
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "4:\\\\zbin\\\\etc\\\\NATICQMod...">`:
+   \   00000000   343A5C7A6269       DC8 "4:\\zbin\\etc\\NATICQMod.bcfg"
+   \              6E5C6574635C
+   \              4E4154494351
+   \              4D6F642E6263
+   \              666700      
+   \   0000001B   00                 DC8 0
+   \   0000001C   303A5C7A6269       DC8 "0:\\zbin\\etc\\NATICQMod.bcfg"
+   \              6E5C6574635C
+   \              4E4154494351
+   \              4D6F642E6263
+   \              666700      
+   \   00000037   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "NATICQ v2.0\\nRevision ...">`:
+   \   00000000   4E4154494351       DC8 4EH, 41H, 54H, 49H, 43H, 51H, 20H, 76H
+   \              2076        
+   \   00000008   322E300A5265       DC8 32H, 2EH, 30H, 0AH, 52H, 65H, 76H, 69H
+   \              7669        
+   \   00000010   73696F6E2025       DC8 73H, 69H, 6FH, 6EH, 20H, 25H, 64H, 0AH
+   \              640A        
+   \   00000018   284329206279       DC8 28H, 43H, 29H, 20H, 62H, 79H, 20H, 52H
+   \              2052        
+   \   00000020   7374372F4342       DC8 73H, 74H, 37H, 2FH, 43H, 42H, 53H, 49H
+   \              5349        
+   \   00000028   450A4B72656E       DC8 45H, 0AH, 4BH, 72H, 65H, 6EH, 0AH, 4BH
+   \              0A4B        
+   \   00000030   696261620A53       DC8 69H, 62H, 61H, 62H, 0AH, 53H, 68H, 61H
+   \              6861        
+   \   00000038   646F770A5365       DC8 64H, 6FH, 77H, 0AH, 53H, 65H, 6BH, 6CH
+   \              6B6C        
+   \   00000040   746800             DC8 74H, 68H, 0
+   \   00000043   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\314\\345\\355\\376">`:
+   \   00000000   CCE5EDFE00         DC8 "\314\345\355\376"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\362\\340\\362\\363\\361">`:
+   \   00000000   D1F2E0F2F3F1       DC8 "\321\362\340\362\363\361"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "X-\\321\\362\\340\\362\\363\\361">`:
+   \   00000000   582DD1F2E0F2       DC8 "X-\321\362\340\362\363\361"
+   \              F3F100      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\323\\357\\360\\340\\342\\353\\345\\355\\3`:
+   \   00000000   D3EFF0E0E2EB       DC8 "\323\357\360\340\342\353\345\355\350\345 \361\357\350\361\352\356\354"
+   \              E5EDE8E520F1
+   \              EFE8F1EAEEEC
+   \              00          
+   \   00000013   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\300\\342\\362\\356\\356\\362\\342\\345\\3`:
+   \   00000000   C0E2F2EEEEF2       DC8 "\300\342\362\356\356\362\342\345\362\367\350\352"
+   \              E2E5F2F7E8EA
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\320\\345\\346\\350\\354 \\342\\350\\341\\`:
+   \   00000000   D0E5E6E8EC20       DC8 "\320\345\346\350\354 \342\350\341\360\373"
+   \              E2E8E1F0FB00
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\320\\345\\346\\350\\354 \\347\\342\\363\\`:
+   \   00000000   D0E5E6E8EC20       DC8 "\320\345\346\350\354 \347\342\363\352\340"
+   \              E7E2F3EAE000
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\362\\357\\360\\340\\342\\353\\345\\3`:
+   \   00000000   CEF2EFF0E0E2       DC8 "\316\362\357\360\340\342\353\345\355\356: %d\012\317\360\350\355\377\362\356: %d"
+   \              EBE5EDEE3A20
+   \              25640ACFF0E8
+   \              EDFFF2EE3A20
+   \              256400      
+   \   0000001B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\320\\345\\346\\350\\354 \\355\\340\\357\\`:
+   \   00000000   D0E5E6E8EC20       DC8 "\320\345\346\350\354 \355\340\357\356\354\350\355\340\355\350\377"
+   \              EDE0EFEEECE8
+   \              EDE0EDE8FF00
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\320\\345\\346\\350\\354 \\357\\356\\344\\`:
+   \   00000000   D0E5E6E8EC20       DC8 "\320\345\346\350\354 \357\356\344\361\342\345\362\352\350"
+   \              EFEEE4F1E2E5
+   \              F2EAE800    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\300\\342\\362\\356\\354\\340\\362\\350\\3`:
+   \   00000000   C0E2F2EEECE0       DC8 "\300\342\362\356\354\340\362\350\367\345\361\352\350\351 \357\350\355\343"
+   \              F2E8F7E5F1EA
+   \              E8E920EFE8ED
+   \              E300        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\302\\360\\345\\354\\377 \\360\\340\\341\\`:
+   \   00000000   C2F0E5ECFF20       DC8 "\302\360\345\354\377 \360\340\341\356\362\373"
+   \              F0E0E1EEF2FB
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\364\\364. \\352\\356\\355\\362\\340`:
+   \   00000000   CEF4F42E20EA       DC8 "\316\364\364. \352\356\355\362\340\352\362\373"
+   \              EEEDF2E0EAF2
+   \              FB00        
+   \   0000000E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\303\\360\\363\\357\\357\\373">`:
+   \   00000000   C3F0F3EFEFFB       DC8 "\303\360\363\357\357\373"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\315\\340\\361\\362\\360\\356\\351\\352\\3_1`:
+   \   00000000   CDE0F1F2F0EE       DC8 "\315\340\361\362\360\356\351\352\350"
+   \              E9EAE800    
+   \   0000000A   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function              CSTACK
+     --------              ------
+     AboutDlg                260
+     AutoAwayMSG              12
+     ChangeDoubleVibra         4
+     ChangeILUMode             4
+     ChangePINGMode            4
+     ChangeSMARTCPUMode        4
+     ChangeShowGroupsMode      4
+     ChangeShowOfflineMode     4
+     ChangeSoundMode           4
+     ChangeUPTIMEMode          4
+     ChangeVibraMode           4
+     Disconnect                4
+     EditConfig               12
+     EditConfigMod            12
+     MSG_Info                  8
+     PingToServer              8
+     ShowMainMenu             28
+     menuitemhandler          24
+     tmenu_ghook               8
+     tmenu_keyhook             4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     ChangeVibraMode                  44
+     AutoAwayMSG                     116
+     ChangeSoundMode                  44
+     ChangeShowOfflineMode            56
+     ChangeShowGroupsMode             60
+     EditConfig                       92
+     EditConfigMod                    92
+     Disconnect                       44
+     PingToServer                     92
+     AboutDlg                         56
+     ChangeSMARTCPUMode               44
+     ChangeILUMode                    44
+     ChangePINGMode                   44
+     ChangeUPTIMEMode                 44
+     MSG_Info                         72
+     ChangeDoubleVibra                44
+     menuprocs                        76
+     tmenu_ghook                      60
+     icon_array                       12
+     janis                             4
+     hmm1                             64
+     main_count                        8
+     menuitemhandler                 384
+     tmenu_keyhook                    48
+     menuhdr                          64
+     mmenusoftkeys                    12
+     menutexts                        76
+     mmenu_sk                         24
+     mmenu_skt                         8
+     ShowMainMenu                    144
+     ??DataTable18                     4
+     ??DataTable20                     4
+     ??DataTable21                     4
+     ??DataTable22                     4
+     ??DataTable23                     4
+     ??DataTable24                     4
+     ??DataTable25                     4
+     ??DataTable26                     4
+     ??DataTable27                     4
+     ??DataTable28                     4
+     ??DataTable29                     4
+     ??DataTable30                     4
+     ?<Initializer for menuprocs>     76
+     ?<Constant "\321\356\356\341\371\345\355\350\3
+                                      16
+     ?<Constant "\315\340\361\362\360\356\351\352\3
+                                      16
+     ?<Constant "\316\341\356\360\342\340\362\374 \
+                                      16
+     ?<Constant "\310\355\364\356 \356 \361\356\356
+                                      20
+     ?<Constant "\317\350\355\343">    8
+     ?<Constant "\316\341 \375\353\374\364\345">
+                                      12
+     ?<Constant "\302\373\341\356\360">
+                                       8
+     ?<Constant "\315\340\347\340\344">
+                                       8
+     ?<Constant "4:\\zbin\\etc\\NATICQ.bcfg">
+                                      48
+     ?<Constant "4:\\zbin\\etc\\NATICQMod...">
+                                      56
+     ?<Constant "NATICQ v2.0\nRevision ...">
+                                      68
+     ?<Constant "\314\345\355\376">    8
+     ?<Constant "\321\362\340\362\363\361">
+                                       8
+     ?<Constant "X-\321\362\340\362\363\361">
+                                      12
+     ?<Constant "\323\357\360\340\342\353\345\355\3
+                                      20
+     ?<Constant "\300\342\362\356\356\362\342\345\3
+                                      16
+     ?<Constant "\320\345\346\350\354 \342\350\341\
+                                      12
+     ?<Constant "\320\345\346\350\354 \347\342\363\
+                                      12
+     ?<Constant "\316\362\357\360\340\342\353\345\3
+                                      28
+     ?<Constant "\320\345\346\350\354 \355\340\357\
+                                      20
+     ?<Constant "\320\345\346\350\354 \357\356\344\
+                                      16
+     ?<Constant "\300\342\362\356\354\340\362\350\3
+                                      20
+     ?<Constant "\302\360\345\354\377 \360\340\341\
+                                      16
+     ?<Constant "\316\364\364. \352\356\355\362\340
+                                      16
+     ?<Constant "\303\360\363\357\357\373">
+                                       8
+     ?<Constant "\315\340\361\362\360\356\351\352\3_1
+                                      12
+      Others                         164
+
+ 
+ 1 812 bytes in segment CODE
+   684 bytes in segment DATA_C
+    76 bytes in segment DATA_I
+    76 bytes in segment DATA_ID
+    88 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 1 672 bytes of CODE  memory (+ 164 bytes shared)
+   760 bytes of CONST memory
+   164 bytes of DATA  memory
+
+Errors: none
+Warnings: none

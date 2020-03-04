@@ -1,0 +1,362 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    14/Jan/2011  23:28:27 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\googlecode\MySMSYS\Mss3\SendList.cpp    #
+#    Command line    =  D:\pasha\elf\googlecode\MySMSYS\Mss3\SendList.cpp    #
+#                       -D NEWSGOLD -D ELKA -D LANG_EN -lcN                  #
+#                       D:\pasha\elf\googlecode\MySMSYS\Mss3\Release_ELKA_EN #
+#                       \List\ -o D:\pasha\elf\googlecode\MySMSYS\Mss3\Relea #
+#                       se_ELKA_EN\Obj\ -s9 --no_unroll --cpu_mode arm       #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --fpu None --eec++ --dlib_config      #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\googlecode\MySMSYS\Mss3\Release_ELKA_EN #
+#                       \List\SendList.lst                                   #
+#    Object file     =  D:\pasha\elf\googlecode\MySMSYS\Mss3\Release_ELKA_EN #
+#                       \Obj\SendList.r79                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\googlecode\MySMSYS\Mss3\SendList.cpp
+      1          #include "include.h"
+      2          #include "SiemensPDU.h"
+      3          #include "MyIpcMessage.h"
+      4          #include "File.h"
+      5          #include "SmsData.h"
+      6          #include "SendList.h"
+      7          #include "Vibra.h"
+      8          #include "PlaySound.h"
+      9          //#include "ShortVibra.h"
+     10          #include "DaemonCSM.h"
+     11          #include "CSMswaper.h"
+     12          #include "..\..\inc\xtask_ipc.h"
+     13          
+     14          
+     15          SNDLST * SendList::AllocSL()
+     16          {
+     17            SNDLST *sl=new SNDLST;
+     18            zeromem(sl, sizeof(SNDLST));
+     19            return sl;
+     20          }
+     21          
+     22          void SendList::FreeList()
+     23          {
+     24            SNDLST *sl;
+     25            SNDLST *sl0;
+     26            LockSched();
+     27            sl=this->sltop;
+     28            this->sltop=NULL;
+     29            UnlockSched();
+     30            while(sl)
+     31            {
+     32              sl0=sl->next;
+     33              if(sl->text)
+     34                FreeWS(sl->text);
+     35              delete sl;
+     36              sl=sl0;
+     37            }
+     38          }
+     39          
+     40          SendList::SendList()
+     41          {
+     42            this->sltop=NULL;
+     43          }
+     44          
+     45          SendList::~SendList()
+     46          {
+     47            this->FreeList();
+     48          }
+     49          
+     50          void SendList::AddToList(SNDLST *sl) //end
+     51          {
+     52            if(!sl) return;
+     53            LockSched();
+     54            if(!this->sltop)
+     55            {
+     56              this->sltop=sl;
+     57            }
+     58            else
+     59            {
+     60              SNDLST *s0=this->sltop;
+     61              while(s0->next)
+     62                s0=s0->next;
+     63              s0->next=sl;
+     64              sl->prev=s0;
+     65            }
+     66            UnlockSched();
+     67          }
+     68          
+     69          void SendList::AddToList(const char *number, WSHDR *text)
+     70          {
+     71            int wlen;
+     72            SNDLST *sl;
+     73            if(!number || !strlen(number) || !text || !(wlen=text->wsbody[0]))
+     74              return;
+     75            sl=AllocSL();
+     76            strcpy(sl->number, number);
+     77            sl->text=AllocWS(wlen);
+     78            wstrcpy(sl->text, text);
+     79            AddToList(sl);
+     80          }
+     81          
+     82          void SendList::DeleteSL(SNDLST *sl)
+     83          {
+     84            if(!sl) return;
+     85            LockSched();
+     86            if(sl==this->sltop)
+     87            {
+     88              this->sltop=this->sltop->next;
+     89              if(this->sltop) this->sltop->prev=NULL;
+     90            }
+     91            else
+     92            {
+     93              sl->prev->next=sl->next;
+     94              if(sl->next) sl->next->prev=sl->prev;
+     95            }
+     96            UnlockSched();
+     97            if(sl->text) FreeWS(sl->text);
+     98            delete sl;
+     99          }
+    100          
+    101          SNDLST * SendList::FindSL(int csm_id)
+    102          {
+    103            SNDLST *sl;
+    104            if(!csm_id) return 0;
+    105            sl=this->sltop;
+    106            while(sl)
+    107            {
+    108              if(sl->csm_id==csm_id)
+    109                return sl;
+    110              sl=sl->next;
+    111            }
+    112            return 0;
+    113          }
+    114          
+    115          
+    116          int SendList::IsSending()
+    117          {
+    118            SNDLST *sl=this->sltop;
+    119            while(sl)
+    120            {
+    121              if(sl->csm_id)
+    122                return 1;
+    123              sl=sl->next;
+    124            }
+    125            return 0;
+    126          }
+    127          
+    128          int SendList::SendStart()
+    129          {
+    130            int len;
+    131            int csm_id;
+    132            SNDLST *sl;
+    133            WSHDR *ws;
+    134            if(IsSending())
+    135              return 0;
+    136            sl=this->sltop;
+    137            if(
+    138              !sl
+    139              ||!strlen(sl->number)
+    140              ||!sl->text
+    141              ||!(len=sl->text->wsbody[0])
+    142              )
+    143              return 0;
+    144            ws=AllocWS(len+4);
+    145            wstrcpy(ws, sl->text);
+    146            csm_id=SendSMS(ws, sl->number, MMI_CEPID, MSG_SMS_RX-1, 6);
+    147            sl->csm_id=csm_id;
+    148            return csm_id;
+    149          }
+    150          
+    151          
+    152          int SendList::SendEnd(int csm_id)
+    153          {
+    154            SNDLST *sl;
+    155            if(!csm_id
+    156              || !(sl=FindSL(csm_id))
+    157              )
+    158              return 0;
+    159            if(CFG_ENA_SAVE_SENT/* && !sl->send_fail*/)
+    160            {
+    161              SMSDATA->SaveMss(sl->text, sl->number, NULL, TYPE_SENT, 2);
+    162              SendMyIpc(SMSYS_IPC_SMS_DATA_UPDATE);
+    163            }
+    164            DeleteSL(sl);
+    165            return 1;
+    166          }
+    167          
+    168          
+    169          int SendList::IsSendCSM(int csm_id)
+    170          {
+    171            SNDLST *sl=this->sltop;
+    172            while(sl)
+    173            {
+    174              if(sl->csm_id==csm_id)
+    175                return 1;
+    176              sl=sl->next;
+    177            }
+    178            return 0;
+    179          }
+    180          
+    181          void SendList::CatList(SNDLST *sl)
+    182          {
+    183            if(!sl)
+    184              return;
+    185            LockSched();
+    186            if(!this->sltop)
+    187            {
+    188              this->sltop=sl;
+    189            }
+    190            else
+    191            {
+    192              SNDLST *s0=this->sltop;
+    193              while(s0->next)
+    194                s0=s0->next;
+    195              s0->next=sl;
+    196              sl->prev=s0;
+    197            }
+    198            UnlockSched();
+    199          }
+    200          
+    201          
+    202          void SendList::SendOnTop(SendList *sndlst)
+    203          {
+    204            sndlst->SendStart();
+    205          }
+    206          
+    207          void SendList::Send(SendList *sndlst)
+    208          {
+    209            CSM_RAM *tcsm;
+    210            tcsm=DaemonCSM::GetTopCSM();
+    211            if(
+    212              sndlst
+    213              && sndlst->SendStart()
+    214              && CFG_ENA_SNED_ON_BG
+    215              && tcsm
+    216              && tcsm->id
+    217              )
+    218            {
+    219              CsmToTop(tcsm->id);
+    220              //CSMSwaper::CSMtoTop(tcsm->id, -1);
+    221            }
+    222          }
+    223          
+    224          
+    225          //DEL void SendList::SendGUIDesMSG(GBS_MSG *msg)
+    226          //DEL {
+    227          //DEL   CSM_RAM *icsm;
+    228          //DEL   SNDLST *sl;
+    229          //DEL   sl=this->sltop;
+    230          //DEL   while(sl)
+    231          //DEL   {
+    232          //DEL     if(sl->csm_id
+    233          //DEL       && (icsm=FindCSMbyID(sl->csm_id))
+    234          //DEL       )
+    235          //DEL     {
+    236          //DEL       GetCPUClock();
+    237          //DEL       if((int)msg->data0 == ((int*)icsm)[0x30/4])
+    238          //DEL       {
+    239          //DEL 	if((int)msg->data1==1) //cancal
+    240          //DEL 	  sl->send_fail=0;
+    241          //DEL 	else
+    242          //DEL 	  sl->send_fail=1;
+    243          //DEL 	return;
+    244          //DEL       }
+    245          //DEL     }
+    246          //DEL     sl=sl->next;
+    247          //DEL   }
+    248          //DEL }
+    249          IPC_REQ SendList::ipc_xtask=
+    250          {
+    251            IPC_XTASK_NAME,
+    252            IPC_NAME,
+    253            NULL
+    254          };
+    255          
+    256          void SendList::CsmToTop(int csm_id)
+    257          {
+    258            LockSched();
+    259            ipc_xtask.data=(void *)csm_id;
+    260            GBS_SendMessage(MMI_CEPID, MSG_IPC, IPC_XTASK_SHOW_CSM, &ipc_xtask);
+    261            UnlockSched();
+    262          }
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     SendList::AddToList(_SNDLST *)    12
+     SendList::AddToList(char const *, WSHDR *)
+                                       24
+     SendList::AllocSL()                8
+     SendList::CatList(_SNDLST *)      12
+     SendList::CsmToTop(int)            8
+     SendList::DeleteSL(_SNDLST *)     12
+     SendList::FindSL(int)              0
+     SendList::FreeList()              12
+     SendList::IsSendCSM(int)           0
+     SendList::IsSending()              0
+     SendList::Send(SendList *)        12
+     SendList::SendEnd(int)            20
+     SendList::SendList()               0
+     SendList::SendOnTop(SendList *)
+                                        4
+     SendList::SendStart()             16
+     SendList::delete ~SendList(SendList *)
+                                        8
+     SendList::new SendList()           4
+     SendList::~SendList()              4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     SendList::AllocSL()              32
+     SendList::FreeList()             76
+     SendList::SendList()             12
+     SendList::~SendList()             4
+     SendList::AddToList(_SNDLST *)   80
+     SendList::AddToList(char const *, WSHDR *)
+                                     120
+     SendList::DeleteSL(_SNDLST *)   120
+     SendList::FindSL(int)            40
+     SendList::IsSending()            32
+     SendList::SendStart()           148
+     SendList::SendEnd(int)          136
+     SendList::IsSendCSM(int)         32
+     SendList::CatList(_SNDLST *)     80
+     SendList::SendOnTop(SendList *)
+                                       4
+     SendList::Send(SendList *)       80
+     SendList::ipc_xtask              12
+     SendList::CsmToTop(int)          56
+     ?<Initializer for ipc_xtask>     12
+     ?<Constant "XTask">               8
+     SendList::new SendList()         28
+     SendList::delete ~SendList(SendList *)
+                                      28
+      Others                         144
+
+ 
+ 1 240 bytes in segment CODE
+     8 bytes in segment DATA_C
+    12 bytes in segment DATA_I
+    12 bytes in segment DATA_ID
+    12 bytes in segment INITTAB
+ 
+ 1 108 bytes of CODE  memory (+ 144 bytes shared)
+    20 bytes of CONST memory
+    12 bytes of DATA  memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,20 @@
+;S65v58
+;При копировании выделенного текста в буфер обмена вызывает 1:\saclip.elf
+;Нужны swi-функции 94: __arm int ExecuteFile и 214: __thumb void wstrcpybypos
+;(c) green
+;(r) kostett
+;(p) kostett
+;место врезки ищем по паттерну 231C3A1C311C2860, врезаемся начиная с 311C2860...
+                                                         ; адрес тела патча +1 (ибо Thumb)
+11811BC: 311C28601FF770FDF8BD10B5041C1FF780F9021C 00498F46,0xA0EF0001,9CF71EF912F72CFF8FF70EFB
+#pragma enable old_equal_ff
+EF0000: 311C286000F00CE806B40898000EA828
+EF0010: 03D078461630002194DF06BCF8BDFFFF
+EF0020: 00402DE9140200EF0080BDE8,0xA0EF0030    ; адрес WS с путем к эльфу (vvv ниже сама строка vvv)
+EF0030: 0D0031003A005C007300610063006C00      ; "1:\sacl"
+EF0040: 690070002E0065006C006600              ; "ip.elf"
+#pragma disable old_equal_ff
+
+
+
+;locale=Russian_Russia.1251

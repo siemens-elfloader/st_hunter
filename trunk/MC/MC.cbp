@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MC" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="ELKA">
+				<Option output="../../elfs/$(PROJECT_NAME)/$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="../../Objects/$(PROJECT_NAME)/$(TARGET_NAME)/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DELKA" />
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DGOLD_ZIP=0" />
+				</Compiler>
+			</Target>
+			<Target title="NSG">
+				<Option output="../../elfs/$(PROJECT_NAME)/$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="../../Objects/$(PROJECT_NAME)/$(TARGET_NAME)/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DGOLD_ZIP=0" />
+				</Compiler>
+			</Target>
+			<Target title="SG">
+				<Option output="../../elfs/$(PROJECT_NAME)/$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="../../Objects/$(PROJECT_NAME)/$(TARGET_NAME)/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DSGOLD" />
+					<Add option="-DGOLD_ZIP=0" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-O2" />
+			<Add option="-W" />
+			<Add option="-std=gnu99" />
+			<Add option="-fno-builtin" />
+			<Add directory="./" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add option="--defsym __ex=0" />
+			<Add option="-gc-section" />
+			<Add library="crt" />
+			<Add library="crt_helper" />
+			<Add library="gcc" />
+			<Add library="c" />
+			<Add library="z" />
+			<Add library="7z" />
+		</Linker>
+		<Unit filename="7Z/7zAlloc.h" />
+		<Unit filename="7Z/7zBuffer.h" />
+		<Unit filename="7Z/7zCrc.h" />
+		<Unit filename="7Z/7zDecode.h" />
+		<Unit filename="7Z/7zExtract.h" />
+		<Unit filename="7Z/7zHeader.h" />
+		<Unit filename="7Z/7zIn.h" />
+		<Unit filename="7Z/7zItem.h" />
+		<Unit filename="7Z/7zMethodID.h" />
+		<Unit filename="7Z/7zTypes.h" />
+		<Unit filename="7Z/LzmaDecode.h" />
+		<Unit filename="7Z/LzmaTypes.h" />
+		<Unit filename="7zslib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Bookmarks.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ColorMap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="FileOp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="NewMenu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ScreenMake.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="SetResource.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sortmc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="TextInput.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Ziplib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="about.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="arch.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="conf_loader.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="config_data.c">
+			<Option compilerVar="CC" />
+			<Option compiler="armelfgcc" use="1" buildCommand="$compiler $options -xc $includes -c $file -o $object -O0" />
+		</Unit>
+		<Unit filename="dprop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="encode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="exts.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="flash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fn_list.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fprop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fslib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="inc/7zslib.h" />
+		<Unit filename="inc/ColorMap.h" />
+		<Unit filename="inc/Lng1.h" />
+		<Unit filename="inc/ScreenMake.h" />
+		<Unit filename="inc/about.h" />
+		<Unit filename="inc/arch.h" />
+		<Unit filename="inc/color.h" />
+		<Unit filename="inc/config.h" />
+		<Unit filename="inc/encode.h" />
+		<Unit filename="inc/exts.h" />
+		<Unit filename="inc/fn_list.h" />
+		<Unit filename="inc/gui.h" />
+		<Unit filename="inc/lng.h" />
+		<Unit filename="inc/mc.h" />
+		<Unit filename="inc/md5.h" />
+		<Unit filename="inc/mui.h" />
+		<Unit filename="inc/newmenu.h" />
+		<Unit filename="inc/pnglist.h" />
+		<Unit filename="inc/popup.h" />
+		<Unit filename="inc/secret.h" />
+		<Unit filename="inc/siemens_unicode.h" />
+		<Unit filename="inc/sort.h" />
+		<Unit filename="inc/zslib.h" />
+		<Unit filename="keys.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="krnl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="md5.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="menus.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="packer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="popup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="quicksort.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="seach.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="secret.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="slib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="zlib/Zconf.h" />
+		<Unit filename="zlib/deflate.h" />
+		<Unit filename="zlib/inffast.h" />
+		<Unit filename="zlib/inffixed.h" />
+		<Unit filename="zlib/inflate.h" />
+		<Unit filename="zlib/inftrees.h" />
+		<Unit filename="zlib/minizip/CRYPT.H" />
+		<Unit filename="zlib/minizip/ioapi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="zlib/minizip/ioapi.h" />
+		<Unit filename="zlib/minizip/unzip.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="zlib/minizip/unzip.h" />
+		<Unit filename="zlib/minizip/zip.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="zlib/minizip/zip.h" />
+		<Unit filename="zlib/trees.h" />
+		<Unit filename="zlib/zlib.h" />
+		<Unit filename="zlib/zutil.h" />
+		<Unit filename="zslib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

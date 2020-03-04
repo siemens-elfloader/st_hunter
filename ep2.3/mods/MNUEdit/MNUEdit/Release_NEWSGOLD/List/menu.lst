@@ -1,0 +1,536 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION    12/Feb/2008  16:27:16 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT\MNUEdit\menu.c              #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT\MNUEdit\menu.c -D NEWSGOLD  #
+#                       -lC D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_NEWSGOL #
+#                       D\List\ -o D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ #
+#                       NEWSGOLD\Obj\ -s9 --no_unroll --cpu_mode arm         #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --fpu None --dlib_config              #
+#                       "D:\Pasha\ARM_Embedded_Workbench\Embedded Workbench  #
+#                       4.0 Evaluation\ARM\LIB\dl5tpainl8n.h" -I             #
+#                       "D:\Pasha\ARM_Embedded_Workbench\Embedded Workbench  #
+#                       4.0 Evaluation\ARM\INC\" --inline_threshold=2        #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_NEWSGOLD\Li #
+#                       st\menu.lst                                          #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_NEWSGOLD\Ob #
+#                       j\menu.r79                                           #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT\MNUEdit\menu.c
+      1          #include "..\inc\swilib.h"
+      2          #include "language.h"
+      3          int menu_id;
+      4          int it=6;
+      5          char *menu_name[]={
+      6          /*  "Открыть",
+      7            "Сохранить",
+      8            "Добавить",
+      9            "Удалить",
+     10            "Об эльфе",
+     11            "Выход"*/
+     12            LG_OPEN,
+     13            LG_SAVE,
+     14            LG_ADD,
+     15            LG_DEL,
+     16            LG_ABOUT,
+     17            LG_EXIT
+     18          };
+     19          
+     20          extern int item;
+     21          extern void about();
+     22          extern int id_ed;
+     23          extern void del(int i);
+     24          extern void SaveFile(char *fname);
+     25          extern char file[256];
+     26          extern int DrawText(int i);
+     27          extern void AddItem();
+     28          
+     29          
+     30          #pragma inline
+     31          void patch_header(HEADER_DESC* head)
+     32          {
+     33            head->rc.x=0;
+     34            head->rc.y=YDISP;
+     35            head->rc.x2=ScreenW()-1;
+     36            head->rc.y2=HeaderH()+YDISP;
+     37          }
+     38          #pragma inline
+     39          void patch_input(INPUTDIA_DESC* inp)
+     40          {
+     41            inp->rc.x=0;
+     42            inp->rc.y=HeaderH()+1+YDISP;
+     43            inp->rc.x2=ScreenW()-1;
+     44            inp->rc.y2=ScreenH()-SoftkeyH()-1;
+     45          }
+     46          //---------------------Создаем список меню-----------------------//
+     47          
+     48          void menu_iconhnd(void *data, int curitem, void *unk);
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     49          const int menusoftke[]={0,1,2};
+   \                     menusoftke:
+   \   00000000   000000000100       DC32 0, 1, 2
+   \              000002000000
+     50          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     51          const SOFTKEY_DESC menu_[]=
+   \                     menu_:
+   \   00000000   01000000           DC16 1, 0
+   \   00000004   ........           DC32 `?<Constant "\\302\\373\\341\\360\\340\\362\\374">`
+   \   00000008   04000000           DC16 4, 0
+   \   0000000C   ........           DC32 `?<Constant "\\307\\340\\352\\360\\373\\362\\374">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   FBC0FF7F           DC32 2147467515
+     52          {
+     53            {0x0001,0x0000,(int)LG_SELECT},
+     54            {0x0004,0x0000,(int)LG_CLOSE},
+     55            {0x003D,0x0000,(int)LGP_DOIT_PIC}
+     56          };
+     57          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     58          const SOFTKEYSTAB menu_s=
+   \                     menu_s:
+   \   00000000   ........0000       DC32 menu_, 0
+   \              0000        
+     59          {
+     60            menu_,0
+     61          };
+     62          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     63          void menu_ghook(void *data, int cmd){};
+   \                     menu_ghook:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     64          int menu_onkey2(void *data, GUI_MSG *msg);
+     65          HEADER_DESC menuhdr2={0,0,131,21,NULL,(int)LG_MENU,LGP_NULL};
+   \                     menuhdr2:
+   \   00000000                      DS8 20
+   \   00000014                      REQUIRE `?<Initializer for menuhdr2>`
+   \                     menu_id:
+   \   00000014                      DS8 4
+   \   00000018                      REQUIRE `?<Initializer for menu_id>`
+   \                     `it`:
+   \   00000018                      DS8 4
+   \   0000001C                      REQUIRE `?<Initializer for it>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     menu_name:
+   \   00000000                      DS8 24
+   \   00000018                      REQUIRE `?<Initializer for menu_name>`
+     66          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     67          const MENU_DESC menu=
+   \                     menu:
+   \   00000000   08000000....       DC32 8, menu_onkey2, menu_ghook, 0H, menusoftke, menu_s, 16
+   \              ............
+   \              00000000....
+   \              ............
+   \              10000000    
+   \   0000001C   ........0000       DC32 menu_iconhnd, 0H, 0H, 7
+   \              000000000000
+   \              07000000    
+     68          {
+     69            8,menu_onkey2,menu_ghook,NULL,
+     70            menusoftke,
+     71            &menu_s,
+     72            0x10,//0x11,
+     73            menu_iconhnd,
+     74            NULL,   //Items
+     75            NULL,   //Procs
+     76            7   //n
+     77          };
+     78          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     79          void menu_iconhnd(void *data, int curitem, void *unk)
+     80          {
+   \                     menu_iconhnd:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     81            WSHDR *ws;
+     82            char *s;
+     83            void *item=AllocMenuItem(data);
+     84            s=malloc(64);
+     85            sprintf(s,"%s",menu_name[curitem]);
+     86            if (s)
+   \   00000008   CC809FE5           LDR      R8,??menu_iconhnd_0+0x8  ;; `?<Constant "no name">`
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   970100EF           SWI      +407
+   \   00000014   0060A0E1           MOV      R6,R0
+   \   00000018   4000A0E3           MOV      R0,#+64
+   \   0000001C   140000EF           SWI      +20
+   \   00000020   0070A0E1           MOV      R7,R0
+   \   00000024   B4009FE5           LDR      R0,??menu_iconhnd_0+0xC  ;; menu_name
+   \   00000028   291F8FE2           ADR      R1,??menu_iconhnd_0  ;; "%s"
+   \   0000002C   052190E7           LDR      R2,[R0, +R5, LSL #+2]
+   \   00000030   0700A0E1           MOV      R0,R7
+   \   00000034   160000EF           SWI      +22
+   \   00000038   000057E3           CMP      R7,#+0
+   \   0000003C   1400000A           BEQ      ??menu_iconhnd_1
+     87            {
+     88              if (strlen(s))
+   \   00000040   249F8FE2           ADR      R9,??menu_iconhnd_0+0x4  ;; "%t"
+   \   00000044   0700A0E1           MOV      R0,R7
+   \   00000048   1B0000EF           SWI      +27
+   \   0000004C   000050E3           CMP      R0,#+0
+   \   00000050   0900000A           BEQ      ??menu_iconhnd_2
+     89              { 
+     90                ws=AllocMenuWS(data,strlen(s)+4);
+   \   00000054   0700A0E1           MOV      R0,R7
+   \   00000058   1B0000EF           SWI      +27
+   \   0000005C   041080E2           ADD      R1,R0,#+4
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   980100EF           SWI      +408
+   \   00000068   00A0A0E1           MOV      R10,R0
+     91                wsprintf(ws,"%t",s);
+   \   0000006C   0720A0E1           MOV      R2,R7
+   \                     ??menu_iconhnd_3:
+   \   00000070   0910A0E1           MOV      R1,R9
+   \   00000074   240100EF           SWI      +292
+   \   00000078   0F0000EA           B        ??menu_iconhnd_4
+     92              }
+     93              else 
+     94              { 
+     95                ws=AllocMenuWS(data,10);
+   \                     ??menu_iconhnd_2:
+   \   0000007C   0A10A0E3           MOV      R1,#+10
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   980100EF           SWI      +408
+   \   00000088   00A0A0E1           MOV      R10,R0
+     96                wsprintf(ws,"%t","no name");
+   \   0000008C   0820A0E1           MOV      R2,R8
+   \   00000090   F6FFFFEA           B        ??menu_iconhnd_3
+     97              }
+     98            }
+     99            else  
+    100            {
+    101              ws=AllocMenuWS(data,10);
+   \                     ??menu_iconhnd_1:
+   \   00000094   0A10A0E3           MOV      R1,#+10
+   \   00000098   0400A0E1           MOV      R0,R4
+   \   0000009C   980100EF           SWI      +408
+   \   000000A0   00A0A0E1           MOV      R10,R0
+    102              wsprintf(ws,"error");
+   \   000000A4   081088E2           ADD      R1,R8,#+8
+   \   000000A8   240100EF           SWI      +292
+    103              wsInsertChar(ws,2,1);//Цвет надписей
+   \   000000AC   0120A0E3           MOV      R2,#+1
+   \   000000B0   0210A0E3           MOV      R1,#+2
+   \   000000B4   0A00A0E1           MOV      R0,R10
+   \   000000B8   1D0000EF           SWI      +29
+    104          
+    105            }
+    106             SetMenuItemText(data,item,ws,curitem);
+   \                     ??menu_iconhnd_4:
+   \   000000BC   0530A0E1           MOV      R3,R5
+   \   000000C0   0A20A0E1           MOV      R2,R10
+   \   000000C4   0610A0E1           MOV      R1,R6
+   \   000000C8   0400A0E1           MOV      R0,R4
+   \   000000CC   9A0100EF           SWI      +410
+    107          }
+   \   000000D0   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??menu_iconhnd_0:
+   \   000000D4   25730000           DC8      "%s",+0
+   \   000000D8   25740000           DC8      "%t",+0
+   \   000000DC   ........           DC32     `?<Constant "no name">`
+   \   000000E0   ........           DC32     menu_name
+    108          
+    109          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    110          int menu_onkey2(void *data, GUI_MSG *msg)
+    111          {
+   \                     menu_onkey2:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    112            int i;
+    113            i=GetCurMenuItem(data);
+   \   00000008   8F0100EF           SWI      +399
+    114            int k=msg->gbsmsg->submess;
+   \   0000000C   041094E5           LDR      R1,[R4, #+4]
+   \   00000010   081091E5           LDR      R1,[R1, #+8]
+    115           if(k=='*')
+   \   00000014   2A0051E3           CMP      R1,#+42
+   \   00000018   0200001A           BNE      ??menu_onkey2_1
+    116             {
+    117               about();
+   \   0000001C   ........           _BLF     about,??about??rA
+    118               return (-1);
+   \   00000020   0000E0E3           MVN      R0,#+0
+   \   00000024   1080BDE8           POP      {R4,PC}
+    119             }
+   \                     ??menu_onkey2_1:
+   \   00000028   AC209FE5           LDR      R2,??menu_onkey2_2  ;; menuhdr2 + 20
+   \   0000002C   1A0051E3           CMP      R1,#+26
+   \   00000030   002092E5           LDR      R2,[R2, #+0]
+   \   00000034   01005113           CMPNE    R1,#+1
+   \   00000038   1F00001A           BNE      ??menu_onkey2_3
+    120            if (k==ENTER_BUTTON || k==LEFT_SOFT)
+    121            {
+    122              switch(i)
+   \   0000003C   9C109FE5           LDR      R1,??menu_onkey2_2+0x4  ;; item
+   \   00000040   050050E3           CMP      R0,#+5
+   \   00000044   001091E5           LDR      R1,[R1, #+0]
+   \   00000048   1900008A           BHI      ??menu_onkey2_4
+   \   0000004C   013F8FE2           ADR      R3,??menu_onkey2_0
+   \   00000050   0030D3E7           LDRB     R3,[R3, R0]
+   \   00000054   03F18FE0           ADD      PC,PC,R3, LSL #+2
+   \                     ??menu_onkey2_0:
+   \   00000058   0104080A           DC8      +1,+4,+8,+10
+   \   0000005C   0D0F0000           DC8      +13,+15,+0,+0
+    123                {
+    124                  case 0:  DrawText(item); break;
+   \                     ??menu_onkey2_5:
+   \   00000060   0100A0E1           MOV      R0,R1
+   \   00000064   ........           _BLF     DrawText,??DrawText??rA
+   \   00000068   010000EA           B        ??menu_onkey2_6
+    125                  case 1:  SaveFile(file); break;
+   \                     ??menu_onkey2_7:
+   \   0000006C   70009FE5           LDR      R0,??menu_onkey2_2+0x8  ;; file
+   \   00000070   ........           _BLF     SaveFile,??SaveFile??rA
+   \                     ??menu_onkey2_6:
+   \   00000074   0100A0E3           MOV      R0,#+1
+   \   00000078   1080BDE8           POP      {R4,PC}
+    126                  case 2:  AddItem(); break;
+   \                     ??menu_onkey2_8:
+   \   0000007C   ........           _BLF     AddItem,??AddItem??rA
+   \   00000080   FBFFFFEA           B        ??menu_onkey2_6
+    127                  case 3:  del(item); break;
+   \                     ??menu_onkey2_9:
+   \   00000084   0100A0E1           MOV      R0,R1
+   \   00000088   ........           _BLF     del,??del??rA
+   \   0000008C   F8FFFFEA           B        ??menu_onkey2_6
+    128                  case 4:  about(); break;
+   \                     ??menu_onkey2_10:
+   \   00000090   ........           _BLF     about,??about??rA
+   \   00000094   F6FFFFEA           B        ??menu_onkey2_6
+    129                  case 5:  //exit
+    130                      GeneralFunc_flag1(menu_id,1);
+   \                     ??menu_onkey2_11:
+   \   00000098   0110A0E3           MOV      R1,#+1
+   \   0000009C   0200A0E1           MOV      R0,R2
+   \   000000A0   3D0100EF           SWI      +317
+    131                      GeneralFunc_flag1(id_ed,1);
+   \   000000A4   3C009FE5           LDR      R0,??menu_onkey2_2+0xC  ;; id_ed
+   \   000000A8   0110A0E3           MOV      R1,#+1
+   \   000000AC   000090E5           LDR      R0,[R0, #+0]
+   \   000000B0   3D0100EF           SWI      +317
+    132                      break;
+    133                }
+    134              return(1);
+   \                     ??menu_onkey2_4:
+   \   000000B4   0100A0E3           MOV      R0,#+1
+   \   000000B8   1080BDE8           POP      {R4,PC}
+    135            }
+    136           if(k==RIGHT_SOFT || k==RED_BUTTON)
+   \                     ??menu_onkey2_3:
+   \   000000BC   040051E3           CMP      R1,#+4
+   \   000000C0   0C005113           CMPNE    R1,#+12
+   \   000000C4   0200001A           BNE      ??menu_onkey2_12
+    137           {
+    138             GeneralFunc_flag1(menu_id,1);
+   \   000000C8   0110A0E3           MOV      R1,#+1
+   \   000000CC   0200A0E1           MOV      R0,R2
+   \   000000D0   3D0100EF           SWI      +317
+    139           }
+    140            return(0);
+   \                     ??menu_onkey2_12:
+   \   000000D4   0000A0E3           MOV      R0,#+0
+   \   000000D8   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??menu_onkey2_2:
+   \   000000DC   ........           DC32     menuhdr2 + 20
+   \   000000E0   ........           DC32     item
+   \   000000E4   ........           DC32     file
+   \   000000E8   ........           DC32     id_ed
+    141          }
+    142          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    143          void ShowMainMenu(void)
+    144          { 
+   \                     ShowMainMenu:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    145           patch_header(&menuhdr2);
+   \   00000004   4C409FE5           LDR      R4,??ShowMainMenu_0  ;; menuhdr2
+   \   00000008   0000A0E3           MOV      R0,#+0
+   \   0000000C   000084E5           STR      R0,[R4, #+0]
+   \   00000010   888100EF           SWI      +33160
+   \   00000014   010040E2           SUB      R0,R0,#+1
+   \   00000018   B400C4E1           STRH     R0,[R4, #+4]
+   \   0000001C   8A8100EF           SWI      +33162
+    146           menu_id=CreateMenu(0,0,&menu,&menuhdr2,0,it,0,0);
+   \   00000020   34209FE5           LDR      R2,??ShowMainMenu_0+0x4  ;; menu
+   \   00000024   B600C4E1           STRH     R0,[R4, #+6]
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   01002DE9           PUSH     {R0}
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   180094E5           LDR      R0,[R4, #+24]
+   \   00000038   0430A0E1           MOV      R3,R4
+   \   0000003C   01002DE9           PUSH     {R0}
+   \   00000040   0010A0E3           MOV      R1,#+0
+   \   00000044   0000A0E3           MOV      R0,#+0
+   \   00000048   01002DE9           PUSH     {R0}
+   \   0000004C   520100EF           SWI      +338
+   \   00000050   140084E5           STR      R0,[R4, #+20]
+    147          }
+   \   00000054   1F80BDE8           POP      {R0-R4,PC}       ;; return
+   \                     ??ShowMainMenu_0:
+   \   00000058   ........           DC32     menuhdr2
+   \   0000005C   ........           DC32     menu
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for menuhdr2>`:
+   \   00000000   000000008300       DC16 0, 0, 131, 21
+   \              1500        
+   \   00000008   00000000....       DC32 0H, `?<Constant "\\314\\345\\355\\376">`, 2147483647
+   \              ....FFFFFF7F
+   \                     `?<Initializer for menu_id>`:
+   \   00000014   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for it>`:
+   \   00000018   06000000           DC32 6
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for menu_name>`:
+   \   00000000   ........           DC32 `?<Constant "\\316\\362\\352\\360\\373\\362\\374">`
+   \   00000004   ........           DC32 `?<Constant "\\321\\356\\365\\360\\340\\355\\350\\362\\3`
+   \   00000008   ........           DC32 `?<Constant "\\304\\356\\341\\340\\342\\350\\362\\374">`
+   \   0000000C   ........           DC32 `?<Constant "\\323\\344\\340\\353\\350\\362\\374">`
+   \   00000010   ........           DC32 `?<Constant "\\316\\341 \\375\\353\\374\\364\\345">`
+   \   00000014   ........           DC32 `?<Constant "\\302\\373\\365\\356\\344">`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\362\\352\\360\\373\\362\\374">`:
+   \   00000000   CEF2EAF0FBF2       DC8 "\316\362\352\360\373\362\374"
+   \              FC00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\356\\365\\360\\340\\355\\350\\362\\3`:
+   \   00000000   D1EEF5F0E0ED       DC8 "\321\356\365\360\340\355\350\362\374"
+   \              E8F2FC00    
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\304\\356\\341\\340\\342\\350\\362\\374">`:
+   \   00000000   C4EEE1E0E2E8       DC8 "\304\356\341\340\342\350\362\374"
+   \              F2FC00      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\323\\344\\340\\353\\350\\362\\374">`:
+   \   00000000   D3E4E0EBE8F2       DC8 "\323\344\340\353\350\362\374"
+   \              FC00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\341 \\375\\353\\374\\364\\345">`:
+   \   00000000   CEE120FDEBFC       DC8 "\316\341 \375\353\374\364\345"
+   \              F4E500      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\302\\373\\365\\356\\344">`:
+   \   00000000   C2FBF5EEE400       DC8 "\302\373\365\356\344"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\302\\373\\341\\360\\340\\362\\374">`:
+   \   00000000   C2FBE1F0E0F2       DC8 "\302\373\341\360\340\362\374"
+   \              FC00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\307\\340\\352\\360\\373\\362\\374">`:
+   \   00000000   C7E0EAF0FBF2       DC8 "\307\340\352\360\373\362\374"
+   \              FC00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\314\\345\\355\\376">`:
+   \   00000000   CCE5EDFE00         DC8 "\314\345\355\376"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   257300             DC8 "%s"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   257400             DC8 "%t"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "no name">`:
+   \   00000000   6E6F206E616D       DC8 "no name"
+   \              6500        
+   \   00000008   6572726F7200       DC8 "error"
+   \   0000000E   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function     CSTACK
+     --------     ------
+     ShowMainMenu    24
+     menu_ghook       0
+     menu_iconhnd    32
+     menu_onkey2      8
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     menusoftke                       12
+     menu_                            24
+     menu_s                            8
+     menu_ghook                        4
+     menuhdr2                         28
+     menu_name                        24
+     menu                             44
+     menu_iconhnd                    228
+     menu_onkey2                     236
+     ShowMainMenu                     96
+     ?<Initializer for menuhdr2>      28
+     ?<Initializer for menu_name>     24
+     ?<Constant "\316\362\352\360\373\362\374">
+                                       8
+     ?<Constant "\321\356\365\360\340\355\350\362\3
+                                      12
+     ?<Constant "\304\356\341\340\342\350\362\374">
+                                      12
+     ?<Constant "\323\344\340\353\350\362\374">
+                                       8
+     ?<Constant "\316\341 \375\353\374\364\345">
+                                      12
+     ?<Constant "\302\373\365\356\344">
+                                       8
+     ?<Constant "\302\373\341\360\340\362\374">
+                                       8
+     ?<Constant "\307\340\352\360\373\362\374">
+                                       8
+     ?<Constant "\314\345\355\376">    8
+     ?<Constant "%s">                  3
+     ?<Constant "%t">                  3
+     ?<Constant "no name">            16
+      Others                          88
+
+ 
+ 640 bytes in segment CODE
+ 194 bytes in segment DATA_C
+  52 bytes in segment DATA_I
+  52 bytes in segment DATA_ID
+  12 bytes in segment INITTAB
+ 
+ 564 bytes of CODE  memory (+ 88 bytes shared)
+ 246 bytes of CONST memory
+  52 bytes of DATA  memory
+
+Errors: none
+Warnings: none

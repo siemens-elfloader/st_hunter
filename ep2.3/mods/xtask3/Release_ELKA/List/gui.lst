@@ -1,0 +1,2364 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    25/Feb/2008  12:17:19 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT_\xtask3\gui.c               #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT_\xtask3\gui.c -D NEWSGOLD   #
+#                       -D ELKA -lC D:\Pasha\elf\_MY_PROJECT_\xtask3\Release #
+#                       _ELKA\List\ -o D:\Pasha\elf\_MY_PROJECT_\xtask3\Rele #
+#                       ase_ELKA\Obj\ -s9 --no_unroll --no_clustering        #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --fpu None            #
+#                       --dlib_config "D:\Pasha\Embedded Workbench 4.0       #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT_\xtask3\Release_ELKA\List\g #
+#                       ui.lst                                               #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT_\xtask3\Release_ELKA\Obj\gu #
+#                       i.r79                                                #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT_\xtask3\gui.c
+      1          #include "..\inc\swilib.h"
+      2          #include "conf_loader.h"
+      3          #include "rect_patcher.h"
+      4          #include "swaper.h"
+      5          
+      6          extern void kill_data(void *p, void (*func_p)(void *));
+      7          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+      8          char mmenu_hdr_txt[64];
+   \                     mmenu_hdr_txt:
+   \   00000000                      DS8 64
+      9          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     10          int show_daemons;
+   \                     show_daemons:
+   \   00000000                      DS8 4
+     11          //extern int mode;
+     12          extern CSM_RAM *under_idle;
+     13          
+     14          extern const char BM1NAME[32];
+     15          extern const char BM1FILE[128];
+     16          extern const char BM2NAME[32];
+     17          extern const char BM2FILE[128];
+     18          extern const char BM3NAME[32];
+     19          extern const char BM3FILE[128];
+     20          extern const char BM4NAME[32];
+     21          extern const char BM4FILE[128];
+     22          extern const char BM5NAME[32];
+     23          extern const char BM5FILE[128];
+     24          extern const char BM6NAME[32];
+     25          extern const char BM6FILE[128];
+     26          extern const char BM7NAME[32];
+     27          extern const char BM7FILE[128];
+     28          extern const char BM8NAME[32];
+     29          extern const char BM8FILE[128];
+     30          extern const char BM9NAME[32];
+     31          extern const char BM9FILE[128];
+     32          extern const char BM0NAME[32];
+     33          extern const char BM0FILE[128];
+     34          extern const char BM_GREEN_NAME[32];
+     35          extern const char BM_GREEN_FILE[128];
+     36          
+     37          const CSM_DESC maincsm;
+     38          
+     39          typedef struct
+     40          {
+     41            CSM_RAM csm;
+     42            int gui_id;
+     43          //  int show_csm;
+     44          //  int do_idle;
+     45          }MAIN_CSM;
+     46          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     47          int my_csm_id;
+   \                     my_csm_id:
+   \   00000000                      DS8 4
+     48          
+     49          #pragma inline=forced
+     50          int toupper(int c)
+     51          {
+     52            if ((c>='a')&&(c<='z')) c+='A'-'a';
+     53            return(c);
+     54          }
+     55          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     56          int strncmp_nocase(const char *s1,const char *s2,unsigned int n)
+     57          {
+   \                     strncmp_nocase:
+   \   00000000   10002DE9           PUSH     {R4}
+     58            int i;
+     59            int c;
+     60            while(!(i=(c=toupper(*s1++))-toupper(*s2++))&&(--n)) if (!c) break;
+   \                     ??strncmp_nocase_0:
+   \   00000004   0030D0E5           LDRB     R3,[R0, #+0]
+   \   00000008   610053E3           CMP      R3,#+97
+   \   0000000C   010000BA           BLT      ??strncmp_nocase_1
+   \   00000010   7B0053E3           CMP      R3,#+123
+   \   00000014   203043B2           SUBLT    R3,R3,#+32
+   \                     ??strncmp_nocase_1:
+   \   00000018   0040D1E5           LDRB     R4,[R1, #+0]
+   \   0000001C   010080E2           ADD      R0,R0,#+1
+   \   00000020   03C0A0E1           MOV      R12,R3
+   \   00000024   610054E3           CMP      R4,#+97
+   \   00000028   010000BA           BLT      ??strncmp_nocase_2
+   \   0000002C   7B0054E3           CMP      R4,#+123
+   \   00000030   204044B2           SUBLT    R4,R4,#+32
+   \                     ??strncmp_nocase_2:
+   \   00000034   011081E2           ADD      R1,R1,#+1
+   \   00000038   043053E0           SUBS     R3,R3,R4
+   \   0000003C   0200001A           BNE      ??strncmp_nocase_3
+   \   00000040   012052E2           SUBS     R2,R2,#+1
+   \   00000044   00005C13           CMPNE    R12,#+0
+   \   00000048   EDFFFF1A           BNE      ??strncmp_nocase_0
+     61            return(i);
+   \                     ??strncmp_nocase_3:
+   \   0000004C   1000BDE8           POP      {R4}
+   \   00000050   0300A0E1           MOV      R0,R3
+   \   00000054   1EFF2FE1           BX       LR               ;; return
+     62          }
+     63          
+     64          typedef struct
+     65          {
+     66            void *next;
+     67            WSHDR *name;
+     68            void *p;
+     69            int is_daemon;
+     70          } NAMELIST;
+     71          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     72          NAMELIST * volatile nltop;
+   \                     nltop:
+   \   00000000                      DS8 4
+     73          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     74          char csm_text[32768];
+   \                     csm_text:
+   \   00000000                      DS8 32768
+     75          
+
+   \                                 In segment DATA_C, align 1, align-sorted
+     76          const char percent_t[]="%t";
+   \                     percent_t:
+   \   00000000   257400             DC8 "%t"
+     77          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     78          void ClearNL(void)
+     79          {
+   \                     ClearNL:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+     80            LockSched();
+   \   00000004   460100EF           SWI      +326
+     81            NAMELIST *nl=nltop;
+   \   00000008   ........           LDR      R0,??DataTable7  ;; nltop
+     82            nltop=0;
+   \   0000000C   0010A0E3           MOV      R1,#+0
+   \   00000010   004090E5           LDR      R4,[R0, #+0]
+   \   00000014   001080E5           STR      R1,[R0, #+0]
+     83            UnlockSched();
+   \   00000018   470100EF           SWI      +327
+   \   0000001C   000054E3           CMP      R4,#+0
+   \   00000020   3080BD08           POPEQ    {R4,R5,PC}
+     84            while(nl)
+     85            {
+     86              NAMELIST *p=nl;
+     87              FreeWS(nl->name);
+   \                     ??ClearNL_0:
+   \   00000024   040094E5           LDR      R0,[R4, #+4]
+   \   00000028   0450A0E1           MOV      R5,R4
+   \   0000002C   290100EF           SWI      +297
+     88              nl=p->next;
+   \   00000030   004095E5           LDR      R4,[R5, #+0]
+     89              mfree(p);
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   150000EF           SWI      +21
+     90            }
+   \   0000003C   000054E3           CMP      R4,#+0
+   \   00000040   F7FFFF1A           BNE      ??ClearNL_0
+     91          }
+   \   00000044   3080BDE8           POP      {R4,R5,PC}       ;; return
+     92          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     93          void AddNL(WSHDR *ws, int is_daemon)
+     94          {
+   \                     AddNL:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+     95            NAMELIST *nnl=malloc(sizeof(NAMELIST));
+   \   0000000C   1000A0E3           MOV      R0,#+16
+   \   00000010   140000EF           SWI      +20
+   \   00000014   0060A0E1           MOV      R6,R0
+     96            nnl->name=ws;
+   \   00000018   044086E5           STR      R4,[R6, #+4]
+     97            nnl->next=0;
+   \   0000001C   0000A0E3           MOV      R0,#+0
+   \   00000020   000086E5           STR      R0,[R6, #+0]
+     98            nnl->is_daemon=is_daemon;
+   \   00000024   0C5086E5           STR      R5,[R6, #+12]
+     99            LockSched();
+   \   00000028   460100EF           SWI      +326
+    100            if (!nltop)
+   \   0000002C   ........           LDR      R0,??DataTable7  ;; nltop
+   \   00000030   001090E5           LDR      R1,[R0, #+0]
+   \   00000034   000051E3           CMP      R1,#+0
+    101            {
+    102              nltop=nnl;
+    103            }
+    104            else
+    105            {
+    106              nnl->next=nltop;
+   \   00000038   00109015           LDRNE    R1,[R0, #+0]
+   \   0000003C   00108615           STRNE    R1,[R6, #+0]
+    107              nltop=nnl;
+   \   00000040   006080E5           STR      R6,[R0, #+0]
+    108            }
+    109            UnlockSched();
+   \   00000044   470100EF           SWI      +327
+    110          }
+   \   00000048   7080BDE8           POP      {R4-R6,PC}       ;; return
+    111          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    112          char *find_name(CSM_RAM *csm)
+    113          {
+    114            char s[40];
+    115            char *p;
+    116            static char u[40];
+    117          
+    118            CSM_DESC *desc=csm->constr;
+    119          
+    120            sprintf(s,"%08X ",desc);
+   \                     find_name:
+   \   00000000   4C109FE5           LDR      R1,??find_name_0  ;; `?<Constant "%08X ">`
+   \   00000004   30402DE9           PUSH     {R4,R5,LR}
+   \   00000008   28D04DE2           SUB      SP,SP,#+40
+   \   0000000C   084090E5           LDR      R4,[R0, #+8]
+   \   00000010   0D00A0E1           MOV      R0,SP
+   \   00000014   0420A0E1           MOV      R2,R4
+   \   00000018   160000EF           SWI      +22
+    121            p=strstr(csm_text,s);
+   \   0000001C   ........           LDR      R0,??DataTable11  ;; csm_text
+   \   00000020   0D10A0E1           MOV      R1,SP
+   \   00000024   180100EF           SWI      +280
+    122            if (p)
+   \   00000028   000050E3           CMP      R0,#+0
+    123            {
+    124              return(p+9);
+   \   0000002C   09008012           ADDNE    R0,R0,#+9
+   \   00000030   0500001A           BNE      ??find_name_1
+    125            }
+    126            else
+    127            {
+    128              sprintf(u,"Unknown %08X!",desc);
+   \   00000034   1C509FE5           LDR      R5,??find_name_0+0x4  ;; ??u
+   \   00000038   1C109FE5           LDR      R1,??find_name_0+0x8  ;; `?<Constant "Unknown %08X!">`
+   \   0000003C   0420A0E1           MOV      R2,R4
+   \   00000040   0500A0E1           MOV      R0,R5
+   \   00000044   160000EF           SWI      +22
+    129              return(u);
+   \   00000048   0500A0E1           MOV      R0,R5
+   \                     ??find_name_1:
+   \   0000004C   28D08DE2           ADD      SP,SP,#+40       ;; stack cleaning
+   \   00000050   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??find_name_0:
+   \   00000054   ........           DC32     `?<Constant "%08X ">`
+   \   00000058   ........           DC32     ??u
+   \   0000005C   ........           DC32     `?<Constant "Unknown %08X!">`
+    130            }
+    131          }
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     ??u:
+   \   00000000                      DS8 40
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    132          unsigned int *ErrorNumber;
+   \                     ErrorNumber:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    133          char *dday[7]={"Пн","Вт","Ср","Чт","Пт","Сб","Вс"};
+   \                     dday:
+   \   00000000                      DS8 28
+   \   0000001C                      REQUIRE `?<Initializer for dday>`
+
+   \                                 In segment CODE, align 4, keep-with-next
+    134          int GetNumberOfDialogs(void)
+    135          {
+   \                     GetNumberOfDialogs:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+    136            int count=0;
+    137            int c;
+    138            int i;
+    139            CSM_RAM *icsm;
+    140            WSHDR *ws;
+    141            char ss[64];
+    142          
+    143            void *ircsm=FindCSMbyID(CSM_root()->idle_id);
+    144            ClearNL();
+    145          
+    146            //Find new style daemons
+    147            if (show_daemons)
+   \   00000004   ........           LDR      R5,??DataTable7  ;; nltop
+   \   00000008   E0629FE5           LDR      R6,??GetNumberOfDialogs_0  ;; 0x55aacccc
+   \   0000000C   54D04DE2           SUB      SP,SP,#+84
+   \   00000010   068100EF           SWI      +33030
+   \   00000014   040090E5           LDR      R0,[R0, #+4]
+   \   00000018   0040A0E3           MOV      R4,#+0
+   \   0000001C   080100EF           SWI      +264
+   \   00000020   10008DE5           STR      R0,[SP, #+16]
+   \   00000024   ........           BL       ClearNL
+   \   00000028   ........           LDR      R0,??DataTable10  ;; show_daemons
+   \   0000002C   000090E5           LDR      R0,[R0, #+0]
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   2000000A           BEQ      ??GetNumberOfDialogs_1
+    148            {
+    149              icsm=((CSM_RAM *)(CSM_root()->csm_q->csm.first))->next; //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ CSM пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+   \   00000038   068100EF           SWI      +33030
+   \   0000003C   080090E5           LDR      R0,[R0, #+8]
+   \   00000040   080090E5           LDR      R0,[R0, #+8]
+   \   00000044   008090E5           LDR      R8,[R0, #+0]
+   \   00000048   080098E5           LDR      R0,[R8, #+8]
+   \   0000004C   A00DA0E1           LSR      R0,R0,#+27
+   \   00000050   150050E3           CMP      R0,#+21
+   \   00000054   1800001A           BNE      ??GetNumberOfDialogs_1
+    150              while(((unsigned int)(icsm->constr)>>27)==0x15)
+    151              {
+    152                WSHDR *tws=(WSHDR *)(((char *)icsm->constr)+sizeof(CSM_DESC));
+   \                     ??GetNumberOfDialogs_2:
+   \   00000058   080098E5           LDR      R0,[R8, #+8]
+   \   0000005C   289080E2           ADD      R9,R0,#+40
+    153                if((tws->ws_malloc==NAMECSM_MAGIC1)&&(tws->ws_mfree==NAMECSM_MAGIC2))
+   \   00000060   040099E5           LDR      R0,[R9, #+4]
+   \   00000064   060050E1           CMP      R0,R6
+   \   00000068   0E00001A           BNE      ??GetNumberOfDialogs_3
+   \   0000006C   080099E5           LDR      R0,[R9, #+8]
+   \   00000070   7C129FE5           LDR      R1,??GetNumberOfDialogs_0+0x4  ;; 0x3333aa55
+   \   00000074   010050E1           CMP      R0,R1
+   \   00000078   0A00001A           BNE      ??GetNumberOfDialogs_3
+    154                {
+    155                  ws=AllocWS(64);
+   \   0000007C   4000A0E3           MOV      R0,#+64
+   \   00000080   250100EF           SWI      +293
+   \   00000084   0070A0E1           MOV      R7,R0
+    156                  wstrcpy(ws,tws);
+   \   00000088   0910A0E1           MOV      R1,R9
+   \   0000008C   1F0100EF           SWI      +287
+    157                  AddNL(ws,1);
+   \   00000090   0110A0E3           MOV      R1,#+1
+   \   00000094   0700A0E1           MOV      R0,R7
+   \   00000098   ........           BL       AddNL
+    158                  nltop->p=icsm;
+   \   0000009C   000095E5           LDR      R0,[R5, #+0]
+    159                  count++;
+   \   000000A0   014084E2           ADD      R4,R4,#+1
+   \   000000A4   088080E5           STR      R8,[R0, #+8]
+    160                }
+    161                icsm=icsm->next;
+   \                     ??GetNumberOfDialogs_3:
+   \   000000A8   008098E5           LDR      R8,[R8, #+0]
+    162              }
+   \   000000AC   080098E5           LDR      R0,[R8, #+8]
+   \   000000B0   A00DA0E1           LSR      R0,R0,#+27
+   \   000000B4   150050E3           CMP      R0,#+21
+   \   000000B8   E6FFFF0A           BEQ      ??GetNumberOfDialogs_2
+    163            }
+    164            icsm=under_idle->next; //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+   \                     ??GetNumberOfDialogs_1:
+   \   000000BC   34029FE5           LDR      R0,??GetNumberOfDialogs_0+0x8  ;; under_idle
+   \   000000C0   000090E5           LDR      R0,[R0, #+0]
+   \   000000C4   008090E5           LDR      R8,[R0, #+0]
+    165            do
+    166            {
+    167              if (icsm==ircsm)
+   \                     ??GetNumberOfDialogs_4:
+   \   000000C8   10009DE5           LDR      R0,[SP, #+16]
+   \   000000CC   019084E2           ADD      R9,R4,#+1
+   \   000000D0   000058E1           CMP      R8,R0
+   \   000000D4   0800001A           BNE      ??GetNumberOfDialogs_5
+    168              {
+    169             //   ws=AllocWS(40);
+    170              //  wsprintf(ws,"IDLE Screen");
+    171                ws = AllocWS(256);
+   \   000000D8   400FA0E3           MOV      R0,#+256
+   \   000000DC   250100EF           SWI      +293
+   \   000000E0   0070A0E1           MOV      R7,R0
+    172                wsprintf(ws,"MainScreen | %d kb",GetFreeRamAvail()/1024);
+   \   000000E4   5F0000EF           SWI      +95
+   \   000000E8   C014A0E1           ASR      R1,R0,#+9
+   \   000000EC   210B80E0           ADD      R0,R0,R1, LSR #+22
+   \   000000F0   04129FE5           LDR      R1,??GetNumberOfDialogs_0+0xC  ;; `?<Constant "MainScreen | %d kb">`
+   \   000000F4   4025A0E1           ASR      R2,R0,#+10
+   \   000000F8   570000EA           B        ??GetNumberOfDialogs_6
+    173                AddNL(ws,0);
+    174                nltop->p=icsm;
+    175                count++;
+    176              }
+    177              else
+    178              {
+    179                if (icsm->constr!=&maincsm)
+   \                     ??GetNumberOfDialogs_5:
+   \   000000FC   080098E5           LDR      R0,[R8, #+8]
+   \   00000100   ........           LDR      R1,??DataTable14  ;; maincsm
+   \   00000104   010050E1           CMP      R0,R1
+   \   00000108   5B00000A           BEQ      ??GetNumberOfDialogs_7
+    180                {
+    181          	WSHDR *tws=(WSHDR *)(((char *)icsm->constr)+sizeof(CSM_DESC));
+   \   0000010C   28A080E2           ADD      R10,R0,#+40
+    182          	char *s;
+    183          	if((tws->ws_malloc==NAMECSM_MAGIC1)&&(tws->ws_mfree==NAMECSM_MAGIC2))
+   \   00000110   04009AE5           LDR      R0,[R10, #+4]
+   \   00000114   060050E1           CMP      R0,R6
+   \   00000118   0900001A           BNE      ??GetNumberOfDialogs_8
+   \   0000011C   08009AE5           LDR      R0,[R10, #+8]
+   \   00000120   CC119FE5           LDR      R1,??GetNumberOfDialogs_0+0x4  ;; 0x3333aa55
+   \   00000124   010050E1           CMP      R0,R1
+   \   00000128   0500001A           BNE      ??GetNumberOfDialogs_8
+    184          	{
+    185          	  ws=AllocWS(64);
+   \   0000012C   4000A0E3           MOV      R0,#+64
+   \   00000130   250100EF           SWI      +293
+   \   00000134   0070A0E1           MOV      R7,R0
+    186          	  wstrcpy(ws,tws);
+   \   00000138   0A10A0E1           MOV      R1,R10
+   \   0000013C   1F0100EF           SWI      +287
+    187          	  AddNL(ws,0);
+   \   00000140   470000EA           B        ??GetNumberOfDialogs_9
+    188          	  nltop->p=icsm;
+    189          	  count++;
+    190          	}
+    191          	else
+    192          	{
+    193          	  s=find_name(icsm);
+   \                     ??GetNumberOfDialogs_8:
+   \   00000144   0800A0E1           MOV      R0,R8
+   \   00000148   ........           BL       find_name
+    194          #ifdef NEWSGOLD
+    195          	  if (!strncmp_nocase(s,"Java",4))
+   \   0000014C   AC119FE5           LDR      R1,??GetNumberOfDialogs_0+0x10  ;; `?<Constant "Java">`
+   \   00000150   00A0A0E1           MOV      R10,R0
+   \   00000154   0420A0E3           MOV      R2,#+4
+   \   00000158   ........           BL       strncmp_nocase
+   \   0000015C   000050E3           CMP      R0,#+0
+   \   00000160   2600001A           BNE      ??GetNumberOfDialogs_10
+    196          	  {
+    197          	    typedef struct
+    198          	    {
+    199          	      CSM_RAM csm;
+    200          	      int unk1;
+    201          	      int bearer;
+    202          	      int gui_id;
+    203          	      int unk2;
+    204          	      int param_R1;
+    205          	      int param_ZERO;
+    206          	    }JAVAINTERFACE_CSM;
+    207          	    int i=((JAVAINTERFACE_CSM *)icsm)->bearer;
+   \   00000164   2CA098E5           LDR      R10,[R8, #+44]
+    208          	    int j=((JAVAINTERFACE_CSM *)icsm)->param_R1;
+   \   00000168   38B098E5           LDR      R11,[R8, #+56]
+    209          	    if (i==2) continue;
+   \   0000016C   02005AE3           CMP      R10,#+2
+   \   00000170   4100000A           BEQ      ??GetNumberOfDialogs_7
+    210          	    ws=AllocWS(128);
+   \   00000174   8000A0E3           MOV      R0,#+128
+   \   00000178   250100EF           SWI      +293
+   \   0000017C   0070A0E1           MOV      R7,R0
+    211          	    switch(i)
+   \   00000180   01005AE2           SUBS     R0,R10,#+1
+   \   00000184   0400000A           BEQ      ??GetNumberOfDialogs_11
+   \   00000188   010050E2           SUBS     R0,R0,#+1
+   \   0000018C   0500000A           BEQ      ??GetNumberOfDialogs_12
+   \   00000190   010050E2           SUBS     R0,R0,#+1
+   \   00000194   0500000A           BEQ      ??GetNumberOfDialogs_13
+   \   00000198   120000EA           B        ??GetNumberOfDialogs_14
+    212          	    {
+    213          	    case 1:
+    214          	      wsprintf(ws,"Browser",j);
+   \                     ??GetNumberOfDialogs_11:
+   \   0000019C   60119FE5           LDR      R1,??GetNumberOfDialogs_0+0x14  ;; `?<Constant "Browser">`
+   \                     ??GetNumberOfDialogs_15:
+   \   000001A0   0B20A0E1           MOV      R2,R11
+   \   000001A4   2C0000EA           B        ??GetNumberOfDialogs_6
+    215          	      break;
+    216          	    case 2:
+    217          	      wsprintf(ws,"Jam %d",j);
+   \                     ??GetNumberOfDialogs_12:
+   \   000001A8   58119FE5           LDR      R1,??GetNumberOfDialogs_0+0x18  ;; `?<Constant "Jam %d">`
+   \   000001AC   FBFFFFEA           B        ??GetNumberOfDialogs_15
+    218          	      break;
+    219          	    case 3:
+    220          	      switch(j)
+   \                     ??GetNumberOfDialogs_13:
+   \   000001B0   02005BE2           SUBS     R0,R11,#+2
+   \   000001B4   0200000A           BEQ      ??GetNumberOfDialogs_16
+   \   000001B8   010050E2           SUBS     R0,R0,#+1
+   \   000001BC   0400000A           BEQ      ??GetNumberOfDialogs_17
+   \   000001C0   050000EA           B        ??GetNumberOfDialogs_18
+    221          	      {
+    222          	      case 2:
+    223          		wsprintf(ws,"Phone Java");
+   \                     ??GetNumberOfDialogs_16:
+   \   000001C4   40119FE5           LDR      R1,??GetNumberOfDialogs_0+0x1C  ;; `?<Constant "Phone Java">`
+   \                     ??GetNumberOfDialogs_19:
+   \   000001C8   0700A0E1           MOV      R0,R7
+   \   000001CC   240100EF           SWI      +292
+   \   000001D0   230000EA           B        ??GetNumberOfDialogs_9
+    224                          break;
+    225          	      case 3:
+    226          		wsprintf(ws,"User Java");
+   \                     ??GetNumberOfDialogs_17:
+   \   000001D4   34119FE5           LDR      R1,??GetNumberOfDialogs_0+0x20  ;; `?<Constant "User Java">`
+   \   000001D8   FAFFFFEA           B        ??GetNumberOfDialogs_19
+    227                          break;
+    228          	      default:
+    229          		wsprintf(ws,"Unknown Java (%d)",j);
+   \                     ??GetNumberOfDialogs_18:
+   \   000001DC   30119FE5           LDR      R1,??GetNumberOfDialogs_0+0x24  ;; `?<Constant "Unknown Java (%d)">`
+   \   000001E0   0B20A0E1           MOV      R2,R11
+   \   000001E4   1C0000EA           B        ??GetNumberOfDialogs_6
+    230          		break;
+    231          	      }
+    232          	      break;
+    233          	    default:
+    234          	      wsprintf(ws,"Unknown %d(%d) bearer",i,j);
+   \                     ??GetNumberOfDialogs_14:
+   \   000001E8   28119FE5           LDR      R1,??GetNumberOfDialogs_0+0x28  ;; `?<Constant "Unknown %d(%d) bearer">`
+   \   000001EC   0B30A0E1           MOV      R3,R11
+   \   000001F0   0A20A0E1           MOV      R2,R10
+   \   000001F4   0700A0E1           MOV      R0,R7
+   \   000001F8   240100EF           SWI      +292
+   \   000001FC   180000EA           B        ??GetNumberOfDialogs_9
+    235          	      break;
+    236          	    }
+    237          	    goto L_ADD;
+    238          	  }
+    239          #else
+    240                    if (!strncmp_nocase(s,"Java",4))
+    241          	  {
+    242          	    typedef struct
+    243          	    {
+    244          	      CSM_RAM csm;
+    245          	      int bearer;
+    246          	      int gui_id;
+    247          	      int gui_id2;
+    248          	    }JAVAINTERFACE_CSM;
+    249          	    int i=((JAVAINTERFACE_CSM *)icsm)->bearer;
+    250          	    ws=AllocWS(64);
+    251          	    switch(i)
+    252          	    {
+    253          	    case 1:
+    254          	      wsprintf(ws,"Browser");
+    255          	      break;
+    256          	    case 0xF:
+    257                        wsprintf(ws,"User Java");
+    258          	      break;
+    259                      case 0x11:
+    260          #ifdef X75
+    261                        wsprintf(ws,"Java: %t",GetLastJavaApplication());
+    262          #else
+    263                        wsprintf(ws,"Java");
+    264          #endif
+    265          	      break; 
+    266                      case 18:
+    267                        wsprintf(ws,"E-mail client");
+    268          	      break; 
+    269                      default:
+    270                        wsprintf(ws,"Unknown %d bearer",i);
+    271                        break;
+    272          	    }
+    273          	    goto L_ADD;
+    274          	  }
+    275          #endif
+    276          	  if (strncmp(s,"!SKIP!",6))
+   \                     ??GetNumberOfDialogs_10:
+   \   00000200   14119FE5           LDR      R1,??GetNumberOfDialogs_0+0x2C  ;; `?<Constant "!SKIP!">`
+   \   00000204   0620A0E3           MOV      R2,#+6
+   \   00000208   0A00A0E1           MOV      R0,R10
+   \   0000020C   150100EF           SWI      +277
+   \   00000210   000050E3           CMP      R0,#+0
+   \   00000214   1800000A           BEQ      ??GetNumberOfDialogs_7
+    277          	  {
+    278          	    ws=AllocWS(64);
+   \   00000218   4000A0E3           MOV      R0,#+64
+   \   0000021C   250100EF           SWI      +293
+   \   00000220   0070A0E1           MOV      R7,R0
+    279          	    i=0;
+   \   00000224   0000A0E3           MOV      R0,#+0
+   \   00000228   020000EA           B        ??GetNumberOfDialogs_20
+    280          	    while((c=*s++)>=' ')
+    281          	    {
+    282          	      if (i<(sizeof(ss)-1)) ss[i++]=c;
+   \                     ??GetNumberOfDialogs_21:
+   \   0000022C   3F0050E3           CMP      R0,#+63
+   \   00000230   0020C135           STRBCC   R2,[R1, #+0]
+   \   00000234   01008032           ADDCC    R0,R0,#+1
+    283          	    }
+   \                     ??GetNumberOfDialogs_20:
+   \   00000238   ........           LDRB     R2,[R10], #+1
+   \   0000023C   14108DE2           ADD      R1,SP,#+20
+   \   00000240   011080E0           ADD      R1,R0,R1
+   \   00000244   200052E3           CMP      R2,#+32
+   \   00000248   F7FFFFAA           BGE      ??GetNumberOfDialogs_21
+    284          	    ss[i]=0;
+   \   0000024C   0000A0E3           MOV      R0,#+0
+   \   00000250   0000C1E5           STRB     R0,[R1, #+0]
+    285          	    wsprintf(ws,percent_t,ss);
+   \   00000254   ........           LDR      R1,??DataTable9  ;; percent_t
+   \   00000258   14208DE2           ADD      R2,SP,#+20
+   \                     ??GetNumberOfDialogs_6:
+   \   0000025C   0700A0E1           MOV      R0,R7
+   \   00000260   240100EF           SWI      +292
+    286          	  L_ADD:
+    287          	    AddNL(ws,0);
+   \                     ??GetNumberOfDialogs_9:
+   \   00000264   0010A0E3           MOV      R1,#+0
+   \   00000268   0700A0E1           MOV      R0,R7
+   \   0000026C   ........           BL       AddNL
+    288          	    nltop->p=icsm;
+   \   00000270   000095E5           LDR      R0,[R5, #+0]
+    289          	    count++;
+   \   00000274   0940A0E1           MOV      R4,R9
+   \   00000278   088080E5           STR      R8,[R0, #+8]
+    290          	  }
+    291          	}
+    292                }
+    293              }
+    294            }
+    295            while((icsm=icsm->next));
+   \                     ??GetNumberOfDialogs_7:
+   \   0000027C   008098E5           LDR      R8,[R8, #+0]
+   \   00000280   000058E3           CMP      R8,#+0
+   \   00000284   8FFFFF1A           BNE      ??GetNumberOfDialogs_4
+    296            TDate date; 
+    297            TTime time; 
+    298            GetDateTime(&date,&time);  
+   \   00000288   08108DE2           ADD      R1,SP,#+8
+   \   0000028C   0D00A0E1           MOV      R0,SP
+   \   00000290   B40000EF           SWI      +180
+    299            RAMNET *rn=RamNet();
+   \   00000294   CA8000EF           SWI      +32970
+   \   00000298   0050A0E1           MOV      R5,R0
+    300           
+    301          //  sprintf(mmenu_hdr_txt,"XTask3.0 : %d dialogs",count);
+    302            sprintf(mmenu_hdr_txt,"%ddb| %02d:%02d          %s,%d |%d%%",rn->power,time.hour,time.min,dday[GetWeek(&date)],date.day,*RamCap());
+   \   0000029C   C88000EF           SWI      +32968
+   \   000002A0   0060A0E1           MOV      R6,R0
+   \   000002A4   0D00A0E1           MOV      R0,SP
+   \   000002A8   B50000EF           SWI      +181
+   \   000002AC   B010D6E1           LDRH     R1,[R6, #+0]
+   \   000002B0   02002DE9           PUSH     {R1}
+   \   000002B4   0910DDE5           LDRB     R1,[SP, #+9]
+   \   000002B8   02002DE9           PUSH     {R1}
+   \   000002BC   5C109FE5           LDR      R1,??GetNumberOfDialogs_0+0x30  ;; dday
+   \   000002C0   000191E7           LDR      R0,[R1, +R0, LSL #+2]
+   \   000002C4   58109FE5           LDR      R1,??GetNumberOfDialogs_0+0x34  ;; `?<Constant "%ddb| %02d:%02d      ...">`
+   \   000002C8   01002DE9           PUSH     {R0}
+   \   000002CC   1500DDE5           LDRB     R0,[SP, #+21]
+   \   000002D0   01002DE9           PUSH     {R0}
+   \   000002D4   1830DDE5           LDRB     R3,[SP, #+24]
+   \   000002D8   0620D5E5           LDRB     R2,[R5, #+6]
+   \   000002DC   44009FE5           LDR      R0,??GetNumberOfDialogs_0+0x38  ;; mmenu_hdr_txt
+   \   000002E0   160000EF           SWI      +22
+    303            return(count);
+   \   000002E4   0400A0E1           MOV      R0,R4
+   \   000002E8   64D08DE2           ADD      SP,SP,#+100
+   \   000002EC   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??GetNumberOfDialogs_0:
+   \   000002F0   CCCCAA55           DC32     0x55aacccc
+   \   000002F4   55AA3333           DC32     0x3333aa55
+   \   000002F8   ........           DC32     under_idle
+   \   000002FC   ........           DC32     `?<Constant "MainScreen | %d kb">`
+   \   00000300   ........           DC32     `?<Constant "Java">`
+   \   00000304   ........           DC32     `?<Constant "Browser">`
+   \   00000308   ........           DC32     `?<Constant "Jam %d">`
+   \   0000030C   ........           DC32     `?<Constant "Phone Java">`
+   \   00000310   ........           DC32     `?<Constant "User Java">`
+   \   00000314   ........           DC32     `?<Constant "Unknown Java (%d)">`
+   \   00000318   ........           DC32     `?<Constant "Unknown %d(%d) bearer">`
+   \   0000031C   ........           DC32     `?<Constant "!SKIP!">`
+   \   00000320   ........           DC32     dday
+   \   00000324   ........           DC32     `?<Constant "%ddb| %02d:%02d      ...">`
+   \   00000328   ........           DC32     mmenu_hdr_txt
+    304          }
+    305          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    306          NAMELIST *get_nlitem(int curitem)
+    307          {
+    308            NAMELIST *nl;
+    309            nl=nltop;
+   \                     get_nlitem:
+   \   00000000   ........           LDR      R1,??DataTable7  ;; nltop
+    310            int i=0;
+   \   00000004   0020A0E3           MOV      R2,#+0
+   \   00000008   001091E5           LDR      R1,[R1, #+0]
+   \   0000000C   010000EA           B        ??get_nlitem_0
+    311            while(nl)
+    312            {
+    313              if (i==curitem) break;
+    314              i++;
+    315              nl=nl->next;
+   \                     ??get_nlitem_1:
+   \   00000010   001091E5           LDR      R1,[R1, #+0]
+   \   00000014   012082E2           ADD      R2,R2,#+1
+   \                     ??get_nlitem_0:
+   \   00000018   000051E3           CMP      R1,#+0
+   \   0000001C   00005211           CMPNE    R2,R0
+   \   00000020   FAFFFF1A           BNE      ??get_nlitem_1
+    316            }
+    317            return(nl);
+   \   00000024   0100A0E1           MOV      R0,R1
+   \   00000028   1EFF2FE1           BX       LR               ;; return
+    318          }/*
+    319          extern const char ICON1[128];//пути к иконкам
+    320          extern const char ICON2[128];
+    321          extern const char ICON3[128];
+    322          extern const char ICON4[128];
+    323          extern const char ICON5[128];
+    324          extern const char ICON6[128];
+    325          extern const char ICON7[128];
+    326          extern const char ICON8[128];
+    327          extern const char ICON9[128];
+    328          extern const char NO_ICON[128];
+    329          
+    330          int S_ICONS[10]={
+    331          (int)ICON1,
+    332          (int)ICON2,
+    333          (int)ICON3,
+    334          (int)ICON4,
+    335          (int)ICON5,
+    336          (int)ICON6,
+    337          (int)ICON7,
+    338          (int)ICON8,
+    339          (int)ICON9,
+    340          (int)NO_ICON
+    341          };
+    342          extern const int name_cl;//main menu
+    343          extern const int name_bk;//bookmarks
+    344          extern const int demon_cl;
+    345          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    346          void mm_menu_iconhndl(void *data, int curitem, void *unk)
+    347          {
+   \                     mm_menu_iconhndl:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+    348            NAMELIST *nl;
+    349            WSHDR *ws;
+    350            void *item=AllocMenuItem(data);
+   \   0000000C   970100EF           SWI      +407
+   \   00000010   0060A0E1           MOV      R6,R0
+    351            nl=get_nlitem(curitem);
+   \   00000014   0500A0E1           MOV      R0,R5
+   \   00000018   ........           BL       get_nlitem
+   \   0000001C   0070B0E1           MOVS     R7,R0
+    352            if (nl)
+   \   00000020   1C00000A           BEQ      ??mm_menu_iconhndl_0
+    353            {
+    354              if (nl->name)
+   \   00000024   040097E5           LDR      R0,[R7, #+4]
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   1400000A           BEQ      ??mm_menu_iconhndl_1
+    355              {
+    356                ws=AllocMenuWS(data,nl->name->wsbody[0]+128);
+   \   00000030   000090E5           LDR      R0,[R0, #+0]
+   \   00000034   B000D0E1           LDRH     R0,[R0, #+0]
+   \   00000038   801080E2           ADD      R1,R0,#+128
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   980100EF           SWI      +408
+    357                wstrcpy(ws,nl->name);
+   \   00000044   041097E5           LDR      R1,[R7, #+4]
+   \   00000048   0080A0E1           MOV      R8,R0
+   \   0000004C   1F0100EF           SWI      +287
+    358          //      wsprintf(ws,"%d.%w",curitem+1,nl->name);
+    359                /*if (!nl->is_daemon)
+    360                {
+    361                  wsInsertChar(ws,2,1);//Цвет надписей
+    362                  wsInsertChar(ws,0xE008,1);//
+    363                }*/
+    364                if (nl->is_daemon)
+   \   00000050   0C0097E5           LDR      R0,[R7, #+12]
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   1400000A           BEQ      ??mm_menu_iconhndl_2
+    365                {
+    366                  wsInsertChar(ws,2,1);
+   \   0000005C   0120A0E3           MOV      R2,#+1
+   \   00000060   0210A0E3           MOV      R1,#+2
+   \   00000064   0800A0E1           MOV      R0,R8
+   \   00000068   1D0000EF           SWI      +29
+    367                  wsInsertChar(ws,0xE008,1);
+   \   0000006C   0120A0E3           MOV      R2,#+1
+   \   00000070   0810A0E3           MOV      R1,#+8
+   \   00000074   E01C81E3           ORR      R1,R1,#0xE000
+   \   00000078   0800A0E1           MOV      R0,R8
+   \   0000007C   1D0000EF           SWI      +29
+   \   00000080   0A0000EA           B        ??mm_menu_iconhndl_2
+    368                }
+    369              }
+    370              else
+    371              {
+    372                ws=AllocMenuWS(data,16);
+   \                     ??mm_menu_iconhndl_1:
+   \   00000084   1010A0E3           MOV      R1,#+16
+   \   00000088   0400A0E1           MOV      R0,R4
+   \   0000008C   980100EF           SWI      +408
+    373                wsprintf(ws,"no name???");
+   \   00000090   30109FE5           LDR      R1,??mm_menu_iconhndl_3  ;; `?<Constant "no name???">`
+   \   00000094   030000EA           B        ??mm_menu_iconhndl_4
+    374              }
+    375            }
+    376            else
+    377            {
+    378              ws=AllocMenuWS(data,16);
+   \                     ??mm_menu_iconhndl_0:
+   \   00000098   1010A0E3           MOV      R1,#+16
+   \   0000009C   0400A0E1           MOV      R0,R4
+   \   000000A0   980100EF           SWI      +408
+    379              wsprintf(ws,"error!!!");
+   \   000000A4   20109FE5           LDR      R1,??mm_menu_iconhndl_3+0x4  ;; `?<Constant "error!!!">`
+   \                     ??mm_menu_iconhndl_4:
+   \   000000A8   0080A0E1           MOV      R8,R0
+   \   000000AC   240100EF           SWI      +292
+    380            }
+    381            SetMenuItemText(data,item,ws,curitem);
+   \                     ??mm_menu_iconhndl_2:
+   \   000000B0   0530A0E1           MOV      R3,R5
+   \   000000B4   0820A0E1           MOV      R2,R8
+   \   000000B8   0610A0E1           MOV      R1,R6
+   \   000000BC   0400A0E1           MOV      R0,R4
+   \   000000C0   9A0100EF           SWI      +410
+    382          }
+   \   000000C4   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??mm_menu_iconhndl_3:
+   \   000000C8   ........           DC32     `?<Constant "no name???">`
+   \   000000CC   ........           DC32     `?<Constant "error!!!">`
+    383          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    384          const char *bm_name(int bm)
+    385          {
+    386            switch(bm)
+   \                     bm_name:
+   \   00000000   0A0050E3           CMP      R0,#+10
+   \   00000004   1B00008A           BHI      ??bm_name_1
+   \   00000008   011F8FE2           ADR      R1,??bm_name_0
+   \   0000000C   0010D1E7           LDRB     R1,[R1, R0]
+   \   00000010   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??bm_name_0:
+   \   00000014   02040608           DC8      +2,+4,+6,+8
+   \   00000018   0A0C0E10           DC8      +10,+12,+14,+16
+   \   0000001C   12141600           DC8      +18,+20,+22,+0
+    387            {
+    388            case 0: return BM1NAME;
+   \                     ??bm_name_2:
+   \   00000020   58009FE5           LDR      R0,??bm_name_3   ;; BM1NAME
+   \   00000024   1EFF2FE1           BX       LR
+    389            case 1: return BM2NAME;
+   \                     ??bm_name_4:
+   \   00000028   54009FE5           LDR      R0,??bm_name_3+0x4  ;; BM2NAME
+   \   0000002C   1EFF2FE1           BX       LR
+    390            case 2: return BM3NAME;
+   \                     ??bm_name_5:
+   \   00000030   50009FE5           LDR      R0,??bm_name_3+0x8  ;; BM3NAME
+   \   00000034   1EFF2FE1           BX       LR
+    391            case 3: return BM4NAME;
+   \                     ??bm_name_6:
+   \   00000038   4C009FE5           LDR      R0,??bm_name_3+0xC  ;; BM4NAME
+   \   0000003C   1EFF2FE1           BX       LR
+    392            case 4: return BM5NAME;
+   \                     ??bm_name_7:
+   \   00000040   48009FE5           LDR      R0,??bm_name_3+0x10  ;; BM5NAME
+   \   00000044   1EFF2FE1           BX       LR
+    393            case 5: return BM6NAME;
+   \                     ??bm_name_8:
+   \   00000048   44009FE5           LDR      R0,??bm_name_3+0x14  ;; BM6NAME
+   \   0000004C   1EFF2FE1           BX       LR
+    394            case 6: return BM7NAME;
+   \                     ??bm_name_9:
+   \   00000050   40009FE5           LDR      R0,??bm_name_3+0x18  ;; BM7NAME
+   \   00000054   1EFF2FE1           BX       LR
+    395            case 7: return BM8NAME;
+   \                     ??bm_name_10:
+   \   00000058   3C009FE5           LDR      R0,??bm_name_3+0x1C  ;; BM8NAME
+   \   0000005C   1EFF2FE1           BX       LR
+    396            case 8: return BM9NAME;
+   \                     ??bm_name_11:
+   \   00000060   38009FE5           LDR      R0,??bm_name_3+0x20  ;; BM9NAME
+   \   00000064   1EFF2FE1           BX       LR
+    397            case 9: return BM0NAME;
+   \                     ??bm_name_12:
+   \   00000068   34009FE5           LDR      R0,??bm_name_3+0x24  ;; BM0NAME
+   \   0000006C   1EFF2FE1           BX       LR
+    398            case 10: return BM_GREEN_NAME;
+   \                     ??bm_name_13:
+   \   00000070   30009FE5           LDR      R0,??bm_name_3+0x28  ;; BM_GREEN_NAME
+   \   00000074   1EFF2FE1           BX       LR
+    399            }
+    400            return(0);
+   \                     ??bm_name_1:
+   \   00000078   0000A0E3           MOV      R0,#+0
+   \   0000007C   1EFF2FE1           BX       LR               ;; return
+   \                     ??bm_name_3:
+   \   00000080   ........           DC32     BM1NAME
+   \   00000084   ........           DC32     BM2NAME
+   \   00000088   ........           DC32     BM3NAME
+   \   0000008C   ........           DC32     BM4NAME
+   \   00000090   ........           DC32     BM5NAME
+   \   00000094   ........           DC32     BM6NAME
+   \   00000098   ........           DC32     BM7NAME
+   \   0000009C   ........           DC32     BM8NAME
+   \   000000A0   ........           DC32     BM9NAME
+   \   000000A4   ........           DC32     BM0NAME
+   \   000000A8   ........           DC32     BM_GREEN_NAME
+    401          }
+    402          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    403          const char *bm_file(int bm)
+    404          {
+    405            switch(bm)
+   \                     bm_file:
+   \   00000000   0A0050E3           CMP      R0,#+10
+   \   00000004   1B00008A           BHI      ??bm_file_1
+   \   00000008   011F8FE2           ADR      R1,??bm_file_0
+   \   0000000C   0010D1E7           LDRB     R1,[R1, R0]
+   \   00000010   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??bm_file_0:
+   \   00000014   02040608           DC8      +2,+4,+6,+8
+   \   00000018   0A0C0E10           DC8      +10,+12,+14,+16
+   \   0000001C   12141600           DC8      +18,+20,+22,+0
+    406            {
+    407            case 0: return BM1FILE;
+   \                     ??bm_file_2:
+   \   00000020   58009FE5           LDR      R0,??bm_file_3   ;; BM1FILE
+   \   00000024   1EFF2FE1           BX       LR
+    408            case 1: return BM2FILE;
+   \                     ??bm_file_4:
+   \   00000028   54009FE5           LDR      R0,??bm_file_3+0x4  ;; BM2FILE
+   \   0000002C   1EFF2FE1           BX       LR
+    409            case 2: return BM3FILE;
+   \                     ??bm_file_5:
+   \   00000030   50009FE5           LDR      R0,??bm_file_3+0x8  ;; BM3FILE
+   \   00000034   1EFF2FE1           BX       LR
+    410            case 3: return BM4FILE;
+   \                     ??bm_file_6:
+   \   00000038   4C009FE5           LDR      R0,??bm_file_3+0xC  ;; BM4FILE
+   \   0000003C   1EFF2FE1           BX       LR
+    411            case 4: return BM5FILE;
+   \                     ??bm_file_7:
+   \   00000040   48009FE5           LDR      R0,??bm_file_3+0x10  ;; BM5FILE
+   \   00000044   1EFF2FE1           BX       LR
+    412            case 5: return BM6FILE;
+   \                     ??bm_file_8:
+   \   00000048   44009FE5           LDR      R0,??bm_file_3+0x14  ;; BM6FILE
+   \   0000004C   1EFF2FE1           BX       LR
+    413            case 6: return BM7FILE;
+   \                     ??bm_file_9:
+   \   00000050   40009FE5           LDR      R0,??bm_file_3+0x18  ;; BM7FILE
+   \   00000054   1EFF2FE1           BX       LR
+    414            case 7: return BM8FILE;
+   \                     ??bm_file_10:
+   \   00000058   3C009FE5           LDR      R0,??bm_file_3+0x1C  ;; BM8FILE
+   \   0000005C   1EFF2FE1           BX       LR
+    415            case 8: return BM9FILE;
+   \                     ??bm_file_11:
+   \   00000060   38009FE5           LDR      R0,??bm_file_3+0x20  ;; BM9FILE
+   \   00000064   1EFF2FE1           BX       LR
+    416            case 9: return BM0FILE;
+   \                     ??bm_file_12:
+   \   00000068   34009FE5           LDR      R0,??bm_file_3+0x24  ;; BM0FILE
+   \   0000006C   1EFF2FE1           BX       LR
+    417            case 10: return BM_GREEN_FILE;
+   \                     ??bm_file_13:
+   \   00000070   30009FE5           LDR      R0,??bm_file_3+0x28  ;; BM_GREEN_FILE
+   \   00000074   1EFF2FE1           BX       LR
+    418            }
+    419            return(0);
+   \                     ??bm_file_1:
+   \   00000078   0000A0E3           MOV      R0,#+0
+   \   0000007C   1EFF2FE1           BX       LR               ;; return
+   \                     ??bm_file_3:
+   \   00000080   ........           DC32     BM1FILE
+   \   00000084   ........           DC32     BM2FILE
+   \   00000088   ........           DC32     BM3FILE
+   \   0000008C   ........           DC32     BM4FILE
+   \   00000090   ........           DC32     BM5FILE
+   \   00000094   ........           DC32     BM6FILE
+   \   00000098   ........           DC32     BM7FILE
+   \   0000009C   ........           DC32     BM8FILE
+   \   000000A0   ........           DC32     BM9FILE
+   \   000000A4   ........           DC32     BM0FILE
+   \   000000A8   ........           DC32     BM_GREEN_FILE
+    420          }
+    421          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    422          int RunBM(int bm)
+    423          {
+   \                     RunBM:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    424            const char *s=bm_file(bm);
+   \   00000004   ........           BL       bm_file
+   \   00000008   0040B0E1           MOVS     R4,R0
+    425            if (s)
+   \   0000000C   1000000A           BEQ      ??RunBM_0
+    426            {
+    427              if (strlen(s))
+   \   00000010   1B0000EF           SWI      +27
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   3080BD08           POPEQ    {R4,R5,PC}
+    428              {
+    429                WSHDR *ws;
+    430                ws=AllocWS(150);
+   \   0000001C   9600A0E3           MOV      R0,#+150
+   \   00000020   250100EF           SWI      +293
+   \   00000024   0050A0E1           MOV      R5,R0
+    431                str_2ws(ws,s,128);
+   \   00000028   8020A0E3           MOV      R2,#+128
+   \   0000002C   0410A0E1           MOV      R1,R4
+   \   00000030   6C0100EF           SWI      +364
+    432                ExecuteFile(ws,0,0);
+   \   00000034   0020A0E3           MOV      R2,#+0
+   \   00000038   0010A0E3           MOV      R1,#+0
+   \   0000003C   0500A0E1           MOV      R0,R5
+   \   00000040   940000EF           SWI      +148
+    433                FreeWS(ws);
+   \   00000044   0500A0E1           MOV      R0,R5
+   \   00000048   290100EF           SWI      +297
+    434                return(1);
+   \   0000004C   0100A0E3           MOV      R0,#+1
+   \   00000050   3080BDE8           POP      {R4,R5,PC}
+    435              }
+    436            }
+    437            return(0);
+   \                     ??RunBM_0:
+   \   00000054   0000A0E3           MOV      R0,#+0
+   \   00000058   3080BDE8           POP      {R4,R5,PC}       ;; return
+    438          }
+    439          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    440          int RunBCFG(WSHDR *ws)
+    441          {
+   \                     RunBCFG:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   40DF4DE2           SUB      SP,SP,#+256
+   \   00000008   0040A0E1           MOV      R4,R0
+    442            char *p=malloc(64);
+   \   0000000C   4000A0E3           MOV      R0,#+64
+   \   00000010   140000EF           SWI      +20
+   \   00000014   0050A0E1           MOV      R5,R0
+    443            ws_2str(ws,p,63);
+   \   00000018   3F20A0E3           MOV      R2,#+63
+   \   0000001C   0510A0E1           MOV      R1,R5
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   A30000EF           SWI      +163
+    444            char param[256];//=malloc(256);//"4\\zbin\\etc\\";
+    445          //  strcat(s,p);
+    446            //strcat(s,".bcfg");
+    447            sprintf(param,"4:\\zbin\\etc\\%s.bcfg",p);
+   \   00000028   54109FE5           LDR      R1,??RunBCFG_0   ;; `?<Constant "4:\\\\zbin\\\\etc\\\\%s.bcfg">`
+   \   0000002C   0520A0E1           MOV      R2,R5
+   \   00000030   0D00A0E1           MOV      R0,SP
+   \   00000034   160000EF           SWI      +22
+    448          //  ShowMSG(2,(int)param);
+    449            if(param)
+    450            {
+    451              if (strlen(param))
+   \   00000038   0D00A0E1           MOV      R0,SP
+   \   0000003C   1B0000EF           SWI      +27
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   0C00000A           BEQ      ??RunBCFG_1
+    452              {
+    453                WSHDR *ws;
+    454                ws=AllocWS(150);
+   \   00000048   9600A0E3           MOV      R0,#+150
+   \   0000004C   250100EF           SWI      +293
+   \   00000050   0040A0E1           MOV      R4,R0
+    455                str_2ws(ws,param,128);
+   \   00000054   8020A0E3           MOV      R2,#+128
+   \   00000058   0D10A0E1           MOV      R1,SP
+   \   0000005C   6C0100EF           SWI      +364
+    456                //wsprintf(ws,"%s",param);
+    457                ExecuteFile(ws,0,"4\\zbin\\utilities\\cfgedit.elf");
+   \   00000060   20209FE5           LDR      R2,??RunBCFG_0+0x4  ;; `?<Constant "4\\\\zbin\\\\utilities\\\\cfge...">`
+   \   00000064   0010A0E3           MOV      R1,#+0
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   940000EF           SWI      +148
+    458                //str_2ws(ws,"4\\zbin\\utilities\\CfgEdit.elf",256);
+    459                //ExecuteFile(ws,0,param);
+    460                FreeWS(ws);
+   \   00000070   0400A0E1           MOV      R0,R4
+   \   00000074   290100EF           SWI      +297
+    461                return(1);
+   \   00000078   0100A0E3           MOV      R0,#+1
+    462              }
+    463            }
+    464            return(0);
+   \                     ??RunBCFG_1:
+   \   0000007C   40DF8DE2           ADD      SP,SP,#+256      ;; stack cleaning
+   \   00000080   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??RunBCFG_0:
+   \   00000084   ........           DC32     `?<Constant "4:\\\\zbin\\\\etc\\\\%s.bcfg">`
+   \   00000088   ........           DC32     `?<Constant "4\\\\zbin\\\\utilities\\\\cfge...">`
+    465          }
+    466          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    467          const HEADER_DESC bm_menuhdr={0,0,131,21,NULL,(int)"Bookmarks...",LGP_NULL};
+   \                     bm_menuhdr:
+   \   00000000   000000008300       DC16 0, 0, 131, 21
+   \              1500        
+   \   00000008   00000000....       DC32 0H, `?<Constant "Bookmarks...">`, 2147483647
+   \              ....FFFFFF7F
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    468          const int menusoftkeys[]={0,1,2};
+   \                     menusoftkeys:
+   \   00000000   000000000100       DC32 0, 1, 2
+   \              000002000000
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    469          const SOFTKEY_DESC menu_sk[]=
+   \                     menu_sk:
+   \   00000000   18000000           DC16 24, 0
+   \   00000004   ........           DC32 `?<Constant "Config">`
+   \   00000008   01000000           DC16 1, 0
+   \   0000000C   ........           DC32 `?<Constant "Close">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   FBC0FF7F           DC32 2147467515
+    470          {
+    471            {0x0018,0x0000,(int)"Config"},
+    472            {0x0001,0x0000,(int)"Close"},
+    473            {0x003D,0x0000,(int)LGP_DOIT_PIC}
+    474          };
+    475          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    476          const SOFTKEYSTAB menu_skt=
+   \                     menu_skt:
+   \   00000000   ........0000       DC32 menu_sk, 0
+   \              0000        
+    477          {
+    478            menu_sk,0
+    479          };
+    480          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    481          void bm_menu_ghook(void *data, int cmd)
+    482          {
+   \                     bm_menu_ghook:
+   \   00000000   00402DE9           PUSH     {LR}
+    483            if (cmd==0x0A) DisableIDLETMR();
+   \   00000004   0A0051E3           CMP      R1,#+10
+   \   00000008   0080BD18           POPNE    {PC}
+   \   0000000C   7F0100EF           SWI      +383
+    484          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+    485          int bm_menu_onkey(void *data, GUI_MSG *msg);
+    486          void bm_menu_iconhndl(void *data, int curitem, void *unk);
+    487          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    488          const MENU_DESC bm_menu=
+   \                     bm_menu:
+   \   00000000   08000000....       DC32 8, bm_menu_onkey, bm_menu_ghook, 0H, menusoftkeys, menu_skt, 16
+   \              ............
+   \              00000000....
+   \              ............
+   \              10000000    
+   \   0000001C   ........0000       DC32 bm_menu_iconhndl, 0H, 0H, 0
+   \              000000000000
+   \              00000000    
+    489          {
+    490            8,bm_menu_onkey,bm_menu_ghook,NULL,
+    491            menusoftkeys,
+    492            &menu_skt,
+    493            0x10,//0x11,
+    494            bm_menu_iconhndl,
+    495            NULL,   //Items
+    496            NULL,   //Procs
+    497            0   //n
+    498          };
+    499          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    500          int bm_menu_onkey(void *data, GUI_MSG *msg)
+    501          {
+   \                     bm_menu_onkey:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    502            int i;
+    503            i=GetCurMenuItem(data);
+   \   00000008   8F0100EF           SWI      +399
+    504            if (msg->keys==0x18)
+   \   0000000C   F210D4E1           LDRSH    R1,[R4, #+2]
+   \   00000010   ........           LDR      R4,??DataTable13  ;; my_csm_id
+   \   00000014   180051E3           CMP      R1,#+24
+   \   00000018   0E00001A           BNE      ??bm_menu_onkey_0
+    505            {
+    506              //    GeneralFunc_F1(1);
+    507          //    ShowMSG(1,(int)"Under construction!");
+    508              extern const char *successed_config_filename;
+    509              WSHDR *ws;
+    510              ws=AllocWS(150);
+   \   0000001C   9600A0E3           MOV      R0,#+150
+   \   00000020   250100EF           SWI      +293
+   \   00000024   0050A0E1           MOV      R5,R0
+    511              str_2ws(ws,successed_config_filename,128);
+   \   00000028   68009FE5           LDR      R0,??bm_menu_onkey_1  ;; successed_config_filename
+   \   0000002C   8020A0E3           MOV      R2,#+128
+   \   00000030   001090E5           LDR      R1,[R0, #+0]
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   6C0100EF           SWI      +364
+    512              ExecuteFile(ws,0,0);
+   \   0000003C   0020A0E3           MOV      R2,#+0
+   \   00000040   0010A0E3           MOV      R1,#+0
+   \   00000044   0500A0E1           MOV      R0,R5
+   \   00000048   940000EF           SWI      +148
+    513              FreeWS(ws);
+   \   0000004C   0500A0E1           MOV      R0,R5
+   \   00000050   290100EF           SWI      +297
+    514              GeneralFunc_flag1(((MAIN_CSM*)FindCSMbyID(my_csm_id))->gui_id,1);
+   \   00000054   040000EA           B        ??bm_menu_onkey_2
+    515              return(1);
+    516            }
+    517            if (msg->keys==0x3D)
+   \                     ??bm_menu_onkey_0:
+   \   00000058   3D0051E3           CMP      R1,#+61
+   \   0000005C   0B00001A           BNE      ??bm_menu_onkey_3
+    518            {
+    519              if (RunBM(i))
+   \   00000060   ........           BL       RunBM
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   0600000A           BEQ      ??bm_menu_onkey_4
+    520              {
+    521                GeneralFunc_flag1(((MAIN_CSM*)FindCSMbyID(my_csm_id))->gui_id,1);
+   \                     ??bm_menu_onkey_2:
+   \   0000006C   000094E5           LDR      R0,[R4, #+0]
+   \   00000070   080100EF           SWI      +264
+   \   00000074   280090E5           LDR      R0,[R0, #+40]
+   \   00000078   0110A0E3           MOV      R1,#+1
+   \   0000007C   3D0100EF           SWI      +317
+    522                return(1);
+   \   00000080   0100A0E3           MOV      R0,#+1
+   \   00000084   3080BDE8           POP      {R4,R5,PC}
+    523              }
+    524              return(-1);
+   \                     ??bm_menu_onkey_4:
+   \   00000088   0000E0E3           MVN      R0,#+0
+   \   0000008C   3080BDE8           POP      {R4,R5,PC}
+    525            }
+    526            return(0);
+   \                     ??bm_menu_onkey_3:
+   \   00000090   0000A0E3           MOV      R0,#+0
+   \   00000094   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??bm_menu_onkey_1:
+   \   00000098   ........           DC32     successed_config_filename
+    527          }
+    528          
+    529          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    530          void bm_menu_iconhndl(void *data, int curitem, void *unk)
+    531          {
+   \                     bm_menu_iconhndl:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+    532            const char *s;
+    533            WSHDR *ws;
+    534            int l;
+    535            void *item=AllocMenuItem(data);
+   \   0000000C   970100EF           SWI      +407
+   \   00000010   0060A0E1           MOV      R6,R0
+    536          /*
+    537            int len1=strlen(ICON1);
+    538            int len2=strlen(ICON2);
+    539            int len3=strlen(ICON3);
+    540            int len4=strlen(ICON4);  
+    541            int len5=strlen(ICON5);
+    542            int len6=strlen(ICON6);
+    543            int len7=strlen(ICON7);
+    544            int len8=strlen(ICON8);
+    545            int len9=strlen(ICON9);
+    546            */
+    547            s=bm_name(curitem);
+   \   00000014   0500A0E1           MOV      R0,R5
+   \   00000018   ........           BL       bm_name
+   \   0000001C   0080B0E1           MOVS     R8,R0
+    548            if (s)
+   \   00000020   3300000A           BEQ      ??bm_menu_iconhndl_0
+    549            {
+    550              if ((l=strlen(s)))
+   \   00000024   1B0000EF           SWI      +27
+   \   00000028   0090B0E1           MOVS     R9,R0
+   \   0000002C   0700000A           BEQ      ??bm_menu_iconhndl_1
+    551              {
+    552                ws=AllocMenuWS(data,l+64);
+   \   00000030   401080E2           ADD      R1,R0,#+64
+   \   00000034   0400A0E1           MOV      R0,R4
+   \   00000038   980100EF           SWI      +408
+    553                wsprintf(ws,percent_t,s);
+   \   0000003C   ........           LDR      R1,??DataTable9  ;; percent_t
+   \   00000040   0070A0E1           MOV      R7,R0
+   \   00000044   0820A0E1           MOV      R2,R8
+   \   00000048   240100EF           SWI      +292
+   \   0000004C   370000EA           B        ??bm_menu_iconhndl_2
+    554          //      wsInsertChar(ws,name_bk,1);//Цвет надписей закладок
+    555            //    wsInsertChar(ws,0xE008,1);//
+    556              }
+    557              else
+    558              {
+    559                s=bm_file(curitem);
+   \                     ??bm_menu_iconhndl_1:
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   ........           BL       bm_file
+   \   00000058   0080B0E1           MOVS     R8,R0
+    560                if (s)
+   \   0000005C   1D00000A           BEQ      ??bm_menu_iconhndl_3
+    561                {
+    562                  if (strlen(s))
+   \   00000060   1B0000EF           SWI      +27
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   1A00000A           BEQ      ??bm_menu_iconhndl_3
+    563                  {
+    564                    char *p=strrchr(s,'\\');
+   \   0000006C   5C10A0E3           MOV      R1,#+92
+   \   00000070   0800A0E1           MOV      R0,R8
+   \   00000074   170100EF           SWI      +279
+   \   00000078   0080B0E1           MOVS     R8,R0
+    565                    if (p)
+   \   0000007C   1500000A           BEQ      ??bm_menu_iconhndl_3
+    566                    {
+    567                      unsigned int pos;
+    568                      ws=AllocWS((l=strlen(p+1)+64));
+   \   00000080   010088E2           ADD      R0,R8,#+1
+   \   00000084   1B0000EF           SWI      +27
+   \   00000088   409080E2           ADD      R9,R0,#+64
+   \   0000008C   0900A0E1           MOV      R0,R9
+   \   00000090   250100EF           SWI      +293
+   \   00000094   0070A0E1           MOV      R7,R0
+    569                      str_2ws(ws,p+1,l);
+   \   00000098   0920A0E1           MOV      R2,R9
+   \   0000009C   011088E2           ADD      R1,R8,#+1
+   \   000000A0   6C0100EF           SWI      +364
+    570                      if ((pos=wstrrchr(ws,ws->wsbody[0],'.'))!=0xFFFF)
+   \   000000A4   000097E5           LDR      R0,[R7, #+0]
+   \   000000A8   2E20A0E3           MOV      R2,#+46
+   \   000000AC   B010D0E1           LDRH     R1,[R0, #+0]
+   \   000000B0   0700A0E1           MOV      R0,R7
+   \   000000B4   DD0100EF           SWI      +477
+   \   000000B8   FF10A0E3           MOV      R1,#+255
+   \   000000BC   FF1C81E3           ORR      R1,R1,#0xFF00
+   \   000000C0   010050E1           CMP      R0,R1
+   \   000000C4   1900000A           BEQ      ??bm_menu_iconhndl_2
+    571                      {
+    572                        CutWSTR(ws,pos-1);
+   \   000000C8   011040E2           SUB      R1,R0,#+1
+   \   000000CC   0700A0E1           MOV      R0,R7
+   \   000000D0   260100EF           SWI      +294
+   \   000000D4   150000EA           B        ??bm_menu_iconhndl_2
+    573                      }
+    574                      // wsInsertChar(ws,name_bk,1);//Цвет надписей закладок
+    575                       //wsInsertChar(ws,0xE008,1);//
+    576                    }
+    577                    else goto L_EMPTY;
+    578                  }
+    579                  else goto L_EMPTY;
+    580                }
+    581                else
+    582                {
+    583                L_EMPTY:
+    584                  ws=AllocMenuWS(data,10);
+   \                     ??bm_menu_iconhndl_3:
+   \   000000D8   0A10A0E3           MOV      R1,#+10
+   \   000000DC   0400A0E1           MOV      R0,R4
+   \   000000E0   980100EF           SWI      +408
+    585                  wsprintf(ws,"Empty");   
+   \   000000E4   5C109FE5           LDR      R1,??bm_menu_iconhndl_4  ;; `?<Constant "Empty">`
+   \   000000E8   0070A0E1           MOV      R7,R0
+   \   000000EC   240100EF           SWI      +292
+   \   000000F0   0E0000EA           B        ??bm_menu_iconhndl_2
+    586                  //wsInsertChar(ws,name_bk,1);//Цвет надписей
+    587                  //wsInsertChar(ws,0xE008,1);//
+    588                }
+    589              }
+    590            }
+    591            else
+    592            {
+    593              ws=AllocMenuWS(data,10);
+   \                     ??bm_menu_iconhndl_0:
+   \   000000F4   0A10A0E3           MOV      R1,#+10
+   \   000000F8   0400A0E1           MOV      R0,R4
+   \   000000FC   980100EF           SWI      +408
+    594              wsprintf(ws,"error");
+   \   00000100   44109FE5           LDR      R1,??bm_menu_iconhndl_4+0x4  ;; `?<Constant "error">`
+   \   00000104   0070A0E1           MOV      R7,R0
+   \   00000108   240100EF           SWI      +292
+    595              wsInsertChar(ws,2,1);//Цвет надписей
+   \   0000010C   0120A0E3           MOV      R2,#+1
+   \   00000110   0210A0E3           MOV      R1,#+2
+   \   00000114   0700A0E1           MOV      R0,R7
+   \   00000118   1D0000EF           SWI      +29
+    596              wsInsertChar(ws,0xE008,1);//
+   \   0000011C   0120A0E3           MOV      R2,#+1
+   \   00000120   0810A0E3           MOV      R1,#+8
+   \   00000124   E01C81E3           ORR      R1,R1,#0xE000
+   \   00000128   0700A0E1           MOV      R0,R7
+   \   0000012C   1D0000EF           SWI      +29
+    597            }/*
+    598            switch(curitem)//Вызов иконок
+    599            { 
+    600            case 0:
+    601              if(len1!=0)//если не путь не равен 0 то рисуем иконку
+    602                SetMenuItemIconArray(data,item,S_ICONS + curitem);
+    603              else SetMenuItemIconArray(data,item,S_ICONS + 9);//если пути до иконки нет то рисуем иконку NO_ICON
+    604              break;
+    605            case 1:
+    606              if(len2 != 0)
+    607                SetMenuItemIconArray(data,item,S_ICONS + curitem);
+    608              else SetMenuItemIconArray(data,item,S_ICONS + 9);
+    609              break;
+    610            case 2:
+    611              if(len3!=0)
+    612                SetMenuItemIconArray(data,item,S_ICONS + curitem);
+    613              else SetMenuItemIconArray(data,item,S_ICONS + 9);
+    614              break;
+    615            case 3:
+    616              if(len4!=0)
+    617                SetMenuItemIconArray(data,item,S_ICONS + curitem);
+    618              else SetMenuItemIconArray(data,item,S_ICONS + 9);
+    619              break;
+    620            case 4:
+    621              if(len5!=0)
+    622                SetMenuItemIconArray(data,item,S_ICONS + curitem);
+    623              else SetMenuItemIconArray(data,item,S_ICONS + 9);
+    624              break;
+    625            case 5:
+    626              if(len6!=0)
+    627                SetMenuItemIconArray(data,item,S_ICONS + curitem);
+    628              else SetMenuItemIconArray(data,item,S_ICONS + 9);
+    629              break;
+    630            case 6:
+    631              if(len7!=0)
+    632                SetMenuItemIconArray(data,item,S_ICONS + curitem);
+    633              else SetMenuItemIconArray(data,item,S_ICONS + 9);
+    634              break;    
+    635            case 7:
+    636              if(len8!=0)
+    637                SetMenuItemIconArray(data,item,S_ICONS + curitem);
+    638              else SetMenuItemIconArray(data,item,S_ICONS + 9);
+    639              break;
+    640            case 8:
+    641              if(len9!=0)
+    642                SetMenuItemIconArray(data,item,S_ICONS + curitem);
+    643              else SetMenuItemIconArray(data,item,S_ICONS + 9);
+    644              break;
+    645            
+    646            }*/
+    647             SetMenuItemText(data,item,ws,curitem);
+   \                     ??bm_menu_iconhndl_2:
+   \   00000130   0530A0E1           MOV      R3,R5
+   \   00000134   0720A0E1           MOV      R2,R7
+   \   00000138   0610A0E1           MOV      R1,R6
+   \   0000013C   0400A0E1           MOV      R0,R4
+   \   00000140   9A0100EF           SWI      +410
+    648           //  SetMenuItemIconArray(data,item,S_ICONS);
+    649          }
+   \   00000144   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??bm_menu_iconhndl_4:
+   \   00000148   ........           DC32     `?<Constant "Empty">`
+   \   0000014C   ........           DC32     `?<Constant "error">`
+    650          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    651          void ShowBMmenu(void)
+    652          {
+   \                     ShowBMmenu:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    653            patch_header(&bm_menuhdr);
+   \   00000004   54409FE5           LDR      R4,??ShowBMmenu_0  ;; bm_menuhdr
+   \   00000008   0000A0E3           MOV      R0,#+0
+   \   0000000C   B000C4E1           STRH     R0,[R4, #+0]
+   \   00000010   1800A0E3           MOV      R0,#+24
+   \   00000014   B200C4E1           STRH     R0,[R4, #+2]
+   \   00000018   888100EF           SWI      +33160
+   \   0000001C   010040E2           SUB      R0,R0,#+1
+   \   00000020   B400C4E1           STRH     R0,[R4, #+4]
+   \   00000024   8A8100EF           SWI      +33162
+    654            CreateMenu(0,0,&bm_menu,&bm_menuhdr,0,11,0,0);
+   \   00000028   34209FE5           LDR      R2,??ShowBMmenu_0+0x4  ;; bm_menu
+   \   0000002C   170080E2           ADD      R0,R0,#+23
+   \   00000030   B600C4E1           STRH     R0,[R4, #+6]
+   \   00000034   0000A0E3           MOV      R0,#+0
+   \   00000038   01002DE9           PUSH     {R0}
+   \   0000003C   01002DE9           PUSH     {R0}
+   \   00000040   0430A0E1           MOV      R3,R4
+   \   00000044   0010A0E3           MOV      R1,#+0
+   \   00000048   0B00A0E3           MOV      R0,#+11
+   \   0000004C   01002DE9           PUSH     {R0}
+   \   00000050   0000A0E3           MOV      R0,#+0
+   \   00000054   01002DE9           PUSH     {R0}
+   \   00000058   520100EF           SWI      +338
+    655          }
+   \   0000005C   1F80BDE8           POP      {R0-R4,PC}       ;; return
+   \                     ??ShowBMmenu_0:
+   \   00000060   ........           DC32     bm_menuhdr
+   \   00000064   ........           DC32     bm_menu
+    656          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    657          int mm_menu_onkey(void *data, GUI_MSG *msg)
+    658          {
+   \                     mm_menu_onkey:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+    659            MAIN_CSM *csm=MenuGetUserPointer(data);
+   \   0000000C   E00100EF           SWI      +480
+    660            NAMELIST *nl=get_nlitem(GetCurMenuItem(data));
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   8F0100EF           SWI      +399
+   \   00000018   ........           BL       get_nlitem
+    661            int i;
+    662            if (msg->gbsmsg->msg==KEY_DOWN)
+   \   0000001C   041095E5           LDR      R1,[R5, #+4]
+   \   00000020   9330A0E3           MOV      R3,#+147
+   \   00000024   042091E5           LDR      R2,[R1, #+4]
+   \   00000028   403F83E3           ORR      R3,R3,#0x100
+   \   0000002C   030052E1           CMP      R2,R3
+   \   00000030   4500001A           BNE      ??mm_menu_onkey_1
+    663            {
+    664              i=msg->gbsmsg->submess;
+   \   00000034   084091E5           LDR      R4,[R1, #+8]
+    665              {
+    666                if (i=='#'/*i=='0'|| i==GREEN_BUTTON*/)
+   \   00000038   230054E3           CMP      R4,#+35
+   \   0000003C   0200001A           BNE      ??mm_menu_onkey_2
+    667                {
+    668                  ShowBMmenu();
+   \   00000040   ........           BL       ShowBMmenu
+    669                  return(-1);
+   \   00000044   0000E0E3           MVN      R0,#+0
+   \   00000048   3080BDE8           POP      {R4,R5,PC}
+    670                }
+    671                if ((i>='1')&&(i<='9'))
+   \                     ??mm_menu_onkey_2:
+   \   0000004C   310054E3           CMP      R4,#+49
+   \   00000050   070000BA           BLT      ??mm_menu_onkey_3
+   \   00000054   3A0054E3           CMP      R4,#+58
+   \   00000058   140000AA           BGE      ??mm_menu_onkey_4
+    672                {
+    673                  if (RunBM(i-'1')) return 1;
+   \   0000005C   310044E2           SUB      R0,R4,#+49
+   \   00000060   ........           BL       RunBM
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   0700001A           BNE      ??mm_menu_onkey_5
+    674          	return(-1);
+   \                     ??mm_menu_onkey_6:
+   \   0000006C   0000E0E3           MVN      R0,#+0
+   \   00000070   3080BDE8           POP      {R4,R5,PC}
+    675                }
+    676                if(i=='0')
+   \                     ??mm_menu_onkey_3:
+   \   00000074   300054E3           CMP      R4,#+48
+   \   00000078   0500001A           BNE      ??mm_menu_onkey_7
+    677                {
+    678                  if (RunBM(9)) return 1;
+   \   0000007C   0900A0E3           MOV      R0,#+9
+   \   00000080   ........           BL       RunBM
+   \   00000084   000050E3           CMP      R0,#+0
+   \   00000088   F7FFFF0A           BEQ      ??mm_menu_onkey_6
+   \                     ??mm_menu_onkey_5:
+   \   0000008C   0100A0E3           MOV      R0,#+1
+   \   00000090   3080BDE8           POP      {R4,R5,PC}
+    679          	return(-1);
+    680                }
+    681                if(i==GREEN_BUTTON)
+   \                     ??mm_menu_onkey_7:
+   \   00000094   0B0054E3           CMP      R4,#+11
+   \   00000098   0400001A           BNE      ??mm_menu_onkey_4
+    682                {
+    683                  if (RunBM(9)) return 1;
+   \   0000009C   0900A0E3           MOV      R0,#+9
+   \   000000A0   ........           BL       RunBM
+   \   000000A4   000050E3           CMP      R0,#+0
+   \   000000A8   EFFFFF0A           BEQ      ??mm_menu_onkey_6
+   \   000000AC   310000EA           B        ??mm_menu_onkey_8
+    684          	return(-1);
+    685                }
+    686              }
+    687              switch(i)
+   \                     ??mm_menu_onkey_4:
+   \   000000B0   082090E5           LDR      R2,[R0, #+8]
+   \   000000B4   014044E2           SUB      R4,R4,#+1
+   \   000000B8   3D0054E3           CMP      R4,#+61
+   \   000000BC   2200008A           BHI      ??mm_menu_onkey_1
+   \   000000C0   011F8FE2           ADR      R1,??mm_menu_onkey_0
+   \   000000C4   0410D1E7           LDRB     R1,[R1, R4]
+   \   000000C8   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??mm_menu_onkey_0:
+   \   000000CC   2116162A           DC8      +33,+22,+22,+42
+   \   000000D0   16161616           DC8      +22,+22,+22,+22
+   \   000000D4   16161616           DC8      +22,+22,+22,+22
+   \   000000D8   16161616           DC8      +22,+22,+22,+22
+   \   000000DC   16161616           DC8      +22,+22,+22,+22
+   \   000000E0   16161616           DC8      +22,+22,+22,+22
+   \   000000E4   16241616           DC8      +22,+36,+22,+22
+   \   000000E8   16161616           DC8      +22,+22,+22,+22
+   \   000000EC   16161616           DC8      +22,+22,+22,+22
+   \   000000F0   16161616           DC8      +22,+22,+22,+22
+   \   000000F4   16181616           DC8      +22,+24,+22,+22
+   \   000000F8   16161616           DC8      +22,+22,+22,+22
+   \   000000FC   16161616           DC8      +22,+22,+22,+22
+   \   00000100   16161616           DC8      +22,+22,+22,+22
+   \   00000104   16161616           DC8      +22,+22,+22,+22
+   \   00000108   2A0F0000           DC8      +42,+15,+0,+0
+    688              {
+    689          //#ifdef ELKA
+    690          //    case LEFT_BUTTON: 
+    691              case RIGHT_BUTTON:
+    692          //    case '#':
+    693                i=((CSM_RAM *)(nl->p))->id;
+   \                     ??mm_menu_onkey_9:
+   \   0000010C   0C4092E5           LDR      R4,[R2, #+12]
+    694                if (i!=CSM_root()->idle_id) CloseCSM(i);
+   \   00000110   068100EF           SWI      +33030
+   \   00000114   040090E5           LDR      R0,[R0, #+4]
+   \   00000118   000054E1           CMP      R4,R0
+   \   0000011C   0A00000A           BEQ      ??mm_menu_onkey_1
+   \   00000120   0400A0E1           MOV      R0,R4
+   \   00000124   FC0100EF           SWI      +508
+    695                return 0;
+   \                     ??mm_menu_onkey_10:
+   \   00000128   0000A0E3           MOV      R0,#+0
+   \   0000012C   3080BDE8           POP      {R4,R5,PC}
+    696          /*#else
+    697              case '#':
+    698                i=((CSM_RAM *)(nl->p))->id;
+    699                if (i!=CSM_root()->idle_id) CloseCSM(i);
+    700                return 0;
+    701          #endif*/
+    702              case LEFT_BUTTON: return 1;
+    703              case '*'://case RIGHT_BUTTON:
+    704                show_daemons=!show_daemons;
+   \                     ??mm_menu_onkey_11:
+   \   00000130   ........           LDR      R0,??DataTable10  ;; show_daemons
+   \   00000134   001090E5           LDR      R1,[R0, #+0]
+   \   00000138   000051E3           CMP      R1,#+0
+   \   0000013C   0110A003           MOVEQ    R1,#+1
+   \   00000140   0010A013           MOVNE    R1,#+0
+   \   00000144   001080E5           STR      R1,[R0, #+0]
+    705                RefreshGUI();
+   \   00000148   960100EF           SWI      +406
+    706                return 0;      
+   \                     ??mm_menu_onkey_1:
+   \   0000014C   0000A0E3           MOV      R0,#+0
+   \   00000150   3080BDE8           POP      {R4,R5,PC}
+    707              case LEFT_SOFT:
+    708                CSMtoTop(CSM_root()->idle_id,-1);
+   \                     ??mm_menu_onkey_12:
+   \   00000154   068100EF           SWI      +33030
+   \   00000158   040090E5           LDR      R0,[R0, #+4]
+   \   0000015C   030000EA           B        ??mm_menu_onkey_13
+    709                return(1);
+    710              case ENTER_BUTTON:
+    711                if (!nl->is_daemon)
+   \                     ??mm_menu_onkey_14:
+   \   00000160   0C1090E5           LDR      R1,[R0, #+12]
+   \   00000164   000051E3           CMP      R1,#+0
+   \   00000168   0400001A           BNE      ??mm_menu_onkey_15
+    712                {
+    713          	CSMtoTop(((CSM_RAM *)(nl->p))->id,-1);
+   \   0000016C   0C0092E5           LDR      R0,[R2, #+12]
+   \                     ??mm_menu_onkey_13:
+   \   00000170   0010E0E3           MVN      R1,#+0
+   \   00000174   ........           _BLF     CSMtoTop,??CSMtoTop??rA
+   \                     ??mm_menu_onkey_8:
+   \   00000178   0100A0E3           MOV      R0,#+1
+   \   0000017C   3080BDE8           POP      {R4,R5,PC}
+    714                }
+    715                else
+    716                {
+    717                 RunBCFG(nl->name);      
+   \                     ??mm_menu_onkey_15:
+   \   00000180   040090E5           LDR      R0,[R0, #+4]
+   \   00000184   ........           BL       RunBCFG
+    718                }
+    719                return(1);
+   \   00000188   FAFFFFEA           B        ??mm_menu_onkey_8
+    720              case RIGHT_SOFT:
+    721                return(1);
+    722              }
+    723            }
+    724            return(0);
+    725          }
+    726          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    727          const HEADER_DESC mm_menuhdr={0,0,131,21,NULL,(int)mmenu_hdr_txt,LGP_NULL};
+   \                     mm_menuhdr:
+   \   00000000   000000008300       DC16 0, 0, 131, 21
+   \              1500        
+   \   00000008   00000000....       DC32 0H, mmenu_hdr_txt, 2147483647
+   \              ....FFFFFF7F
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    728          const SOFTKEY_DESC mm_menu_sk[]=
+   \                     mm_menu_sk:
+   \   00000000   18000000           DC16 24, 0
+   \   00000004   ........           DC32 `?<Constant "Idle">`
+   \   00000008   01000000           DC16 1, 0
+   \   0000000C   ........           DC32 `?<Constant "Back">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   FBC0FF7F           DC32 2147467515
+    729          {
+    730            {0x0018,0x0000,(int)"Idle"},
+    731            {0x0001,0x0000,(int)"Back"},
+    732            {0x003D,0x0000,(int)LGP_DOIT_PIC}
+    733          };
+    734          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    735          const SOFTKEYSTAB mm_menu_skt=
+   \                     mm_menu_skt:
+   \   00000000   ........0000       DC32 mm_menu_sk, 0
+   \              0000        
+    736          {
+    737            mm_menu_sk,0
+    738          };
+    739          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    740          void mm_menu_ghook(void *data, int cmd)
+    741          {
+   \                     mm_menu_ghook:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    742            int i,j;
+    743            if (cmd==9)
+   \   00000008   090051E3           CMP      R1,#+9
+   \   0000000C   0100001A           BNE      ??mm_menu_ghook_0
+    744            {
+    745              ClearNL();
+   \   00000010   7040BDE8           POP      {R4-R6,LR}       ;; Pop
+   \   00000014   ........           B        ClearNL          ;; tailcall
+    746            }
+    747            if (cmd==0x0A)
+   \                     ??mm_menu_ghook_0:
+   \   00000018   0A0051E3           CMP      R1,#+10
+   \   0000001C   7080BD18           POPNE    {R4-R6,PC}
+    748            {
+    749              DisableIDLETMR();
+   \   00000020   7F0100EF           SWI      +383
+    750              i=GetCurMenuItem(data);
+   \   00000024   0400A0E1           MOV      R0,R4
+   \   00000028   8F0100EF           SWI      +399
+   \   0000002C   0050A0E1           MOV      R5,R0
+    751              Menu_SetItemCountDyn(data,j=GetNumberOfDialogs());
+   \   00000030   ........           BL       GetNumberOfDialogs
+   \   00000034   0060A0E1           MOV      R6,R0
+   \   00000038   0610A0E1           MOV      R1,R6
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   E60100EF           SWI      +486
+    752              if (i>=j) SetCursorToMenuItem(data,j-1);
+   \   00000044   060055E1           CMP      R5,R6
+   \   00000048   7080BDB8           POPLT    {R4-R6,PC}
+   \   0000004C   011046E2           SUB      R1,R6,#+1
+   \   00000050   0400A0E1           MOV      R0,R4
+   \   00000054   C40100EF           SWI      +452
+    753            }
+    754          }
+   \   00000058   7080BDE8           POP      {R4-R6,PC}       ;; return
+    755          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    756          const MENU_DESC mm_menu=
+   \                     mm_menu:
+   \   00000000   08000000....       DC32 8, mm_menu_onkey, mm_menu_ghook, 0H, menusoftkeys, mm_menu_skt, 16
+   \              ............
+   \              00000000....
+   \              ............
+   \              10000000    
+   \   0000001C   ........0000       DC32 mm_menu_iconhndl, 0H, 0H, 0
+   \              000000000000
+   \              00000000    
+    757          {
+    758            8,mm_menu_onkey,mm_menu_ghook,NULL,
+    759            menusoftkeys,
+    760            &mm_menu_skt,
+    761            0x10,//0x11,
+    762            mm_menu_iconhndl,
+    763            NULL,   //Items
+    764            NULL,   //Procs
+    765            0   //n
+    766          };
+    767          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    768          void maincsm_oncreate(CSM_RAM *data)
+    769          {
+   \                     maincsm_oncreate:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+    770            MAIN_CSM *csm=(MAIN_CSM *)data;
+    771            csm->csm.state=0;
+    772            csm->csm.unk1=0;
+    773            int f;
+    774            int sz=0;
+    775            unsigned int ul;
+    776            extern const char csmlist_fname[128];
+    777            if ((f=fopen(csmlist_fname,A_ReadOnly+A_BIN,P_READ,&ul))!=-1)
+   \   00000004   ........           LDR      R8,??DataTable11  ;; csm_text
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   C4009FE5           LDR      R0,??maincsm_oncreate_0  ;; csmlist_fname
+   \   00000010   04D04DE2           SUB      SP,SP,#+4
+   \   00000014   0060A0E3           MOV      R6,#+0
+   \   00000018   106084E5           STR      R6,[R4, #+16]
+   \   0000001C   146084E5           STR      R6,[R4, #+20]
+   \   00000020   0050A0E3           MOV      R5,#+0
+   \   00000024   0D30A0E1           MOV      R3,SP
+   \   00000028   8020A0E3           MOV      R2,#+128
+   \   0000002C   801CA0E3           MOV      R1,#+32768
+   \   00000030   0A0000EF           SWI      +10
+   \   00000034   0070A0E1           MOV      R7,R0
+   \   00000038   010077E3           CMN      R7,#+1
+   \   0000003C   0A00000A           BEQ      ??maincsm_oncreate_1
+    778            {
+    779              sz=fread(f,csm_text,32767,&ul);
+   \   00000040   0D30A0E1           MOV      R3,SP
+   \   00000044   FF20A0E3           MOV      R2,#+255
+   \   00000048   7F2C82E3           ORR      R2,R2,#0x7F00
+   \   0000004C   0810A0E1           MOV      R1,R8
+   \   00000050   0B0000EF           SWI      +11
+   \   00000054   0050A0E1           MOV      R5,R0
+    780              fclose(f,&ul);
+   \   00000058   0D10A0E1           MOV      R1,SP
+   \   0000005C   0700A0E1           MOV      R0,R7
+   \   00000060   0D0000EF           SWI      +13
+    781            }
+    782            if (sz>=0) csm_text[sz]=0;
+   \   00000064   000055E3           CMP      R5,#+0
+   \   00000068   0000004A           BMI      ??maincsm_oncreate_2
+   \                     ??maincsm_oncreate_1:
+   \   0000006C   0860C5E7           STRB     R6,[R5, +R8]
+    783            patch_header(&mm_menuhdr);
+   \                     ??maincsm_oncreate_2:
+   \   00000070   64509FE5           LDR      R5,??maincsm_oncreate_0+0x4  ;; mm_menuhdr
+   \   00000074   1800A0E3           MOV      R0,#+24
+   \   00000078   B060C5E1           STRH     R6,[R5, #+0]
+   \   0000007C   B200C5E1           STRH     R0,[R5, #+2]
+   \   00000080   888100EF           SWI      +33160
+   \   00000084   010040E2           SUB      R0,R0,#+1
+   \   00000088   B400C5E1           STRH     R0,[R5, #+4]
+   \   0000008C   8A8100EF           SWI      +33162
+   \   00000090   170080E2           ADD      R0,R0,#+23
+   \   00000094   B600C5E1           STRH     R0,[R5, #+6]
+    784            csm->gui_id=CreateMenu(0,0,&mm_menu,&mm_menuhdr,1,GetNumberOfDialogs(),csm,0);
+   \   00000098   ........           BL       GetNumberOfDialogs
+   \   0000009C   3C209FE5           LDR      R2,??maincsm_oncreate_0+0x8  ;; mm_menu
+   \   000000A0   0010A0E3           MOV      R1,#+0
+   \   000000A4   02002DE9           PUSH     {R1}
+   \   000000A8   0530A0E1           MOV      R3,R5
+   \   000000AC   0410A0E1           MOV      R1,R4
+   \   000000B0   02002DE9           PUSH     {R1}
+   \   000000B4   01002DE9           PUSH     {R0}
+   \   000000B8   0100A0E3           MOV      R0,#+1
+   \   000000BC   01002DE9           PUSH     {R0}
+   \   000000C0   0610A0E1           MOV      R1,R6
+   \   000000C4   0100A0E1           MOV      R0,R1
+   \   000000C8   520100EF           SWI      +338
+   \   000000CC   280084E5           STR      R0,[R4, #+40]
+    785          }
+   \   000000D0   14D08DE2           ADD      SP,SP,#+20
+   \   000000D4   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??maincsm_oncreate_0:
+   \   000000D8   ........           DC32     csmlist_fname
+   \   000000DC   ........           DC32     mm_menuhdr
+   \   000000E0   ........           DC32     mm_menu
+    786          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    787          void maincsm_onclose(CSM_RAM *csm)
+    788          {
+   \                     maincsm_onclose:
+   \   00000000   00402DE9           PUSH     {LR}
+    789            ClearNL();
+   \   00000004   ........           BL       ClearNL
+    790            my_csm_id=0;
+   \   00000008   ........           LDR      R0,??DataTable13  ;; my_csm_id
+   \   0000000C   0010A0E3           MOV      R1,#+0
+   \   00000010   001080E5           STR      R1,[R0, #+0]
+    791          }
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+    792          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    793          int maincsm_onmessage(CSM_RAM *data, GBS_MSG *msg)
+    794          {
+   \                     maincsm_onmessage:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+    795            MAIN_CSM *csm=(MAIN_CSM*)data;
+    796            if (msg->msg==MSG_CSM_DESTROYED)
+   \   0000000C   040095E5           LDR      R0,[R5, #+4]
+   \   00000010   640C50E3           CMP      R0,#+25600
+   \   00000014   0000001A           BNE      ??maincsm_onmessage_0
+    797            {
+    798              RefreshGUI();
+   \   00000018   960100EF           SWI      +406
+    799            }
+    800            if (msg->msg==MSG_GUI_DESTROYED)
+   \                     ??maincsm_onmessage_0:
+   \   0000001C   041095E5           LDR      R1,[R5, #+4]
+   \   00000020   0200E0E3           MVN      R0,#+2
+   \   00000024   0E20A0E3           MOV      R2,#+14
+   \   00000028   642C82E3           ORR      R2,R2,#0x6400
+   \   0000002C   020051E1           CMP      R1,R2
+   \   00000030   0400001A           BNE      ??maincsm_onmessage_1
+    801            {
+    802              if ((int)msg->data0==csm->gui_id)
+   \   00000034   0C1095E5           LDR      R1,[R5, #+12]
+   \   00000038   282094E5           LDR      R2,[R4, #+40]
+   \   0000003C   020051E1           CMP      R1,R2
+   \   00000040   0300001A           BNE      ??maincsm_onmessage_2
+    803              {
+    804                csm->csm.state=-3;
+   \   00000044   100084E5           STR      R0,[R4, #+16]
+    805              }
+    806              //if (csm->show_csm==-1) RefreshGUI();
+    807            }
+    808            if (msg->msg==MSG_INCOMMING_CALL)
+   \                     ??maincsm_onmessage_1:
+   \   00000048   041095E5           LDR      R1,[R5, #+4]
+   \   0000004C   600C51E3           CMP      R1,#+24576
+    809            {
+    810              csm->csm.state=-3;
+   \   00000050   10008405           STREQ    R0,[R4, #+16]
+    811            }
+    812            return(1);
+   \                     ??maincsm_onmessage_2:
+   \   00000054   0100A0E3           MOV      R0,#+1
+   \   00000058   3080BDE8           POP      {R4,R5,PC}       ;; return
+    813          }
+    814          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    815          const int minus11=-11;
+   \                     minus11:
+   \   00000000   F5FFFFFF           DC32 -11
+    816          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    817          const CSM_DESC maincsm=
+   \                     maincsm:
+   \   00000000   ............       DC32 maincsm_onmessage, maincsm_oncreate, 0, 0, 0, 0, maincsm_onclose
+   \              ....00000000
+   \              000000000000
+   \              000000000000
+   \              ........    
+   \   0000001C   2C0000000100       DC32 44, 1, minus11
+   \              0000........
+    818          {
+    819            maincsm_onmessage,
+    820            maincsm_oncreate,
+    821          #ifdef NEWSGOLD
+    822            0,
+    823            0,
+    824            0,
+    825            0,
+    826          #endif
+    827            maincsm_onclose,
+    828            sizeof(MAIN_CSM),
+    829            1,
+    830            &minus11
+    831          };
+    832          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    833          void ShowMenu(void)
+    834          {
+   \                     ShowMenu:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    835            MAIN_CSM main_csm;
+    836            InitConfig();
+    837            if (!my_csm_id)
+   \   00000004   ........           LDR      R4,??DataTable13  ;; my_csm_id
+   \   00000008   2CD04DE2           SUB      SP,SP,#+44
+   \   0000000C   ........           _BLF     InitConfig,??InitConfig??rA
+   \   00000010   000094E5           LDR      R0,[R4, #+0]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0400001A           BNE      ??ShowMenu_0
+    838            {
+    839          //    main_csm.show_csm=-1;
+    840              my_csm_id=CreateCSM(&maincsm,&main_csm,2);
+   \   0000001C   ........           LDR      R0,??DataTable14  ;; maincsm
+   \   00000020   0220A0E3           MOV      R2,#+2
+   \   00000024   0D10A0E1           MOV      R1,SP
+   \   00000028   070100EF           SWI      +263
+   \   0000002C   000084E5           STR      R0,[R4, #+0]
+    841            }
+    842          }
+   \                     ??ShowMenu_0:
+   \   00000030   2CD08DE2           ADD      SP,SP,#+44       ;; stack cleaning
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     nltop
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     percent_t
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     show_daemons
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable11:
+   \   00000000   ........           DC32     csm_text
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable13:
+   \   00000000   ........           DC32     my_csm_id
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable14:
+   \   00000000   ........           DC32     maincsm
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for dday>`:
+   \   00000000   ............       DC32 `?<Constant "\\317\\355">`, `?<Constant "\\302\\362">`
+   \              ....        
+   \   00000008   ............       DC32 `?<Constant "\\321\\360">`, `?<Constant "\\327\\362">`
+   \              ....        
+   \   00000010   ............       DC32 `?<Constant "\\317\\362">`, `?<Constant "\\321\\341">`
+   \              ....        
+   \   00000018   ........           DC32 `?<Constant "\\302\\361">`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Back">`:
+   \   00000000   4261636B00         DC8 "Back"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%08X ">`:
+   \   00000000   253038582000       DC8 "%08X "
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Unknown %08X!">`:
+   \   00000000   556E6B6E6F77       DC8 "Unknown %08X!"
+   \              6E2025303858
+   \              2100        
+   \   0000000E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "MainScreen | %d kb">`:
+   \   00000000   4D61696E5363       DC8 "MainScreen | %d kb"
+   \              7265656E207C
+   \              202564206B62
+   \              00          
+   \   00000013   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Browser">`:
+   \   00000000   42726F777365       DC8 "Browser"
+   \              7200        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Jam %d">`:
+   \   00000000   4A616D202564       DC8 "Jam %d"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\302\\361">`:
+   \   00000000   C2F100             DC8 "\302\361"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Phone Java">`:
+   \   00000000   50686F6E6520       DC8 "Phone Java"
+   \              4A61766100  
+   \   0000000B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "User Java">`:
+   \   00000000   55736572204A       DC8 "User Java"
+   \              61766100    
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Unknown Java (%d)">`:
+   \   00000000   556E6B6E6F77       DC8 "Unknown Java (%d)"
+   \              6E204A617661
+   \              202825642900
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Unknown %d(%d) bearer">`:
+   \   00000000   556E6B6E6F77       DC8 "Unknown %d(%d) bearer"
+   \              6E2025642825
+   \              642920626561
+   \              72657200    
+   \   00000016   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Java">`:
+   \   00000000   4A61766100         DC8 "Java"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "!SKIP!">`:
+   \   00000000   21534B495021       DC8 "!SKIP!"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "no name???">`:
+   \   00000000   6E6F206E616D       DC8 "no name???"
+   \              653F3F3F00  
+   \   0000000B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "error!!!">`:
+   \   00000000   6572726F7221       DC8 "error!!!"
+   \              212100      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "4:\\\\zbin\\\\etc\\\\%s.bcfg">`:
+   \   00000000   343A5C7A6269       DC8 "4:\\zbin\\etc\\%s.bcfg"
+   \              6E5C6574635C
+   \              25732E626366
+   \              6700        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "4\\\\zbin\\\\utilities\\\\cfge...">`:
+   \   00000000   345C7A62696E       DC8 "4\\zbin\\utilities\\cfgedit.elf"
+   \              5C7574696C69
+   \              746965735C63
+   \              666765646974
+   \              2E656C6600  
+   \   0000001D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Empty">`:
+   \   00000000   456D70747900       DC8 "Empty"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "error">`:
+   \   00000000   6572726F7200       DC8 "error"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\317\\355">`:
+   \   00000000   CFED00             DC8 "\317\355"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\302\\362">`:
+   \   00000000   C2F200             DC8 "\302\362"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\321\\360">`:
+   \   00000000   D1F000             DC8 "\321\360"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\327\\362">`:
+   \   00000000   D7F200             DC8 "\327\362"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\317\\362">`:
+   \   00000000   CFF200             DC8 "\317\362"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\321\\341">`:
+   \   00000000   D1E100             DC8 "\321\341"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%ddb| %02d:%02d      ...">`:
+   \   00000000   256464627C20       DC8 "%ddb| %02d:%02d          %s,%d |%d%%"
+   \              253032643A25
+   \              303264202020
+   \              202020202020
+   \              2025732C2564
+   \              207C25642525
+   \              00          
+   \   00000025   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Bookmarks...">`:
+   \   00000000   426F6F6B6D61       DC8 "Bookmarks..."
+   \              726B732E2E2E
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Config">`:
+   \   00000000   436F6E666967       DC8 "Config"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Close">`:
+   \   00000000   436C6F736500       DC8 "Close"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Idle">`:
+   \   00000000   49646C6500         DC8 "Idle"
+   \   00000005   000000             DC8 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function           CSTACK
+     --------           ------
+     AddNL                 16
+     ClearNL               12
+     GetNumberOfDialogs   136
+     RunBCFG              268
+     RunBM                 12
+     ShowBMmenu            24
+     ShowMenu              52
+     bm_file                0
+     bm_menu_ghook          4
+     bm_menu_iconhndl      28
+     bm_menu_onkey         12
+     bm_name                0
+     find_name             52
+     get_nlitem             0
+     maincsm_onclose        4
+     maincsm_oncreate      44
+     maincsm_onmessage     12
+     mm_menu_ghook         16
+     mm_menu_iconhndl      24
+     mm_menu_onkey         12
+     strncmp_nocase         4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     mmenu_hdr_txt                     64
+     show_daemons                       4
+     my_csm_id                          4
+     strncmp_nocase                    88
+     nltop                              4
+     csm_text                       32768
+     percent_t                          3
+     ClearNL                           72
+     AddNL                             76
+     find_name                         96
+     u                                 40
+     ErrorNumber                        4
+     dday                              28
+     GetNumberOfDialogs               812
+     get_nlitem                        44
+     mm_menu_iconhndl                 208
+     bm_name                          172
+     bm_file                          172
+     RunBM                             92
+     RunBCFG                          140
+     bm_menuhdr                        20
+     menusoftkeys                      12
+     menu_sk                           24
+     menu_skt                           8
+     bm_menu_ghook                     20
+     bm_menu                           44
+     bm_menu_onkey                    156
+     bm_menu_iconhndl                 336
+     ShowBMmenu                       104
+     mm_menu_onkey                    396
+     mm_menuhdr                        20
+     mm_menu_sk                        24
+     mm_menu_skt                        8
+     mm_menu_ghook                     92
+     mm_menu                           44
+     maincsm_oncreate                 228
+     maincsm_onclose                   24
+     maincsm_onmessage                 92
+     minus11                            4
+     maincsm                           40
+     ShowMenu                          56
+     ??DataTable7                       4
+     ??DataTable9                       4
+     ??DataTable10                      4
+     ??DataTable11                      4
+     ??DataTable13                      4
+     ??DataTable14                      4
+     ?<Initializer for dday>           28
+     ?<Constant "Back">                 8
+     ?<Constant "%08X ">                8
+     ?<Constant "Unknown %08X!">       16
+     ?<Constant "MainScreen | %d kb">
+                                       20
+     ?<Constant "Browser">              8
+     ?<Constant "Jam %d">               8
+     ?<Constant "\302\361">             3
+     ?<Constant "Phone Java">          12
+     ?<Constant "User Java">           12
+     ?<Constant "Unknown Java (%d)">
+                                       20
+     ?<Constant "Unknown %d(%d) bearer">
+                                       24
+     ?<Constant "Java">                 8
+     ?<Constant "!SKIP!">               8
+     ?<Constant "no name???">          12
+     ?<Constant "error!!!">            12
+     ?<Constant "4:\\zbin\\etc\\%s.bcfg">
+                                       20
+     ?<Constant "4\\zbin\\utilities\\cfge...">
+                                       32
+     ?<Constant "Empty">                8
+     ?<Constant "error">                8
+     ?<Constant "\317\355">             3
+     ?<Constant "\302\362">             3
+     ?<Constant "\321\360">             3
+     ?<Constant "\327\362">             3
+     ?<Constant "\317\362">             3
+     ?<Constant "\321\341">             3
+     ?<Constant "%ddb| %02d:%02d      ...">
+                                       40
+     ?<Constant "Bookmarks...">        16
+     ?<Constant "Config">               8
+     ?<Constant "Close">                8
+     ?<Constant "Idle">                 8
+      Others                          132
+
+ 
+  3 608 bytes in segment CODE
+    596 bytes in segment DATA_C
+     28 bytes in segment DATA_I
+     28 bytes in segment DATA_ID
+ 32 888 bytes in segment DATA_Z
+     24 bytes in segment INITTAB
+ 
+  3 500 bytes of CODE  memory (+ 132 bytes shared)
+    624 bytes of CONST memory
+ 32 916 bytes of DATA  memory
+
+Errors: none
+Warnings: none

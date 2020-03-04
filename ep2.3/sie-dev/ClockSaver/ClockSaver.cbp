@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ClockSaver" />
+		<Option pch_mode="2" />
+		<Option compiler="iar_arm_cc_compiler" />
+		<Build>
+			<Target title="ELKA">
+				<Option output="bin/ClockSaver_ELKA.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/ELKA/" />
+				<Option type="1" />
+				<Option compiler="iar_arm_cc_compiler" />
+				<Compiler>
+					<Add option="-DELKA" />
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+				<ExtraCommands>
+					<Add after="~/.bin/tripper $exe_output $exe_output" />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
+			<Target title="NSG">
+				<Option output="bin/ClockSaver_NSG.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/NSG/" />
+				<Option type="1" />
+				<Option compiler="iar_arm_cc_compiler" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+				<ExtraCommands>
+					<Add after="tripper $exe_output $exe_output" />
+				</ExtraCommands>
+			</Target>
+			<Target title="SGOLD">
+				<Option output="bin/ClockSaver_SG.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/SGOLD/" />
+				<Option type="1" />
+				<Option compiler="iar_arm_cc_compiler" />
+				<ExtraCommands>
+					<Add after="tripper $exe_output $exe_output" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Linker>
+			<Add option="print.r79" />
+		</Linker>
+		<Unit filename="CPP/_cpp.C">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="CPP/_cpp2.cpp" />
+		<Unit filename="CPP/csm.cpp" />
+		<Unit filename="CPP/csm.h" />
+		<Unit filename="CPP/gui.cpp" />
+		<Unit filename="CPP/gui.h" />
+		<Unit filename="cfg_param.h" />
+		<Unit filename="conf_loader.cpp" />
+		<Unit filename="conf_loader.h" />
+		<Unit filename="config_data.c">
+			<Option compilerVar="CC" />
+			<Option compiler="iar_arm_cc_compiler" use="1" buildCommand='$compiler &quot;$file $options --segment code=CONFIG --segment data=CONFIG $includes -o $object&quot;' />
+		</Unit>
+		<Unit filename="csgui.cpp" />
+		<Unit filename="csgui.h" />
+		<Unit filename="func.asm" />
+		<Unit filename="keyhook.cpp" />
+		<Unit filename="keyhook.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="main.h" />
+		<Unit filename="print.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

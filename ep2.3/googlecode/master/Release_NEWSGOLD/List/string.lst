@@ -1,0 +1,1699 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    08/Jun/2010  15:03:34 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  F:\SVN\cn\Master\string.c                            #
+#    Command line    =  F:\SVN\cn\Master\string.c -D NEWSGOLD -lC            #
+#                       F:\SVN\cn\Master\Release_NEWSGOLD\List\ -o           #
+#                       F:\SVN\cn\Master\Release_NEWSGOLD\Obj\ -s9           #
+#                       --no_unroll --no_clustering --cpu_mode arm --endian  #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --fpu None --dlib_config "F:\software\Embedded    #
+#                       Workbench 4.0 Evaluation\ARM\LIB\dl5tpainl8n.h" -I   #
+#                       "F:\software\Embedded Workbench 4.0                  #
+#                       Evaluation\ARM\INC\" --inline_threshold=2            #
+#    List file       =  F:\SVN\cn\Master\Release_NEWSGOLD\List\string.lst    #
+#    Object file     =  F:\SVN\cn\Master\Release_NEWSGOLD\Obj\string.r79     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+F:\SVN\cn\Master\string.c
+      1          /*
+      2           * 文件名: getConfig.c
+      3           * 作者: BingK(binghelingxi)
+      4           *
+      5           * 最后修改日期: 2008.07.07
+      6           *
+      7           * 作用: 提供一些字符处理函数
+      8           * 备注: WINTEL_DEBUG为使用在windows中使用编译器进行调试的条件编译项目
+      9           *
+     10           */
+     11          
+     12          #ifdef	WINTEL_DEBUG
+     13          #include <stdio.h>
+     14          #include <stdlib.h>
+     15          #include <string.h>
+     16          #include <memory.h>
+     17          #else
+     18          #include "..\inc\swilib.h"
+     19          #endif
+     20          #include "usedstr.h"
+     21          #include "string.h"
+     22          #include "main.h"
+     23          
+     24          #ifndef	WINTEL_DEBUG
+
+   \                                 In segment CODE, align 4, keep-with-next
+     25          int getnumwidth(unsigned int num)
+     26          {
+     27          	int i=1;
+   \                     getnumwidth:
+   \   00000000   28209FE5           LDR      R2,??getnumwidth_0  ;; 0xffffffffcccccccd
+   \   00000004   0110A0E3           MOV      R1,#+1
+   \   00000008   0A0050E3           CMP      R0,#+10
+   \   0000000C   0500003A           BCC      ??getnumwidth_1
+     28          	while(num>=10) 
+     29          	{
+     30          		num/=10;
+   \                     ??getnumwidth_2:
+   \   00000010   92308CE0           UMULL    R3,R12,R2,R0
+     31          		i++;
+   \   00000014   011081E2           ADD      R1,R1,#+1
+   \   00000018   ACC1A0E1           LSR      R12,R12,#+3
+   \   0000001C   0C00A0E1           MOV      R0,R12
+     32          	}
+   \   00000020   0A0050E3           CMP      R0,#+10
+   \   00000024   F9FFFF2A           BCS      ??getnumwidth_2
+     33          	return i;  
+   \                     ??getnumwidth_1:
+   \   00000028   0100A0E1           MOV      R0,R1
+   \   0000002C   1EFF2FE1           BX       LR               ;; return
+   \                     ??getnumwidth_0:
+   \   00000030   CDCCCCCC           DC32     0xffffffffcccccccd
+     34          }
+     35          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     36          void uni2ws(WSHDR *ws, unsigned short *uni, int maxlen)
+     37          {
+   \                     uni2ws:
+   \   00000000   30002DE9           PUSH     {R4,R5}
+     38          	unsigned short *p=uni;
+     39          	ws->wsbody[0]=0;
+   \   00000004   000090E5           LDR      R0,[R0, #+0]
+   \   00000008   0130A0E1           MOV      R3,R1
+   \   0000000C   00C0A0E3           MOV      R12,#+0
+   \   00000010   B0C0C0E1           STRH     R12,[R0, #+0]
+     40          	int i=1;
+   \   00000014   01C0A0E3           MOV      R12,#+1
+   \   00000018   030000EA           B        ??uni2ws_0
+     41          	while(*p && (maxlen==0||p-uni<=maxlen))
+     42          	{
+     43          		ws->wsbody[i]=*p;
+   \                     ??uni2ws_1:
+   \   0000001C   ........           LDRH     R5,[R3], #+2
+   \   00000020   8C4080E0           ADD      R4,R0,R12, LSL #+1
+     44          		i++;
+   \   00000024   01C08CE2           ADD      R12,R12,#+1
+   \   00000028   B050C4E1           STRH     R5,[R4, #+0]
+     45          		p++;
+     46          	}
+   \                     ??uni2ws_0:
+   \   0000002C   B040D3E1           LDRH     R4,[R3, #+0]
+   \   00000030   000054E3           CMP      R4,#+0
+   \   00000034   0500000A           BEQ      ??uni2ws_2
+   \   00000038   000052E3           CMP      R2,#+0
+   \   0000003C   F6FFFF0A           BEQ      ??uni2ws_1
+   \   00000040   A340A0E1           LSR      R4,R3,#+1
+   \   00000044   A14044E0           SUB      R4,R4,R1, LSR #+1
+   \   00000048   040052E1           CMP      R2,R4
+   \   0000004C   F2FFFFAA           BGE      ??uni2ws_1
+     47          	ws->wsbody[0]=i-1;
+   \                     ??uni2ws_2:
+   \   00000050   FF10A0E3           MOV      R1,#+255
+   \   00000054   FF1C81E3           ORR      R1,R1,#0xFF00
+   \   00000058   0C1081E0           ADD      R1,R1,R12
+   \   0000005C   B010C0E1           STRH     R1,[R0, #+0]
+     48          }
+   \   00000060   3000BDE8           POP      {R4,R5}
+   \   00000064   1EFF2FE1           BX       LR               ;; return
+     49          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     50          void ws2uni(WSHDR *ws, unsigned short *uni, int maxlen)
+     51          {
+   \                     ws2uni:
+   \   00000000   30002DE9           PUSH     {R4,R5}
+     52          	unsigned short *p=ws->wsbody+1;
+   \   00000004   000090E5           LDR      R0,[R0, #+0]
+     53          	int i=0;
+   \   00000008   00C0A0E3           MOV      R12,#+0
+   \   0000000C   023080E2           ADD      R3,R0,#+2
+   \   00000010   040000EA           B        ??ws2uni_0
+     54          	while(i<ws->wsbody[0]&&(maxlen==0||i<maxlen))
+     55          	{
+     56          		uni[i]=p[i];
+   \                     ??ws2uni_1:
+   \   00000014   8C5083E0           ADD      R5,R3,R12, LSL #+1
+   \   00000018   B050D5E1           LDRH     R5,[R5, #+0]
+   \   0000001C   8C4081E0           ADD      R4,R1,R12, LSL #+1
+     57          		i++;
+   \   00000020   01C08CE2           ADD      R12,R12,#+1
+   \   00000024   B050C4E1           STRH     R5,[R4, #+0]
+     58          	}
+   \                     ??ws2uni_0:
+   \   00000028   B040D0E1           LDRH     R4,[R0, #+0]
+   \   0000002C   04005CE1           CMP      R12,R4
+   \   00000030   030000AA           BGE      ??ws2uni_2
+   \   00000034   000052E3           CMP      R2,#+0
+   \   00000038   F5FFFF0A           BEQ      ??ws2uni_1
+   \   0000003C   02005CE1           CMP      R12,R2
+   \   00000040   F3FFFFBA           BLT      ??ws2uni_1
+     59          	for(;i<maxlen;i++)
+   \                     ??ws2uni_2:
+   \   00000044   02005CE1           CMP      R12,R2
+   \   00000048   040000AA           BGE      ??ws2uni_3
+     60          		uni[i]=0;
+   \   0000004C   8C0081E0           ADD      R0,R1,R12, LSL #+1
+   \   00000050   0030A0E3           MOV      R3,#+0
+   \   00000054   B030C0E1           STRH     R3,[R0, #+0]
+   \   00000058   01C08CE2           ADD      R12,R12,#+1
+   \   0000005C   F8FFFFEA           B        ??ws2uni_2
+     61          }
+   \                     ??ws2uni_3:
+   \   00000060   3000BDE8           POP      {R4,R5}
+   \   00000064   1EFF2FE1           BX       LR               ;; return
+     62          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     63          void hex2ws(WSHDR *ws, unsigned char *hex, int maxlen)
+     64          {
+   \                     hex2ws:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     65          	unsigned char *p=hex;
+     66          	ws->wsbody[0]=0;
+   \   00000008   000094E5           LDR      R0,[R4, #+0]
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   0260A0E1           MOV      R6,R2
+   \   00000014   0570A0E1           MOV      R7,R5
+   \   00000018   0010A0E3           MOV      R1,#+0
+   \   0000001C   B010C0E1           STRH     R1,[R0, #+0]
+     67          	WSHDR *tws=AllocWS(8);
+   \   00000020   0800A0E3           MOV      R0,#+8
+   \   00000024   250100EF           SWI      +293
+   \   00000028   0080A0E1           MOV      R8,R0
+   \   0000002C   010056E3           CMP      R6,#+1
+   \   00000030   0A0000BA           BLT      ??hex2ws_0
+   \   00000034   060000EA           B        ??hex2ws_1
+     68          	while(p-hex<maxlen)
+     69          	{
+     70          		wsprintf(tws, PERCENT_02X, *p);
+   \                     ??hex2ws_2:
+   \   00000038   ........           LDRB     R2,[R7], #+1
+   \   0000003C   28109FE5           LDR      R1,??hex2ws_3    ;; PERCENT_02X
+   \   00000040   0800A0E1           MOV      R0,R8
+   \   00000044   240100EF           SWI      +292
+     71          		wstrcat(ws, tws);
+   \   00000048   0810A0E1           MOV      R1,R8
+   \   0000004C   0400A0E1           MOV      R0,R4
+   \   00000050   210100EF           SWI      +289
+     72          		p++;
+     73          	}
+   \                     ??hex2ws_1:
+   \   00000054   050047E0           SUB      R0,R7,R5
+   \   00000058   060050E1           CMP      R0,R6
+   \   0000005C   F5FFFFBA           BLT      ??hex2ws_2
+     74          	FreeWS(tws);
+   \                     ??hex2ws_0:
+   \   00000060   0800A0E1           MOV      R0,R8
+   \   00000064   290100EF           SWI      +297
+     75          }
+   \   00000068   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??hex2ws_3:
+   \   0000006C   ........           DC32     PERCENT_02X
+     76          
+     77          /*
+     78          int str2hex(char *str, char *hex)
+     79          {
+     80          	char c, c1;
+     81          	int i=0;
+     82          	char *p1=str;
+     83          	while((c=*p1++))
+     84          	{
+     85          		if((c>='0'&&c<='9')||(c>='a'&&c<='f')||(c>='A'&&c<='F'))
+     86          		{
+     87          			c1=*p1++;
+     88          			if((c1>='0'&&c1<='9')||(c1>='a'&&c1<='f')||(c1>='A'&&c1<='F'))
+     89          				hex[i++]=chr2num(c)*0x10+chr2num(c1);
+     90          			else
+     91          				break;
+     92          		}
+     93          		else
+     94          			break;
+     95          	}
+     96          	i=i/2;
+     97          	i=i*2;
+     98          	hex[i]=0;
+     99          	hex[i+1]=0;
+    100          	return i;
+    101          }
+    102          */
+    103          #pragma inline
+    104          unsigned short str2short(char *s)
+    105          {
+    106          	return (((chr2num(s[0]))<<4)+(chr2num(s[1]))+((chr2num(s[2]))<<12)+((chr2num(s[3]))<<8));
+    107          }
+    108          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    109          void uniFormatString2ws(WSHDR *ws, char *s)
+    110          {
+   \                     uniFormatString2ws:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   0070A0E1           MOV      R7,R0
+   \   00000008   0140A0E1           MOV      R4,R1
+    111          	int wslen;
+    112          	if(!(wslen=isUniFormat(s)/4))
+   \   0000000C   0400A0E1           MOV      R0,R4
+   \   00000010   ........           BL       isUniFormat
+   \   00000014   C010A0E1           ASR      R1,R0,#+1
+   \   00000018   210F80E0           ADD      R0,R0,R1, LSR #+30
+   \   0000001C   4051B0E1           ASRS     R5,R0,#+2
+   \   00000020   0400001A           BNE      ??uniFormatString2ws_0
+    113          		wsprintf(ws, PERCENT_T, s);
+   \   00000024   78109FE5           LDR      R1,??uniFormatString2ws_1  ;; PERCENT_T
+   \   00000028   0420A0E1           MOV      R2,R4
+   \   0000002C   0700A0E1           MOV      R0,R7
+   \   00000030   240100EF           SWI      +292
+   \   00000034   F087BDE8           POP      {R4-R10,PC}
+    114          	else
+    115          	{
+    116          		int i=0;
+    117          		unsigned short *p=ws->wsbody+1;
+   \                     ??uniFormatString2ws_0:
+   \   00000038   000097E5           LDR      R0,[R7, #+0]
+   \   0000003C   0060A0E3           MOV      R6,#+0
+   \   00000040   027080E2           ADD      R7,R0,#+2
+    118          		ws->wsbody[0]=wslen;
+   \   00000044   B050C0E1           STRH     R5,[R0, #+0]
+   \   00000048   010055E3           CMP      R5,#+1
+   \   0000004C   110000AA           BGE      ??uniFormatString2ws_2
+   \   00000050   F087BDE8           POP      {R4-R10,PC}
+    119          		for(;i<wslen;i++)
+    120          		{
+    121          			p[i]=str2short(s+i*4);
+   \                     ??uniFormatString2ws_3:
+   \   00000054   068184E0           ADD      R8,R4,R6, LSL #+2
+   \   00000058   0000D8E5           LDRB     R0,[R8, #+0]
+   \   0000005C   ........           BL       chr2num
+   \   00000060   0090A0E1           MOV      R9,R0
+   \   00000064   0100D8E5           LDRB     R0,[R8, #+1]
+   \   00000068   ........           BL       chr2num
+   \   0000006C   00A0A0E1           MOV      R10,R0
+   \   00000070   0200D8E5           LDRB     R0,[R8, #+2]
+   \   00000074   ........           BL       chr2num
+   \   00000078   09128AE0           ADD      R1,R10,R9, LSL #+4
+   \   0000007C   009681E0           ADD      R9,R1,R0, LSL #+12
+   \   00000080   0300D8E5           LDRB     R0,[R8, #+3]
+   \   00000084   ........           BL       chr2num
+   \   00000088   000489E0           ADD      R0,R9,R0, LSL #+8
+   \   0000008C   861087E0           ADD      R1,R7,R6, LSL #+1
+   \   00000090   B000C1E1           STRH     R0,[R1, #+0]
+    122          		}
+   \   00000094   016086E2           ADD      R6,R6,#+1
+   \                     ??uniFormatString2ws_2:
+   \   00000098   050056E1           CMP      R6,R5
+   \   0000009C   ECFFFFBA           BLT      ??uniFormatString2ws_3
+    123          	}
+    124          }
+   \   000000A0   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??uniFormatString2ws_1:
+   \   000000A4   ........           DC32     PERCENT_T
+    125          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    126          int isUniFormat(char *s)
+    127          {
+    128          	char c;
+    129          	int i=0;
+   \                     isUniFormat:
+   \   00000000   0010A0E3           MOV      R1,#+0
+   \   00000004   000000EA           B        ??isUniFormat_0
+    130          	while(c=s[i])
+    131          	{
+    132          		if((c>='0'&&c<='9')||(c>='A'&&c<='F'))
+    133          			i++;
+   \                     ??isUniFormat_1:
+   \   00000008   011081E2           ADD      R1,R1,#+1
+   \                     ??isUniFormat_0:
+   \   0000000C   0020D1E7           LDRB     R2,[R1, +R0]
+   \   00000010   0230B0E1           MOVS     R3,R2
+   \   00000014   0800000A           BEQ      ??isUniFormat_2
+   \   00000018   300052E3           CMP      R2,#+48
+   \   0000001C   0100003A           BCC      ??isUniFormat_3
+   \   00000020   3A0052E3           CMP      R2,#+58
+   \   00000024   F7FFFF3A           BCC      ??isUniFormat_1
+   \                     ??isUniFormat_3:
+   \   00000028   410052E3           CMP      R2,#+65
+   \   0000002C   0700003A           BCC      ??isUniFormat_4
+   \   00000030   470052E3           CMP      R2,#+71
+   \   00000034   F3FFFF3A           BCC      ??isUniFormat_1
+    134          		else
+    135          			return 0;
+   \   00000038   040000EA           B        ??isUniFormat_4
+    136          	}
+    137          	if(i%4)
+   \                     ??isUniFormat_2:
+   \   0000003C   C100A0E1           ASR      R0,R1,#+1
+   \   00000040   200F81E0           ADD      R0,R1,R0, LSR #+30
+   \   00000044   4001A0E1           ASR      R0,R0,#+2
+   \   00000048   000151E0           SUBS     R0,R1,R0, LSL #+2
+   \   0000004C   0100000A           BEQ      ??isUniFormat_5
+    138          		return 0;
+   \                     ??isUniFormat_4:
+   \   00000050   0000A0E3           MOV      R0,#+0
+   \   00000054   1EFF2FE1           BX       LR
+    139          	return i;
+   \                     ??isUniFormat_5:
+   \   00000058   0100A0E1           MOV      R0,R1
+   \   0000005C   1EFF2FE1           BX       LR               ;; return
+    140          }
+    141          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    142          void ws2hex(WSHDR *ws, char *hex, int maxlen)
+    143          {
+   \                     ws2hex:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   80DF4DE2           SUB      SP,SP,#+512
+   \   00000008   0140A0E1           MOV      R4,R1
+   \   0000000C   0250A0E1           MOV      R5,R2
+    144          	char s[MAX_WS_LEN];
+    145          	int i=0;
+    146          	unsigned char c, c1;
+    147          	char *p1=s;
+   \   00000010   0D60A0E1           MOV      R6,SP
+    148          	ws_2str(ws, s, maxlen);
+   \   00000014   0D10A0E1           MOV      R1,SP
+   \   00000018   A30000EF           SWI      +163
+   \   0000001C   0070A0E3           MOV      R7,#+0
+   \   00000020   140000EA           B        ??ws2hex_0
+    149          	while((c=*p1++))
+    150          	{
+    151          		if((c>='0'&&c<='9')||(c>='a'&&c<='f')||(c>='A'&&c<='F'))
+   \                     ??ws2hex_1:
+   \   00000024   410051E3           CMP      R1,#+65
+   \   00000028   2700003A           BCC      ??ws2hex_2
+   \   0000002C   470051E3           CMP      R1,#+71
+   \   00000030   2500002A           BCS      ??ws2hex_2
+    152          		{
+    153          			c1=*p1++;
+   \                     ??ws2hex_3:
+   \   00000034   ........           LDRB     R8,[R6], #+1
+    154          			if((c1>='0'&&c1<='9')||(c1>='a'&&c1<='f')||(c1>='A'&&c1<='F'))
+   \   00000038   019087E2           ADD      R9,R7,#+1
+   \   0000003C   300058E3           CMP      R8,#+48
+   \   00000040   0100003A           BCC      ??ws2hex_4
+   \   00000044   3A0058E3           CMP      R8,#+58
+   \   00000048   0300003A           BCC      ??ws2hex_5
+   \                     ??ws2hex_4:
+   \   0000004C   610058E3           CMP      R8,#+97
+   \   00000050   1400003A           BCC      ??ws2hex_6
+   \   00000054   670058E3           CMP      R8,#+103
+   \   00000058   1600002A           BCS      ??ws2hex_7
+    155          				hex[i++]=chr2num(c)*0x10+chr2num(c1);
+   \                     ??ws2hex_5:
+   \   0000005C   ........           BL       chr2num
+   \   00000060   00A0A0E1           MOV      R10,R0
+   \   00000064   0800A0E1           MOV      R0,R8
+   \   00000068   ........           BL       chr2num
+   \   0000006C   0A0280E0           ADD      R0,R0,R10, LSL #+4
+   \                     ??ws2hex_8:
+   \   00000070   0400C7E7           STRB     R0,[R7, +R4]
+   \   00000074   0970A0E1           MOV      R7,R9
+   \                     ??ws2hex_0:
+   \   00000078   ........           LDRB     R1,[R6], #+1
+   \   0000007C   0100B0E1           MOVS     R0,R1
+   \   00000080   1100000A           BEQ      ??ws2hex_2
+   \   00000084   300051E3           CMP      R1,#+48
+   \   00000088   0100003A           BCC      ??ws2hex_9
+   \   0000008C   3A0051E3           CMP      R1,#+58
+   \   00000090   E7FFFF3A           BCC      ??ws2hex_3
+   \                     ??ws2hex_9:
+   \   00000094   610051E3           CMP      R1,#+97
+   \   00000098   E1FFFF3A           BCC      ??ws2hex_1
+   \   0000009C   670051E3           CMP      R1,#+103
+   \   000000A0   E3FFFF3A           BCC      ??ws2hex_3
+   \   000000A4   080000EA           B        ??ws2hex_2
+   \                     ??ws2hex_6:
+   \   000000A8   410058E3           CMP      R8,#+65
+   \   000000AC   0100003A           BCC      ??ws2hex_7
+   \   000000B0   470058E3           CMP      R8,#+71
+   \   000000B4   E8FFFF3A           BCC      ??ws2hex_5
+    156          			else
+    157          				hex[i++]=chr2num(c);
+   \                     ??ws2hex_7:
+   \   000000B8   ........           BL       chr2num
+   \   000000BC   EBFFFFEA           B        ??ws2hex_8
+    158          		}
+    159          		else
+    160          			break;
+    161          	}
+    162          	for(;i<(maxlen/2);i++)
+    163          	{
+    164          		hex[i]=0;
+   \                     ??ws2hex_10:
+   \   000000C0   0000A0E3           MOV      R0,#+0
+   \   000000C4   0400C7E7           STRB     R0,[R7, +R4]
+    165          	}
+   \   000000C8   017087E2           ADD      R7,R7,#+1
+   \                     ??ws2hex_2:
+   \   000000CC   A50F85E0           ADD      R0,R5,R5, LSR #+31
+   \   000000D0   C00057E1           CMP      R7,R0, ASR #+1
+   \   000000D4   F9FFFFBA           BLT      ??ws2hex_10
+    166          }
+   \   000000D8   80DF8DE2           ADD      SP,SP,#+512      ;; stack cleaning
+   \   000000DC   F087BDE8           POP      {R4-R10,PC}      ;; return
+    167          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    168          void bytes_2ws(WSHDR *ws, char *bytes, int maxlen)
+    169          {
+   \                     bytes_2ws:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+    170          	WSHDR *tws;
+    171          	int i=1;
+   \   00000010   0170A0E3           MOV      R7,#+1
+    172          	//int t=bytes[0];
+    173          	if(maxlen<=0)
+   \   00000014   010056E3           CMP      R6,#+1
+   \   00000018   F081BDB8           POPLT    {R4-R8,PC}
+    174          		return;
+    175          	tws=AllocWS(8);
+   \   0000001C   0800A0E3           MOV      R0,#+8
+   \   00000020   250100EF           SWI      +293
+   \   00000024   0080A0E1           MOV      R8,R0
+    176          	ws->wsbody[0]=0;
+   \   00000028   000094E5           LDR      R0,[R4, #+0]
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   B010C0E1           STRH     R1,[R0, #+0]
+    177          	wsprintf(ws,PERCENT_D,bytes[0]);
+   \   00000034   0020D5E5           LDRB     R2,[R5, #+0]
+   \   00000038   ........           LDR      R1,??DataTable2  ;; PERCENT_D
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   240100EF           SWI      +292
+   \   00000044   020056E3           CMP      R6,#+2
+   \   00000048   0A0000AA           BGE      ??bytes_2ws_0
+   \   0000004C   0800A0E1           MOV      R0,R8
+   \   00000050   290100EF           SWI      +297
+   \   00000054   F081BDE8           POP      {R4-R8,PC}
+    178          	for(;i<maxlen;i++)
+    179          	{
+    180          		//t=bytes[i];
+    181          		wsprintf(tws, D_PERCENT_D, bytes[i]);
+   \                     ??bytes_2ws_1:
+   \   00000058   0520D7E7           LDRB     R2,[R7, +R5]
+   \   0000005C   ........           LDR      R1,??DataTable3  ;; D_PERCENT_D
+   \   00000060   0800A0E1           MOV      R0,R8
+   \   00000064   240100EF           SWI      +292
+    182          		wstrcat(ws, tws);
+   \   00000068   0810A0E1           MOV      R1,R8
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   210100EF           SWI      +289
+    183          	}
+   \   00000074   017087E2           ADD      R7,R7,#+1
+   \                     ??bytes_2ws_0:
+   \   00000078   060057E1           CMP      R7,R6
+   \   0000007C   F5FFFFBA           BLT      ??bytes_2ws_1
+    184          	FreeWS(tws);
+   \   00000080   0800A0E1           MOV      R0,R8
+   \   00000084   290100EF           SWI      +297
+    185          }
+   \   00000088   F081BDE8           POP      {R4-R8,PC}       ;; return
+    186          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    187          void ints_2ws(WSHDR *ws, int *ints, int maxlen)
+    188          {
+   \                     ints_2ws:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+    189          	WSHDR *tws;
+    190          	int i=1;
+   \   00000010   0170A0E3           MOV      R7,#+1
+    191          	//int t=bytes[0];
+    192          	if(maxlen<=0)
+   \   00000014   010056E3           CMP      R6,#+1
+   \   00000018   F081BDB8           POPLT    {R4-R8,PC}
+    193          		return;
+    194          	tws=AllocWS(16);
+   \   0000001C   1000A0E3           MOV      R0,#+16
+   \   00000020   250100EF           SWI      +293
+   \   00000024   0080A0E1           MOV      R8,R0
+    195          	ws->wsbody[0]=0;
+   \   00000028   000094E5           LDR      R0,[R4, #+0]
+   \   0000002C   0010A0E3           MOV      R1,#+0
+   \   00000030   B010C0E1           STRH     R1,[R0, #+0]
+    196          	wsprintf(ws,PERCENT_D,ints[0]);
+   \   00000034   002095E5           LDR      R2,[R5, #+0]
+   \   00000038   ........           LDR      R1,??DataTable2  ;; PERCENT_D
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   240100EF           SWI      +292
+   \   00000044   020056E3           CMP      R6,#+2
+   \   00000048   0A0000AA           BGE      ??ints_2ws_0
+   \   0000004C   0800A0E1           MOV      R0,R8
+   \   00000050   290100EF           SWI      +297
+   \   00000054   F081BDE8           POP      {R4-R8,PC}
+    197          	for(;i<maxlen;i++)
+    198          	{
+    199          		//t=bytes[i];
+    200          		wsprintf(tws, D_PERCENT_D, ints[i]);
+   \                     ??ints_2ws_1:
+   \   00000058   072195E7           LDR      R2,[R5, +R7, LSL #+2]
+   \   0000005C   ........           LDR      R1,??DataTable3  ;; D_PERCENT_D
+   \   00000060   0800A0E1           MOV      R0,R8
+   \   00000064   240100EF           SWI      +292
+    201          		wstrcat(ws, tws);
+   \   00000068   0810A0E1           MOV      R1,R8
+   \   0000006C   0400A0E1           MOV      R0,R4
+   \   00000070   210100EF           SWI      +289
+    202          	}
+   \   00000074   017087E2           ADD      R7,R7,#+1
+   \                     ??ints_2ws_0:
+   \   00000078   060057E1           CMP      R7,R6
+   \   0000007C   F5FFFFBA           BLT      ??ints_2ws_1
+    203          	FreeWS(tws);
+   \   00000080   0800A0E1           MOV      R0,R8
+   \   00000084   290100EF           SWI      +297
+    204          }
+   \   00000088   F081BDE8           POP      {R4-R8,PC}       ;; return
+    205          
+    206          #endif
+    207          
+    208          #ifndef	WINTEL_DEBUG
+    209          #pragma inline=forced
+    210          #endif
+    211          int toupper(int c)
+    212          {
+    213          	if ((c>='a')&&(c<='z')) c+='A'-'a';
+    214          	return(c);
+    215          }
+    216          
+    217          //比较字符不分大小写函数
+
+   \                                 In segment CODE, align 4, keep-with-next
+    218          int strncmpNoCase(const char *s1,const char *s2,unsigned int n)
+    219          {
+   \                     strncmpNoCase:
+   \   00000000   10002DE9           PUSH     {R4}
+    220          	int i;
+    221          	int c;
+    222          	while(!(i=(c=toupper(*s1++))-toupper(*s2++))&&(--n)) if (!c) break;
+   \                     ??strncmpNoCase_0:
+   \   00000004   0030D0E5           LDRB     R3,[R0, #+0]
+   \   00000008   610053E3           CMP      R3,#+97
+   \   0000000C   010000BA           BLT      ??strncmpNoCase_1
+   \   00000010   7B0053E3           CMP      R3,#+123
+   \   00000014   203043B2           SUBLT    R3,R3,#+32
+   \                     ??strncmpNoCase_1:
+   \   00000018   0040D1E5           LDRB     R4,[R1, #+0]
+   \   0000001C   010080E2           ADD      R0,R0,#+1
+   \   00000020   03C0A0E1           MOV      R12,R3
+   \   00000024   610054E3           CMP      R4,#+97
+   \   00000028   010000BA           BLT      ??strncmpNoCase_2
+   \   0000002C   7B0054E3           CMP      R4,#+123
+   \   00000030   204044B2           SUBLT    R4,R4,#+32
+   \                     ??strncmpNoCase_2:
+   \   00000034   011081E2           ADD      R1,R1,#+1
+   \   00000038   043053E0           SUBS     R3,R3,R4
+   \   0000003C   0200001A           BNE      ??strncmpNoCase_3
+   \   00000040   012052E2           SUBS     R2,R2,#+1
+   \   00000044   00005C13           CMPNE    R12,#+0
+   \   00000048   EDFFFF1A           BNE      ??strncmpNoCase_0
+    223          	return(i);
+   \                     ??strncmpNoCase_3:
+   \   0000004C   1000BDE8           POP      {R4}
+   \   00000050   0300A0E1           MOV      R0,R3
+   \   00000054   1EFF2FE1           BX       LR               ;; return
+    224          }
+    225          
+    226          //字符转换为数字
+
+   \                                 In segment CODE, align 4, keep-with-next
+    227          int chr2num(char chr)
+    228          {
+    229          	if(chr>='0'&&chr<='9')
+   \                     chr2num:
+   \   00000000   300050E3           CMP      R0,#+48
+   \   00000004   0200003A           BCC      ??chr2num_0
+   \   00000008   3A0050E3           CMP      R0,#+58
+    230          		return (chr-('0'-0));
+   \   0000000C   30004032           SUBCC    R0,R0,#+48
+   \   00000010   1EFF2F31           BXCC     LR
+    231          	if(chr>='A'&&chr<='Z')
+   \                     ??chr2num_0:
+   \   00000014   410050E3           CMP      R0,#+65
+   \   00000018   0200003A           BCC      ??chr2num_1
+   \   0000001C   5B0050E3           CMP      R0,#+91
+    232          		return (chr-('A'-0xA));
+   \   00000020   37004032           SUBCC    R0,R0,#+55
+   \   00000024   1EFF2F31           BXCC     LR
+    233          	if(chr>='a'&&chr<='z')
+   \                     ??chr2num_1:
+   \   00000028   610050E3           CMP      R0,#+97
+   \   0000002C   0200003A           BCC      ??chr2num_2
+   \   00000030   7B0050E3           CMP      R0,#+123
+    234          		return (chr-('a'-0xA));
+   \   00000034   57004032           SUBCC    R0,R0,#+87
+   \   00000038   1EFF2F31           BXCC     LR
+    235          	return 0;
+   \                     ??chr2num_2:
+   \   0000003C   0000A0E3           MOV      R0,#+0
+   \   00000040   1EFF2FE1           BX       LR               ;; return
+    236          }
+    237          
+    238          //指针走到空格大的位置
+
+   \                                 In segment CODE, align 4, keep-with-next
+    239          char *gotoRealPos(char *p)
+    240          {
+    241          	char *pp=p;
+   \                     gotoRealPos:
+   \   00000000   000000EA           B        ??gotoRealPos_0
+    242          	while(*pp)
+    243          	{
+    244          		if(*pp>X_CHAR)
+    245          			break;
+    246          		pp++;
+   \                     ??gotoRealPos_1:
+   \   00000004   010080E2           ADD      R0,R0,#+1
+   \                     ??gotoRealPos_0:
+   \   00000008   0010D0E5           LDRB     R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   1EFF2F01           BXEQ     LR
+   \   00000014   210051E3           CMP      R1,#+33
+   \   00000018   F9FFFF3A           BCC      ??gotoRealPos_1
+    247          	}
+    248          	return pp;
+   \   0000001C   1EFF2FE1           BX       LR               ;; return
+    249          }
+    250          
+    251          //在括号你搜索字符串，返回值指向搜索的字符尾部
+
+   \                                 In segment CODE, align 4, keep-with-next
+    252          char *strstrInQuote(char *pdata, const char *s)
+    253          {
+   \                     strstrInQuote:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+    254          	int len=strlen(s);
+   \   0000000C   0500A0E1           MOV      R0,R5
+   \   00000010   1B0000EF           SWI      +27
+   \   00000014   0060A0E1           MOV      R6,R0
+   \   00000018   000000EA           B        ??strstrInQuote_0
+    255          	while( *pdata && *pdata!='}' )
+    256          	{
+    257          		if(!strncmpNoCase(pdata, s, len))
+    258          			return (pdata+len);
+    259          		pdata++;
+   \                     ??strstrInQuote_1:
+   \   0000001C   014084E2           ADD      R4,R4,#+1
+   \                     ??strstrInQuote_0:
+   \   00000020   0000D4E5           LDRB     R0,[R4, #+0]
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   7080BD08           POPEQ    {R4-R6,PC}
+   \   0000002C   7D0050E3           CMP      R0,#+125
+   \   00000030   0700000A           BEQ      ??strstrInQuote_2
+   \   00000034   0620A0E1           MOV      R2,R6
+   \   00000038   0510A0E1           MOV      R1,R5
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   ........           BL       strncmpNoCase
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   F3FFFF1A           BNE      ??strstrInQuote_1
+   \   0000004C   040086E0           ADD      R0,R6,R4
+   \   00000050   7080BDE8           POP      {R4-R6,PC}
+    260          	}
+    261          	return 0;
+   \                     ??strstrInQuote_2:
+   \   00000054   0000A0E3           MOV      R0,#+0
+   \   00000058   7080BDE8           POP      {R4-R6,PC}       ;; return
+    262          }
+    263          
+    264          //在括号内搜索字符
+
+   \                                 In segment CODE, align 4, keep-with-next
+    265          char *strchrInQuote(char *pdata, char c)
+    266          {
+   \                     strchrInQuote:
+   \   00000000   000000EA           B        ??strchrInQuote_0
+    267          	while( *pdata && *pdata!='}' )
+    268          	{
+    269          		if(*pdata==c)
+    270          			return pdata;
+    271          		pdata++;
+   \                     ??strchrInQuote_1:
+   \   00000004   010080E2           ADD      R0,R0,#+1
+   \                     ??strchrInQuote_0:
+   \   00000008   0020D0E5           LDRB     R2,[R0, #+0]
+   \   0000000C   000052E3           CMP      R2,#+0
+   \   00000010   7D005213           CMPNE    R2,#+125
+   \   00000014   0200000A           BEQ      ??strchrInQuote_2
+   \   00000018   010052E1           CMP      R2,R1
+   \   0000001C   F8FFFF1A           BNE      ??strchrInQuote_1
+   \   00000020   1EFF2FE1           BX       LR
+    272          	}
+    273          	return 0;
+   \                     ??strchrInQuote_2:
+   \   00000024   0000A0E3           MOV      R0,#+0
+   \   00000028   1EFF2FE1           BX       LR               ;; return
+    274          }
+    275          
+    276          //走到括号开头
+
+   \                                 In segment CODE, align 4, keep-with-next
+    277          char *gotoQuoteStart(char *pdata)
+    278          {
+   \                     gotoQuoteStart:
+   \   00000000   000000EA           B        ??gotoQuoteStart_0
+    279          	while(*pdata)
+    280          	{
+    281          		if(*pdata=='{')
+    282          			return pdata;
+    283          		pdata++;
+   \                     ??gotoQuoteStart_1:
+   \   00000004   010080E2           ADD      R0,R0,#+1
+   \                     ??gotoQuoteStart_0:
+   \   00000008   0010D0E5           LDRB     R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0200000A           BEQ      ??gotoQuoteStart_2
+   \   00000014   7B0051E3           CMP      R1,#+123
+   \   00000018   F9FFFF1A           BNE      ??gotoQuoteStart_1
+   \   0000001C   1EFF2FE1           BX       LR
+    284          	}
+    285          	return 0;
+   \                     ??gotoQuoteStart_2:
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   1EFF2FE1           BX       LR               ;; return
+    286          }
+    287          
+    288          //走到括号结尾
+
+   \                                 In segment CODE, align 4, keep-with-next
+    289          char *gotoQuoteEnd(char *pdata)
+    290          {
+   \                     gotoQuoteEnd:
+   \   00000000   000000EA           B        ??gotoQuoteEnd_0
+    291          	while(*pdata)
+    292          	{
+    293          		if(*pdata=='}')
+    294          			return pdata;
+    295          		pdata++;
+   \                     ??gotoQuoteEnd_1:
+   \   00000004   010080E2           ADD      R0,R0,#+1
+   \                     ??gotoQuoteEnd_0:
+   \   00000008   0010D0E5           LDRB     R1,[R0, #+0]
+   \   0000000C   000051E3           CMP      R1,#+0
+   \   00000010   0200000A           BEQ      ??gotoQuoteEnd_2
+   \   00000014   7D0051E3           CMP      R1,#+125
+   \   00000018   F9FFFF1A           BNE      ??gotoQuoteEnd_1
+   \   0000001C   1EFF2FE1           BX       LR
+    296          	}
+    297          	return 0;
+   \                     ??gotoQuoteEnd_2:
+   \   00000020   0000A0E3           MOV      R0,#+0
+   \   00000024   1EFF2FE1           BX       LR               ;; return
+    298          }
+    299          
+    300          //当所用的字符串为使用"`"符号括起来时，这个函数用于走到下一个"`"符号
+
+   \                                 In segment CODE, align 4, keep-with-next
+    301          char *gotoNextNameQuote(char *pdata)
+    302          {
+    303          	char *p=pdata;
+   \                     gotoNextNameQuote:
+   \   00000000   0010A0E1           MOV      R1,R0
+   \   00000004   000000EA           B        ??gotoNextNameQuote_0
+    304          	while(*pdata)
+    305          	{
+    306          		if(*pdata=='`')
+    307          		{
+    308          			p=pdata;
+    309          			break;
+    310          		}
+    311          		pdata++;
+   \                     ??gotoNextNameQuote_1:
+   \   00000008   010080E2           ADD      R0,R0,#+1
+   \                     ??gotoNextNameQuote_0:
+   \   0000000C   0020D0E5           LDRB     R2,[R0, #+0]
+   \   00000010   000052E3           CMP      R2,#+0
+   \   00000014   0200000A           BEQ      ??gotoNextNameQuote_2
+   \   00000018   600052E3           CMP      R2,#+96
+   \   0000001C   F9FFFF1A           BNE      ??gotoNextNameQuote_1
+   \   00000020   0010A0E1           MOV      R1,R0
+    312          	}
+    313          	return p;
+   \                     ??gotoNextNameQuote_2:
+   \   00000024   0100A0E1           MOV      R0,R1
+   \   00000028   1EFF2FE1           BX       LR               ;; return
+    314          }
+    315          
+    316          //指针走到制定的字符位置
+
+   \                                 In segment CODE, align 4, keep-with-next
+    317          char *gotoStringEndByChr(char *p, char chr)
+    318          {
+    319          	char *pp=p;
+   \                     gotoStringEndByChr:
+   \   00000000   0020A0E1           MOV      R2,R0
+   \   00000004   000000EA           B        ??gotoStringEndByChr_0
+    320          	while(*p)
+    321          	{
+    322          		if(*p==chr || *p=='}' || *p<0xA)
+    323          		{
+    324          			pp=p;
+    325          			break;
+    326          		}
+    327          		p++;
+   \                     ??gotoStringEndByChr_1:
+   \   00000008   010080E2           ADD      R0,R0,#+1
+   \                     ??gotoStringEndByChr_0:
+   \   0000000C   0030D0E5           LDRB     R3,[R0, #+0]
+   \   00000010   000053E3           CMP      R3,#+0
+   \   00000014   0500000A           BEQ      ??gotoStringEndByChr_2
+   \   00000018   010053E1           CMP      R3,R1
+   \   0000001C   7D005313           CMPNE    R3,#+125
+   \   00000020   0100000A           BEQ      ??gotoStringEndByChr_3
+   \   00000024   0A0053E3           CMP      R3,#+10
+   \   00000028   F6FFFF2A           BCS      ??gotoStringEndByChr_1
+   \                     ??gotoStringEndByChr_3:
+   \   0000002C   0020A0E1           MOV      R2,R0
+    328          	}
+    329          	return pp;
+   \                     ??gotoStringEndByChr_2:
+   \   00000030   0200A0E1           MOV      R0,R2
+   \   00000034   1EFF2FE1           BX       LR               ;; return
+    330          }
+    331          
+    332          //在括号内走到"`"之前的一个位置或比空格大的字符处
+
+   \                                 In segment CODE, align 4, keep-with-next
+    333          char *gotoMyStrStart(char *p)
+    334          {
+   \                     gotoMyStrStart:
+   \   00000000   00402DE9           PUSH     {LR}
+    335          	p=gotoRealPos(p);
+   \   00000004   ........           BL       gotoRealPos
+    336          	if(*p=='`')
+   \   00000008   0010D0E5           LDRB     R1,[R0, #+0]
+   \   0000000C   600051E3           CMP      R1,#+96
+    337          		return (p+1);
+   \   00000010   01008002           ADDEQ    R0,R0,#+1
+   \   00000014   0080BD08           POPEQ    {PC}
+    338          	if(*p==0 || *p=='}')
+   \   00000018   000051E3           CMP      R1,#+0
+   \   0000001C   7D005113           CMPNE    R1,#+125
+    339          		return 0;
+   \   00000020   0000A003           MOVEQ    R0,#+0
+    340          	return p;
+   \   00000024   0080BDE8           POP      {PC}             ;; return
+    341          }
+    342          
+    343          //在括号内走到下一个"`"或空格及比空格小的字符处
+
+   \                                 In segment CODE, align 4, keep-with-next
+    344          char *gotoMyStrEnd(char *p)
+    345          {
+   \                     gotoMyStrEnd:
+   \   00000000   00402DE9           PUSH     {LR}
+    346          	if(*p=='`')
+   \   00000004   0010D0E5           LDRB     R1,[R0, #+0]
+   \   00000008   600051E3           CMP      R1,#+96
+   \   0000000C   0200001A           BNE      ??gotoMyStrEnd_0
+    347          	{
+    348          		p++;
+    349          		return (gotoNextNameQuote(p));
+   \   00000010   010080E2           ADD      R0,R0,#+1
+   \   00000014   0040BDE8           POP      {LR}             ;; Pop
+   \   00000018   ........           B        gotoNextNameQuote  ;; tailcall
+    350          	}
+    351          	else
+    352          	{
+    353          		p=gotoRealPos(p);
+   \                     ??gotoMyStrEnd_0:
+   \   0000001C   ........           BL       gotoRealPos
+    354          		return (gotoStringEndByChr(p, X_CHAR));
+   \   00000020   2010A0E3           MOV      R1,#+32
+   \   00000024   0040BDE8           POP      {LR}             ;; Pop
+   \   00000028   ........           B        gotoStringEndByChr  ;; tailcall
+    355          	}
+    356          }
+    357          
+    358          //strncpy，并在后面加上字符串截止符
+
+   \                                 In segment CODE, align 4, keep-with-next
+    359          void strnCopyWithEnd(char *dst, char *src, int n)
+    360          {
+   \                     strnCopyWithEnd:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0250A0E1           MOV      R5,R2
+    361          	strncpy(dst, src, n);
+   \   0000000C   160100EF           SWI      +278
+    362          	dst[n]=0;
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   0400C5E7           STRB     R0,[R5, +R4]
+    363          }
+   \   00000018   3080BDE8           POP      {R4,R5,PC}       ;; return
+    364          
+    365          //字符串转换为数字，int型
+
+   \                                 In segment CODE, align 4, keep-with-next
+    366          void str2num(char *str, int *num, int max, int min, int type)
+    367          {
+   \                     str2num:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   0250A0E1           MOV      R5,R2
+   \   00000008   0090A0E1           MOV      R9,R0
+    368          	//type, 1:hex, 0:dec
+    369          	int t1=0;
+    370          	int t=0;
+    371          	int isNa=0;
+    372          	if(*str=='-')
+   \   0000000C   0020D9E5           LDRB     R2,[R9, #+0]
+   \   00000010   20009DE5           LDR      R0,[SP, #+32]
+   \   00000014   0140A0E1           MOV      R4,R1
+   \   00000018   2D0052E3           CMP      R2,#+45
+    373          	{
+    374          		isNa=1;
+    375          		str++;
+   \   0000001C   01908902           ADDEQ    R9,R9,#+1
+    376          	}
+    377          	if((*str=='0'&&*(str+1)=='x')) //hex
+   \   00000020   0020D9E5           LDRB     R2,[R9, #+0]
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   0180A0E1           MOV      R8,R1
+   \   0000002C   0180A003           MOVEQ    R8,#+1
+   \   00000030   300052E3           CMP      R2,#+48
+   \   00000034   0120D905           LDRBEQ   R2,[R9, #+1]
+   \   00000038   0360A0E1           MOV      R6,R3
+   \   0000003C   0070A0E3           MOV      R7,#+0
+   \   00000040   78005203           CMPEQ    R2,#+120
+   \   00000044   1000001A           BNE      ??str2num_0
+    378          	{
+    379          		str+=2;
+   \   00000048   029089E2           ADD      R9,R9,#+2
+   \   0000004C   010000EA           B        ??str2num_1
+    380          		while((*str>='0')&&(*str<='z'))
+    381          		{
+    382          			t=(t)*0x10+chr2num(*str);
+    383          			if(max<=0||t<=max)
+    384          				t1=t;
+   \                     ??str2num_2:
+   \   00000050   0710A0E1           MOV      R1,R7
+    385          			else
+    386          			{
+    387          				t1=max;
+    388          				break;
+    389          			}
+    390          			str++;
+   \   00000054   019089E2           ADD      R9,R9,#+1
+   \                     ??str2num_1:
+   \   00000058   0000D9E5           LDRB     R0,[R9, #+0]
+   \   0000005C   300050E3           CMP      R0,#+48
+   \   00000060   2B00003A           BCC      ??str2num_3
+   \   00000064   7B0050E3           CMP      R0,#+123
+   \   00000068   2900002A           BCS      ??str2num_3
+   \   0000006C   ........           BL       chr2num
+   \   00000070   077280E0           ADD      R7,R0,R7, LSL #+4
+   \   00000074   010055E3           CMP      R5,#+1
+   \   00000078   F4FFFFBA           BLT      ??str2num_2
+   \   0000007C   070055E1           CMP      R5,R7
+   \   00000080   F2FFFFAA           BGE      ??str2num_2
+   \                     ??str2num_4:
+   \   00000084   0510A0E1           MOV      R1,R5
+   \   00000088   210000EA           B        ??str2num_3
+    391          		}
+    392          	}
+    393          	else if((*str=='A')||(*str=='a')||type) //ADDRESS
+   \                     ??str2num_0:
+   \   0000008C   0020D9E5           LDRB     R2,[R9, #+0]
+   \   00000090   410052E3           CMP      R2,#+65
+   \   00000094   61005213           CMPNE    R2,#+97
+   \   00000098   0200000A           BEQ      ??str2num_5
+   \   0000009C   000050E3           CMP      R0,#+0
+   \   000000A0   0AA0A0E3           MOV      R10,#+10
+   \   000000A4   1500000A           BEQ      ??str2num_6
+    394          	{
+    395          		while((*str>='0')&&(*str<='z'))
+   \                     ??str2num_5:
+   \   000000A8   0000D9E5           LDRB     R0,[R9, #+0]
+   \   000000AC   300050E3           CMP      R0,#+48
+   \   000000B0   1700003A           BCC      ??str2num_3
+   \   000000B4   7B0050E3           CMP      R0,#+123
+   \   000000B8   1500002A           BCS      ??str2num_3
+    396          		{
+    397          			t=(t)*0x10+chr2num(*str);
+   \   000000BC   ........           BL       chr2num
+   \   000000C0   077280E0           ADD      R7,R0,R7, LSL #+4
+    398          			if(max<=0||t<=max)
+   \   000000C4   010055E3           CMP      R5,#+1
+   \   000000C8   010000BA           BLT      ??str2num_7
+   \   000000CC   070055E1           CMP      R5,R7
+   \   000000D0   EBFFFFBA           BLT      ??str2num_4
+    399          				t1=t;
+   \                     ??str2num_7:
+   \   000000D4   0710A0E1           MOV      R1,R7
+    400          			else
+    401          			{
+    402          				t1=max;
+    403          				break;
+    404          			}
+    405          			str++;
+   \   000000D8   019089E2           ADD      R9,R9,#+1
+   \   000000DC   F1FFFFEA           B        ??str2num_5
+    406          		}
+    407          	}
+    408          	else //dec
+    409          	{
+    410          		while((*str>='0')&&(*str<='9'))
+    411          		{
+    412          			t=(t)*10+chr2num(*str);
+   \                     ??str2num_8:
+   \   000000E0   ........           BL       chr2num
+   \   000000E4   9A0727E0           MLA      R7,R10,R7,R0
+    413          			if(max<=0||t<=max)
+   \   000000E8   010055E3           CMP      R5,#+1
+   \   000000EC   010000BA           BLT      ??str2num_9
+   \   000000F0   070055E1           CMP      R5,R7
+   \   000000F4   E2FFFFBA           BLT      ??str2num_4
+    414          				t1=t;
+   \                     ??str2num_9:
+   \   000000F8   0710A0E1           MOV      R1,R7
+    415          			else
+    416          			{
+    417          				t1=max;
+    418          				break;
+    419          			}
+    420          			str++;
+   \   000000FC   019089E2           ADD      R9,R9,#+1
+    421          		}
+   \                     ??str2num_6:
+   \   00000100   0000D9E5           LDRB     R0,[R9, #+0]
+   \   00000104   300050E3           CMP      R0,#+48
+   \   00000108   0100003A           BCC      ??str2num_3
+   \   0000010C   3A0050E3           CMP      R0,#+58
+   \   00000110   F2FFFF3A           BCC      ??str2num_8
+    422          	}
+    423          	if(min>(1<<31)) //最小值小于0
+   \                     ??str2num_3:
+   \   00000114   800456E3           CMP      R6,#-2147483648
+   \   00000118   0700000A           BEQ      ??str2num_10
+    424          	{
+    425          		int c=(~min)+1; //取绝对值
+   \   0000011C   0600E0E1           MVN      R0,R6
+   \   00000120   010080E2           ADD      R0,R0,#+1
+    426          		if(t1>c&&isNa)
+   \   00000124   010050E1           CMP      R0,R1
+   \   00000128   080000AA           BGE      ??str2num_11
+   \   0000012C   000058E3           CMP      R8,#+0
+   \   00000130   0600000A           BEQ      ??str2num_11
+    427          			t1=c;
+   \   00000134   0010A0E1           MOV      R1,R0
+   \   00000138   060000EA           B        ??str2num_12
+    428          	}
+    429          	else //大于0
+    430          	{
+    431          		if(/*min&&*/(t1<min||isNa))
+   \                     ??str2num_10:
+   \   0000013C   000058E3           CMP      R8,#+0
+   \   00000140   0200000A           BEQ      ??str2num_11
+    432          		{
+    433          			t1=min;
+   \   00000144   8014A0E3           MOV      R1,#-2147483648
+    434          			isNa=0;
+    435          		}
+    436          	}
+    437          	if(isNa)
+    438          		*num=(~t1)+1;
+    439          	else
+    440          		*num=t1;
+   \                     ??str2num_13:
+   \   00000148   001084E5           STR      R1,[R4, #+0]
+    441          }
+   \   0000014C   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??str2num_11:
+   \   00000150   000058E3           CMP      R8,#+0
+   \   00000154   FBFFFF0A           BEQ      ??str2num_13
+   \                     ??str2num_12:
+   \   00000158   0100E0E1           MVN      R0,R1
+   \   0000015C   011080E2           ADD      R1,R0,#+1
+   \   00000160   001084E5           STR      R1,[R4, #+0]
+   \   00000164   F087BDE8           POP      {R4-R10,PC}
+    442          
+    443          //short型
+
+   \                                 In segment CODE, align 4, keep-with-next
+    444          void str2num_short(char *str, short *num, int max, int min, int type)
+    445          {
+   \                     str2num_short:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   20009DE5           LDR      R0,[SP, #+32]
+   \   00000014   0260A0E1           MOV      R6,R2
+    446          	//type, 1:hex, 0:dec
+    447          	int t1=0;
+   \   00000018   0020A0E3           MOV      R2,#+0
+   \   0000001C   00208DE5           STR      R2,[SP, #+0]
+    448          	int t=0;
+    449          	short *p=(short *)(&t1);
+    450          	if((*str=='0'&&*(str+1)=='x')) //hex
+   \   00000020   0010D4E5           LDRB     R1,[R4, #+0]
+   \   00000024   0370A0E1           MOV      R7,R3
+   \   00000028   0080A0E3           MOV      R8,#+0
+   \   0000002C   300051E3           CMP      R1,#+48
+   \   00000030   0110D405           LDRBEQ   R1,[R4, #+1]
+   \   00000034   78005103           CMPEQ    R1,#+120
+   \   00000038   1000001A           BNE      ??str2num_short_0
+    451          	{
+    452          		str+=2;
+   \   0000003C   024084E2           ADD      R4,R4,#+2
+   \   00000040   010000EA           B        ??str2num_short_1
+    453          		while((*str>='0')&&(*str<='z'))
+    454          		{
+    455          			t=(t)*0x10+chr2num(*str);
+    456          			if(max<=0||t<=max)
+    457          				t1=t;
+   \                     ??str2num_short_2:
+   \   00000044   00808DE5           STR      R8,[SP, #+0]
+    458          			else
+    459          			{
+    460          				t1=max;
+    461          				break;
+    462          			}
+    463          			str++;
+   \   00000048   014084E2           ADD      R4,R4,#+1
+   \                     ??str2num_short_1:
+   \   0000004C   0000D4E5           LDRB     R0,[R4, #+0]
+   \   00000050   300050E3           CMP      R0,#+48
+   \   00000054   2700003A           BCC      ??str2num_short_3
+   \   00000058   7B0050E3           CMP      R0,#+123
+   \   0000005C   2500002A           BCS      ??str2num_short_3
+   \   00000060   ........           BL       chr2num
+   \   00000064   088280E0           ADD      R8,R0,R8, LSL #+4
+   \   00000068   010056E3           CMP      R6,#+1
+   \   0000006C   F4FFFFBA           BLT      ??str2num_short_2
+   \   00000070   080056E1           CMP      R6,R8
+   \   00000074   F2FFFFAA           BGE      ??str2num_short_2
+   \                     ??str2num_short_4:
+   \   00000078   00608DE5           STR      R6,[SP, #+0]
+   \   0000007C   1D0000EA           B        ??str2num_short_3
+    464          		}
+    465          	}
+    466          	else if(type) //hex
+   \                     ??str2num_short_0:
+   \   00000080   000050E3           CMP      R0,#+0
+   \   00000084   0A90A0E3           MOV      R9,#+10
+   \   00000088   1500000A           BEQ      ??str2num_short_5
+    467          	{
+    468          		while((*str>='0')&&(*str<='z'))
+   \                     ??str2num_short_6:
+   \   0000008C   0000D4E5           LDRB     R0,[R4, #+0]
+   \   00000090   300050E3           CMP      R0,#+48
+   \   00000094   1700003A           BCC      ??str2num_short_3
+   \   00000098   7B0050E3           CMP      R0,#+123
+   \   0000009C   1500002A           BCS      ??str2num_short_3
+    469          		{
+    470          			t=(t)*0x10+chr2num(*str);
+   \   000000A0   ........           BL       chr2num
+   \   000000A4   088280E0           ADD      R8,R0,R8, LSL #+4
+    471          			if(max<=0||t<=max)
+   \   000000A8   010056E3           CMP      R6,#+1
+   \   000000AC   010000BA           BLT      ??str2num_short_7
+   \   000000B0   080056E1           CMP      R6,R8
+   \   000000B4   EFFFFFBA           BLT      ??str2num_short_4
+    472          				t1=t;
+   \                     ??str2num_short_7:
+   \   000000B8   00808DE5           STR      R8,[SP, #+0]
+    473          			else
+    474          			{
+    475          				t1=max;
+    476          				break;
+    477          			}
+    478          			str++;
+   \   000000BC   014084E2           ADD      R4,R4,#+1
+   \   000000C0   F1FFFFEA           B        ??str2num_short_6
+    479          		}
+    480          	}
+    481          	else //dec
+    482          	{
+    483          		while((*str>='0')&&(*str<='9'))
+    484          		{
+    485          			t=(t)*10+chr2num(*str);
+   \                     ??str2num_short_8:
+   \   000000C4   ........           BL       chr2num
+   \   000000C8   990828E0           MLA      R8,R9,R8,R0
+    486          			if(max<=0||t<=max)
+   \   000000CC   010056E3           CMP      R6,#+1
+   \   000000D0   010000BA           BLT      ??str2num_short_9
+   \   000000D4   080056E1           CMP      R6,R8
+   \   000000D8   E6FFFFBA           BLT      ??str2num_short_4
+    487          				t1=t;
+   \                     ??str2num_short_9:
+   \   000000DC   00808DE5           STR      R8,[SP, #+0]
+    488          			else
+    489          			{
+    490          				t1=max;
+    491          				break;
+    492          			}
+    493          			str++;
+   \   000000E0   014084E2           ADD      R4,R4,#+1
+    494          		}
+   \                     ??str2num_short_5:
+   \   000000E4   0000D4E5           LDRB     R0,[R4, #+0]
+   \   000000E8   300050E3           CMP      R0,#+48
+   \   000000EC   0100003A           BCC      ??str2num_short_3
+   \   000000F0   3A0050E3           CMP      R0,#+58
+   \   000000F4   F2FFFF3A           BCC      ??str2num_short_8
+    495          	}
+    496          	if(t1>=0&&t1<min)
+   \                     ??str2num_short_3:
+   \   000000F8   00009DE5           LDR      R0,[SP, #+0]
+   \   000000FC   000050E3           CMP      R0,#+0
+   \   00000100   0100004A           BMI      ??str2num_short_10
+   \   00000104   070050E1           CMP      R0,R7
+    497          		t1=min;
+   \   00000108   00708DB5           STRLT    R7,[SP, #+0]
+    498          	*num=*p;
+   \                     ??str2num_short_10:
+   \   0000010C   F000DDE1           LDRSH    R0,[SP, #+0]
+   \   00000110   B000C5E1           STRH     R0,[R5, #+0]
+    499          }
+   \   00000114   F183BDE8           POP      {R0,R4-R9,PC}    ;; return
+    500          
+    501          //char型
+
+   \                                 In segment CODE, align 4, keep-with-next
+    502          void str2num_char(char *str, char *num, int max, int min, int type)
+    503          {
+   \                     str2num_char:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   24009DE5           LDR      R0,[SP, #+36]
+   \   00000014   0260A0E1           MOV      R6,R2
+    504          	//type, 1:hex, 0:dec
+    505          	int t1=0;
+   \   00000018   0020A0E3           MOV      R2,#+0
+   \   0000001C   00208DE5           STR      R2,[SP, #+0]
+    506          	int t=0;
+    507          	char *p=(char *)(&t1);
+    508          	int isNa=0;
+    509          	if(*str=='-')
+   \   00000020   0010D4E5           LDRB     R1,[R4, #+0]
+   \   00000024   0290A0E1           MOV      R9,R2
+   \   00000028   0370A0E1           MOV      R7,R3
+   \   0000002C   2D0051E3           CMP      R1,#+45
+    510          	{
+    511          		isNa=1;
+    512          		str++;
+   \   00000030   01408402           ADDEQ    R4,R4,#+1
+    513          	}
+    514          	if((*str=='0'&&*(str+1)=='x')) //hex with 0x
+   \   00000034   0010D4E5           LDRB     R1,[R4, #+0]
+   \   00000038   0190A003           MOVEQ    R9,#+1
+   \   0000003C   0080A0E3           MOV      R8,#+0
+   \   00000040   300051E3           CMP      R1,#+48
+   \   00000044   0110D405           LDRBEQ   R1,[R4, #+1]
+   \   00000048   78005103           CMPEQ    R1,#+120
+   \   0000004C   1000001A           BNE      ??str2num_char_0
+    515          	{
+    516          		str+=2;
+   \   00000050   024084E2           ADD      R4,R4,#+2
+   \   00000054   010000EA           B        ??str2num_char_1
+    517          		while((*str>='0')&&(*str<='z'))
+    518          		{
+    519          			t=(t)*0x10+chr2num(*str);
+    520          			if(max<=0||t<=max)
+    521          				t1=t;
+   \                     ??str2num_char_2:
+   \   00000058   00808DE5           STR      R8,[SP, #+0]
+    522          			else
+    523          			{
+    524          				t1=max;
+    525          				break;
+    526          			}
+    527          			str++;
+   \   0000005C   014084E2           ADD      R4,R4,#+1
+   \                     ??str2num_char_1:
+   \   00000060   0000D4E5           LDRB     R0,[R4, #+0]
+   \   00000064   300050E3           CMP      R0,#+48
+   \   00000068   2700003A           BCC      ??str2num_char_3
+   \   0000006C   7B0050E3           CMP      R0,#+123
+   \   00000070   2500002A           BCS      ??str2num_char_3
+   \   00000074   ........           BL       chr2num
+   \   00000078   088280E0           ADD      R8,R0,R8, LSL #+4
+   \   0000007C   010056E3           CMP      R6,#+1
+   \   00000080   F4FFFFBA           BLT      ??str2num_char_2
+   \   00000084   080056E1           CMP      R6,R8
+   \   00000088   F2FFFFAA           BGE      ??str2num_char_2
+   \                     ??str2num_char_4:
+   \   0000008C   00608DE5           STR      R6,[SP, #+0]
+   \   00000090   1D0000EA           B        ??str2num_char_3
+    528          		}
+    529          	}
+    530          	else if(type) //hex
+   \                     ??str2num_char_0:
+   \   00000094   000050E3           CMP      R0,#+0
+   \   00000098   0AA0A0E3           MOV      R10,#+10
+   \   0000009C   1500000A           BEQ      ??str2num_char_5
+    531          	{
+    532          		while((*str>='0')&&(*str<='z'))
+   \                     ??str2num_char_6:
+   \   000000A0   0000D4E5           LDRB     R0,[R4, #+0]
+   \   000000A4   300050E3           CMP      R0,#+48
+   \   000000A8   1700003A           BCC      ??str2num_char_3
+   \   000000AC   7B0050E3           CMP      R0,#+123
+   \   000000B0   1500002A           BCS      ??str2num_char_3
+    533          		{
+    534          			t=(t)*0x10+chr2num(*str);
+   \   000000B4   ........           BL       chr2num
+   \   000000B8   088280E0           ADD      R8,R0,R8, LSL #+4
+    535          			if(max<=0||t<=max)
+   \   000000BC   010056E3           CMP      R6,#+1
+   \   000000C0   010000BA           BLT      ??str2num_char_7
+   \   000000C4   080056E1           CMP      R6,R8
+   \   000000C8   EFFFFFBA           BLT      ??str2num_char_4
+    536          				t1=t;
+   \                     ??str2num_char_7:
+   \   000000CC   00808DE5           STR      R8,[SP, #+0]
+    537          			else
+    538          			{
+    539          				t1=max;
+    540          				break;
+    541          			}
+    542          			str++;
+   \   000000D0   014084E2           ADD      R4,R4,#+1
+   \   000000D4   F1FFFFEA           B        ??str2num_char_6
+    543          		}
+    544          	}
+    545          	else //dec
+    546          	{
+    547          		while((*str>='0')&&(*str<='9'))
+    548          		{
+    549          			t=(t)*10+chr2num(*str);
+   \                     ??str2num_char_8:
+   \   000000D8   ........           BL       chr2num
+   \   000000DC   9A0828E0           MLA      R8,R10,R8,R0
+    550          			if(max<=0||t<=max)
+   \   000000E0   010056E3           CMP      R6,#+1
+   \   000000E4   010000BA           BLT      ??str2num_char_9
+   \   000000E8   080056E1           CMP      R6,R8
+   \   000000EC   E6FFFFBA           BLT      ??str2num_char_4
+    551          				t1=t;
+   \                     ??str2num_char_9:
+   \   000000F0   00808DE5           STR      R8,[SP, #+0]
+    552          			else
+    553          			{
+    554          				t1=max;
+    555          				break;
+    556          			}
+    557          			str++;
+   \   000000F4   014084E2           ADD      R4,R4,#+1
+    558          		}
+   \                     ??str2num_char_5:
+   \   000000F8   0000D4E5           LDRB     R0,[R4, #+0]
+   \   000000FC   300050E3           CMP      R0,#+48
+   \   00000100   0100003A           BCC      ??str2num_char_3
+   \   00000104   3A0050E3           CMP      R0,#+58
+   \   00000108   F2FFFF3A           BCC      ??str2num_char_8
+    559          	}
+    560          	if(min>128)//负数
+   \                     ??str2num_char_3:
+   \   0000010C   810057E3           CMP      R7,#+129
+   \   00000110   070000BA           BLT      ??str2num_char_10
+    561          	{
+    562          		min=256-min; //绝对值
+    563          		if(t1>min&&isNa)
+   \   00000114   00009DE5           LDR      R0,[SP, #+0]
+   \   00000118   407F67E2           RSB      R7,R7,#+256
+   \   0000011C   000057E1           CMP      R7,R0
+   \   00000120   0C0000AA           BGE      ??str2num_char_11
+   \   00000124   000059E3           CMP      R9,#+0
+   \   00000128   0A00000A           BEQ      ??str2num_char_11
+    564          			t1=min;
+   \   0000012C   00708DE5           STR      R7,[SP, #+0]
+   \   00000130   0A0000EA           B        ??str2num_char_12
+    565          	}
+    566          	else
+    567          	{
+    568          		if(/*min&&*/(t1<min||isNa))
+   \                     ??str2num_char_10:
+   \   00000134   00009DE5           LDR      R0,[SP, #+0]
+   \   00000138   070050E1           CMP      R0,R7
+   \   0000013C   010000BA           BLT      ??str2num_char_13
+   \   00000140   000059E3           CMP      R9,#+0
+   \   00000144   0300000A           BEQ      ??str2num_char_11
+    569          		{
+    570          			t1=min;
+   \                     ??str2num_char_13:
+   \   00000148   00708DE5           STR      R7,[SP, #+0]
+    571          			isNa=0;
+    572          		}
+    573          	}
+    574          	if(isNa)
+    575          		*num=(~(*p))+1;
+    576          	else
+    577          		*num=*p;
+   \                     ??str2num_char_14:
+   \   0000014C   0000DDE5           LDRB     R0,[SP, #+0]
+   \   00000150   0000C5E5           STRB     R0,[R5, #+0]
+    578          }
+   \   00000154   F187BDE8           POP      {R0,R4-R10,PC}   ;; return
+   \                     ??str2num_char_11:
+   \   00000158   000059E3           CMP      R9,#+0
+   \   0000015C   FAFFFF0A           BEQ      ??str2num_char_14
+   \                     ??str2num_char_12:
+   \   00000160   0000DDE5           LDRB     R0,[SP, #+0]
+   \   00000164   0000E0E1           MVN      R0,R0
+   \   00000168   010080E2           ADD      R0,R0,#+1
+   \   0000016C   0000C5E5           STRB     R0,[R5, #+0]
+   \   00000170   F187BDE8           POP      {R0,R4-R10,PC}
+    579          
+    580          //清除一个字符串中的某个字符
+
+   \                                 In segment CODE, align 4, keep-with-next
+    581          void cleanStrByChr(char *pdata, char chr)
+    582          {
+    583          	char *p=pdata;
+   \                     cleanStrByChr:
+   \   00000000   0020D0E5           LDRB     R2,[R0, #+0]
+   \   00000004   000052E3           CMP      R2,#+0
+   \   00000008   1EFF2F01           BXEQ     LR
+    584          	char *t;
+    585          	while(*p)
+    586          	{
+    587          		if(*p==chr)
+   \                     ??cleanStrByChr_0:
+   \   0000000C   0020D0E5           LDRB     R2,[R0, #+0]
+   \   00000010   010052E1           CMP      R2,R1
+   \   00000014   0800001A           BNE      ??cleanStrByChr_1
+    588          		{
+    589          			t=p;
+   \   00000018   0020A0E1           MOV      R2,R0
+   \   0000001C   0030D2E5           LDRB     R3,[R2, #+0]
+   \   00000020   000053E3           CMP      R3,#+0
+   \   00000024   0400000A           BEQ      ??cleanStrByChr_1
+    590          			while(*t)
+    591          			{
+    592          				*t=*(t+1);
+   \                     ??cleanStrByChr_2:
+   \   00000028   0130D2E5           LDRB     R3,[R2, #+1]
+   \   0000002C   0030C2E5           STRB     R3,[R2, #+0]
+    593          				t++;
+    594          			}
+   \   00000030   0130F2E5           LDRB     R3,[R2, #+1]!
+   \   00000034   000053E3           CMP      R3,#+0
+   \   00000038   FAFFFF1A           BNE      ??cleanStrByChr_2
+    595          		}
+    596          		p++;
+    597          	}
+   \                     ??cleanStrByChr_1:
+   \   0000003C   0120F0E5           LDRB     R2,[R0, #+1]!
+   \   00000040   000052E3           CMP      R2,#+0
+   \   00000044   F0FFFF1A           BNE      ??cleanStrByChr_0
+    598          }
+   \   00000048   1EFF2FE1           BX       LR               ;; return
+    599          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    600          void str2bytes(char *bytes, char *str, int maxlen)
+    601          {
+   \                     str2bytes:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0100A0E1           MOV      R0,R1
+   \   0000000C   0250A0E1           MOV      R5,R2
+    602          	int i=0;
+   \   00000010   0060A0E3           MOV      R6,#+0
+   \   00000014   000000EA           B        ??str2bytes_0
+    603          	while(i<maxlen)
+    604          	{
+    605          		str=gotoRealPos(str);
+    606          		str2num_char(str, bytes+i, 127, 0, 0);
+    607          		if(!(str=strchrInQuote(str+1, ',')))
+    608          			break;
+    609          		if(!(*str++)) //IAR编译器在处理while((*str)&&(i<maxlen))这一步时有问题,指针前进了一个
+    610          			break;
+    611          		i++;
+   \                     ??str2bytes_1:
+   \   00000018   016086E2           ADD      R6,R6,#+1
+   \                     ??str2bytes_0:
+   \   0000001C   050056E1           CMP      R6,R5
+   \   00000020   F080BDA8           POPGE    {R4-R7,PC}
+   \   00000024   ........           BL       gotoRealPos
+   \   00000028   0070A0E1           MOV      R7,R0
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   0030A0E3           MOV      R3,#+0
+   \   00000038   7F20A0E3           MOV      R2,#+127
+   \   0000003C   041086E0           ADD      R1,R6,R4
+   \   00000040   0700A0E1           MOV      R0,R7
+   \   00000044   ........           BL       str2num_char
+   \   00000048   2C10A0E3           MOV      R1,#+44
+   \   0000004C   010087E2           ADD      R0,R7,#+1
+   \   00000050   ........           BL       strchrInQuote
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   04D08DE2           ADD      SP,SP,#+4
+   \   0000005C   ........           LDRBNE   R1,[R0], #+1
+   \   00000060   00005113           CMPNE    R1,#+0
+   \   00000064   EBFFFF1A           BNE      ??str2bytes_1
+    612          	}
+    613          }
+   \   00000068   F080BDE8           POP      {R4-R7,PC}       ;; return
+    614          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    615          void str2ints(int *ints, char *str, int maxlen)
+    616          {
+   \                     str2ints:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0100A0E1           MOV      R0,R1
+   \   0000000C   0250A0E1           MOV      R5,R2
+    617          	int i=0;
+   \   00000010   0060A0E3           MOV      R6,#+0
+   \   00000014   000000EA           B        ??str2ints_0
+    618          	while(i<maxlen)
+    619          	{
+    620          		str=gotoRealPos(str);
+    621          		str2num(str, ints+i, 0, 0, 0);
+    622          		if(!(str=strchrInQuote(str+1, ',')))
+    623          			break;
+    624          		if(!(*str++)) //IAR编译器在处理while((*str)&&(i<maxlen))这一步时有问题,指针前进了一个
+    625          			break;
+    626          		i++;
+   \                     ??str2ints_1:
+   \   00000018   016086E2           ADD      R6,R6,#+1
+   \                     ??str2ints_0:
+   \   0000001C   050056E1           CMP      R6,R5
+   \   00000020   F080BDA8           POPGE    {R4-R7,PC}
+   \   00000024   ........           BL       gotoRealPos
+   \   00000028   0070A0E1           MOV      R7,R0
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   0030A0E3           MOV      R3,#+0
+   \   00000038   0020A0E1           MOV      R2,R0
+   \   0000003C   061184E0           ADD      R1,R4,R6, LSL #+2
+   \   00000040   0700A0E1           MOV      R0,R7
+   \   00000044   ........           BL       str2num
+   \   00000048   2C10A0E3           MOV      R1,#+44
+   \   0000004C   010087E2           ADD      R0,R7,#+1
+   \   00000050   ........           BL       strchrInQuote
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   04D08DE2           ADD      SP,SP,#+4
+   \   0000005C   ........           LDRBNE   R1,[R0], #+1
+   \   00000060   00005113           CMPNE    R1,#+0
+   \   00000064   EBFFFF1A           BNE      ??str2ints_1
+    627          	}
+    628          }
+   \   00000068   F080BDE8           POP      {R4-R7,PC}       ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     PERCENT_D
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     D_PERCENT_D
+    629          
+
+   Maximum stack usage in bytes:
+
+     Function           CSTACK
+     --------           ------
+     bytes_2ws             24
+     chr2num                0
+     cleanStrByChr          0
+     getnumwidth            0
+     gotoMyStrEnd           4
+     gotoMyStrStart         4
+     gotoNextNameQuote      0
+     gotoQuoteEnd           0
+     gotoQuoteStart         0
+     gotoRealPos            0
+     gotoStringEndByChr     0
+     hex2ws                24
+     ints_2ws              24
+     isUniFormat            0
+     str2bytes             24
+     str2ints              24
+     str2num               32
+     str2num_char          36
+     str2num_short         32
+     strchrInQuote          0
+     strnCopyWithEnd       12
+     strncmpNoCase          4
+     strstrInQuote         16
+     uni2ws                 8
+     uniFormatString2ws    32
+     ws2hex               544
+     ws2uni                 8
+
+
+   Segment part sizes:
+
+     Function/Label     Bytes
+     --------------     -----
+     getnumwidth          52
+     uni2ws              104
+     ws2uni              104
+     hex2ws              112
+     uniFormatString2ws  168
+     isUniFormat          96
+     ws2hex              224
+     bytes_2ws           140
+     ints_2ws            140
+     strncmpNoCase        88
+     chr2num              68
+     gotoRealPos          32
+     strstrInQuote        92
+     strchrInQuote        44
+     gotoQuoteStart       40
+     gotoQuoteEnd         40
+     gotoNextNameQuote    44
+     gotoStringEndByChr   56
+     gotoMyStrStart       40
+     gotoMyStrEnd         44
+     strnCopyWithEnd      28
+     str2num             360
+     str2num_short       280
+     str2num_char        372
+     cleanStrByChr        76
+     str2bytes           108
+     str2ints            108
+     ??DataTable2          4
+     ??DataTable3          4
+      Others             108
+
+ 
+ 3 176 bytes in segment CODE
+ 
+ 3 068 bytes of CODE memory (+ 108 bytes shared)
+
+Errors: none
+Warnings: none

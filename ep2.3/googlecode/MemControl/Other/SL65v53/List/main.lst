@@ -1,0 +1,310 @@
+###############################################################################
+#                                                                             #
+#     IAR Systems ARM Assembler V4.42A/W32 08/Aug/2010  00:10:34              #
+#     Copyright 1999-2007 IAR Systems. All rights reserved.                   #
+#                                                                             #
+#           Source file   =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\main.asm#
+#           List file     =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\Other\SL65v53\List\main.lst#
+#           Object file   =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\Other\SL65v53\Obj\main.r79#
+#           Command line  =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\main.asm #
+#                            -OC:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\Other\SL65v53\Obj\ #
+#                            -s+ -M<> -w+ -DSL65sw53                          #
+#                            -LC:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\Other\SL65v53\List\ #
+#                            -cE -t8 --cpu ARM926EJ-S --fpu None              #
+#                            -IF:\software\Embedded Workbench 4.0 Evaluation\ARM\INC\ #
+#                                                                             #
+###############################################################################
+
+    1    00000000              //Mem_Control Patch X65
+    2    00000000              //If not a company (not a word "Linking") or
+                                does not start postbuild.cmd helps Project ->
+                                Clean
+    3    00000000                
+    4    00000000              
+    5    00000000              #include "config\config.h" 
+    6    00000000                 
+    7    00000000                          EXTERN SeekBlock
+    8    00000000              
+    9    00000000                          RSEG PATCH_MAINENTER:CODE:ROOT
+   10    00000000               
+   11    00000000               
+   12    00000000                          CODE32 //ARM mode
+   13    00000000                          
+   14    00000000                      
+   15    00000000                          PUBLIC start
+   16    00000000                           
+   17    00000000                   start:
+   18    00000000                      
+   19    00000000 04F01FE5                 LDR     PC, =main
+   20    00000004                      
+   21    00000004                      
+   22    00000004                      
+   23    00000004               
+   24    00000004                          RSEG    CODE:CODE
+   24.1  00000004                       TABLE
+   24.2  00000004 ........             Reference on line 19 
+   24.3  00000000                      RSEG (including table)
+   24    00000000                          RSEG    CODE:CODE
+   25    00000000                          
+   26    00000000              
+   27    00000000                
+   28    00000000                    main:
+   29    00000000                     
+   30    00000000 00402DE9                 PUSH   {LR}
+   31    00000004              
+   32    00000004              #ifdef CUTHEAP
+   33    00000004 40309FE5                 LDR     R3, =0xA8000400
+   34    00000008              #else
+   36    00000008              #endif
+   37    00000008              
+   38    00000008              
+   39    00000008 003080E5                 STR     R3, [R0, #0]
+   40    0000000C                          
+   41    0000000C 060000EB                 BL      execute
+   42    00000010                      
+   43    00000010 38009FE5                 LDR     R0, =RAMFORPATCHADDR
+                                                        
+   44    00000014 000090E5                 LDR     R0, [R0, #0x00]      //Total
+                                                        Size = NonPermMem +
+                                                        PermMemory
+   45    00000018                      
+   46    00000018 000081E5                 STR     R0, [R1, #0]
+   47    0000001C                      
+   48    0000001C 2C009FE5                 LDR     R0, =RAMFORPATCHADDR
+                                                        
+   49    00000020 040090E5                 LDR     R0, [R0, #0x04]     
+                                                        //PermMemory Size =
+                                                        PermMem + JavaHeap
+   50    00000024                          
+   51    00000024 000082E5                 STR     R0, [R2, #0]
+   52    00000028                      
+   53    00000028 0080BDE8                 POP    {PC}
+   54    0000002C                          
+   55    0000002C                          
+   56    0000002C                         
+   57    0000002C                 execute:
+   58    0000002C                         
+   59    0000002C 07402DE9                 PUSH    {R0-R2,LR}
+   60    00000030              #ifdef CUTHEAP            
+   61    00000030 A804A0E3                 MOV      R0, #0xA8000000
+   62    00000034 401EA0E3                 MOV      R1, #0x400
+   63    00000038              
+   64    00000038 14209FE5                 LDR      R2, =ZEROMEM
+   65    0000003C 32FF2FE1                 BLX      R2
+   66    00000040              #endif   
+   67    00000040 10209FE5                 LDR      R2, =SeekBlock
+   68    00000044 32FF2FE1                 BLX      R2
+   69    00000048                          
+   70    00000048 ........                 BLX      read_config
+   71    0000004C                          
+   72    0000004C                          
+   73    0000004C                          RSEG     CODE:CODE
+   73.1  0000004C                       TABLE
+   73.2  0000004C 000400A8             Reference on line 33 
+   73.3  00000050 00FD76A8             Reference on line 43,48 
+   73.4  00000054 70A554A1             Reference on line 64 
+   73.5  00000058 ........             Reference on line 67 
+   73.6  00000000                      RSEG (including table)
+   73    00000000                          RSEG     CODE:CODE
+   74    00000000               
+   75    00000000                          CODE16   //THUMB mode
+   76    00000000                             
+   77    00000000              read_config:
+   78    00000000              
+   79    00000000 284A                     LDR      R2, =RAMFORPATCHADDR
+   80    00000002                          
+   81    00000002 D068                     LDR      R0, [R2, #0x0C]
+   82    00000004 0078                     LDRB     R0, [R0, #0x00]
+   83    00000006                          
+   84    00000006 2849                     LDR      R1, =DEF_TOTALSIZE
+   85    00000008 1160                     STR      R1, [R2, #0x00]
+   86    0000000A                          
+   87    0000000A 2849                     LDR      R1, =DEF_PERMSIZE
+   88    0000000C 5160                     STR      R1, [R2, #0x04]
+   89    0000000E                          
+   90    0000000E 0121                     MOV      R1, #0x01
+   91    00000010 1172                     STRB     R1, [R2, #0x08]
+   92    00000012 5172                     STRB     R1, [R2, #0x09]
+   93    00000014                          
+   94    00000014                          
+   95    00000014                          //R0 = LAUNCH PARAMETR
+   96    00000014                          //R2 = RAMFORPATCHADDR
+   97    00000014                          
+   98    00000014 0028                     CMP      R0, #0x00
+   99    00000016 0DD0                     BEQ      return         //Normal
+                                                                    mode
+  100    00000018                          
+  101    00000018 0128                     CMP      R0, #0x01
+  102    0000001A 0CD0                     BEQ      not_browser    //Murdered
+                                                                    browser
+  103    0000001C                          
+  104    0000001C 0228                     CMP      R0, #0x02
+  105    0000001E 0DD0                     BEQ      inc_nonperm    //Increased
+                                                                    NonPermMem
+  106    00000020                          
+  107    00000020 0328                     CMP      R0, #0x03
+  108    00000022 10D0                     BEQ      notbr_incnon   //Murdered
+                                                                    browser +
+                                                                    Increase
+                                                                    NonPermMem
+  109    00000024                          
+  110    00000024 0428                     CMP      R0, #0x04
+  111    00000026 15D0                     BEQ      optimize_1     //Optimal
+                                                                    mode
+                                                                    NonPerm-Jav
+                                                                   aHeap
+                                                                    #1
+  112    00000028                          
+  113    00000028 0528                     CMP      R0, #0x05
+  114    0000002A 1DD0                     BEQ      optimize_2     //Optimal
+                                                                    mode
+                                                                    NonPerm-Jav
+                                                                   aHeap
+                                                                    #2
+  115    0000002C                          
+  116    0000002C 0628                     CMP      R0, #0x06
+  117    0000002E 25D0                     BEQ      max_nonperm    //Maximum
+                                                                    NonPermMem
+  118    00000030                          
+  119    00000030 0728                     CMP      R0, #0x07
+  120    00000032 2DD0                     BEQ      max_javaheap   //Maximum
+                                                                    JavaHeap
+  121    00000034                          
+  122    00000034              
+  123    00000034                   return:
+  124    00000034                      
+  125    00000034 07BD                     POP     {R0-R2,PC}
+  126    00000036                      
+  127    00000036                      
+  128    00000036                          
+  129    00000036              not_browser:   
+  130    00000036                          
+  131    00000036                          
+  132    00000036 0021                     MOV      R1, #0x00
+  133    00000038 1172                     STRB     R1, [R2, #0x08]
+  134    0000003A                          
+  135    0000003A FBE7                     B        return
+  136    0000003C                          
+  137    0000003C                          
+  138    0000003C              inc_nonperm:   
+  139    0000003C                          
+  140    0000003C 1C49                     LDR      R1, =MAX_TOTALSIZE
+  141    0000003E 1160                     STR      R1, [R2, #0x00]
+  142    00000040                          
+  143    00000040 1C49                     LDR      R1, =MIN_PERMSIZE
+  144    00000042 5160                     STR      R1, [R2, #0x04]
+  145    00000044                          
+  146    00000044 F6E7                     B        return
+  147    00000046                          
+  148    00000046                          
+  149    00000046              notbr_incnon:
+  150    00000046                          
+  151    00000046 1A49                     LDR      R1, =MAX_TOTALSIZE
+  152    00000048 1160                     STR      R1, [R2, #0x00]
+  153    0000004A                          
+  154    0000004A 1A49                     LDR      R1, =MIN_PERMSIZE
+  155    0000004C 5160                     STR      R1, [R2, #0x04]
+  156    0000004E                         
+  157    0000004E 0021                     MOV      R1, #0x00
+  158    00000050 1172                     STRB     R1, [R2, #0x08]
+  159    00000052                          
+  160    00000052 EFE7                     B        return
+  161    00000054                          
+  162    00000054                         
+  163    00000054               optimize_1:   
+  164    00000054                          
+  165    00000054 1649                     LDR      R1, =MAX_TOTALSIZE
+  166    00000056 1160                     STR      R1, [R2, #0x00]
+  167    00000058                          
+  168    00000058 1749                     LDR      R1, =OPT1_PERMSIZE
+  169    0000005A 5160                     STR      R1, [R2, #0x04]
+  170    0000005C                          
+  171    0000005C 0021                     MOV      R1, #0x00
+  172    0000005E 1172                     STRB     R1, [R2, #0x08]
+  173    00000060                          
+  174    00000060 1649                     LDR      R1, =OPT1_JAVAHEAP
+  175    00000062 174A                     LDR      R2, =RAMJAVAHEAPSIZE
+  176    00000064 1160                     STR      R1, [R2, #0x00]
+  177    00000066                          
+  178    00000066 E5E7                     B        return
+  179    00000068                          
+  180    00000068               optimize_2:   
+  181    00000068                          
+  182    00000068 1149                     LDR      R1, =MAX_TOTALSIZE
+  183    0000006A 1160                     STR      R1, [R2, #0x00]
+  184    0000006C                          
+  185    0000006C 1549                     LDR      R1, =OPT2_PERMSIZE
+  186    0000006E 5160                     STR      R1, [R2, #0x04]
+  187    00000070                          
+  188    00000070 0021                     MOV      R1, #0x00
+  189    00000072 1172                     STRB     R1, [R2, #0x08]
+  190    00000074                          
+  191    00000074 1449                     LDR      R1, =OPT2_JAVAHEAP
+  192    00000076 124A                     LDR      R2, =RAMJAVAHEAPSIZE
+  193    00000078 1160                     STR      R1, [R2, #0x00]
+  194    0000007A                          
+  195    0000007A DBE7                     B        return
+  196    0000007C              
+  197    0000007C              
+  198    0000007C              max_nonperm:   
+  199    0000007C                          
+  200    0000007C 0C49                     LDR      R1, =MAX_TOTALSIZE
+  201    0000007E 1160                     STR      R1, [R2, #0x00]
+  202    00000080                          
+  203    00000080 1249                     LDR      R1, =MIN_PERMSIZE2
+  204    00000082 5160                     STR      R1, [R2, #0x04]
+  205    00000084                          
+  206    00000084 0021                     MOV      R1, #0x00
+  207    00000086 1172                     STRB     R1, [R2, #0x08]
+  208    00000088 5172                     STRB     R1, [R2, #0x09]
+  209    0000008A                          
+  210    0000008A 0D4A                     LDR      R2, =RAMJAVAHEAPSIZE
+  211    0000008C 1160                     STR      R1, [R2, #0x00]
+  212    0000008E                          
+  213    0000008E D1E7                     B        return
+  214    00000090                          
+  215    00000090              max_javaheap:   
+  216    00000090                          
+  217    00000090 0749                     LDR      R1, =MAX_TOTALSIZE
+  218    00000092 1160                     STR      R1, [R2, #0x00]
+  219    00000094                          
+  220    00000094 0E49                     LDR      R1, =MAX_PERMSIZE
+  221    00000096 5160                     STR      R1, [R2, #0x04]
+  222    00000098                          
+  223    00000098 0021                     MOV      R1, #0x00
+  224    0000009A 1172                     STRB     R1, [R2, #0x08]
+  225    0000009C              
+  226    0000009C 0D49                     LDR      R1, =MAX_JAVAHEAP
+  227    0000009E 084A                     LDR      R2, =RAMJAVAHEAPSIZE
+  228    000000A0 1160                     STR      R1, [R2, #0x00]
+  229    000000A2                          
+  230    000000A2 C7E7                     B        return
+  231    000000A4                          
+  232    000000A4                          END
+  232.1  000000A4                       TABLE
+  232.2  000000A4 00FD76A8             Reference on line 79 
+  232.3  000000A8 00206500             Reference on line 84 
+  232.4  000000AC 00D02F00             Reference on line 87 
+  232.5  000000B0 00206A00             Reference on line 140,151,165,182,200,21
+                                               7 
+  232.6  000000B4 B02A2A00             Reference on line 143,154 
+  232.7  000000B8 60313200             Reference on line 168 
+  232.8  000000BC 00401F00             Reference on line 174 
+  232.9  000000C0 68447EA8             Reference on line 175,192,210,227
+                                                
+  232.10 000000C4 60D14100             Reference on line 185 
+  232.11 000000C8 00E02E00             Reference on line 191 
+  232.12 000000CC 70AB1100             Reference on line 203 
+  232.13 000000D0 B03B5800             Reference on line 220 
+  232.14 000000D4 00684200             Reference on line 226 
+  232.15 000000D8                      END (including table)
+##############################
+#          CRC:C63E          #
+#        Errors:   0         #
+#        Warnings: 0         #
+#         Bytes: 316         #
+##############################
+
+
+
+

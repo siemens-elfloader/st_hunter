@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SieJC" />
+		<Option pch_mode="2" />
+		<Option compiler="iar_arm_cc_compiler" />
+		<Option virtualFolders="Messaging/;XMPP/;Utility/;Sources/;Src/;newUI/;" />
+		<Build>
+			<Target title="NSG">
+				<Option output="bin/SieJC_NSG.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/NSG/" />
+				<Option type="1" />
+				<Option compiler="iar_arm_cc_compiler" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="SGOLD">
+				<Option output="bin/SieJC_SGOLD.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/SGOLD/" />
+				<Option type="1" />
+				<Option compiler="iar_arm_cc_compiler" />
+			</Target>
+			<Target title="ELKA">
+				<Option output="bin/SieJC_ELKA.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/ELKA_Iconbar/" />
+				<Option type="1" />
+				<Option compiler="iar_arm_cc_compiler" />
+				<Compiler>
+					<Add option="-DELKA" />
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DICONBAR" />
+				</Compiler>
+			</Target>
+			<Target title="SGOLD_X75">
+				<Option output="bin/SieJC_SGOLD_X75.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/SGOLD_X75/" />
+				<Option type="1" />
+				<Option compiler="iar_arm_cc_compiler" />
+				<Compiler>
+					<Add option="-DX75" />
+				</Compiler>
+			</Target>
+			<Target title="ELKA Dev">
+				<Option output="bin/SieJC.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/ELKA_Dev/" />
+				<Option type="1" />
+				<Option compiler="iar_arm_cc_compiler" />
+				<Compiler>
+					<Add option="-DELKA" />
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DICONBAR" />
+				</Compiler>
+				<ExtraCommands>
+					<Add after="ussp-push 00:0D:41:20:A3:3C@5 $exe_output $exe_name.$exe_ext" />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Linker>
+			<Add option="./zlib_deflate.r79" />
+		</Linker>
+		<ExtraCommands>
+			<Add before="./svnupd.sh" />
+			<Add after="tripper $exe_output $exe_output" />
+		</ExtraCommands>
+		<Unit filename="JID_Enter_UI.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="JID_Enter_UI.h">
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="MUC_Enter_UI.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="MUC_Enter_UI.h">
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="adv_login.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="adv_login.h">
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="base64.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="base64.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="bookmarks.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="bookmarks.h">
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="clist_util.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="clist_util.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="color.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="color.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="conf_loader.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="conf_loader.h">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="config_color.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Utility/" />
+			<Option compiler="iar_arm_cc_compiler" use="1" buildCommand='$compiler &quot;$file $options --segment code=CONFIG_COLOR --segment data=CONFIG_COLOR $includes -o $object&quot;' />
+		</Unit>
+		<Unit filename="config_data.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Utility/" />
+			<Option compiler="iar_arm_cc_compiler" use="1" buildCommand='$compiler &quot;$file $options --segment code=CONFIG --segment data=CONFIG $includes -o $object&quot;' />
+		</Unit>
+		<Unit filename="config_iconbar.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Utility/" />
+			<Option compiler="iar_arm_cc_compiler" use="1" buildCommand='$compiler &quot;$file $options --segment code=CONFIG_IB --segment data=CONFIG_IB $includes -o $object&quot;' />
+		</Unit>
+		<Unit filename="cont_menu.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="cont_menu.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="func.asm">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="groups_util.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="groups_util.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="gui.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="newUI/" />
+		</Unit>
+		<Unit filename="gui.h">
+			<Option virtualFolder="newUI/" />
+		</Unit>
+		<Unit filename="history.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="history.h">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="item_info.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="item_info.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="jabber.h">
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="jabber_util.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="jabber_util.h">
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="lang.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="main.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="mainmenu.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="mainmenu.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="md5.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="md5.h">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="message_cmds.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Messaging/" />
+		</Unit>
+		<Unit filename="message_cmds.h">
+			<Option virtualFolder="Messaging/" />
+		</Unit>
+		<Unit filename="message_list.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Messaging/" />
+		</Unit>
+		<Unit filename="message_list.h">
+			<Option virtualFolder="Messaging/" />
+		</Unit>
+		<Unit filename="moods.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="moods.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="platform.h">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="rect_patcher.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="revision.h">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="roster_icons.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="roster_icons.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="select_smile.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="select_smile.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="setlang.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="siejc_ipc.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="smiles.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="smiles.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="stat_info.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="stat_info.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="status_change.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="status_change.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="string_util.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="string_util.h">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="transports_icons.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="transports_icons.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="vCard.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="vCard.h">
+			<Option virtualFolder="XMPP/" />
+		</Unit>
+		<Unit filename="xml_common.h">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="xml_gen.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="xml_gen.h">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="xml_parser.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="xml_parser.h">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project output_directory="docs" output_language="Russian" />
+				<doxyfile_build extract_all="1" />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot class_diagrams="1" />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

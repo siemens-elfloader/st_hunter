@@ -1,0 +1,93 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+Patch		equ	0x0FDE300
+PatchID		equ	0x0100CCCD ; GPM
+
+
+Pos_X		equ	1
+Pos_Y		equ	2
+Temp1stIcon	equ	3
+FirstIcon	equ	4 ; 4
+UnderrunIcon	equ	8 ; 4
+OverflowIcon	equ	12 ; 4
+Range		equ	16
+Calibration	equ	17
+
+org Patch
+
+Entry:
+	push	{lr}
+	LoadReg	0, config + 4
+	bl	GetBuffer
+	beq	_ex
+	mov	r0, #1
+	mov	r1, #3
+	bl	GetAkku
+	mvi	r1, 0xAAA
+	sub	r0, r1
+	mov	r5, #Calibration
+	ldrsb	r1, [r6,r5]
+	add	r0, r1
+	bpl	_plus ;???
+	neg	r0, r0 ;???
+_plus:
+	mov	r1, #192
+	ldrb	r5, [r6,#Range]
+	cmp	r5, #0
+	beq	_192
+	add	r1, #192
+	mov	r3, #27
+	mov	r5, #5
+	b	_2
+_192:
+	mov	r3, #28
+	mov	r5, #4
+_2:
+	ldrb	r7, [r6,#Temp1stIcon]
+	sub	r0, r7
+	bpl	_no_min
+	ldr	r4, [r6,#UnderrunIcon]
+	b	_do
+_no_min:
+	cmp	r0, r1
+	blt	_no_max
+	ldr	r4, [r6,#OverflowIcon]
+	b	_do
+_no_max:
+	asr	r1, r0, #31
+	lsr	r1, r3
+	add	r0, r1
+	ldr	r1, [r6,#FirstIcon]
+	asr	r0, r5
+	add	r4, r0, r1
+_do:
+	sub	sp, #8
+	mov	r0, r4
+	bl	GetImgHeight
+	ldrb	r1, [r6,#Pos_Y]
+	add	r1, r0
+	mov	r0, #1
+	str	r0, [sp,#4]
+	sub	r1, r0
+	str	r1, [sp]
+	mov	r0, r4
+	bl	GetImgWidth
+	ldrb	r1, [r6,#Pos_X]
+	add	r3, r0, r1
+	sub	r3, #1
+	ldrb	r2, [r6,#Pos_Y]
+	ldr	r0, [sp, #16]
+	bl	DrawCanvas
+	add	sp, #8
+	ldrb	r1, [r6,#Pos_Y]
+	ldrb	r0, [r6,#Pos_X]
+	mov	r2, r4
+	bl	DrawImage2
+_ex:
+	pop	{pc}
+
+Align16
+config	dd	Magic, PatchID, Entry + q1, 0
+
+end

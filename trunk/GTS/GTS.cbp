@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="GTS" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="ELKA">
+				<Option output="../../elfs/$(PROJECT_NAME)/$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="../../Objects/$(PROJECT_NAME)/$(TARGET_NAME)/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DELKA" />
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="NSG">
+				<Option output="../../elfs/$(PROJECT_NAME)/$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="../../Objects/$(PROJECT_NAME)/$(TARGET_NAME)/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="SG">
+				<Option output="../../elfs/$(PROJECT_NAME)/$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="../../Objects/$(PROJECT_NAME)/$(TARGET_NAME)/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DSGOLD" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-marm" />
+			<Add option="-O2" />
+			<Add option="-Wall" />
+			<Add option="-D__NO_LIBC" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add option="--defsym __ex=0" />
+			<Add option="--gc-section" />
+			<Add library="crt" />
+			<Add library="crt_helper" />
+			<Add library="gcc" />
+			<Add library="c" />
+			<Add library="stdc++" />
+		</Linker>
+		<Unit filename="ChekVersion.cpp" />
+		<Unit filename="ChekVersion.h" />
+		<Unit filename="FormBuilder/EForm.cpp" />
+		<Unit filename="FormBuilder/EForm.h" />
+		<Unit filename="FormBuilder/LForm.cpp" />
+		<Unit filename="FormBuilder/LForm.h" />
+		<Unit filename="LangConfig.cpp" />
+		<Unit filename="LangConfig.h" />
+		<Unit filename="LangEditor.cpp" />
+		<Unit filename="LangEditor.h" />
+		<Unit filename="LangPack.cpp" />
+		<Unit filename="LangPack.h" />
+		<Unit filename="cp1251.cpp" />
+		<Unit filename="google.cpp" />
+		<Unit filename="google.h" />
+		<Unit filename="lang.cpp" />
+		<Unit filename="lang.h" />
+		<Unit filename="lua_support.cpp" />
+		<Unit filename="lua_support.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="main.h" />
+		<Unit filename="socket.cpp" />
+		<Unit filename="socket.h" />
+		<Unit filename="trafic.cpp" />
+		<Unit filename="trafic.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

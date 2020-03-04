@@ -1,0 +1,612 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION    12/Feb/2008  16:32:17 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT\MNUEdit\shortcuts_menu.c    #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT\MNUEdit\shortcuts_menu.c    #
+#                       -D NEWSGOLD -D ELKA -D LANG_RU -lC                   #
+#                       D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA\List\  #
+#                       -o D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA\Obj #
+#                       \ -s9 --no_unroll --cpu_mode arm --endian little     #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None -I "D:\Pasha\ARM_Embedded_Workbench\Embed #
+#                       ded Workbench 4.0 Evaluation\ARM\INC\"               #
+#                       --inline_threshold=2                                 #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA\List\s #
+#                       hortcuts_menu.lst                                    #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT\MNUEdit\Release_ELKA\Obj\sh #
+#                       ortcuts_menu.r79                                     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT\MNUEdit\shortcuts_menu.c
+      1          #include "..\inc\swilib.h"
+      2          #include "language.h"
+      3          enum editcontrols
+      4          {
+      5            NAME=2,
+      6            ICON=6,
+      7            ACTION=8,
+      8          };
+      9          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     10          int IsShortcut,
+   \                     IsShortcut:
+   \   00000000                      DS8 4
+     11              NumOfItems=0;
+     12          extern const char SHORTCUTS_FILE[128];
+     13          //extern const char ENTRYPOINTS_FILE[128];
+     14          
+     15          char *templates_chars; //Собственно файл
+     16          char **templates_lines; //Массив указателей на строки
+     17          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     18          void FreeLines(void)
+     19          {
+   \                     FreeLines:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     20            if (templates_lines) mfree(templates_lines);
+   \   00000004   ........           LDR      R4,??DataTable2  ;; ShortcutsMenuHeader
+   \   00000008   1C0094E5           LDR      R0,[R4, #+28]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0000000A           BEQ      ??FreeLines_0
+   \   00000014   150000EF           SWI      +21
+     21            if (templates_chars) mfree(templates_chars);
+   \                     ??FreeLines_0:
+   \   00000018   180094E5           LDR      R0,[R4, #+24]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0100000A           BEQ      ??FreeLines_1
+   \   00000024   150000EF           SWI      +21
+     22            templates_lines=NULL;
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \                     ??FreeLines_1:
+   \   0000002C   1C0084E5           STR      R0,[R4, #+28]
+     23            templates_chars=NULL;
+   \   00000030   180084E5           STR      R0,[R4, #+24]
+     24          }
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+     25          
+     26          extern const char TEMPLATES_PATH[];
+     27          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     28          int LoadLines(void)
+     29          {
+   \                     LoadLines:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+     30            FSTATS stat;
+     31            int f;
+     32            unsigned int ul;
+     33            int i;
+     34            int fsize;
+     35            char *p, *pp;
+     36            int c;
+     37            if (GetFileStats(SHORTCUTS_FILE,&stat,&ul)==-1) return 0;
+   \   00000004   F4509FE5           LDR      R5,??LoadLines_0  ;; SHORTCUTS_FILE
+   \   00000008   2CD04DE2           SUB      SP,SP,#+44
+   \   0000000C   0040E0E3           MVN      R4,#+0
+   \   00000010   0D20A0E1           MOV      R2,SP
+   \   00000014   04108DE2           ADD      R1,SP,#+4
+   \   00000018   0500A0E1           MOV      R0,R5
+   \   0000001C   840000EF           SWI      +132
+   \   00000020   040050E1           CMP      R0,R4
+   \   00000024   0200001A           BNE      ??LoadLines_1
+   \                     ??LoadLines_2:
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \                     ??LoadLines_3:
+   \   0000002C   2CD08DE2           ADD      SP,SP,#+44       ;; stack cleaning
+   \   00000030   F087BDE8           POP      {R4-R10,PC}      ;; return
+     38            if ((fsize=stat.size)<=0) return 0;
+   \                     ??LoadLines_1:
+   \   00000034   08709DE5           LDR      R7,[SP, #+8]
+   \   00000038   010057E3           CMP      R7,#+1
+   \   0000003C   F9FFFFBA           BLT      ??LoadLines_2
+     39            if ((f=fopen(SHORTCUTS_FILE,A_ReadOnly+A_BIN,P_READ,&ul))==-1) return 0;
+   \   00000040   0D30A0E1           MOV      R3,SP
+   \   00000044   8020A0E3           MOV      R2,#+128
+   \   00000048   801CA0E3           MOV      R1,#+32768
+   \   0000004C   0500A0E1           MOV      R0,R5
+   \   00000050   0A0000EF           SWI      +10
+   \   00000054   0080A0E1           MOV      R8,R0
+   \   00000058   040058E1           CMP      R8,R4
+   \   0000005C   F1FFFF0A           BEQ      ??LoadLines_2
+     40          
+     41            p=templates_chars=malloc(fsize+1);
+   \   00000060   ........           LDR      R4,??DataTable2  ;; ShortcutsMenuHeader
+   \   00000064   010087E2           ADD      R0,R7,#+1
+   \   00000068   140000EF           SWI      +20
+   \   0000006C   180084E5           STR      R0,[R4, #+24]
+   \   00000070   0060A0E1           MOV      R6,R0
+     42            p[fread(f,p,fsize,&ul)]=0;
+   \   00000074   0050A0E3           MOV      R5,#+0
+   \   00000078   0D30A0E1           MOV      R3,SP
+   \   0000007C   0720A0E1           MOV      R2,R7
+   \   00000080   0610A0E1           MOV      R1,R6
+   \   00000084   0800A0E1           MOV      R0,R8
+   \   00000088   0B0000EF           SWI      +11
+   \   0000008C   0650C0E7           STRB     R5,[R0, +R6]
+     43            fclose(f,&ul);
+   \   00000090   0D10A0E1           MOV      R1,SP
+   \   00000094   0800A0E1           MOV      R0,R8
+   \   00000098   0D0000EF           SWI      +13
+     44            i=0;
+   \   0000009C   0070A0E3           MOV      R7,#+0
+     45            pp=p;
+   \   000000A0   0680A0E1           MOV      R8,R6
+   \   000000A4   020000EA           B        ??LoadLines_4
+     46            for(;;)
+     47            {
+     48              c=*p;
+     49              if (c<32)
+     50              {
+     51                if (pp&&(pp!=p))
+     52                {
+     53          	templates_lines=realloc(templates_lines,(i+1)*sizeof(char *));
+     54          	templates_lines[i++]=pp;
+     55                }
+     56                pp=NULL;
+     57                if (!c) break;
+     58                *p=0;
+     59              }
+     60              else
+     61              {
+     62                if (pp==NULL) pp=p;
+   \                     ??LoadLines_5:
+   \   000000A8   000058E3           CMP      R8,#+0
+   \   000000AC   0680A001           MOVEQ    R8,R6
+     63              }
+     64              p++;
+   \                     ??LoadLines_6:
+   \   000000B0   016086E2           ADD      R6,R6,#+1
+   \                     ??LoadLines_4:
+   \   000000B4   0090D6E5           LDRB     R9,[R6, #+0]
+   \   000000B8   200059E3           CMP      R9,#+32
+   \   000000BC   F9FFFFAA           BGE      ??LoadLines_5
+   \   000000C0   000058E3           CMP      R8,#+0
+   \   000000C4   06005811           CMPNE    R8,R6
+   \   000000C8   0600000A           BEQ      ??LoadLines_7
+   \   000000CC   1C0094E5           LDR      R0,[R4, #+28]
+   \   000000D0   01A087E2           ADD      R10,R7,#+1
+   \   000000D4   0A11A0E1           LSL      R1,R10,#+2
+   \   000000D8   BA0000EF           SWI      +186
+   \   000000DC   1C0084E5           STR      R0,[R4, #+28]
+   \   000000E0   078180E7           STR      R8,[R0, +R7, LSL #+2]
+   \   000000E4   0A70A0E1           MOV      R7,R10
+   \                     ??LoadLines_7:
+   \   000000E8   0080A0E3           MOV      R8,#+0
+   \   000000EC   000059E3           CMP      R9,#+0
+     65            }
+     66            return i;
+   \   000000F0   0700A001           MOVEQ    R0,R7
+   \   000000F4   CCFFFF0A           BEQ      ??LoadLines_3
+   \   000000F8   0050C6E5           STRB     R5,[R6, #+0]
+   \   000000FC   EBFFFFEA           B        ??LoadLines_6
+   \                     ??LoadLines_0:
+   \   00000100   ........           DC32     SHORTCUTS_FILE
+     67          }
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     68          
+     69          extern void ascii2ws(WSHDR *ws, const char *s);
+     70          
+     71          HEADER_DESC ShortcutsMenuHeader={NULL,NULL,NULL,NULL,NULL,NULL,LGP_NULL};
+   \                     ShortcutsMenuHeader:
+   \   00000000                      DS8 20
+   \   00000014                      REQUIRE `?<Initializer for ShortcutsMenuHeader>`
+   \                     NumOfItems:
+   \   00000014                      DS8 4
+   \   00000018                      REQUIRE `?<Initializer for NumOfItems>`
+   \                     templates_chars:
+   \   00000018                      DS8 4
+   \   0000001C                      REQUIRE `?<Initializer for templates_chars>`
+   \                     templates_lines:
+   \   0000001C                      DS8 4
+   \   00000020                      REQUIRE `?<Initializer for templates_lines>`
+     72          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     73          void ShortcutsMenuItemHandler(void *data, int curitem, void *unk)
+     74          {
+   \                     ShortcutsMenuItemHandler:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+     75            void *item=AllocMenuItem(data);
+   \   0000000C   970100EF           SWI      +407
+   \   00000010   0060A0E1           MOV      R6,R0
+     76            char *p=strrchr(templates_lines[curitem],';')+1;
+   \   00000014   48009FE5           LDR      R0,??ShortcutsMenuItemHandler_0  ;; ShortcutsMenuHeader + 28
+   \   00000018   3B10A0E3           MOV      R1,#+59
+   \   0000001C   000090E5           LDR      R0,[R0, #+0]
+   \   00000020   050190E7           LDR      R0,[R0, +R5, LSL #+2]
+   \   00000024   170100EF           SWI      +279
+   \   00000028   017080E2           ADD      R7,R0,#+1
+     77            WSHDR *ws=AllocMenuWS(data,strlen(p));
+   \   0000002C   0700A0E1           MOV      R0,R7
+   \   00000030   1B0000EF           SWI      +27
+   \   00000034   0010A0E1           MOV      R1,R0
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   980100EF           SWI      +408
+   \   00000040   0080A0E1           MOV      R8,R0
+     78            ascii2ws(ws,p);
+   \   00000044   0710A0E1           MOV      R1,R7
+   \   00000048   ........           _BLF     ascii2ws,??ascii2ws??rA
+     79            SetMenuItemText(data, item, ws, curitem);
+   \   0000004C   0530A0E1           MOV      R3,R5
+   \   00000050   0820A0E1           MOV      R2,R8
+   \   00000054   0610A0E1           MOV      R1,R6
+   \   00000058   0400A0E1           MOV      R0,R4
+   \   0000005C   9A0100EF           SWI      +410
+     80          }
+   \   00000060   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??ShortcutsMenuItemHandler_0:
+   \   00000064   ........           DC32     ShortcutsMenuHeader + 28
+     81          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     82          void ShortcutsMenuGHook(void *data, int cmd)
+     83          {
+   \                     ShortcutsMenuGHook:
+   \   00000000   00402DE9           PUSH     {LR}
+     84            if (cmd==TI_CMD_FOCUS)
+   \   00000004   0A0051E3           CMP      R1,#+10
+   \   00000008   0100001A           BNE      ??ShortcutsMenuGHook_0
+     85            {
+     86              DisableIDLETMR();
+   \   0000000C   7F0100EF           SWI      +383
+   \   00000010   0080BDE8           POP      {PC}
+     87            }
+     88            if (cmd==TI_CMD_DESTROY)
+   \                     ??ShortcutsMenuGHook_0:
+   \   00000014   030051E3           CMP      R1,#+3
+   \   00000018   0080BD18           POPNE    {PC}
+     89            {
+     90              FreeLines();
+   \   0000001C   0040BDE8           POP      {LR}             ;; Pop
+   \   00000020   ........           B        FreeLines        ;; tailcall
+     91            }
+     92          }
+     93          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     94          static int ShortcutsMenuKeyHook(void *data, GUI_MSG *msg)
+     95          {
+   \                     ShortcutsMenuKeyHook:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   2CD04DE2           SUB      SP,SP,#+44
+   \   00000008   0050A0E1           MOV      R5,R0
+   \   0000000C   0160A0E1           MOV      R6,R1
+     96            int Selected=GetCurMenuItem(data);
+   \   00000010   8F0100EF           SWI      +399
+   \   00000014   0040A0E1           MOV      R4,R0
+     97            void *edgui=MenuGetUserPointer(data);
+   \   00000018   0500A0E1           MOV      R0,R5
+   \   0000001C   E00100EF           SWI      +480
+   \   00000020   0050A0E1           MOV      R5,R0
+     98            if ((msg->keys==0x18)||(msg->keys==0x3D))
+   \   00000024   F200D6E1           LDRSH    R0,[R6, #+2]
+   \   00000028   180050E3           CMP      R0,#+24
+   \   0000002C   3D005013           CMPNE    R0,#+61
+   \   00000030   4200001A           BNE      ??ShortcutsMenuKeyHook_0
+     99            {
+    100              if (NumOfItems)
+   \   00000034   ........           LDR      R6,??DataTable2  ;; ShortcutsMenuHeader
+   \   00000038   140096E5           LDR      R0,[R6, #+20]
+   \   0000003C   000050E3           CMP      R0,#+0
+   \   00000040   3F00000A           BEQ      ??ShortcutsMenuKeyHook_1
+    101              {
+    102                EDITCONTROL ec;
+    103                char *str=malloc(128);
+   \   00000044   8000A0E3           MOV      R0,#+128
+   \   00000048   140000EF           SWI      +20
+   \   0000004C   0070A0E1           MOV      R7,R0
+    104                const char *p=strrchr(templates_lines[Selected],';')+1;
+   \   00000050   1C0096E5           LDR      R0,[R6, #+28]
+   \   00000054   3B10A0E3           MOV      R1,#+59
+   \   00000058   040190E7           LDR      R0,[R0, +R4, LSL #+2]
+   \   0000005C   170100EF           SWI      +279
+   \   00000060   018080E2           ADD      R8,R0,#+1
+   \   00000064   1C0096E5           LDR      R0,[R6, #+28]
+   \   00000068   040180E0           ADD      R0,R0,R4, LSL #+2
+   \   0000006C   001090E5           LDR      R1,[R0, #+0]
+   \   00000070   011048E0           SUB      R1,R8,R1
+   \   00000074   012041E2           SUB      R2,R1,#+1
+   \   00000078   001090E5           LDR      R1,[R0, #+0]
+   \   0000007C   0700A0E1           MOV      R0,R7
+    105                strncpy(str,templates_lines[Selected],p-templates_lines[Selected]-1); 
+   \   00000080   160100EF           SWI      +278
+    106                str[p-templates_lines[Selected]-1]='\0';
+   \   00000084   1C0096E5           LDR      R0,[R6, #+28]
+   \   00000088   0010A0E3           MOV      R1,#+0
+   \   0000008C   040190E7           LDR      R0,[R0, +R4, LSL #+2]
+    107                ExtractEditControl(edgui,ACTION,&ec);
+   \   00000090   0D20A0E1           MOV      R2,SP
+   \   00000094   000048E0           SUB      R0,R8,R0
+   \   00000098   070080E0           ADD      R0,R0,R7
+   \   0000009C   011040E5           STRB     R1,[R0, #-1]
+   \   000000A0   0810A0E3           MOV      R1,#+8
+   \   000000A4   0500A0E1           MOV      R0,R5
+   \   000000A8   690100EF           SWI      +361
+    108                
+    109                WSHDR *ws=AllocWS(ec.maxlen);
+   \   000000AC   F801DDE1           LDRSH    R0,[SP, #+24]
+   \   000000B0   250100EF           SWI      +293
+    110                str_2ws(ws,str,ec.maxlen);
+   \   000000B4   F821DDE1           LDRSH    R2,[SP, #+24]
+   \   000000B8   0040A0E1           MOV      R4,R0
+   \   000000BC   0710A0E1           MOV      R1,R7
+   \   000000C0   6C0100EF           SWI      +364
+    111                EDIT_SetTextToEditControl(edgui,ACTION,ws);
+   \   000000C4   0420A0E1           MOV      R2,R4
+   \   000000C8   0810A0E3           MOV      R1,#+8
+   \   000000CC   0500A0E1           MOV      R0,R5
+   \   000000D0   DE0100EF           SWI      +478
+    112                
+    113                ascii2ws(ws,p);
+   \   000000D4   0810A0E1           MOV      R1,R8
+   \   000000D8   0400A0E1           MOV      R0,R4
+   \   000000DC   ........           _BLF     ascii2ws,??ascii2ws??rA
+    114                CutWSTR (ws,32);
+   \   000000E0   2010A0E3           MOV      R1,#+32
+   \   000000E4   0400A0E1           MOV      R0,R4
+   \   000000E8   260100EF           SWI      +294
+    115                EDIT_SetTextToEditControl(edgui,NAME,ws);
+   \   000000EC   0420A0E1           MOV      R2,R4
+   \   000000F0   0210A0E3           MOV      R1,#+2
+   \   000000F4   0500A0E1           MOV      R0,R5
+   \   000000F8   DE0100EF           SWI      +478
+    116                
+    117                ascii2ws(ws,"SHORTCUT");
+   \   000000FC   48109FE5           LDR      R1,??ShortcutsMenuKeyHook_2  ;; `?<Constant "SHORTCUT">`
+   \   00000100   0400A0E1           MOV      R0,R4
+   \   00000104   ........           _BLF     ascii2ws,??ascii2ws??rA
+    118                CutWSTR (ws,32);
+   \   00000108   2010A0E3           MOV      R1,#+32
+   \   0000010C   0400A0E1           MOV      R0,R4
+   \   00000110   260100EF           SWI      +294
+    119                EDIT_SetTextToEditControl(edgui,ICON,ws);
+   \   00000114   0420A0E1           MOV      R2,R4
+   \   00000118   0610A0E3           MOV      R1,#+6
+   \   0000011C   0500A0E1           MOV      R0,R5
+   \   00000120   DE0100EF           SWI      +478
+    120                mfree(str);
+   \   00000124   0700A0E1           MOV      R0,R7
+   \   00000128   150000EF           SWI      +21
+    121                FreeWS(ws);
+   \   0000012C   0400A0E1           MOV      R0,R4
+   \   00000130   290100EF           SWI      +297
+    122                return(1);
+   \   00000134   0100A0E3           MOV      R0,#+1
+   \   00000138   2CD08DE2           ADD      SP,SP,#+44
+   \   0000013C   F081BDE8           POP      {R4-R8,PC}
+    123              }
+    124            }
+    125            return(0);
+   \                     ??ShortcutsMenuKeyHook_0:
+   \   00000140   0000A0E3           MOV      R0,#+0
+   \                     ??ShortcutsMenuKeyHook_1:
+   \   00000144   2CD08DE2           ADD      SP,SP,#+44       ;; stack cleaning
+   \   00000148   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??ShortcutsMenuKeyHook_2:
+   \   0000014C   ........           DC32     `?<Constant "SHORTCUT">`
+    126          }
+    127          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    128          const int MenuSoftkeys[]={0,1,2};
+   \                     MenuSoftkeys:
+   \   00000000   000000000100       DC32 0, 1, 2
+   \              000002000000
+    129          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    130          const SOFTKEY_DESC menu_sk[]=
+   \                     menu_sk:
+   \   00000000   04000000           DC16 4, 0
+   \   00000004   ........           DC32 `?<Constant "\\316\\357\\366\\350\\350">`
+   \   00000008   01000000           DC16 1, 0
+   \   0000000C   ........           DC32 `?<Constant "\\307\\340\\352\\360\\373\\362\\374">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   FBC0FF7F           DC32 2147467515
+    131          {
+    132            {0x0004,0x0000,(int)LG_OPTIONS},
+    133            {0x0001,0x0000,(int)LG_CLOSE},
+    134            {0x003D,0x0000,(int)LGP_DOIT_PIC}
+    135          };
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    136          const SOFTKEYSTAB Select_Back_skt=
+   \                     Select_Back_skt:
+   \   00000000   ........0000       DC32 menu_sk, 0
+   \              0000        
+    137          {
+    138            menu_sk,0
+    139          };
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Select shortcat">`:
+   \   00000000   53656C656374       DC8 "Select shortcat"
+   \              2073686F7274
+   \              63617400    
+   \   00000010   46494C45204E       DC8 "FILE NOT FOUND!"
+   \              4F5420464F55
+   \              4E442100    
+   \   00000020   08000000....       DC32 8, ShortcutsMenuKeyHook, ShortcutsMenuGHook, 0H, MenuSoftkeys
+   \              ............
+   \              00000000....
+   \              ....        
+   \   00000034   ........1000       DC32 Select_Back_skt, 16, ShortcutsMenuItemHandler, 0H, 0H, 0
+   \              0000........
+   \              000000000000
+   \              000000000000
+    140          static const MENU_DESC ShortcutsMenuStruct=
+    141          {
+    142            8,ShortcutsMenuKeyHook,ShortcutsMenuGHook,NULL,
+    143            MenuSoftkeys,
+    144            &Select_Back_skt,
+    145            0x10,
+    146            ShortcutsMenuItemHandler,
+    147            NULL, //menuitems,
+    148            NULL, //menuprocs,
+    149            NULL
+    150          };
+    151          
+    152          
+    153          #pragma inline
+    154          void patch_header2(HEADER_DESC* head)
+    155          {
+    156            head->rc.x=0;
+    157            head->rc.y=YDISP;
+    158            head->rc.x2=ScreenW()-1;
+    159            head->rc.y2=HeaderH()+YDISP;
+    160          }
+    161          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    162          int DispShortcutsMenu(void *ed_gui)
+    163          {
+   \                     DispShortcutsMenu:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    164            NumOfItems=LoadLines();
+   \   00000004   88509FE5           LDR      R5,??DispShortcutsMenu_0  ;; ShortcutsMenuHeader
+    165            if(NumOfItems)
+   \   00000008   88609FE5           LDR      R6,??DispShortcutsMenu_0+0x4  ;; `?<Constant "Select shortcat">`
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   ........           BL       LoadLines
+   \   00000014   140085E5           STR      R0,[R5, #+20]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   1700000A           BEQ      ??DispShortcutsMenu_1
+    166            {
+    167              *((int *)(&ShortcutsMenuHeader.lgp_id))=(int)"Select shortcat";
+   \   00000020   0C6085E5           STR      R6,[R5, #+12]
+    168              patch_header2(&ShortcutsMenuHeader);
+   \   00000024   0000A0E3           MOV      R0,#+0
+   \   00000028   B000C5E1           STRH     R0,[R5, #+0]
+   \   0000002C   1800A0E3           MOV      R0,#+24
+   \   00000030   B200C5E1           STRH     R0,[R5, #+2]
+   \   00000034   888100EF           SWI      +33160
+   \   00000038   010040E2           SUB      R0,R0,#+1
+   \   0000003C   B400C5E1           STRH     R0,[R5, #+4]
+   \   00000040   8A8100EF           SWI      +33162
+   \   00000044   180080E2           ADD      R0,R0,#+24
+   \   00000048   B600C5E1           STRH     R0,[R5, #+6]
+    169              return CreateMenu(0,0,&ShortcutsMenuStruct,&ShortcutsMenuHeader,0,NumOfItems,ed_gui,0);
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   01002DE9           PUSH     {R0}
+   \   00000054   10002DE9           PUSH     {R4}
+   \   00000058   140095E5           LDR      R0,[R5, #+20]
+   \   0000005C   0530A0E1           MOV      R3,R5
+   \   00000060   01002DE9           PUSH     {R0}
+   \   00000064   202086E2           ADD      R2,R6,#+32
+   \   00000068   0010A0E3           MOV      R1,#+0
+   \   0000006C   0000A0E3           MOV      R0,#+0
+   \   00000070   01002DE9           PUSH     {R0}
+   \   00000074   520100EF           SWI      +338
+   \   00000078   10D08DE2           ADD      SP,SP,#+16
+   \   0000007C   7080BDE8           POP      {R4-R6,PC}
+    170            }
+    171            MsgBoxError(1, (int)"FILE NOT FOUND!");
+   \                     ??DispShortcutsMenu_1:
+   \   00000080   101086E2           ADD      R1,R6,#+16
+   \   00000084   0100A0E3           MOV      R0,#+1
+   \   00000088   4E0000EF           SWI      +78
+    172            return(0);
+   \   0000008C   0000A0E3           MOV      R0,#+0
+   \   00000090   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??DispShortcutsMenu_0:
+   \   00000094   ........           DC32     ShortcutsMenuHeader
+   \   00000098   ........           DC32     `?<Constant "Select shortcat">`
+    173          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     ShortcutsMenuHeader
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for ShortcutsMenuHeader>`:
+   \   00000000   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000008   000000000000       DC32 0H, 0, 2147483647
+   \              0000FFFFFF7F
+   \                     `?<Initializer for NumOfItems>`:
+   \   00000014   00000000           DC32 0
+   \                     `?<Initializer for templates_chars>`:
+   \   00000018   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for templates_lines>`:
+   \   0000001C   00000000           DC8 0, 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\357\\366\\350\\350">`:
+   \   00000000   CEEFF6E8E800       DC8 "\316\357\366\350\350"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\307\\340\\352\\360\\373\\362\\374">`:
+   \   00000000   C7E0EAF0FBF2       DC8 "\307\340\352\360\373\362\374"
+   \              FC00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "SHORTCUT">`:
+   \   00000000   53484F525443       DC8 "SHORTCUT"
+   \              555400      
+   \   00000009   000000             DC8 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                 CSTACK
+     --------                 ------
+     DispShortcutsMenu           32
+     FreeLines                    8
+     LoadLines                   76
+     ShortcutsMenuGHook           4
+     ShortcutsMenuItemHandler    24
+     ShortcutsMenuKeyHook        68
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     IsShortcut                        4
+     FreeLines                        56
+     LoadLines                       260
+     ShortcutsMenuHeader              32
+     ShortcutsMenuItemHandler        104
+     ShortcutsMenuGHook               36
+     ShortcutsMenuKeyHook            336
+     MenuSoftkeys                     12
+     menu_sk                          24
+     Select_Back_skt                   8
+     ?<Constant "Select shortcat">    76
+     DispShortcutsMenu               156
+     ??DataTable2                      4
+     ?<Initializer for ShortcutsMenuHeader>
+                                      32
+     ?<Constant "\316\357\366\350\350">
+                                       8
+     ?<Constant "\307\340\352\360\373\362\374">
+                                       8
+     ?<Constant "SHORTCUT">           12
+      Others                          60
+
+ 
+ 988 bytes in segment CODE
+ 148 bytes in segment DATA_C
+  32 bytes in segment DATA_I
+  32 bytes in segment DATA_ID
+   4 bytes in segment DATA_Z
+  24 bytes in segment INITTAB
+ 
+ 952 bytes of CODE  memory (+ 60 bytes shared)
+ 180 bytes of CONST memory
+  36 bytes of DATA  memory
+
+Errors: none
+Warnings: none

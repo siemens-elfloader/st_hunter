@@ -1,0 +1,1547 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION    01/Oct/2007  12:34:34 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\JavaFolder\main.c                       #
+#    Command line    =  D:\Pasha\elf\JavaFolder\main.c -lC                   #
+#                       D:\Pasha\elf\JavaFolder\Release_SGOLD\List\ -o       #
+#                       D:\Pasha\elf\JavaFolder\Release_SGOLD\Obj\ -s9       #
+#                       --no_unroll --no_clustering --cpu_mode arm --endian  #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --fpu None -I "D:\Pasha\ARM_Embedded_Workbench\Em #
+#                       bedded Workbench 4.0 Evaluation\ARM\INC\"            #
+#                       --inline_threshold=2                                 #
+#    List file       =  D:\Pasha\elf\JavaFolder\Release_SGOLD\List\main.lst  #
+#    Object file     =  D:\Pasha\elf\JavaFolder\Release_SGOLD\Obj\main.r79   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\JavaFolder\main.c
+      1          #include "..\inc\swilib.h"
+      2          #include "../inc/cfg_items.h"
+      3          #include "conf_loader.h"
+      4          
+      5          extern void InitConfig();
+      6          extern const char list_txt[128];
+      7          extern const int scan_disc;
+      8          
+      9          #define CBOX_CHECKED 0xE10B
+     10          #define CBOX_UNCHECKED 0xE10C
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     11          static int icon_array[2];
+   \                     icon_array:
+   \   00000000                      DS8 8
+     12          
+
+   \                                 In segment DATA_C, align 1, align-sorted
+     13          const char per_t[]="%t";
+   \                     per_t:
+   \   00000000   257400             DC8 "%t"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+     14          const char per_s[]="%s";
+   \                     per_s:
+   \   00000000   257300             DC8 "%s"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+     15          const char per_d[]="%d";
+   \                     per_d:
+   \   00000000   256400             DC8 "%d"
+     16          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     17          const int minus11=-11;
+   \                     minus11:
+   \   00000000   F5FFFFFF           DC32 -11
+     18          unsigned short maincsm_name_body[140];
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     19          unsigned int MAINCSM_ID = 0;
+   \                     MAINCSM_ID:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     20          unsigned int MAINGUI_ID = 0;
+   \                     MAINGUI_ID:
+   \   00000000                      DS8 4
+     21          
+     22          typedef struct
+     23          {
+     24            CSM_RAM csm;
+     25            int gui_id;
+     26          }MAIN_CSM;
+     27          
+     28          typedef struct
+     29          {
+     30            GUI gui;
+     31            WSHDR *ws1;
+     32            WSHDR *ws2;
+     33            int i1;
+     34          }MAIN_GUI;
+     35          
+     36          //======================
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     37          const char ICON1[128]="0:\\shell\\icons\\no_icon.png";//пути к иконкам
+   \                     ICON1:
+   \   00000000   303A5C736865       DC8 "0:\\shell\\icons\\no_icon.png"
+   \              6C6C5C69636F
+   \              6E735C6E6F5F
+   \              69636F6E2E70
+   \              6E6700      
+   \   0000001B   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000002B   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000003B   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000004B   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000005B   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   0000006B   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000000000
+   \              000000      
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     38          int S_ICONS[1]={
+   \                     S_ICONS:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for S_ICONS>`
+     39          (int)ICON1
+     40          };
+     41          //======================
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     42          int java_num=0;//Количество папок в папке java
+   \                     java_num:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 1, align-sorted
+     43          char empty_string[]="";
+   \                     empty_string:
+   \   00000000                      DS8 1
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     44          int TotalFolder=0;
+   \                     TotalFolder:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     45          int TotalEqual=0;
+   \                     TotalEqual:
+   \   00000000                      DS8 4
+     46          
+     47          void FreeList();
+     48          void CreateList(void);
+     49          void DelFolder();
+     50          //========================================
+     51          //        Чтение файла
+     52          //========================================
+     53          /*****************
+     54          файл вида:       
+     55          name [number]
+     56          ******************/ 
+     57          
+     58          typedef struct
+     59          {
+     60            void *next;
+     61            char num[32];
+     62            char name[32];
+     63            char java[32];
+     64            char tmp[32];
+     65            char tmp2[32];
+     66            int del;
+     67            int TotalFolder;
+     68          }LISTT;
+     69          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     70          LISTT list[1000];
+   \                     list:
+   \   00000000                      DS8 172000
+     71          
+     72          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     73          void ShowInt(int i)
+     74          {
+   \                     ShowInt:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+     75           char *s=malloc(64);
+   \   00000008   4000A0E3           MOV      R0,#+64
+   \   0000000C   140000EF           SWI      +20
+     76           sprintf(s,per_d,i); 
+   \   00000010   18109FE5           LDR      R1,??ShowInt_0   ;; per_d
+   \   00000014   0050A0E1           MOV      R5,R0
+   \   00000018   0420A0E1           MOV      R2,R4
+   \   0000001C   160000EF           SWI      +22
+     77           ShowMSG(1,(int)s);
+   \   00000020   0510A0E1           MOV      R1,R5
+   \   00000024   0100A0E3           MOV      R0,#+1
+   \   00000028   480100EF           SWI      +328
+     78          }
+   \   0000002C   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??ShowInt_0:
+   \   00000030   ........           DC32     per_d
+     79          /*
+     80          void process(char *str, int number)//Читаем конфиг и сохраняем пути
+     81          { 
+     82            int j=0; 
+     83            int k=0;
+     84            while (str[j]!='|') { list[number].num[k++]=str[j]; j++; }    
+     85            j++;
+     86            k=0;
+     87            while (str[j]!='|') { list[number].name[k++]=str[j]; j++; }    
+     88            
+     89          
+     90          }*/
+
+   \                                 In segment CODE, align 4, keep-with-next
+     91          void process(char *str, int number)//Читаем конфиг и сохраняем пути
+     92          { 
+   \                     process:
+   \   00000000   10002DE9           PUSH     {R4}
+     93            int j=0; 
+     94            int k=0;
+   \   00000004   ........           LDR      R4,??DataTable13  ;; list
+   \   00000008   ACC0A0E3           MOV      R12,#+172
+   \   0000000C   9C4121E0           MLA      R1,R12,R1,R4
+   \   00000010   0020A0E3           MOV      R2,#+0
+   \   00000014   0030A0E1           MOV      R3,R0
+   \   00000018   24C081E2           ADD      R12,R1,#+36
+   \   0000001C   010000EA           B        ??process_0
+     95            while (str[j]!='[') { list[number].name[k++]=str[j]; j++; }    
+   \                     ??process_1:
+   \   00000020   ........           LDRB     R4,[R3], #+1
+   \   00000024   ........           STRB     R4,[R12], #+1
+   \                     ??process_0:
+   \   00000028   0040D3E5           LDRB     R4,[R3, #+0]
+   \   0000002C   012082E2           ADD      R2,R2,#+1
+   \   00000030   5B0054E3           CMP      R4,#+91
+   \   00000034   F9FFFF1A           BNE      ??process_1
+     96            j++;
+     97            k=0;
+   \   00000038   041081E2           ADD      R1,R1,#+4
+   \   0000003C   010000EA           B        ??process_2
+     98            while (str[j]!=']') { list[number].num[k++]=str[j]; j++; }    
+   \                     ??process_3:
+   \   00000040   ........           STRB     R3,[R1], #+1
+   \   00000044   012082E2           ADD      R2,R2,#+1
+   \                     ??process_2:
+   \   00000048   0030D2E7           LDRB     R3,[R2, +R0]
+   \   0000004C   5D0053E3           CMP      R3,#+93
+   \   00000050   FAFFFF1A           BNE      ??process_3
+     99          }
+   \   00000054   1000BDE8           POP      {R4}
+   \   00000058   1EFF2FE1           BX       LR               ;; return
+    100          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    101          void LoadList()
+    102          {
+    103            unsigned int err; 
+    104            int plhandle; 
+    105            char *mem;
+    106            int size; 
+    107            int i,j=0; 
+    108            char *str; 
+    109            plhandle = fopen(list_txt, A_ReadOnly + A_TXT, P_READ, & err ); 
+   \                     LoadList:
+   \   00000000   04019FE5           LDR      R0,??LoadList_0  ;; list_txt
+   \   00000004   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   0D30A0E1           MOV      R3,SP
+   \   00000010   8020A0E3           MOV      R2,#+128
+   \   00000014   401CA0E3           MOV      R1,#+16384
+   \   00000018   0A0000EF           SWI      +10
+   \   0000001C   0040A0E1           MOV      R4,R0
+    110           if ( plhandle==-1 ) 
+   \   00000020   010074E3           CMN      R4,#+1
+   \   00000024   0600001A           BNE      ??LoadList_1
+    111            { 
+    112              ShowMSG(1,(int)"Can't open list.txt");
+   \   00000028   E0109FE5           LDR      R1,??LoadList_0+0x4  ;; `?<Constant "Can\\'t open list.txt">`
+   \   0000002C   0100A0E3           MOV      R0,#+1
+   \   00000030   480100EF           SWI      +328
+    113              fclose( plhandle, & err ); 
+   \   00000034   0D10A0E1           MOV      R1,SP
+   \   00000038   0000E0E3           MVN      R0,#+0
+   \   0000003C   0D0000EF           SWI      +13
+   \   00000040   F183BDE8           POP      {R0,R4-R9,PC}
+    114              return; 
+    115            }
+    116            mem=malloc(16384); 
+   \                     ??LoadList_1:
+   \   00000044   400CA0E3           MOV      R0,#+16384
+   \   00000048   140000EF           SWI      +20
+   \   0000004C   0050A0E1           MOV      R5,R0
+    117            str=malloc(256); 
+   \   00000050   400FA0E3           MOV      R0,#+256
+   \   00000054   140000EF           SWI      +20
+   \   00000058   0060A0E1           MOV      R6,R0
+    118           if ((mem!=0)&&(str!=0)) 
+   \   0000005C   000055E3           CMP      R5,#+0
+   \   00000060   00005613           CMPNE    R6,#+0
+   \   00000064   0900000A           BEQ      ??LoadList_2
+    119            { 
+    120              size=fread(plhandle,mem,16384,&err); 
+    121              i=0; 
+   \   00000068   ........           LDR      R9,??DataTable15  ;; TotalFolder
+   \   0000006C   0D30A0E1           MOV      R3,SP
+   \   00000070   402CA0E3           MOV      R2,#+16384
+   \   00000074   0510A0E1           MOV      R1,R5
+   \   00000078   0400A0E1           MOV      R0,R4
+   \   0000007C   0B0000EF           SWI      +11
+   \   00000080   0070A0E1           MOV      R7,R0
+   \   00000084   0080A0E3           MOV      R8,#+0
+   \   00000088   010057E3           CMP      R7,#+1
+   \   0000008C   160000AA           BGE      ??LoadList_3
+    122              while (i<size) //пока не конец файлa
+    123              { 
+    124                strcpy(str,empty_string); 
+    125                j=0; 
+    126                while (((*(mem+i)!='\r'))&&(i<size)) {*(str+j)=*(mem+i); j++;i++;}    //читаем строку из файла 
+    127                //обрабатываем енту строчку 
+    128                process(str,TotalFolder);//Сохраняем имена и пути
+    129                i+=2; 
+    130                TotalFolder++;
+    131              }
+    132            }
+    133          mfree(mem); 
+   \                     ??LoadList_2:
+   \   00000090   0500A0E1           MOV      R0,R5
+   \   00000094   150000EF           SWI      +21
+    134          mfree(str); 
+   \   00000098   0600A0E1           MOV      R0,R6
+   \   0000009C   150000EF           SWI      +21
+    135          
+    136          fclose( plhandle, & err ); 
+   \   000000A0   0D10A0E1           MOV      R1,SP
+   \   000000A4   0400A0E1           MOV      R0,R4
+   \   000000A8   0D0000EF           SWI      +13
+    137          
+    138          //ShowMSG(1,(int)"Read list.txt ok!");
+    139          /* char *s=malloc(64);
+    140           sprintf(s,per_d,TotalFolder); 
+    141           ShowMSG(1,(int)s);*/
+    142          }
+   \   000000AC   F183BDE8           POP      {R0,R4-R9,PC}    ;; return
+   \                     ??LoadList_4:
+   \   000000B0   ........           LDRB     R2,[R1], #+1
+   \   000000B4   018088E2           ADD      R8,R8,#+1
+   \   000000B8   ........           STRB     R2,[R0], #+1
+   \                     ??LoadList_5:
+   \   000000BC   0020D1E5           LDRB     R2,[R1, #+0]
+   \   000000C0   0D0052E3           CMP      R2,#+13
+   \   000000C4   0100000A           BEQ      ??LoadList_6
+   \   000000C8   070058E1           CMP      R8,R7
+   \   000000CC   F7FFFFBA           BLT      ??LoadList_4
+   \                     ??LoadList_6:
+   \   000000D0   001099E5           LDR      R1,[R9, #+0]
+   \   000000D4   0600A0E1           MOV      R0,R6
+   \   000000D8   ........           BL       process
+   \   000000DC   000099E5           LDR      R0,[R9, #+0]
+   \   000000E0   028088E2           ADD      R8,R8,#+2
+   \   000000E4   010080E2           ADD      R0,R0,#+1
+   \   000000E8   000089E5           STR      R0,[R9, #+0]
+   \                     ??LoadList_3:
+   \   000000EC   070058E1           CMP      R8,R7
+   \   000000F0   E6FFFFAA           BGE      ??LoadList_2
+   \   000000F4   18109FE5           LDR      R1,??LoadList_0+0x8  ;; empty_string
+   \   000000F8   0600A0E1           MOV      R0,R6
+   \   000000FC   1A0000EF           SWI      +26
+   \   00000100   051088E0           ADD      R1,R8,R5
+   \   00000104   0600A0E1           MOV      R0,R6
+   \   00000108   EBFFFFEA           B        ??LoadList_5
+   \                     ??LoadList_0:
+   \   0000010C   ........           DC32     list_txt
+   \   00000110   ........           DC32     `?<Constant "Can\\'t open list.txt">`
+   \   00000114   ........           DC32     empty_string
+    143          
+    144          //======================================================
+    145          //          Search folder 0:\\system\\java
+    146          //======================================================
+
+   \                                 In segment CODE, align 4, keep-with-next
+    147          int FindDir(char *dir)
+    148          { 
+   \                     FindDir:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    149          
+    150            DIR_ENTRY de;
+    151            unsigned int err;
+    152            WSHDR *ws=AllocWS(64);
+    153            char path[256];
+    154            strcpy(path,dir); 
+    155            char *ptr=path+strlen(path)+1;
+    156            strcat(path,"\\*.*");
+    157            if (FindFirstFile(&de,path,&err))
+   \   00000004   ........           LDR      R5,??DataTable9  ;; java_num
+   \   00000008   AFDF4DE2           SUB      SP,SP,#+700
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   4000A0E3           MOV      R0,#+64
+   \   00000014   250100EF           SWI      +293
+   \   00000018   0410A0E1           MOV      R1,R4
+   \   0000001C   6F0F8DE2           ADD      R0,SP,#+444
+   \   00000020   1A0000EF           SWI      +26
+   \   00000024   6F0F8DE2           ADD      R0,SP,#+444
+   \   00000028   1B0000EF           SWI      +27
+   \   0000002C   6F1F8DE2           ADD      R1,SP,#+444
+   \   00000030   010080E0           ADD      R0,R0,R1
+   \   00000034   ........           LDR      R1,??DataTable11  ;; `?<Constant "\\\\*.*">`
+   \   00000038   014080E2           ADD      R4,R0,#+1
+   \   0000003C   6F0F8DE2           ADD      R0,SP,#+444
+   \   00000040   170000EF           SWI      +23
+   \   00000044   0D20A0E1           MOV      R2,SP
+   \   00000048   6F1F8DE2           ADD      R1,SP,#+444
+   \   0000004C   04008DE2           ADD      R0,SP,#+4
+   \   00000050   6B0000EF           SWI      +107
+   \   00000054   000050E3           CMP      R0,#+0
+   \   00000058   1600000A           BEQ      ??FindDir_0
+    158            { 
+    159              do{
+    160                  strcpy(ptr,de.file_name);  
+   \                     ??FindDir_1:
+   \   0000005C   AD108DE2           ADD      R1,SP,#+173
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   1A0000EF           SWI      +26
+    161                  if(isdir(path,&err))
+   \   00000068   0D10A0E1           MOV      R1,SP
+   \   0000006C   6F0F8DE2           ADD      R0,SP,#+444
+   \   00000070   910000EF           SWI      +145
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   0900000A           BEQ      ??FindDir_2
+    162                  {
+    163                    strcpy(list[java_num].java,de.file_name);  
+   \   0000007C   000095E5           LDR      R0,[R5, #+0]
+   \   00000080   ........           LDR      R3,??DataTable13  ;; list
+   \   00000084   AC20A0E3           MOV      R2,#+172
+   \   00000088   923020E0           MLA      R0,R2,R0,R3
+   \   0000008C   AD108DE2           ADD      R1,SP,#+173
+   \   00000090   440080E2           ADD      R0,R0,#+68
+   \   00000094   1A0000EF           SWI      +26
+    164                    java_num++;
+   \   00000098   000095E5           LDR      R0,[R5, #+0]
+   \   0000009C   010080E2           ADD      R0,R0,#+1
+   \   000000A0   000085E5           STR      R0,[R5, #+0]
+    165                  }
+    166                
+    167                }while(FindNextFile(&de,&err));
+   \                     ??FindDir_2:
+   \   000000A4   0D10A0E1           MOV      R1,SP
+   \   000000A8   04008DE2           ADD      R0,SP,#+4
+   \   000000AC   6C0000EF           SWI      +108
+   \   000000B0   000050E3           CMP      R0,#+0
+   \   000000B4   E8FFFF1A           BNE      ??FindDir_1
+    168            }FindClose(&de,&err);
+   \                     ??FindDir_0:
+   \   000000B8   0D10A0E1           MOV      R1,SP
+   \   000000BC   04008DE2           ADD      R0,SP,#+4
+   \   000000C0   6D0000EF           SWI      +109
+    169          
+    170          if(java_num==0)ShowMSG(1,(int)"No folder!");  
+   \   000000C4   000095E5           LDR      R0,[R5, #+0]
+   \   000000C8   000050E3           CMP      R0,#+0
+   \   000000CC   0200001A           BNE      ??FindDir_3
+   \   000000D0   10109FE5           LDR      R1,??FindDir_4   ;; `?<Constant "No folder!">`
+   \   000000D4   0100A0E3           MOV      R0,#+1
+   \   000000D8   480100EF           SWI      +328
+    171          /* char *s=malloc(64);
+    172           sprintf(s,per_s,list[1].java); 
+    173           ShowMSG(1,(int)s);*/
+    174          //  FreeWS(ws);
+    175           // mfree(ptr);
+    176          return 0;
+   \                     ??FindDir_3:
+   \   000000DC   0000A0E3           MOV      R0,#+0
+   \   000000E0   AFDF8DE2           ADD      SP,SP,#+700
+   \   000000E4   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??FindDir_4:
+   \   000000E8   ........           DC32     `?<Constant "No folder!">`
+    177          }
+    178          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    179          int ChangeDelMode(int i)
+    180          {
+    181            list[i].del=!list[i].del;
+   \                     ChangeDelMode:
+   \   00000000   ........           LDR      R2,??DataTable13  ;; list
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   AC10A0E3           MOV      R1,#+172
+   \   0000000C   912024E0           MLA      R4,R1,R0,R2
+   \   00000010   A40094E5           LDR      R0,[R4, #+164]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   0100A003           MOVEQ    R0,#+1
+   \   0000001C   0000A013           MOVNE    R0,#+0
+   \   00000020   A40084E5           STR      R0,[R4, #+164]
+    182            RefreshGUI();
+   \   00000024   960100EF           SWI      +406
+    183            return list[i].del;
+   \   00000028   A40094E5           LDR      R0,[R4, #+164]
+   \   0000002C   1080BDE8           POP      {R4,PC}          ;; return
+    184          }
+    185          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    186          void cmpp()
+    187          {
+   \                     cmpp:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+    188           int k=0;
+    189           for(int i=0;i<java_num;i++)
+   \   00000004   ........           LDR      R5,??DataTable13  ;; list
+   \   00000008   ........           LDR      R9,??DataTable15  ;; TotalFolder
+   \   0000000C   00A0A0E3           MOV      R10,#+0
+   \   00000010   0040A0E3           MOV      R4,#+0
+   \   00000014   446085E2           ADD      R6,R5,#+68
+   \   00000018   180000EA           B        ??cmpp_0
+    190            {
+    191              for(int j=0;j<TotalFolder;j++)
+    192               {
+    193                int cmp=strcmp(list[j].num,list[i].java);
+    194                if(cmp==0)
+   \                     ??cmpp_1:
+   \   0000001C   0610A0E1           MOV      R1,R6
+   \   00000020   0700A0E1           MOV      R0,R7
+   \   00000024   190000EF           SWI      +25
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   0C00001A           BNE      ??cmpp_2
+    195                {
+    196                  strcpy(list[k].tmp,list[j].name);
+   \   00000030   AC00A0E3           MOV      R0,#+172
+   \   00000034   905A2BE0           MLA      R11,R0,R10,R5
+   \   00000038   201087E2           ADD      R1,R7,#+32
+   \   0000003C   64008BE2           ADD      R0,R11,#+100
+   \   00000040   1A0000EF           SWI      +26
+    197                  strcpy(list[k].tmp2,list[j].num);
+   \   00000044   0710A0E1           MOV      R1,R7
+   \   00000048   84008BE2           ADD      R0,R11,#+132
+   \   0000004C   1A0000EF           SWI      +26
+    198                  k++;
+    199                  TotalEqual++;
+   \   00000050   ........           LDR      R0,??DataTable14  ;; TotalEqual
+   \   00000054   01A08AE2           ADD      R10,R10,#+1
+   \   00000058   001090E5           LDR      R1,[R0, #+0]
+   \   0000005C   011081E2           ADD      R1,R1,#+1
+   \   00000060   001080E5           STR      R1,[R0, #+0]
+    200                }
+    201              }
+   \                     ??cmpp_2:
+   \   00000064   018088E2           ADD      R8,R8,#+1
+   \   00000068   AC7087E2           ADD      R7,R7,#+172
+   \                     ??cmpp_3:
+   \   0000006C   000099E5           LDR      R0,[R9, #+0]
+   \   00000070   000058E1           CMP      R8,R0
+   \   00000074   E8FFFFBA           BLT      ??cmpp_1
+   \   00000078   014084E2           ADD      R4,R4,#+1
+   \   0000007C   AC6086E2           ADD      R6,R6,#+172
+   \                     ??cmpp_0:
+   \   00000080   ........           LDR      R0,??DataTable9  ;; java_num
+   \   00000084   000090E5           LDR      R0,[R0, #+0]
+   \   00000088   000054E1           CMP      R4,R0
+   \   0000008C   0080A0B3           MOVLT    R8,#+0
+   \   00000090   047085B2           ADDLT    R7,R5,#+4
+   \   00000094   F4FFFFBA           BLT      ??cmpp_3
+    202            }
+    203          CreateList();
+   \   00000098   ........           BL       CreateList
+    204          }
+   \   0000009C   F08FBDE8           POP      {R4-R11,PC}      ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+    205          void DelFolder()
+    206          { 
+   \                     DelFolder:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+    207          
+    208          DIR_ENTRY de;
+    209          unsigned int err;
+    210          WSHDR *ws=AllocWS(64);
+    211          int ii=0;
+    212          for(int kk=0;kk<TotalFolder;kk++)
+   \   00000004   ........           LDR      R5,??DataTable15  ;; TotalFolder
+   \   00000008   14819FE5           LDR      R8,??DelFolder_0  ;; list + 164
+   \   0000000C   EFDF4DE2           SUB      SP,SP,#+956
+   \   00000010   4000A0E3           MOV      R0,#+64
+   \   00000014   250100EF           SWI      +293
+   \   00000018   0040A0E1           MOV      R4,R0
+   \   0000001C   0060A0E3           MOV      R6,#+0
+   \   00000020   0070A0E3           MOV      R7,#+0
+   \   00000024   290000EA           B        ??DelFolder_1
+    213           {
+    214            if(list[kk].del==1)
+    215            {
+    216            char *s=list[kk].tmp2;
+    217            char path[256];
+    218            if(scan_disc==1) sprintf(path,"2:\\System\\java\\");
+   \                     ??DelFolder_2:
+   \   00000028   6F0F8DE2           ADD      R0,SP,#+444
+   \   0000002C   160000EF           SWI      +22
+    219            else sprintf(path,"0:\\System\\java\\");
+    220            char path2[256];
+    221            strcat(path,s);
+   \   00000030   201048E2           SUB      R1,R8,#+32
+   \   00000034   6F0F8DE2           ADD      R0,SP,#+444
+   \   00000038   170000EF           SWI      +23
+    222            strcpy(path2,path);
+   \   0000003C   6F1F8DE2           ADD      R1,SP,#+444
+   \   00000040   AF0F8DE2           ADD      R0,SP,#+700
+   \   00000044   1A0000EF           SWI      +26
+    223            char *ptr=path+strlen(path)+1;
+   \   00000048   6F0F8DE2           ADD      R0,SP,#+444
+   \   0000004C   1B0000EF           SWI      +27
+   \   00000050   6F1F8DE2           ADD      R1,SP,#+444
+   \   00000054   010080E0           ADD      R0,R0,R1
+    224            strcat(path,"\\*.*");
+   \   00000058   ........           LDR      R1,??DataTable11  ;; `?<Constant "\\\\*.*">`
+   \   0000005C   019080E2           ADD      R9,R0,#+1
+   \   00000060   6F0F8DE2           ADD      R0,SP,#+444
+   \   00000064   170000EF           SWI      +23
+    225            if (FindFirstFile(&de,path,&err))
+   \   00000068   0D20A0E1           MOV      R2,SP
+   \   0000006C   6F1F8DE2           ADD      R1,SP,#+444
+   \   00000070   04008DE2           ADD      R0,SP,#+4
+   \   00000074   6B0000EF           SWI      +107
+   \   00000078   000050E3           CMP      R0,#+0
+   \   0000007C   0B00000A           BEQ      ??DelFolder_3
+    226            { 
+    227              do{
+    228                  strcpy(ptr,de.file_name);  
+   \                     ??DelFolder_4:
+   \   00000080   AD108DE2           ADD      R1,SP,#+173
+   \   00000084   0900A0E1           MOV      R0,R9
+   \   00000088   1A0000EF           SWI      +26
+    229                  unlink(path,&err);
+   \   0000008C   0D10A0E1           MOV      R1,SP
+   \   00000090   6F0F8DE2           ADD      R0,SP,#+444
+   \   00000094   6B0100EF           SWI      +363
+    230                  ii++;
+   \   00000098   016086E2           ADD      R6,R6,#+1
+    231                }while(FindNextFile(&de,&err));
+   \   0000009C   0D10A0E1           MOV      R1,SP
+   \   000000A0   04008DE2           ADD      R0,SP,#+4
+   \   000000A4   6C0000EF           SWI      +108
+   \   000000A8   000050E3           CMP      R0,#+0
+   \   000000AC   F3FFFF1A           BNE      ??DelFolder_4
+    232            }FindClose(&de,&err);
+   \                     ??DelFolder_3:
+   \   000000B0   0D10A0E1           MOV      R1,SP
+   \   000000B4   04008DE2           ADD      R0,SP,#+4
+   \   000000B8   6D0000EF           SWI      +109
+    233           rmdir(path2,&err);
+   \   000000BC   0D10A0E1           MOV      R1,SP
+   \   000000C0   AF0F8DE2           ADD      R0,SP,#+700
+   \   000000C4   8F0000EF           SWI      +143
+   \                     ??DelFolder_5:
+   \   000000C8   017087E2           ADD      R7,R7,#+1
+   \   000000CC   AC8088E2           ADD      R8,R8,#+172
+   \                     ??DelFolder_1:
+   \   000000D0   000095E5           LDR      R0,[R5, #+0]
+   \   000000D4   000057E1           CMP      R7,R0
+   \   000000D8   080000AA           BGE      ??DelFolder_6
+   \   000000DC   000098E5           LDR      R0,[R8, #+0]
+   \   000000E0   010050E3           CMP      R0,#+1
+   \   000000E4   F7FFFF1A           BNE      ??DelFolder_5
+   \   000000E8   ........           LDR      R0,??DataTable16  ;; scan_disc
+   \   000000EC   000090E5           LDR      R0,[R0, #+0]
+   \   000000F0   010050E3           CMP      R0,#+1
+   \   000000F4   2C109F15           LDRNE    R1,??DelFolder_0+0x4  ;; `?<Constant "0:\\\\System\\\\java\\\\">`
+   \   000000F8   2C109F05           LDREQ    R1,??DelFolder_0+0x8  ;; `?<Constant "2:\\\\System\\\\java\\\\">`
+   \   000000FC   C9FFFFEA           B        ??DelFolder_2
+    234          // mfree(s);
+    235          // mfree(ptr);
+    236            }
+    237          }
+    238          if(ii!=0) ShowMSG(1,(int)"Delete");
+   \                     ??DelFolder_6:
+   \   00000100   000056E3           CMP      R6,#+0
+   \   00000104   24109F15           LDRNE    R1,??DelFolder_0+0xC  ;; `?<Constant "Delete">`
+    239          else ShowMSG(1,(int)"NOT DELETE!!!");
+   \   00000108   0100A0E3           MOV      R0,#+1
+   \   0000010C   20109F05           LDREQ    R1,??DelFolder_0+0x10  ;; `?<Constant "NOT DELETE!!!">`
+   \   00000110   480100EF           SWI      +328
+    240          FreeWS(ws);
+   \   00000114   0400A0E1           MOV      R0,R4
+   \   00000118   290100EF           SWI      +297
+    241           
+    242          }
+   \   0000011C   EFDF8DE2           ADD      SP,SP,#+956
+   \   00000120   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??DelFolder_0:
+   \   00000124   ........           DC32     list + 164
+   \   00000128   ........           DC32     `?<Constant "0:\\\\System\\\\java\\\\">`
+   \   0000012C   ........           DC32     `?<Constant "2:\\\\System\\\\java\\\\">`
+   \   00000130   ........           DC32     `?<Constant "Delete">`
+   \   00000134   ........           DC32     `?<Constant "NOT DELETE!!!">`
+    243          //======================================================
+    244          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    245          int name_cl=7;//цвет имен закладок
+   \                     name_cl:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for name_cl>`
+    246          
+    247          //volatile int contactlist_menu_id;
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    248          unsigned int *ErrorNumber;
+   \                     ErrorNumber:
+   \   00000000                      DS8 4
+    249          
+    250          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    251          void *about()
+    252          { 
+    253            char s[128];
+    254            snprintf(s,255,"JavaFolder v0.12b fix\n(c)kluchnik\n%s %s",__DATE__,__TIME__);
+   \                     about:
+   \   00000000   3C009FE5           LDR      R0,??about_0     ;; `?<Constant "12:34:33">`
+   \   00000004   3C309FE5           LDR      R3,??about_0+0x4  ;; `?<Constant "Oct  1 2007">`
+   \   00000008   3C209FE5           LDR      R2,??about_0+0x8  ;; `?<Constant "JavaFolder v0.12b fix...">`
+   \   0000000C   00402DE9           PUSH     {LR}
+   \   00000010   80D04DE2           SUB      SP,SP,#+128
+   \   00000014   01002DE9           PUSH     {R0}
+   \   00000018   FF10A0E3           MOV      R1,#+255
+   \   0000001C   04008DE2           ADD      R0,SP,#+4
+   \   00000020   1B0100EF           SWI      +283
+    255            ShowMSG(2, (int)s);
+   \   00000024   04108DE2           ADD      R1,SP,#+4
+   \   00000028   0200A0E3           MOV      R0,#+2
+   \   0000002C   480100EF           SWI      +328
+    256            mfree(s);
+   \   00000030   04008DE2           ADD      R0,SP,#+4
+   \   00000034   150000EF           SWI      +21
+    257            return 0;
+   \   00000038   0000A0E3           MOV      R0,#+0
+   \   0000003C   84D08DE2           ADD      SP,SP,#+132
+   \   00000040   0080BDE8           POP      {PC}             ;; return
+   \                     ??about_0:
+   \   00000044   ........           DC32     `?<Constant "12:34:33">`
+   \   00000048   ........           DC32     `?<Constant "Oct  1 2007">`
+   \   0000004C   ........           DC32     `?<Constant "JavaFolder v0.12b fix...">`
+    258          }
+    259          
+    260          #pragma inline
+    261          void patch_header2(const HEADER_DESC* headc)
+    262          {
+    263            HEADER_DESC *head=(HEADER_DESC *)headc;
+    264            head->rc.x=0;
+    265            head->rc.y=YDISP;
+    266            head->rc.x2=ScreenW()-1;
+    267            head->rc.y2=HeaderH()+YDISP;
+    268          }
+    269          
+    270          //==========================
+    271          //      Создаем список
+    272          //==========================
+    273          void bm_menu_iconhnd(void *data, int curitem, void *unk);
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    274          const int menusoftkeys[]={0,1,2};
+   \                     menusoftkeys:
+   \   00000000   000000000100       DC32 0, 1, 2
+   \              000002000000
+    275          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    276          const SOFTKEY_DESC menu_sk2[]=
+   \                     menu_sk2:
+   \   00000000   04000000           DC16 4, 0
+   \   00000004   ........           DC32 `?<Constant "\\302\\373\\344\\345\\353\\350\\362\\374">`
+   \   00000008   01000000           DC16 1, 0
+   \   0000000C   ........           DC32 `?<Constant "Close">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   FBC0FF7F           DC32 2147467515
+    277          {
+    278            {0x0004,0x0000,(int)"Выделить"},
+    279            {0x0001,0x0000,(int)"Close"},
+    280            {0x003D,0x0000,(int)LGP_DOIT_PIC}
+    281          };
+    282          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    283          const SOFTKEYSTAB menu_skt2=
+   \                     menu_skt2:
+   \   00000000   ........0000       DC32 menu_sk2, 0
+   \              0000        
+    284          {
+    285            menu_sk2,0
+    286          };
+    287          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    288          void bm_menu_ghook(void *data, int cmd){}
+   \                     bm_menu_ghook:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    289          int bm_menu_onkey2(void *data, GUI_MSG *msg);
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    290          HEADER_DESC bm_menuhdr2={0,0,131,21,NULL,0,LGP_NULL};
+   \                     bm_menuhdr2:
+   \   00000000                      DS8 20
+   \   00000014                      REQUIRE `?<Initializer for bm_menuhdr2>`
+    291          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    292          const MENU_DESC bmmenu=
+   \                     bmmenu:
+   \   00000000   08000000....       DC32 8, bm_menu_onkey2, bm_menu_ghook, 0H, menusoftkeys, menu_skt2, 17
+   \              ............
+   \              00000000....
+   \              ............
+   \              11000000    
+   \   0000001C   ........0000       DC32 bm_menu_iconhnd, 0H, 0H, 0
+   \              000000000000
+   \              00000000    
+    293          {
+    294            8,bm_menu_onkey2,bm_menu_ghook,NULL,
+    295            menusoftkeys,
+    296            &menu_skt2,
+    297            0x11,//0x11,
+    298            bm_menu_iconhnd,
+    299            NULL,   //Items
+    300            NULL,   //Procs
+    301            0   //n
+    302          };
+    303          
+    304          
+    305          //==============================================
+    306          //  Вывод на экран названия закладок и иконоки
+    307          //==============================================
+
+   \                                 In segment CODE, align 4, keep-with-next
+    308          void bm_menu_iconhnd(void *data, int curitem, void *unk)
+    309          {
+   \                     bm_menu_iconhnd:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    310            
+    311            char *s;
+    312            WSHDR *ws;
+    313            void *item=AllocMenuItem(data);
+    314            s=malloc(1024);
+    315            sprintf(s,per_s,list[curitem].tmp);
+   \   00000008   FCA09FE5           LDR      R10,??bm_menu_iconhnd_0  ;; per_s
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   970100EF           SWI      +407
+   \   00000014   0060A0E1           MOV      R6,R0
+   \   00000018   400EA0E3           MOV      R0,#+1024
+   \   0000001C   140000EF           SWI      +20
+   \   00000020   ........           LDR      R1,??DataTable13  ;; list
+   \   00000024   0070A0E1           MOV      R7,R0
+   \   00000028   AC00A0E3           MOV      R0,#+172
+   \   0000002C   901529E0           MLA      R9,R0,R5,R1
+   \   00000030   0A10A0E1           MOV      R1,R10
+   \   00000034   642089E2           ADD      R2,R9,#+100
+   \   00000038   0700A0E1           MOV      R0,R7
+   \   0000003C   160000EF           SWI      +22
+    316            
+    317            if (s)
+   \   00000040   000057E3           CMP      R7,#+0
+   \   00000044   0B00000A           BEQ      ??bm_menu_iconhnd_1
+    318            {
+    319              if (strlen(s))
+   \   00000048   0700A0E1           MOV      R0,R7
+   \   0000004C   1B0000EF           SWI      +27
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   1100000A           BEQ      ??bm_menu_iconhnd_2
+    320              { 
+    321                ws=AllocMenuWS(data,1024);
+   \   00000058   401EA0E3           MOV      R1,#+1024
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   980100EF           SWI      +408
+   \   00000064   0080A0E1           MOV      R8,R0
+    322                wsprintf(ws,per_s,s);
+   \   00000068   0720A0E1           MOV      R2,R7
+   \   0000006C   0A10A0E1           MOV      R1,R10
+   \   00000070   240100EF           SWI      +292
+   \   00000074   090000EA           B        ??bm_menu_iconhnd_2
+    323           //     wsInsertChar(ws,name_cl,1);//Цвет надписей
+    324             //   wsInsertChar(ws,0xE008,1);//
+    325              }/*
+    326              else
+    327              { 
+    328                ws=AllocMenuWS(data,10);
+    329                wsprintf(ws,per_t,"Ниче нет...");
+    330                wsInsertChar(ws,0xE008,1);//Цвет надписей
+    331                wsInsertChar(ws,0xE008,1);//
+    332          
+    333              }*/
+    334            }
+    335            else
+    336            {
+    337              ws=AllocMenuWS(data,10);
+   \                     ??bm_menu_iconhnd_1:
+   \   00000078   0A10A0E3           MOV      R1,#+10
+   \   0000007C   0400A0E1           MOV      R0,R4
+   \   00000080   980100EF           SWI      +408
+    338              wsprintf(ws,"error");
+   \   00000084   84109FE5           LDR      R1,??bm_menu_iconhnd_0+0x4  ;; `?<Constant "error">`
+   \   00000088   0080A0E1           MOV      R8,R0
+   \   0000008C   240100EF           SWI      +292
+    339              wsInsertChar(ws,2,1);//Цвет надписей
+   \   00000090   0120A0E3           MOV      R2,#+1
+   \   00000094   0210A0E3           MOV      R1,#+2
+   \   00000098   0800A0E1           MOV      R0,R8
+   \   0000009C   1D0000EF           SWI      +29
+    340          
+    341            }
+    342            icon_array[0]=GetPicNByUnicodeSymbol(CBOX_CHECKED);
+   \                     ??bm_menu_iconhnd_2:
+   \   000000A0   6CA09FE5           LDR      R10,??bm_menu_iconhnd_0+0x8  ;; icon_array
+   \   000000A4   0B00A0E3           MOV      R0,#+11
+   \   000000A8   E10C80E3           ORR      R0,R0,#0xE100
+   \   000000AC   E40100EF           SWI      +484
+   \   000000B0   00008AE5           STR      R0,[R10, #+0]
+    343            icon_array[1]=GetPicNByUnicodeSymbol(CBOX_UNCHECKED);
+   \   000000B4   0C00A0E3           MOV      R0,#+12
+   \   000000B8   E10C80E3           ORR      R0,R0,#0xE100
+   \   000000BC   E40100EF           SWI      +484
+   \   000000C0   04008AE5           STR      R0,[R10, #+4]
+    344            SetMenuItemIconArray(data,item,icon_array+(list[curitem].del?0:1));
+   \   000000C4   A40099E5           LDR      R0,[R9, #+164]
+   \   000000C8   0610A0E1           MOV      R1,R6
+   \   000000CC   000050E3           CMP      R0,#+0
+   \   000000D0   0000A013           MOVNE    R0,#+0
+   \   000000D4   0100A003           MOVEQ    R0,#+1
+   \   000000D8   00218AE0           ADD      R2,R10,R0, LSL #+2
+   \   000000DC   0400A0E1           MOV      R0,R4
+   \   000000E0   990100EF           SWI      +409
+    345            SetMenuItemText(data, item, ws, curitem);
+   \   000000E4   0530A0E1           MOV      R3,R5
+   \   000000E8   0820A0E1           MOV      R2,R8
+   \   000000EC   0610A0E1           MOV      R1,R6
+   \   000000F0   0400A0E1           MOV      R0,R4
+   \   000000F4   9A0100EF           SWI      +410
+    346           
+    347            mfree(s);
+   \   000000F8   0700A0E1           MOV      R0,R7
+   \   000000FC   150000EF           SWI      +21
+    348            FreeWS(ws);
+   \   00000100   0800A0E1           MOV      R0,R8
+   \   00000104   290100EF           SWI      +297
+    349          //  mfree(item);
+    350          }
+   \   00000108   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??bm_menu_iconhnd_0:
+   \   0000010C   ........           DC32     per_s
+   \   00000110   ........           DC32     `?<Constant "error">`
+   \   00000114   ........           DC32     icon_array
+    351          
+    352          //==========================
+    353          //   Вызов самих менюшек
+    354          //==========================
+    355          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    356          const char per_sd[]="%s %d";
+   \                     per_sd:
+   \   00000000   257320256400       DC8 "%s %d"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment CODE, align 4, keep-with-next
+    357          void CreateList(void)
+    358          { 
+   \                     CreateList:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    359            
+    360            char *ss=malloc(64);
+    361            sprintf(ss,per_sd,"JavaFolder:",TotalEqual);//num_str
+    362            bm_menuhdr2.lgp_id = (int)ss;
+   \   00000004   6C409FE5           LDR      R4,??CreateList_0  ;; bm_menuhdr2
+   \   00000008   ........           LDR      R6,??DataTable14  ;; TotalEqual
+   \   0000000C   4000A0E3           MOV      R0,#+64
+   \   00000010   140000EF           SWI      +20
+   \   00000014   003096E5           LDR      R3,[R6, #+0]
+   \   00000018   5C209FE5           LDR      R2,??CreateList_0+0x4  ;; `?<Constant "JavaFolder:">`
+   \   0000001C   5C109FE5           LDR      R1,??CreateList_0+0x8  ;; per_sd
+   \   00000020   0050A0E1           MOV      R5,R0
+   \   00000024   160000EF           SWI      +22
+   \   00000028   0C5084E5           STR      R5,[R4, #+12]
+    363            patch_header2(&bm_menuhdr2);
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   000084E5           STR      R0,[R4, #+0]
+   \   00000034   888100EF           SWI      +33160
+   \   00000038   010040E2           SUB      R0,R0,#+1
+   \   0000003C   B400C4E1           STRH     R0,[R4, #+4]
+   \   00000040   8A8100EF           SWI      +33162
+    364          //  CreateMultiLinesMenu(0,0,&bmmenu,&bm_menuhdr2,0,TotalFolder);//number_book - кол-во закладок
+    365            CreateMenu(0,0,&bmmenu,&bm_menuhdr2,0,TotalEqual,0,0);
+   \   00000044   38209FE5           LDR      R2,??CreateList_0+0xC  ;; bmmenu
+   \   00000048   B600C4E1           STRH     R0,[R4, #+6]
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   01002DE9           PUSH     {R0}
+   \   00000054   01002DE9           PUSH     {R0}
+   \   00000058   000096E5           LDR      R0,[R6, #+0]
+   \   0000005C   0430A0E1           MOV      R3,R4
+   \   00000060   01002DE9           PUSH     {R0}
+   \   00000064   0010A0E3           MOV      R1,#+0
+   \   00000068   0000A0E3           MOV      R0,#+0
+   \   0000006C   01002DE9           PUSH     {R0}
+   \   00000070   520100EF           SWI      +338
+    366          }
+   \   00000074   7F80BDE8           POP      {R0-R6,PC}       ;; return
+   \                     ??CreateList_0:
+   \   00000078   ........           DC32     bm_menuhdr2
+   \   0000007C   ........           DC32     `?<Constant "JavaFolder:">`
+   \   00000080   ........           DC32     per_sd
+   \   00000084   ........           DC32     bmmenu
+    367          
+    368          
+    369          //====================================
+    370          //         Обработка клавиш
+    371          //====================================
+    372          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    373          int bm_menu_onkey2(void *data, GUI_MSG *msg)//кейхук для закладок
+    374          {
+   \                     bm_menu_onkey2:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    375            int i;
+    376            i=GetCurMenuItem(data);
+   \   00000008   8F0100EF           SWI      +399
+   \   0000000C   0050A0E1           MOV      R5,R0
+    377          //  int k=msg->gbsmsg->submess;
+    378           if(msg->keys==0x14)
+   \   00000010   F200D4E1           LDRSH    R0,[R4, #+2]
+   \   00000014   140050E3           CMP      R0,#+20
+   \   00000018   0200001A           BNE      ??bm_menu_onkey2_0
+    379             {
+    380               about();
+   \   0000001C   ........           BL       about
+    381               return (-1);
+   \   00000020   0000E0E3           MVN      R0,#+0
+   \   00000024   3080BDE8           POP      {R4,R5,PC}
+    382             }
+    383          
+    384          
+    385           if(msg->keys==0x15)
+   \                     ??bm_menu_onkey2_0:
+   \   00000028   150050E3           CMP      R0,#+21
+   \   0000002C   0100001A           BNE      ??bm_menu_onkey2_1
+    386            {
+    387             DelFolder();
+   \   00000030   ........           BL       DelFolder
+    388             RefreshGUI();
+   \   00000034   960100EF           SWI      +406
+    389            }
+    390           if(msg->keys==0x04 || (msg->keys==0x3D))
+   \                     ??bm_menu_onkey2_1:
+   \   00000038   F200D4E1           LDRSH    R0,[R4, #+2]
+   \   0000003C   040050E3           CMP      R0,#+4
+   \   00000040   3D005013           CMPNE    R0,#+61
+   \   00000044   0300001A           BNE      ??bm_menu_onkey2_2
+    391           {
+    392             ChangeDelMode(i);
+   \   00000048   0500A0E1           MOV      R0,R5
+   \   0000004C   ........           BL       ChangeDelMode
+    393             return -1;
+   \   00000050   0000E0E3           MVN      R0,#+0
+   \   00000054   3080BDE8           POP      {R4,R5,PC}
+    394           }
+    395          
+    396           return(0);
+   \                     ??bm_menu_onkey2_2:
+   \   00000058   0000A0E3           MOV      R0,#+0
+   \   0000005C   3080BDE8           POP      {R4,R5,PC}       ;; return
+    397          }
+    398          //==========================
+    399          //     Реконфигурация
+    400          //==========================
+    401          // ----------------------------------------------------------------------------
+    402          #define idlegui_id(icsm) (((int *)icsm)[DISPLACE_OF_IDLEGUI_ID/4])
+    403          
+    404          #pragma inline=forced
+    405          int toupper(int c)
+    406          {
+    407            if ((c>='a')&&(c<='z')) c+='A'-'a';
+    408            return(c);
+    409          }
+    410          #pragma inline
+    411          int strcmp_nocase(const char *s1,const char *s2)
+    412          {
+    413            int i;
+    414            int c;
+    415            while(!(i=(c=toupper(*s1++))-toupper(*s2++))) if (!c) break;
+    416            return(i);
+    417          }
+    418          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    419          int maincsm_onmessage(CSM_RAM* data,GBS_MSG* msg)
+    420          {
+   \                     maincsm_onmessage:
+   \   00000000   00402DE9           PUSH     {LR}
+    421            void *icsm;
+    422            if(msg->msg == MSG_RECONFIGURE_REQ) 
+   \   00000004   F200D1E1           LDRSH    R0,[R1, #+2]
+   \   00000008   F110A0E3           MOV      R1,#+241
+   \   0000000C   C01F81E3           ORR      R1,R1,#0x300
+   \   00000010   010050E1           CMP      R0,R1
+   \   00000014   0300001A           BNE      ??maincsm_onmessage_0
+    423            {
+    424             // extern const char *successed_config_filename;
+    425             // if (strcmp_nocase(successed_config_filename,(char *)msg->data0)==0)
+    426              //{
+    427                ShowMSG(1,(int)"JavaFolder config updated!");
+   \   00000018   38109FE5           LDR      R1,??maincsm_onmessage_1  ;; `?<Constant "JavaFolder config upd...">`
+   \   0000001C   0100A0E3           MOV      R0,#+1
+   \   00000020   480100EF           SWI      +328
+    428                InitConfig();
+   \   00000024   ........           _BLF     InitConfig,??InitConfig??rA
+    429              //}
+    430            }
+    431           
+    432            icsm=FindCSMbyID(CSM_root()->idle_id);
+   \                     ??maincsm_onmessage_0:
+   \   00000028   068100EF           SWI      +33030
+   \   0000002C   040090E5           LDR      R0,[R0, #+4]
+   \   00000030   080100EF           SWI      +264
+    433            if (icsm)
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   0400000A           BEQ      ??maincsm_onmessage_2
+    434            {
+    435              if (IsGuiOnTop(idlegui_id(icsm))) //Если IdleGui на самом верху
+   \   0000003C   280090E5           LDR      R0,[R0, #+40]
+   \   00000040   350100EF           SWI      +309
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   0000000A           BEQ      ??maincsm_onmessage_2
+    436              {
+    437                GUI *igui=GetTopGUI();
+   \   0000004C   4D0100EF           SWI      +333
+    438                if (igui) //И он существует
+    439                {
+    440                }
+    441              }
+    442            }
+    443            return(1);
+   \                     ??maincsm_onmessage_2:
+   \   00000050   0100A0E3           MOV      R0,#+1
+   \   00000054   0080BDE8           POP      {PC}             ;; return
+   \                     ??maincsm_onmessage_1:
+   \   00000058   ........           DC32     `?<Constant "JavaFolder config upd...">`
+    444          
+    445          }
+    446          static void maincsm_oncreate(CSM_RAM *data)
+    447          {
+    448           
+    449          
+    450          }
+    451          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    452          void FreeList()
+    453          {
+   \                     FreeList:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    454            LISTT *lt;  
+    455            LISTT *n;  
+    456            /*for(int i=0;i<TotalFolder;i++)
+    457             {
+    458                mfree(list[i].name);
+    459                mfree(list[i].num);
+    460                mfree(list[i].java);
+    461                mfree(list[i].tmp);
+    462                mfree(list[i].tmp2);
+    463                
+    464              }*/
+    465            //while(lt)
+    466            for(int i=0;i<TotalFolder;i++)  
+   \   00000004   ........           LDR      R5,??DataTable15  ;; TotalFolder
+   \   00000008   0040A0E3           MOV      R4,#+0
+   \   0000000C   030000EA           B        ??FreeList_0
+    467              {
+    468                n=lt->next;
+   \                     ??FreeList_1:
+   \   00000010   006090E5           LDR      R6,[R0, #+0]
+    469                mfree(lt);
+   \   00000014   150000EF           SWI      +21
+    470                lt=n;
+   \   00000018   0600A0E1           MOV      R0,R6
+    471              }
+   \   0000001C   014084E2           ADD      R4,R4,#+1
+   \                     ??FreeList_0:
+   \   00000020   001095E5           LDR      R1,[R5, #+0]
+   \   00000024   010054E1           CMP      R4,R1
+   \   00000028   F8FFFFBA           BLT      ??FreeList_1
+    472          }
+   \   0000002C   7080BDE8           POP      {R4-R6,PC}       ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+    473          void maincsm_onclose(CSM_RAM *data)
+    474          { 
+    475            SUBPROC((void *)FreeList);
+   \                     maincsm_onclose:
+   \   00000000   08009FE5           LDR      R0,??maincsm_onclose_0  ;; FreeList
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   710100EF           SWI      +369
+    476            extern void seqkill(void *data, void(*next_in_seq)(CSM_RAM *), void *data_to_kill, void *seqkiller);
+    477            extern void *ELF_BEGIN;
+    478          
+    479          }
+   \   0000000C   0080BDE8           POP      {PC}             ;; return
+   \                     ??maincsm_onclose_0:
+   \   00000010   ........           DC32     FreeList
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    480          static unsigned short maincsm_name_body[140];
+   \                     maincsm_name_body:
+   \   00000000                      DS8 280
+    481          
+    482          
+    483          static const struct
+    484          {
+    485            CSM_DESC maincsm;
+    486            WSHDR maincsm_name;
+    487          }MAINCSM =
+                  ^
+Warning[Pe177]: variable "MAINCSM" was declared but never referenced
+    488          {
+    489            {
+    490            maincsm_onmessage,
+    491            maincsm_oncreate,
+    492          #ifdef NEWSGOLD
+    493            0,
+    494            0,
+    495            0,
+    496            0,
+    497          #endif
+    498            maincsm_onclose,
+    499            sizeof(CSM_RAM),
+    500            1,
+    501            &minus11
+    502            },
+    503            {
+    504              maincsm_name_body,
+    505              NAMECSM_MAGIC1,
+    506              NAMECSM_MAGIC2,
+    507              0x0,
+    508              139
+    509            }
+    510          };
+    511          
+    512          
+    513          // ----------------------------------------------------------------------------
+    514          
+    515          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    516          CSM_DESC icsmd;
+   \                     icsmd:
+   \   00000000                      DS8 24
+
+   \                                 In segment CODE, align 4, keep-with-next
+    517          int main()
+    518          {
+   \                     main:
+   \   00000000   00402DE9           PUSH     {LR}
+    519            InitConfig();
+   \   00000004   ........           _BLF     InitConfig,??InitConfig??rA
+    520            LockSched();
+   \   00000008   460100EF           SWI      +326
+    521            CSM_RAM *icsm=FindCSMbyID(CSM_root()->idle_id);
+   \   0000000C   068100EF           SWI      +33030
+   \   00000010   040090E5           LDR      R0,[R0, #+4]
+   \   00000014   080100EF           SWI      +264
+    522            UnlockSched();
+   \   00000018   470100EF           SWI      +327
+    523            LoadList();
+   \   0000001C   ........           BL       LoadList
+    524           if(scan_disc==1)FindDir("2:\\System\\java");
+   \   00000020   ........           LDR      R0,??DataTable16  ;; scan_disc
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   010050E3           CMP      R0,#+1
+   \   0000002C   10009F05           LDREQ    R0,??main_0      ;; `?<Constant "2:\\\\System\\\\java">`
+    525           else FindDir("0:\\System\\java");
+   \   00000030   10009F15           LDRNE    R0,??main_0+0x4  ;; `?<Constant "0:\\\\System\\\\java">`
+   \   00000034   ........           BL       FindDir
+    526            cmpp();
+   \   00000038   ........           BL       cmpp
+    527            return (0);
+   \   0000003C   0000A0E3           MOV      R0,#+0
+   \   00000040   0080BDE8           POP      {PC}             ;; return
+   \                     ??main_0:
+   \   00000044   ........           DC32     `?<Constant "2:\\\\System\\\\java">`
+   \   00000048   ........           DC32     `?<Constant "0:\\\\System\\\\java">`
+    528          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     java_num
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable11:
+   \   00000000   ........           DC32     `?<Constant "\\\\*.*">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable13:
+   \   00000000   ........           DC32     list
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable14:
+   \   00000000   ........           DC32     TotalEqual
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable15:
+   \   00000000   ........           DC32     TotalFolder
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable16:
+   \   00000000   ........           DC32     scan_disc
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for S_ICONS>`:
+   \   00000000   ........           DC32 ICON1
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for name_cl>`:
+   \   00000000   07000000           DC32 7
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for bm_menuhdr2>`:
+   \   00000000   000000008300       DC16 0, 0, 131, 21
+   \              1500        
+   \   00000008   000000000000       DC32 0H, 0, 32767
+   \              0000FF7F0000
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "0:\\\\System\\\\java">`:
+   \   00000000   303A5C537973       DC8 "0:\\System\\java"
+   \              74656D5C6A61
+   \              766100      
+   \   0000000F   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Can\\'t open list.txt">`:
+   \   00000000   43616E277420       DC8 "Can't open list.txt"
+   \              6F70656E206C
+   \              6973742E7478
+   \              7400        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Close">`:
+   \   00000000   436C6F736500       DC8 "Close"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\302\\373\\344\\345\\353\\350\\362\\374">`:
+   \   00000000   C2FBE4E5EBE8       DC8 "\302\373\344\345\353\350\362\374"
+   \              F2FC00      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "2:\\\\System\\\\java">`:
+   \   00000000   323A5C537973       DC8 "2:\\System\\java"
+   \              74656D5C6A61
+   \              766100      
+   \   0000000F   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "JavaFolder config upd...">`:
+   \   00000000   4A617661466F       DC8 "JavaFolder config updated!"
+   \              6C6465722063
+   \              6F6E66696720
+   \              757064617465
+   \              642100      
+   \   0000001B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "JavaFolder:">`:
+   \   00000000   4A617661466F       DC8 "JavaFolder:"
+   \              6C6465723A00
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "error">`:
+   \   00000000   6572726F7200       DC8 "error"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "12:34:33">`:
+   \   00000000   31323A33343A       DC8 "12:34:33"
+   \              333300      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Oct  1 2007">`:
+   \   00000000   4F6374202031       DC8 "Oct  1 2007"
+   \              203230303700
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "JavaFolder v0.12b fix...">`:
+   \   00000000   4A617661466F       DC8 "JavaFolder v0.12b fix\012(c)kluchnik\012%s %s"
+   \              6C6465722076
+   \              302E31326220
+   \              6669780A2863
+   \              296B6C756368
+   \              6E696B0A2573
+   \              20257300    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "NOT DELETE!!!">`:
+   \   00000000   4E4F54204445       DC8 "NOT DELETE!!!"
+   \              4C4554452121
+   \              2100        
+   \   0000000E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Delete">`:
+   \   00000000   44656C657465       DC8 "Delete"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "0:\\\\System\\\\java\\\\">`:
+   \   00000000   303A5C537973       DC8 "0:\\System\\java\\"
+   \              74656D5C6A61
+   \              76615C00    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "2:\\\\System\\\\java\\\\">`:
+   \   00000000   323A5C537973       DC8 "2:\\System\\java\\"
+   \              74656D5C6A61
+   \              76615C00    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "No folder!">`:
+   \   00000000   4E6F20666F6C       DC8 "No folder!"
+   \              6465722100  
+   \   0000000B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\\\*.*">`:
+   \   00000000   5C2A2E2A00         DC8 "\\*.*"
+   \   00000005   000000             DC8 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function          CSTACK
+     --------          ------
+     ChangeDelMode         8
+     CreateList           32
+     DelFolder           984
+     FindDir             712
+     FreeList             16
+     LoadList             32
+     ShowInt              12
+     about               136
+     bm_menu_ghook         0
+     bm_menu_iconhnd      32
+     bm_menu_onkey2       12
+     cmpp                 36
+     main                  4
+     maincsm_onclose       4
+     maincsm_onmessage     4
+     process               4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     icon_array                          8
+     per_t                               3
+     per_s                               3
+     per_d                               3
+     minus11                             4
+     MAINCSM_ID                          4
+     MAINGUI_ID                          4
+     ICON1                             128
+     S_ICONS                             4
+     java_num                            4
+     empty_string                        1
+     TotalFolder                         4
+     TotalEqual                          4
+     list                           172000
+     ShowInt                            52
+     process                            92
+     LoadList                          280
+     FindDir                           236
+     ChangeDelMode                      48
+     cmpp                              160
+     DelFolder                         312
+     name_cl                             4
+     ErrorNumber                         4
+     about                              80
+     menusoftkeys                       12
+     menu_sk2                           24
+     menu_skt2                           8
+     bm_menu_ghook                       4
+     bm_menuhdr2                        20
+     bmmenu                             44
+     bm_menu_iconhnd                   280
+     per_sd                              8
+     CreateList                        136
+     bm_menu_onkey2                     96
+     maincsm_onmessage                  92
+     FreeList                           48
+     maincsm_onclose                    20
+     maincsm_name_body                 280
+     icsmd                              24
+     main                               76
+     ??DataTable9                        4
+     ??DataTable11                       4
+     ??DataTable13                       4
+     ??DataTable14                       4
+     ??DataTable15                       4
+     ??DataTable16                       4
+     ?<Initializer for S_ICONS>          4
+     ?<Initializer for name_cl>          4
+     ?<Initializer for bm_menuhdr2>     20
+     ?<Constant "0:\\System\\java">     16
+     ?<Constant "Can\'t open list.txt">
+                                        20
+     ?<Constant "Close">                 8
+     ?<Constant "\302\373\344\345\353\350\362\374">
+                                        12
+     ?<Constant "2:\\System\\java">     16
+     ?<Constant "JavaFolder config upd...">
+                                        28
+     ?<Constant "JavaFolder:">          12
+     ?<Constant "error">                 8
+     ?<Constant "12:34:33">             12
+     ?<Constant "Oct  1 2007">          12
+     ?<Constant "JavaFolder v0.12b fix...">
+                                        40
+     ?<Constant "NOT DELETE!!!">        16
+     ?<Constant "Delete">                8
+     ?<Constant "0:\\System\\java\\">
+                                        16
+     ?<Constant "2:\\System\\java\\">
+                                        16
+     ?<Constant "No folder!">           12
+     ?<Constant "\\*.*">                 8
+      Others                           100
+
+ 
+   2 112 bytes in segment CODE
+     497 bytes in segment DATA_C
+      28 bytes in segment DATA_I
+      28 bytes in segment DATA_ID
+ 172 337 bytes in segment DATA_Z
+      24 bytes in segment INITTAB
+ 
+   2 036 bytes of CODE  memory (+ 100 bytes shared)
+     525 bytes of CONST memory
+ 172 365 bytes of DATA  memory
+
+Errors: none
+Warnings: 1

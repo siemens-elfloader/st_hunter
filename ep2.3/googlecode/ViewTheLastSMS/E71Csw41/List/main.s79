@@ -1,0 +1,905 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   14/May/2008  13:01:56 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  D:\Pasha\elf\googlecode\ViewTheLastSMS\main.c       /
+//    Command line    =  D:\Pasha\elf\googlecode\ViewTheLastSMS\main.c -D    /
+//                       NEWSGOLD -D ELKA -D VKP -lC                         /
+//                       D:\Pasha\elf\googlecode\ViewTheLastSMS\E71Csw41\Lis /
+//                       t\ -lA D:\Pasha\elf\googlecode\ViewTheLastSMS\E71Cs /
+//                       w41\List\ -o D:\Pasha\elf\googlecode\ViewTheLastSMS /
+//                       \E71Csw41\Obj\ -s9 --no_unroll --cpu_mode arm       /
+//                       --endian little --cpu ARM926EJ-S --stack_align 4    /
+//                       --interwork -e --fpu None -I "D:\Pasha\Embedded     /
+//                       Workbench 4.0 Evaluation2\ARM\INC\"                 /
+//                       --inline_threshold=2                                /
+//    List file       =  D:\Pasha\elf\googlecode\ViewTheLastSMS\E71Csw41\Lis /
+//                       t\main.s79                                          /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME main
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+??DataTable0 EQU 0
+        MULTWEAK ??GetSMSData??rA
+        MULTWEAK ??Killer??rT
+        MULTWEAK ??OnKey??rT
+        MULTWEAK ??main??rT
+        MULTWEAK ??maincsm_onclose??rT
+        MULTWEAK ??maincsm_oncreate??rT
+        MULTWEAK ??maincsm_onmessage??rT
+        MULTWEAK ??method8??rT
+        MULTWEAK ??method9??rT
+        MULTWEAK ??onClose??rT
+        MULTWEAK ??onCreate??rT
+        MULTWEAK ??onFocus??rT
+        MULTWEAK ??onRedraw??rT
+        MULTWEAK ??onUnfocus??rT
+        MULTWEAK ??soft_key??rT
+        PUBLIC Canvas
+        PUBLIC Killer
+        FUNCTION Killer,0603H
+        PUBLIC MAINCSM
+        PUBLIC OnKey
+        FUNCTION OnKey,0603H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC color_black
+        PUBLIC color_white
+        PUBLIC gui_methods
+        PUBLIC main
+        FUNCTION main,0a03H
+        LOCFRAME CSTACK, 48, STACK
+        PUBLIC maincsm_name_body
+        PUBLIC maincsm_onclose
+        FUNCTION maincsm_onclose,0603H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC maincsm_oncreate
+        FUNCTION maincsm_oncreate,0603H
+        LOCFRAME CSTACK, 12, STACK
+        PUBLIC maincsm_onmessage
+        FUNCTION maincsm_onmessage,0603H
+        PUBLIC method8
+        FUNCTION method8,0603H
+        PUBLIC method9
+        FUNCTION method9,0603H
+        PUBLIC minus11
+        PUBLIC onClose
+        FUNCTION onClose,0603H
+        PUBLIC onCreate
+        FUNCTION onCreate,0603H
+        PUBLIC onFocus
+        FUNCTION onFocus,0603H
+        LOCFRAME CSTACK, 8, STACK
+        PUBLIC onRedraw
+        FUNCTION onRedraw,0603H
+        LOCFRAME CSTACK, 48, STACK
+        PUBLIC onUnfocus
+        FUNCTION onUnfocus,0603H
+        PUBLIC soft_key
+        FUNCTION soft_key,0203H
+        LOCFRAME CSTACK, 32, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+GetSMSData          SYMBOL "GetSMSData"
+??GetSMSData??rA    SYMBOL "??rA", GetSMSData
+Killer              SYMBOL "Killer"
+??Killer??rT        SYMBOL "??rT", Killer
+OnKey               SYMBOL "OnKey"
+??OnKey??rT         SYMBOL "??rT", OnKey
+main                SYMBOL "main"
+??main??rT          SYMBOL "??rT", main
+maincsm_onclose     SYMBOL "maincsm_onclose"
+??maincsm_onclose??rT SYMBOL "??rT", maincsm_onclose
+maincsm_oncreate    SYMBOL "maincsm_oncreate"
+??maincsm_oncreate??rT SYMBOL "??rT", maincsm_oncreate
+maincsm_onmessage   SYMBOL "maincsm_onmessage"
+??maincsm_onmessage??rT SYMBOL "??rT", maincsm_onmessage
+method8             SYMBOL "method8"
+??method8??rT       SYMBOL "??rT", method8
+method9             SYMBOL "method9"
+??method9??rT       SYMBOL "??rT", method9
+onClose             SYMBOL "onClose"
+??onClose??rT       SYMBOL "??rT", onClose
+onCreate            SYMBOL "onCreate"
+??onCreate??rT      SYMBOL "??rT", onCreate
+onFocus             SYMBOL "onFocus"
+??onFocus??rT       SYMBOL "??rT", onFocus
+onRedraw            SYMBOL "onRedraw"
+??onRedraw??rT      SYMBOL "??rT", onRedraw
+onUnfocus           SYMBOL "onUnfocus"
+??onUnfocus??rT     SYMBOL "??rT", onUnfocus
+soft_key            SYMBOL "soft_key"
+??soft_key??rT      SYMBOL "??rT", soft_key
+
+        EXTERN GetSMSData
+        FUNCTION GetSMSData,0202H
+        EXTERN kill_data
+        FUNCTION kill_data,0602H
+
+
+        RSEG DATA_C:CONST:SORT:NOROOT(0)
+        DATA
+        DC8 "%t"
+// D:\Pasha\elf\googlecode\ViewTheLastSMS\main.c
+//    1 #include "..\inc\swilib.h"
+//    2 
+//    3 #define COPYRIGHT	"ViewTheLastSMS\n(c)BingK(binghelingxi)"
+//    4 #define ELFNAME		"ViewTheLastSMS"
+//    5 #ifdef	ELKA
+//    6 #define SCREENW		239
+//    7 #define SCREENH		319
+//    8 #else
+//    9 #define SCREENW		131
+//   10 #define SCREENH		175
+//   11 #endif
+//   12 
+//   13 
+//   14 extern void kill_data(void *p, void (*func_p)(void *));
+//   15 void GetSMSData(WSHDR *the_ws);
+//   16 
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "\\315\\313\\263\\366">`:
+        DATA
+        DC8 "\315\313\263\366"
+        DC8 0, 0, 0
+//   17 const char color_black[4]={0, 0, 0, 100};
+color_black:
+        DC8 0, 0, 0, 100
+//   18 const char color_white[4]={255, 255, 255, 100};
+color_white:
+        DC8 255, 255, 255, 100
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??soft_key??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE soft_key
+//   19 
+//   20 #define POS_X	0
+//   21 #define POS_Y	1
+//   22 #define _t	"%t"
+//   23 
+//   24 typedef struct
+//   25 {
+//   26 	CSM_RAM csm;
+//   27 	int gui_id;
+//   28 }MAIN_CSM;
+//   29 
+//   30 typedef struct
+//   31 {
+//   32   GUI gui;
+//   33 }MAIN_GUI;
+//   34 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function soft_key
+        ARM
+//   35 void soft_key(void)
+//   36 {
+soft_key:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+//   37   WSHDR *wsl=AllocWS(32);
+//   38   wsprintf(wsl, _t, "ÍË³ö");
+        LDR      R5,??DataTable1  ;; `?<Constant "\\315\\313\\263\\366">`
+        MOV      R0,#+32
+        SWI      +293
+        MOV      R4,R0
+        MOV      R2,R5
+        ADR      R1,??soft_key_0  ;; "%t"
+        SWI      +292
+//   39   DrawString(wsl, 0, SCREENH-GetFontYSIZE(FONT_SMALL)-2, SCREENW, SCREENH, FONT_SMALL, TEXT_OUTLINE+TEXT_ALIGNRIGHT, color_white, color_black); 
+        MOV      R0,#+8
+        SWI      +453
+        ADD      R1,R5,#+8
+        PUSH     {R1}
+        CFI CFA R13+16
+        MOV      R3,#+239
+        ADD      R1,R5,#+12
+        PUSH     {R1}
+        CFI CFA R13+20
+        MOV      R1,#+36
+        PUSH     {R1}
+        CFI CFA R13+24
+        MOV      R1,#+8
+        PUSH     {R1}
+        CFI CFA R13+28
+        MOV      R1,#+63
+        ORR      R1,R1,#0x100
+        PUSH     {R1}
+        CFI CFA R13+32
+        BIC      R1,R1,#0x2
+        SUB      R2,R1,R0
+        MOV      R0,R4
+        MOV      R1,#+0
+        SWI      +332
+//   40   FreeWS(wsl);
+        MOV      R0,R4
+        SWI      +297
+//   41 }
+        ADD      SP,SP,#+20
+        CFI CFA R13+12
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??soft_key_0:
+        DC8      "%t",+0
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onRedraw??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE onRedraw
+//   42 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function onRedraw
+        ARM
+//   43 void onRedraw(MAIN_GUI *data)
+//   44 {
+onRedraw:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+//   45 #ifdef ELKA
+//   46 	DisableIconBar(1);
+//   47 #endif
+//   48 	DrawRectangle(0, 0, SCREENW, SCREENH, 0, color_black, color_black);
+        LDR      R5,??DataTable1  ;; `?<Constant "\\315\\313\\263\\366">`
+        MOV      R0,#+1
+        MOV      R4,#+63
+        SWI      +571
+        ADD      R0,R5,#+8
+        PUSH     {R0}
+        CFI CFA R13+20
+        PUSH     {R0}
+        CFI CFA R13+24
+        ORR      R4,R4,#0x100
+        MOV      R3,R4
+        MOV      R2,#+239
+        MOV      R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+28
+        MOV      R1,#+0
+        SWI      +436
+//   49 	soft_key();
+        BL       soft_key
+//   50 	WSHDR *ws=AllocWS(512);
+        MOV      R0,#+512
+        SWI      +293
+        MOV      R6,R0
+//   51 	GetSMSData(ws);
+        _BLF     GetSMSData,??GetSMSData??rA
+//   52 	DrawString(ws, POS_X, POS_Y, SCREENW, SCREENH, FONT_SMALL, TEXT_ALIGNLEFT, color_white, color_black);
+        ADD      R0,R5,#+8
+        PUSH     {R0}
+        CFI CFA R13+32
+        MOV      R3,#+239
+        MOV      R2,#+1
+        MOV      R1,#+0
+        ADD      R0,R5,#+12
+        PUSH     {R0}
+        CFI CFA R13+36
+        MOV      R0,#+1
+        PUSH     {R0}
+        CFI CFA R13+40
+        MOV      R0,#+8
+        PUSH     {R0}
+        CFI CFA R13+44
+        PUSH     {R4}
+        CFI CFA R13+48
+        MOV      R0,R6
+        SWI      +332
+//   53 	FreeWS(ws);
+        MOV      R0,R6
+        SWI      +297
+//   54 }
+        ADD      SP,SP,#+32
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable1:
+        DC32     `?<Constant "\\315\\313\\263\\366">`
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??OnKey??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE OnKey
+//   55 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function OnKey
+        ARM
+//   56 int OnKey(MAIN_GUI *data, GUI_MSG *msg)
+//   57 {
+OnKey:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+//   58 	if(msg->gbsmsg->msg==KEY_DOWN)
+        LDR      R0,[R1, #+4]
+        MOV      R2,#+147
+        LDR      R1,[R0, #+4]
+        ORR      R2,R2,#0x100
+        CMP      R1,R2
+//   59 	{
+//   60 		if(msg->gbsmsg->submess==RIGHT_SOFT)
+        LDREQ    R0,[R0, #+8]
+        CMPEQ    R0,#+4
+//   61 			return 1;
+        MOVEQ    R0,#+1
+        POPEQ    {PC}
+//   62 	}
+//   63 	DirectRedrawGUI();
+        SWI      +319
+//   64 	return 0;
+        MOV      R0,#+0
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock5
+//   65 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onCreate??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock6
+        REQUIRE onCreate
+//   66 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function onCreate
+        ARM
+//   67 void onCreate(MAIN_GUI *data, void *(*malloc_adr)(int))
+//   68 {
+//   69 	data->gui.state=1;
+onCreate:
+        MOV      R1,#+1
+        STRB     R1,[R0, #+12]
+//   70 }
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onClose??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock8
+        REQUIRE onClose
+//   71 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function onClose
+        ARM
+//   72 void onClose(MAIN_GUI *data, void (*mfree_adr)(void *))
+//   73 {
+//   74 	data->gui.state=0;
+onClose:
+        MOV      R1,#+0
+        STRB     R1,[R0, #+12]
+//   75 }
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onFocus??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE onFocus
+//   76 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function onFocus
+        ARM
+//   77 void onFocus(MAIN_GUI *data, void *(*malloc_adr)(int), void (*mfree_adr)(void *))
+//   78 {
+onFocus:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOV      R4,R0
+//   79 	DisableIDLETMR();
+        SWI      +383
+//   80 	data->gui.state=2;
+        MOV      R0,#+2
+        STRB     R0,[R4, #+12]
+//   81 }
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??onUnfocus??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock12
+        REQUIRE onUnfocus
+//   82 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function onUnfocus
+        ARM
+//   83 void onUnfocus(MAIN_GUI *data, void (*mfree_adr)(void *))
+//   84 {
+//   85 	if(data->gui.state!=2)
+onUnfocus:
+        LDRB     R1,[R0, #+12]
+        CMP      R1,#+2
+//   86 		return;
+//   87 	data->gui.state=1;
+        MOVEQ    R1,#+1
+        STRBEQ   R1,[R0, #+12]
+//   88 }
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock13
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??method8??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock14
+        REQUIRE method8
+//   89 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function method8
+        ARM
+//   90 int method8(void)
+//   91 {
+//   92 	return(0);
+method8:
+        MOV      R0,#+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock15
+//   93 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??method9??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock16
+        REQUIRE method9
+//   94 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function method9
+        ARM
+//   95 int method9(void)
+//   96 {
+//   97 	return(0);
+method9:
+        MOV      R0,#+0
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock17
+//   98 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??maincsm_oncreate??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock18
+        REQUIRE maincsm_oncreate
+//   99 
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//  100 const RECT Canvas={0, 0, SCREENW, SCREENH};
+Canvas:
+        DATA
+        DC16 0, 0, 239, 319
+//  101 
+//  102 const void * const gui_methods[11]=
+gui_methods:
+        DC32 onRedraw, onCreate, onClose, onFocus, onUnfocus, OnKey, 0H
+        DC32 kill_data, method8, method9, 0H
+//  103 {
+//  104 	(void *)onRedraw,	//Redraw
+//  105 	(void *)onCreate,	//Create
+//  106 	(void *)onClose,	//Close
+//  107 	(void *)onFocus,	//Focus
+//  108 	(void *)onUnfocus,	//Unfocus
+//  109 	(void *)OnKey,		//OnKey
+//  110 	0,
+//  111 	(void *)kill_data,	//Destroy
+//  112 	(void *)method8,
+//  113 	(void *)method9,
+//  114 	0
+//  115 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function maincsm_oncreate
+        ARM
+//  116 void maincsm_oncreate(CSM_RAM *data)
+//  117 {
+maincsm_oncreate:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOV      R4,R0
+//  118 	MAIN_GUI *main_gui=malloc(sizeof(MAIN_GUI));
+        MOV      R0,#+52
+        SWI      +20
+        MOV      R5,R0
+//  119 	MAIN_CSM *csm=(MAIN_CSM *)data;
+//  120 	zeromem(main_gui,sizeof(MAIN_GUI));
+        MOV      R1,#+52
+        SWI      +285
+//  121 	main_gui->gui.canvas=(void *)(&Canvas);
+        LDR      R0,??maincsm_oncreate_0  ;; Canvas
+//  122 	main_gui->gui.flag30=2;
+        MOV      R1,#+2
+        STR      R0,[R5, #+0]
+        STR      R1,[R5, #+48]
+//  123 	main_gui->gui.methods=(void *)gui_methods;
+        ADD      R0,R0,#+8
+        STR      R0,[R5, #+4]
+//  124 	main_gui->gui.item_ll.data_mfree=(void (*)(void *))mfree_adr();	
+        SWI      +32789
+        STR      R0,[R5, #+32]
+//  125 	csm->csm.state=0;
+        MOV      R0,#+0
+        STR      R0,[R4, #+16]
+//  126 	csm->csm.unk1=0;
+        STR      R0,[R4, #+20]
+//  127 	csm->gui_id=CreateGUI(main_gui);
+        MOV      R0,R5
+        SWI      +311
+        STR      R0,[R4, #+40]
+//  128 }
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??maincsm_oncreate_0:
+        DC32     Canvas
+        CFI EndBlock cfiBlock19
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??maincsm_onmessage??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock20
+        REQUIRE maincsm_onmessage
+//  129 
+//  130 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI Function maincsm_onmessage
+        ARM
+//  131 int maincsm_onmessage(CSM_RAM *data, GBS_MSG *msg)
+//  132 {
+//  133 	MAIN_CSM *csm=(MAIN_CSM*)data;
+//  134 	if ((msg->msg==MSG_GUI_DESTROYED)&&((int)msg->data0==csm->gui_id))
+maincsm_onmessage:
+        LDR      R2,[R1, #+4]
+        MOV      R3,#+14
+        ORR      R3,R3,#0x6400
+        CMP      R2,R3
+        BNE      ??maincsm_onmessage_0
+        LDR      R1,[R1, #+12]
+        LDR      R2,[R0, #+40]
+        CMP      R1,R2
+//  135 	{
+//  136 		csm->csm.state=-3;
+        MVNEQ    R1,#+2
+        STREQ    R1,[R0, #+16]
+//  137 	}
+//  138 	return(1);
+??maincsm_onmessage_0:
+        MOV      R0,#+1
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock21
+//  139 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Killer??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock22
+        REQUIRE Killer
+//  140 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI Function Killer
+        ARM
+//  141 void Killer(void)
+//  142 {
+//  143 #ifndef VKP
+//  144 	extern void *ELF_BEGIN;
+//  145 	extern void kill_data(void *p, void (*func_p)(void *));
+//  146 	kill_data(&ELF_BEGIN,(void (*)(void *))mfree_adr());
+//  147 #endif
+//  148 }
+Killer:
+        BX       LR               ;; return
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??maincsm_onclose??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock24
+        REQUIRE maincsm_onclose
+//  149 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock25 Using cfiCommon1
+        CFI Function maincsm_onclose
+        ARM
+//  150 void maincsm_onclose(CSM_RAM *csm)
+//  151 {
+//  152 	SUBPROC((void *)Killer);
+maincsm_onclose:
+        LDR      R0,??maincsm_onclose_0  ;; Killer
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SWI      +369
+//  153 }
+        POP      {PC}             ;; return
+        DATA
+??maincsm_onclose_0:
+        DC32     Killer
+        CFI EndBlock cfiBlock25
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock26 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??main??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock26
+        REQUIRE main
+//  154 
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//  155 const int minus11=-11;
+minus11:
+        DATA
+        DC32 -11
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//  156 const unsigned short maincsm_name_body[16]={14,'V', 'i', 'e', 'w', 'T', 'h', 'e', 'L', 'a', 's', 't', 'S', 'M', 'S'};
+maincsm_name_body:
+        DATA
+        DC16 14, 86, 105, 101, 119, 84, 104, 101, 76, 97, 115, 116, 83, 77, 83
+        DC8 0, 0
+//  157 
+//  158 const struct
+//  159 {
+//  160 	CSM_DESC maincsm;
+//  161 	WSHDR maincsm_name;
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//  162 }MAINCSM =
+MAINCSM:
+        DATA
+        DC32 maincsm_onmessage, maincsm_oncreate, 0, 0, 0, 0, maincsm_onclose
+        DC32 44, 1, minus11, maincsm_name_body, 55AACCCCH, 3333AA55H, 0
+        DC16 139
+        DC8 0, 0
+//  163 {
+//  164 	{
+//  165 		maincsm_onmessage,
+//  166 		maincsm_oncreate,
+//  167 #ifdef NEWSGOLD
+//  168 		0,
+//  169 		0,
+//  170 		0,
+//  171 		0,
+//  172 #endif
+//  173 		maincsm_onclose,
+//  174 		sizeof(MAIN_CSM),
+//  175 		1,
+//  176 		&minus11
+//  177 	},
+//  178 	{
+//  179 		(unsigned short *)maincsm_name_body,
+//  180 		NAMECSM_MAGIC1,
+//  181 		NAMECSM_MAGIC2,
+//  182 		0x0,
+//  183 		139
+//  184 	}
+//  185 };
+//  186 
+//  187 #ifndef VKP
+//  188 void UpdateCSMname(void)
+//  189 {
+//  190 	wsprintf((WSHDR *)(&MAINCSM.maincsm_name), ELFNAME);
+//  191 }
+//  192 #endif
+//  193 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock27 Using cfiCommon1
+        CFI Function main
+        ARM
+//  194 int main(void)
+//  195 {
+main:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SUB      SP,SP,#+44
+        CFI CFA R13+48
+//  196 	char dummy[sizeof(MAIN_CSM)];
+//  197 #ifndef VKP
+//  198 	UpdateCSMname();
+//  199 #endif
+//  200 	LockSched();
+        SWI      +326
+//  201 	CreateCSM(&MAINCSM.maincsm,dummy,0);
+        LDR      R0,??main_0      ;; MAINCSM
+        MOV      R2,#+0
+        MOV      R1,SP
+        SWI      +263
+//  202 	UnlockSched();
+        SWI      +327
+//  203 	return 0;
+        MOV      R0,#+0
+        ADD      SP,SP,#+44
+        CFI CFA R13+4
+        POP      {PC}             ;; return
+        DATA
+??main_0:
+        DC32     MAINCSM
+        CFI EndBlock cfiBlock27
+//  204 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock28 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??GetSMSData??rA:
+        LDR      R12,??Subroutine14_0  ;; GetSMSData
+        BX       R12
+        DATA
+??Subroutine14_0:
+        DC32     GetSMSData
+        CFI EndBlock cfiBlock28
+
+        END
+//  205 
+// 
+// 700 bytes in segment CODE
+// 167 bytes in segment DATA_C
+// 
+// 632 bytes of CODE  memory (+ 68 bytes shared)
+// 167 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

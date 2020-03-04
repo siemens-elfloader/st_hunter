@@ -1,0 +1,447 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    19/Dec/2008  01:45:19 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  K:\Pasha\elf\_MY_PROJECT_\TED_w\saver.c              #
+#    Command line    =  K:\Pasha\elf\_MY_PROJECT_\TED_w\saver.c -D NEWSGOLD  #
+#                       -D ELKA -lC K:\Pasha\elf\_MY_PROJECT_\TED_w\Release_ #
+#                       ELKA\List\ -o K:\Pasha\elf\_MY_PROJECT_\TED_w\Releas #
+#                       e_ELKA\Obj\ -s9 --no_unroll --no_clustering          #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --fpu None -I         #
+#                       "K:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=9           #
+#    List file       =  K:\Pasha\elf\_MY_PROJECT_\TED_w\Release_ELKA\List\sa #
+#                       ver.lst                                              #
+#    Object file     =  K:\Pasha\elf\_MY_PROJECT_\TED_w\Release_ELKA\Obj\sav #
+#                       er.r79                                               #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+K:\Pasha\elf\_MY_PROJECT_\TED_w\saver.c
+      1          #include "..\inc\swilib.h"
+      2          
+      3          extern unsigned int STKSZ;
+      4          extern unsigned int STKSZ50;
+      5          
+      6          extern int u_disk; //Дисковый указатель верхнего стека (в блоках по STKSZ50)
+      7          extern int d_disk; //Дисковый указатель нижнего стека (в блоках по STKSZ50)
+      8          extern unsigned int usp; //Указатель на верхний стек
+      9          extern unsigned int dsp; //Указатель на нижний стек
+     10          extern unsigned int dbat[]; //Таблица распределения блоков нижнего стека во временном файле
+     11          extern unsigned int ubat[]; //Таблица распределения блоков верхнего стека во временном файлe
+     12          extern char stkfile[];
+     13          extern char filename[];
+     14          
+     15          extern char *dstk;
+     16          extern char *ustk;
+     17          
+     18          extern volatile int disk_access;
+     19          
+     20          extern unsigned int bl_ds(unsigned int pos);
+     21          
+     22          extern int terminated; //Признак закрытия диалога
+     23          extern volatile unsigned int draw_mode;
+     24          
+     25          extern void DiskErrorMsg(int mode);
+     26          
+     27          #define flush_obuf(FILEH,P) {if (P>=STKSZ50) {if (fwrite(FILEH,obuf,P,&ul)!=P) DiskErrorMsg(4); P=0;}}
+     28          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     29          void savetext(void)
+     30          {
+   \                     savetext:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+     31            char *ibuf;
+     32            char *obuf;
+     33          
+     34            int sf;
+     35            int f;
+     36            unsigned int p;
+     37            unsigned int ul;
+     38            int i;
+     39            char c;
+     40            unsigned int seekpos;
+     41          
+     42            if (!(ibuf=malloc(STKSZ50))) goto LERR1;
+   \   00000004   94639FE5           LDR      R6,??savetext_0  ;; STKSZ50
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   000096E5           LDR      R0,[R6, #+0]
+   \   00000010   140000EF           SWI      +20
+   \   00000014   0040B0E1           MOVS     R4,R0
+   \   00000018   D400000A           BEQ      ??savetext_1
+     43            if (!(obuf=malloc(STKSZ50))) goto LERR1;
+   \   0000001C   000096E5           LDR      R0,[R6, #+0]
+   \   00000020   140000EF           SWI      +20
+   \   00000024   0050B0E1           MOVS     R5,R0
+   \   00000028   D000000A           BEQ      ??savetext_1
+     44          
+     45            f=fopen(filename,A_ReadWrite+A_BIN+A_Create+A_Truncate,P_READ+P_WRITE,&ul); //Создаем выходной файл
+   \   0000002C   70039FE5           LDR      R0,??savetext_0+0x4  ;; filename
+   \   00000030   0D30A0E1           MOV      R3,SP
+   \   00000034   602FA0E3           MOV      R2,#+384
+   \   00000038   0210A0E3           MOV      R1,#+2
+   \   0000003C   831C81E3           ORR      R1,R1,#0x8300
+   \   00000040   0A0000EF           SWI      +10
+   \   00000044   0070A0E1           MOV      R7,R0
+     46            if (f==-1)
+   \   00000048   010077E3           CMN      R7,#+1
+   \   0000004C   0200001A           BNE      ??savetext_2
+     47            {
+     48              DiskErrorMsg(4);
+   \   00000050   0400A0E3           MOV      R0,#+4
+   \   00000054   ........           _BLF     DiskErrorMsg,??DiskErrorMsg??rA
+     49              goto LERR1;
+   \   00000058   C40000EA           B        ??savetext_1
+     50            }
+     51            sf=fopen(stkfile,A_ReadOnly+A_BIN,P_READ,&ul); //Файл верхнего стека
+   \                     ??savetext_2:
+   \   0000005C   44039FE5           LDR      R0,??savetext_0+0x8  ;; stkfile
+   \   00000060   0D30A0E1           MOV      R3,SP
+   \   00000064   8020A0E3           MOV      R2,#+128
+   \   00000068   801CA0E3           MOV      R1,#+32768
+   \   0000006C   0A0000EF           SWI      +10
+   \   00000070   0080A0E1           MOV      R8,R0
+     52            if (f==-1)
+     53            {
+     54              DiskErrorMsg(3);
+     55              goto LERR2;
+     56            }
+     57          
+     58            i=0;
+   \   00000074   30039FE5           LDR      R0,??savetext_0+0xC  ;; u_disk
+   \   00000078   00A0A0E3           MOV      R10,#+0
+   \   0000007C   000090E5           LDR      R0,[R0, #+0]
+   \   00000080   0D90A0E3           MOV      R9,#+13
+   \   00000084   000050E3           CMP      R0,#+0
+   \   00000088   3400004A           BMI      ??savetext_3
+     59            while(i<=u_disk)
+     60            {
+     61              //Пишем верхний стек непосредственно
+     62              p=ubat[i++];
+   \                     ??savetext_4:
+   \   0000008C   1C039FE5           LDR      R0,??savetext_0+0x10  ;; ubat
+     63              seekpos=STKSZ50*p;
+   \   00000090   001096E5           LDR      R1,[R6, #+0]
+   \   00000094   0A0190E7           LDR      R0,[R0, +R10, LSL #+2]
+   \   00000098   01A08AE2           ADD      R10,R10,#+1
+   \   0000009C   90010BE0           MUL      R11,R0,R1
+     64              if (lseek(sf,seekpos,0,&ul,&ul)!=seekpos) DiskErrorMsg(2);
+   \   000000A0   0D00A0E1           MOV      R0,SP
+   \   000000A4   01002DE9           PUSH     {R0}
+   \   000000A8   04308DE2           ADD      R3,SP,#+4
+   \   000000AC   0020A0E3           MOV      R2,#+0
+   \   000000B0   0B10A0E1           MOV      R1,R11
+   \   000000B4   0800A0E1           MOV      R0,R8
+   \   000000B8   0F0000EF           SWI      +15
+   \   000000BC   0B0050E1           CMP      R0,R11
+   \   000000C0   04D08DE2           ADD      SP,SP,#+4
+   \   000000C4   0100000A           BEQ      ??savetext_5
+   \   000000C8   0200A0E3           MOV      R0,#+2
+   \   000000CC   ........           _BLF     DiskErrorMsg,??DiskErrorMsg??rA
+     65              if (fread(sf,ibuf,STKSZ50,&ul)!=STKSZ50) DiskErrorMsg(0);
+   \                     ??savetext_5:
+   \   000000D0   002096E5           LDR      R2,[R6, #+0]
+   \   000000D4   0D30A0E1           MOV      R3,SP
+   \   000000D8   0410A0E1           MOV      R1,R4
+   \   000000DC   0800A0E1           MOV      R0,R8
+   \   000000E0   0B0000EF           SWI      +11
+   \   000000E4   001096E5           LDR      R1,[R6, #+0]
+   \   000000E8   010050E1           CMP      R0,R1
+   \   000000EC   0100000A           BEQ      ??savetext_6
+   \   000000F0   0000A0E3           MOV      R0,#+0
+   \   000000F4   ........           _BLF     DiskErrorMsg,??DiskErrorMsg??rA
+     66              p=0;
+   \                     ??savetext_6:
+   \   000000F8   001096E5           LDR      R1,[R6, #+0]
+   \   000000FC   0000A0E3           MOV      R0,#+0
+   \   00000100   000051E3           CMP      R1,#+0
+   \   00000104   0700000A           BEQ      ??savetext_7
+     67              while(p!=STKSZ50)
+     68              {
+     69                if (!ibuf[p]) ibuf[p]=0x0D;
+   \                     ??savetext_8:
+   \   00000108   041080E0           ADD      R1,R0,R4
+   \   0000010C   0020D1E5           LDRB     R2,[R1, #+0]
+     70                p++;
+   \   00000110   010080E2           ADD      R0,R0,#+1
+   \   00000114   000052E3           CMP      R2,#+0
+   \   00000118   0090C105           STRBEQ   R9,[R1, #+0]
+     71              }
+   \   0000011C   001096E5           LDR      R1,[R6, #+0]
+   \   00000120   010050E1           CMP      R0,R1
+   \   00000124   F7FFFF1A           BNE      ??savetext_8
+     72              if (fwrite(f,ibuf,STKSZ50,&ul)!=STKSZ50) DiskErrorMsg(4);
+   \                     ??savetext_7:
+   \   00000128   002096E5           LDR      R2,[R6, #+0]
+   \   0000012C   0D30A0E1           MOV      R3,SP
+   \   00000130   0410A0E1           MOV      R1,R4
+   \   00000134   0700A0E1           MOV      R0,R7
+   \   00000138   0C0000EF           SWI      +12
+   \   0000013C   001096E5           LDR      R1,[R6, #+0]
+   \   00000140   010050E1           CMP      R0,R1
+   \   00000144   0100000A           BEQ      ??savetext_9
+   \   00000148   0400A0E3           MOV      R0,#+4
+   \   0000014C   ........           _BLF     DiskErrorMsg,??DiskErrorMsg??rA
+     73            }
+   \                     ??savetext_9:
+   \   00000150   54029FE5           LDR      R0,??savetext_0+0xC  ;; u_disk
+   \   00000154   000090E5           LDR      R0,[R0, #+0]
+   \   00000158   0A0050E1           CMP      R0,R10
+   \   0000015C   CAFFFFAA           BGE      ??savetext_4
+     74            //Пишем верхний стек из ОЗУ
+     75            p=0;
+     76            i=0;
+   \                     ??savetext_3:
+   \   00000160   4C029FE5           LDR      R0,??savetext_0+0x14  ;; usp
+   \   00000164   00B0A0E3           MOV      R11,#+0
+   \   00000168   000090E5           LDR      R0,[R0, #+0]
+   \   0000016C   00A0A0E3           MOV      R10,#+0
+   \   00000170   000050E3           CMP      R0,#+0
+   \   00000174   1800000A           BEQ      ??savetext_10
+     77            while(p!=usp)
+     78            {
+     79              c=ustk[p];
+   \                     ??savetext_11:
+   \   00000178   38029FE5           LDR      R0,??savetext_0+0x18  ;; ustk
+   \   0000017C   000090E5           LDR      R0,[R0, #+0]
+   \   00000180   0000DBE7           LDRB     R0,[R11, +R0]
+     80              if (!c) c=0x0D;
+   \   00000184   0010B0E1           MOVS     R1,R0
+   \   00000188   0D00A003           MOVEQ    R0,#+13
+     81              obuf[i]=c;
+   \   0000018C   0500CAE7           STRB     R0,[R10, +R5]
+     82              i++;
+     83              flush_obuf(f,i);
+   \   00000190   000096E5           LDR      R0,[R6, #+0]
+   \   00000194   01A08AE2           ADD      R10,R10,#+1
+   \   00000198   00005AE1           CMP      R10,R0
+   \   0000019C   0900003A           BCC      ??savetext_12
+   \   000001A0   0D30A0E1           MOV      R3,SP
+   \   000001A4   0A20A0E1           MOV      R2,R10
+   \   000001A8   0510A0E1           MOV      R1,R5
+   \   000001AC   0700A0E1           MOV      R0,R7
+   \   000001B0   0C0000EF           SWI      +12
+   \   000001B4   0A0050E1           CMP      R0,R10
+   \   000001B8   0100000A           BEQ      ??savetext_13
+   \   000001BC   0400A0E3           MOV      R0,#+4
+   \   000001C0   ........           _BLF     DiskErrorMsg,??DiskErrorMsg??rA
+   \                     ??savetext_13:
+   \   000001C4   00A0A0E3           MOV      R10,#+0
+     84              p++;
+     85            }
+   \                     ??savetext_12:
+   \   000001C8   E4019FE5           LDR      R0,??savetext_0+0x14  ;; usp
+   \   000001CC   01B08BE2           ADD      R11,R11,#+1
+   \   000001D0   000090E5           LDR      R0,[R0, #+0]
+   \   000001D4   00005BE1           CMP      R11,R0
+   \   000001D8   E6FFFF1A           BNE      ??savetext_11
+     86            p=dsp;
+   \                     ??savetext_10:
+   \   000001DC   D8019FE5           LDR      R0,??savetext_0+0x1C  ;; dsp
+   \   000001E0   00B090E5           LDR      R11,[R0, #+0]
+   \   000001E4   D4019FE5           LDR      R0,??savetext_0+0x20  ;; STKSZ
+   \   000001E8   000090E5           LDR      R0,[R0, #+0]
+   \   000001EC   00005BE1           CMP      R11,R0
+   \   000001F0   1800000A           BEQ      ??savetext_14
+     87            while(p!=STKSZ)
+     88            {
+     89              //Пишем нижний стек из ОЗУ
+     90              c=dstk[p];
+   \                     ??savetext_15:
+   \   000001F4   C8019FE5           LDR      R0,??savetext_0+0x24  ;; dstk
+   \   000001F8   000090E5           LDR      R0,[R0, #+0]
+   \   000001FC   0000DBE7           LDRB     R0,[R11, +R0]
+     91              if (!c) c=0x0D;
+   \   00000200   0010B0E1           MOVS     R1,R0
+   \   00000204   0D00A003           MOVEQ    R0,#+13
+     92              obuf[i]=c;
+   \   00000208   0500CAE7           STRB     R0,[R10, +R5]
+     93              i++;
+     94              flush_obuf(f,i);
+   \   0000020C   000096E5           LDR      R0,[R6, #+0]
+   \   00000210   01A08AE2           ADD      R10,R10,#+1
+   \   00000214   00005AE1           CMP      R10,R0
+   \   00000218   0900003A           BCC      ??savetext_16
+   \   0000021C   0D30A0E1           MOV      R3,SP
+   \   00000220   0A20A0E1           MOV      R2,R10
+   \   00000224   0510A0E1           MOV      R1,R5
+   \   00000228   0700A0E1           MOV      R0,R7
+   \   0000022C   0C0000EF           SWI      +12
+   \   00000230   0A0050E1           CMP      R0,R10
+   \   00000234   0100000A           BEQ      ??savetext_17
+   \   00000238   0400A0E3           MOV      R0,#+4
+   \   0000023C   ........           _BLF     DiskErrorMsg,??DiskErrorMsg??rA
+   \                     ??savetext_17:
+   \   00000240   00A0A0E3           MOV      R10,#+0
+     95              p++;
+     96            }
+   \                     ??savetext_16:
+   \   00000244   74019FE5           LDR      R0,??savetext_0+0x20  ;; STKSZ
+   \   00000248   01B08BE2           ADD      R11,R11,#+1
+   \   0000024C   000090E5           LDR      R0,[R0, #+0]
+   \   00000250   00005BE1           CMP      R11,R0
+   \   00000254   E6FFFF1A           BNE      ??savetext_15
+     97            if (fwrite(f,obuf,i,&ul)!=i) DiskErrorMsg(4); //Недобиток
+   \                     ??savetext_14:
+   \   00000258   0D30A0E1           MOV      R3,SP
+   \   0000025C   0A20A0E1           MOV      R2,R10
+   \   00000260   0510A0E1           MOV      R1,R5
+   \   00000264   0700A0E1           MOV      R0,R7
+   \   00000268   0C0000EF           SWI      +12
+   \   0000026C   0A0050E1           CMP      R0,R10
+   \   00000270   0100000A           BEQ      ??savetext_18
+   \   00000274   0400A0E3           MOV      R0,#+4
+   \   00000278   ........           _BLF     DiskErrorMsg,??DiskErrorMsg??rA
+     98            i=d_disk;
+   \                     ??savetext_18:
+   \   0000027C   44019FE5           LDR      R0,??savetext_0+0x28  ;; d_disk
+   \   00000280   00A090E5           LDR      R10,[R0, #+0]
+   \   00000284   00005AE3           CMP      R10,#+0
+   \   00000288   3200004A           BMI      ??savetext_19
+     99            while(i>=0)
+    100            {
+    101              //Пишем нижний стек
+    102              p=dbat[i--];
+   \                     ??savetext_20:
+   \   0000028C   38019FE5           LDR      R0,??savetext_0+0x2C  ;; dbat
+    103              seekpos=STKSZ50*p;
+   \   00000290   001096E5           LDR      R1,[R6, #+0]
+   \   00000294   0A0190E7           LDR      R0,[R0, +R10, LSL #+2]
+   \   00000298   01A04AE2           SUB      R10,R10,#+1
+   \   0000029C   90010BE0           MUL      R11,R0,R1
+    104              if (lseek(sf,seekpos,0,&ul,&ul)!=seekpos) DiskErrorMsg(2);
+   \   000002A0   0D00A0E1           MOV      R0,SP
+   \   000002A4   01002DE9           PUSH     {R0}
+   \   000002A8   04308DE2           ADD      R3,SP,#+4
+   \   000002AC   0020A0E3           MOV      R2,#+0
+   \   000002B0   0B10A0E1           MOV      R1,R11
+   \   000002B4   0800A0E1           MOV      R0,R8
+   \   000002B8   0F0000EF           SWI      +15
+   \   000002BC   0B0050E1           CMP      R0,R11
+   \   000002C0   04D08DE2           ADD      SP,SP,#+4
+   \   000002C4   0100000A           BEQ      ??savetext_21
+   \   000002C8   0200A0E3           MOV      R0,#+2
+   \   000002CC   ........           _BLF     DiskErrorMsg,??DiskErrorMsg??rA
+    105              if (fread(sf,ibuf,STKSZ50,&ul)!=STKSZ50) DiskErrorMsg(0);
+   \                     ??savetext_21:
+   \   000002D0   002096E5           LDR      R2,[R6, #+0]
+   \   000002D4   0D30A0E1           MOV      R3,SP
+   \   000002D8   0410A0E1           MOV      R1,R4
+   \   000002DC   0800A0E1           MOV      R0,R8
+   \   000002E0   0B0000EF           SWI      +11
+   \   000002E4   001096E5           LDR      R1,[R6, #+0]
+   \   000002E8   010050E1           CMP      R0,R1
+   \   000002EC   0100000A           BEQ      ??savetext_22
+   \   000002F0   0000A0E3           MOV      R0,#+0
+   \   000002F4   ........           _BLF     DiskErrorMsg,??DiskErrorMsg??rA
+    106              p=0;
+   \                     ??savetext_22:
+   \   000002F8   000096E5           LDR      R0,[R6, #+0]
+   \   000002FC   00B0A0E3           MOV      R11,#+0
+   \   00000300   000050E3           CMP      R0,#+0
+   \   00000304   0700000A           BEQ      ??savetext_23
+    107              while(p!=STKSZ50)
+    108              {
+    109                if (!ibuf[p]) ibuf[p]=0x0D;
+   \                     ??savetext_24:
+   \   00000308   04008BE0           ADD      R0,R11,R4
+   \   0000030C   0010D0E5           LDRB     R1,[R0, #+0]
+    110                p++;
+   \   00000310   01B08BE2           ADD      R11,R11,#+1
+   \   00000314   000051E3           CMP      R1,#+0
+   \   00000318   0090C005           STRBEQ   R9,[R0, #+0]
+    111              }
+   \   0000031C   000096E5           LDR      R0,[R6, #+0]
+   \   00000320   00005BE1           CMP      R11,R0
+   \   00000324   F7FFFF1A           BNE      ??savetext_24
+    112              if (fwrite(f,ibuf,STKSZ50,&ul)!=STKSZ50) DiskErrorMsg(4);
+   \                     ??savetext_23:
+   \   00000328   002096E5           LDR      R2,[R6, #+0]
+   \   0000032C   0D30A0E1           MOV      R3,SP
+   \   00000330   0410A0E1           MOV      R1,R4
+   \   00000334   0700A0E1           MOV      R0,R7
+   \   00000338   0C0000EF           SWI      +12
+   \   0000033C   001096E5           LDR      R1,[R6, #+0]
+   \   00000340   010050E1           CMP      R0,R1
+   \   00000344   0100000A           BEQ      ??savetext_25
+   \   00000348   0400A0E3           MOV      R0,#+4
+   \   0000034C   ........           _BLF     DiskErrorMsg,??DiskErrorMsg??rA
+    113            }
+   \                     ??savetext_25:
+   \   00000350   00005AE3           CMP      R10,#+0
+   \   00000354   CCFFFF5A           BPL      ??savetext_20
+    114            fclose(sf,&ul); //Более ничего интересного в верхнем стеке
+   \                     ??savetext_19:
+   \   00000358   0D10A0E1           MOV      R1,SP
+   \   0000035C   0800A0E1           MOV      R0,R8
+   \   00000360   0D0000EF           SWI      +13
+    115          LERR2:
+    116            fclose(f,&ul);
+   \   00000364   0D10A0E1           MOV      R1,SP
+   \   00000368   0700A0E1           MOV      R0,R7
+   \   0000036C   0D0000EF           SWI      +13
+    117          LERR1:
+    118            mfree(ibuf);
+   \                     ??savetext_1:
+   \   00000370   0400A0E1           MOV      R0,R4
+   \   00000374   150000EF           SWI      +21
+    119            mfree(obuf);
+   \   00000378   0500A0E1           MOV      R0,R5
+   \   0000037C   150000EF           SWI      +21
+    120            disk_access=0;
+   \   00000380   48009FE5           LDR      R0,??savetext_0+0x30  ;; disk_access
+   \   00000384   0010A0E3           MOV      R1,#+0
+   \   00000388   001080E5           STR      R1,[R0, #+0]
+    121            draw_mode=1; //Перерисовываем
+   \   0000038C   40009FE5           LDR      R0,??savetext_0+0x34  ;; draw_mode
+   \   00000390   0110A0E3           MOV      R1,#+1
+   \   00000394   001080E5           STR      R1,[R0, #+0]
+    122            REDRAW();
+   \   00000398   720100EF           SWI      +370
+    123          }
+   \   0000039C   F18FBDE8           POP      {R0,R4-R11,PC}   ;; return
+   \                     ??savetext_0:
+   \   000003A0   ........           DC32     STKSZ50
+   \   000003A4   ........           DC32     filename
+   \   000003A8   ........           DC32     stkfile
+   \   000003AC   ........           DC32     u_disk
+   \   000003B0   ........           DC32     ubat
+   \   000003B4   ........           DC32     usp
+   \   000003B8   ........           DC32     ustk
+   \   000003BC   ........           DC32     dsp
+   \   000003C0   ........           DC32     STKSZ
+   \   000003C4   ........           DC32     dstk
+   \   000003C8   ........           DC32     d_disk
+   \   000003CC   ........           DC32     dbat
+   \   000003D0   ........           DC32     disk_access
+   \   000003D4   ........           DC32     draw_mode
+    124          
+
+   Maximum stack usage in bytes:
+
+     Function CSTACK
+     -------- ------
+     savetext    44
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+     savetext        984
+      Others          16
+
+ 
+ 1 000 bytes in segment CODE
+ 
+ 984 bytes of CODE memory (+ 16 bytes shared)
+
+Errors: none
+Warnings: none

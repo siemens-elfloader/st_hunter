@@ -1,0 +1,244 @@
+################################################################################
+#                                                                              #
+#      IAR Universal Linker V4.60I/386                                         #
+#                                                                              #
+#           Link time     =  12/Apr/2009  16:15:22                             #
+#           Target CPU    =  ARM                                               #
+#           List file     =  "C:\Documents and Settings\ANDRE\Рабочий стол\Соз #
+#                            дание ELF\EMenuD2\Patch\Mss_Main\List\Mss_Main.ma #
+#                            p"                                                #
+#           Output file 1 =  "C:\Documents and Settings\ANDRE\Рабочий стол\Соз #
+#                            дание ELF\EMenuD2\Patch\Mss_Main\Exe\Mss_Main.elf #
+#                            "                                                 #
+#                            Format: elf, variant: -ynpra                      #
+#           Command line  =  "C:\Documents and Settings\ANDRE\Рабочий стол\Соз #
+#                            дание ELF\EMenuD2\Patch\Mss_Main\Obj\func.r79"    #
+#                            "C:\Documents and Settings\ANDRE\Рабочий стол\Соз #
+#                            дание ELF\EMenuD2\Patch\Mss_Main\Obj\main.r79"    #
+#                            -o                                                #
+#                            "C:\Documents and Settings\ANDRE\Рабочий стол\Соз #
+#                            дание ELF\EMenuD2\Patch\Mss_Main\Exe\Mss_Main.elf #
+#                            "                                                 #
+#                            -Felf -l                                          #
+#                            "C:\Documents and Settings\ANDRE\Рабочий стол\Соз #
+#                            дание ELF\EMenuD2\Patch\Mss_Main\List\Mss_Main.ma #
+#                            p"                                                #
+#                            -xmsnio                                           #
+#                            "-IC:\SIEMENS\Embedded Workbench 4.0 Evaluation\A #
+#                            RM\LIB\"                                          #
+#                            -f                                                #
+#                            "C:\Documents and Settings\ANDRE\Рабочий стол\Соз #
+#                            дание ELF\EMenuD2\Patch\test.xcl"                 #
+#                            (-carm -V(CODE)CODE_AREA,12                       #
+#                            -V(DATA)DATA_AREA,12                              #
+#                            -Z(CODE_AREA)ELFBEGIN,DATA_ID,START,CODE,DATA_C,I #
+#                            NITTAB,DATA_Z,DATA_N,MYSEG,CONFIG_C=0-FFFFFFFF    #
+#                            -Z(DATA_AREA)DATA_I=0-FFFFFFFF) -ynpra -s main    #
+#                                                                              #
+#                        Copyright 1987-2007 IAR Systems. All rights reserved. #
+################################################################################
+
+
+
+
+
+                ****************************************
+                *                                      *
+                *           CROSS REFERENCE            *
+                *                                      *
+                ****************************************
+
+       Program entry at : CODE_AREA 00000030  Relocatable, from module : main
+
+
+
+
+                ****************************************
+                *                                      *
+                *            RUNTIME MODEL             *
+                *                                      *
+                ****************************************
+
+  StackAlign4  = USED
+  __cpu_mode   = __pcs__interwork
+  __data_model = absolute
+  __endian     = little
+  __rt_version = 6
+
+
+
+                ****************************************
+                *                                      *
+                *              MODULE MAP              *
+                *                                      *
+                ****************************************
+
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  FILE NAME : C:\Documents and Settings\ANDRE\Рабочий стол\Создание ELF\EMenuD2\Patch\Mss_Main\Obj\func.r79
+  PROGRAM MODULE, NAME : func
+
+  SEGMENTS IN THE MODULE
+  ======================
+ELFBEGIN
+  Relative segment, address: CODE_AREA 00000000, align: 0
+  Segment part 0. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ELF_BEGIN               00000000        ElfKiller (main)
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000000C - 00000013 (0x8 bytes), align: 2
+  Segment part 1. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           kill_data               0000000C        ElfKiller (main)
+           seqkill                 00000010 
+
+    *************************************************************************
+
+  FILE NAME : C:\Documents and Settings\ANDRE\Рабочий стол\Создание ELF\EMenuD2\Patch\Mss_Main\Obj\main.r79
+  PROGRAM MODULE, NAME : main
+
+  SEGMENTS IN THE MODULE
+  ======================
+CODE
+  Segment part 5. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000014 - 0000002F (0x1c bytes), align: 2
+  Segment part 6.             Intra module refs:   main
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ElfKiller               00000014 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 7. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_I
+  Relative segment, address: DATA_AREA 00000000 - 0000000B (0xc bytes), align: 2
+  Segment part 3.             Intra module refs:   main
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           myipc                   00000000 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000030 - 00000067 (0x38 bytes), align: 2
+  Segment part 8.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           main                    00000030        Absolute parts (?ABS_ENTRY_MOD)
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 9. NOT NEEDED. Intra module refs:   ElfKiller
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000000 - 0000000B (0xc bytes), align: 2
+  Segment part 4.             Intra module refs:   myipc
+    -------------------------------------------------------------------------
+DATA_ID
+  Segment part 10. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?*?DATA_ID              
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 00000074 - 0000007F (0xc bytes), align: 2
+  Segment part 11. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_I        00000074 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00000068 - 00000073 (0xc bytes), align: 2
+  Segment part 2.             Intra module refs:   Segment part 4
+
+
+
+
+                ****************************************
+                *                                      *
+                *            MODULE SUMMARY            *
+                *                                      *
+                ****************************************
+
+Module   CODE   DATA
+------   ----   ----
+        (Rel)  (Rel)
+func        8
+main      120     12
+------    ---     --
+Total:    128     12
+
+
+                ****************************************
+                *                                      *
+                *              CALL GRAPH              *
+                *                                      *
+                ****************************************
+
+  ->Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  ElfKiller
+      | Stack used (prev) :  00000000
+      | + function block  :  00000004
+  <-Sub-tree of type: Indirectly called function tree that does not make
+                    : indirect calls (Is not an interrupt and is not flagged
+                    : as not overlayable)
+    | Stack used          :  00000004
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000004
+  01  main
+      | Stack used (prev) :  00000004
+      | + function block  :  00000004
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000008
+
+
+
+
+                ****************************************
+                *                                      *
+                *      SEGMENTS IN ADDRESS ORDER       *
+                *                                      *
+                ****************************************
+
+
+SEGMENT              SPACE    START ADDRESS   END ADDRESS     SIZE  TYPE  ALIGN
+=======              =====    =============   ===========     ====  ====  =====
+ELFBEGIN             CODE_AREA           00000000                     rel    0
+DATA_ID              CODE_AREA      00000000 - 0000000B           C   rel    2
+START                CODE_AREA           0000000C                     dse    0
+CODE                 CODE_AREA      0000000C - 00000067          5C   rel    2
+DATA_C               CODE_AREA      00000068 - 00000073           C   rel    2
+INITTAB              CODE_AREA      00000074 - 0000007F           C   rel    2
+DATA_I               DATA_AREA      00000000 - 0000000B           C   rel    2
+
+                ****************************************
+                *                                      *
+                *        END OF CROSS REFERENCE        *
+                *                                      *
+                ****************************************
+
+ 128 bytes of CODE memory
+  12 bytes of DATA memory
+
+Errors: none
+Warnings: none
+

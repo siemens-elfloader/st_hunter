@@ -1,0 +1,26 @@
+;E71v45
+;При копировании выделенного текста в буфер обмена вызывает 1:\saclip.elf
+;Нужны swi-функции 94: __arm int ExecuteFile и 214: __thumb void wstrcpybypos
+;(c) green
+;(r) kostett
+;(p) Evgr
+;место врезки ищем по паттерну 231C3A1C311C2860, врезаемся начиная с 311C2860...
+                                                       
+094F3B8: 2860BEF23AE8F8BD 004CA746,0xA13D2851   ; адрес тела патча +1 (ибо Thumb)
+
+#pragma enable old_equal_ff
+13D2850: 2860C7DF140206B40898000EA82803D0
+13D2860: 78460830002194DF06BCF8BD,0xA13D2870    ; адрес WS с путем к эльфу (vvv ниже сама строка vvv)
+13D2870: 0D0031003A005C007300610063006C00       ; "1:\sacl"
+13D2880: 690070002E0065006C006600               ; "ip.elf"
+#pragma disable old_equal_ff
+
++0074000
+#pragma enable old_equal_ff
+0C00: 0xA094F3ED ; 0x300: __thumb WSHDR * GetClipBoard(void);
+0C04: 0xA094F385 ; 0x301: __thumb int CopyTextToClipboard(WSHDR * src, int pos, int len);
+#pragma disable old_equal_ff
++0
+
+
+;locale=Russian_Russia.1251

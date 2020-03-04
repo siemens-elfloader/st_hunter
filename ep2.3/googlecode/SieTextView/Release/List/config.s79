@@ -1,0 +1,421 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION   09/Dec/2007  21:14:59 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  D:\Pasha\elf\googlecode\SieTextView\config.c        /
+//    Command line    =  D:\Pasha\elf\googlecode\SieTextView\config.c -D     /
+//                       NEWSGOLD -D ELKA -lC D:\Pasha\elf\googlecode\SieTex /
+//                       tView\Release\List\ -lA D:\Pasha\elf\googlecode\Sie /
+//                       TextView\Release\List\ -o                           /
+//                       D:\Pasha\elf\googlecode\SieTextView\Release\Obj\    /
+//                       -s9 --no_unroll --cpu_mode arm --endian little      /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None --segment code=CONFIG --segment          /
+//                       data=CONFIG -I "D:\Pasha\ARM_Embedded_Workbench\Emb /
+//                       edded Workbench 4.0 Evaluation\ARM\INC\"            /
+//                       --inline_threshold=2                                /
+//    List file       =  D:\Pasha\elf\googlecode\SieTextView\Release\List\co /
+//                       nfig.s79                                            /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME config
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        PUBLIC LAST
+        PUBLIC MAP0
+        PUBLIC MAP1
+        PUBLIC acbm
+        PUBLIC bgcolor
+        PUBLIC cfgcbox1
+        PUBLIC cfgcbox2
+        PUBLIC cfghdr0
+        PUBLIC cfghdr10
+        PUBLIC cfghdr11
+        PUBLIC cfghdr12
+        PUBLIC cfghdr20
+        PUBLIC cfghdr21
+        PUBLIC cfghdr22
+        PUBLIC cfghdr23
+        PUBLIC cfghdr30
+        PUBLIC cfghdr31
+        PUBLIC cfghdr40
+        PUBLIC cfghdr41
+        PUBLIC cfghdr60
+        PUBLIC cfghdr_m10
+        PUBLIC cfghdr_m11
+        PUBLIC cfghdr_m20
+        PUBLIC cfghdr_m21
+        PUBLIC cfghdr_m30
+        PUBLIC cfghdr_m31
+        PUBLIC cfghdr_m40
+        PUBLIC cfghdr_m41
+        PUBLIC charset
+        PUBLIC font
+        PUBLIC fontcolor
+        PUBLIC space
+        PUBLIC statbgcolor
+        PUBLIC statfont
+        PUBLIC statfontcolor
+        PUBLIC status
+// D:\Pasha\elf\googlecode\SieTextView\config.c
+//    1 #include "..\inc\cfg_items.h"
+//    2 
+//    3 #ifdef NEWSGOLD
+//    4 #define DEFAULT_DISK "4"
+//    5 #else
+//    6 #define DEFAULT_DISK "0"
+//    7 #endif
+//    8 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//    9 __root const CFG_HDR cfghdr0 = {CFG_CBOX,"charset (may need reload file)", 0, 5};
+cfghdr0:
+        DATA
+        DC32 5
+        DC8 "charset (may need reload file)"
+        DC8 0
+        DC32 0, 5
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   10 __root const int charset = 0;
+charset:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   11 __root const CFG_CBOX_ITEM cfgcbox1[5] = {"default", "ansi", "unicode le", "unicode be", "utf8"};
+cfgcbox1:
+        DATA
+        DC8 "default"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "ansi"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "unicode le"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "unicode be"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "utf8"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   12 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   13 __root const CFG_HDR cfghdr_m10 = {CFG_LEVEL, "Font", 1, 0};
+cfghdr_m10:
+        DATA
+        DC32 9
+        DC8 "Font"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   14 __root const CFG_HDR cfghdr10 = {CFG_INT, "Content font", 0, 12};
+cfghdr10:
+        DATA
+        DC32 3
+        DC8 "Content font"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 12
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   15 __root const int font = 8;
+font:
+        DATA
+        DC32 8
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   16 __root const CFG_HDR cfghdr11 = {CFG_INT, "row space pixes", 0, 50};
+cfghdr11:
+        DATA
+        DC32 3
+        DC8 "row space pixes"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 50
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   17 __root const int space = 2;
+space:
+        DATA
+        DC32 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   18 __root const CFG_HDR cfghdr12 = {CFG_INT, "Statusbar font", 0, 12};
+cfghdr12:
+        DATA
+        DC32 3
+        DC8 "Statusbar font"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 12
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   19 __root const int statfont = 11;
+statfont:
+        DATA
+        DC32 11
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   20 __root const CFG_HDR cfghdr_m11 = {CFG_LEVEL, "", 0, 0};
+cfghdr_m11:
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   21 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   22 __root const CFG_HDR cfghdr_m20 = {CFG_LEVEL, "Color", 1, 0};
+cfghdr_m20:
+        DATA
+        DC32 9
+        DC8 "Color"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   23 __root const CFG_HDR cfghdr20 = {CFG_COLOR, "font color", 0, 0};
+cfghdr20:
+        DATA
+        DC32 8
+        DC8 "font color"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   24 __root const char fontcolor[4] = {0xFF, 0x0, 0x0, 0x64};
+fontcolor:
+        DATA
+        DC8 255, 0, 0, 100
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   25 __root const CFG_HDR cfghdr21 = {CFG_COLOR, "background color", 0, 0};
+cfghdr21:
+        DATA
+        DC32 8
+        DC8 "background color"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   26 __root const char bgcolor[4] = {0x00, 0x0, 0x0, 0x64};
+bgcolor:
+        DATA
+        DC8 0, 0, 0, 100
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   27 __root const CFG_HDR cfghdr22 = {CFG_COLOR, "statusbar font color", 0, 0};
+cfghdr22:
+        DATA
+        DC32 8
+        DC8 "statusbar font color"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   28 __root const char statfontcolor[4] = {0xC9, 0x97, 0xD7, 0x64};
+statfontcolor:
+        DATA
+        DC8 201, 151, 215, 100
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   29 __root const CFG_HDR cfghdr23 = {CFG_COLOR, "statusbar background color", 0, 0};
+cfghdr23:
+        DATA
+        DC32 8
+        DC8 "statusbar background color"
+        DC8 0, 0, 0, 0, 0
+        DC32 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   30 __root const char statbgcolor[4] = {0x00, 0x0, 0x0, 0x64};
+statbgcolor:
+        DATA
+        DC8 0, 0, 0, 100
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   31 __root const CFG_HDR cfghdr_m21 = {CFG_LEVEL, "", 0, 0};
+cfghdr_m21:
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   32 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   33 __root const CFG_HDR cfghdr_m30 = {CFG_LEVEL, "Control", 1, 0};
+cfghdr_m30:
+        DATA
+        DC32 9
+        DC8 "Control"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   34 __root const CFG_HDR cfghdr30 = {CFG_CHECKBOX, "Show status bar", 0, 2};
+cfghdr30:
+        DATA
+        DC32 11
+        DC8 "Show status bar"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   35 __root const int status = 1;
+status:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   36 __root const CFG_HDR cfghdr31 = {CFG_CBOX, "Create bookmark", 0, 3};
+cfghdr31:
+        DATA
+        DC32 5
+        DC8 "Create bookmark"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 3
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   37 __root const int acbm = 0;
+acbm:
+        DATA
+        DC32 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   38 __root const CFG_CBOX_ITEM cfgcbox2[3] = {"default", "always", "never"};
+cfgcbox2:
+        DATA
+        DC8 "default"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "always"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "never"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   39 __root const CFG_HDR cfghdr_m31 = {CFG_LEVEL, "", 0, 0};
+cfghdr_m31:
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   40 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   41 __root const CFG_HDR cfghdr_m40 = {CFG_LEVEL, "Map file path", 1, 0};
+cfghdr_m40:
+        DATA
+        DC32 9
+        DC8 "Map file path"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   42 __root const CFG_HDR cfghdr40 = {CFG_STR_UTF8, "gb2uc.map", 0, 127};
+cfghdr40:
+        DATA
+        DC32 2
+        DC8 "gb2uc.map"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 127
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   43 __root const char MAP0[128] = DEFAULT_DISK ":\\ZBin\\SieTxtView\\gb2uc.map";
+MAP0:
+        DATA
+        DC8 "4:\\ZBin\\SieTxtView\\gb2uc.map"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   44 __root const CFG_HDR cfghdr41 = {CFG_STR_UTF8, "uc2gb.map", 0, 127};
+cfghdr41:
+        DATA
+        DC32 2
+        DC8 "uc2gb.map"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 127
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   45 __root const char MAP1[128] = DEFAULT_DISK ":\\ZBin\\SieTxtView\\uc2gb.map";
+MAP1:
+        DATA
+        DC8 "4:\\ZBin\\SieTxtView\\uc2gb.map"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   46 __root const CFG_HDR cfghdr_m41 = {CFG_LEVEL, "", 0, 0};
+cfghdr_m41:
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   47 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   48 __root const CFG_HDR cfghdr60 = {CFG_STR_UTF8,"Last opened file", 0, 127};
+cfghdr60:
+        DATA
+        DC32 2
+        DC8 "Last opened file"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 127
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   49 __root const char LAST[128] = "";
+LAST:
+        DATA
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+        END
+// 
+// 1 604 bytes in segment CONFIG_C
+// 
+// 1 604 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

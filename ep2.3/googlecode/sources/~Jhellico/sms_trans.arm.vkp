@@ -1,0 +1,138 @@
+$ARM9E
+$genonly
+
+$INCLUDE (..\CX65_50.inc)
+
+Patch		EQU 0x0CDE730
+;Vrezka1	EQU 0x0A2A40A	; LeftSoftkey
+Vrezka1		EQU 0x0A6D868	; "Delete text"
+Vrezka2		EQU 0x0BF57F0
+
+TextID		equ 0x0AFA7E4
+
+org Vrezka1
+	BL	Main
+
+org TextID
+	dw	0xA19
+org TextID + 4
+	dw	0xA19
+
+
+org Vrezka2
+	BL	Entry1
+
+org Patch
+
+Entry1:
+	push	{r0-r7, lr}
+	cmp	r5, #1
+	bne	_e
+	LoadReg	1, aRam1
+	ldr	r0, [r0]
+	str	r0, [r1]
+_e:
+	pop	{r0-r7}
+	mov	r6, r0	;orig. code
+	mov	r0, r1	;orig. code
+	pop	{pc}
+
+Main:
+	push	{r0-r7, lr}
+	LoadReg	7, aRam1
+	ldr	r7, [r7]
+	ldrh	r3, [r7]	; SMS len (chars)
+	AdrReg	5, TransTable
+	mov	r0, #1
+	lsl	r0, #10
+_beg:
+	cmp	r3, #0
+	beq	_end
+	lsl	r1, r3, #1	; bytes (chars*2)
+	ldrh	r2, [r1, r7]
+
+;translit
+	sub	r2, r0
+	cmp	r2, #1		; 'YO'
+	bne	_1
+	mov	r2, #15h	; 'YE'
+_1:
+	cmp	r2, #51h	; 'yo'
+	bne	_2
+	mov	r2, #35h
+_2:
+	cmp	r2, #10h
+	blt	_ex
+	cmp	r2, #4Fh
+	bgt	_ex
+	sub	r2, #10h
+	lsl	r2, #1
+	ldrh	r2, [r2, r5]
+	cmp	r2, #0FFh
+	bhi	_two_char
+	strh	r2, [r1, r7]
+	b	_ex
+_two_char:
+	push	{r2}
+	lsr	r2, #8
+	strh	r2, [r1, r7]	; second char
+	ldrh	r6, [r7]
+	add	r6, #1
+	strh	r6, [r7]	; inc text length
+	lsl	r6, #1
+_shift:
+	cmp	r6, r1
+	blo	_end_shift	; <
+	sub	r6, #2
+	ldrh	r2, [r7, r6]
+	add	r6, #2
+	strh	r2, [r7, r6]
+	sub	r6, #2
+	b	_shift
+_end_shift:
+	pop	{r2}
+	lsl	r2, #24
+	lsr	r2, #24
+	strh	r2, [r1, r7]	; first char
+_ex:
+	sub	r3, #1
+	b	_beg
+_end:
+	pop	{r0-r7, pc}
+
+/*
+
+À	= 410h
+Á	= 411h
+Å	= 415
+¨	= 401	;!!
+Æ	= 416
+
+Ï	= 41Fh
+Ð	= 420h
+
+ß	= 42Fh
+
+à	= 430
+á	= 431
+
+å	= 435
+¸	= 451	;!!
+æ	= 436
+
+ÿ	= 44F
+
+
+*/
+
+AlignData4
+aRam1		dd	0xA8630310
+TransTable      db	'A',0,'B',0,'V',0,'G',0,'D',0,'E',0,'ZH','Z',0
+		db	'I',0,'J',0,'K',0,'L',0,'M',0,'N',0,'O',0,'P',0
+		db	'R',0,'S',0,'T',0,'U',0,'F',0,'H',0,'TS','CH'
+		db	'SH','SC','''',0,'Y',0,'''',0,'E',0,'JU','JA'
+		db	'a',0,'b',0,'v',0,'g',0,'d',0,'e',0,'zh','z',0
+		db	'i',0,'j',0,'k',0,'l',0,'m',0,'n',0,'o',0,'p',0
+		db	'r',0,'s',0,'t',0,'u',0,'f',0,'h',0,'ts','ch'
+		db	'sh','sc','''',0,'y',0,'''',0,'e',0,'ju','ja'
+END

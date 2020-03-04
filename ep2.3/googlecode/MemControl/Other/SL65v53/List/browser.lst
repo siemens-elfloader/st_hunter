@@ -1,0 +1,85 @@
+###############################################################################
+#                                                                             #
+#     IAR Systems ARM Assembler V4.42A/W32 08/Aug/2010  00:10:32              #
+#     Copyright 1999-2007 IAR Systems. All rights reserved.                   #
+#                                                                             #
+#           Source file   =  C:\Documents and Settings\loquat\×ÀÃæ\SuDoKu\MemControl\browser.asm#
+#           List file     =  C:\Documents and Settings\loquat\×ÀÃæ\SuDoKu\MemControl\Other\SL65v53\List\browser.lst#
+#           Object file   =  C:\Documents and Settings\loquat\×ÀÃæ\SuDoKu\MemControl\Other\SL65v53\Obj\browser.r79#
+#           Command line  =  C:\Documents and Settings\loquat\×ÀÃæ\SuDoKu\MemControl\browser.asm #
+#                            -OC:\Documents and Settings\loquat\×ÀÃæ\SuDoKu\MemControl\Other\SL65v53\Obj\ #
+#                            -s+ -M<> -w+ -DSL65sw53                          #
+#                            -LC:\Documents and Settings\loquat\×ÀÃæ\SuDoKu\MemControl\Other\SL65v53\List\ #
+#                            -cE -t8 --cpu ARM926EJ-S --fpu None              #
+#                            -IF:\software\Embedded Workbench 4.0 Evaluation\ARM\INC\ #
+#                                                                             #
+###############################################################################
+
+    1    00000000              //browser launch patch
+    2    00000000              //§ã §Ó§â§Ö§Ù§Ü§à§Û §ß§Ö§Þ§ß§à§Ô§à §á§à§Ú§Ù§Ó§â§
+                               Ñ§ë§Ñ§Ý§ã§ñ ...
+    3    00000000              
+    4    00000000              #include "config\config.h"          
+    5    00000000                         
+    6    00000000                          RSEG    PATCH_BROWSER_ENTER1:CODE
+    7    00000000                          
+    8    00000000                          CODE16
+    9    00000000                         
+   10    00000000 ........                 BLX      browser_arm_jump
+   11    00000004                          
+   12    00000000                          RSEG    PATCH_BROWSER_ENTER2:CODE
+   13    00000000                          
+   14    00000000                          CODE32
+   15    00000000                          
+   16    00000000              browser_arm_jump:
+   17    00000000              
+   18    00000000 ........                 B      browser_control
+   19    00000004                          
+   20    00000004              
+   21    00000000                          RSEG    CODE:CODE
+   22    00000000                        
+   23    00000000                         
+   24    00000000                          
+   25    00000000              browser_control:
+   26    00000000                          
+   27    00000000                          
+   28    00000000 0100000A                 BEQ     bc
+   29    00000004 090050E3                 CMP     R0, #0x09
+   30    00000008 1EFF2FE1                 BX      LR
+   31    0000000C                          
+   32    0000000C                       bc:
+   33    0000000C                        
+   34    0000000C 20B09FE5                 LDR     R11, =RAMFORPATCHADDR
+   35    00000010 08B0DBE5                 LDRB    R11, [R11, #0x08]
+   36    00000014                          
+   37    00000014 00005BE3                 CMP     R11, #0x00
+   38    00000018 0300000A                 BEQ     end_bc
+   39    0000001C 14B09FE5                 LDR     R11, =STARTBROWSER
+   40    00000020                          
+   41    00000020 00402DE9                 PUSH   {LR}
+   42    00000024                          
+   43    00000024 3BFF2FE1                 BLX     R11
+   44    00000028                          
+   45    00000028 0040BDE8                 POP    {LR}
+   46    0000002C                          
+   47    0000002C                  end_bc:
+   48    0000002C                  
+   49    0000002C 0CE08EE2                 ADD     LR, LR, #0x0C
+   50    00000030 1EFF2FE1                 BX      LR
+   51    00000034                                     
+   52    00000034                          
+   53    00000034                          END
+   53.1  00000034                       TABLE
+   53.2  00000034 00FD76A8             Reference on line 34 
+   53.3  00000038 67DAB3A0             Reference on line 39 
+   53.4  0000003C                      END (including table)
+##############################
+#          CRC:822F          #
+#        Errors:   0         #
+#        Warnings: 0         #
+#         Bytes: 68          #
+##############################
+
+
+
+

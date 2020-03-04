@@ -1,0 +1,1950 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Dec/2010  22:11:44 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\history.c      #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\history.c -D   #
+#                       NEWSGOLD --preprocess D:\pasha\elf\_MY_PROJECT_\nati #
+#                       cq_mod2\Release\List\ -lC                            #
+#                       D:\pasha\elf\_MY_PROJECT_\naticq_mod2\Release\List\  #
+#                       -o D:\pasha\elf\_MY_PROJECT_\naticq_mod2\Release\Obj #
+#                       \ -s9 --no_unroll --cpu_mode arm --endian little     #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork         #
+#                       --separate_cluster_for_initialized_variables -e      #
+#                       --fpu None --dlib_config "D:\pasha\Embedded          #
+#                       Workbench 4.0 Evaluation2\ARM\LIB\dl5tpainl8n.h" -I  #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\Release\List\h #
+#                       istory.lst                                           #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\Release\Obj\hi #
+#                       story.r79                                            #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\naticq_mod2\history.c
+      1          #include "../inc/swilib.h"
+      2          #include "naticq.h"
+      3          #include "history.h"
+      4          #include "language.h"
+      5          //#include "decode.h"
+      6          #include "strings.h"
+      7          //#include "strings3.h"
+      8          #include "configs.h"
+      9          #include "main.h"
+     10          #include "print.h"
+     11          
+     12          //extern char HIST_PATH[];
+     13          //extern int LOG_ALL;
+     14          //extern int HISTORY_TYPE;
+     15          //extern unsigned int UIN;
+     16          //extern int HISTORY_SAVE_TYPE;
+     17          /*
+     18            Добавлет строку в историю контакта CLIST
+     19          */
+     20          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     21          static do_logwrite(const char *name, unsigned int u_i_n, char *text)
+     22          {
+     23            volatile int hFile;
+     24            unsigned int io_error = 0;
+     25            unsigned int ul;
+     26            char error[36];
+     27            char fullname[128];
+     28            char hist_path[128];
+     29            if(HISTORY_TYPE)
+   \                     do_logwrite:
+   \   00000000   ........           LDR      R3,??DataTable6  ;; HIST_PATH
+   \   00000004   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000008   ........           LDR      R7,??DataTable5  ;; `?<Constant "%s\\\\%u.txt">`
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   ........           LDR      R0,??DataTable7  ;; HISTORY_TYPE
+   \   00000014   4CDF4DE2           SUB      SP,SP,#+304
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+   \   0000001C   0150A0E1           MOV      R5,R1
+   \   00000020   0260A0E1           MOV      R6,R2
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   00108DE5           STR      R1,[SP, #+0]
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0800000A           BEQ      ??do_logwrite_0
+     30              snprintf(hist_path,127,"%s\\%u",HIST_PATH, UIN);
+   \   00000034   ........           LDR      R0,??DataTable10  ;; UIN
+   \   00000038   0C2087E2           ADD      R2,R7,#+12
+   \   0000003C   000090E5           LDR      R0,[R0, #+0]
+   \   00000040   7F10A0E3           MOV      R1,#+127
+   \   00000044   01002DE9           PUSH     {R0}
+   \   00000048   90008DE2           ADD      R0,SP,#+144
+   \   0000004C   1B0100EF           SWI      +283
+   \   00000050   04D08DE2           ADD      SP,SP,#+4
+   \   00000054   030000EA           B        ??do_logwrite_1
+     31            else
+     32              snprintf(hist_path,127,"%s",HIST_PATH);
+   \                     ??do_logwrite_0:
+   \   00000058   402F8FE2           ADR      R2,??do_logwrite_2  ;; "%s"
+   \   0000005C   7F10A0E3           MOV      R1,#+127
+   \   00000060   8C008DE2           ADD      R0,SP,#+140
+   \   00000064   1B0100EF           SWI      +283
+     33            if (!isdir(hist_path,&ul))
+   \                     ??do_logwrite_1:
+   \   00000068   08108DE2           ADD      R1,SP,#+8
+   \   0000006C   8C008DE2           ADD      R0,SP,#+140
+   \   00000070   910000EF           SWI      +145
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   0200001A           BNE      ??do_logwrite_3
+     34            {
+     35              mkdir(hist_path,&ul);
+   \   0000007C   08108DE2           ADD      R1,SP,#+8
+   \   00000080   8C008DE2           ADD      R0,SP,#+140
+   \   00000084   100000EF           SWI      +16
+     36            }
+     37            if(HISTORY_SAVE_TYPE)
+   \                     ??do_logwrite_3:
+   \   00000088   ........           LDR      R0,??DataTable8  ;; HISTORY_SAVE_TYPE
+   \   0000008C   000090E5           LDR      R0,[R0, #+0]
+   \   00000090   20002DE9           PUSH     {R5}
+   \   00000094   000050E3           CMP      R0,#+0
+   \   00000098   0700000A           BEQ      ??do_logwrite_4
+     38            {
+     39              snprintf(fullname,127,"%s\\%s(%d).txt", hist_path, name, u_i_n);
+   \   0000009C   10002DE9           PUSH     {R4}
+   \   000000A0   94308DE2           ADD      R3,SP,#+148
+   \   000000A4   142087E2           ADD      R2,R7,#+20
+   \   000000A8   7F10A0E3           MOV      R1,#+127
+   \   000000AC   14008DE2           ADD      R0,SP,#+20
+   \   000000B0   1B0100EF           SWI      +283
+   \   000000B4   08D08DE2           ADD      SP,SP,#+8
+   \   000000B8   050000EA           B        ??do_logwrite_5
+     40            }     
+     41            else
+     42            {
+     43              snprintf(fullname,127,"%s\\%d.txt", hist_path, u_i_n); 
+   \                     ??do_logwrite_4:
+   \   000000BC   90308DE2           ADD      R3,SP,#+144
+   \   000000C0   242087E2           ADD      R2,R7,#+36
+   \   000000C4   7F10A0E3           MOV      R1,#+127
+   \   000000C8   10008DE2           ADD      R0,SP,#+16
+   \   000000CC   1B0100EF           SWI      +283
+   \   000000D0   04D08DE2           ADD      SP,SP,#+4
+     44            }
+     45            //snprintf(fullname,127,"%s\\%s(%d).txt", hist_path, n_a_m_e_z, u_i_n);
+     46          //  mfree(buf);
+     47            // Открываем файл на дозапись и создаём в случае неудачи
+     48            hFile = fopen(fullname,A_ReadWrite + A_Create + A_Append + A_BIN,P_READ+P_WRITE, &io_error);
+   \                     ??do_logwrite_5:
+   \   000000D4   0D30A0E1           MOV      R3,SP
+   \   000000D8   602FA0E3           MOV      R2,#+384
+   \   000000DC   0A10A0E3           MOV      R1,#+10
+   \   000000E0   811C81E3           ORR      R1,R1,#0x8100
+   \   000000E4   0C008DE2           ADD      R0,SP,#+12
+   \   000000E8   0A0000EF           SWI      +10
+   \   000000EC   04008DE5           STR      R0,[SP, #+4]
+     49            if(hFile!=-1)
+   \   000000F0   04009DE5           LDR      R0,[SP, #+4]
+   \   000000F4   010070E3           CMN      R0,#+1
+   \   000000F8   0A00000A           BEQ      ??do_logwrite_6
+     50            {
+     51              fwrite(hFile, text, strlen(text), &io_error);
+   \   000000FC   0600A0E1           MOV      R0,R6
+   \   00000100   1B0000EF           SWI      +27
+   \   00000104   0D30A0E1           MOV      R3,SP
+   \   00000108   0020A0E1           MOV      R2,R0
+   \   0000010C   04009DE5           LDR      R0,[SP, #+4]
+   \   00000110   0610A0E1           MOV      R1,R6
+   \   00000114   0C0000EF           SWI      +12
+     52              fclose(hFile, &io_error);
+   \   00000118   04009DE5           LDR      R0,[SP, #+4]
+   \   0000011C   0D10A0E1           MOV      R1,SP
+   \   00000120   0D0000EF           SWI      +13
+   \   00000124   090000EA           B        ??do_logwrite_7
+     53            }
+     54            else
+     55            {
+     56              snprintf(error,35, LG_HISTIOERR, io_error);
+   \                     ??do_logwrite_6:
+   \   00000128   00309DE5           LDR      R3,[SP, #+0]
+   \   0000012C   302087E2           ADD      R2,R7,#+48
+   \   00000130   2310A0E3           MOV      R1,#+35
+   \   00000134   430F8DE2           ADD      R0,SP,#+268
+   \   00000138   1B0100EF           SWI      +283
+     57              LockSched();
+   \   0000013C   460100EF           SWI      +326
+     58              ShowMSG(1,(int)error); 
+   \   00000140   431F8DE2           ADD      R1,SP,#+268
+   \   00000144   0100A0E3           MOV      R0,#+1
+   \   00000148   480100EF           SWI      +328
+     59              UnlockSched();
+   \   0000014C   470100EF           SWI      +327
+     60            }
+     61            mfree(text);
+   \                     ??do_logwrite_7:
+   \   00000150   0600A0E1           MOV      R0,R6
+   \   00000154   150000EF           SWI      +21
+     62          }
+   \   00000158   4CDF8DE2           ADD      SP,SP,#+304
+   \   0000015C   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??do_logwrite_2:
+   \   00000160   25730000           DC8      "%s",+0
+     63          /*
+     64          static do_logwrite(unsigned int uin,char *text)
+     65          {
+     66            volatile int hFile;
+     67            unsigned int io_error = 0;
+     68            unsigned int ul;
+     69            char error[36];
+     70            char fullname[128];
+     71            char hist_path[128];
+     72            if(HISTORY_TYPE)
+     73              snprintf(hist_path,127,"%s\\%u",HIST_PATH, UIN);
+     74            else
+     75              snprintf(hist_path,127,"%s",HIST_PATH);
+     76            if (!isdir(hist_path,&ul))
+     77            {
+     78              mkdir(hist_path,&ul);
+     79            }
+     80            snprintf(fullname,127,"%s\\%u.txt", hist_path, uin);
+     81          //  mfree(buf);
+     82            // Открываем файл на дозапись и создаём в случае неудачи
+     83            hFile = fopen(fullname,A_ReadWrite + A_Create + A_Append + A_BIN,P_READ+P_WRITE, &io_error);
+     84            if(hFile!=-1)
+     85            {
+     86              fwrite(hFile, text, strlen(text), &io_error);
+     87              fclose(hFile, &io_error);
+     88            }
+     89            else
+     90            {
+     91              snprintf(error,35, LG_HISTIOERR, io_error);
+     92              LockSched();
+     93              ShowMSG(1,(int)error); 
+     94              UnlockSched();
+     95            }
+     96            mfree(text);
+     97          }
+     98          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+     99          void Add2History(CLIST *CListEx, char *header, char *message, int direction)
+    100          {
+   \                     Add2History:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    101            static const char *delim = "\r\n--------------<>-%04d\r\n";
+    102            int len;
+    103            if (!LOG_ALL) return;
+   \   00000008   80009FE5           LDR      R0,??Add2History_0  ;; LOG_ALL
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   0260A0E1           MOV      R6,R2
+   \   00000018   0370A0E1           MOV      R7,R3
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   F083BD08           POPEQ    {R4-R9,PC}
+    104            len=strlen(delim)+strlen(header)+strlen(message);
+   \   00000024   68809FE5           LDR      R8,??Add2History_0+0x4  ;; `?<Constant "\\r\\n--------------<>-%0...">`
+   \   00000028   0800A0E1           MOV      R0,R8
+   \   0000002C   1B0000EF           SWI      +27
+   \   00000030   0090A0E1           MOV      R9,R0
+   \   00000034   0500A0E1           MOV      R0,R5
+   \   00000038   1B0000EF           SWI      +27
+   \   0000003C   099080E0           ADD      R9,R0,R9
+   \   00000040   0600A0E1           MOV      R0,R6
+   \   00000044   1B0000EF           SWI      +27
+   \   00000048   090080E0           ADD      R0,R0,R9
+    105            char *text=malloc(len+1);
+   \   0000004C   010080E2           ADD      R0,R0,#+1
+   \   00000050   140000EF           SWI      +20
+   \   00000054   0090A0E1           MOV      R9,R0
+    106            sprintf(text,delim,direction);
+   \   00000058   0720A0E1           MOV      R2,R7
+   \   0000005C   0810A0E1           MOV      R1,R8
+   \   00000060   160000EF           SWI      +22
+    107            strcat(text,header);
+   \   00000064   0510A0E1           MOV      R1,R5
+   \   00000068   0900A0E1           MOV      R0,R9
+   \   0000006C   170000EF           SWI      +23
+    108            strcat(text,message);
+   \   00000070   0610A0E1           MOV      R1,R6
+   \   00000074   0900A0E1           MOV      R0,R9
+   \   00000078   170000EF           SWI      +23
+    109            do_logwrite(CListEx->name, CListEx->uin, text);
+   \   0000007C   0C1094E5           LDR      R1,[R4, #+12]
+   \   00000080   0920A0E1           MOV      R2,R9
+   \   00000084   140084E2           ADD      R0,R4,#+20
+   \   00000088   ........           BL       do_logwrite
+    110          //  SUBPROC((void*)do_logwrite,CListEx->uin,text);
+    111          //    SUBPROC((void*)do_logwrite2,CListEx->uin, text);
+    112          }
+   \   0000008C   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??Add2History_0:
+   \   00000090   ........           DC32     LOG_ALL
+   \   00000094   ........           DC32     `?<Constant "\\r\\n--------------<>-%0...">`
+    113          
+    114          extern LOGQ *NewLOGQ(const char *s);
+    115          extern int AddLOGQ(LOGQ **queue, LOGQ *p);
+    116          
+    117          //Делает ярким последний икс-статус, а остальные тусклыми
+
+   \                                 In segment CODE, align 4, keep-with-next
+    118          void ActivateLastX(LOGQ *p)
+    119          {
+    120            LOGQ *q = p, *lastX = 0;
+   \                     ActivateLastX:
+   \   00000000   0010A0E3           MOV      R1,#+0
+   \   00000004   000050E3           CMP      R0,#+0
+   \   00000008   1EFF2F01           BXEQ     LR
+    121            while(q)
+    122            {
+    123              if((q->type&0x0F) == 3)
+   \                     ??ActivateLastX_0:
+   \   0000000C   0C2090E5           LDR      R2,[R0, #+12]
+   \   00000010   0F2002E2           AND      R2,R2,#0xF
+   \   00000014   030052E3           CMP      R2,#+3
+    124              {
+    125                lastX = q;
+   \   00000018   0010A001           MOVEQ    R1,R0
+    126                q->type = 0x13;
+   \   0000001C   1320A003           MOVEQ    R2,#+19
+   \   00000020   0C208005           STREQ    R2,[R0, #+12]
+    127              }
+    128              q = q->next;
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+    129            }
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   F6FFFF1A           BNE      ??ActivateLastX_0
+    130            if(lastX) lastX->type = 3;
+   \   00000030   000051E3           CMP      R1,#+0
+   \   00000034   0300A013           MOVNE    R0,#+3
+   \   00000038   0C008115           STRNE    R0,[R1, #+12]
+    131          }
+   \   0000003C   1EFF2FE1           BX       LR               ;; return
+    132          
+    133          //Добавить элемент в лог первым
+
+   \                                 In segment CODE, align 4, keep-with-next
+    134          void AddFirstLOGQ(CLIST *t, LOGQ *p)
+    135          {
+   \                     AddFirstLOGQ:
+   \   00000000   00402DE9           PUSH     {LR}
+    136            LOGQ *q = t->log;
+   \   00000004   942090E5           LDR      R2,[R0, #+148]
+    137            if(!p) return;
+   \   00000008   000051E3           CMP      R1,#+0
+   \   0000000C   0080BD08           POPEQ    {PC}
+    138            t->log = p;
+   \   00000010   941080E5           STR      R1,[R0, #+148]
+   \   00000014   003091E5           LDR      R3,[R1, #+0]
+   \   00000018   000053E3           CMP      R3,#+0
+   \   0000001C   0300000A           BEQ      ??AddFirstLOGQ_0
+    139            while(p->next)
+    140              p = p->next;
+   \                     ??AddFirstLOGQ_1:
+   \   00000020   001091E5           LDR      R1,[R1, #+0]
+   \   00000024   003091E5           LDR      R3,[R1, #+0]
+   \   00000028   000053E3           CMP      R3,#+0
+   \   0000002C   FBFFFF1A           BNE      ??AddFirstLOGQ_1
+    141            p->next = q;
+   \                     ??AddFirstLOGQ_0:
+   \   00000030   002081E5           STR      R2,[R1, #+0]
+    142            ActivateLastX(t->log);
+   \   00000034   940090E5           LDR      R0,[R0, #+148]
+   \   00000038   ........           BL       ActivateLastX
+    143          }
+   \   0000003C   0080BDE8           POP      {PC}             ;; return
+    144          
+    145          //Удаляем лог с заданного элемента
+
+   \                                 In segment CODE, align 4, keep-with-next
+    146          void DeleteLOGQ(LOGQ *p)
+    147          {
+   \                     DeleteLOGQ:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+    148            if(!p) return;
+   \   00000008   1080BD08           POPEQ    {R4,PC}
+    149            if(p->next) DeleteLOGQ(p->next);
+   \   0000000C   000094E5           LDR      R0,[R4, #+0]
+   \   00000010   000050E3           CMP      R0,#+0
+   \   00000014   0000000A           BEQ      ??DeleteLOGQ_0
+   \   00000018   F8FFFFEB           BL       DeleteLOGQ
+    150            mfree(p);
+   \                     ??DeleteLOGQ_0:
+   \   0000001C   0400A0E1           MOV      R0,R4
+   \   00000020   150000EF           SWI      +21
+    151          }
+   \   00000024   1080BDE8           POP      {R4,PC}          ;; return
+    152          
+    153          //Проверка что в логе не только иксстасусы
+
+   \                                 In segment CODE, align 4, keep-with-next
+    154          int CheckLOGQ(CLIST *t)
+    155          {
+   \                     CheckLOGQ:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    156            LOGQ *p = t->log;
+   \   00000008   940094E5           LDR      R0,[R4, #+148]
+   \   0000000C   0010B0E1           MOVS     R1,R0
+    157            if(!p) return 0;
+   \   00000010   0200001A           BNE      ??CheckLOGQ_0
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   1080BDE8           POP      {R4,PC}
+    158            for(; p->next && (p->type&0x0F)==3; p=p->next);
+   \                     ??CheckLOGQ_1:
+   \   0000001C   0210A0E1           MOV      R1,R2
+   \                     ??CheckLOGQ_0:
+   \   00000020   002091E5           LDR      R2,[R1, #+0]
+   \   00000024   000052E3           CMP      R2,#+0
+   \   00000028   0300000A           BEQ      ??CheckLOGQ_2
+   \   0000002C   0C3091E5           LDR      R3,[R1, #+12]
+   \   00000030   0F3003E2           AND      R3,R3,#0xF
+   \   00000034   030053E3           CMP      R3,#+3
+   \   00000038   F7FFFF0A           BEQ      ??CheckLOGQ_1
+    159            if(p->next)
+   \                     ??CheckLOGQ_2:
+   \   0000003C   000052E3           CMP      R2,#+0
+   \   00000040   0400000A           BEQ      ??CheckLOGQ_3
+    160              if((p->type&0x0F)!=3)
+   \   00000044   0C1091E5           LDR      R1,[R1, #+12]
+   \   00000048   0F1001E2           AND      R1,R1,#0xF
+   \   0000004C   030051E3           CMP      R1,#+3
+    161                return 1;
+   \   00000050   0100A013           MOVNE    R0,#+1
+   \   00000054   1080BD18           POPNE    {R4,PC}
+    162            DeleteLOGQ(t->log);
+   \                     ??CheckLOGQ_3:
+   \   00000058   ........           BL       DeleteLOGQ
+    163            t->log = 0;
+   \   0000005C   0000A0E3           MOV      R0,#+0
+   \   00000060   940084E5           STR      R0,[R4, #+148]
+    164            return 0;
+   \   00000064   1080BDE8           POP      {R4,PC}          ;; return
+    165          }
+    166          
+    167          //extern int HISTORY_SAVE_TYPE;
+    168          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    169          int GetHistory(CLIST *t, int bufsize)
+    170          {
+   \                     GetHistory:
+   \   00000000   F14F2DE9           PUSH     {R0,R4-R11,LR}
+    171            LOGQ *log, *head;
+    172            static const char *delim = "\r\n--------------<>-000";
+    173            volatile int hFile;
+    174            unsigned int io_error = 0;
+    175            char fullname[128], *s, *b, *e, *text, *str, *buf;
+    176            int i, delimlen = strlen(delim)+3, direction;
+   \   00000004   ........           LDR      R5,??DataTable5  ;; `?<Constant "%s\\\\%u.txt">`
+   \   00000008   90D04DE2           SUB      SP,SP,#+144
+   \   0000000C   0180A0E1           MOV      R8,R1
+   \   00000010   0040A0E3           MOV      R4,#+0
+   \   00000014   08408DE5           STR      R4,[SP, #+8]
+   \   00000018   640085E2           ADD      R0,R5,#+100
+   \   0000001C   1B0000EF           SWI      +27
+   \   00000020   036080E2           ADD      R6,R0,#+3
+    177          //  unsigned uin = t->uin;
+    178            
+    179            if(CheckLOGQ(t)) return 0;
+   \   00000024   90009DE5           LDR      R0,[SP, #+144]
+   \   00000028   ........           BL       CheckLOGQ
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   9900001A           BNE      ??GetHistory_0
+    180            
+    181            buf = text = malloc(bufsize);
+   \   00000034   0800A0E1           MOV      R0,R8
+   \   00000038   140000EF           SWI      +20
+    182            text[0] = 0;
+    183            text[bufsize-1] = 0;
+    184            if(HISTORY_SAVE_TYPE)
+   \   0000003C   ........           LDR      R3,??DataTable6  ;; HIST_PATH
+   \   00000040   ........           LDR      R1,??DataTable7  ;; HISTORY_TYPE
+   \   00000044   0070A0E1           MOV      R7,R0
+   \   00000048   0C708DE5           STR      R7,[SP, #+12]
+   \   0000004C   0040C7E5           STRB     R4,[R7, #+0]
+   \   00000050   070088E0           ADD      R0,R8,R7
+   \   00000054   014040E5           STRB     R4,[R0, #-1]
+   \   00000058   ........           LDR      R0,??DataTable8  ;; HISTORY_SAVE_TYPE
+   \   0000005C   001091E5           LDR      R1,[R1, #+0]
+   \   00000060   000090E5           LDR      R0,[R0, #+0]
+   \   00000064   000050E3           CMP      R0,#+0
+   \   00000068   90009DE5           LDR      R0,[SP, #+144]
+   \   0000006C   0C0090E5           LDR      R0,[R0, #+12]
+   \   00000070   1400000A           BEQ      ??GetHistory_1
+    185            {
+    186              if(HISTORY_TYPE)
+   \   00000074   01002DE9           PUSH     {R0}
+   \   00000078   94009DE5           LDR      R0,[SP, #+148]
+   \   0000007C   000051E3           CMP      R1,#+0
+   \   00000080   140080E2           ADD      R0,R0,#+20
+   \   00000084   01002DE9           PUSH     {R0}
+   \   00000088   0800000A           BEQ      ??GetHistory_2
+    187                snprintf(fullname,127,"%s\\%u\\%s(%d).txt", HIST_PATH, UIN, t->name, t->uin);
+   \   0000008C   ........           LDR      R0,??DataTable10  ;; UIN
+   \   00000090   402085E2           ADD      R2,R5,#+64
+   \   00000094   000090E5           LDR      R0,[R0, #+0]
+   \   00000098   7F10A0E3           MOV      R1,#+127
+   \   0000009C   01002DE9           PUSH     {R0}
+   \   000000A0   1C008DE2           ADD      R0,SP,#+28
+   \   000000A4   1B0100EF           SWI      +283
+   \   000000A8   0CD08DE2           ADD      SP,SP,#+12
+   \   000000AC   120000EA           B        ??GetHistory_3
+    188              else
+    189                snprintf(fullname,127,"%s\\%s(%d).txt", HIST_PATH, t->name, t->uin);
+   \                     ??GetHistory_2:
+   \   000000B0   142085E2           ADD      R2,R5,#+20
+   \                     ??GetHistory_4:
+   \   000000B4   7F10A0E3           MOV      R1,#+127
+   \   000000B8   18008DE2           ADD      R0,SP,#+24
+   \   000000BC   1B0100EF           SWI      +283
+   \   000000C0   08D08DE2           ADD      SP,SP,#+8
+   \   000000C4   0C0000EA           B        ??GetHistory_3
+    190            }     
+    191            else
+    192            {
+    193              if(HISTORY_TYPE)
+   \                     ??GetHistory_1:
+   \   000000C8   01002DE9           PUSH     {R0}
+   \   000000CC   000051E3           CMP      R1,#+0
+   \   000000D0   0400000A           BEQ      ??GetHistory_5
+    194                snprintf(fullname,127,"%s\\%u\\%u.txt", HIST_PATH, UIN, t->uin);
+   \   000000D4   ........           LDR      R0,??DataTable10  ;; UIN
+   \   000000D8   542085E2           ADD      R2,R5,#+84
+   \   000000DC   000090E5           LDR      R0,[R0, #+0]
+   \   000000E0   01002DE9           PUSH     {R0}
+   \   000000E4   F2FFFFEA           B        ??GetHistory_4
+    195              else
+    196                snprintf(fullname,127,"%s\\%u.txt", HIST_PATH, t->uin);
+   \                     ??GetHistory_5:
+   \   000000E8   0520A0E1           MOV      R2,R5
+   \   000000EC   7F10A0E3           MOV      R1,#+127
+   \   000000F0   14008DE2           ADD      R0,SP,#+20
+   \   000000F4   1B0100EF           SWI      +283
+   \   000000F8   04D08DE2           ADD      SP,SP,#+4
+    197            }
+    198            hFile = fopen(fullname,A_ReadOnly + A_BIN,P_READ, &io_error);
+   \                     ??GetHistory_3:
+   \   000000FC   08308DE2           ADD      R3,SP,#+8
+   \   00000100   8020A0E3           MOV      R2,#+128
+   \   00000104   801CA0E3           MOV      R1,#+32768
+   \   00000108   10008DE2           ADD      R0,SP,#+16
+   \   0000010C   0A0000EF           SWI      +10
+   \   00000110   00008DE5           STR      R0,[SP, #+0]
+   \   00000114   00009DE5           LDR      R0,[SP, #+0]
+   \   00000118   010070E3           CMN      R0,#+1
+   \   0000011C   5C00000A           BEQ      ??GetHistory_6
+    199            if(hFile!=-1)
+    200            {
+    201              lseek(hFile, -(bufsize-1), S_END, &io_error, &io_error);
+   \   00000120   08008DE2           ADD      R0,SP,#+8
+   \   00000124   01002DE9           PUSH     {R0}
+   \   00000128   018048E2           SUB      R8,R8,#+1
+   \   0000012C   0C308DE2           ADD      R3,SP,#+12
+   \   00000130   0220A0E3           MOV      R2,#+2
+   \   00000134   04009DE5           LDR      R0,[SP, #+4]
+   \   00000138   001068E2           RSB      R1,R8,#+0
+   \   0000013C   0F0000EF           SWI      +15
+    202              i = fread(hFile, text, bufsize-1, &io_error);
+    203              text[i] = 0;
+   \   00000140   04009DE5           LDR      R0,[SP, #+4]
+   \   00000144   0C308DE2           ADD      R3,SP,#+12
+   \   00000148   0820A0E1           MOV      R2,R8
+   \   0000014C   0710A0E1           MOV      R1,R7
+   \   00000150   0B0000EF           SWI      +11
+   \   00000154   0740C0E7           STRB     R4,[R0, +R7]
+    204              fclose(hFile, &io_error);
+   \   00000158   04009DE5           LDR      R0,[SP, #+4]
+   \   0000015C   0C108DE2           ADD      R1,SP,#+12
+   \   00000160   0D0000EF           SWI      +13
+    205              s = strstr(text, delim);  
+   \   00000164   641085E2           ADD      R1,R5,#+100
+   \   00000168   0700A0E1           MOV      R0,R7
+   \   0000016C   180100EF           SWI      +280
+   \   00000170   0080A0E1           MOV      R8,R0
+   \   00000174   4B0F8FE2           ADR      R0,??GetHistory_7  ;; ""
+    206              
+    207              head = NewLOGQ("");
+   \   00000178   ........           _BLF     NewLOGQ,??NewLOGQ??rA
+   \   0000017C   08008DE5           STR      R0,[SP, #+8]
+    208              head->next = 0;
+   \   00000180   004080E5           STR      R4,[R0, #+0]
+   \   00000184   04D08DE2           ADD      SP,SP,#+4
+   \   00000188   100000EA           B        ??GetHistory_8
+    209              
+    210              while(s && text)
+    211              {
+    212                direction = (*(s+delimlen-3))-0x30; 
+    213                text = s+delimlen;
+    214                s = strstr(text, delim); 
+    215                e = !s?(text+strlen(text)):s;
+    216                
+    217                str = malloc(e-text+1);
+    218                if(e-text > 0) memcpy(str, text, e-text);
+    219                str[e-text] = 0; 
+    220          
+    221          //      snprintf(fullname, 127, "\r\n-----\r\n%08X\r\n%08X, %d\r\n%08X, %d\r\n----\r\n", text, e, direction, s, e-text);
+    222                b = strstr(str, "\r\n");
+    223          
+    224                
+    225          //      log = NewLOGQ(fullname);
+    226                if(b)
+    227                {
+    228                  log = NewLOGQ(b+2);
+    229                  if(b-str >= 0) memcpy(log->hdr, str, b-str);
+    230                  log->hdr[b-str] = 0;
+    231                }
+    232                else
+    233                {
+    234                  log = NewLOGQ("");
+   \                     ??GetHistory_9:
+   \   0000018C   450F8FE2           ADR      R0,??GetHistory_7  ;; ""
+   \   00000190   ........           _BLF     NewLOGQ,??NewLOGQ??rA
+   \   00000194   00A0A0E1           MOV      R10,R0
+    235                  strcpy(log->hdr, str);
+   \   00000198   0910A0E1           MOV      R1,R9
+   \   0000019C   10008AE2           ADD      R0,R10,#+16
+   \   000001A0   1A0000EF           SWI      +26
+    236                }
+    237                
+    238                log->type = direction|0x10;
+   \                     ??GetHistory_10:
+   \   000001A4   00009DE5           LDR      R0,[SP, #+0]
+    239                log->acked = 0;
+    240                log->ID=0xFFFFFFFF;
+    241                
+    242                AddLOGQ(&head, log);
+   \   000001A8   0A10A0E1           MOV      R1,R10
+   \   000001AC   100080E3           ORR      R0,R0,#0x10
+   \   000001B0   0C008AE5           STR      R0,[R10, #+12]
+   \   000001B4   04408AE5           STR      R4,[R10, #+4]
+   \   000001B8   0400E0E1           MVN      R0,R4
+   \   000001BC   08008AE5           STR      R0,[R10, #+8]
+   \   000001C0   04008DE2           ADD      R0,SP,#+4
+   \   000001C4   ........           _BLF     AddLOGQ,??AddLOGQ??rA
+    243                
+    244                //mfree(log);
+    245                mfree(str);
+   \   000001C8   0900A0E1           MOV      R0,R9
+   \   000001CC   150000EF           SWI      +21
+   \                     ??GetHistory_8:
+   \   000001D0   000058E3           CMP      R8,#+0
+   \   000001D4   00005713           CMPNE    R7,#+0
+   \   000001D8   2700000A           BEQ      ??GetHistory_11
+   \   000001DC   081086E0           ADD      R1,R6,R8
+   \   000001E0   031051E5           LDRB     R1,[R1, #-3]
+   \   000001E4   087086E0           ADD      R7,R6,R8
+   \   000001E8   0700A0E1           MOV      R0,R7
+   \   000001EC   301041E2           SUB      R1,R1,#+48
+   \   000001F0   00108DE5           STR      R1,[SP, #+0]
+   \   000001F4   641085E2           ADD      R1,R5,#+100
+   \   000001F8   180100EF           SWI      +280
+   \   000001FC   0080B0E1           MOVS     R8,R0
+   \   00000200   0200001A           BNE      ??GetHistory_12
+   \   00000204   0700A0E1           MOV      R0,R7
+   \   00000208   1B0000EF           SWI      +27
+   \   0000020C   070080E0           ADD      R0,R0,R7
+   \                     ??GetHistory_12:
+   \   00000210   07A040E0           SUB      R10,R0,R7
+   \   00000214   01008AE2           ADD      R0,R10,#+1
+   \   00000218   140000EF           SWI      +20
+   \   0000021C   0090A0E1           MOV      R9,R0
+   \   00000220   01005AE3           CMP      R10,#+1
+   \   00000224   020000BA           BLT      ??GetHistory_13
+   \   00000228   0A20A0E1           MOV      R2,R10
+   \   0000022C   0710A0E1           MOV      R1,R7
+   \   00000230   1E0100EF           SWI      +286
+   \                     ??GetHistory_13:
+   \   00000234   0940CAE7           STRB     R4,[R10, +R9]
+   \   00000238   1B1F8FE2           ADR      R1,??GetHistory_7+0x4  ;; "\r\n"
+   \   0000023C   0900A0E1           MOV      R0,R9
+   \   00000240   180100EF           SWI      +280
+   \   00000244   00B0B0E1           MOVS     R11,R0
+   \   00000248   CFFFFF0A           BEQ      ??GetHistory_9
+   \   0000024C   02008BE2           ADD      R0,R11,#+2
+   \   00000250   ........           _BLF     NewLOGQ,??NewLOGQ??rA
+   \   00000254   00A0A0E1           MOV      R10,R0
+   \   00000258   09B05BE0           SUBS     R11,R11,R9
+   \   0000025C   0300004A           BMI      ??GetHistory_14
+   \   00000260   0B20A0E1           MOV      R2,R11
+   \   00000264   0910A0E1           MOV      R1,R9
+   \   00000268   10008AE2           ADD      R0,R10,#+16
+   \   0000026C   1E0100EF           SWI      +286
+   \                     ??GetHistory_14:
+   \   00000270   0A008BE0           ADD      R0,R11,R10
+   \   00000274   1040C0E5           STRB     R4,[R0, #+16]
+   \   00000278   C9FFFFEA           B        ??GetHistory_10
+    246              }
+    247              AddFirstLOGQ(t, head->next);
+   \                     ??GetHistory_11:
+   \   0000027C   04009DE5           LDR      R0,[SP, #+4]
+   \   00000280   001090E5           LDR      R1,[R0, #+0]
+   \   00000284   90009DE5           LDR      R0,[SP, #+144]
+   \   00000288   ........           BL       AddFirstLOGQ
+    248              mfree(head);
+   \   0000028C   04009DE5           LDR      R0,[SP, #+4]
+   \   00000290   150000EF           SWI      +21
+    249                
+    250            }
+    251          
+    252            mfree(buf);
+   \                     ??GetHistory_6:
+   \   00000294   0C009DE5           LDR      R0,[SP, #+12]
+   \   00000298   150000EF           SWI      +21
+    253            return 0;
+   \                     ??GetHistory_0:
+   \   0000029C   0000A0E3           MOV      R0,#+0
+   \   000002A0   94D08DE2           ADD      SP,SP,#+148
+   \   000002A4   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??GetHistory_7:
+   \   000002A8   00000000           DC8      "",+0,+0,+0
+   \   000002AC   0D0A0000           DC8      "\r\n",+0
+    254          }
+    255          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    256          void GetStatusById(char *buffer, int id)
+    257          {  
+    258            // ??? Тут надо разбираться со статусами
+    259            // Похоже, не все коды верные...
+    260            switch(id)
+   \                     GetStatusById:
+   \   00000000   6C209FE5           LDR      R2,??GetStatusById_1+0xC  ;; `?<Constant "Online">`
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   070051E3           CMP      R1,#+7
+   \   0000000C   0080BD88           POPHI    {PC}
+   \   00000010   013F8FE2           ADR      R3,??GetStatusById_0
+   \   00000014   0130D3E7           LDRB     R3,[R3, R1]
+   \   00000018   03F18FE0           ADD      PC,PC,R3, LSL #+2
+   \                     ??GetStatusById_0:
+   \   0000001C   01030609           DC8      +1,+3,+6,+9
+   \   00000020   0B0D010F           DC8      +11,+13,+1,+15
+    261            {
+    262              case 0: {strcpy(buffer,"Online");break;}
+   \                     ??GetStatusById_2:
+   \   00000024   0210A0E1           MOV      R1,R2
+   \   00000028   030000EA           B        ??GetStatusById_3
+    263              case 1: {strcpy(buffer, "Invisible");break;}
+   \                     ??GetStatusById_4:
+   \   0000002C   081082E2           ADD      R1,R2,#+8
+   \   00000030   1A0000EF           SWI      +26
+   \   00000034   0080BDE8           POP      {PC}
+    264              case 2: {strcpy(buffer, "Away");break;}
+   \                     ??GetStatusById_5:
+   \   00000038   141082E2           ADD      R1,R2,#+20
+   \                     ??GetStatusById_3:
+   \   0000003C   1A0000EF           SWI      +26
+   \   00000040   0080BDE8           POP      {PC}
+    265              case 3: {strcpy(buffer, "N/A");break;}
+   \                     ??GetStatusById_6:
+   \   00000044   071F8FE2           ADR      R1,??GetStatusById_1  ;; "N/A"
+   \   00000048   FBFFFFEA           B        ??GetStatusById_3
+    266              case 4: {strcpy(buffer, "Occupied");break;}
+   \                     ??GetStatusById_7:
+   \   0000004C   1C1082E2           ADD      R1,R2,#+28
+   \   00000050   F9FFFFEA           B        ??GetStatusById_3
+    267              case 5: {strcpy(buffer, "DND");break;}
+   \                     ??GetStatusById_8:
+   \   00000054   041F8FE2           ADR      R1,??GetStatusById_1+0x4  ;; "DND"
+   \   00000058   F7FFFFEA           B        ??GetStatusById_3
+    268              case 6: {strcpy(buffer, "Online");break;}
+    269              case 7: {strcpy(buffer, "FFC");break;}
+   \                     ??GetStatusById_9:
+   \   0000005C   031F8FE2           ADR      R1,??GetStatusById_1+0x8  ;; "FFC"
+   \   00000060   1A0000EF           SWI      +26
+    270              default: break;// {sprintf(buffer, "UNK: %d", id);}
+    271            }
+    272          }
+   \                     ??GetStatusById_10:
+   \   00000064   0080BDE8           POP      {PC}             ;; return
+   \                     ??GetStatusById_1:
+   \   00000068   4E2F4100           DC8      "N/A"
+   \   0000006C   444E4400           DC8      "DND"
+   \   00000070   46464300           DC8      "FFC"
+   \   00000074   ........           DC32     `?<Constant "Online">`
+    273          
+    274          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    275          static AddToLog(char *s)
+    276          {
+    277            volatile int hFile;
+    278            unsigned int io_error = 0;
+    279            char fullname[128];
+    280            snprintf(fullname,127,"%s\\logs.txt",TEMPLATES_PATH);
+   \                     AddToLog:
+   \   00000000   ........           LDR      R3,??DataTable15  ;; TEMPLATES_PATH
+   \   00000004   70402DE9           PUSH     {R4-R6,LR}
+   \   00000008   B8609FE5           LDR      R6,??AddToLog_0  ;; `?<Constant "%s\\\\logs.txt">`
+   \   0000000C   90D04DE2           SUB      SP,SP,#+144
+   \   00000010   0050A0E1           MOV      R5,R0
+   \   00000014   0010A0E3           MOV      R1,#+0
+   \   00000018   04108DE5           STR      R1,[SP, #+4]
+   \   0000001C   0620A0E1           MOV      R2,R6
+   \   00000020   7F10A0E3           MOV      R1,#+127
+   \   00000024   10008DE2           ADD      R0,SP,#+16
+   \   00000028   1B0100EF           SWI      +283
+    281            char *ss=malloc(256);
+   \   0000002C   400FA0E3           MOV      R0,#+256
+   \   00000030   140000EF           SWI      +20
+   \   00000034   0040A0E1           MOV      R4,R0
+    282            TTime t;
+    283            GetDateTime(0,&t);  
+   \   00000038   08108DE2           ADD      R1,SP,#+8
+   \   0000003C   0000A0E3           MOV      R0,#+0
+   \   00000040   B40000EF           SWI      +180
+    284            sprintf(ss,"%02d:%02d:%02d %s",t.hour,t.min,t.sec,s);
+   \   00000044   20002DE9           PUSH     {R5}
+   \   00000048   0E00DDE5           LDRB     R0,[SP, #+14]
+   \   0000004C   0C1086E2           ADD      R1,R6,#+12
+   \   00000050   01002DE9           PUSH     {R0}
+   \   00000054   1130DDE5           LDRB     R3,[SP, #+17]
+   \   00000058   1020DDE5           LDRB     R2,[SP, #+16]
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   160000EF           SWI      +22
+    285            hFile = fopen(fullname,A_ReadWrite + A_Create + A_Append + A_BIN,P_READ+P_WRITE, &io_error);
+   \   00000064   0C308DE2           ADD      R3,SP,#+12
+   \   00000068   602FA0E3           MOV      R2,#+384
+   \   0000006C   0A10A0E3           MOV      R1,#+10
+   \   00000070   811C81E3           ORR      R1,R1,#0x8100
+   \   00000074   18008DE2           ADD      R0,SP,#+24
+   \   00000078   0A0000EF           SWI      +10
+   \   0000007C   08008DE5           STR      R0,[SP, #+8]
+    286            if(hFile!=-1)
+   \   00000080   08009DE5           LDR      R0,[SP, #+8]
+   \   00000084   08D08DE2           ADD      SP,SP,#+8
+   \   00000088   010070E3           CMN      R0,#+1
+   \   0000008C   0900000A           BEQ      ??AddToLog_1
+    287            {
+    288              fwrite(hFile, ss, strlen(ss), &io_error);
+   \   00000090   0400A0E1           MOV      R0,R4
+   \   00000094   1B0000EF           SWI      +27
+   \   00000098   04308DE2           ADD      R3,SP,#+4
+   \   0000009C   0020A0E1           MOV      R2,R0
+   \   000000A0   00009DE5           LDR      R0,[SP, #+0]
+   \   000000A4   0410A0E1           MOV      R1,R4
+   \   000000A8   0C0000EF           SWI      +12
+    289              fclose(hFile, &io_error);
+   \   000000AC   00009DE5           LDR      R0,[SP, #+0]
+   \   000000B0   04108DE2           ADD      R1,SP,#+4
+   \   000000B4   0D0000EF           SWI      +13
+    290            }
+    291            mfree(ss);
+   \                     ??AddToLog_1:
+   \   000000B8   0400A0E1           MOV      R0,R4
+   \   000000BC   150000EF           SWI      +21
+    292          }
+   \   000000C0   90D08DE2           ADD      SP,SP,#+144
+   \   000000C4   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??AddToLog_0:
+   \   000000C8   ........           DC32     `?<Constant "%s\\\\logs.txt">`
+    293          
+
+   \                                 In segment DATA_I, align 1, align-sorted
+    294          char _u[]="%u";
+   \                     _u:
+   \   00000000                      DS8 3
+   \   00000003                      REQUIRE `?<Initializer for _u>`
+    295          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    296          void LogStatusChange(CLIST *CListEx)
+    297          {
+    298            extern int LOG_STATCH;
+    299            char hdr[] = "(System message) ";
+   \                     LogStatusChange:
+   \   00000000   AC109FE5           LDR      R1,??LogStatusChange_0  ;; `?<Constant "(System message) ">`
+   \   00000004   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000008   E8D04DE2           SUB      SP,SP,#+232
+   \   0000000C   2C5091E8           LDM      R1,{R2,R3,R5,R12,LR}
+    300            char msg[] = "%s меняет статус на %s\r\n";
+   \   00000010   A0109FE5           LDR      R1,??LogStatusChange_0+0x4  ;; `?<Constant "%s \\354\\345\\355\\377\\345\\362 \\361\\3`
+   \   00000014   0040A0E1           MOV      R4,R0
+   \   00000018   D4008DE2           ADD      R0,SP,#+212
+   \   0000001C   2C5080E8           STM      R0,{R2,R3,R5,R12,LR}
+   \   00000020   EC5091E8           LDM      R1,{R2,R3,R5-R7,R12,LR}
+   \   00000024   B8008DE2           ADD      R0,SP,#+184
+   \   00000028   EC5080E8           STM      R0,{R2,R3,R5-R7,R12,LR}
+    301            char message[100];
+    302            char nickname[64];
+    303            char status[20];
+    304            if(CListEx->name)
+   \   0000002C   140094E2           ADDS     R0,R4,#+20
+   \   00000030   0300000A           BEQ      ??LogStatusChange_1
+    305            {
+    306              strcpy(nickname, CListEx->name);
+   \   00000034   141084E2           ADD      R1,R4,#+20
+   \   00000038   78008DE2           ADD      R0,SP,#+120
+   \   0000003C   1A0000EF           SWI      +26
+   \   00000040   040000EA           B        ??LogStatusChange_2
+    307            }
+    308            else
+    309            {
+    310              snprintf(nickname,63,_u, CListEx->uin);
+   \                     ??LogStatusChange_1:
+   \   00000044   0C3094E5           LDR      R3,[R4, #+12]
+   \   00000048   ........           LDR      R2,??DataTable13  ;; _u
+   \   0000004C   3F10A0E3           MOV      R1,#+63
+   \   00000050   78008DE2           ADD      R0,SP,#+120
+   \   00000054   1B0100EF           SWI      +283
+    311            }
+    312            if(CListEx->state>7){return;}
+   \                     ??LogStatusChange_2:
+   \   00000058   B415D4E1           LDRH     R1,[R4, #+84]
+   \   0000005C   080051E3           CMP      R1,#+8
+   \   00000060   1100002A           BCS      ??LogStatusChange_3
+    313            GetStatusById(status, CListEx->state);
+   \   00000064   0D00A0E1           MOV      R0,SP
+   \   00000068   ........           BL       GetStatusById
+    314            sprintf(message, msg, nickname, status);
+   \   0000006C   0D30A0E1           MOV      R3,SP
+   \   00000070   78208DE2           ADD      R2,SP,#+120
+   \   00000074   B8108DE2           ADD      R1,SP,#+184
+   \   00000078   14008DE2           ADD      R0,SP,#+20
+   \   0000007C   160000EF           SWI      +22
+    315            if(!LOG_STATCH){return;}
+   \   00000080   34009FE5           LDR      R0,??LogStatusChange_0+0x8  ;; LOG_STATCH
+   \   00000084   000090E5           LDR      R0,[R0, #+0]
+   \   00000088   000050E3           CMP      R0,#+0
+    316            if(CListEx->log==NULL){return;}
+   \   0000008C   94009415           LDRNE    R0,[R4, #+148]
+   \   00000090   00005013           CMPNE    R0,#+0
+   \   00000094   0400000A           BEQ      ??LogStatusChange_3
+    317            Add2History(CListEx, hdr, message, 0);
+   \   00000098   0030A0E3           MOV      R3,#+0
+   \   0000009C   14208DE2           ADD      R2,SP,#+20
+   \   000000A0   D4108DE2           ADD      R1,SP,#+212
+   \   000000A4   0400A0E1           MOV      R0,R4
+   \   000000A8   ........           BL       Add2History
+    318          }
+   \                     ??LogStatusChange_3:
+   \   000000AC   E8D08DE2           ADD      SP,SP,#+232      ;; stack cleaning
+   \   000000B0   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??LogStatusChange_0:
+   \   000000B4   ........           DC32     `?<Constant "(System message) ">`
+   \   000000B8   ........           DC32     `?<Constant "%s \\354\\345\\355\\377\\345\\362 \\361\\3`
+   \   000000BC   ........           DC32     LOG_STATCH
+    319          
+    320          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    321          void LogStatusChange2(CLIST *CListEx)
+    322          {
+   \                     LogStatusChange2:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   C8D04DE2           SUB      SP,SP,#+200
+   \   00000008   0040A0E1           MOV      R4,R0
+    323            if(!IsLogEna) return;
+   \   0000000C   88009FE5           LDR      R0,??LogStatusChange2_0  ;; IsLogEna
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   1D00000A           BEQ      ??LogStatusChange2_1
+    324            extern int LOG_STATCH;
+    325            char msg[] = "%s[%d] -> %s \r\n";
+   \   0000001C   7C109FE5           LDR      R1,??LogStatusChange2_0+0x4  ;; `?<Constant "%s[%d] -> %s \\r\\n">`
+   \   00000020   14008DE2           ADD      R0,SP,#+20
+   \   00000024   0C5091E8           LDM      R1,{R2,R3,R12,LR}
+   \   00000028   0C5080E8           STM      R0,{R2,R3,R12,LR}
+    326            char message[100];
+    327            char nickname[64];
+    328            char status[20];
+    329            if(CListEx->name)
+   \   0000002C   140094E2           ADDS     R0,R4,#+20
+   \   00000030   0300000A           BEQ      ??LogStatusChange2_2
+    330            {
+    331              strcpy(nickname, CListEx->name);
+   \   00000034   141084E2           ADD      R1,R4,#+20
+   \   00000038   88008DE2           ADD      R0,SP,#+136
+   \   0000003C   1A0000EF           SWI      +26
+   \   00000040   040000EA           B        ??LogStatusChange2_3
+    332            }
+    333            else
+    334            {
+    335              snprintf(nickname,63, _u, CListEx->uin);
+   \                     ??LogStatusChange2_2:
+   \   00000044   0C3094E5           LDR      R3,[R4, #+12]
+   \   00000048   ........           LDR      R2,??DataTable13  ;; _u
+   \   0000004C   3F10A0E3           MOV      R1,#+63
+   \   00000050   88008DE2           ADD      R0,SP,#+136
+   \   00000054   1B0100EF           SWI      +283
+    336            }
+    337            if(CListEx->state>7){return;}
+   \                     ??LogStatusChange2_3:
+   \   00000058   B415D4E1           LDRH     R1,[R4, #+84]
+   \   0000005C   080051E3           CMP      R1,#+8
+   \   00000060   0B00002A           BCS      ??LogStatusChange2_1
+    338            GetStatusById(status, CListEx->state);
+   \   00000064   0D00A0E1           MOV      R0,SP
+   \   00000068   ........           BL       GetStatusById
+    339            sprintf(message, msg, nickname,CListEx->uin,status);
+   \   0000006C   0D00A0E1           MOV      R0,SP
+   \   00000070   01002DE9           PUSH     {R0}
+   \   00000074   0C3094E5           LDR      R3,[R4, #+12]
+   \   00000078   8C208DE2           ADD      R2,SP,#+140
+   \   0000007C   18108DE2           ADD      R1,SP,#+24
+   \   00000080   28008DE2           ADD      R0,SP,#+40
+   \   00000084   160000EF           SWI      +22
+    340            AddToLog(message);
+   \   00000088   28008DE2           ADD      R0,SP,#+40
+   \   0000008C   ........           BL       AddToLog
+    341          }
+   \   00000090   04D08DE2           ADD      SP,SP,#+4
+   \                     ??LogStatusChange2_1:
+   \   00000094   C8D08DE2           ADD      SP,SP,#+200      ;; stack cleaning
+   \   00000098   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??LogStatusChange2_0:
+   \   0000009C   ........           DC32     IsLogEna
+   \   000000A0   ........           DC32     `?<Constant "%s[%d] -> %s \\r\\n">`
+    342          
+    343          static int _itemFromDisp;//кол-во на экране
+    344          static int _totalItems;//общее количество итемов
+    345          static int startItem;
+    346          
+    347          static char *temp_chars; //Собственно файл
+    348          static char **temp_lines; //Массив указателей на строки
+    349          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    350          void FreeLog(void)
+    351          {
+   \                     FreeLog:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    352            if (temp_lines) mfree(temp_lines);
+   \   00000004   ........           LDR      R4,??DataTable20  ;; _itemFromDisp
+   \   00000008   100094E5           LDR      R0,[R4, #+16]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0000000A           BEQ      ??FreeLog_0
+   \   00000014   150000EF           SWI      +21
+    353            if (temp_chars) mfree(temp_chars);
+   \                     ??FreeLog_0:
+   \   00000018   0C0094E5           LDR      R0,[R4, #+12]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0100000A           BEQ      ??FreeLog_1
+   \   00000024   150000EF           SWI      +21
+    354            temp_lines=NULL;
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \                     ??FreeLog_1:
+   \   0000002C   100084E5           STR      R0,[R4, #+16]
+    355            temp_chars=NULL;
+   \   00000030   0C0084E5           STR      R0,[R4, #+12]
+    356          }
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+    357          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    358          static int LoadLog()
+    359          {
+   \                     LoadLog:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000004   4BDF4DE2           SUB      SP,SP,#+300
+    360            FSTATS stat;
+    361            char fn[256];
+    362            int f;
+    363            unsigned int ul;
+    364            int i;
+    365            int fsize;
+    366            char *p;
+    367            char *pp;
+    368            int c;
+    369            FreeLog();
+    370            strcpy(fn,TEMPLATES_PATH);
+    371            i=strlen(fn);
+    372            sprintf(fn+i,"\\logs.txt");
+    373            if (GetFileStats(fn,&stat,&ul)==-1) return 0;
+   \   00000008   0040E0E3           MVN      R4,#+0
+   \   0000000C   ........           BL       FreeLog
+   \   00000010   ........           LDR      R1,??DataTable15  ;; TEMPLATES_PATH
+   \   00000014   04008DE2           ADD      R0,SP,#+4
+   \   00000018   1A0000EF           SWI      +26
+   \   0000001C   04008DE2           ADD      R0,SP,#+4
+   \   00000020   1B0000EF           SWI      +27
+   \   00000024   FC109FE5           LDR      R1,??LoadLog_0   ;; `?<Constant "\\\\logs.txt">`
+   \   00000028   0070A0E1           MOV      R7,R0
+   \   0000002C   04008DE2           ADD      R0,SP,#+4
+   \   00000030   000087E0           ADD      R0,R7,R0
+   \   00000034   160000EF           SWI      +22
+   \   00000038   0D20A0E1           MOV      R2,SP
+   \   0000003C   411F8DE2           ADD      R1,SP,#+260
+   \   00000040   04008DE2           ADD      R0,SP,#+4
+   \   00000044   840000EF           SWI      +132
+   \   00000048   040050E1           CMP      R0,R4
+   \   0000004C   0200001A           BNE      ??LoadLog_1
+   \                     ??LoadLog_2:
+   \   00000050   0000A0E3           MOV      R0,#+0
+   \                     ??LoadLog_3:
+   \   00000054   4BDF8DE2           ADD      SP,SP,#+300      ;; stack cleaning
+   \   00000058   F087BDE8           POP      {R4-R10,PC}      ;; return
+    374            if ((fsize=stat.size)<=0) return 0;
+   \                     ??LoadLog_1:
+   \   0000005C   08719DE5           LDR      R7,[SP, #+264]
+   \   00000060   010057E3           CMP      R7,#+1
+   \   00000064   F9FFFFBA           BLT      ??LoadLog_2
+    375            if((f=fopen(fn,A_ReadOnly+A_BIN,P_READ,&ul))==-1) return 0;
+   \   00000068   0D30A0E1           MOV      R3,SP
+   \   0000006C   8020A0E3           MOV      R2,#+128
+   \   00000070   801CA0E3           MOV      R1,#+32768
+   \   00000074   04008DE2           ADD      R0,SP,#+4
+   \   00000078   0A0000EF           SWI      +10
+   \   0000007C   0080A0E1           MOV      R8,R0
+   \   00000080   040058E1           CMP      R8,R4
+   \   00000084   F1FFFF0A           BEQ      ??LoadLog_2
+    376            p=temp_chars=malloc(fsize+1);
+   \   00000088   ........           LDR      R4,??DataTable20  ;; _itemFromDisp
+   \   0000008C   010087E2           ADD      R0,R7,#+1
+   \   00000090   140000EF           SWI      +20
+   \   00000094   0C0084E5           STR      R0,[R4, #+12]
+   \   00000098   0060A0E1           MOV      R6,R0
+    377            p[fread(f,p,fsize,&ul)]=0;
+   \   0000009C   0050A0E3           MOV      R5,#+0
+   \   000000A0   0D30A0E1           MOV      R3,SP
+   \   000000A4   0720A0E1           MOV      R2,R7
+   \   000000A8   0610A0E1           MOV      R1,R6
+   \   000000AC   0800A0E1           MOV      R0,R8
+   \   000000B0   0B0000EF           SWI      +11
+   \   000000B4   0650C0E7           STRB     R5,[R0, +R6]
+    378            fclose(f,&ul);
+   \   000000B8   0D10A0E1           MOV      R1,SP
+   \   000000BC   0800A0E1           MOV      R0,R8
+   \   000000C0   0D0000EF           SWI      +13
+    379            i=0;
+   \   000000C4   0070A0E3           MOV      R7,#+0
+    380            pp=p;
+   \   000000C8   0680A0E1           MOV      R8,R6
+   \   000000CC   020000EA           B        ??LoadLog_4
+    381            for(;;)
+    382            {
+    383              c=*p;
+    384              if (c<32)
+    385              {
+    386                if (pp&&(pp!=p))
+    387                {
+    388          	temp_lines=realloc(temp_lines,(i+1)*sizeof(char *));
+    389          	temp_lines[i++]=pp;
+    390                }
+    391                pp=NULL;
+    392                if (!c) break;
+    393                *p=0;
+    394              }
+    395              else
+    396              {
+    397                if (pp==NULL) pp=p;
+   \                     ??LoadLog_5:
+   \   000000D0   000058E3           CMP      R8,#+0
+   \   000000D4   0680A001           MOVEQ    R8,R6
+    398              }
+    399              p++;
+   \                     ??LoadLog_6:
+   \   000000D8   016086E2           ADD      R6,R6,#+1
+   \                     ??LoadLog_4:
+   \   000000DC   0090D6E5           LDRB     R9,[R6, #+0]
+   \   000000E0   200059E3           CMP      R9,#+32
+   \   000000E4   F9FFFFAA           BGE      ??LoadLog_5
+   \   000000E8   000058E3           CMP      R8,#+0
+   \   000000EC   06005811           CMPNE    R8,R6
+   \   000000F0   0600000A           BEQ      ??LoadLog_7
+   \   000000F4   100094E5           LDR      R0,[R4, #+16]
+   \   000000F8   01A087E2           ADD      R10,R7,#+1
+   \   000000FC   0A11A0E1           LSL      R1,R10,#+2
+   \   00000100   BA0000EF           SWI      +186
+   \   00000104   100084E5           STR      R0,[R4, #+16]
+   \   00000108   078180E7           STR      R8,[R0, +R7, LSL #+2]
+   \   0000010C   0A70A0E1           MOV      R7,R10
+   \                     ??LoadLog_7:
+   \   00000110   0080A0E3           MOV      R8,#+0
+   \   00000114   000059E3           CMP      R9,#+0
+    400            }
+    401            return i;
+   \   00000118   0700A001           MOVEQ    R0,R7
+   \   0000011C   CCFFFF0A           BEQ      ??LoadLog_3
+   \   00000120   0050C6E5           STRB     R5,[R6, #+0]
+   \   00000124   EBFFFFEA           B        ??LoadLog_6
+   \                     ??LoadLog_0:
+   \   00000128   ........           DC32     `?<Constant "\\\\logs.txt">`
+    402          }
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     _itemFromDisp:
+   \   00000000                      DS8 4
+   \   00000004                      DS8 4
+   \   00000008                      DS8 4
+   \   0000000C                      DS8 4
+   \   00000010                      DS8 4
+   \   00000014                      DS8 4
+    403          
+    404          extern char clrBlack[];
+    405          extern char clrWhite[];
+    406          extern char transparent[];
+    407          
+    408          #define CLIST_Y1 (YDISP+2)
+    409          
+    410          
+    411          //extern void DrwImage(IMGHDR *img, int x, int y, char *pen, char *brush);
+    412          static int _font;
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    413          int start_x=2;
+   \                     start_x:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for start_x>`
+
+   \                                 In segment CODE, align 4, keep-with-next
+    414          static void DrawList()
+    415          {
+   \                     DrawList:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+    416            int font_y = FontH(_font)*2;
+   \   00000004   ........           LDR      R4,??DataTable20  ;; _itemFromDisp
+    417            int fnt = FontH(_font);
+    418            int scr_h=ScreenH()-1;
+    419            int scr_w=ScreenW()-1;
+    420            _itemFromDisp = sdiv(font_y,scr_h-CLIST_Y1-FontH(_font)-2)+1;
+    421            
+    422            LockSched();
+    423            
+    424            int i=0;
+    425            int start_y=0;
+    426           
+    427            RECT rc;
+    428            SetFontColor((char*)FontClrLog,transparent,0);        
+    429            char s[64];
+    430            sprintf(s,"Current: %d Total: %d",startItem+i,_totalItems);
+   \   00000008   B8919FE5           LDR      R9,??DrawList_0  ;; `?<Constant "Current: %d Total: %d">`
+   \   0000000C   48D04DE2           SUB      SP,SP,#+72
+   \   00000010   140094E5           LDR      R0,[R4, #+20]
+   \   00000014   ........           _BLF     FontH,??FontH??rA
+   \   00000018   8050A0E1           LSL      R5,R0,#+1
+   \   0000001C   140094E5           LDR      R0,[R4, #+20]
+   \   00000020   ........           _BLF     FontH,??FontH??rA
+   \   00000024   0060A0E1           MOV      R6,R0
+   \   00000028   898100EF           SWI      +33161
+   \   0000002C   018040E2           SUB      R8,R0,#+1
+   \   00000030   888100EF           SWI      +33160
+   \   00000034   017040E2           SUB      R7,R0,#+1
+   \   00000038   140094E5           LDR      R0,[R4, #+20]
+   \   0000003C   ........           _BLF     FontH,??FontH??rA
+   \   00000040   000048E0           SUB      R0,R8,R0
+   \   00000044   041040E2           SUB      R1,R0,#+4
+   \   00000048   0500A0E1           MOV      R0,R5
+   \   0000004C   B80000EF           SWI      +184
+   \   00000050   010080E2           ADD      R0,R0,#+1
+   \   00000054   000084E5           STR      R0,[R4, #+0]
+   \   00000058   460100EF           SWI      +326
+   \   0000005C   68019FE5           LDR      R0,??DrawList_0+0x4  ;; FontClrLog
+   \   00000060   68119FE5           LDR      R1,??DrawList_0+0x8  ;; transparent
+   \   00000064   0080A0E3           MOV      R8,#+0
+   \   00000068   0020A0E3           MOV      R2,#+0
+   \   0000006C   ........           _BLF     SetFontColor,??SetFontColor??rA
+   \   00000070   043094E5           LDR      R3,[R4, #+4]
+   \   00000074   082094E5           LDR      R2,[R4, #+8]
+   \   00000078   0910A0E1           MOV      R1,R9
+   \   0000007C   08008DE2           ADD      R0,SP,#+8
+   \   00000080   160000EF           SWI      +22
+    431            char *ss=malloc(256);
+   \   00000084   400FA0E3           MOV      R0,#+256
+   \   00000088   140000EF           SWI      +20
+   \   0000008C   00A0A0E1           MOV      R10,R0
+   \   00000090   3F0000EA           B        ??DrawList_1
+    432            while( (i < _itemFromDisp) && (startItem+i < _totalItems) )
+    433            {
+    434             start_y = (font_y + 2 + (i*font_y));    //определяем начальное смещение по у      
+   \                     ??DrawList_2:
+   \   00000094   955820E0           MLA      R0,R5,R8,R5
+   \   00000098   02B080E2           ADD      R11,R0,#+2
+    435             StoreXYXYtoRECT(&rc,start_x,start_y,ScreenW()-1,start_y+font_y);            
+   \   0000009C   888100EF           SWI      +33160
+   \   000000A0   0B1085E0           ADD      R1,R5,R11
+   \   000000A4   02002DE9           PUSH     {R1}
+   \   000000A8   013040E2           SUB      R3,R0,#+1
+   \   000000AC   ........           LDR      R0,??DataTable21  ;; start_x
+   \   000000B0   0B20A0E1           MOV      R2,R11
+   \   000000B4   001090E5           LDR      R1,[R0, #+0]
+   \   000000B8   04008DE2           ADD      R0,SP,#+4
+   \   000000BC   340100EF           SWI      +308
+    436             
+    437             if(temp_lines[startItem+i])
+   \   000000C0   080094E5           LDR      R0,[R4, #+8]
+   \   000000C4   002088E0           ADD      R2,R8,R0
+   \   000000C8   100094E5           LDR      R0,[R4, #+16]
+   \   000000CC   020180E0           ADD      R0,R0,R2, LSL #+2
+   \   000000D0   001090E5           LDR      R1,[R0, #+0]
+   \   000000D4   04D08DE2           ADD      SP,SP,#+4
+   \   000000D8   000051E3           CMP      R1,#+0
+   \   000000DC   1600000A           BEQ      ??DrawList_3
+    438             {
+    439               sprintf(ss,"%02d. %s",startItem+i,temp_lines[startItem+i]);
+   \   000000E0   0130A0E1           MOV      R3,R1
+   \   000000E4   181089E2           ADD      R1,R9,#+24
+   \   000000E8   0A00A0E1           MOV      R0,R10
+   \   000000EC   160000EF           SWI      +22
+    440               PrintText(rc.x,rc.y-1,ss,0,_font,1,320,0,0,(rc.x2*2));//item name      
+   \   000000F0   F400DDE1           LDRSH    R0,[SP, #+4]
+   \   000000F4   0030A0E3           MOV      R3,#+0
+   \   000000F8   0A20A0E1           MOV      R2,R10
+   \   000000FC   8000A0E1           LSL      R0,R0,#+1
+   \   00000100   01002DE9           PUSH     {R0}
+   \   00000104   0000A0E3           MOV      R0,#+0
+   \   00000108   01002DE9           PUSH     {R0}
+   \   0000010C   01002DE9           PUSH     {R0}
+   \   00000110   500FA0E3           MOV      R0,#+320
+   \   00000114   01002DE9           PUSH     {R0}
+   \   00000118   0100A0E3           MOV      R0,#+1
+   \   0000011C   01002DE9           PUSH     {R0}
+   \   00000120   140094E5           LDR      R0,[R4, #+20]
+   \   00000124   01002DE9           PUSH     {R0}
+   \   00000128   FA01DDE1           LDRSH    R0,[SP, #+26]
+   \   0000012C   011040E2           SUB      R1,R0,#+1
+   \   00000130   F801DDE1           LDRSH    R0,[SP, #+24]
+   \   00000134   ........           _BLF     PrintText,??PrintText??rA
+   \   00000138   18D08DE2           ADD      SP,SP,#+24
+    441             }
+    442             
+    443             PrintField(2,2,s,0,_font,1);
+   \                     ??DrawList_3:
+   \   0000013C   0100A0E3           MOV      R0,#+1
+   \   00000140   01002DE9           PUSH     {R0}
+   \   00000144   140094E5           LDR      R0,[R4, #+20]
+   \   00000148   0030A0E3           MOV      R3,#+0
+   \   0000014C   01002DE9           PUSH     {R0}
+   \   00000150   10208DE2           ADD      R2,SP,#+16
+   \   00000154   0210A0E3           MOV      R1,#+2
+    444          //   PrintField(rc.x,rc.y-1,temp_lines[startItem+i],0,_font,1);
+    445             DrawLine(0,rc.y-(fnt/2),scr_w,rc.y-(fnt/2),1,clrWhite);
+    446             i++;
+   \   00000158   018088E2           ADD      R8,R8,#+1
+   \   0000015C   0200A0E3           MOV      R0,#+2
+   \   00000160   ........           _BLF     PrintField,??PrintField??rA
+   \   00000164   FA00DDE1           LDRSH    R0,[SP, #+10]
+   \   00000168   A61F86E0           ADD      R1,R6,R6, LSR #+31
+   \   0000016C   0720A0E1           MOV      R2,R7
+   \   00000170   C11040E0           SUB      R1,R0,R1, ASR #+1
+   \   00000174   58009FE5           LDR      R0,??DrawList_0+0xC  ;; clrWhite
+   \   00000178   0130A0E1           MOV      R3,R1
+   \   0000017C   01002DE9           PUSH     {R0}
+   \   00000180   0100A0E3           MOV      R0,#+1
+   \   00000184   01002DE9           PUSH     {R0}
+   \   00000188   0000A0E3           MOV      R0,#+0
+   \   0000018C   B30100EF           SWI      +435
+   \   00000190   10D08DE2           ADD      SP,SP,#+16
+    447            }
+   \                     ??DrawList_1:
+   \   00000194   000094E5           LDR      R0,[R4, #+0]
+   \   00000198   000058E1           CMP      R8,R0
+   \   0000019C   040000AA           BGE      ??DrawList_4
+   \   000001A0   080094E5           LDR      R0,[R4, #+8]
+   \   000001A4   041094E5           LDR      R1,[R4, #+4]
+   \   000001A8   000088E0           ADD      R0,R8,R0
+   \   000001AC   010050E1           CMP      R0,R1
+   \   000001B0   B7FFFFBA           BLT      ??DrawList_2
+    448            UnlockSched();  
+   \                     ??DrawList_4:
+   \   000001B4   470100EF           SWI      +327
+    449            mfree(ss);
+   \   000001B8   0A00A0E1           MOV      R0,R10
+   \   000001BC   150000EF           SWI      +21
+    450          }
+   \   000001C0   48D08DE2           ADD      SP,SP,#+72
+   \   000001C4   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??DrawList_0:
+   \   000001C8   ........           DC32     `?<Constant "Current: %d Total: %d">`
+   \   000001CC   ........           DC32     FontClrLog
+   \   000001D0   ........           DC32     transparent
+   \   000001D4   ........           DC32     clrWhite
+    451          
+    452          // Управление курсором
+    453          static void MoveUp(int i)
+    454          { 
+    455            if(startItem > 0){ startItem--; }
+    456            else
+    457            {
+    458              startItem=_totalItems-_itemFromDisp;
+    459            }
+    460          }
+    461          
+    462          
+    463          static void MoveDown(int i)
+    464          {
+    465            if(startItem <_totalItems - 5) startItem++;
+    466            else   
+    467            {
+    468              startItem=0;
+    469            }
+    470          }  
+    471          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    472          static void OnRedraw(MAIN_GUI *data)
+    473          {  
+   \                     OnRedraw:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    474          #ifdef ELKA
+    475            DisableIconBar(1);
+    476          #endif
+    477            DrawRoundedFrame(0,0,ScreenW()-1,ScreenH()-1,0,0,0,BGLog,BGLog);
+   \   00000004   898100EF           SWI      +33161
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   888100EF           SWI      +33160
+   \   00000010   34109FE5           LDR      R1,??OnRedraw_0  ;; BGLog
+   \   00000014   013044E2           SUB      R3,R4,#+1
+   \   00000018   0120A0E1           MOV      R2,R1
+   \   0000001C   04002DE9           PUSH     {R2}
+   \   00000020   02002DE9           PUSH     {R1}
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   02002DE9           PUSH     {R1}
+   \   0000002C   02002DE9           PUSH     {R1}
+   \   00000030   02002DE9           PUSH     {R1}
+   \   00000034   012040E2           SUB      R2,R0,#+1
+   \   00000038   0000A0E3           MOV      R0,#+0
+   \   0000003C   500100EF           SWI      +336
+    478            DrawList();
+   \   00000040   ........           BL       DrawList
+    479          }
+   \   00000044   14D08DE2           ADD      SP,SP,#+20
+   \   00000048   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??OnRedraw_0:
+   \   0000004C   ........           DC32     BGLog
+    480          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    481          static void onCreate(MAIN_GUI *data, void *(*malloc_adr)(int))
+    482          { 
+   \                     onCreate:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    483            SetCanvasFlag(1);
+   \   00000008   0100A0E3           MOV      R0,#+1
+   \   0000000C   ........           _BLF     SetCanvasFlag,??SetCanvasFlag??rA
+    484            start_x=2;
+   \   00000010   ........           LDR      R0,??DataTable21  ;; start_x
+   \   00000014   0210A0E3           MOV      R1,#+2
+   \   00000018   001080E5           STR      R1,[R0, #+0]
+    485            _font=_fontlog;
+   \   0000001C   14109FE5           LDR      R1,??onCreate_0  ;; _fontlog
+   \   00000020   14009FE5           LDR      R0,??onCreate_0+0x4  ;; _itemFromDisp + 20
+   \   00000024   001091E5           LDR      R1,[R1, #+0]
+   \   00000028   001080E5           STR      R1,[R0, #+0]
+    486            data->gui.state=1;
+   \   0000002C   0100A0E3           MOV      R0,#+1
+   \   00000030   0C00C4E5           STRB     R0,[R4, #+12]
+    487          }
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??onCreate_0:
+   \   00000038   ........           DC32     _fontlog
+   \   0000003C   ........           DC32     _itemFromDisp + 20
+    488          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    489          static void onClose(MAIN_GUI *data, void (*mfree_adr)(void *))
+    490          {
+   \                     onClose:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    491            FreeLog();
+   \   00000008   ........           BL       FreeLog
+    492          #ifdef ELKA
+    493            DisableIconBar(0);
+    494          #endif
+    495            data->gui.state=0;
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   0C00C4E5           STRB     R0,[R4, #+12]
+    496          }
+   \   00000014   1080BDE8           POP      {R4,PC}          ;; return
+    497          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    498          static void onFocus(MAIN_GUI *data, void *(*malloc_adr)(int), void (*mfree_adr)(void *))
+    499          {
+   \                     onFocus:
+   \   00000000   00402DE9           PUSH     {LR}
+    500            data->gui.state=2;
+   \   00000004   0210A0E3           MOV      R1,#+2
+   \   00000008   0C10C0E5           STRB     R1,[R0, #+12]
+    501            DisableIDLETMR();
+   \   0000000C   7F0100EF           SWI      +383
+    502          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+    503          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    504          static void onUnfocus(MAIN_GUI *data, void (*mfree_adr)(void *))
+    505          {
+    506            if (data->gui.state!=2) return;
+   \                     onUnfocus:
+   \   00000000   0C10D0E5           LDRB     R1,[R0, #+12]
+   \   00000004   020051E3           CMP      R1,#+2
+    507            data->gui.state=1;
+   \   00000008   0110A003           MOVEQ    R1,#+1
+   \   0000000C   0C10C005           STRBEQ   R1,[R0, #+12]
+    508          }
+   \   00000010   1EFF2FE1           BX       LR               ;; return
+    509          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    510          static int OnKey(MAIN_GUI *data, GUI_MSG *msg)
+    511          {
+   \                     OnKey:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    512            DirectRedrawGUI(); 
+   \   00000008   3F0100EF           SWI      +319
+    513            if (msg->gbsmsg->msg==KEY_DOWN || msg->gbsmsg->msg==LONG_PRESS)
+   \   0000000C   040094E5           LDR      R0,[R4, #+4]
+   \   00000010   9320A0E3           MOV      R2,#+147
+   \   00000014   041090E5           LDR      R1,[R0, #+4]
+   \   00000018   402F82E3           ORR      R2,R2,#0x100
+   \   0000001C   020051E1           CMP      R1,R2
+   \   00000020   02208212           ADDNE    R2,R2,#+2
+   \   00000024   02005111           CMPNE    R1,R2
+   \   00000028   1F00001A           BNE      ??OnKey_1
+    514            {
+    515              switch(msg->gbsmsg->submess)
+   \   0000002C   ........           LDR      R1,??DataTable20  ;; _itemFromDisp
+   \   00000030   ........           LDR      R4,??DataTable21  ;; start_x
+   \   00000034   080090E5           LDR      R0,[R0, #+8]
+   \   00000038   042091E5           LDR      R2,[R1, #+4]
+   \   0000003C   083091E5           LDR      R3,[R1, #+8]
+   \   00000040   00C094E5           LDR      R12,[R4, #+0]
+   \   00000044   040040E2           SUB      R0,R0,#+4
+   \   00000048   3A0050E3           CMP      R0,#+58
+   \   0000004C   1600008A           BHI      ??OnKey_1
+   \   00000050   01EF8FE2           ADR      LR,??OnKey_0
+   \   00000054   00E0DEE7           LDRB     LR,[LR, R0]
+   \   00000058   0EF18FE0           ADD      PC,PC,LR, LSL #+2
+   \                     ??OnKey_0:
+   \   0000005C   20131313           DC8      +32,+19,+19,+19
+   \   00000060   13131313           DC8      +19,+19,+19,+19
+   \   00000064   20131313           DC8      +32,+19,+19,+19
+   \   00000068   13131313           DC8      +19,+19,+19,+19
+   \   0000006C   13131313           DC8      +19,+19,+19,+19
+   \   00000070   13131313           DC8      +19,+19,+19,+19
+   \   00000074   13131313           DC8      +19,+19,+19,+19
+   \   00000078   13131313           DC8      +19,+19,+19,+19
+   \   0000007C   13131313           DC8      +19,+19,+19,+19
+   \   00000080   13131313           DC8      +19,+19,+19,+19
+   \   00000084   13131313           DC8      +19,+19,+19,+19
+   \   00000088   13131313           DC8      +19,+19,+19,+19
+   \   0000008C   13131313           DC8      +19,+19,+19,+19
+   \   00000090   1313130E           DC8      +19,+19,+19,+14
+   \   00000094   151C1A00           DC8      +21,+28,+26,+0
+    516              {
+    517              case UP_BUTTON:    MoveUp(2);   break;
+   \                     ??OnKey_2:
+   \   00000098   010053E3           CMP      R3,#+1
+   \   0000009C   000091B5           LDRLT    R0,[R1, #+0]
+   \   000000A0   000042B0           SUBLT    R0,R2,R0
+   \   000000A4   010043A2           SUBGE    R0,R3,#+1
+   \                     ??OnKey_3:
+   \   000000A8   080081E5           STR      R0,[R1, #+8]
+    518              case DOWN_BUTTON:  MoveDown(2); break;
+    519              case RIGHT_BUTTON: /*MoveDown(1);*/start_x-=10; break;
+    520              case LEFT_BUTTON:  /*MoveUp(1);*/start_x+=10;   break;
+    521             /* case '#' :
+    522                {
+    523                  WSHDR *ws;
+    524                  ws=AllocWS(150);
+    525                  extern const char *successed_config_filename;
+    526                  str_2ws(ws,successed_config_filename,128);
+    527                  ExecuteFile(ws,0,0);
+    528                  FreeWS(ws);
+    529                }
+    530                break;      */
+    531              case RIGHT_SOFT:case RED_BUTTON: return (1);
+    532              }
+    533            }
+    534            /*
+    535            if (k=='0')
+    536            {
+    537              if (RunBM2(9)) return 1;
+    538            }
+    539          
+    540            if ((k>='1')&&(k<='9'))
+    541            { 
+    542              if (RunBM2(k-'1')) return 1;
+    543            }
+    544            
+    545            if ((msg->gbsmsg->msg==KEY_DOWN) && (k==ENTER_BUTTON || k==LEFT_SOFT))
+    546            {
+    547              if (RunBM2(curpos)) return(1);
+    548            }*/
+    549            return(0);
+   \                     ??OnKey_1:
+   \   000000AC   0000A0E3           MOV      R0,#+0
+   \   000000B0   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??OnKey_4:
+   \   000000B4   050042E2           SUB      R0,R2,#+5
+   \   000000B8   000053E1           CMP      R3,R0
+   \   000000BC   0000A0A3           MOVGE    R0,#+0
+   \   000000C0   010083B2           ADDLT    R0,R3,#+1
+   \   000000C4   F7FFFFEA           B        ??OnKey_3
+   \                     ??OnKey_5:
+   \   000000C8   0A004CE2           SUB      R0,R12,#+10
+   \   000000CC   000000EA           B        ??OnKey_6
+   \                     ??OnKey_7:
+   \   000000D0   0A008CE2           ADD      R0,R12,#+10
+   \                     ??OnKey_6:
+   \   000000D4   000084E5           STR      R0,[R4, #+0]
+   \   000000D8   0000A0E3           MOV      R0,#+0
+   \   000000DC   1080BDE8           POP      {R4,PC}
+   \                     ??OnKey_8:
+   \   000000E0   0100A0E3           MOV      R0,#+1
+   \   000000E4   1080BDE8           POP      {R4,PC}
+    550          }
+    551          
+    552          extern void kill_data(void *p, void (*func_p)(void *));
+    553          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    554          static int method8(void){return(0);}
+   \                     method8:
+   \   00000000   0000A0E3           MOV      R0,#+0
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+    555          static int method9(void){return(0);}
+   \                     method9:
+   \   00000000   0000A0E3           MOV      R0,#+0
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+    556          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant {0, 0, 0, 0}>`:
+   \   00000000   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000008   ............       DC32 OnRedraw, onCreate, onClose, onFocus, onUnfocus, OnKey, 0H
+   \              ............
+   \              ............
+   \              ............
+   \              00000000    
+   \   00000024   ............       DC32 kill_data, method8, method9, 0H
+   \              ............
+   \              00000000    
+    557          static const void * const gui_methods[11]={
+    558            (void *)OnRedraw,
+    559            (void *)onCreate,
+    560            (void *)onClose,
+    561            (void *)onFocus,
+    562            (void *)onUnfocus,
+    563            (void *)OnKey,
+    564            0,
+    565            (void *)kill_data,
+    566            (void *)method8,
+    567            (void *)method9,
+    568            0
+    569          };
+    570          
+    571          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    572          void CreateLog()
+    573          {
+   \                     CreateLog:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    574            const RECT Canvas={0,0,0,0};
+   \   00000004   50409FE5           LDR      R4,??CreateLog_0  ;; `?<Constant {0, 0, 0, 0}>`
+   \   00000008   08D04DE2           SUB      SP,SP,#+8
+   \   0000000C   0C0094E8           LDM      R4,{R2,R3}
+   \   00000010   0D00A0E1           MOV      R0,SP
+   \   00000014   0C0080E8           STM      R0,{R2,R3}
+    575            _totalItems=LoadLog();  
+   \   00000018   ........           BL       LoadLog
+   \   0000001C   3C109FE5           LDR      R1,??CreateLog_0+0x4  ;; _itemFromDisp + 4
+   \   00000020   000081E5           STR      R0,[R1, #+0]
+    576            MAIN_GUI *main_gui=malloc(sizeof(MAIN_GUI));
+   \   00000024   4000A0E3           MOV      R0,#+64
+   \   00000028   140000EF           SWI      +20
+   \   0000002C   0050A0E1           MOV      R5,R0
+    577            zeromem(main_gui,sizeof(MAIN_GUI));
+   \   00000030   4010A0E3           MOV      R1,#+64
+   \   00000034   1D0100EF           SWI      +285
+    578            main_gui->gui.canvas=(void *)(&Canvas);
+   \   00000038   0D00A0E1           MOV      R0,SP
+   \   0000003C   000085E5           STR      R0,[R5, #+0]
+    579            main_gui->gui.methods=(void *)gui_methods;
+   \   00000040   080084E2           ADD      R0,R4,#+8
+   \   00000044   040085E5           STR      R0,[R5, #+4]
+    580            main_gui->gui.item_ll.data_mfree=(void (*)(void *))mfree_adr();
+   \   00000048   158000EF           SWI      +32789
+   \   0000004C   200085E5           STR      R0,[R5, #+32]
+    581            //patch_rect((RECT*)&Canvas,0,YDISP,ScreenW()-1,ScreenH()-1);
+    582            CreateGUI(main_gui);   
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   370100EF           SWI      +311
+    583          }
+   \   00000058   3380BDE8           POP      {R0,R1,R4,R5,PC}  ;; return
+   \                     ??CreateLog_0:
+   \   0000005C   ........           DC32     `?<Constant {0, 0, 0, 0}>`
+   \   00000060   ........           DC32     _itemFromDisp + 4
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     `?<Constant "%s\\\\%u.txt">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     HIST_PATH
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     HISTORY_TYPE
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     HISTORY_SAVE_TYPE
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     UIN
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable13:
+   \   00000000   ........           DC32     _u
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable15:
+   \   00000000   ........           DC32     TEMPLATES_PATH
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable20:
+   \   00000000   ........           DC32     _itemFromDisp
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable21:
+   \   00000000   ........           DC32     start_x
+
+   \                                 In segment DATA_ID, align 1, align-sorted
+   \                     `?<Initializer for _u>`:
+   \   00000000   257500             DC8 "%u"
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for start_x>`:
+   \   00000000   02000000           DC32 2
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s\\\\%u.txt">`:
+   \   00000000   25735C25752E       DC8 "%s\\%u.txt"
+   \              74787400    
+   \   0000000A   0000               DC8 0, 0
+   \   0000000C   25735C257500       DC8 "%s\\%u"
+   \   00000012   0000               DC8 0, 0
+   \   00000014   25735C257328       DC8 "%s\\%s(%d).txt"
+   \              2564292E7478
+   \              7400        
+   \   00000022   0000               DC8 0, 0
+   \   00000024   25735C25642E       DC8 "%s\\%d.txt"
+   \              74787400    
+   \   0000002E   0000               DC8 0, 0
+   \   00000030   CEF8E8E1EAE0       DC8 "\316\370\350\341\352\340 I/O  #%u"
+   \              20492F4F2020
+   \              23257500    
+   \   00000040   25735C25755C       DC8 "%s\\%u\\%s(%d).txt"
+   \              257328256429
+   \              2E74787400  
+   \   00000051   000000             DC8 0, 0, 0
+   \   00000054   25735C25755C       DC8 "%s\\%u\\%u.txt"
+   \              25752E747874
+   \              00          
+   \   00000061   000000             DC8 0, 0, 0
+   \   00000064   0D0A2D2D2D2D       DC8 "\015\012--------------<>-000"
+   \              2D2D2D2D2D2D
+   \              2D2D2D2D3C3E
+   \              2D30303000  
+   \   0000007B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   444E4400           DC8 "DND"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   46464300           DC8 "FFC"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s\\\\logs.txt">`:
+   \   00000000   25735C6C6F67       DC8 "%s\\logs.txt"
+   \              732E74787400
+   \   0000000C   253032643A25       DC8 "%02d:%02d:%02d %s"
+   \              3032643A2530
+   \              326420257300
+   \   0000001E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "(System message) ">`:
+   \   00000000   285379737465       DC8 "(System message) "
+   \              6D206D657373
+   \              616765292000
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s \\354\\345\\355\\377\\345\\362 \\361\\3`:
+   \   00000000   257320ECE5ED       DC8 "%s \354\345\355\377\345\362 \361\362\340\362\363\361 \355\340 %s\015\012"
+   \              FFE5F220F1F2
+   \              E0F2F3F120ED
+   \              E02025730D0A
+   \              00          
+   \   00000019   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s[%d] -> %s \\r\\n">`:
+   \   00000000   25735B25645D       DC8 "%s[%d] -> %s \015\012"
+   \              202D3E202573
+   \              200D0A00    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\\\logs.txt">`:
+   \   00000000   5C6C6F67732E       DC8 "\\logs.txt"
+   \              74787400    
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   257300             DC8 "%s"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Current: %d Total: %d">`:
+   \   00000000   43757272656E       DC8 "Current: %d Total: %d"
+   \              743A20256420
+   \              546F74616C3A
+   \              20256400    
+   \   00000016   0000               DC8 0, 0
+   \   00000018   253032642E20       DC8 "%02d. %s"
+   \              257300      
+   \   00000021   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\r\\n--------------<>-%0...">`:
+   \   00000000   0D0A2D2D2D2D       DC8 "\015\012--------------<>-%04d\015\012"
+   \              2D2D2D2D2D2D
+   \              2D2D2D2D3C3E
+   \              2D253034640D
+   \              0A00        
+   \   0000001A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   00                 DC8 ""
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   0D0A00             DC8 "\015\012"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Online">`:
+   \   00000000   4F6E6C696E65       DC8 "Online"
+   \              00          
+   \   00000007   00                 DC8 0
+   \   00000008   496E76697369       DC8 "Invisible"
+   \              626C6500    
+   \   00000012   0000               DC8 0, 0
+   \   00000014   4177617900         DC8 "Away"
+   \   00000019   000000             DC8 0, 0, 0
+   \   0000001C   4F6363757069       DC8 "Occupied"
+   \              656400      
+   \   00000025   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   4E2F4100           DC8 "N/A"
+    584          
+
+   Maximum stack usage in bytes:
+
+     Function         CSTACK
+     --------         ------
+     ActivateLastX        0
+     Add2History         28
+     AddFirstLOGQ         4
+     AddToLog           168
+     CheckLOGQ            8
+     CreateLog           20
+     DeleteLOGQ           8
+     DrawList           132
+     FreeLog              8
+     GetHistory         196
+     GetStatusById        4
+     LoadLog            332
+     LogStatusChange    252
+     LogStatusChange2   212
+     OnKey                8
+     OnRedraw            28
+     do_logwrite        332
+     method8              0
+     method9              0
+     onClose              8
+     onCreate             8
+     onFocus              4
+     onUnfocus            0
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     do_logwrite                     356
+     Add2History                     152
+     ActivateLastX                    64
+     AddFirstLOGQ                     64
+     DeleteLOGQ                       40
+     CheckLOGQ                       104
+     GetHistory                      688
+     GetStatusById                   120
+     AddToLog                        204
+     _u                                3
+     LogStatusChange                 192
+     LogStatusChange2                164
+     FreeLog                          56
+     LoadLog                         300
+     _itemFromDisp                    24
+     start_x                           4
+     DrawList                        472
+     OnRedraw                         80
+     onCreate                         64
+     onClose                          24
+     onFocus                          20
+     onUnfocus                        20
+     OnKey                           232
+     method8                           8
+     method9                           8
+     ?<Constant {0, 0, 0, 0}>         52
+     CreateLog                       100
+     ??DataTable5                      4
+     ??DataTable6                      4
+     ??DataTable7                      4
+     ??DataTable8                      4
+     ??DataTable10                     4
+     ??DataTable13                     4
+     ??DataTable15                     4
+     ??DataTable20                     4
+     ??DataTable21                     4
+     ?<Initializer for _u>             3
+     ?<Initializer for start_x>        4
+     ?<Constant "%s\\%u.txt">        124
+     ?<Constant "DND">                 4
+     ?<Constant "FFC">                 4
+     ?<Constant "%s\\logs.txt">       32
+     ?<Constant "(System message) ">
+                                      20
+     ?<Constant "%s \354\345\355\377\345\362 \361\3
+                                      28
+     ?<Constant "%s[%d] -> %s \r\n">
+                                      16
+     ?<Constant "\\logs.txt">         12
+     ?<Constant "%s">                  3
+     ?<Constant "Current: %d Total: %d">
+                                      36
+     ?<Constant "\r\n--------------<>-%0...">
+                                      28
+     ?<Constant "">                    1
+     ?<Constant "\r\n">                3
+     ?<Constant "Online">             40
+     ?<Constant "N/A">                 4
+      Others                         200
+
+ 
+ 3 744 bytes in segment CODE
+   407 bytes in segment DATA_C
+     7 bytes in segment DATA_I
+     7 bytes in segment DATA_ID
+    24 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 3 568 bytes of CODE  memory (+ 200 bytes shared)
+   414 bytes of CONST memory
+    31 bytes of DATA  memory
+
+Errors: none
+Warnings: none

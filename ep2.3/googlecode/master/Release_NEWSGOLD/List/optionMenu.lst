@@ -1,0 +1,2774 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    08/Jun/2010  15:03:32 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  F:\SVN\cn\Master\optionMenu.c                        #
+#    Command line    =  F:\SVN\cn\Master\optionMenu.c -D NEWSGOLD -lC        #
+#                       F:\SVN\cn\Master\Release_NEWSGOLD\List\ -o           #
+#                       F:\SVN\cn\Master\Release_NEWSGOLD\Obj\ -s9           #
+#                       --no_unroll --no_clustering --cpu_mode arm --endian  #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --fpu None --dlib_config "F:\software\Embedded    #
+#                       Workbench 4.0 Evaluation\ARM\LIB\dl5tpainl8n.h" -I   #
+#                       "F:\software\Embedded Workbench 4.0                  #
+#                       Evaluation\ARM\INC\" --inline_threshold=2            #
+#    List file       =  F:\SVN\cn\Master\Release_NEWSGOLD\List\optionMenu.ls #
+#                       t                                                    #
+#    Object file     =  F:\SVN\cn\Master\Release_NEWSGOLD\Obj\optionMenu.r79 #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+F:\SVN\cn\Master\optionMenu.c
+      1          /*
+      2           * 文件名: optionMenu.c
+      3           * 作者: BingK(binghelingxi)
+      4           *
+      5           * 最后修改日期: 2008.07.26
+      6           *
+      7           * 作用: 建立主菜单，以及实现主菜单中的功能，如显示信息，情景模式控制菜单，清除配置等
+      8           *
+      9           */
+     10          
+     11          #include "..\inc\swilib.h"
+     12          #include "rect_patcher.h"
+     13          #include "lang.h"
+     14          #include "main.h"
+     15          #include "optionMenu.h"
+     16          #include "getConfig.h"
+     17          #include "usedstr.h"
+     18          #include "string.h"
+     19          
+     20          #define MAIN_MENU_ITEMS_N	10
+     21          #define	MAIN_MENU_ITEMS_N_1	9
+     22          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     23          int PATH_TYPE=0; //0,backup, 1,restore
+   \                     PATH_TYPE:
+   \   00000000                      DS8 4
+     24          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     25          const int mmenusoftkeys[]={0,1,2};
+   \                     mmenusoftkeys:
+   \   00000000   000000000100       DC32 0, 1, 2
+   \              000002000000
+     26          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     27          const SOFTKEY_DESC mmenu_sk[]=
+   \                     mmenu_sk:
+   \   00000000   18000000           DC16 24, 0
+   \   00000004   ........           DC32 `?<Constant "\\321\\241\\324\\361">`
+   \   00000008   01000000           DC16 1, 0
+   \   0000000C   ........           DC32 `?<Constant "\\267\\265\\273\\330">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   FBC0FF7F           DC32 2147467515
+     28          {
+     29          	{0x0018,0x0000,(int)LGP_SELECT},
+     30          	{0x0001,0x0000,(int)LGP_BACK},
+     31          	{0x003D,0x0000,(int)LGP_DOIT_PIC}
+     32          };
+     33          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     34          const SOFTKEYSTAB mmenu_skt=
+   \                     mmenu_skt:
+   \   00000000   ........0000       DC32 mmenu_sk, 0
+   \              0000        
+     35          {
+     36          	mmenu_sk,0
+     37          };
+     38          
+     39          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     40          void option_menu_ghook(void *data, int cmd)
+     41          {
+   \                     option_menu_ghook:
+   \   00000000   00402DE9           PUSH     {LR}
+     42          	if (cmd==0x0A)
+   \   00000004   0A0051E3           CMP      R1,#+10
+   \   00000008   0080BD18           POPNE    {PC}
+     43          	{
+     44          		DisableIDLETMR();
+   \   0000000C   7F0100EF           SWI      +383
+     45          	}
+     46          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     47          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     48          void menu_exit(GUI *gui)
+     49          {
+   \                     menu_exit:
+   \   00000000   00402DE9           PUSH     {LR}
+     50          	GeneralFuncF1(1);
+   \   00000004   0100A0E3           MOV      R0,#+1
+   \   00000008   3B0100EF           SWI      +315
+     51          	CloseCSM(MAIN_CSM_ID);
+   \   0000000C   ........           LDR      R0,??DataTable10  ;; MAIN_CSM_ID
+   \   00000010   000090E5           LDR      R0,[R0, #+0]
+   \   00000014   FC0100EF           SWI      +508
+     52          }
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+     53          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     54          void menu_about(GUI *gui)
+     55          {
+   \                     menu_about:
+   \   00000000   00402DE9           PUSH     {LR}
+     56          	GeneralFuncF1(1);
+   \   00000004   0100A0E3           MOV      R0,#+1
+   \   00000008   3B0100EF           SWI      +315
+     57          	ShowMSG(0, (int)COPYRIGHT);
+   \   0000000C   08109FE5           LDR      R1,??menu_about_0  ;; `?<Constant "Master.elf\\n(c) BingK(...">`
+   \   00000010   0000A0E3           MOV      R0,#+0
+   \   00000014   480100EF           SWI      +328
+     58          }
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+   \                     ??menu_about_0:
+   \   0000001C   ........           DC32     `?<Constant "Master.elf\\n(c) BingK(...">`
+     59          
+     60          void createProfileOnoffMenu(void);
+
+   \                                 In segment CODE, align 4, keep-with-next
+     61          void menu_profile(GUI *gui)
+     62          {
+   \                     menu_profile:
+   \   00000000   00402DE9           PUSH     {LR}
+     63          	GeneralFuncF1(1);
+   \   00000004   0100A0E3           MOV      R0,#+1
+   \   00000008   3B0100EF           SWI      +315
+     64          	createProfileOnoffMenu();
+   \   0000000C   0040BDE8           POP      {LR}             ;; Pop
+   \   00000010   ........           B        createProfileOnoffMenu  ;; tailcall
+     65          }
+     66          
+     67          void deleteAllConfig(void);
+
+   \                                 In segment CODE, align 4, keep-with-next
+     68          void menu_del_all(GUI *gui)
+     69          {
+   \                     menu_del_all:
+   \   00000000   00402DE9           PUSH     {LR}
+     70          	GeneralFuncF1(1);
+   \   00000004   0100A0E3           MOV      R0,#+1
+   \   00000008   3B0100EF           SWI      +315
+     71          	deleteAllConfig();
+   \   0000000C   0040BDE8           POP      {LR}             ;; Pop
+   \   00000010   ........           B        deleteAllConfig  ;; tailcall
+     72          }
+     73          
+     74          void deleteThis(void);
+
+   \                                 In segment CODE, align 4, keep-with-next
+     75          void menu_del_this(GUI *gui)
+     76          {
+   \                     menu_del_this:
+   \   00000000   00402DE9           PUSH     {LR}
+     77          	GeneralFuncF1(1);
+   \   00000004   0100A0E3           MOV      R0,#+1
+   \   00000008   3B0100EF           SWI      +315
+     78          	deleteThis();
+   \   0000000C   0040BDE8           POP      {LR}             ;; Pop
+   \   00000010   ........           B        deleteThis       ;; tailcall
+     79          }
+     80          
+     81          void delUnusedConfig(void);
+
+   \                                 In segment CODE, align 4, keep-with-next
+     82          void menu_del_unused(GUI *gui)
+     83          {
+   \                     menu_del_unused:
+   \   00000000   00402DE9           PUSH     {LR}
+     84          	GeneralFuncF1(1);
+   \   00000004   0100A0E3           MOV      R0,#+1
+   \   00000008   3B0100EF           SWI      +315
+     85          	delUnusedConfig();
+   \   0000000C   0040BDE8           POP      {LR}             ;; Pop
+   \   00000010   ........           B        delUnusedConfig  ;; tailcall
+     86          }
+     87          
+     88          void showPatchInfo(void);
+
+   \                                 In segment CODE, align 4, keep-with-next
+     89          void menu_info(GUI *gui)
+     90          {
+   \                     menu_info:
+   \   00000000   00402DE9           PUSH     {LR}
+     91          	GeneralFuncF1(1);
+   \   00000004   0100A0E3           MOV      R0,#+1
+   \   00000008   3B0100EF           SWI      +315
+     92          	showPatchInfo();
+   \   0000000C   0040BDE8           POP      {LR}             ;; Pop
+   \   00000010   ........           B        showPatchInfo    ;; tailcall
+     93          }
+     94          
+     95          void pathInputDlg(void);
+
+   \                                 In segment CODE, align 4, keep-with-next
+     96          void menu_backup(GUI *gui)
+     97          {
+   \                     menu_backup:
+   \   00000000   00402DE9           PUSH     {LR}
+     98          	GeneralFuncF1(1);
+   \   00000004   0100A0E3           MOV      R0,#+1
+   \   00000008   3B0100EF           SWI      +315
+     99          	PATH_TYPE=0;
+   \   0000000C   ........           LDR      R0,??DataTable24  ;; PATH_TYPE
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   001080E5           STR      R1,[R0, #+0]
+    100          	pathInputDlg();
+   \   00000018   0040BDE8           POP      {LR}             ;; Pop
+   \   0000001C   ........           B        pathInputDlg     ;; tailcall
+    101          }
+    102          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    103          void menu_restore(GUI *gui)
+    104          {
+   \                     menu_restore:
+   \   00000000   00402DE9           PUSH     {LR}
+    105          	GeneralFuncF1(1);
+   \   00000004   0100A0E3           MOV      R0,#+1
+   \   00000008   3B0100EF           SWI      +315
+    106          	PATH_TYPE=1;
+   \   0000000C   ........           LDR      R0,??DataTable24  ;; PATH_TYPE
+   \   00000010   0110A0E3           MOV      R1,#+1
+   \   00000014   001080E5           STR      R1,[R0, #+0]
+    107          	pathInputDlg();
+   \   00000018   0040BDE8           POP      {LR}             ;; Pop
+   \   0000001C   ........           B        pathInputDlg     ;; tailcall
+    108          }
+    109          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    110          void menu_quit_without_rs(GUI *gui)
+    111          {
+   \                     menu_quit_without_rs:
+   \   00000000   00402DE9           PUSH     {LR}
+    112          	GeneralFuncF1(1);
+   \   00000004   0100A0E3           MOV      R0,#+1
+   \   00000008   3B0100EF           SWI      +315
+    113          	isRunScanerNeed=0;
+   \   0000000C   14009FE5           LDR      R0,??menu_quit_without_rs_0  ;; isRunScanerNeed
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   001080E5           STR      R1,[R0, #+0]
+    114          	CloseCSM(MAIN_CSM_ID);
+   \   00000018   ........           LDR      R0,??DataTable10  ;; MAIN_CSM_ID
+   \   0000001C   000090E5           LDR      R0,[R0, #+0]
+   \   00000020   FC0100EF           SWI      +508
+    115          }
+   \   00000024   0080BDE8           POP      {PC}             ;; return
+   \                     ??menu_quit_without_rs_0:
+   \   00000028   ........           DC32     isRunScanerNeed
+    116          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    117          const MENUPROCS_DESC option_menu_HNDLS[MAIN_MENU_ITEMS_N]=
+   \                     option_menu_HNDLS:
+   \   00000000   ............       DC32 menu_profile, menu_info, menu_del_this, menu_del_unused
+   \              ............
+   \              ........    
+   \   00000010   ............       DC32 menu_del_all, menu_backup, menu_restore, menu_about
+   \              ............
+   \              ........    
+   \   00000020   ............       DC32 menu_quit_without_rs, menu_exit
+   \              ....        
+    118          {
+    119          	menu_profile,
+    120          	menu_info,
+    121          	menu_del_this,
+    122          	menu_del_unused,
+    123          	menu_del_all,
+    124          	menu_backup,
+    125          	menu_restore,
+    126          	menu_about,
+    127          	menu_quit_without_rs,
+    128          	menu_exit,
+    129          };
+    130          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    131          const MENUITEM_DESC option_menu_ITEMS[MAIN_MENU_ITEMS_N]=
+   \                     option_menu_ITEMS:
+   \   00000000   00000000....       DC32 0H, `?<Constant "\\307\\351\\276\\260\\304\\243\\312\\275">`
+   \              ....        
+   \   00000008   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   00000020   ........           DC32 `?<Constant "\\262\\271\\266\\241\\320\\305\\317\\242">`
+   \   00000024   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   0000003C   ........           DC32 `?<Constant "\\307\\345\\263\\375\\270\\303\\262\\271\\2`
+   \   00000040   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   00000058   ........           DC32 `?<Constant "\\307\\345\\263\\375\\316\\336\\323\\303\\3`
+   \   0000005C   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   00000074   ........           DC32 `?<Constant "\\307\\345\\263\\375\\313\\371\\323\\320\\3`
+   \   00000078   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   00000090   ........           DC32 `?<Constant "\\261\\270\\267\\335\\305\\344\\326\\303">`
+   \   00000094   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   000000AC   ........           DC32 `?<Constant "\\273\\326\\270\\264\\261\\270\\267\\335">`
+   \   000000B0   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   000000C8   ........FFFF       DC32 `?<Constant "\\271\\330\\323\\332...">`, 2147483647, 0, 0H, 3
+   \              FF7F00000000
+   \              000000000300
+   \              0000        
+   \   000000DC   9D0500000000       DC32 1437, 0H, `?<Constant "\\262\\273\\313\\242\\320\\302MP\\315\\313`
+   \              0000........
+   \   000000E8   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   00000100   ........FFFF       DC32 `?<Constant "\\315\\313\\263\\366">`, 2147483647, 0, 0H, 3, 1437
+   \              FF7F00000000
+   \              000000000300
+   \              00009D050000
+    132          {
+    133          	{NULL,(int)LGP_PROFILE,		LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    134          	{NULL,(int)LGP_PATCH_INFO,	LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    135          	{NULL,(int)LGP_DEL_THIS,	LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    136          	{NULL,(int)LGP_DEL_UNUSED,	LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    137          	{NULL,(int)LGP_DEL_ALL,		LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    138          	{NULL,(int)LGP_BACKUP,		LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    139          	{NULL,(int)LGP_RESTORE,		LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    140          	{NULL,(int)LGP_ABOUT,		LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    141          	{NULL,(int)LGP_QUIT_WITHOUT_RS,	LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    142          	{NULL,(int)LGP_QUIT,		LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    143          };
+    144          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    145          const HEADER_DESC option_menu_header={0, 0, 0, 0,NULL,(int)LGP_OPTIONS,LGP_NULL};
+   \                     option_menu_header:
+   \   00000000   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000008   00000000....       DC32 0H, `?<Constant "\\321\\241\\317\\356">`, 2147483647
+   \              ....FFFFFF7F
+    146          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    147          const MENU_DESC option_menu=
+   \                     option_menu:
+   \   00000000   080000000000       DC32 8, 0H, option_menu_ghook, 0H, mmenusoftkeys, mmenu_skt, 16, 0H
+   \              0000........
+   \              00000000....
+   \              ............
+   \              100000000000
+   \              0000        
+   \   00000020   ............       DC32 option_menu_ITEMS, option_menu_HNDLS, 10
+   \              ....0A000000
+    148          {
+    149          	8,NULL,option_menu_ghook,NULL,
+    150          	mmenusoftkeys,
+    151          	&mmenu_skt,
+    152          	0x10,//MENU_FLAG,
+    153          	NULL,
+    154          	option_menu_ITEMS,//menuitems,
+    155          	option_menu_HNDLS,//menuprocs,
+    156          	MAIN_MENU_ITEMS_N
+    157          };
+    158          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    159          const MENUPROCS_DESC option_menu_HNDLS_1[MAIN_MENU_ITEMS_N_1]=
+   \                     option_menu_HNDLS_1:
+   \   00000000   ............       DC32 menu_info, menu_del_this, menu_del_unused, menu_del_all
+   \              ............
+   \              ........    
+   \   00000010   ............       DC32 menu_backup, menu_restore, menu_about, menu_quit_without_rs
+   \              ............
+   \              ........    
+   \   00000020   ........           DC32 menu_exit
+    160          {
+    161          	menu_info,
+    162          	menu_del_this,
+    163          	menu_del_unused,
+    164          	menu_del_all,
+    165          	menu_backup,
+    166          	menu_restore,
+    167          	menu_about,
+    168          	menu_quit_without_rs,
+    169          	menu_exit,
+    170          };
+    171          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    172          const MENUITEM_DESC option_menu_ITEMS_1[MAIN_MENU_ITEMS_N_1]=
+   \                     option_menu_ITEMS_1:
+   \   00000000   00000000....       DC32 0H, `?<Constant "\\262\\271\\266\\241\\320\\305\\317\\242">`
+   \              ....        
+   \   00000008   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   00000020   ........           DC32 `?<Constant "\\307\\345\\263\\375\\270\\303\\262\\271\\2`
+   \   00000024   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   0000003C   ........           DC32 `?<Constant "\\307\\345\\263\\375\\316\\336\\323\\303\\3`
+   \   00000040   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   00000058   ........           DC32 `?<Constant "\\307\\345\\263\\375\\313\\371\\323\\320\\3`
+   \   0000005C   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   00000074   ........           DC32 `?<Constant "\\261\\270\\267\\335\\305\\344\\326\\303">`
+   \   00000078   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   00000090   ........           DC32 `?<Constant "\\273\\326\\270\\264\\261\\270\\267\\335">`
+   \   00000094   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   000000AC   ........FFFF       DC32 `?<Constant "\\271\\330\\323\\332...">`, 2147483647, 0, 0H, 3
+   \              FF7F00000000
+   \              000000000300
+   \              0000        
+   \   000000C0   9D0500000000       DC32 1437, 0H, `?<Constant "\\262\\273\\313\\242\\320\\302MP\\315\\313`
+   \              0000........
+   \   000000CC   FFFFFF7F0000       DC32 2147483647, 0, 0H, 3, 1437, 0H
+   \              000000000000
+   \              030000009D05
+   \              000000000000
+   \   000000E4   ........FFFF       DC32 `?<Constant "\\315\\313\\263\\366">`, 2147483647, 0, 0H, 3, 1437
+   \              FF7F00000000
+   \              000000000300
+   \              00009D050000
+    173          {
+    174          	{NULL,(int)LGP_PATCH_INFO,	LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    175          	{NULL,(int)LGP_DEL_THIS,	LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    176          	{NULL,(int)LGP_DEL_UNUSED,	LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    177          	{NULL,(int)LGP_DEL_ALL,		LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    178          	{NULL,(int)LGP_BACKUP,		LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    179          	{NULL,(int)LGP_RESTORE,		LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    180          	{NULL,(int)LGP_ABOUT,		LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    181          	{NULL,(int)LGP_QUIT_WITHOUT_RS,	LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    182          	{NULL,(int)LGP_QUIT,		LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    183          };
+    184          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    185          const MENU_DESC option_menu_1=
+   \                     option_menu_1:
+   \   00000000   080000000000       DC32 8, 0H, option_menu_ghook, 0H, mmenusoftkeys, mmenu_skt, 16, 0H
+   \              0000........
+   \              00000000....
+   \              ............
+   \              100000000000
+   \              0000        
+   \   00000020   ............       DC32 option_menu_ITEMS_1, option_menu_HNDLS_1, 9
+   \              ....09000000
+    186          {
+    187          	8,NULL,option_menu_ghook,NULL,
+    188          	mmenusoftkeys,
+    189          	&mmenu_skt,
+    190          	0x10,//MENU_FLAG,
+    191          	NULL,
+    192          	option_menu_ITEMS_1,//menuitems,
+    193          	option_menu_HNDLS_1,//menuprocs,
+    194          	MAIN_MENU_ITEMS_N_1
+    195          };
+    196          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    197          void show_option_menu(void)
+    198          {
+   \                     show_option_menu:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    199          	PTC_CONFIG *ptcfg;
+    200          	patch_header(&option_menu_header);
+   \   00000004   7C409FE5           LDR      R4,??show_option_menu_0  ;; option_menu_header
+   \   00000008   0000A0E3           MOV      R0,#+0
+   \   0000000C   000084E5           STR      R0,[R4, #+0]
+   \   00000010   888100EF           SWI      +33160
+   \   00000014   010040E2           SUB      R0,R0,#+1
+   \   00000018   B400C4E1           STRH     R0,[R4, #+4]
+   \   0000001C   8A8100EF           SWI      +33162
+   \   00000020   010040E2           SUB      R0,R0,#+1
+   \   00000024   B600C4E1           STRH     R0,[R4, #+6]
+    201          	if(ptcfg=getPatchConfigItem(PTCFG_CUR))
+   \   00000028   ........           LDR      R0,??DataTable20  ;; PTCFG_CUR
+   \   0000002C   000090E5           LDR      R0,[R0, #+0]
+   \   00000030   ........           _BLF     getPatchConfigItem,??getPatchConfigItem??rA
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   1080BD08           POPEQ    {R4,PC}
+    202          	{
+    203          		if(ptcfg->disableProfile)
+   \   0000003C   100090E5           LDR      R0,[R0, #+16]
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   0000A0E3           MOV      R0,#+0
+   \   00000048   01002DE9           PUSH     {R0}
+   \   0000004C   01002DE9           PUSH     {R0}
+   \   00000050   0200000A           BEQ      ??show_option_menu_1
+    204          			CreateMenu(0, 0, &option_menu_1, &option_menu_header, 0, MAIN_MENU_ITEMS_N_1, 0, 0);
+   \   00000054   30209FE5           LDR      R2,??show_option_menu_0+0x4  ;; option_menu_1
+   \   00000058   0900A0E3           MOV      R0,#+9
+   \   0000005C   010000EA           B        ??show_option_menu_2
+    205          		else
+    206          			CreateMenu(0, 0, &option_menu, &option_menu_header, 0, MAIN_MENU_ITEMS_N, 0, 0);
+   \                     ??show_option_menu_1:
+   \   00000060   28209FE5           LDR      R2,??show_option_menu_0+0x8  ;; option_menu
+   \   00000064   0A00A0E3           MOV      R0,#+10
+   \                     ??show_option_menu_2:
+   \   00000068   01002DE9           PUSH     {R0}
+   \   0000006C   0430A0E1           MOV      R3,R4
+   \   00000070   0010A0E3           MOV      R1,#+0
+   \   00000074   0000A0E3           MOV      R0,#+0
+   \   00000078   01002DE9           PUSH     {R0}
+   \   0000007C   520100EF           SWI      +338
+   \   00000080   10D08DE2           ADD      SP,SP,#+16
+    207          	}
+    208          }
+   \   00000084   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??show_option_menu_0:
+   \   00000088   ........           DC32     option_menu_header
+   \   0000008C   ........           DC32     option_menu_1
+   \   00000090   ........           DC32     option_menu
+    209          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    210          void deleteAllConfig(void)
+    211          {
+    212          	char path[128];
+    213          	char folder[128]=PATCH_DIR;
+   \                     deleteAllConfig:
+   \   00000000   F0109FE5           LDR      R1,??deleteAllConfig_0  ;; `?<Constant "0:\\\\Misc\\\\Patches\\\\">_4`
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   C8D04DE2           SUB      SP,SP,#+200
+   \   0000000C   40DE4DE2           SUB      SP,SP,#+1024
+   \   00000010   48008DE2           ADD      R0,SP,#+72
+   \   00000014   400E80E2           ADD      R0,R0,#+1024
+   \   00000018   8030A0E3           MOV      R3,#+128
+   \                     ??deleteAllConfig_1:
+   \   0000001C   043053E2           SUBS     R3,R3,#+4
+   \   00000020   032091E7           LDR      R2,[R1, R3]
+   \   00000024   032080E7           STR      R2,[R0, R3]
+   \   00000028   FBFFFF1A           BNE      ??deleteAllConfig_1
+    214          	char tp[128];
+    215          	DIR_ENTRY de;
+    216          	unsigned int err;
+    217          	strcat(folder, PTC_FOLDR);
+   \   0000002C   ........           LDR      R1,??DataTable32  ;; `?<Constant "ptc\\\\">`
+   \   00000030   48008DE2           ADD      R0,SP,#+72
+   \   00000034   400E80E2           ADD      R0,R0,#+1024
+   \   00000038   170000EF           SWI      +23
+    218          	strcpy(path, folder);
+   \   0000003C   48108DE2           ADD      R1,SP,#+72
+   \   00000040   401E81E2           ADD      R1,R1,#+1024
+   \   00000044   D20F8DE2           ADD      R0,SP,#+840
+   \   00000048   1A0000EF           SWI      +26
+    219          	strcat(path, "*.ptc");
+   \   0000004C   ........           LDR      R1,??DataTable29  ;; `?<Constant "*.ptc">`
+   \   00000050   D20F8DE2           ADD      R0,SP,#+840
+   \   00000054   170000EF           SWI      +23
+    220          	if(FindFirstFile(&de, path, &err))
+   \   00000058   0D20A0E1           MOV      R2,SP
+   \   0000005C   D21F8DE2           ADD      R1,SP,#+840
+   \   00000060   04008DE2           ADD      R0,SP,#+4
+   \   00000064   6B0000EF           SWI      +107
+   \   00000068   000050E3           CMP      R0,#+0
+   \   0000006C   0D00000A           BEQ      ??deleteAllConfig_2
+    221          	{
+    222          		do
+    223          		{
+    224          			sprintf(tp, "%s%s", folder, de.file_name);
+   \                     ??deleteAllConfig_3:
+   \   00000070   ........           LDR      R1,??DataTable31  ;; `?<Constant "%s%s">`
+   \   00000074   B9308DE2           ADD      R3,SP,#+185
+   \   00000078   48208DE2           ADD      R2,SP,#+72
+   \   0000007C   402E82E2           ADD      R2,R2,#+1024
+   \   00000080   F20F8DE2           ADD      R0,SP,#+968
+   \   00000084   160000EF           SWI      +22
+    225          			unlink(tp, &err);
+   \   00000088   0D10A0E1           MOV      R1,SP
+   \   0000008C   F20F8DE2           ADD      R0,SP,#+968
+   \   00000090   6B0100EF           SWI      +363
+    226          		}while(FindNextFile(&de,&err));
+   \   00000094   0D10A0E1           MOV      R1,SP
+   \   00000098   04008DE2           ADD      R0,SP,#+4
+   \   0000009C   6C0000EF           SWI      +108
+   \   000000A0   000050E3           CMP      R0,#+0
+   \   000000A4   F1FFFF1A           BNE      ??deleteAllConfig_3
+    227          	}
+    228          	FindClose(&de,&err);
+   \                     ??deleteAllConfig_2:
+   \   000000A8   0D10A0E1           MOV      R1,SP
+   \   000000AC   04008DE2           ADD      R0,SP,#+4
+   \   000000B0   6D0000EF           SWI      +109
+    229          	fuckThemAll();
+   \   000000B4   ........           _BLF     fuckThemAll,??fuckThemAll??rA
+    230          	patch_n=0;
+   \   000000B8   ........           LDR      R0,??DataTable34  ;; patch_n
+   \   000000BC   0010A0E3           MOV      R1,#+0
+   \   000000C0   001080E5           STR      R1,[R0, #+0]
+    231          	if(!readConfig(0, 0))
+   \   000000C4   0000A0E3           MOV      R0,#+0
+   \   000000C8   ........           _BLF     readConfig,??readConfig??rA
+   \   000000CC   000050E3           CMP      R0,#+0
+   \   000000D0   0500001A           BNE      ??deleteAllConfig_4
+    232          	{
+    233          		MsgBoxError(1, (int)LGP_RELOAD_CONFIG_ERR);
+   \   000000D4   ........           LDR      R1,??DataTable35  ;; `?<Constant "\\326\\330\\320\\302\\266\\301\\310\\241\\3`
+   \   000000D8   0100A0E3           MOV      R0,#+1
+   \   000000DC   4E0000EF           SWI      +78
+    234          		CloseCSM(MAIN_CSM_ID);
+   \   000000E0   ........           LDR      R0,??DataTable10  ;; MAIN_CSM_ID
+   \   000000E4   000090E5           LDR      R0,[R0, #+0]
+   \   000000E8   FC0100EF           SWI      +508
+    235          	}
+    236          }
+   \                     ??deleteAllConfig_4:
+   \   000000EC   C8D08DE2           ADD      SP,SP,#+200
+   \   000000F0   40DE8DE2           ADD      SP,SP,#+1024
+   \   000000F4   0080BDE8           POP      {PC}             ;; return
+   \                     ??deleteAllConfig_0:
+   \   000000F8   ........           DC32     `?<Constant "0:\\\\Misc\\\\Patches\\\\">_4`
+    237          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    238          void deleteThis(void)
+    239          {
+    240          	char path[128];
+    241          	PTC_CONFIG *ptcfg=getPatchConfigItem(PTCFG_CUR);
+   \                     deleteThis:
+   \   00000000   ........           LDR      R0,??DataTable20  ;; PTCFG_CUR
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   ACD04DE2           SUB      SP,SP,#+172
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   ........           _BLF     getPatchConfigItem,??getPatchConfigItem??rA
+   \   00000014   0040B0E1           MOVS     R4,R0
+    242          	if(ptcfg)
+   \   00000018   1300000A           BEQ      ??deleteThis_0
+    243          	{
+    244          		FSTATS fstats;
+    245          		unsigned int err;
+    246          		sprintf(path, "%s%s%08s", PATCH_DIR, PTC_FOLDR, ptcfg->patchInfo->patchID);
+   \   0000001C   1C0094E5           LDR      R0,[R4, #+28]
+   \   00000020   ........           LDR      R3,??DataTable32  ;; `?<Constant "ptc\\\\">`
+   \   00000024   ........           LDR      R2,??DataTable26  ;; `?<Constant "0:\\\\Misc\\\\Patches\\\\">`
+   \   00000028   44109FE5           LDR      R1,??deleteThis_1  ;; `?<Constant "%s%s%08s">`
+   \   0000002C   800080E2           ADD      R0,R0,#+128
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   08008DE2           ADD      R0,SP,#+8
+   \   00000038   160000EF           SWI      +22
+    247          		if(GetFileStats(path,&fstats,&err)!=-1)
+   \   0000003C   04208DE2           ADD      R2,SP,#+4
+   \   00000040   88108DE2           ADD      R1,SP,#+136
+   \   00000044   08008DE2           ADD      R0,SP,#+8
+   \   00000048   840000EF           SWI      +132
+   \   0000004C   010070E3           CMN      R0,#+1
+   \   00000050   04D08DE2           ADD      SP,SP,#+4
+   \   00000054   0200000A           BEQ      ??deleteThis_2
+    248          		{
+    249          			unlink(path, &err);
+   \   00000058   0D10A0E1           MOV      R1,SP
+   \   0000005C   04008DE2           ADD      R0,SP,#+4
+   \   00000060   6B0100EF           SWI      +363
+    250          		}
+    251          		reloadThisPatch(ptcfg);
+   \                     ??deleteThis_2:
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   ........           _BLF     reloadThisPatch,??reloadThisPatch??rA
+    252          	}
+    253          }
+   \                     ??deleteThis_0:
+   \   0000006C   ACD08DE2           ADD      SP,SP,#+172      ;; stack cleaning
+   \   00000070   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??deleteThis_1:
+   \   00000074   ........           DC32     `?<Constant "%s%s%08s">`
+    254          
+    255          
+    256          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    257          const HEADER_DESC profile_menu_header={0, 0, 0, 0,NULL,(int)LGP_PROFILE,LGP_NULL};
+   \                     profile_menu_header:
+   \   00000000   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000008   00000000....       DC32 0H, `?<Constant "\\307\\351\\276\\260\\304\\243\\312\\275">`
+   \              ....        
+   \   00000010   FFFFFF7F           DC32 2147483647
+    258          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    259          int profile_menu_onkey(void *data, GUI_MSG *msg)
+    260          {
+   \                     profile_menu_onkey:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0160A0E1           MOV      R6,R1
+    261          	PTC_CONFIG *ptcfg;
+    262          	int c=GetCurMenuItem(data);
+   \   0000000C   8F0100EF           SWI      +399
+   \   00000010   0050A0E1           MOV      R5,R0
+    263          	if(msg->gbsmsg->msg==KEY_DOWN)
+   \   00000014   040096E5           LDR      R0,[R6, #+4]
+   \   00000018   9320A0E3           MOV      R2,#+147
+   \   0000001C   041090E5           LDR      R1,[R0, #+4]
+   \   00000020   402F82E3           ORR      R2,R2,#0x100
+   \   00000024   020051E1           CMP      R1,R2
+   \   00000028   1A00001A           BNE      ??profile_menu_onkey_0
+    264          	{
+    265          		int i=msg->gbsmsg->submess;
+    266          		switch(i)
+   \   0000002C   080090E5           LDR      R0,[R0, #+8]
+   \   00000030   010050E2           SUBS     R0,R0,#+1
+   \   00000034   0400000A           BEQ      ??profile_menu_onkey_1
+   \   00000038   030050E2           SUBS     R0,R0,#+3
+   \   0000003C   16005012           SUBSNE   R0,R0,#+22
+   \   00000040   0300000A           BEQ      ??profile_menu_onkey_2
+   \   00000044   0000A0E3           MOV      R0,#+0
+   \   00000048   7080BDE8           POP      {R4-R6,PC}
+    267          		{
+    268          		case LEFT_SOFT:
+    269          			return 1;       
+   \                     ??profile_menu_onkey_1:
+   \   0000004C   0100A0E3           MOV      R0,#+1
+   \   00000050   7080BDE8           POP      {R4-R6,PC}
+    270          		case ENTER_BUTTON:
+    271          		case RIGHT_SOFT:
+    272          			{
+    273          				//int i=GetCurMenuItem(data);
+    274          				ptcfg=getPatchConfigItem(PTCFG_CUR);
+   \                     ??profile_menu_onkey_2:
+   \   00000054   ........           LDR      R0,??DataTable20  ;; PTCFG_CUR
+   \   00000058   000090E5           LDR      R0,[R0, #+0]
+   \   0000005C   ........           _BLF     getPatchConfigItem,??getPatchConfigItem??rA
+   \   00000060   0060B0E1           MOVS     R6,R0
+    275          				if(ptcfg)
+   \   00000064   0900000A           BEQ      ??profile_menu_onkey_3
+    276          				{
+    277          					setPatchOnOff(ptcfg, c);
+   \   00000068   0510A0E1           MOV      R1,R5
+   \   0000006C   ........           _BLF     setPatchOnOff,??setPatchOnOff??rA
+    278          					SetMenuItemIcon(data, c, getPatchOnOff(ptcfg, c));
+   \   00000070   0510A0E1           MOV      R1,R5
+   \   00000074   0600A0E1           MOV      R0,R6
+   \   00000078   ........           _BLF     getPatchOnOff,??getPatchOnOff??rA
+   \   0000007C   0020A0E1           MOV      R2,R0
+   \   00000080   0510A0E1           MOV      R1,R5
+   \   00000084   0400A0E1           MOV      R0,R4
+   \   00000088   950100EF           SWI      +405
+    279          					REDRAW();
+   \   0000008C   720100EF           SWI      +370
+    280          				}
+    281          				return (-1);
+   \                     ??profile_menu_onkey_3:
+   \   00000090   0000E0E3           MVN      R0,#+0
+   \   00000094   7080BDE8           POP      {R4-R6,PC}
+    282          			}
+    283          		}
+    284          	}
+    285          	return 0;
+   \                     ??profile_menu_onkey_0:
+   \   00000098   0000A0E3           MOV      R0,#+0
+   \   0000009C   7080BDE8           POP      {R4-R6,PC}       ;; return
+    286          }
+    287          
+    288          /*
+    289          char profileName[7][16]=
+    290          {
+    291          	LGP_PROFILE1,
+    292          	LGP_PROFILE2,
+    293          	LGP_PROFILE3,
+    294          	LGP_PROFILE4,
+    295          	LGP_PROFILE5,
+    296          	LGP_PROFILE6,
+    297          	LGP_PROFILE7,
+    298          };
+    299          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    300          void profile_menu_iconhndl(void *data, int curitem, void *unk)
+    301          {
+   \                     profile_menu_iconhndl:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+    302          	PTC_CONFIG *ptcfg;
+    303          	void *item=AllocMenuItem(data);
+   \   0000000C   970100EF           SWI      +407
+   \   00000010   0060A0E1           MOV      R6,R0
+    304          	ptcfg=getPatchConfigItem(PTCFG_CUR);
+   \   00000014   ........           LDR      R0,??DataTable20  ;; PTCFG_CUR
+   \   00000018   000090E5           LDR      R0,[R0, #+0]
+   \   0000001C   ........           _BLF     getPatchConfigItem,??getPatchConfigItem??rA
+   \   00000020   0070B0E1           MOVS     R7,R0
+    305          	WSHDR *ws;
+    306          	int n=2;
+    307          	if(ptcfg)
+   \   00000024   0D00000A           BEQ      ??profile_menu_iconhndl_0
+    308          	{
+    309          		ws=AllocMenuWS(data,128);
+   \   00000028   8010A0E3           MOV      R1,#+128
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   980100EF           SWI      +408
+   \   00000034   0080A0E1           MOV      R8,R0
+    310          	#ifdef BUG
+    311          		gb2ws(ws, profileName[curitem], 128);
+    312          	#else
+    313          		//wsprintf(ws, PERCENT_T, profileName[curitem]);
+    314          #ifdef NEWSGOLD
+    315          		getProfileNameByN(ws, curitem, 0);
+   \   00000038   0020A0E3           MOV      R2,#+0
+   \   0000003C   0510A0E1           MOV      R1,R5
+   \   00000040   960200EF           SWI      +662
+    316          #else
+    317          		getProfileNameByN(curitem, ws, 0);
+    318          #endif
+    319          	#endif
+    320          		if(getPatchOnOff(ptcfg, curitem))
+   \   00000044   0510A0E1           MOV      R1,R5
+   \   00000048   0700A0E1           MOV      R0,R7
+   \   0000004C   ........           _BLF     getPatchOnOff,??getPatchOnOff??rA
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   0070A003           MOVEQ    R7,#+0
+    321          			n=1;
+   \   00000058   0170A013           MOVNE    R7,#+1
+   \   0000005C   070000EA           B        ??profile_menu_iconhndl_1
+    322          		else
+    323          			n=0;
+    324          	}
+    325          	else
+    326          	{
+    327          		ws=AllocMenuWS(data,16);
+   \                     ??profile_menu_iconhndl_0:
+   \   00000060   1010A0E3           MOV      R1,#+16
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   980100EF           SWI      +408
+    328          	#ifdef BUG
+    329          		gb2ws(ws, ERR_STR, 16);
+    330          	#else
+    331          		wsprintf(ws, PERCENT_T, ERR_STR);
+   \   0000006C   44209FE5           LDR      R2,??profile_menu_iconhndl_2  ;; `?<Constant "\\264\\355\\316\\363!">`
+   \   00000070   ........           LDR      R1,??DataTable25  ;; PERCENT_T
+   \   00000074   0080A0E1           MOV      R8,R0
+   \   00000078   240100EF           SWI      +292
+    332          	#endif
+    333          		n=2;
+   \   0000007C   0270A0E3           MOV      R7,#+2
+    334          	}
+    335          	SetMenuItemIconArray(data, item, S_ICONS);
+   \                     ??profile_menu_iconhndl_1:
+   \   00000080   34209FE5           LDR      R2,??profile_menu_iconhndl_2+0x4  ;; S_ICONS
+   \   00000084   0610A0E1           MOV      R1,R6
+   \   00000088   0400A0E1           MOV      R0,R4
+   \   0000008C   990100EF           SWI      +409
+    336          	SetMenuItemText(data, item, ws,curitem);
+   \   00000090   0530A0E1           MOV      R3,R5
+   \   00000094   0820A0E1           MOV      R2,R8
+   \   00000098   0610A0E1           MOV      R1,R6
+   \   0000009C   0400A0E1           MOV      R0,R4
+   \   000000A0   9A0100EF           SWI      +410
+    337          	SetMenuItemIcon(data, curitem, n);
+   \   000000A4   0720A0E1           MOV      R2,R7
+   \   000000A8   0510A0E1           MOV      R1,R5
+   \   000000AC   0400A0E1           MOV      R0,R4
+   \   000000B0   950100EF           SWI      +405
+    338          }
+   \   000000B4   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??profile_menu_iconhndl_2:
+   \   000000B8   ........           DC32     `?<Constant "\\264\\355\\316\\363!">`
+   \   000000BC   ........           DC32     S_ICONS
+    339          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    340          void profile_menu_ghook(void *data, int cmd)
+    341          {
+   \                     profile_menu_ghook:
+   \   00000000   00402DE9           PUSH     {LR}
+    342          	if (cmd==0x0A)
+   \   00000004   0A0051E3           CMP      R1,#+10
+   \   00000008   0080BD18           POPNE    {PC}
+    343          		DisableIDLETMR();
+   \   0000000C   7F0100EF           SWI      +383
+    344          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    345          const SOFTKEY_DESC profile_menu_sk[]=
+   \                     profile_menu_sk:
+   \   00000000   18000000           DC16 24, 0
+   \   00000004   ........           DC32 `?<Constant "\\315\\352\\263\\311">`
+   \   00000008   01000000           DC16 1, 0
+   \   0000000C   ........           DC32 `?<Constant "\\277\\252/\\271\\330">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   FBC0FF7F           DC32 2147467515
+    346          {
+    347          	{0x0018,0x0000,(int)LGP_OK},
+    348          	{0x0001,0x0000,(int)LGP_ONOFF},
+    349          	{0x003D,0x0000,(int)LGP_DOIT_PIC}
+    350          };
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    351          const SOFTKEYSTAB profile_menu_skt=
+   \                     profile_menu_skt:
+   \   00000000   ........0000       DC32 profile_menu_sk, 0
+   \              0000        
+    352          {
+    353          	profile_menu_sk,0
+    354          };
+    355          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    356          const MENU_DESC profile_menu=
+   \                     profile_menu:
+   \   00000000   08000000....       DC32 8, profile_menu_onkey, profile_menu_ghook, 0H, mmenusoftkeys
+   \              ............
+   \              00000000....
+   \              ....        
+   \   00000014   ........1100       DC32 profile_menu_skt, 17, profile_menu_iconhndl, 0H, 0H, 0
+   \              0000........
+   \              000000000000
+   \              000000000000
+    357          {
+    358          	8,
+    359          	profile_menu_onkey,
+    360          	profile_menu_ghook,
+    361          	NULL,
+    362          	mmenusoftkeys,
+    363          	&profile_menu_skt,
+    364          	0x11,
+    365          	profile_menu_iconhndl,
+    366          	NULL,   //Items
+    367          	NULL,   //Procs
+    368          	0   //n
+    369          };
+    370          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    371          void createProfileOnoffMenu(void)
+    372          {
+   \                     createProfileOnoffMenu:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    373          	patch_header(&profile_menu_header);
+   \   00000004   4C409FE5           LDR      R4,??createProfileOnoffMenu_0  ;; profile_menu_header
+   \   00000008   0000A0E3           MOV      R0,#+0
+   \   0000000C   000084E5           STR      R0,[R4, #+0]
+   \   00000010   888100EF           SWI      +33160
+   \   00000014   010040E2           SUB      R0,R0,#+1
+   \   00000018   B400C4E1           STRH     R0,[R4, #+4]
+   \   0000001C   8A8100EF           SWI      +33162
+    374          	CreateMenu(0, 0, &profile_menu, &profile_menu_header, 0, 7, 0, 0);
+   \   00000020   34209FE5           LDR      R2,??createProfileOnoffMenu_0+0x4  ;; profile_menu
+   \   00000024   010040E2           SUB      R0,R0,#+1
+   \   00000028   B600C4E1           STRH     R0,[R4, #+6]
+   \   0000002C   0000A0E3           MOV      R0,#+0
+   \   00000030   01002DE9           PUSH     {R0}
+   \   00000034   01002DE9           PUSH     {R0}
+   \   00000038   0430A0E1           MOV      R3,R4
+   \   0000003C   0010A0E3           MOV      R1,#+0
+   \   00000040   0700A0E3           MOV      R0,#+7
+   \   00000044   01002DE9           PUSH     {R0}
+   \   00000048   0000A0E3           MOV      R0,#+0
+   \   0000004C   01002DE9           PUSH     {R0}
+   \   00000050   520100EF           SWI      +338
+    375          }
+   \   00000054   1F80BDE8           POP      {R0-R4,PC}       ;; return
+   \                     ??createProfileOnoffMenu_0:
+   \   00000058   ........           DC32     profile_menu_header
+   \   0000005C   ........           DC32     profile_menu
+    376          
+    377          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    378          void delUnusedConfig(void)
+    379          {
+    380          	char patchID[16];
+    381          	char path[128];
+    382          	char folder[128]=PATCH_DIR;
+   \                     delUnusedConfig:
+   \   00000000   E0109FE5           LDR      R1,??delUnusedConfig_0  ;; `?<Constant "0:\\\\Misc\\\\Patches\\\\">_1`
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   D8D04DE2           SUB      SP,SP,#+216
+   \   0000000C   40DE4DE2           SUB      SP,SP,#+1024
+   \   00000010   58008DE2           ADD      R0,SP,#+88
+   \   00000014   400E80E2           ADD      R0,R0,#+1024
+   \   00000018   8030A0E3           MOV      R3,#+128
+   \                     ??delUnusedConfig_1:
+   \   0000001C   043053E2           SUBS     R3,R3,#+4
+   \   00000020   032091E7           LDR      R2,[R1, R3]
+   \   00000024   032080E7           STR      R2,[R0, R3]
+   \   00000028   FBFFFF1A           BNE      ??delUnusedConfig_1
+    383          	char tp[128];
+    384          	DIR_ENTRY de;
+    385          	unsigned int err;
+    386          	strcat(folder, PTC_FOLDR);
+   \   0000002C   ........           LDR      R1,??DataTable32  ;; `?<Constant "ptc\\\\">`
+   \   00000030   58008DE2           ADD      R0,SP,#+88
+   \   00000034   400E80E2           ADD      R0,R0,#+1024
+   \   00000038   170000EF           SWI      +23
+    387          	strcpy(path, folder);
+   \   0000003C   58108DE2           ADD      R1,SP,#+88
+   \   00000040   401E81E2           ADD      R1,R1,#+1024
+   \   00000044   D60F8DE2           ADD      R0,SP,#+856
+   \   00000048   1A0000EF           SWI      +26
+    388          	strcat(path, "*.ptc");
+   \   0000004C   ........           LDR      R1,??DataTable29  ;; `?<Constant "*.ptc">`
+   \   00000050   D60F8DE2           ADD      R0,SP,#+856
+   \   00000054   170000EF           SWI      +23
+    389          	if(FindFirstFile(&de, path, &err))
+   \   00000058   0D20A0E1           MOV      R2,SP
+   \   0000005C   D61F8DE2           ADD      R1,SP,#+856
+   \   00000060   14008DE2           ADD      R0,SP,#+20
+   \   00000064   6B0000EF           SWI      +107
+   \   00000068   000050E3           CMP      R0,#+0
+   \   0000006C   1700000A           BEQ      ??delUnusedConfig_2
+    390          	{
+    391          		do
+    392          		{
+    393          			strncpy(patchID, de.file_name, 8);
+   \                     ??delUnusedConfig_3:
+   \   00000070   0820A0E3           MOV      R2,#+8
+   \   00000074   C9108DE2           ADD      R1,SP,#+201
+   \   00000078   04008DE2           ADD      R0,SP,#+4
+   \   0000007C   160100EF           SWI      +278
+    394          			patchID[8]=0;
+   \   00000080   0010A0E3           MOV      R1,#+0
+   \   00000084   0C10CDE5           STRB     R1,[SP, #+12]
+    395          			if(isPatchExistedByID(patchID))
+   \   00000088   04008DE2           ADD      R0,SP,#+4
+   \   0000008C   ........           _BLF     isPatchExistedByID,??isPatchExistedByID??rA
+   \   00000090   000050E3           CMP      R0,#+0
+   \   00000094   0800000A           BEQ      ??delUnusedConfig_4
+    396          			{
+    397          				sprintf(tp, "%s%s", folder, de.file_name);
+   \   00000098   ........           LDR      R1,??DataTable31  ;; `?<Constant "%s%s">`
+   \   0000009C   C9308DE2           ADD      R3,SP,#+201
+   \   000000A0   58208DE2           ADD      R2,SP,#+88
+   \   000000A4   402E82E2           ADD      R2,R2,#+1024
+   \   000000A8   F60F8DE2           ADD      R0,SP,#+984
+   \   000000AC   160000EF           SWI      +22
+    398          				unlink(tp, &err);
+   \   000000B0   0D10A0E1           MOV      R1,SP
+   \   000000B4   F60F8DE2           ADD      R0,SP,#+984
+   \   000000B8   6B0100EF           SWI      +363
+    399          			}
+    400          		}while(FindNextFile(&de,&err));
+   \                     ??delUnusedConfig_4:
+   \   000000BC   0D10A0E1           MOV      R1,SP
+   \   000000C0   14008DE2           ADD      R0,SP,#+20
+   \   000000C4   6C0000EF           SWI      +108
+   \   000000C8   000050E3           CMP      R0,#+0
+   \   000000CC   E7FFFF1A           BNE      ??delUnusedConfig_3
+    401          	}
+    402          	FindClose(&de,&err);
+   \                     ??delUnusedConfig_2:
+   \   000000D0   0D10A0E1           MOV      R1,SP
+   \   000000D4   14008DE2           ADD      R0,SP,#+20
+   \   000000D8   6D0000EF           SWI      +109
+    403          }
+   \   000000DC   D8D08DE2           ADD      SP,SP,#+216
+   \   000000E0   40DE8DE2           ADD      SP,SP,#+1024
+   \   000000E4   0080BDE8           POP      {PC}             ;; return
+   \                     ??delUnusedConfig_0:
+   \   000000E8   ........           DC32     `?<Constant "0:\\\\Misc\\\\Patches\\\\">_1`
+
+   \                                 In segment CODE, align 4, keep-with-next
+    404          int infoOnKey(GUI *data, GUI_MSG *msg)
+    405          {
+    406          	if(msg->keys==0xFFF)  // OK
+   \                     infoOnKey:
+   \   00000000   F200D1E1           LDRSH    R0,[R1, #+2]
+   \   00000004   FF10A0E3           MOV      R1,#+255
+   \   00000008   F01E81E3           ORR      R1,R1,#0xF00
+   \   0000000C   010050E1           CMP      R0,R1
+    407          	{
+    408          		return (1);    
+   \   00000010   0100A003           MOVEQ    R0,#+1
+   \   00000014   1EFF2F01           BXEQ     LR
+    409          	}
+    410          	if(msg->keys==0xFFE)  // Back
+   \   00000018   0110C1E3           BIC      R1,R1,#0x1
+   \   0000001C   010050E1           CMP      R0,R1
+    411          	{
+    412          		return (0xFF);
+   \   00000020   FF00A003           MOVEQ    R0,#+255
+   \   00000024   1EFF2F01           BXEQ     LR
+    413          	}
+    414          	return 0;
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   1EFF2FE1           BX       LR               ;; return
+    415          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+    416          void infoGHook(GUI *data, int cmd)
+    417          {
+   \                     infoGHook:
+   \   00000000   00402DE9           PUSH     {LR}
+    418          	if(cmd==2)
+   \   00000004   020051E3           CMP      R1,#+2
+   \   00000008   0080BD18           POPNE    {PC}
+    419          	{
+    420          		EDIT_SetFocus(data, 0);
+   \   0000000C   0010A0E3           MOV      R1,#+0
+   \   00000010   9B0100EF           SWI      +411
+    421          	}
+    422          }
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+    423          void info_locret(void){}
+   \                     info_locret:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    424          HEADER_DESC INFO_HDR={0,0,0,0,NULL,(int)LGP_PATCH_INFO,LGP_NULL};
+   \                     INFO_HDR:
+   \   00000000                      DS8 20
+   \   00000014                      REQUIRE `?<Initializer for INFO_HDR>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    425          INPUTDIA_DESC INFO_DESC=
+   \                     INFO_DESC:
+   \   00000000                      DS8 56
+   \   00000038                      REQUIRE `?<Initializer for INFO_DESC>`
+    426          {
+    427          	1,
+    428          	infoOnKey,
+    429          	infoGHook,
+    430          	(void *)info_locret,
+    431          	0,
+    432          	&mmenu_skt,
+    433          	{0,0,0,0},
+    434          	FONT_SMALL,
+    435          	100,
+    436          	101,
+    437          	0,
+    438          	0,
+    439          	0x40000000
+    440          };
+
+   \                                 In segment CODE, align 4, keep-with-next
+    441          void showPatchInfo(void)
+    442          {
+    443          	PTC_CONFIG *ptcfg=getPatchConfigItem(PTCFG_CUR);
+   \                     showPatchInfo:
+   \   00000000   ........           LDR      R0,??DataTable20  ;; PTCFG_CUR
+   \   00000004   F0472DE9           PUSH     {R4-R10,LR}
+   \   00000008   2CD04DE2           SUB      SP,SP,#+44
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   ........           _BLF     getPatchConfigItem,??getPatchConfigItem??rA
+   \   00000014   0070B0E1           MOVS     R7,R0
+    444          	if(ptcfg)
+   \   00000018   AA00000A           BEQ      ??showPatchInfo_0
+    445          	{
+    446          		WSHDR *ws=AllocWS(256);
+    447          		WSHDR *ts=AllocWS(200);
+    448          		void *ma=malloc_adr();
+    449          		void *eq;
+    450          		EDITCONTROL ec;
+    451          		PrepareEditControl(&ec);
+    452          		eq=AllocEQueue(ma,mfree_adr());
+    453          		//Modify
+    454          		wsprintf(ws, PERCENT_T, LGP_PATCH_NAME);
+   \   0000001C   ........           LDR      R9,??DataTable25  ;; PERCENT_T
+   \   00000020   400FA0E3           MOV      R0,#+256
+   \   00000024   250100EF           SWI      +293
+   \   00000028   0040A0E1           MOV      R4,R0
+   \   0000002C   C800A0E3           MOV      R0,#+200
+   \   00000030   250100EF           SWI      +293
+   \   00000034   0050A0E1           MOV      R5,R0
+   \   00000038   148000EF           SWI      +32788
+   \   0000003C   0080A0E1           MOV      R8,R0
+   \   00000040   0D00A0E1           MOV      R0,SP
+   \   00000044   640100EF           SWI      +356
+   \   00000048   158000EF           SWI      +32789
+   \   0000004C   0010A0E1           MOV      R1,R0
+   \   00000050   0800A0E1           MOV      R0,R8
+   \   00000054   630100EF           SWI      +355
+   \   00000058   74229FE5           LDR      R2,??showPatchInfo_1+0x4  ;; `?<Constant "\\262\\271\\266\\241:">`
+   \   0000005C   0060A0E1           MOV      R6,R0
+   \   00000060   0910A0E1           MOV      R1,R9
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   240100EF           SWI      +292
+    455          		if(isUniFormat(ptcfg->patchInfo->patchName))
+   \   0000006C   1C0097E5           LDR      R0,[R7, #+28]
+   \   00000070   ........           _BLF     isUniFormat,??isUniFormat??rA
+   \   00000074   000050E3           CMP      R0,#+0
+   \   00000078   0300000A           BEQ      ??showPatchInfo_2
+    456          			uniFormatString2ws(ts, ptcfg->patchInfo->patchName);
+   \   0000007C   1C1097E5           LDR      R1,[R7, #+28]
+   \   00000080   0500A0E1           MOV      R0,R5
+   \   00000084   ........           _BLF     uniFormatString2ws,??uniFormatString2ws??rA
+   \   00000088   030000EA           B        ??showPatchInfo_3
+    457          		else
+    458          			wsprintf(ts, PERCENT_T, ptcfg->patchInfo->patchName);
+   \                     ??showPatchInfo_2:
+   \   0000008C   1C2097E5           LDR      R2,[R7, #+28]
+   \   00000090   0910A0E1           MOV      R1,R9
+   \   00000094   0500A0E1           MOV      R0,R5
+   \   00000098   240100EF           SWI      +292
+    459          		wstrcat(ws,ts);
+   \                     ??showPatchInfo_3:
+   \   0000009C   0510A0E1           MOV      R1,R5
+    460          		//wsprintf(ws, "%t%t", LGP_PATCH_NAME, ptcfg->patchInfo->patchName);
+    461          		ConstructEditControl(&ec,ECT_READ_ONLY,ECF_APPEND_EOL,ws,256);
+    462          		AddEditControlToEditQend(eq,&ec,ma);
+    463          		
+    464          		wsprintf(ws, "%t%t", LGP_PATCH_AUTHOR, ptcfg->patchInfo->author);
+   \   000000A0   30A29FE5           LDR      R10,??showPatchInfo_1+0x8  ;; `?<Constant "%t%t">`
+   \   000000A4   0400A0E1           MOV      R0,R4
+   \   000000A8   210100EF           SWI      +289
+   \   000000AC   400FA0E3           MOV      R0,#+256
+   \   000000B0   01002DE9           PUSH     {R0}
+   \   000000B4   0430A0E1           MOV      R3,R4
+   \   000000B8   4020A0E3           MOV      R2,#+64
+   \   000000BC   0010A0E3           MOV      R1,#+0
+   \   000000C0   04008DE2           ADD      R0,SP,#+4
+   \   000000C4   650100EF           SWI      +357
+   \   000000C8   0820A0E1           MOV      R2,R8
+   \   000000CC   04108DE2           ADD      R1,SP,#+4
+   \   000000D0   0600A0E1           MOV      R0,R6
+   \   000000D4   660100EF           SWI      +358
+   \   000000D8   1C0097E5           LDR      R0,[R7, #+28]
+   \   000000DC   F8219FE5           LDR      R2,??showPatchInfo_1+0xC  ;; `?<Constant "\\327\\367\\325\\337:">`
+   \   000000E0   983080E2           ADD      R3,R0,#+152
+   \   000000E4   0A10A0E1           MOV      R1,R10
+   \   000000E8   0400A0E1           MOV      R0,R4
+   \   000000EC   240100EF           SWI      +292
+    465          		ConstructEditControl(&ec,ECT_READ_ONLY,ECF_APPEND_EOL,ws,256);
+   \   000000F0   400FA0E3           MOV      R0,#+256
+   \   000000F4   01002DE9           PUSH     {R0}
+   \   000000F8   0430A0E1           MOV      R3,R4
+   \   000000FC   4020A0E3           MOV      R2,#+64
+   \   00000100   0010A0E3           MOV      R1,#+0
+   \   00000104   08008DE2           ADD      R0,SP,#+8
+   \   00000108   650100EF           SWI      +357
+    466          		AddEditControlToEditQend(eq,&ec,ma);
+   \   0000010C   0820A0E1           MOV      R2,R8
+   \   00000110   08108DE2           ADD      R1,SP,#+8
+   \   00000114   0600A0E1           MOV      R0,R6
+   \   00000118   660100EF           SWI      +358
+    467          		
+    468          		wsprintf(ws, "%t%t", LGP_PATCH_ID, ptcfg->patchInfo->patchID);
+   \   0000011C   1C0097E5           LDR      R0,[R7, #+28]
+   \   00000120   6A2F8FE2           ADR      R2,??showPatchInfo_1  ;; "ID:"
+   \   00000124   803080E2           ADD      R3,R0,#+128
+   \   00000128   0A10A0E1           MOV      R1,R10
+   \   0000012C   0400A0E1           MOV      R0,R4
+   \   00000130   240100EF           SWI      +292
+    469          		ConstructEditControl(&ec,ECT_READ_ONLY,ECF_APPEND_EOL,ws,256);
+   \   00000134   400FA0E3           MOV      R0,#+256
+   \   00000138   01002DE9           PUSH     {R0}
+   \   0000013C   0430A0E1           MOV      R3,R4
+   \   00000140   4020A0E3           MOV      R2,#+64
+   \   00000144   0010A0E3           MOV      R1,#+0
+   \   00000148   0C008DE2           ADD      R0,SP,#+12
+   \   0000014C   650100EF           SWI      +357
+    470          		AddEditControlToEditQend(eq,&ec,ma);
+   \   00000150   0820A0E1           MOV      R2,R8
+   \   00000154   0C108DE2           ADD      R1,SP,#+12
+   \   00000158   0600A0E1           MOV      R0,R6
+   \   0000015C   660100EF           SWI      +358
+    471          		
+    472          		wsprintf(ws, "%t%t", LGP_PATCH_VERSION, ptcfg->patchInfo->version);
+   \   00000160   1C0097E5           LDR      R0,[R7, #+28]
+   \   00000164   74219FE5           LDR      R2,??showPatchInfo_1+0x10  ;; `?<Constant "\\260\\346\\261\\276:">`
+   \   00000168   903080E2           ADD      R3,R0,#+144
+   \   0000016C   0A10A0E1           MOV      R1,R10
+   \   00000170   0400A0E1           MOV      R0,R4
+   \   00000174   240100EF           SWI      +292
+    473          		ConstructEditControl(&ec,ECT_READ_ONLY,ECF_APPEND_EOL,ws,256);
+   \   00000178   400FA0E3           MOV      R0,#+256
+   \   0000017C   01002DE9           PUSH     {R0}
+   \   00000180   0430A0E1           MOV      R3,R4
+   \   00000184   4020A0E3           MOV      R2,#+64
+   \   00000188   0010A0E3           MOV      R1,#+0
+   \   0000018C   10008DE2           ADD      R0,SP,#+16
+   \   00000190   650100EF           SWI      +357
+    474          		AddEditControlToEditQend(eq,&ec,ma);
+   \   00000194   0820A0E1           MOV      R2,R8
+   \   00000198   10108DE2           ADD      R1,SP,#+16
+   \   0000019C   0600A0E1           MOV      R0,R6
+   \   000001A0   660100EF           SWI      +358
+    475          		
+    476          		if(ptcfg->patchInfo->info)
+   \   000001A4   1C0097E5           LDR      R0,[R7, #+28]
+   \   000001A8   B80090E5           LDR      R0,[R0, #+184]
+   \   000001AC   10D08DE2           ADD      SP,SP,#+16
+   \   000001B0   000050E3           CMP      R0,#+0
+   \   000001B4   2000000A           BEQ      ??showPatchInfo_4
+    477          		{
+    478          			//Modify
+    479          			wsprintf(ws, PERCENT_T, LGP_PATCH_INFO_OTH);
+   \   000001B8   24219FE5           LDR      R2,??showPatchInfo_1+0x14  ;; `?<Constant "\\306\\344\\313\\374\\320\\305\\317\\242:"`
+   \   000001BC   0910A0E1           MOV      R1,R9
+   \   000001C0   0400A0E1           MOV      R0,R4
+   \   000001C4   240100EF           SWI      +292
+    480          			if(isUniFormat(ptcfg->patchInfo->info))
+   \   000001C8   1C0097E5           LDR      R0,[R7, #+28]
+   \   000001CC   B80090E5           LDR      R0,[R0, #+184]
+   \   000001D0   ........           _BLF     isUniFormat,??isUniFormat??rA
+   \   000001D4   000050E3           CMP      R0,#+0
+   \   000001D8   1C0097E5           LDR      R0,[R7, #+28]
+   \   000001DC   0300000A           BEQ      ??showPatchInfo_5
+    481          				uniFormatString2ws(ts, ptcfg->patchInfo->info);
+   \   000001E0   B81090E5           LDR      R1,[R0, #+184]
+   \   000001E4   0500A0E1           MOV      R0,R5
+   \   000001E8   ........           _BLF     uniFormatString2ws,??uniFormatString2ws??rA
+   \   000001EC   030000EA           B        ??showPatchInfo_6
+    482          			else
+    483          				wsprintf(ts, PERCENT_T, ptcfg->patchInfo->info);
+   \                     ??showPatchInfo_5:
+   \   000001F0   B82090E5           LDR      R2,[R0, #+184]
+   \   000001F4   0910A0E1           MOV      R1,R9
+   \   000001F8   0500A0E1           MOV      R0,R5
+   \   000001FC   240100EF           SWI      +292
+    484          			wstrcat(ws,ts);
+   \                     ??showPatchInfo_6:
+   \   00000200   0510A0E1           MOV      R1,R5
+   \   00000204   0400A0E1           MOV      R0,R4
+   \   00000208   210100EF           SWI      +289
+    485          			//wsprintf(ws, "%t%t", LGP_PATCH_INFO_OTH, ptcfg->patchInfo->info);
+    486          			ConstructEditControl(&ec,ECT_READ_ONLY,ECF_APPEND_EOL,ws,256);
+   \   0000020C   400FA0E3           MOV      R0,#+256
+   \   00000210   01002DE9           PUSH     {R0}
+   \   00000214   0430A0E1           MOV      R3,R4
+   \   00000218   4020A0E3           MOV      R2,#+64
+   \   0000021C   0010A0E3           MOV      R1,#+0
+   \   00000220   04008DE2           ADD      R0,SP,#+4
+   \   00000224   650100EF           SWI      +357
+    487          			AddEditControlToEditQend(eq,&ec,ma);
+   \   00000228   0820A0E1           MOV      R2,R8
+   \   0000022C   04108DE2           ADD      R1,SP,#+4
+   \   00000230   0600A0E1           MOV      R0,R6
+   \   00000234   660100EF           SWI      +358
+   \   00000238   04D08DE2           ADD      SP,SP,#+4
+    488          		}
+    489          		patch_header(&INFO_HDR);
+   \                     ??showPatchInfo_4:
+   \   0000023C   A4709FE5           LDR      R7,??showPatchInfo_1+0x18  ;; INFO_HDR
+    490          		patch_input(&INFO_DESC);
+   \   00000240   A4809FE5           LDR      R8,??showPatchInfo_1+0x1C  ;; INFO_DESC
+   \   00000244   0090A0E3           MOV      R9,#+0
+   \   00000248   009087E5           STR      R9,[R7, #+0]
+   \   0000024C   888100EF           SWI      +33160
+   \   00000250   010040E2           SUB      R0,R0,#+1
+   \   00000254   B400C7E1           STRH     R0,[R7, #+4]
+   \   00000258   8A8100EF           SWI      +33162
+   \   0000025C   010040E2           SUB      R0,R0,#+1
+   \   00000260   B600C7E1           STRH     R0,[R7, #+6]
+   \   00000264   B891C8E1           STRH     R9,[R8, #+24]
+   \   00000268   8A8100EF           SWI      +33162
+   \   0000026C   010080E2           ADD      R0,R0,#+1
+   \   00000270   BA01C8E1           STRH     R0,[R8, #+26]
+   \   00000274   888100EF           SWI      +33160
+   \   00000278   010040E2           SUB      R0,R0,#+1
+   \   0000027C   BC01C8E1           STRH     R0,[R8, #+28]
+   \   00000280   898100EF           SWI      +33161
+   \   00000284   0090A0E1           MOV      R9,R0
+   \   00000288   8B8100EF           SWI      +33163
+   \   0000028C   000049E0           SUB      R0,R9,R0
+   \   00000290   010040E2           SUB      R0,R0,#+1
+   \   00000294   BE01C8E1           STRH     R0,[R8, #+30]
+    491          		CreateInputTextDialog(&INFO_DESC, &INFO_HDR, eq, 1, 0);
+   \   00000298   0000A0E3           MOV      R0,#+0
+   \   0000029C   01002DE9           PUSH     {R0}
+   \   000002A0   0130A0E3           MOV      R3,#+1
+   \   000002A4   0620A0E1           MOV      R2,R6
+   \   000002A8   0710A0E1           MOV      R1,R7
+   \   000002AC   0800A0E1           MOV      R0,R8
+   \   000002B0   670100EF           SWI      +359
+    492          		FreeWS(ws);
+   \   000002B4   0400A0E1           MOV      R0,R4
+   \   000002B8   290100EF           SWI      +297
+    493          		FreeWS(ts);
+   \   000002BC   0500A0E1           MOV      R0,R5
+   \   000002C0   290100EF           SWI      +297
+   \   000002C4   04D08DE2           ADD      SP,SP,#+4
+    494          	}
+    495          }
+   \                     ??showPatchInfo_0:
+   \   000002C8   2CD08DE2           ADD      SP,SP,#+44       ;; stack cleaning
+   \   000002CC   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??showPatchInfo_1:
+   \   000002D0   49443A00           DC8      "ID:"
+   \   000002D4   ........           DC32     `?<Constant "\\262\\271\\266\\241:">`
+   \   000002D8   ........           DC32     `?<Constant "%t%t">`
+   \   000002DC   ........           DC32     `?<Constant "\\327\\367\\325\\337:">`
+   \   000002E0   ........           DC32     `?<Constant "\\260\\346\\261\\276:">`
+   \   000002E4   ........           DC32     `?<Constant "\\306\\344\\313\\374\\320\\305\\317\\242:"`
+   \   000002E8   ........           DC32     INFO_HDR
+   \   000002EC   ........           DC32     INFO_DESC
+    496          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    497          const SOFTKEY_DESC SK_BACKUP={0x0FFF,0x0000,(int)LGP_BACKUP};
+   \                     SK_BACKUP:
+   \   00000000   FF0F0000           DC16 4095, 0
+   \   00000004   ........           DC32 `?<Constant "\\261\\270\\267\\335\\305\\344\\326\\303">`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    498          const SOFTKEY_DESC SK_RESTORE={0x0FFF,0x0000,(int)LGP_RESTORE};
+   \                     SK_RESTORE:
+   \   00000000   FF0F0000           DC16 4095, 0
+   \   00000004   ........           DC32 `?<Constant "\\273\\326\\270\\264\\261\\270\\267\\335">`
+    499          
+    500          //fcopy form mc
+    501          #define BUF_SIZE 0x4000
+
+   \                                 In segment CODE, align 4, keep-with-next
+    502          int fcopy(char *dst, char *src)
+    503          {
+   \                     fcopy:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   08D04DE2           SUB      SP,SP,#+8
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+    504          	unsigned int err;
+    505          	int fi=-1, fo=-1;
+    506          	char *buff=0;
+   \   00000010   0090A0E3           MOV      R9,#+0
+    507          	int cb,left;
+    508          	int res=0;
+   \   00000014   0060A0E3           MOV      R6,#+0
+    509          	int attr=0;
+   \   00000018   0610A0E1           MOV      R1,R6
+   \   0000001C   04108DE5           STR      R1,[SP, #+4]
+    510          
+    511          	fi=fopen(src, A_ReadOnly + A_BIN, P_READ, &err);
+   \   00000020   0D30A0E1           MOV      R3,SP
+   \   00000024   8020A0E3           MOV      R2,#+128
+   \   00000028   801CA0E3           MOV      R1,#+32768
+   \   0000002C   0500A0E1           MOV      R0,R5
+   \   00000030   0A0000EF           SWI      +10
+   \   00000034   0070A0E1           MOV      R7,R0
+    512          	if(fi!=-1) 
+   \   00000038   06A0E0E1           MVN      R10,R6
+   \   0000003C   0A0057E1           CMP      R7,R10
+   \   00000040   4600000A           BEQ      ??fcopy_0
+    513          	{
+    514          		fo=fopen(dst, A_ReadWrite+A_BIN+A_Create+A_Truncate, P_READ+P_WRITE, &err);
+   \   00000044   0D30A0E1           MOV      R3,SP
+   \   00000048   602FA0E3           MOV      R2,#+384
+   \   0000004C   0210A0E3           MOV      R1,#+2
+   \   00000050   831C81E3           ORR      R1,R1,#0x8300
+   \   00000054   0400A0E1           MOV      R0,R4
+   \   00000058   0A0000EF           SWI      +10
+   \   0000005C   0080A0E1           MOV      R8,R0
+    515          		if(fo!=-1) 
+   \   00000060   0A0058E1           CMP      R8,R10
+   \   00000064   3A00000A           BEQ      ??fcopy_1
+    516          		{
+    517          
+    518          			left=lseek(fi, 0, S_END, &err, &err);
+   \   00000068   0D00A0E1           MOV      R0,SP
+   \   0000006C   01002DE9           PUSH     {R0}
+   \   00000070   04308DE2           ADD      R3,SP,#+4
+   \   00000074   0220A0E3           MOV      R2,#+2
+   \   00000078   0010A0E3           MOV      R1,#+0
+   \   0000007C   0700A0E1           MOV      R0,R7
+   \   00000080   0F0000EF           SWI      +15
+   \   00000084   00A0A0E1           MOV      R10,R0
+    519          			lseek(fi, 0, S_SET, &err, &err);
+   \   00000088   04008DE2           ADD      R0,SP,#+4
+   \   0000008C   01002DE9           PUSH     {R0}
+   \   00000090   08308DE2           ADD      R3,SP,#+8
+   \   00000094   0620A0E1           MOV      R2,R6
+   \   00000098   0210A0E1           MOV      R1,R2
+   \   0000009C   0700A0E1           MOV      R0,R7
+   \   000000A0   0F0000EF           SWI      +15
+    520          			if(left)
+   \   000000A4   00005AE3           CMP      R10,#+0
+   \   000000A8   08D08DE2           ADD      SP,SP,#+8
+   \   000000AC   1500000A           BEQ      ??fcopy_2
+    521          			{
+    522          				buff=malloc(BUF_SIZE);
+   \   000000B0   400CA0E3           MOV      R0,#+16384
+   \   000000B4   140000EF           SWI      +20
+   \   000000B8   0090B0E1           MOVS     R9,R0
+    523          				if(!buff)
+   \   000000BC   1D00000A           BEQ      ??fcopy_3
+    524          					goto L_EXIT;
+    525          			}
+    526          			while (left) 
+    527          			{
+    528          				cb=left<BUF_SIZE?left:BUF_SIZE;
+   \                     ??fcopy_4:
+   \   000000C0   400C5AE3           CMP      R10,#+16384
+   \   000000C4   0AB0A0B1           MOVLT    R11,R10
+   \   000000C8   40BCA0A3           MOVGE    R11,#+16384
+    529          				left-=cb;
+   \   000000CC   0BA04AE0           SUB      R10,R10,R11
+    530          				if(fread(fi, buff, cb, &err)!=cb) 
+   \   000000D0   0D30A0E1           MOV      R3,SP
+   \   000000D4   0B20A0E1           MOV      R2,R11
+   \   000000D8   0910A0E1           MOV      R1,R9
+   \   000000DC   0700A0E1           MOV      R0,R7
+   \   000000E0   0B0000EF           SWI      +11
+   \   000000E4   0B0050E1           CMP      R0,R11
+   \   000000E8   1200001A           BNE      ??fcopy_3
+    531          					goto L_EXIT;
+    532          				if(fwrite(fo, buff, cb, &err)!=cb) 
+   \   000000EC   0D30A0E1           MOV      R3,SP
+   \   000000F0   0B20A0E1           MOV      R2,R11
+   \   000000F4   0910A0E1           MOV      R1,R9
+   \   000000F8   0800A0E1           MOV      R0,R8
+   \   000000FC   0C0000EF           SWI      +12
+   \   00000100   0B0050E1           CMP      R0,R11
+   \   00000104   0B00001A           BNE      ??fcopy_3
+    533          					goto L_EXIT;
+    534          			}
+   \                     ??fcopy_2:
+   \   00000108   00005AE3           CMP      R10,#+0
+   \   0000010C   EBFFFF1A           BNE      ??fcopy_4
+    535          			res=1;
+    536          			GetFileAttrib(src, (unsigned char*)&attr, &err);
+   \   00000110   0D20A0E1           MOV      R2,SP
+   \   00000114   04108DE2           ADD      R1,SP,#+4
+   \   00000118   0500A0E1           MOV      R0,R5
+   \   0000011C   120000EF           SWI      +18
+    537          			SetFileAttrib(dst, attr, &err);
+   \   00000120   04109DE5           LDR      R1,[SP, #+4]
+   \   00000124   0D20A0E1           MOV      R2,SP
+   \   00000128   FF1001E2           AND      R1,R1,#0xFF
+   \   0000012C   0400A0E1           MOV      R0,R4
+   \   00000130   130000EF           SWI      +19
+   \   00000134   0160A0E3           MOV      R6,#+1
+    538          		}
+    539          	}
+    540          L_EXIT:
+    541          	if(buff) 
+   \                     ??fcopy_3:
+   \   00000138   000059E3           CMP      R9,#+0
+   \   0000013C   0100000A           BEQ      ??fcopy_5
+    542          		mfree(buff);
+   \   00000140   0900A0E1           MOV      R0,R9
+   \   00000144   150000EF           SWI      +21
+    543          	if(fo!=-1) 
+    544          		fclose(fo, &err);
+   \                     ??fcopy_5:
+   \   00000148   0D10A0E1           MOV      R1,SP
+   \   0000014C   0800A0E1           MOV      R0,R8
+   \   00000150   0D0000EF           SWI      +13
+    545          	if(fi!=-1) 
+    546          		fclose(fi, &err);
+   \                     ??fcopy_1:
+   \   00000154   0D10A0E1           MOV      R1,SP
+   \   00000158   0700A0E1           MOV      R0,R7
+   \   0000015C   0D0000EF           SWI      +13
+    547          	return res;
+   \                     ??fcopy_0:
+   \   00000160   0600A0E1           MOV      R0,R6
+   \   00000164   F68FBDE8           POP      {R1,R2,R4-R11,PC}  ;; return
+    548          }
+    549          
+    550          void configRestore(char *path);
+    551          void configBackUp(char *path);
+    552          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    553          int pathInputOnKey(GUI *data, GUI_MSG *msg)
+    554          {
+   \                     pathInputOnKey:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   ACD04DE2           SUB      SP,SP,#+172
+    555          	EDITCONTROL ec;
+    556          	char path[128];
+    557          	if(msg->keys==0xFFF)
+   \   00000008   F220D1E1           LDRSH    R2,[R1, #+2]
+   \   0000000C   FF30A0E3           MOV      R3,#+255
+   \   00000010   F03E83E3           ORR      R3,R3,#0xF00
+   \   00000014   030052E1           CMP      R2,R3
+   \   00000018   1100001A           BNE      ??pathInputOnKey_0
+    558          	{
+    559          		ExtractEditControl(data,2,&ec);
+   \   0000001C   80208DE2           ADD      R2,SP,#+128
+   \   00000020   0210A0E3           MOV      R1,#+2
+   \   00000024   690100EF           SWI      +361
+    560          		ws_2str(ec.pWS, path, 127);
+   \   00000028   A8009DE5           LDR      R0,[SP, #+168]
+   \   0000002C   7F20A0E3           MOV      R2,#+127
+   \   00000030   0D10A0E1           MOV      R1,SP
+   \   00000034   A30000EF           SWI      +163
+    561          		if(PATH_TYPE)
+   \   00000038   ........           LDR      R0,??DataTable24  ;; PATH_TYPE
+   \   0000003C   000090E5           LDR      R0,[R0, #+0]
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   0D00A0E1           MOV      R0,SP
+   \   00000048   0100000A           BEQ      ??pathInputOnKey_1
+    562          			configRestore(path);
+   \   0000004C   ........           BL       configRestore
+   \   00000050   000000EA           B        ??pathInputOnKey_2
+    563          		else
+    564          			configBackUp(path);
+   \                     ??pathInputOnKey_1:
+   \   00000054   ........           BL       configBackUp
+    565          		return 1;
+   \                     ??pathInputOnKey_2:
+   \   00000058   0100A0E3           MOV      R0,#+1
+   \                     ??pathInputOnKey_3:
+   \   0000005C   ACD08DE2           ADD      SP,SP,#+172
+   \   00000060   0080BDE8           POP      {PC}
+    566          	}
+    567          	if((msg->gbsmsg->msg==KEY_DOWN)&&(msg->gbsmsg->submess==ENTER_BUTTON))
+   \                     ??pathInputOnKey_0:
+   \   00000064   041091E5           LDR      R1,[R1, #+4]
+   \   00000068   9330A0E3           MOV      R3,#+147
+   \   0000006C   042091E5           LDR      R2,[R1, #+4]
+   \   00000070   403F83E3           ORR      R3,R3,#0x100
+   \   00000074   030052E1           CMP      R2,R3
+   \   00000078   08109105           LDREQ    R1,[R1, #+8]
+   \   0000007C   1A005103           CMPEQ    R1,#+26
+   \   00000080   0500001A           BNE      ??pathInputOnKey_4
+    568          	{
+    569          		EDIT_OpenOptionMenuWithUserItems(data,on_sdec,data,1);
+   \   00000084   1C109FE5           LDR      R1,??pathInputOnKey_5  ;; on_sdec
+   \   00000088   0130A0E3           MOV      R3,#+1
+   \   0000008C   0020A0E1           MOV      R2,R0
+   \   00000090   E50100EF           SWI      +485
+    570          		return -1;
+   \   00000094   0000E0E3           MVN      R0,#+0
+   \   00000098   EFFFFFEA           B        ??pathInputOnKey_3
+    571          	}
+    572          	return 0;
+   \                     ??pathInputOnKey_4:
+   \   0000009C   0000A0E3           MOV      R0,#+0
+   \   000000A0   ACD08DE2           ADD      SP,SP,#+172
+   \   000000A4   0080BDE8           POP      {PC}             ;; return
+   \                     ??pathInputOnKey_5:
+   \   000000A8   ........           DC32     on_sdec
+    573          }
+    574          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    575          void pathInputGHook(GUI *data, int cmd)
+    576          {
+   \                     pathInputGHook:
+   \   00000000   00402DE9           PUSH     {LR}
+    577          	if(cmd==0x0A)
+   \   00000004   0A0051E3           CMP      R1,#+10
+   \   00000008   0100001A           BNE      ??pathInputGHook_0
+    578          		DisableIDLETMR();
+   \   0000000C   7F0100EF           SWI      +383
+   \   00000010   0080BDE8           POP      {PC}
+    579          	if(cmd==7)
+   \                     ??pathInputGHook_0:
+   \   00000014   070051E3           CMP      R1,#+7
+   \   00000018   0080BD18           POPNE    {PC}
+    580          		SetSoftKey(data, PATH_TYPE?&SK_RESTORE:&SK_BACKUP, SET_SOFT_KEY_N);
+   \   0000001C   ........           LDR      R1,??DataTable24  ;; PATH_TYPE
+   \   00000020   0020A0E3           MOV      R2,#+0
+   \   00000024   001091E5           LDR      R1,[R1, #+0]
+   \   00000028   000051E3           CMP      R1,#+0
+   \   0000002C   08109F15           LDRNE    R1,??pathInputGHook_1  ;; SK_RESTORE
+   \   00000030   08109F05           LDREQ    R1,??pathInputGHook_1+0x4  ;; SK_BACKUP
+   \   00000034   680100EF           SWI      +360
+    581          }
+   \   00000038   0080BDE8           POP      {PC}             ;; return
+   \                     ??pathInputGHook_1:
+   \   0000003C   ........           DC32     SK_RESTORE
+   \   00000040   ........           DC32     SK_BACKUP
+    582          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    583          INPUTDIA_DESC PATH_INPUT_DESC=
+   \                     PATH_INPUT_DESC:
+   \   00000000                      DS8 56
+   \   00000038                      REQUIRE `?<Initializer for PATH_INPUT_DESC>`
+    584          {
+    585            1,
+    586            pathInputOnKey,
+    587            pathInputGHook,
+    588            (void *)info_locret,
+    589            0,
+    590            &mmenu_skt,
+    591            {0,0,0,0},
+    592            FONT_SMALL,
+    593            100,
+    594            101,
+    595            0,
+    596            0,
+    597            0x40000000
+    598          };
+    599          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    600          HEADER_DESC PATH_INPUT_HDR={0,0,0,0,NULL,(int)LGP_ENTER_PATH,LGP_NULL};
+   \                     PATH_INPUT_HDR:
+   \   00000000                      DS8 20
+   \   00000014                      REQUIRE `?<Initializer for PATH_INPUT_HDR>`
+    601          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    602          void pathInputDlg(void)
+    603          {
+   \                     pathInputDlg:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+    604          	void *ma=malloc_adr();
+    605          	void *eq;
+    606          	EDITCONTROL ec;
+    607          	WSHDR *ews;
+    608          	
+    609          	PrepareEditControl(&ec);
+    610          	eq=AllocEQueue(ma,mfree_adr());
+    611          	ews=AllocWS(128);
+    612          	wsprintf(ews, PERCENT_T, PATH_TYPE?LGP_RESTORE_PATH:LGP_BACKUP_PATH);
+   \   00000004   ........           LDR      R7,??DataTable24  ;; PATH_TYPE
+   \   00000008   3CD04DE2           SUB      SP,SP,#+60
+   \   0000000C   148000EF           SWI      +32788
+   \   00000010   0060A0E1           MOV      R6,R0
+   \   00000014   10008DE2           ADD      R0,SP,#+16
+   \   00000018   640100EF           SWI      +356
+   \   0000001C   158000EF           SWI      +32789
+   \   00000020   0010A0E1           MOV      R1,R0
+   \   00000024   0600A0E1           MOV      R0,R6
+   \   00000028   630100EF           SWI      +355
+   \   0000002C   0040A0E1           MOV      R4,R0
+   \   00000030   8000A0E3           MOV      R0,#+128
+   \   00000034   250100EF           SWI      +293
+   \   00000038   ........           LDR      R1,??DataTable25  ;; PERCENT_T
+   \   0000003C   0050A0E1           MOV      R5,R0
+   \   00000040   000097E5           LDR      R0,[R7, #+0]
+   \   00000044   000050E3           CMP      R0,#+0
+   \   00000048   3C219F15           LDRNE    R2,??pathInputDlg_0  ;; `?<Constant "\\273\\326\\270\\264\\261\\270\\267\\335\\3`
+   \   0000004C   0500A0E1           MOV      R0,R5
+   \   00000050   38219F05           LDREQ    R2,??pathInputDlg_0+0x4  ;; `?<Constant "\\261\\270\\267\\335\\316\\304\\274\\376\\3`
+   \   00000054   240100EF           SWI      +292
+    613          	ConstructEditControl(&ec,ECT_HEADER,ECF_APPEND_EOL,ews,ews->wsbody[0]);
+   \   00000058   000095E5           LDR      R0,[R5, #+0]
+   \   0000005C   0530A0E1           MOV      R3,R5
+   \   00000060   B000D0E1           LDRH     R0,[R0, #+0]
+   \   00000064   4020A0E3           MOV      R2,#+64
+   \   00000068   0110A0E3           MOV      R1,#+1
+   \   0000006C   01002DE9           PUSH     {R0}
+   \   00000070   14008DE2           ADD      R0,SP,#+20
+   \   00000074   650100EF           SWI      +357
+    614          	AddEditControlToEditQend(eq,&ec,ma);
+   \   00000078   0620A0E1           MOV      R2,R6
+   \   0000007C   14108DE2           ADD      R1,SP,#+20
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   660100EF           SWI      +358
+    615          	
+    616          	if(PATH_TYPE)
+   \   00000088   000097E5           LDR      R0,[R7, #+0]
+   \   0000008C   04D08DE2           ADD      SP,SP,#+4
+   \   00000090   000050E3           CMP      R0,#+0
+   \   00000094   0400000A           BEQ      ??pathInputDlg_1
+    617          		str_2ws(ews,"0:\\Misc\\Patches\\",127);
+   \   00000098   ........           LDR      R1,??DataTable26  ;; `?<Constant "0:\\\\Misc\\\\Patches\\\\">`
+   \   0000009C   7F20A0E3           MOV      R2,#+127
+   \   000000A0   0500A0E1           MOV      R0,R5
+   \   000000A4   6C0100EF           SWI      +364
+   \   000000A8   0A0000EA           B        ??pathInputDlg_2
+    618          	else
+    619          	{
+    620          		TDate date;
+    621          		TTime time;
+    622          		GetDateTime(&date, &time);
+   \                     ??pathInputDlg_1:
+   \   000000AC   08108DE2           ADD      R1,SP,#+8
+   \   000000B0   0D00A0E1           MOV      R0,SP
+   \   000000B4   B40000EF           SWI      +180
+    623          		wsprintf(ews, "0:\\Misc\\Patches\\ptc_%d%02d%02d\\",date.year,date.month,date.day);
+   \   000000B8   0500DDE5           LDRB     R0,[SP, #+5]
+   \   000000BC   D0109FE5           LDR      R1,??pathInputDlg_0+0x8  ;; `?<Constant "0:\\\\Misc\\\\Patches\\\\ptc_%...">`
+   \   000000C0   01002DE9           PUSH     {R0}
+   \   000000C4   0830DDE5           LDRB     R3,[SP, #+8]
+   \   000000C8   04209DE5           LDR      R2,[SP, #+4]
+   \   000000CC   0500A0E1           MOV      R0,R5
+   \   000000D0   240100EF           SWI      +292
+   \   000000D4   04D08DE2           ADD      SP,SP,#+4
+    624          	}
+    625          	ConstructEditControl(&ec,ECT_CURSOR_STAY,ECF_APPEND_EOL,ews,128);
+    626          	AddEditControlToEditQend(eq,&ec,ma);
+    627          	
+    628          	patch_header(&PATH_INPUT_HDR);
+    629          	patch_input(&PATH_INPUT_DESC);
+   \                     ??pathInputDlg_2:
+   \   000000D8   B8709FE5           LDR      R7,??pathInputDlg_0+0xC  ;; PATH_INPUT_DESC
+   \   000000DC   8000A0E3           MOV      R0,#+128
+   \   000000E0   01002DE9           PUSH     {R0}
+   \   000000E4   0530A0E1           MOV      R3,R5
+   \   000000E8   4020A0E3           MOV      R2,#+64
+   \   000000EC   0410A0E3           MOV      R1,#+4
+   \   000000F0   14008DE2           ADD      R0,SP,#+20
+   \   000000F4   650100EF           SWI      +357
+   \   000000F8   0620A0E1           MOV      R2,R6
+   \   000000FC   98609FE5           LDR      R6,??pathInputDlg_0+0x10  ;; PATH_INPUT_HDR
+   \   00000100   14108DE2           ADD      R1,SP,#+20
+   \   00000104   0400A0E1           MOV      R0,R4
+   \   00000108   660100EF           SWI      +358
+   \   0000010C   0080A0E3           MOV      R8,#+0
+   \   00000110   008086E5           STR      R8,[R6, #+0]
+   \   00000114   888100EF           SWI      +33160
+   \   00000118   010040E2           SUB      R0,R0,#+1
+   \   0000011C   B400C6E1           STRH     R0,[R6, #+4]
+   \   00000120   8A8100EF           SWI      +33162
+   \   00000124   010040E2           SUB      R0,R0,#+1
+   \   00000128   B600C6E1           STRH     R0,[R6, #+6]
+   \   0000012C   B881C7E1           STRH     R8,[R7, #+24]
+   \   00000130   8A8100EF           SWI      +33162
+   \   00000134   010080E2           ADD      R0,R0,#+1
+   \   00000138   BA01C7E1           STRH     R0,[R7, #+26]
+   \   0000013C   888100EF           SWI      +33160
+   \   00000140   010040E2           SUB      R0,R0,#+1
+   \   00000144   BC01C7E1           STRH     R0,[R7, #+28]
+   \   00000148   898100EF           SWI      +33161
+   \   0000014C   0080A0E1           MOV      R8,R0
+   \   00000150   8B8100EF           SWI      +33163
+   \   00000154   000048E0           SUB      R0,R8,R0
+   \   00000158   010040E2           SUB      R0,R0,#+1
+   \   0000015C   BE01C7E1           STRH     R0,[R7, #+30]
+    630          	CreateInputTextDialog(&PATH_INPUT_DESC,&PATH_INPUT_HDR,eq,1,0);
+   \   00000160   0000A0E3           MOV      R0,#+0
+   \   00000164   01002DE9           PUSH     {R0}
+   \   00000168   0130A0E3           MOV      R3,#+1
+   \   0000016C   0420A0E1           MOV      R2,R4
+   \   00000170   0610A0E1           MOV      R1,R6
+   \   00000174   0700A0E1           MOV      R0,R7
+   \   00000178   670100EF           SWI      +359
+    631          	FreeWS(ews);
+   \   0000017C   0500A0E1           MOV      R0,R5
+   \   00000180   290100EF           SWI      +297
+    632          }
+   \   00000184   44D08DE2           ADD      SP,SP,#+68
+   \   00000188   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??pathInputDlg_0:
+   \   0000018C   ........           DC32     `?<Constant "\\273\\326\\270\\264\\261\\270\\267\\335\\3`
+   \   00000190   ........           DC32     `?<Constant "\\261\\270\\267\\335\\316\\304\\274\\376\\3`
+   \   00000194   ........           DC32     `?<Constant "0:\\\\Misc\\\\Patches\\\\ptc_%...">`
+   \   00000198   ........           DC32     PATH_INPUT_DESC
+   \   0000019C   ........           DC32     PATH_INPUT_HDR
+    633          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    634          void mkpath(char *path)
+    635          {
+   \                     mkpath:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   84D04DE2           SUB      SP,SP,#+132
+   \   00000008   0040A0E1           MOV      R4,R0
+    636          	unsigned int ferr;
+    637          	char temp[128];
+    638          	int len=strlen(path);
+    639          	int i=0;
+   \   0000000C   0060A0E3           MOV      R6,#+0
+   \   00000010   1B0000EF           SWI      +27
+   \   00000014   0050A0E1           MOV      R5,R0
+    640          	if(isdir(path, &ferr))
+   \   00000018   0D10A0E1           MOV      R1,SP
+   \   0000001C   0400A0E1           MOV      R0,R4
+   \   00000020   910000EF           SWI      +145
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   1700001A           BNE      ??mkpath_0
+   \   0000002C   110000EA           B        ??mkpath_1
+    641          		return;
+    642          	for(;i<len;i++)
+    643          	{
+    644          		if(path[i]=='\\')
+   \                     ??mkpath_2:
+   \   00000030   04008DE2           ADD      R0,SP,#+4
+   \   00000034   007086E0           ADD      R7,R6,R0
+   \   00000038   0400D6E7           LDRB     R0,[R6, +R4]
+   \   0000003C   5C0050E3           CMP      R0,#+92
+   \   00000040   0900001A           BNE      ??mkpath_3
+    645          		{
+    646          			temp[i]=0;
+   \   00000044   0000A0E3           MOV      R0,#+0
+   \   00000048   0000C7E5           STRB     R0,[R7, #+0]
+    647          			if(!isdir(temp, &ferr))
+   \   0000004C   0D10A0E1           MOV      R1,SP
+   \   00000050   04008DE2           ADD      R0,SP,#+4
+   \   00000054   910000EF           SWI      +145
+   \   00000058   000050E3           CMP      R0,#+0
+   \   0000005C   0200001A           BNE      ??mkpath_3
+    648          				mkdir(temp, &ferr);
+   \   00000060   0D10A0E1           MOV      R1,SP
+   \   00000064   04008DE2           ADD      R0,SP,#+4
+   \   00000068   100000EF           SWI      +16
+    649          		}
+    650          		temp[i]=path[i];
+   \                     ??mkpath_3:
+   \   0000006C   0400D6E7           LDRB     R0,[R6, +R4]
+    651          	}
+   \   00000070   016086E2           ADD      R6,R6,#+1
+   \   00000074   0000C7E5           STRB     R0,[R7, #+0]
+   \                     ??mkpath_1:
+   \   00000078   050056E1           CMP      R6,R5
+   \   0000007C   EBFFFFBA           BLT      ??mkpath_2
+    652          	mkdir(path, &ferr);
+   \   00000080   0D10A0E1           MOV      R1,SP
+   \   00000084   0400A0E1           MOV      R0,R4
+   \   00000088   100000EF           SWI      +16
+    653          }
+   \                     ??mkpath_0:
+   \   0000008C   84D08DE2           ADD      SP,SP,#+132      ;; stack cleaning
+   \   00000090   F080BDE8           POP      {R4-R7,PC}       ;; return
+    654          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    655          void configBackUp(char *path)
+    656          {
+   \                     configBackUp:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   52DF4DE2           SUB      SP,SP,#+328
+   \   00000008   40DE4DE2           SUB      SP,SP,#+1024
+   \   0000000C   0040A0E1           MOV      R4,R0
+    657          	int len=strlen(path);
+   \   00000010   1B0000EF           SWI      +27
+    658          	DIR_ENTRY de;
+    659          	unsigned int ferr;
+    660          	char folder[128]=PATCH_DIR;
+   \   00000014   E4109FE5           LDR      R1,??configBackUp_0  ;; `?<Constant "0:\\\\Misc\\\\Patches\\\\">_2`
+   \   00000018   0050A0E1           MOV      R5,R0
+   \   0000001C   D20F8DE2           ADD      R0,SP,#+840
+   \   00000020   8030A0E3           MOV      R3,#+128
+   \                     ??configBackUp_1:
+   \   00000024   043053E2           SUBS     R3,R3,#+4
+   \   00000028   032091E7           LDR      R2,[R1, R3]
+   \   0000002C   032080E7           STR      R2,[R0, R3]
+   \   00000030   FBFFFF1A           BNE      ??configBackUp_1
+    661          	char ptemp[128];
+    662          	char tp[128];
+    663          	char srcpath[128];
+    664          	mkpath(path);
+    665          	strcat(folder, PTC_FOLDR);
+    666          	strcpy(srcpath, folder);
+    667          	strcat(srcpath, "*.ptc");
+    668          	if(FindFirstFile(&de, srcpath, &ferr))
+   \   00000034   ........           LDR      R6,??DataTable31  ;; `?<Constant "%s%s">`
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   ........           BL       mkpath
+   \   00000040   ........           LDR      R1,??DataTable32  ;; `?<Constant "ptc\\\\">`
+   \   00000044   D20F8DE2           ADD      R0,SP,#+840
+   \   00000048   170000EF           SWI      +23
+   \   0000004C   D21F8DE2           ADD      R1,SP,#+840
+   \   00000050   C8008DE2           ADD      R0,SP,#+200
+   \   00000054   400E80E2           ADD      R0,R0,#+1024
+   \   00000058   1A0000EF           SWI      +26
+   \   0000005C   ........           LDR      R1,??DataTable29  ;; `?<Constant "*.ptc">`
+   \   00000060   C8008DE2           ADD      R0,SP,#+200
+   \   00000064   400E80E2           ADD      R0,R0,#+1024
+   \   00000068   170000EF           SWI      +23
+   \   0000006C   0D20A0E1           MOV      R2,SP
+   \   00000070   C8108DE2           ADD      R1,SP,#+200
+   \   00000074   401E81E2           ADD      R1,R1,#+1024
+   \   00000078   04008DE2           ADD      R0,SP,#+4
+   \   0000007C   6B0000EF           SWI      +107
+   \   00000080   000050E3           CMP      R0,#+0
+   \   00000084   1700000A           BEQ      ??configBackUp_2
+    669          	{
+    670          		do
+    671          		{
+    672          			if(path[len-1]!='\\')
+   \                     ??configBackUp_3:
+   \   00000088   040085E0           ADD      R0,R5,R4
+   \   0000008C   010050E5           LDRB     R0,[R0, #-1]
+   \   00000090   B9308DE2           ADD      R3,SP,#+185
+   \   00000094   0420A0E1           MOV      R2,R4
+   \   00000098   5C0050E3           CMP      R0,#+92
+    673          				sprintf(ptemp, "%s\\%s", path, de.file_name);
+   \   0000009C   ........           LDRNE    R1,??DataTable33  ;; `?<Constant "%s\\\\%s">`
+    674          			else
+    675          				sprintf(ptemp, "%s%s", path, de.file_name);
+   \   000000A0   F20F8DE2           ADD      R0,SP,#+968
+   \   000000A4   0610A001           MOVEQ    R1,R6
+   \   000000A8   160000EF           SWI      +22
+    676          			sprintf(tp, "%s%s", folder, de.file_name);
+   \   000000AC   B9308DE2           ADD      R3,SP,#+185
+   \   000000B0   D22F8DE2           ADD      R2,SP,#+840
+   \   000000B4   0610A0E1           MOV      R1,R6
+   \   000000B8   48008DE2           ADD      R0,SP,#+72
+   \   000000BC   400E80E2           ADD      R0,R0,#+1024
+   \   000000C0   160000EF           SWI      +22
+    677          			fcopy(ptemp, tp);
+   \   000000C4   48108DE2           ADD      R1,SP,#+72
+   \   000000C8   401E81E2           ADD      R1,R1,#+1024
+   \   000000CC   F20F8DE2           ADD      R0,SP,#+968
+   \   000000D0   ........           BL       fcopy
+    678          		}while(FindNextFile(&de,&ferr));
+   \   000000D4   0D10A0E1           MOV      R1,SP
+   \   000000D8   04008DE2           ADD      R0,SP,#+4
+   \   000000DC   6C0000EF           SWI      +108
+   \   000000E0   000050E3           CMP      R0,#+0
+   \   000000E4   E7FFFF1A           BNE      ??configBackUp_3
+    679          	}
+    680          	FindClose(&de,&ferr);
+   \                     ??configBackUp_2:
+   \   000000E8   0D10A0E1           MOV      R1,SP
+   \   000000EC   04008DE2           ADD      R0,SP,#+4
+   \   000000F0   6D0000EF           SWI      +109
+    681          }
+   \   000000F4   52DF8DE2           ADD      SP,SP,#+328
+   \   000000F8   40DE8DE2           ADD      SP,SP,#+1024
+   \   000000FC   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??configBackUp_0:
+   \   00000100   ........           DC32     `?<Constant "0:\\\\Misc\\\\Patches\\\\">_2`
+    682          
+    683          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    684          void configRestore(char *path)
+    685          {
+   \                     configRestore:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   52DF4DE2           SUB      SP,SP,#+328
+   \   00000008   40DE4DE2           SUB      SP,SP,#+1024
+   \   0000000C   0040A0E1           MOV      R4,R0
+    686          	unsigned int ferr;
+    687          	int len=strlen(path);
+   \   00000010   1B0000EF           SWI      +27
+    688          	DIR_ENTRY de;
+    689          	char ptemp[128];
+    690          	char folder[128]=PATCH_DIR;
+   \   00000014   28119FE5           LDR      R1,??configRestore_0  ;; `?<Constant "0:\\\\Misc\\\\Patches\\\\">_3`
+   \   00000018   0050A0E1           MOV      R5,R0
+   \   0000001C   F20F8DE2           ADD      R0,SP,#+968
+   \   00000020   8030A0E3           MOV      R3,#+128
+   \                     ??configRestore_1:
+   \   00000024   043053E2           SUBS     R3,R3,#+4
+   \   00000028   032091E7           LDR      R2,[R1, R3]
+   \   0000002C   032080E7           STR      R2,[R0, R3]
+   \   00000030   FBFFFF1A           BNE      ??configRestore_1
+    691          	char tp[128];
+    692          	char srcpath[128];
+    693          	if(!(isdir(path, &ferr)))
+   \   00000034   0D10A0E1           MOV      R1,SP
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   910000EF           SWI      +145
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   3B00000A           BEQ      ??configRestore_2
+    694          		return;
+    695          	if(path[len-1]=='\\')
+    696          		sprintf(srcpath, "%s*.ptc", path);
+    697          	else
+    698          		sprintf(srcpath, "%s\\*.ptc", path);
+    699          	strcat(folder, PTC_FOLDR);
+    700          	if(FindFirstFile(&de, srcpath, &ferr))
+   \   00000048   ........           LDR      R6,??DataTable31  ;; `?<Constant "%s%s">`
+   \   0000004C   040085E0           ADD      R0,R5,R4
+   \   00000050   010050E5           LDRB     R0,[R0, #-1]
+   \   00000054   0420A0E1           MOV      R2,R4
+   \   00000058   5C0050E3           CMP      R0,#+92
+   \   0000005C   E4109F05           LDREQ    R1,??configRestore_0+0x4  ;; `?<Constant "%s*.ptc">`
+   \   00000060   C8008DE2           ADD      R0,SP,#+200
+   \   00000064   E0109F15           LDRNE    R1,??configRestore_0+0x8  ;; `?<Constant "%s\\\\*.ptc">`
+   \   00000068   400E80E2           ADD      R0,R0,#+1024
+   \   0000006C   160000EF           SWI      +22
+   \   00000070   ........           LDR      R1,??DataTable32  ;; `?<Constant "ptc\\\\">`
+   \   00000074   F20F8DE2           ADD      R0,SP,#+968
+   \   00000078   170000EF           SWI      +23
+   \   0000007C   0D20A0E1           MOV      R2,SP
+   \   00000080   C8108DE2           ADD      R1,SP,#+200
+   \   00000084   401E81E2           ADD      R1,R1,#+1024
+   \   00000088   04008DE2           ADD      R0,SP,#+4
+   \   0000008C   6B0000EF           SWI      +107
+   \   00000090   000050E3           CMP      R0,#+0
+   \   00000094   1700000A           BEQ      ??configRestore_3
+    701          	{
+    702          		do
+    703          		{
+    704          			sprintf(ptemp, "%s%s", folder, de.file_name);
+   \                     ??configRestore_4:
+   \   00000098   B9308DE2           ADD      R3,SP,#+185
+   \   0000009C   F22F8DE2           ADD      R2,SP,#+968
+   \   000000A0   0610A0E1           MOV      R1,R6
+   \   000000A4   D20F8DE2           ADD      R0,SP,#+840
+   \   000000A8   160000EF           SWI      +22
+    705          			if(path[len-1]=='\\')
+   \   000000AC   040085E0           ADD      R0,R5,R4
+   \   000000B0   010050E5           LDRB     R0,[R0, #-1]
+   \   000000B4   B9308DE2           ADD      R3,SP,#+185
+   \   000000B8   0420A0E1           MOV      R2,R4
+   \   000000BC   5C0050E3           CMP      R0,#+92
+    706          				sprintf(tp, "%s%s", path, de.file_name);
+    707          			else
+    708          				sprintf(tp, "%s\\%s", path, de.file_name);
+   \   000000C0   ........           LDRNE    R1,??DataTable33  ;; `?<Constant "%s\\\\%s">`
+   \   000000C4   48008DE2           ADD      R0,SP,#+72
+   \   000000C8   0610A001           MOVEQ    R1,R6
+   \   000000CC   400E80E2           ADD      R0,R0,#+1024
+   \   000000D0   160000EF           SWI      +22
+    709          			fcopy(ptemp, tp);
+   \   000000D4   48108DE2           ADD      R1,SP,#+72
+   \   000000D8   401E81E2           ADD      R1,R1,#+1024
+   \   000000DC   D20F8DE2           ADD      R0,SP,#+840
+   \   000000E0   ........           BL       fcopy
+    710          		}while(FindNextFile(&de,&ferr));
+   \   000000E4   0D10A0E1           MOV      R1,SP
+   \   000000E8   04008DE2           ADD      R0,SP,#+4
+   \   000000EC   6C0000EF           SWI      +108
+   \   000000F0   000050E3           CMP      R0,#+0
+   \   000000F4   E7FFFF1A           BNE      ??configRestore_4
+    711          	}
+    712          	FindClose(&de,&ferr);
+   \                     ??configRestore_3:
+   \   000000F8   0D10A0E1           MOV      R1,SP
+   \   000000FC   04008DE2           ADD      R0,SP,#+4
+   \   00000100   6D0000EF           SWI      +109
+    713          	fuckThemAll();
+   \   00000104   ........           _BLF     fuckThemAll,??fuckThemAll??rA
+    714          	patch_n=0;
+   \   00000108   ........           LDR      R0,??DataTable34  ;; patch_n
+   \   0000010C   0010A0E3           MOV      R1,#+0
+   \   00000110   001080E5           STR      R1,[R0, #+0]
+    715          	if(!getAllPatchData())
+   \   00000114   ........           _BLF     getAllPatchData,??getAllPatchData??rA
+   \   00000118   000050E3           CMP      R0,#+0
+   \   0000011C   0500001A           BNE      ??configRestore_2
+    716          	{
+    717          		MsgBoxError(1, (int)LGP_RELOAD_CONFIG_ERR);
+   \   00000120   ........           LDR      R1,??DataTable35  ;; `?<Constant "\\326\\330\\320\\302\\266\\301\\310\\241\\3`
+   \   00000124   0100A0E3           MOV      R0,#+1
+   \   00000128   4E0000EF           SWI      +78
+    718          		CloseCSM(MAIN_CSM_ID);
+   \   0000012C   ........           LDR      R0,??DataTable36  ;; MAIN_CSM_ID
+   \   00000130   000090E5           LDR      R0,[R0, #+0]
+   \   00000134   FC0100EF           SWI      +508
+   \                     ??configRestore_2:
+   \   00000138   52DF8DE2           ADD      SP,SP,#+328
+   \   0000013C   40DE8DE2           ADD      SP,SP,#+1024
+   \   00000140   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??configRestore_0:
+   \   00000144   ........           DC32     `?<Constant "0:\\\\Misc\\\\Patches\\\\">_3`
+   \   00000148   ........           DC32     `?<Constant "%s*.ptc">`
+   \   0000014C   ........           DC32     `?<Constant "%s\\\\*.ptc">`
+    719          	}
+    720          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     MAIN_CSM_ID
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable20:
+   \   00000000   ........           DC32     PTCFG_CUR
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable24:
+   \   00000000   ........           DC32     PATH_TYPE
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable25:
+   \   00000000   ........           DC32     PERCENT_T
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable26:
+   \   00000000   ........           DC32     `?<Constant "0:\\\\Misc\\\\Patches\\\\">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable29:
+   \   00000000   ........           DC32     `?<Constant "*.ptc">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable31:
+   \   00000000   ........           DC32     `?<Constant "%s%s">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable32:
+   \   00000000   ........           DC32     `?<Constant "ptc\\\\">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable33:
+   \   00000000   ........           DC32     `?<Constant "%s\\\\%s">`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable34:
+   \   00000000   ........           DC32     patch_n
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable35:
+   \   00000000   ........           DC32     `?<Constant "\\326\\330\\320\\302\\266\\301\\310\\241\\3`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable36:
+   \   00000000   ........           DC32     MAIN_CSM_ID
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for INFO_HDR>`:
+   \   00000000   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000008   00000000....       DC32 0H, `?<Constant "\\262\\271\\266\\241\\320\\305\\317\\242">`
+   \              ....        
+   \   00000010   FFFFFF7F           DC32 2147483647
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for INFO_DESC>`:
+   \   00000000   01000000....       DC32 1, infoOnKey, infoGHook, info_locret, 0, mmenu_skt
+   \              ............
+   \              ........0000
+   \              0000........
+   \   00000018   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000020   070000006400       DC32 7, 100, 101, 0, 0, 1073741824
+   \              000065000000
+   \              000000000000
+   \              000000000040
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for PATH_INPUT_DESC>`:
+   \   00000000   01000000....       DC32 1, pathInputOnKey, pathInputGHook, info_locret, 0, mmenu_skt
+   \              ............
+   \              ........0000
+   \              0000........
+   \   00000018   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000020   070000006400       DC32 7, 100, 101, 0, 0, 1073741824
+   \              000065000000
+   \              000000000000
+   \              000000000040
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for PATH_INPUT_HDR>`:
+   \   00000000   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000008   00000000....       DC32 0H, `?<Constant "\\312\\344\\310\\353\\316\\304\\274\\376\\2`
+   \              ....        
+   \   00000010   FFFFFF7F           DC32 2147483647
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "*.ptc">`:
+   \   00000000   2A2E70746300       DC8 "*.ptc"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s%s">`:
+   \   00000000   2573257300         DC8 "%s%s"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\326\\330\\320\\302\\266\\301\\310\\241\\3`:
+   \   00000000   D6D8D0C2B6C1       DC8 "\326\330\320\302\266\301\310\241\305\344\326\303\312\247\260\334!"
+   \              C8A1C5E4D6C3
+   \              CAA7B0DC2100
+   \   00000012   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s%s%08s">`:
+   \   00000000   257325732530       DC8 "%s%s%08s"
+   \              387300      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "0:\\\\Misc\\\\Patches\\\\">`:
+   \   00000000   303A5C4D6973       DC8 "0:\\Misc\\Patches\\"
+   \              635C50617463
+   \              6865735C00  
+   \   00000011   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\264\\355\\316\\363!">`:
+   \   00000000   B4EDCEF32100       DC8 "\264\355\316\363!"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "0:\\\\Misc\\\\Patches\\\\">_1`:
+   \   00000000   303A5C4D6973       DC8 "0:\\Misc\\Patches\\"
+   \              635C50617463
+   \              6865735C00  
+   \   00000011   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000021   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000031   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000041   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000051   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000061   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000071   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\271\\330\\323\\332...">`:
+   \   00000000   B9D8D3DA2E2E       DC8 "\271\330\323\332..."
+   \              2E00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\262\\271\\266\\241:">`:
+   \   00000000   B2B9B6A13A00       DC8 "\262\271\266\241:"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%t%t">`:
+   \   00000000   2574257400         DC8 "%t%t"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\327\\367\\325\\337:">`:
+   \   00000000   D7F7D5DF3A00       DC8 "\327\367\325\337:"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   49443A00           DC8 "ID:"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\260\\346\\261\\276:">`:
+   \   00000000   B0E6B1BE3A00       DC8 "\260\346\261\276:"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\306\\344\\313\\374\\320\\305\\317\\242:"`:
+   \   00000000   C6E4CBFCD0C5       DC8 "\306\344\313\374\320\305\317\242:"
+   \              CFA23A00    
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\261\\270\\267\\335\\316\\304\\274\\376\\3`:
+   \   00000000   B1B8B7DDCEC4       DC8 "\261\270\267\335\316\304\274\376\302\267\276\266:"
+   \              BCFEC2B7BEB6
+   \              3A00        
+   \   0000000E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "0:\\\\Misc\\\\Patches\\\\ptc_%...">`:
+   \   00000000   303A5C4D6973       DC8 "0:\\Misc\\Patches\\ptc_%d%02d%02d\\"
+   \              635C50617463
+   \              6865735C7074
+   \              635F25642530
+   \              326425303264
+   \              5C00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "0:\\\\Misc\\\\Patches\\\\">_2`:
+   \   00000000   303A5C4D6973       DC8 "0:\\Misc\\Patches\\"
+   \              635C50617463
+   \              6865735C00  
+   \   00000011   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000021   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000031   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000041   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000051   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000061   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000071   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s\\\\%s">`:
+   \   00000000   25735C257300       DC8 "%s\\%s"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "0:\\\\Misc\\\\Patches\\\\">_3`:
+   \   00000000   303A5C4D6973       DC8 "0:\\Misc\\Patches\\"
+   \              635C50617463
+   \              6865735C00  
+   \   00000011   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000021   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000031   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000041   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000051   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000061   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000071   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s*.ptc">`:
+   \   00000000   25732A2E7074       DC8 "%s*.ptc"
+   \              6300        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%s\\\\*.ptc">`:
+   \   00000000   25735C2A2E70       DC8 "%s\\*.ptc"
+   \              746300      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\241\\324\\361">`:
+   \   00000000   D1A1D4F100         DC8 "\321\241\324\361"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\267\\265\\273\\330">`:
+   \   00000000   B7B5BBD800         DC8 "\267\265\273\330"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\307\\351\\276\\260\\304\\243\\312\\275">`:
+   \   00000000   C7E9BEB0C4A3       DC8 "\307\351\276\260\304\243\312\275"
+   \              CABD00      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\262\\271\\266\\241\\320\\305\\317\\242">`:
+   \   00000000   B2B9B6A1D0C5       DC8 "\262\271\266\241\320\305\317\242"
+   \              CFA200      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\307\\345\\263\\375\\270\\303\\262\\271\\2`:
+   \   00000000   C7E5B3FDB8C3       DC8 "\307\345\263\375\270\303\262\271\266\241\305\344\326\303"
+   \              B2B9B6A1C5E4
+   \              D6C300      
+   \   0000000F   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\307\\345\\263\\375\\316\\336\\323\\303\\3`:
+   \   00000000   C7E5B3FDCEDE       DC8 "\307\345\263\375\316\336\323\303\305\344\326\303"
+   \              D3C3C5E4D6C3
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\307\\345\\263\\375\\313\\371\\323\\320\\3`:
+   \   00000000   C7E5B3FDCBF9       DC8 "\307\345\263\375\313\371\323\320\305\344\326\303"
+   \              D3D0C5E4D6C3
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\261\\270\\267\\335\\305\\344\\326\\303">`:
+   \   00000000   B1B8B7DDC5E4       DC8 "\261\270\267\335\305\344\326\303"
+   \              D6C300      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\273\\326\\270\\264\\261\\270\\267\\335">`:
+   \   00000000   BBD6B8B4B1B8       DC8 "\273\326\270\264\261\270\267\335"
+   \              B7DD00      
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\273\\326\\270\\264\\261\\270\\267\\335\\3`:
+   \   00000000   BBD6B8B4B1B8       DC8 "\273\326\270\264\261\270\267\335\302\267\276\266:"
+   \              B7DDC2B7BEB6
+   \              3A00        
+   \   0000000E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\262\\273\\313\\242\\320\\302MP\\315\\313`:
+   \   00000000   B2BBCBA2D0C2       DC8 "\262\273\313\242\320\302MP\315\313\263\366"
+   \              4D50CDCBB3F6
+   \              00          
+   \   0000000D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\315\\313\\263\\366">`:
+   \   00000000   CDCBB3F600         DC8 "\315\313\263\366"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\241\\317\\356">`:
+   \   00000000   D1A1CFEE00         DC8 "\321\241\317\356"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\315\\352\\263\\311">`:
+   \   00000000   CDEAB3C900         DC8 "\315\352\263\311"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\277\\252/\\271\\330">`:
+   \   00000000   BFAA2FB9D800       DC8 "\277\252/\271\330"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\312\\344\\310\\353\\316\\304\\274\\376\\2`:
+   \   00000000   CAE4C8EBCEC4       DC8 "\312\344\310\353\316\304\274\376\274\320\302\267\276\266"
+   \              BCFEBCD0C2B7
+   \              BEB600      
+   \   0000000F   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Master.elf\\n(c) BingK(...">`:
+   \   00000000   4D6173746572       DC8 4DH, 61H, 73H, 74H, 65H, 72H, 2EH, 65H
+   \              2E65        
+   \   00000008   6C660A286329       DC8 6CH, 66H, 0AH, 28H, 63H, 29H, 20H, 42H
+   \              2042        
+   \   00000010   696E674B2862       DC8 69H, 6EH, 67H, 4BH, 28H, 62H, 69H, 6EH
+   \              696E        
+   \   00000018   6768656C696E       DC8 67H, 68H, 65H, 6CH, 69H, 6EH, 67H, 78H
+   \              6778        
+   \   00000020   69290A287229       DC8 69H, 29H, 0AH, 28H, 72H, 29H, 20H, 61H
+   \              2061        
+   \   00000028   6C6C20746865       DC8 6CH, 6CH, 20H, 74H, 68H, 65H, 20H, 61H
+   \              2061        
+   \   00000030   7574686F7220       DC8 75H, 74H, 68H, 6FH, 72H, 20H, 6FH, 66H
+   \              6F66        
+   \   00000038   204366674564       DC8 20H, 43H, 66H, 67H, 45H, 64H, 69H, 74H
+   \              6974        
+   \   00000040   2100               DC8 21H, 0
+   \   00000042   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "0:\\\\Misc\\\\Patches\\\\">_4`:
+   \   00000000   303A5C4D6973       DC8 "0:\\Misc\\Patches\\"
+   \              635C50617463
+   \              6865735C00  
+   \   00000011   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000021   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000031   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000041   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000051   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000061   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000071   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              000000      
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "ptc\\\\">`:
+   \   00000000   7074635C00         DC8 "ptc\\"
+   \   00000005   000000             DC8 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function               CSTACK
+     --------               ------
+     configBackUp            1368
+     configRestore           1368
+     createProfileOnoffMenu    24
+     delUnusedConfig         1244
+     deleteAllConfig         1228
+     deleteThis               184
+     fcopy                     52
+     infoGHook                  4
+     infoOnKey                  0
+     info_locret                0
+     menu_about                 4
+     menu_backup                4
+     menu_del_all               4
+     menu_del_this              4
+     menu_del_unused            4
+     menu_exit                  4
+     menu_info                  4
+     menu_profile               4
+     menu_quit_without_rs       4
+     menu_restore               4
+     mkpath                   152
+     option_menu_ghook          4
+     pathInputDlg              92
+     pathInputGHook             4
+     pathInputOnKey           176
+     profile_menu_ghook         4
+     profile_menu_iconhndl     24
+     profile_menu_onkey        16
+     showPatchInfo             92
+     show_option_menu          24
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     PATH_TYPE                         4
+     mmenusoftkeys                    12
+     mmenu_sk                         24
+     mmenu_skt                         8
+     option_menu_ghook                20
+     menu_exit                        28
+     menu_about                       32
+     menu_profile                     20
+     menu_del_all                     20
+     menu_del_this                    20
+     menu_del_unused                  20
+     menu_info                        20
+     menu_backup                      32
+     menu_restore                     32
+     menu_quit_without_rs             44
+     option_menu_HNDLS                40
+     option_menu_ITEMS               280
+     option_menu_header               20
+     option_menu                      44
+     option_menu_HNDLS_1              36
+     option_menu_ITEMS_1             252
+     option_menu_1                    44
+     show_option_menu                148
+     deleteAllConfig                 252
+     deleteThis                      120
+     profile_menu_header              20
+     profile_menu_onkey              160
+     profile_menu_iconhndl           192
+     profile_menu_ghook               20
+     profile_menu_sk                  24
+     profile_menu_skt                  8
+     profile_menu                     44
+     createProfileOnoffMenu           96
+     delUnusedConfig                 236
+     infoOnKey                        48
+     infoGHook                        24
+     info_locret                       4
+     INFO_HDR                         20
+     INFO_DESC                        56
+     showPatchInfo                   752
+     SK_BACKUP                         8
+     SK_RESTORE                        8
+     fcopy                           360
+     pathInputOnKey                  172
+     pathInputGHook                   68
+     PATH_INPUT_DESC                  56
+     PATH_INPUT_HDR                   20
+     pathInputDlg                    416
+     mkpath                          148
+     configBackUp                    260
+     configRestore                   336
+     ??DataTable10                     4
+     ??DataTable20                     4
+     ??DataTable24                     4
+     ??DataTable25                     4
+     ??DataTable26                     4
+     ??DataTable29                     4
+     ??DataTable31                     4
+     ??DataTable32                     4
+     ??DataTable33                     4
+     ??DataTable34                     4
+     ??DataTable35                     4
+     ??DataTable36                     4
+     ?<Initializer for INFO_HDR>      20
+     ?<Initializer for INFO_DESC>     56
+     ?<Initializer for PATH_INPUT_DESC>
+                                      56
+     ?<Initializer for PATH_INPUT_HDR>
+                                      20
+     ?<Constant "*.ptc">               8
+     ?<Constant "%s%s">                8
+     ?<Constant "\326\330\320\302\266\301\310\241\3
+                                      20
+     ?<Constant "%s%s%08s">           12
+     ?<Constant "0:\\Misc\\Patches\\">
+                                      20
+     ?<Constant "\264\355\316\363!">
+                                       8
+     ?<Constant "0:\\Misc\\Patches\\">_1
+                                     128
+     ?<Constant "\271\330\323\332...">
+                                       8
+     ?<Constant "\262\271\266\241:">
+                                       8
+     ?<Constant "%t%t">                8
+     ?<Constant "\327\367\325\337:">
+                                       8
+     ?<Constant "ID:">                 4
+     ?<Constant "\260\346\261\276:">
+                                       8
+     ?<Constant "\306\344\313\374\320\305\317\242:"
+                                      12
+     ?<Constant "\261\270\267\335\316\304\274\376\3
+                                      16
+     ?<Constant "0:\\Misc\\Patches\\ptc_%...">
+                                      32
+     ?<Constant "0:\\Misc\\Patches\\">_2
+                                     128
+     ?<Constant "%s\\%s">              8
+     ?<Constant "0:\\Misc\\Patches\\">_3
+                                     128
+     ?<Constant "%s*.ptc">             8
+     ?<Constant "%s\\*.ptc">          12
+     ?<Constant "\321\241\324\361">    8
+     ?<Constant "\267\265\273\330">    8
+     ?<Constant "\307\351\276\260\304\243\312\275">
+                                      12
+     ?<Constant "\262\271\266\241\320\305\317\242">
+                                      12
+     ?<Constant "\307\345\263\375\270\303\262\271\2
+                                      16
+     ?<Constant "\307\345\263\375\316\336\323\303\3
+                                      16
+     ?<Constant "\307\345\263\375\313\371\323\320\3
+                                      16
+     ?<Constant "\261\270\267\335\305\344\326\303">
+                                      12
+     ?<Constant "\273\326\270\264\261\270\267\335">
+                                      12
+     ?<Constant "\273\326\270\264\261\270\267\335\3
+                                      16
+     ?<Constant "\262\273\313\242\320\302MP\315\313
+                                      16
+     ?<Constant "\315\313\263\366">    8
+     ?<Constant "\321\241\317\356">    8
+     ?<Constant "\315\352\263\311">    8
+     ?<Constant "\277\252/\271\330">
+                                       8
+     ?<Constant "\312\344\310\353\316\304\274\376\2
+                                      16
+     ?<Constant "Master.elf\n(c) BingK(...">
+                                      68
+     ?<Constant "0:\\Misc\\Patches\\">_4
+                                     128
+     ?<Constant "ptc\\">               8
+      Others                         264
+
+ 
+ 4 388 bytes in segment CODE
+ 1 860 bytes in segment DATA_C
+   152 bytes in segment DATA_I
+   152 bytes in segment DATA_ID
+     4 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 4 148 bytes of CODE  memory (+ 264 bytes shared)
+ 2 012 bytes of CONST memory
+   156 bytes of DATA  memory
+
+Errors: none
+Warnings: none

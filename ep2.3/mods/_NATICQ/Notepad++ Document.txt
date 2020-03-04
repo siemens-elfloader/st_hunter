@@ -1,0 +1,137 @@
+
+//Бегаем за курсором...чтобы за экран не уходил...
+void SetVisibleScreen()
+{
+             int **curpos = &clistm->*curpos;
+  unsigned int **itemFromDisp = &clistm->*itemFromDisp;
+  unsigned int *curpage = &clistm->curpage;
+  unsigned int **totalItems = &clistm->*totalItems;
+  unsigned int **startItems = &clistm->*startItem;
+  
+  if(VIEW_MODE)
+  {
+    if(**curpos > **itemFromDisp)
+    {
+      int i = 1;
+      int j = **curpos;
+      if(**itemFromDisp == **totalItems)
+        *curpage = 1;
+      else
+      {
+        while(j>**itemFromDisp)
+        {
+           j-=**itemFromDisp;
+           i++;
+        }
+        *curpage=i;
+      }
+    }
+    else *curpage=1;
+  }
+  else
+  {
+    if(**totalItems != **itemFromDisp && **curpos > **itemFromDisp)
+    {
+      unsigned int start = (sdiv(2,*itemFromDisp)+1) > 5 ? (sdiv(2,*itemFromDisp)+1) : (5);
+      if(*curpos > start && *curpos < *totalItems - *itemFromDisp)
+        **startItems = *curpos - start;
+      else
+         if(*curpos > *totalItems - *itemFromDisp)
+           **startItems = *totalItems - *itemFromDisp;
+    }
+  }
+}
+
+//Если не в два столбика
+void MoveUp2(int i)
+{  
+  int start = (**itemFromDisp/2)+1;
+  if(start < 5) start = 0;
+  if( *curpos > *itemFromDisp + 2 && *totalItems!=*itemFromDisp )
+    {
+      *curpos-=i; 
+      if(*startItem > 0 && *curpos > start && *curpos < *totalItems-start )
+        *startItem-=i;
+    }
+  else
+    if(*curpos > 0)
+    {
+      *curpos-=i;
+      if(*startItem > 0 && *curpos > start && *totalItems != *itemFromDisp)
+        *startItem -= i;
+      else
+        if(*curpos < start)
+          *startItem = 0; 
+    }
+  else
+  {
+    *curpos = *totalItems;
+    if( *totalItems == *itemFromDisp )
+      *startItem=0;
+    else
+      *startItem = *totalItems - *itemFromDisp;
+  }
+}
+
+
+void MoveDown2(int i)
+{
+  int &*curpos = **curpos;
+  int &*itemFromDisp = clist->*itemFromDisp
+  int &curpage = *curpage;
+  
+  int start = *itemFromDisp/2+1;//(**itemFromDisp/2+1 > 5 ? **itemFromDisp/2+1 : 0);
+  if(start==0) *startItem=0;
+
+  if( *curpos < start && *totalItems!=*itemFromDisp ) *curpos+=i;
+  else
+    if( *curpos < *totalItems - 1 )
+    {
+      if( *totalItems - *itemFromDisp > 0 )
+      {
+        if(*startItem < (*totalItems - *itemFromDisp))
+           *startItem+=i;
+      }
+      *curpos+=i; 
+    }
+  else   
+  {
+    *curpos=0;
+    *startItem=0;
+  }
+}
+
+void MoveUp(int i)
+{
+  int &*curpos = **curpos;
+  int &*itemFromDisp = clist->*itemFromDisp
+  int &curpage = *curpage;
+  
+  if(!*itemFromDisp)return;  
+  if(i) **curpos-=2;
+  else  **curpos--;    
+  
+  if(**curpos < 0)
+    {
+      **curpos=**totalItems-1;
+    
+      if(**itemFromDisp == **totalItems)//если кол-во контактов на экране равно общему количеству контактов
+        *curpage = 1;//не меняем страницу
+      else
+        *curpage = sdiv(**itemFromDisp,**totalItems)+1;//иначе на последнюю страницу
+    }
+  else
+  {
+    if(**curpos < (*curpage-1)*(**itemFromDisp)){ **curpos+=1; *curpage--; }
+  }
+}
+
+
+void MoveDown(int i)
+{
+  if(!**totalItems) return;
+  if(i) **curpos+=2;
+  else  **curpos++;
+  if(**curpos >= **totalItems) { **curpos=0; *curpage=1; }
+  if(**curpos >= *curpage*(**itemFromDisp+(i?1:0))) { **curpos-=(i?1:0); *curpage++; }
+}

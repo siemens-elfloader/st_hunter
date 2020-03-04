@@ -1,0 +1,682 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    27/Mar/2009  23:25:44 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\check_smiles\main #
+#                       .c                                                   #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\check_smiles\main #
+#                       .c -D NEWSGOLD -D ELKA -D GUI_INTERFACE -lC          #
+#                       D:\pasha\elf\_MY_PROJECT_\_NATICQ2\check_smiles\Rele #
+#                       ase_ELKA\List\ -o D:\pasha\elf\_MY_PROJECT_\_NATICQ2 #
+#                       \check_smiles\Release_ELKA\Obj\ -s9 --no_unroll      #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --fpu None -I         #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\check_smiles\Rele #
+#                       ase_ELKA\List\main.lst                               #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\check_smiles\Rele #
+#                       ase_ELKA\Obj\main.r79                                #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\_NATICQ2\check_smiles\main.c
+      1          #include "..\inc\swilib.h"
+      2          #include "..\readimg.h"
+      3          #include "..\externals.h"
+      4          #include "..\conf_loader.h"
+      5          #include "../inc/naticq_ipc.h"
+      6          #include "check_ipc.h"
+      7          #include "smiles_loader.h"
+      8          #include "../inc/xtask_ipc.h"
+      9          #include "../strings.h"
+     10          #include "../inc/pnglist.h"
+     11          #include "../smiles.h"
+     12          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     13          const int minus11=-11;
+   \                     minus11:
+   \   00000000   F5FFFFFF           DC32 -11
+     14          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "count = %d">`:
+   \   00000000   636F756E7420       DC8 "count = %d"
+   \              3D20256400  
+   \   0000000B   00                 DC8 0
+     15          const char ipc_my_name[] = IPC_CHECKER_NAME;
+   \                     ipc_my_name:
+   \   0000000C   436865636B65       DC8 "Checker"
+   \              7200        
+     16          char ipc_send_name[32] = IPC_NATICQ_NAME;
+     17          
+     18          
+     19          typedef struct
+     20          {
+     21            CSM_RAM csm;
+     22          }MAIN_CSM;
+     23          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     24          CSM_RAM *under_idle;
+   \                     under_idle:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     25          IPC_REQ gipc;
+   \                     gipc:
+   \   00000000                      DS8 12
+   \   0000000C                      REQUIRE `?<Initializer for gipc>`
+     26          
+     27          extern void kill_data(void *p, void (*func_p)(void *));
+     28          
+     29          #pragma inline=forced
+     30          
+     31          int toupper(int c)
+     32          {
+     33            if ((c>='a')&&(c<='z')) c+='A'-'a';
+     34            return(c);
+     35          }
+     36          
+     37          
+     38          int maincsm_id;
+   \                     maincsm_id:
+   \   0000000C                      DS8 4
+   \   00000010                      REQUIRE `?<Initializer for maincsm_id>`
+   \                     ipc_send_name:
+   \   00000010                      DS8 32
+   \   00000030                      REQUIRE `?<Initializer for ipc_send_name>`
+
+   \                                 In segment CODE, align 4, keep-with-next
+     39          void CheckDoubleRun(void)
+     40          {
+   \                     CheckDoubleRun:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+     41            int csm_id;
+                       ^
+Warning[Pe550]: variable "csm_id" was set but never used
+     42            if ((csm_id=(int)(gipc.data))!=-1)
+   \   00000004   ........           LDR      R4,??DataTable3  ;; gipc
+   \   00000008   080094E5           LDR      R0,[R4, #+8]
+   \   0000000C   010070E3           CMN      R0,#+1
+   \   00000010   0700000A           BEQ      ??CheckDoubleRun_0
+     43            {
+     44              //gipc.name_to=IPC_XTASK_NAME;
+     45             // gipc.name_from=ipc_my_name;
+     46           //   gipc.data=(void *)csm_id;
+     47             // GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_XTASK_SHOW_CSM,&gipc);
+     48              LockSched();
+   \   00000014   460100EF           SWI      +326
+     49              CloseCSM(maincsm_id);
+   \   00000018   0C0094E5           LDR      R0,[R4, #+12]
+   \   0000001C   FC0100EF           SWI      +508
+     50              ShowMSG(1,(int)"Already started!");
+   \   00000020   1C109FE5           LDR      R1,??CheckDoubleRun_1  ;; `?<Constant "Already started!">`
+   \   00000024   0100A0E3           MOV      R0,#+1
+   \   00000028   480100EF           SWI      +328
+     51              UnlockSched();
+   \   0000002C   470100EF           SWI      +327
+   \   00000030   1080BDE8           POP      {R4,PC}
+     52            }
+     53            else
+     54            {
+     55              extern void InitXStatusesImg(void);
+     56              extern void ProcessNextImg(void);
+     57              extern void LoadImages();
+     58              LoadImages();
+   \                     ??CheckDoubleRun_0:
+   \   00000034   ........           _BLF     LoadImages,??LoadImages??rA
+     59              InitXStatusesImg();
+   \   00000038   ........           _BLF     InitXStatusesImg,??InitXStatusesImg??rA
+     60              ProcessNextImg();
+   \   0000003C   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000040   ........           _BF      ProcessNextImg,??ProcessNextImg??rA  ;; tailcall
+   \                     ??CheckDoubleRun_1:
+   \   00000044   ........           DC32     `?<Constant "Already started!">`
+     61              //InitSmiles(); Это вызовется из InitXStatusesImg
+     62            }
+     63          }
+     64          
+     65          extern void ProcessNextSmile(void);
+     66          extern void ProcessNextXStatImg(void);
+     67          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     68          int maincsm_onmessage(CSM_RAM* data,GBS_MSG* msg)
+     69          {
+   \                     maincsm_onmessage:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+     70          // MAIN_CSM *csm=(MAIN_CSM*)data;
+     71            {
+     72              //IPC
+     73              if (msg->msg==MSG_IPC)
+   \   00000008   B040A0E3           MOV      R4,#+176
+   \   0000000C   0190A0E1           MOV      R9,R1
+   \   00000010   040099E5           LDR      R0,[R9, #+4]
+   \   00000014   DE4C84E3           ORR      R4,R4,#0xDE00
+   \   00000018   040050E1           CMP      R0,R4
+   \   0000001C   5C00001A           BNE      ??maincsm_onmessage_1
+     74              {
+     75                IPC_REQ *ipc;
+     76                if ((ipc=(IPC_REQ*)msg->data0))
+   \   00000020   0C8099E5           LDR      R8,[R9, #+12]
+   \   00000024   000058E3           CMP      R8,#+0
+   \   00000028   5900000A           BEQ      ??maincsm_onmessage_1
+     77                {
+     78          	if (strcmp_nocase(ipc->name_to,ipc_my_name)==0)
+   \   0000002C   ........           LDR      R5,??DataTable4  ;; `?<Constant "count = %d">`
+   \   00000030   000098E5           LDR      R0,[R8, #+0]
+   \   00000034   0C1085E2           ADD      R1,R5,#+12
+   \   00000038   ........           _BLF     strcmp_nocase,??strcmp_nocase??rA
+   \   0000003C   000050E3           CMP      R0,#+0
+   \   00000040   5300001A           BNE      ??maincsm_onmessage_1
+     79          	{
+     80          /*          if(!strcmp(ipc->name_to,ipc->name_from))
+     81                    {
+     82                      strcpy(ipc_send_name,ipc->name_from);
+     83                      LockSched();
+     84                      ShowMSG(1,(int)ipc_send_name);
+     85                      UnlockSched();
+     86                    }*/
+     87          	  switch (msg->submess)
+   \   00000044   080099E5           LDR      R0,[R9, #+8]
+   \   00000048   041098E5           LDR      R1,[R8, #+4]
+   \   0000004C   ........           LDR      R7,??DataTable3  ;; gipc
+   \   00000050   0960A0E3           MOV      R6,#+9
+   \   00000054   426C86E3           ORR      R6,R6,#0x4200
+   \   00000058   010040E2           SUB      R0,R0,#+1
+   \   0000005C   0C0050E3           CMP      R0,#+12
+   \   00000060   4B00008A           BHI      ??maincsm_onmessage_1
+   \   00000064   012F8FE2           ADR      R2,??maincsm_onmessage_0
+   \   00000068   0020D2E7           LDRB     R2,[R2, R0]
+   \   0000006C   02F18FE0           ADD      PC,PC,R2, LSL #+2
+   \                     ??maincsm_onmessage_0:
+   \   00000070   373E4348           DC8      +55,+62,+67,+72
+   \   00000074   48484848           DC8      +72,+72,+72,+72
+   \   00000078   48031620           DC8      +72,+3,+22,+32
+   \   0000007C   2E000000           DC8      +46,+0,+0,+0
+     88          	  {
+     89                     case IPC_SEND_ICONS:
+     90                       {
+     91                   //      extern const unsigned int UIN;
+     92                     //   sprintf((char *)ipc_send_name+6,"%d",UIN);
+     93                                     strcpy(ipc_send_name,ipc->name_from);
+   \                     ??maincsm_onmessage_2:
+   \   00000080   100087E2           ADD      R0,R7,#+16
+   \   00000084   1A0000EF           SWI      +26
+     94                     /* LockSched();
+     95                      ShowMSG(1,(int)ipc_send_name);
+     96                      UnlockSched();*/
+     97                         extern ICONS *iconstop;
+     98                          char s[3];
+     99                        extern int CountIcon();
+    100                        sprintf(s,"count = %d",CountIcon());
+   \   00000088   ........           _BLF     CountIcon,??CountIcon??rA
+   \   0000008C   0020A0E1           MOV      R2,R0
+   \   00000090   0510A0E1           MOV      R1,R5
+   \   00000094   0D00A0E1           MOV      R0,SP
+   \   00000098   160000EF           SWI      +22
+    101                         ShowMSG(1,(int)s);
+   \   0000009C   0D10A0E1           MOV      R1,SP
+   \   000000A0   0100A0E3           MOV      R0,#+1
+   \   000000A4   480100EF           SWI      +328
+    102                         gipc.name_to = ipc_send_name;
+   \   000000A8   100087E2           ADD      R0,R7,#+16
+   \   000000AC   000087E5           STR      R0,[R7, #+0]
+    103                         gipc.name_from = ipc_my_name;
+   \   000000B0   0C0085E2           ADD      R0,R5,#+12
+   \   000000B4   040087E5           STR      R0,[R7, #+4]
+    104                         gipc.data = 0;(void*)iconstop;
+                                              ^
+Warning[Pe174]: expression has no effect
+   \   000000B8   0000A0E3           MOV      R0,#+0
+   \   000000BC   080087E5           STR      R0,[R7, #+8]
+    105                         GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_RECV_ICON,&gipc);
+   \   000000C0   0730A0E1           MOV      R3,R7
+   \   000000C4   1420A0E3           MOV      R2,#+20
+   \                     ??maincsm_onmessage_3:
+   \   000000C8   120000EA           B        ??maincsm_onmessage_4
+    106                         
+    107          /*
+    108                         LockSched();
+    109                         ShowMSG(1,(int)"!IPC_SEND_ICONS>>");
+    110                         UnlockSched();*/
+    111                       
+    112                     /*    extern ICONS *xiconstop;
+    113                         gipc.name_to = IPC_NATICQ_NAME;
+    114                         gipc.name_from = ipc_my_name;
+    115                         gipc.data = (void*)xiconstop;
+    116                         GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_RECV_XICON,&gipc);
+    117                         
+    118                    
+    119                       
+    120                           extern DYNPNGICONLIST *SmilesImgList;
+    121                       gipc.name_to = IPC_NATICQ_NAME;
+    122                       gipc.name_from = ipc_my_name;
+    123                       gipc.data = (void*)SmilesImgList;
+    124                       GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_RECV_SMILE,&gipc);       
+    125                  
+    126                   
+    127                               extern S_SMILES *s_top;
+    128                       gipc.name_to = IPC_NATICQ_NAME;
+    129                       gipc.name_from = ipc_my_name;
+    130                       gipc.data = (void*)s_top;
+    131                       GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_RECV_S_TOP,&gipc);   */ 
+    132                      /*     LockSched();
+    133                        ShowMSG(1,(int)"!IPC_SEND_S_TOP");
+    134                       UnlockSched();             */             
+    135                       }
+    136                      break;             
+    137                     case IPC_SEND_XICON:
+    138                       {
+    139                         extern ICONS *xiconstop;
+    140                         gipc.name_to = ipc_send_name;
+   \                     ??maincsm_onmessage_5:
+   \   000000CC   100087E2           ADD      R0,R7,#+16
+   \   000000D0   000087E5           STR      R0,[R7, #+0]
+    141                         gipc.name_from = ipc_my_name;
+   \   000000D4   0C0085E2           ADD      R0,R5,#+12
+   \   000000D8   040087E5           STR      R0,[R7, #+4]
+    142                         gipc.data = (void*)xiconstop;
+   \   000000DC   B8009FE5           LDR      R0,??maincsm_onmessage_6  ;; xiconstop
+    143                         GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_RECV_XICON,&gipc);
+   \   000000E0   0730A0E1           MOV      R3,R7
+   \   000000E4   000090E5           LDR      R0,[R0, #+0]
+   \   000000E8   1520A0E3           MOV      R2,#+21
+   \                     ??maincsm_onmessage_7:
+   \   000000EC   080087E5           STR      R0,[R7, #+8]
+   \   000000F0   080000EA           B        ??maincsm_onmessage_4
+    144                        /* 
+    145                       LockSched();
+    146                        ShowMSG(1,(int)"!IPC_SEND_XICON");
+    147                       UnlockSched();*/
+    148                       }
+    149                       break;             
+    150                    case IPC_SEND_SMILE:
+    151                      {
+    152                       extern DYNPNGICONLIST *SmilesImgList;
+    153                       gipc.name_to = ipc_send_name;
+   \                     ??maincsm_onmessage_8:
+   \   000000F4   100087E2           ADD      R0,R7,#+16
+   \   000000F8   000087E5           STR      R0,[R7, #+0]
+    154                       gipc.name_from = ipc_my_name;
+   \   000000FC   0C0085E2           ADD      R0,R5,#+12
+   \   00000100   040087E5           STR      R0,[R7, #+4]
+    155                       gipc.data = (void*)SmilesImgList;
+   \   00000104   94009FE5           LDR      R0,??maincsm_onmessage_6+0x4  ;; SmilesImgList
+    156                       GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_RECV_SMILE,&gipc);       
+   \   00000108   0730A0E1           MOV      R3,R7
+   \   0000010C   000090E5           LDR      R0,[R0, #+0]
+   \   00000110   1620A0E3           MOV      R2,#+22
+   \   00000114   080087E5           STR      R0,[R7, #+8]
+   \                     ??maincsm_onmessage_4:
+   \   00000118   0410A0E1           MOV      R1,R4
+   \   0000011C   0600A0E1           MOV      R0,R6
+   \   00000120   000100EF           SWI      +256
+   \                     ??maincsm_onmessage_9:
+   \   00000124   0100A0E3           MOV      R0,#+1
+   \   00000128   F283BDE8           POP      {R1,R4-R9,PC}
+    157                  /*
+    158                       LockSched();
+    159                        ShowMSG(1,(int)"!IPC_SEND_SMILE");
+    160                       UnlockSched();*/
+    161                      }
+    162                    break;
+    163                   case IPC_SEND_S_TOP:
+    164                      {
+    165                       extern S_SMILES *s_top;
+    166                       gipc.name_to = ipc_send_name;
+   \                     ??maincsm_onmessage_10:
+   \   0000012C   100087E2           ADD      R0,R7,#+16
+   \   00000130   000087E5           STR      R0,[R7, #+0]
+    167                       gipc.name_from = ipc_my_name;
+   \   00000134   0C0085E2           ADD      R0,R5,#+12
+   \   00000138   040087E5           STR      R0,[R7, #+4]
+    168                       gipc.data = (void*)s_top;
+   \   0000013C   60009FE5           LDR      R0,??maincsm_onmessage_6+0x8  ;; s_top
+    169                       GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_RECV_S_TOP,&gipc);    
+   \   00000140   0730A0E1           MOV      R3,R7
+   \   00000144   000090E5           LDR      R0,[R0, #+0]
+   \   00000148   1720A0E3           MOV      R2,#+23
+   \   0000014C   E6FFFFEA           B        ??maincsm_onmessage_7
+    170                       /*    LockSched();
+    171                        ShowMSG(1,(int)"!IPC_SEND_S_TOP");
+    172                       UnlockSched();*/
+    173                      }
+    174                      break;
+    175                   case IPC_CHECK_DOUBLERUN:
+    176          	    //Если приняли свое собственное сообщение, значит запускаем чекер
+    177          	    if (ipc->name_from==ipc_my_name)
+   \                     ??maincsm_onmessage_11:
+   \   00000150   0C0085E2           ADD      R0,R5,#+12
+   \   00000154   000051E1           CMP      R1,R0
+    178                      {
+    179                          SUBPROC((void *)CheckDoubleRun);
+   \   00000158   48009F05           LDREQ    R0,??maincsm_onmessage_6+0xC  ;; CheckDoubleRun
+   \   0000015C   0B00000A           BEQ      ??maincsm_onmessage_12
+    180                      }
+    181                      else ipc->data=(void *)maincsm_id;
+   \   00000160   0C0097E5           LDR      R0,[R7, #+12]
+   \   00000164   080088E5           STR      R0,[R8, #+8]
+   \   00000168   EDFFFFEA           B        ??maincsm_onmessage_9
+    182          	    break;
+    183          	  case IPC_SMILE_PROCESSED:
+    184          	    //Только собственные смайлы ;)
+    185          	    if (ipc->name_from==ipc_my_name)
+   \                     ??maincsm_onmessage_13:
+   \   0000016C   0C0085E2           ADD      R0,R5,#+12
+   \   00000170   000051E1           CMP      R1,R0
+   \   00000174   0600001A           BNE      ??maincsm_onmessage_1
+    186                      {
+    187                        SUBPROC((void *)ProcessNextSmile);
+   \   00000178   2C009FE5           LDR      R0,??maincsm_onmessage_6+0x10  ;; ProcessNextSmile
+   \   0000017C   030000EA           B        ??maincsm_onmessage_12
+    188                      }
+    189          	    break;
+    190          	  case IPC_XSTATUSIMG_PROCESSED:
+    191          	    //Только собственные иксстатусы ;)
+    192          	    if (ipc->name_from==ipc_my_name)
+   \                     ??maincsm_onmessage_14:
+   \   00000180   0C0085E2           ADD      R0,R5,#+12
+   \   00000184   000051E1           CMP      R1,R0
+   \   00000188   0100001A           BNE      ??maincsm_onmessage_1
+    193                      {
+    194                         SUBPROC((void *)ProcessNextXStatImg);
+   \   0000018C   1C009FE5           LDR      R0,??maincsm_onmessage_6+0x14  ;; ProcessNextXStatImg
+   \                     ??maincsm_onmessage_12:
+   \   00000190   710100EF           SWI      +369
+    195                      }
+    196          	    break;
+    197                    }
+    198                  }
+    199                }
+    200              }
+    201            }
+    202            
+    203            /*
+    204            if (msg->msg==MSG_RECONFIGURE_REQ)
+    205            {
+    206              extern const char *successed_config_filename;
+    207              if (strcmp_nocase(successed_config_filename,(char *)msg->data0)==0)
+    208              {
+    209                InitConfig();
+    210              }
+    211            }*/
+    212            return (1);  
+   \                     ??maincsm_onmessage_1:
+   \   00000194   0100A0E3           MOV      R0,#+1
+   \   00000198   F283BDE8           POP      {R1,R4-R9,PC}    ;; return
+   \                     ??maincsm_onmessage_6:
+   \   0000019C   ........           DC32     xiconstop
+   \   000001A0   ........           DC32     SmilesImgList
+   \   000001A4   ........           DC32     s_top
+   \   000001A8   ........           DC32     CheckDoubleRun
+   \   000001AC   ........           DC32     ProcessNextSmile
+   \   000001B0   ........           DC32     ProcessNextXStatImg
+    213          }
+    214          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    215          static void maincsm_oncreate(CSM_RAM *data)
+    216          {
+    217            gipc.name_to=ipc_my_name;
+   \                     maincsm_oncreate:
+   \   00000000   ........           LDR      R3,??DataTable3  ;; gipc
+   \   00000004   ........           LDR      R0,??DataTable4  ;; `?<Constant "count = %d">`
+   \   00000008   00402DE9           PUSH     {LR}
+   \   0000000C   0C1080E2           ADD      R1,R0,#+12
+   \   00000010   001083E5           STR      R1,[R3, #+0]
+    218            gipc.name_from=ipc_my_name;
+   \   00000014   0C0080E2           ADD      R0,R0,#+12
+   \   00000018   040083E5           STR      R0,[R3, #+4]
+    219            gipc.data=(void *)-1;
+   \   0000001C   0000E0E3           MVN      R0,#+0
+   \   00000020   080083E5           STR      R0,[R3, #+8]
+    220            GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_CHECK_DOUBLERUN,&gipc);
+   \   00000024   0120A0E3           MOV      R2,#+1
+   \   00000028   B010A0E3           MOV      R1,#+176
+   \   0000002C   DE1C81E3           ORR      R1,R1,#0xDE00
+   \   00000030   0900A0E3           MOV      R0,#+9
+   \   00000034   420C80E3           ORR      R0,R0,#0x4200
+   \   00000038   000100EF           SWI      +256
+    221          }
+   \   0000003C   0080BDE8           POP      {PC}             ;; return
+    222          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    223          static void Killer(void)
+    224          {
+   \                     Killer:
+   \   00000000   00402DE9           PUSH     {LR}
+    225            extern void *ELF_BEGIN;
+    226            kill_data(&ELF_BEGIN,(void (*)(void *))mfree_adr());
+   \   00000004   158000EF           SWI      +32789
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??Killer_0    ;; ELF_BEGIN
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??Killer_0:
+   \   00000018   ........           DC32     ELF_BEGIN
+    227          }
+    228          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    229          static void maincsm_onclose(CSM_RAM *csm)
+    230          {
+   \                     maincsm_onclose:
+   \   00000000   00402DE9           PUSH     {LR}
+    231            extern void FreeIconList();
+    232            FreeIconList();
+   \   00000004   ........           _BLF     FreeIconList,??FreeIconList??rA
+    233            extern void FreeXStatusesImg(void);
+    234            FreeXStatusesImg();
+   \   00000008   ........           _BLF     FreeXStatusesImg,??FreeXStatusesImg??rA
+    235            extern void FreeSmiles(void);
+    236            FreeSmiles();
+   \   0000000C   ........           _BLF     FreeSmiles,??FreeSmiles??rA
+    237            
+    238            SUBPROC((void *)Killer);
+   \   00000010   04009FE5           LDR      R0,??maincsm_onclose_0  ;; Killer
+   \   00000014   710100EF           SWI      +369
+    239          }
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+   \                     ??maincsm_onclose_0:
+   \   0000001C   ........           DC32     Killer
+    240          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    241          static unsigned short maincsm_name_body[140];
+   \                     maincsm_name_body:
+   \   00000000                      DS8 280
+    242          
+    243          static const struct
+    244          {
+    245            CSM_DESC maincsm;
+    246            WSHDR maincsm_name;
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "CheckNaticqPic">`:
+   \   00000000   436865636B4E       DC8 "CheckNaticqPic"
+   \              617469637150
+   \              696300      
+   \   0000000F   00                 DC8 0
+   \   00000010   ............       DC32 maincsm_onmessage, maincsm_oncreate, 0, 0, 0, 0, maincsm_onclose
+   \              ....00000000
+   \              000000000000
+   \              000000000000
+   \              ........    
+   \   0000002C   280000000100       DC32 40, 1, minus11, maincsm_name_body, 55AACCCCH, 3333AA55H, 0
+   \              0000........
+   \              ........CCCC
+   \              AA5555AA3333
+   \              00000000    
+   \   00000048   8B00               DC16 139
+   \   0000004A   0000               DC8 0, 0
+    247          }MAINCSM =
+    248          {
+    249            {
+    250            maincsm_onmessage,
+    251            maincsm_oncreate,
+    252          #ifdef NEWSGOLD
+    253            0,
+    254            0,
+    255            0,
+    256            0,
+    257          #endif
+    258            maincsm_onclose,
+    259            sizeof(MAIN_CSM),
+    260            1,
+    261            &minus11
+    262            },
+    263            {
+    264              maincsm_name_body,
+    265              NAMECSM_MAGIC1,
+    266              NAMECSM_MAGIC2,
+    267              0x0,
+    268              139
+    269            }
+    270          };
+    271          
+    272          static void UpdateCSMname(void)
+    273          {
+    274            wsprintf((WSHDR *)(&MAINCSM.maincsm_name),"CheckNaticqPic");
+    275          }
+    276          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    277          int main()
+    278          {
+   \                     main:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    279            InitConfig();
+    280            CSM_RAM *save_cmpc;
+    281            char dummy[sizeof(MAIN_CSM)];
+    282            UpdateCSMname();  
+   \   00000004   70409FE5           LDR      R4,??main_0      ;; `?<Constant "CheckNaticqPic">`
+   \   00000008   28D04DE2           SUB      SP,SP,#+40
+   \   0000000C   ........           _BLF     InitConfig,??InitConfig??rA
+   \   00000010   0410A0E1           MOV      R1,R4
+   \   00000014   380084E2           ADD      R0,R4,#+56
+   \   00000018   240100EF           SWI      +292
+    283            LockSched();
+   \   0000001C   460100EF           SWI      +326
+    284            save_cmpc=CSM_root()->csm_q->current_msg_processing_csm;
+   \   00000020   068100EF           SWI      +33030
+   \   00000024   080090E5           LDR      R0,[R0, #+8]
+   \   00000028   045090E5           LDR      R5,[R0, #+4]
+    285            CSM_root()->csm_q->current_msg_processing_csm=CSM_root()->csm_q->csm.first;
+   \   0000002C   068100EF           SWI      +33030
+   \   00000030   0060A0E1           MOV      R6,R0
+   \   00000034   068100EF           SWI      +33030
+   \   00000038   080090E5           LDR      R0,[R0, #+8]
+   \   0000003C   081096E5           LDR      R1,[R6, #+8]
+   \   00000040   080090E5           LDR      R0,[R0, #+8]
+    286            maincsm_id = CreateCSM(&MAINCSM.maincsm,dummy,0);
+   \   00000044   0020A0E3           MOV      R2,#+0
+   \   00000048   040081E5           STR      R0,[R1, #+4]
+   \   0000004C   0D10A0E1           MOV      R1,SP
+   \   00000050   100084E2           ADD      R0,R4,#+16
+   \   00000054   070100EF           SWI      +263
+   \   00000058   20109FE5           LDR      R1,??main_0+0x4  ;; gipc + 12
+   \   0000005C   000081E5           STR      R0,[R1, #+0]
+    287            CSM_root()->csm_q->current_msg_processing_csm=save_cmpc;
+   \   00000060   068100EF           SWI      +33030
+   \   00000064   080090E5           LDR      R0,[R0, #+8]
+   \   00000068   045080E5           STR      R5,[R0, #+4]
+    288            UnlockSched();
+   \   0000006C   470100EF           SWI      +327
+    289          
+    290            return 0;
+   \   00000070   0000A0E3           MOV      R0,#+0
+   \   00000074   28D08DE2           ADD      SP,SP,#+40
+   \   00000078   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??main_0:
+   \   0000007C   ........           DC32     `?<Constant "CheckNaticqPic">`
+   \   00000080   ........           DC32     gipc + 12
+    291          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     gipc
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     `?<Constant "count = %d">`
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for gipc>`:
+   \   00000000   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \                     `?<Initializer for maincsm_id>`:
+   \   0000000C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ipc_send_name>`:
+   \   00000010   4E6174494351       DC8 "NatICQ"
+   \              00          
+   \   00000017   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000027   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000      
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Already started!">`:
+   \   00000000   416C72656164       DC8 "Already started!"
+   \              792073746172
+   \              7465642100  
+   \   00000011   000000             DC8 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function          CSTACK
+     --------          ------
+     CheckDoubleRun        8
+     Killer                4
+     main                 56
+     maincsm_onclose       4
+     maincsm_oncreate      4
+     maincsm_onmessage    32
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     minus11                           4
+     ?<Constant "count = %d">         20
+     under_idle                        4
+     gipc                             48
+     CheckDoubleRun                   72
+     maincsm_onmessage               436
+     maincsm_oncreate                 64
+     Killer                           28
+     maincsm_onclose                  32
+     maincsm_name_body               280
+     ?<Constant "CheckNaticqPic">     76
+     main                            132
+     ??DataTable3                      4
+     ??DataTable4                      4
+     ?<Initializer for gipc>          48
+     ?<Constant "Already started!">   20
+      Others                         168
+
+ 
+ 916 bytes in segment CODE
+ 120 bytes in segment DATA_C
+  48 bytes in segment DATA_I
+  48 bytes in segment DATA_ID
+ 284 bytes in segment DATA_Z
+  24 bytes in segment INITTAB
+ 
+ 772 bytes of CODE  memory (+ 168 bytes shared)
+ 168 bytes of CONST memory
+ 332 bytes of DATA  memory
+
+Errors: none
+Warnings: 2

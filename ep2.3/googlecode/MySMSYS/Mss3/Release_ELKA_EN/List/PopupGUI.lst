@@ -1,0 +1,531 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    14/Jan/2011  23:28:26 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\googlecode\MySMSYS\Mss3\PopupGUI.cpp    #
+#    Command line    =  D:\pasha\elf\googlecode\MySMSYS\Mss3\PopupGUI.cpp    #
+#                       -D NEWSGOLD -D ELKA -D LANG_EN -lcN                  #
+#                       D:\pasha\elf\googlecode\MySMSYS\Mss3\Release_ELKA_EN #
+#                       \List\ -o D:\pasha\elf\googlecode\MySMSYS\Mss3\Relea #
+#                       se_ELKA_EN\Obj\ -s9 --no_unroll --cpu_mode arm       #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --fpu None --eec++ --dlib_config      #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\googlecode\MySMSYS\Mss3\Release_ELKA_EN #
+#                       \List\PopupGUI.lst                                   #
+#    Object file     =  D:\pasha\elf\googlecode\MySMSYS\Mss3\Release_ELKA_EN #
+#                       \Obj\PopupGUI.r79                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\googlecode\MySMSYS\Mss3\PopupGUI.cpp
+      1          #include "include.h"
+      2          #include "SiemensPDU.h"
+      3          #include "MyIpcMessage.h"
+      4          #include "File.h"
+      5          #include "SmsData.h"
+      6          #include "CreateMenu.h"
+      7          #include "AdrList.h"
+      8          #include "NumList.h"
+      9          #include "EditGUI.h"
+     10          //#include "..\..\inc\mplayer.h"
+     11          #include "PopupGUI.h"
+     12          #include "CodeShow.h"
+     13          //short PLAY_ID=0;
+     14          //int vibra_power=0;
+     15          //int sound_vol=0;
+     16          
+     17          /*
+     18          void PopupNewIn::Play(const char *fname, int sound_vol)
+     19          {
+     20            PLAYFILE_OPT _sfo1;
+     21            WSHDR *sndPath,sndPathn;
+     22            WSHDR *sndFName,sndFNamen;
+     23            unsigned short sndPathb[128];
+     24            unsigned short sndFNameb[128];
+     25            char s[128];
+     26            const char *p;
+     27            if(!IsFileExist(fname))
+     28              return;
+     29            sndPath=CreateLocalWS(&sndPathn, sndPathb, 128);
+     30            sndFName=CreateLocalWS(&sndFNamen, sndFNameb, 128);
+     31            p=strrchr(fname,'\\')+1;
+     32            str_2ws(sndFName,p,128);
+     33            strncpy(s,fname,p-fname);
+     34            s[p-fname]='\0';
+     35            str_2ws(sndPath,s,128);
+     36            zeromem(&_sfo1,sizeof(PLAYFILE_OPT));
+     37            _sfo1.repeat_num=1;
+     38            _sfo1.time_between_play=0;
+     39            _sfo1.play_first=0;
+     40            _sfo1.volume=sound_vol;//
+     41          #ifdef NEWSGOLD
+     42            _sfo1.unk6=1;
+     43            _sfo1.unk7=1;
+     44            _sfo1.unk9=2;
+     45            PLAY_ID=PlayFile(0x10, sndPath, sndFName, GBS_GetCurCepid(), MSG_PLAYFILE_REPORT, &_sfo1);
+     46          #else
+     47          #ifdef X75
+     48            _sfo1.unk4=0x80000000;
+     49            _sfo1.unk5=1;
+     50            PLAY_ID=PlayFile(0xC, sndPath, sndFName, 0,GBS_GetCurCepid(), MSG_PLAYFILE_REPORT, &_sfo1);
+     51          #else
+     52            _sfo1.unk5=1;
+     53            PLAY_ID=PlayFile(0xC, sndPath, sndFName, GBS_GetCurCepid(), MSG_PLAYFILE_REPORT, &_sfo1);
+     54          #endif
+     55          #endif
+     56          }
+     57          */
+     58          SOFTKEY_DESC pni_sk[]=
+     59          {
+     60            {0x0018,0x0000,(int)LGP_NULL},
+     61            {0x0001,0x0000,(int)LGP_NULL},
+     62            {0x003D,0x0000,LGP_DOIT_PIC}
+     63          };
+     64          
+     65          const SOFTKEYSTAB pni_skt={pni_sk, 0};
+     66          //int PNI_ICONS[]={0x564, 0};
+     67          /*
+     68          void PopupNewIn::SetSoundVibraByProfile(void)
+     69          {
+     70            int c=GetProfile()+1;
+     71            switch(c)
+     72            {
+     73            case 1:
+     74              vibra_power=CFG_VIBRA_POWER1;
+     75              sound_vol=CFG_SOUND_VOL1;
+     76              break;
+     77            case 2:
+     78              vibra_power=CFG_VIBRA_POWER2;
+     79              sound_vol=CFG_SOUND_VOL2;
+     80              break;
+     81            case 3:
+     82              vibra_power=CFG_VIBRA_POWER3;
+     83              sound_vol=CFG_SOUND_VOL3;
+     84              break;
+     85            case 4:
+     86              vibra_power=CFG_VIBRA_POWER4;
+     87              sound_vol=CFG_SOUND_VOL4;
+     88              break;
+     89            case 5:
+     90              vibra_power=CFG_VIBRA_POWER5;
+     91              sound_vol=CFG_SOUND_VOL5;
+     92              break;
+     93            case 6:
+     94              vibra_power=CFG_VIBRA_POWER6;
+     95              sound_vol=CFG_SOUND_VOL6;
+     96              break;
+     97            case 7:
+     98              vibra_power=CFG_VIBRA_POWER7;
+     99              sound_vol=CFG_SOUND_VOL7;
+    100              break;
+    101            case 8:
+    102              vibra_power=CFG_VIBRA_POWER8;
+    103              sound_vol=CFG_SOUND_VOL8;
+    104              break;
+    105            default:
+    106              vibra_power=0;
+    107              sound_vol=0;
+    108              break;
+    109            }
+    110          }
+    111          */
+    112          
+    113          PopupNewIn::PopupNewIn()
+    114          {
+    115            this->popup.flag=8;
+    116            this->popup.onkey=this->OnKey;
+    117            this->popup.ghook=this->GHook;
+    118            this->popup.proc3=NULL;
+    119            this->popup._100=100;
+    120            this->popup._101=101;
+    121            this->popup.flags2=1;
+    122            this->popup.font=FONT_MEDIUM;
+    123            this->popup.icons=NULL; // icons
+    124            this->popup.lgp_null=LGP_NULL;
+    125            this->popup.softkeys=softkeys;
+    126            this->popup.softkeystab=&pni_skt;
+    127            this->popup.zero0=0;
+    128            this->popup.time=CFG_NOTIFY_TIME*1300; //1300=1s
+    129            this->cl=NULL;
+    130          }
+    131          
+    132          PopupNewIn::~PopupNewIn()
+    133          {
+    134          }
+    135          
+    136          int PopupNewIn::OnKey(void *data, GUI_MSG *msg)
+    137          {
+    138            PopupNewIn *pni=(PopupNewIn *)GetPopupUserPointer(data);
+    139            if(msg->keys==0x18 || msg->keys==0x3D)
+    140            {
+    141              //SDLIST *sdl;
+    142              int id;
+    143              //if((sdl=SMSDATA->FindSDL(pni->dat_index)))
+    144              if(pni->sdl && SMSDATA->IsExistSDL(pni->sdl))
+    145              {
+    146                EditGUI *edg=new EditGUI;
+    147                id=edg->CreateEditGUI(pni->dlg_csm, pni->sdl, ED_VIEW, pni->sdl->type, 0);
+    148                if(id) pni->dlg_csm->gui_id=id;
+    149              }
+    150              return 1;
+    151            }
+    152            if(msg->keys==0x1)
+    153              return 1;
+    154            if(msg->gbsmsg->msg==KEY_DOWN)
+    155            {	 
+    156              if(!IsUnlocked())
+    157                TempLightOn(3, 0x7FFF);
+    158              //if(PLAY_ID)
+    159              //{
+    160              //  PlayMelody_StopPlayback(PLAY_ID);
+    161              //  PLAY_ID=0;
+    162              //}
+    163              //if(CFG_ENA_SOUND && IsPlayerOn() && !GetPlayStatus()) MPlayer_Start();
+    164              //SetVibration(0);
+    165              //pni->SendIpc(SMSYS_IPC_SOUND_STOP);
+    166              //pni->SendIpc(SMSYS_IPC_VIBRA_STOP);
+    167              SendMyIpc(SMSYS_IPC_SOUND_STOP);
+    168              SendMyIpc(SMSYS_IPC_VIBRA_STOP);
+    169            }
+    170            return 0;
+    171          }
+    172          
+    173          void PopupNewIn::GHook(void *data, int cmd)
+    174          {
+    175            PopupNewIn *pni=(PopupNewIn *)GetPopupUserPointer(data);
+    176            if (cmd==0x3)
+    177            {
+    178          /*    if(PLAY_ID)
+    179              {
+    180                PlayMelody_StopPlayback(PLAY_ID);
+    181                PLAY_ID=0;
+    182              }
+    183              if(CFG_ENA_SOUND && IsPlayerOn() && !GetPlayStatus()) MPlayer_Start();
+    184              SetVibration(0);*/
+    185              //pni->SendIpc(SMSYS_IPC_SOUND_STOP);
+    186              //pni->SendIpc(SMSYS_IPC_VIBRA_STOP);
+    187              SendMyIpc(SMSYS_IPC_SOUND_STOP);
+    188              SendMyIpc(SMSYS_IPC_VIBRA_STOP);
+    189              delete pni;
+    190            }
+    191            else if (cmd==0x2)
+    192            {
+    193              const char *melody_filepath;
+    194              int sound_vol;
+    195              TempLightOn(3, 0x7FFF);
+    196              if(CFG_NOTIFY_TIME && !IsCalling())
+    197              {
+    198                sound_vol=GetProfileVolumeSetting(GetProfile(), VOLUME);//pni->GetSoundVol();
+    199                if(!pni->cl || !pni->cl->sms_melody_filepath) melody_filepath=CFG_SOUND_PATH;
+    200                else melody_filepath=pni->cl->sms_melody_filepath;
+    201                if(CFG_ENA_SOUND&& sound_vol && !(*(RamRingtoneStatus()))/* && pni->IsFileExist(melody_filepath)*/)
+    202                {
+    203          	//if(GetPlayStatus()) MPlayer_Stop();
+    204          	//pni->SendIpc(SMSYS_IPC_SOUND_PLAY, (void *)melody_filepath);
+    205          	SendMyIpc(SMSYS_IPC_SOUND_PLAY, (void *)melody_filepath);
+    206          	//if(!PLAY_ID)
+    207          	//{
+    208          	//  pni->Play(melody_filepath, sound_vol);
+    209          	//}
+    210                }
+    211                if(CFG_ENA_VIBRA) SendMyIpc(SMSYS_IPC_VIBRA_START);//pni->SendIpc(SMSYS_IPC_VIBRA_START);
+    212                //SetVibration(CFG_VIBRA_POWER);
+    213              }
+    214            }
+    215            else if (cmd==0x5)
+    216            {
+    217              pni->UpdateCSMName(pni->dlg_csm, (int)LGP->lgp.LGP_NEW_MSG);
+    218              if(!SMSDATA->IsExistSDL(pni->sdl))
+    219              {
+    220                GeneralFuncF1(1);
+    221              }
+    222            }
+    223          }
+    224          
+    225          int PopupNewIn::CreatePopupNewIn(DLG_CSM *dlg_csm, SDLIST *sdl)
+    226          {
+    227            WSHDR *ws;
+    228            if(!sdl || !CFG_NOTIFY_TIME)
+    229            {
+    230              delete this;
+    231              return 0;
+    232            }
+    233            this->dlg_csm=dlg_csm;
+    234            this->sdl=sdl;
+    235            //this->dat_index=dat_index;
+    236            ws=AllocWS(150);
+    237          #ifdef LANG_CN
+    238            unsigned short wscs_b[32];
+    239            WSHDR *wscs, _wscs;
+    240            wscs=CreateLocalWS(&_wscs, wscs_b, 32);
+    241            CodeShow::GetProvAndCity(wscs->wsbody, sdl->number);
+    242          #endif
+    243            if(!(this->cl=ADRLST->FindCList(sdl->number)))
+    244            {
+    245          #ifdef LANG_CN
+    246              wsprintf(ws, "%t\n%t:\n%s\n%t:\n%w",
+    247                LGP->lgp.LGP_NEW_MSG,
+    248                LGP->lgp.LGP_FROM,
+    249                sdl->number,
+    250                LGP->lgp.LGP_CODESHOW,
+    251                wscs
+    252                );
+    253          #else
+    254              wsprintf(ws, "%t\n%t:\n%s", LGP->lgp.LGP_NEW_MSG, LGP->lgp.LGP_FROM, sdl->number);
+    255          #endif
+    256            }
+    257            else
+    258            {
+    259          #ifdef LANG_CN
+    260              wsprintf(ws, "%t\n%t:\n%w\n%t:\n%w",
+    261                LGP->lgp.LGP_NEW_MSG,
+    262                LGP->lgp.LGP_FROM,
+    263                this->cl->name,
+    264                LGP->lgp.LGP_CODESHOW,
+    265                wscs
+    266                );
+    267          #else
+    268              wsprintf(ws, "%t\n%t:\n%w", LGP->lgp.LGP_NEW_MSG, LGP->lgp.LGP_FROM, this->cl->name);
+    269          #endif
+    270            }
+    271            return CreatePopupGUI_ws(1, this, &this->popup, ws);
+    272          }
+    273          
+    274            /*
+    275          int PopupNewIn::GetSoundVol(void)
+    276          {
+    277          
+    278          #define BUF_SIZE (16*1024)
+    279            int fin, size;
+    280            char *buf;
+    281            const char *cache_pd="1:\\default\\userprofiles.pd";
+    282            const char *config_pd="2:\\Default\\PD\\userprofiles.pd";
+    283            int profile=GetProfile();
+    284            char temp[256];
+    285            char *pp;
+    286            int res=0;
+    287            int is_OK=0;
+    288            GetCPUClock();
+    289            buf=new char[BUF_SIZE];
+    290            if((fin=FOpen(cache_pd, A_ReadOnly, P_READ)!=-1))
+    291            {
+    292              //size=LSeek(fin, 0, S_END);
+    293              //if(size)
+    294              {
+    295                //buf=new char[size+4];
+    296                //LSeek(fin, 0, S_SET);
+    297                size=FRead(fin, buf, BUF_SIZE);
+    298                if(size>0)
+    299                {
+    300          	buf[size]=0;
+    301          	sprintf(temp, "USERPROFILE_%02d.VOLUME=", profile);
+    302          	if((pp=strstr(buf, temp)))
+    303          	{
+    304          	  res=*(pp+strlen(temp))-'0';
+    305          	  is_OK=1;
+    306          	}
+    307                }
+    308                //delete buf;
+    309              }
+    310              FClose(fin);
+    311            }
+    312            //if(is_OK && res>=0) return res;
+    313            //else is_OK=0;
+    314            if((!is_OK || res<0)&&(fin=FOpen(config_pd, A_ReadOnly, P_READ)!=-1))
+    315            {
+    316              //size=LSeek(fin, 0, S_END);
+    317              //if(size)
+    318              {
+    319                //buf=new char[size+4];
+    320                //LSeek(fin, 0, S_SET);
+    321                //if(FRead(fin, buf, size)!=size)
+    322                size=FRead(fin, buf, BUF_SIZE);
+    323                if(size>0)
+    324                {
+    325          	buf[size]=0;
+    326          	sprintf(temp, "USERPROFILE_%02d.VOLUME=", profile);
+    327          	if((pp=strstr(buf, temp)))
+    328          	{
+    329          	  res=*(pp+strlen(temp))-'0';
+    330          	  is_OK=1;
+    331          	}
+    332                }
+    333                //delete buf;
+    334              }
+    335              FClose(fin);
+    336            }
+    337            //if(is_OK && res>=0) return res;
+    338            if(!is_OK || res<0) res=0;
+    339            delete buf;
+    340            return res;
+    341          #define VOLUME 0x12
+    342          #define VOLUME_ALARMCLOCK 0xD
+    343          #define VOLUME_INCALL 2
+    344          
+    345          #define TONESETTINGCALLS 0
+    346          #define TONESETTINGCALLS 1
+    347          #define TONESETTINGWTCALLS 3
+    348          #define TONESETTINGSMSMMS 5
+    349          #define TONESETTINGSMSMMS 6
+    350          #define TONESETTINGSMSMMS 7
+    351          #define TONESETTINGCBS 8
+    352          #define TONESETTINGEMAIL 0xA
+    353          #define TONESETTINGORGANISER 0xE
+    354          #define TONESETTINGIMPS 9
+    355          #define TONESETTINGGAMES 0x18
+    356          #define TONESETTING_ALARMCLOCK 0xD
+    357          
+    358          #define GetPrfileVolumeSetting_adr (0xA028B142+1)//int GetPrfileVolumeSetting(int profile, int type)
+    359          //  GetCPUClock();
+    360            return (((int (*)(int, int))GetPrfileVolumeSetting_adr)(GetProfile(), VOLUME));
+    361          }*/
+    362          
+    363          void PopupNewIn::UpdateCSMName(DLG_CSM *dlg_csm, int lgp)
+    364          {
+    365            wsprintf(&((DLGCSM_DESC *)dlg_csm->csm_ram.constr)->csm_name, PERCENT_T, lgp);
+    366          }
+    367          
+    368          
+    369          const SOFTKEY_DESC msm_sk[]=
+    370          {
+    371            {0x0018,0x0000,(int)LGP_NULL},
+    372            {0x0001,0x0000,(int)LGP_NULL},
+    373            {0x003D,0x0000,LGP_DOIT_PIC}
+    374          };
+    375          
+    376          const SOFTKEYSTAB msm_skt={msm_sk, 0};
+    377          
+    378          POPUP_DESC MyShowMsg::popup=
+    379          {
+    380            8,
+    381              MyShowMsg::OnKey,
+    382              MyShowMsg::GHook,
+    383              NULL,
+    384              softkeys,
+    385              &msm_skt,
+    386              0x1,
+    387              LGP_NULL,
+    388              NULL,
+    389              0,
+    390              FONT_MEDIUM,
+    391              100,
+    392              101,
+    393              0x7D4
+    394          };
+    395          
+    396          void MyShowMsg::GHook(void *data, int cmd)
+    397          {
+    398          //  if(cmd==0x3)
+    399          //  {
+    400          //    MyShowMsg *p=(MyShowMsg *)GetPopupUserPointer(data);
+    401          //    delete p;
+    402          //  }
+    403          }
+    404          
+    405          int MyShowMsg::OnKey(void *data, GUI_MSG *msg)
+    406          {
+    407            if(msg->keys==1
+    408              || msg->keys==0x18
+    409              || msg->keys==0x3D
+    410              )
+    411              return 1;
+    412            return 0;
+    413          }
+    414          
+    415          int MyShowMsg::MyShow(int flag, WSHDR *msg)
+    416          {
+    417            if(!msg) return 0;
+    418            return CreatePopupGUI_ws(flag, NULL, &MyShowMsg::popup, msg);
+    419          }
+    420          
+    421          int MyShowMsg::MyShow(int flag, char *msg)
+    422          {
+    423            if(!msg) return 0;
+    424            return CreatePopupGUI(flag, NULL, &MyShowMsg::popup, (int)msg);
+    425          }
+    426          
+    427          
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     MyShowMsg::GHook(void *, int)      0
+     MyShowMsg::MyShow(int, WSHDR *)
+                                        4
+     MyShowMsg::MyShow(int, char *)     4
+     MyShowMsg::OnKey(void *, GUI_MSG *)
+                                        0
+     PopupNewIn::CreatePopupNewIn(DLG_CSM *, _SDLIST *)
+                                       20
+     PopupNewIn::GHook(void *, int)    12
+     PopupNewIn::OnKey(void *, GUI_MSG *)
+                                       20
+     PopupNewIn::PopupNewIn()           0
+     PopupNewIn::UpdateCSMName(DLG_CSM *, int)
+                                        4
+     PopupNewIn::delete ~PopupNewIn(PopupNewIn *)
+                                        4
+     PopupNewIn::new PopupNewIn()       4
+     PopupNewIn::~PopupNewIn()          0
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     pni_sk                           24
+     pni_skt                           8
+     PopupNewIn::PopupNewIn()        144
+     PopupNewIn::~PopupNewIn()         4
+     PopupNewIn::OnKey(void *, GUI_MSG *)
+                                     216
+     PopupNewIn::GHook(void *, int)  320
+     PopupNewIn::CreatePopupNewIn(DLG_CSM *, _SDLIST *)
+                                     192
+     PopupNewIn::UpdateCSMName(DLG_CSM *, int)
+                                      28
+     msm_sk                           24
+     msm_skt                           8
+     MyShowMsg::popup                 56
+     MyShowMsg::GHook(void *, int)     4
+     MyShowMsg::OnKey(void *, GUI_MSG *)
+                                      36
+     MyShowMsg::MyShow(int, WSHDR *)
+                                      36
+     MyShowMsg::MyShow(int, char *)   36
+     ?<Initializer for pni_sk>        24
+     ?<Initializer for popup>         56
+     ?<Constant "%t\n%t:\n%s">        24
+     PopupNewIn::delete ~PopupNewIn(PopupNewIn *)
+                                      20
+     PopupNewIn::new PopupNewIn()     28
+     ??DataTable5                      4
+     ??DataTable6                      4
+     ??DataTable7                      4
+     ??DataTable8                      4
+     ??DataTable10                     4
+      Others                         156
+
+ 
+ 1 228 bytes in segment CODE
+    64 bytes in segment DATA_C
+    80 bytes in segment DATA_I
+    80 bytes in segment DATA_ID
+    12 bytes in segment INITTAB
+ 
+ 1 084 bytes of CODE  memory (+ 156 bytes shared)
+   144 bytes of CONST memory
+    80 bytes of DATA  memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,137 @@
+/*###############################################################################
+#       PITManager patch source code, program, wich allow the user program   	#
+#  to set up and use it own pictures, stored in a flash as well as in a RAM.    #
+#																				#
+#  Call PITManager at A0FD0371 with new_picture_number in R0 and 				#
+#  pointer_to_header_and_picture in R1 for setting up a new picture.			#
+###############################################################################*/
+;														v1.0	© KonstanT 2006	
+
+/*PIT Addresses:
+
+	Original Pictures	|	Addition to PIT 	|   	RAM PIT 			|
+	© SIEMENS			|  © 1nvisible			|    © KonstanT 			|
+########################|///////////////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\|
+0					  1330		(100pcs)		1430		(128pcs)	  1558
+*/
+
+$ARM9E
+$genonly
+
+;----- Machine independent adresses: -------------------
+RAMPicArea		equ	0A812E010h		; address, where pointer to RAM_PIT is stored
+lpAddPIT		equ	000FD0050h		; place, where placed Additional PIT © 1nvisible
+PITManager		equ	000FD0370h		; place, where PITManager procedure is situated
+;----------------- Machine cpecific addresses (for CX70v50 here): --------
+ShortCut 	  	equ	000CB55ECh		; from where we recall PITManager
+lpRetAddr		equ	0A0CB55F1h 		; address, where we returning
+SomeSub			equ	000CB55DAh		; Some subr., called from flash
+aPicNumber		equ	00093BE94h		; place, where stored a total number of pictures
+;---------------------------------------------------
+FirstAddPict	equ	0x0532			; number of the 1st AddPIT picture
+AddPITAmount	equ	0x64			; capacity of the Additional PIT table (100)
+RAMPITAmount	equ	0x80			; capacity of the RAM PIT table (128)
+PITManagerID	equ	0x00C00210		; PatchID
+TotalPictures	equ	FirstAddPict + AddPITAmount + RAMPITAmount
+;MiddleBound		equ	0x0596
+
+$INCLUDE (..\..\CX70_50.inc)
+
+AREA	PICNUMBER,	DATA,	at	aPicNumber
+aNumber			dw	 TotalPictures-1	; Maximal Picture index
+
+AREA	SHORTCUT,	CODE,	at	ShortCut
+code16
+				bl		Patch	; Shortcut from original subroutine
+;==================================================================
+AREA	PATCHCODE, CODE, at AddPITProc	;Here is the patch, deciding, what kind of PIT
+code16									; is used: Original, Additional or RAM_PIT
+
+Patch:			LoadReg	3,	MiddleBoundary	; boundary between Add_PIT and RAM_PIT
+				cmp		R0,	R3
+				bge		RAMTreat
+				sub		R3,	#AddPITAmount	;64h=100 Pictures in Additional PIT
+				cmp		R0,	R3
+				blt		to_cont
+				sub		R0,	R3
+				lsl		R0,	#3
+				LoadReg	3,	PicBase		; Add_PIT placed from A0FD0050 to A0FD036F
+Back:			add		R0,	R3
+				pop		{R4, PC}
+to_cont:		bl		SomeSub			;Original subroutine, replaced our procedure
+				LoadReg	3,	RetAddr
+				bx		R3				; Returning...
+;-------------- Here treating requests for RAM_PIT (pictures 1430 - 1557) 
+RAMTreat:		add		R3,	#RAMPITAmount	;596h+80h=616h (1558)
+				cmp		R0,	R3
+				bge		to_cont
+				sub		R3,	#RAMPITAmount
+				sub		R0,	R3
+				lsl		R0,	#3
+				LoadReg	3,	lpRAMPicArea	;pointer to address of RAM_PIT
+				ldr		R3,	[R3]
+				orr		R3,	R3
+				beq		to_cont
+				b		Back
+;========= Here is part of code of PITManager, moved for optimal memory usage...
+Cont:			cmp		R0,	R3
+				blt		ErrExit1
+				add		R3,	#RAMPITAmount
+				cmp		R0,	R3
+				bge		ErrExit1
+				sub		R3,	#RAMPITAmount
+				sub		R0,	R3
+				lsl		R0,	#3
+				b		Cont1
+ErrExit1:		b		ErrExit
+;================================================================================
+Align4
+PicBase			dd		lpAddPIT + q0
+RetAddr			dd		lpRetAddr
+;======== Here is PITManager code, wich setting up new pictures...
+org			PITManager
+				Push	{R3,LR}
+				push	{R0, R1}
+				LoadReg 0, Config+4
+				bl		Bufferizator		;Standard ask for enabled
+				pop		{R0, R1}
+				beq     ErrExit
+				orr		R1,	R1			;check properly value of pointer
+				beq		ErrExit
+				LoadReg	3,	MiddleBoundary
+				b		Cont			;see part of code above...
+Cont1:			LoadReg	3,	lpRAMPicArea	;returning there...
+				ldr		R3,	[R3]
+				add		R0,	R3
+				ldr		R3,	[R1]	;header of picture (1st 4 bytes in table)
+				str		R3,	[R0]
+				add		R3,	R1,	#4	;^Picture
+				str		R3,	[R0, #4]
+				pop		{R3, PC}		;Successful exit: Z=0, R0=^RAM_PIT element
+ErrExit:		eor		R0,	R0
+				pop		{R3, PC}		;Erroneous exit: Z=1, R0=nil
+;---------- Here is a procedure, wich prepares RAM_PIT array for usage at startup
+OnStartUp:		Push	{R0-R3,LR}
+				mov		R0,	#1
+				lsl		R0,	#0xA
+				bl		FLmalloc		;1k=128 pictures
+				LoadReg	3,	lpRAMPicArea
+				str		R0,	[R3]
+				mov		R1,	#RAMPITAmount
+				mov		R2,	#0
+ClearCyc:		str		R2,	[R0]
+				str		R2,	[R0,#4]
+				add		R0,	#8
+				sub		R1,	#1
+				bne		ClearCyc
+				pop		{R0-R3,PC}
+;----------------------------------------------
+	Align4
+MiddleBoundary	dd		FirstAddPict + AddPITAmount
+lpRAMPicArea	dd		RAMPicArea
+	Align16
+Config:		dd	0xB1C2D3E4, PITManagerID, OnStartUp+q1, 0
+			db	'{patch=`PITMan` ver=1 id=0C00210 cp=`KonstanT`}',0
+
+;---------------------- *** ------------------------
+END

@@ -1,0 +1,3455 @@
+################################################################################
+#                                                                              #
+#      IAR Universal Linker V4.60I/386                                         #
+#                                                                              #
+#           Link time     =  07/Feb/2009  14:54:10                             #
+#           Target CPU    =  ARM                                               #
+#           List file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\2ndconfig\k #
+#                            luchnik\List\2ndconfig_kl.map                     #
+#           Output file 1 =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\2ndconfig\k #
+#                            luchnik\Exe\2ndconfig_kl.elf                      #
+#                            Format: elf, variant: -ynpra                      #
+#           Command line  =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\2ndconfig\k #
+#                            luchnik\Obj\conf_loader.r79                       #
+#                            D:\pasha\elf\_MY_PROJECT_\naticq_mod2\2ndconfig\k #
+#                            luchnik\Obj\config_data2.r79                      #
+#                            D:\pasha\elf\_MY_PROJECT_\naticq_mod2\2ndconfig\k #
+#                            luchnik\Obj\main.r79                              #
+#                            -o                                                #
+#                            D:\pasha\elf\_MY_PROJECT_\naticq_mod2\2ndconfig\k #
+#                            luchnik\Exe\2ndconfig_kl.elf                      #
+#                            -Felf -l                                          #
+#                            D:\pasha\elf\_MY_PROJECT_\naticq_mod2\2ndconfig\k #
+#                            luchnik\List\2ndconfig_kl.map                     #
+#                            -xms                                              #
+#                            "-ID:\Embedded Workbench 4.0 Evaluation2\ARM\LIB\ #
+#                            "                                                 #
+#                            -f D:\Pasha\elf\test.xcl (-carm                   #
+#                            -V(CODE)CODE_AREA,12 -V(DATA)DATA_AREA,12         #
+#                            -Z(CODE_AREA)ELFBEGIN,DATA_ID,START,CODE,DATA_C,I #
+#                            NITTAB,DATA_Z,DATA_N,CONFIG_C=0-FFFFFFFF          #
+#                            -Z(DATA_AREA)DATA_I=0-FFFFFFFF) -ynpra            #
+#                            "D:\Embedded Workbench 4.0 Evaluation2\ARM\LIB\dl #
+#                            5tpannl8n.r79"                                    #
+#                            -s main                                           #
+#                                                                              #
+#                        Copyright 1987-2007 IAR Systems. All rights reserved. #
+################################################################################
+
+
+
+
+
+                ****************************************
+                *                                      *
+                *           CROSS REFERENCE            *
+                *                                      *
+                ****************************************
+
+       Program entry at : CODE_AREA 00000174  Relocatable, from module : main
+
+
+
+
+                ****************************************
+                *                                      *
+                *            RUNTIME MODEL             *
+                *                                      *
+                ****************************************
+
+  StackAlign4  = USED
+  __cpu_mode   = __pcs__arm
+  __data_model = absolute
+  __endian     = little
+  __rt_version = 6
+
+
+
+                ****************************************
+                *                                      *
+                *              MODULE MAP              *
+                *                                      *
+                ****************************************
+
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  FILE NAME : D:\pasha\elf\_MY_PROJECT_\naticq_mod2\2ndconfig\kluchnik\Obj\conf_loader.r79
+  PROGRAM MODULE, NAME : conf_loader
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_I
+  Relative segment, address: DATA_AREA 00000000 - 00000003 (0x4 bytes), align: 2
+  Segment part 4.             Intra module refs:   LoadConfigData
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           suc_config_name_mod     00000000 
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000004 - 0000006F (0x6c bytes), align: 2
+  Segment part 6.             Intra module refs:   LoadConfigData
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SaveConfigData          00000004 
+               stack 1 = 00000000 ( 00000018 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 00000070 - 0000014B (0xdc bytes), align: 2
+  Segment part 7.             Intra module refs:   InitConfig
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           LoadConfigData          00000070 
+               stack 1 = 00000000 ( 00000028 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: CODE_AREA 0000014C - 00000173 (0x28 bytes), align: 2
+  Segment part 8.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           InitConfig              0000014C        main (main)
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+DATA_ID
+  Relative segment, address: CODE_AREA 00000000 - 00000003 (0x4 bytes), align: 2
+  Segment part 5.             Intra module refs:   suc_config_name_mod
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: CODE_AREA 000001D0 - 000001DB (0xc bytes), align: 2
+  Segment part 10. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_I        000001D0 
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 000001CC - 000001CC (0x1 bytes), align: 0
+  Segment part 2.             Intra module refs:   Segment part 5
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: CODE_AREA 00000194 - 000001CB (0x38 bytes), align: 2
+  Segment part 3.             Intra module refs:   InitConfig
+
+    *************************************************************************
+
+  FILE NAME : D:\pasha\elf\_MY_PROJECT_\naticq_mod2\2ndconfig\kluchnik\Obj\config_data2.r79
+  PROGRAM MODULE, NAME : config_data2
+
+  SEGMENTS IN THE MODULE
+  ======================
+CONFIG_C
+  Relative segment, address: CODE_AREA 000001DC - 00000207 (0x2c bytes), align: 2
+  Segment part 2. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr0                 000001DC        LoadConfigData (conf_loader)
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000208 - 00000233 (0x2c bytes), align: 2
+  Segment part 3. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr31                00000208 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000234 - 0000025F (0x2c bytes), align: 2
+  Segment part 4. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr4_2               00000234 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000260 - 00000263 (0x4 bytes), align: 2
+  Segment part 5. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           DEVELOP_IF_MOD          00000260 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000264 - 000002A3 (0x40 bytes), align: 2
+  Segment part 6. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox15_1             00000264 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000002A4 - 000002CF (0x2c bytes), align: 2
+  Segment part 7. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr6_10              000002A4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000002D0 - 000002D3 (0x4 bytes), align: 2
+  Segment part 8. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           HISTORY_SAVE_TYPE       000002D0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000002D4 - 00000313 (0x40 bytes), align: 2
+  Segment part 9. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox6_9              000002D4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000314 - 0000033F (0x2c bytes), align: 2
+  Segment part 10. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr6_7               00000314 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000340 - 00000343 (0x4 bytes), align: 2
+  Segment part 11. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           HISTORY_BUFFER_MOD      00000340 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000344 - 000003A3 (0x60 bytes), align: 2
+  Segment part 12. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox6_7              00000344 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000003A4 - 000003CF (0x2c bytes), align: 2
+  Segment part 13. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr30                000003A4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000003D0 - 000003FB (0x2c bytes), align: 2
+  Segment part 14. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrI_1               000003D0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000003FC - 00000427 (0x2c bytes), align: 2
+  Segment part 15. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrI_4               000003FC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000428 - 0000042B (0x4 bytes), align: 2
+  Segment part 16. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MAXLOGMSG               00000428 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000042C - 00000457 (0x2c bytes), align: 2
+  Segment part 17. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrI_2               0000042C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000458 - 0000045B (0x4 bytes), align: 2
+  Segment part 18. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           VIEW_MODE               00000458 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000045C - 00000487 (0x2c bytes), align: 2
+  Segment part 19. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrI_3               0000045C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000488 - 0000048B (0x4 bytes), align: 2
+  Segment part 20. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           LINE_MODE               00000488 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000048C - 000004B7 (0x2c bytes), align: 2
+  Segment part 21. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrI_7               0000048C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000004B8 - 000004BB (0x4 bytes), align: 2
+  Segment part 22. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SOFT_MODE               000004B8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000004BC - 0000051B (0x60 bytes), align: 2
+  Segment part 23. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcboxI_8              000004BC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000051C - 00000547 (0x2c bytes), align: 2
+  Segment part 24. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrI_5               0000051C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000548 - 0000054B (0x4 bytes), align: 2
+  Segment part 25. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ShowStatusToIconBar     00000548 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000054C - 00000577 (0x2c bytes), align: 2
+  Segment part 26. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrI_6               0000054C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000578 - 0000057B (0x4 bytes), align: 2
+  Segment part 27. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PingToIconBar           00000578 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000057C - 000005A7 (0x2c bytes), align: 2
+  Segment part 28. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrI_8               0000057C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000005A8 - 000005AB (0x4 bytes), align: 2
+  Segment part 29. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ShowProcessSend         000005A8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000005AC - 0000062B (0x80 bytes), align: 2
+  Segment part 30. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcboxI_9              000005AC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000062C - 00000657 (0x2c bytes), align: 2
+  Segment part 31. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr6_8               0000062C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000658 - 0000065B (0x4 bytes), align: 2
+  Segment part 32. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SHOW_ACTIVE             00000658 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000065C - 0000069B (0x40 bytes), align: 2
+  Segment part 33. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox6_8              0000065C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000069C - 000006C7 (0x2c bytes), align: 2
+  Segment part 34. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrI_10              0000069C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000006C8 - 000006CB (0x4 bytes), align: 2
+  Segment part 35. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SelBoldActiveChat       000006C8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000006CC - 0000070B (0x40 bytes), align: 2
+  Segment part 36. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcboxI_11             000006CC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000070C - 00000737 (0x2c bytes), align: 2
+  Segment part 37. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrI_9               0000070C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000738 - 0000073B (0x4 bytes), align: 2
+  Segment part 38. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           IllByONCantact          00000738 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000073C - 00000767 (0x2c bytes), align: 2
+  Segment part 39. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr2_7               0000073C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000768 - 000007A7 (0x40 bytes), align: 2
+  Segment part 40. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ICON_PATH2              00000768 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000007A8 - 000007D3 (0x2c bytes), align: 2
+  Segment part 41. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_s1               000007A8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000007D4 - 000007FF (0x2c bytes), align: 2
+  Segment part 42. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrs1_s1             000007D4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000800 - 00000803 (0x4 bytes), align: 2
+  Segment part 43. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ON_OFF_TIME             00000800 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000804 - 0000082F (0x2c bytes), align: 2
+  Segment part 44. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrHead_1            00000804 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000830 - 00000833 (0x4 bytes), align: 2
+  Segment part 45. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           HEAD_STATUS             00000830 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000834 - 0000085F (0x2c bytes), align: 2
+  Segment part 46. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrHead_2            00000834 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000860 - 00000863 (0x4 bytes), align: 2
+  Segment part 47. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           HEAD_XSTATUS            00000860 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000864 - 0000088F (0x2c bytes), align: 2
+  Segment part 48. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrHead_3            00000864 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000890 - 00000893 (0x4 bytes), align: 2
+  Segment part 49. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           HEAD_PRIVATE            00000890 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000894 - 000008BF (0x2c bytes), align: 2
+  Segment part 50. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrHead_4            00000894 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000008C0 - 000008C3 (0x4 bytes), align: 2
+  Segment part 51. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           HEAD_PING               000008C0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000008C4 - 00000923 (0x60 bytes), align: 2
+  Segment part 52. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcboxs15              000008C4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000924 - 0000094F (0x2c bytes), align: 2
+  Segment part 53. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrs1_15             00000924 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000950 - 00000953 (0x4 bytes), align: 2
+  Segment part 54. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ShowTraff               00000950 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000954 - 0000097F (0x2c bytes), align: 2
+  Segment part 55. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrs1_11             00000954 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000980 - 00000983 (0x4 bytes), align: 2
+  Segment part 56. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isShowCont              00000980 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000984 - 000009AF (0x2c bytes), align: 2
+  Segment part 57. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrs1_12             00000984 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000009B0 - 000009B3 (0x4 bytes), align: 2
+  Segment part 58. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isShowUnread            000009B0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000009B4 - 000009DF (0x2c bytes), align: 2
+  Segment part 59. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrs1_4              000009B4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000009E0 - 000009E3 (0x4 bytes), align: 2
+  Segment part 60. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isShowV                 000009E0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000009E4 - 00000A0F (0x2c bytes), align: 2
+  Segment part 61. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrs1_5              000009E4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000A10 - 00000A13 (0x4 bytes), align: 2
+  Segment part 62. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isShowS                 00000A10 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000A14 - 00000A3F (0x2c bytes), align: 2
+  Segment part 63. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrs1_6              00000A14 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000A40 - 00000A43 (0x4 bytes), align: 2
+  Segment part 64. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isShowA                 00000A40 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000A44 - 00000A6F (0x2c bytes), align: 2
+  Segment part 65. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrs1_7              00000A44 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000A70 - 00000A73 (0x4 bytes), align: 2
+  Segment part 66. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isShowR                 00000A70 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000A74 - 00000A9F (0x2c bytes), align: 2
+  Segment part 67. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrs1_9              00000A74 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000AA0 - 00000AA3 (0x4 bytes), align: 2
+  Segment part 68. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isShowBat               00000AA0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000AA4 - 00000ACF (0x2c bytes), align: 2
+  Segment part 69. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_s0               00000AA4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000AD0 - 00000AFB (0x2c bytes), align: 2
+  Segment part 70. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrCl_1              00000AD0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000AFC - 00000B27 (0x2c bytes), align: 2
+  Segment part 71. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_2             00000AFC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000B28 - 00000B2B (0x4 bytes), align: 2
+  Segment part 72. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           CLBackgrClr             00000B28 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000B2C - 00000B57 (0x2c bytes), align: 2
+  Segment part 73. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_3             00000B2C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000B58 - 00000B5B (0x4 bytes), align: 2
+  Segment part 74. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SoftBackgrClr           00000B58 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000B5C - 00000B87 (0x2c bytes), align: 2
+  Segment part 75. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_4             00000B5C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000B88 - 00000B8B (0x4 bytes), align: 2
+  Segment part 76. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SoftFontClr             00000B88 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000B8C - 00000BB7 (0x2c bytes), align: 2
+  Segment part 77. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_5             00000B8C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000BB8 - 00000BBB (0x4 bytes), align: 2
+  Segment part 78. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           HeadBackgrClr           00000BB8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000BBC - 00000BE7 (0x2c bytes), align: 2
+  Segment part 79. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_6             00000BBC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000BE8 - 00000BEB (0x4 bytes), align: 2
+  Segment part 80. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           HeadFontClr             00000BE8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000BEC - 00000C17 (0x2c bytes), align: 2
+  Segment part 81. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_7             00000BEC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000C18 - 00000C1B (0x4 bytes), align: 2
+  Segment part 82. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ScrollBarClr            00000C18 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000C1C - 00000C47 (0x2c bytes), align: 2
+  Segment part 83. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_8             00000C1C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000C48 - 00000C4B (0x4 bytes), align: 2
+  Segment part 84. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ClCursorClr             00000C48 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000C4C - 00000C77 (0x2c bytes), align: 2
+  Segment part 85. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_9             00000C4C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000C78 - 00000C7B (0x4 bytes), align: 2
+  Segment part 86. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ClCursorBordClr         00000C78 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000C7C - 00000CA7 (0x2c bytes), align: 2
+  Segment part 87. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_10            00000C7C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000CA8 - 00000CAB (0x4 bytes), align: 2
+  Segment part 88. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ActiveClr               00000CA8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000CAC - 00000CD7 (0x2c bytes), align: 2
+  Segment part 89. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_11            00000CAC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000CD8 - 00000CDB (0x4 bytes), align: 2
+  Segment part 90. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           NotActiveClr            00000CD8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000CDC - 00000D07 (0x2c bytes), align: 2
+  Segment part 91. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_16            00000CDC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000D08 - 00000D0B (0x4 bytes), align: 2
+  Segment part 92. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           GroupClr                00000D08 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000D0C - 00000D37 (0x2c bytes), align: 2
+  Segment part 93. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_17            00000D0C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000D38 - 00000D3B (0x4 bytes), align: 2
+  Segment part 94. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           CLDescricpClr           00000D38 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000D3C - 00000D67 (0x2c bytes), align: 2
+  Segment part 95. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_12            00000D3C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000D68 - 00000D6B (0x4 bytes), align: 2
+  Segment part 96. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           AddInfoClr              00000D68 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000D6C - 00000D97 (0x2c bytes), align: 2
+  Segment part 97. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_13            00000D6C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000D98 - 00000D9B (0x4 bytes), align: 2
+  Segment part 98. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FontInfoClr             00000D98 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000D9C - 00000DC7 (0x2c bytes), align: 2
+  Segment part 99. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_14            00000D9C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000DC8 - 00000DCB (0x4 bytes), align: 2
+  Segment part 100. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           UnAckedClr              00000DC8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000DCC - 00000DF7 (0x2c bytes), align: 2
+  Segment part 101. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrCl_15            00000DCC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000DF8 - 00000DFB (0x4 bytes), align: 2
+  Segment part 102. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SendClr                 00000DF8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000DFC - 00000E27 (0x2c bytes), align: 2
+  Segment part 103. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrCl_0              00000DFC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000E28 - 00000E53 (0x2c bytes), align: 2
+  Segment part 104. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrM_1               00000E28 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000E54 - 00000E7F (0x2c bytes), align: 2
+  Segment part 105. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrM_4              00000E54 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000E80 - 00000E83 (0x4 bytes), align: 2
+  Segment part 106. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MMBackgrClr             00000E80 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000E84 - 00000EAF (0x2c bytes), align: 2
+  Segment part 107. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrM_5              00000E84 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000EB0 - 00000EB3 (0x4 bytes), align: 2
+  Segment part 108. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MMBackgrBordClr         00000EB0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000EB4 - 00000EDF (0x2c bytes), align: 2
+  Segment part 109. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrM_2              00000EB4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000EE0 - 00000EE3 (0x4 bytes), align: 2
+  Segment part 110. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MMCursorBGClr           00000EE0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000EE4 - 00000F0F (0x2c bytes), align: 2
+  Segment part 111. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrrM_3              00000EE4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000F10 - 00000F13 (0x4 bytes), align: 2
+  Segment part 112. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MMCursorClr             00000F10 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000F14 - 00000F3F (0x2c bytes), align: 2
+  Segment part 113. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrM_6               00000F14 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000F40 - 00000F47 (0x8 bytes), align: 2
+  Segment part 114. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           MMRect                  00000F40 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000F48 - 00000F73 (0x2c bytes), align: 2
+  Segment part 115. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrM_7               00000F48 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000F74 - 00000F7B (0x8 bytes), align: 2
+  Segment part 116. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SRect                   00000F74 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000F7C - 00000FA7 (0x2c bytes), align: 2
+  Segment part 117. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrM_8               00000F7C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000FA8 - 00000FAF (0x8 bytes), align: 2
+  Segment part 118. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           XSRect                  00000FA8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000FB0 - 00000FDB (0x2c bytes), align: 2
+  Segment part 119. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrM_9               00000FB0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000FDC - 00000FDF (0x4 bytes), align: 2
+  Segment part 120. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ShowNumbMenu            00000FDC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00000FE0 - 0000100B (0x2c bytes), align: 2
+  Segment part 121. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrM_0               00000FE0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000100C - 00001037 (0x2c bytes), align: 2
+  Segment part 122. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_e1               0000100C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001038 - 00001063 (0x2c bytes), align: 2
+  Segment part 123. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr23                00001038 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001064 - 000010E3 (0x80 bytes), align: 2
+  Segment part 124. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           fontpath2               00001064 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000010E4 - 0000110F (0x2c bytes), align: 2
+  Segment part 125. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr24                000010E4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001110 - 0000118F (0x80 bytes), align: 2
+  Segment part 126. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           fontpath3               00001110 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001190 - 000011BB (0x2c bytes), align: 2
+  Segment part 127. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdre1_2              00001190 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000011BC - 0000123B (0x80 bytes), align: 2
+  Segment part 128. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           fontpath4               000011BC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000123C - 00001267 (0x2c bytes), align: 2
+  Segment part 129. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_e1_3             0000123C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001268 - 0000126B (0x4 bytes), align: 2
+  Segment part 130. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PNG_HEADER              00001268 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000126C - 00001297 (0x2c bytes), align: 2
+  Segment part 131. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_e1_4             0000126C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001298 - 0000129B (0x4 bytes), align: 2
+  Segment part 132. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PNG_SOFTKEY             00001298 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000129C - 000012C7 (0x2c bytes), align: 2
+  Segment part 133. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_e0               0000129C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000012C8 - 000012F3 (0x2c bytes), align: 2
+  Segment part 134. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_y1               000012C8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000012F4 - 0000131F (0x2c bytes), align: 2
+  Segment part 135. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_2_2              000012F4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001320 - 00001323 (0x4 bytes), align: 2
+  Segment part 136. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isSystemFont            00001320 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001324 - 0000134F (0x2c bytes), align: 2
+  Segment part 137. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr2_8               00001324 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001350 - 00001353 (0x4 bytes), align: 2
+  Segment part 138. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           pngFont                 00001350 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001354 - 0000137F (0x2c bytes), align: 2
+  Segment part 139. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr2_9               00001354 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001380 - 00001383 (0x4 bytes), align: 2
+  Segment part 140. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           HeadFont                00001380 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001384 - 000013AF (0x2c bytes), align: 2
+  Segment part 141. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_y0               00001384 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000013B0 - 000013DB (0x2c bytes), align: 2
+  Segment part 142. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr23_4              000013B0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000013DC - 00001407 (0x2c bytes), align: 2
+  Segment part 143. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr78_4520           000013DC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001408 - 0000140B (0x4 bytes), align: 2
+  Segment part 144. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ActionResh              00001408 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000140C - 0000144B (0x40 bytes), align: 2
+  Segment part 145. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox_668_z           0000140C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000144C - 00001477 (0x2c bytes), align: 2
+  Segment part 146. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr34_642            0000144C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001478 - 0000147B (0x4 bytes), align: 2
+  Segment part 147. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isVolDownButton         00001478 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000147C - 000014BB (0x40 bytes), align: 2
+  Segment part 148. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox434_56           0000147C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000014BC - 000014E7 (0x2c bytes), align: 2
+  Segment part 149. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr34_6342           000014BC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000014E8 - 000014EB (0x4 bytes), align: 2
+  Segment part 150. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isVolUpButton           000014E8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000014EC - 0000152B (0x40 bytes), align: 2
+  Segment part 151. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox4134_56          000014EC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000152C - 00001557 (0x2c bytes), align: 2
+  Segment part 152. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_1              0000152C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001558 - 00001583 (0x2c bytes), align: 2
+  Segment part 153. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr4_67              00001558 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001584 - 00001587 (0x4 bytes), align: 2
+  Segment part 154. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           LongRightAction         00001584 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001588 - 000015E7 (0x60 bytes), align: 2
+  Segment part 155. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox4_56             00001588 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000015E8 - 00001613 (0x2c bytes), align: 2
+  Segment part 156. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr34_64             000015E8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001614 - 00001617 (0x4 bytes), align: 2
+  Segment part 157. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           LongLeftAction          00001614 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001618 - 00001657 (0x40 bytes), align: 2
+  Segment part 158. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox444_56           00001618 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001658 - 00001683 (0x2c bytes), align: 2
+  Segment part 159. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr23_1              00001658 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001684 - 00001687 (0x4 bytes), align: 2
+  Segment part 160. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           LongVolUpAction         00001684 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001688 - 000016C7 (0x40 bytes), align: 2
+  Segment part 161. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox23_2             00001688 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000016C8 - 000016F3 (0x2c bytes), align: 2
+  Segment part 162. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr23_3              000016C8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000016F4 - 000016F7 (0x4 bytes), align: 2
+  Segment part 163. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           LongVolDownAction       000016F4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000016F8 - 00001737 (0x40 bytes), align: 2
+  Segment part 164. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox23_4             000016F8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001738 - 00001763 (0x2c bytes), align: 2
+  Segment part 165. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_0            00001738 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001764 - 00001767 (0x4 bytes), align: 2
+  Segment part 166. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_0               00001764 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001768 - 00001927 (0x1c0 bytes), align: 2
+  Segment part 167. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_0           00001768 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001928 - 00001953 (0x2c bytes), align: 2
+  Segment part 168. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_1            00001928 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001954 - 00001957 (0x4 bytes), align: 2
+  Segment part 169. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_1               00001954 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001958 - 00001B17 (0x1c0 bytes), align: 2
+  Segment part 170. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_1           00001958 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001B18 - 00001B43 (0x2c bytes), align: 2
+  Segment part 171. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_2            00001B18 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001B44 - 00001B47 (0x4 bytes), align: 2
+  Segment part 172. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_2               00001B44 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001B48 - 00001D07 (0x1c0 bytes), align: 2
+  Segment part 173. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_2           00001B48 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001D08 - 00001D33 (0x2c bytes), align: 2
+  Segment part 174. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_3            00001D08 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001D34 - 00001D37 (0x4 bytes), align: 2
+  Segment part 175. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_3               00001D34 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001D38 - 00001EF7 (0x1c0 bytes), align: 2
+  Segment part 176. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_3           00001D38 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001EF8 - 00001F23 (0x2c bytes), align: 2
+  Segment part 177. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_4            00001EF8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001F24 - 00001F27 (0x4 bytes), align: 2
+  Segment part 178. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_4               00001F24 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00001F28 - 000020E7 (0x1c0 bytes), align: 2
+  Segment part 179. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_4           00001F28 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000020E8 - 00002113 (0x2c bytes), align: 2
+  Segment part 180. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_5            000020E8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002114 - 00002117 (0x4 bytes), align: 2
+  Segment part 181. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_5               00002114 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002118 - 000022D7 (0x1c0 bytes), align: 2
+  Segment part 182. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_5           00002118 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000022D8 - 00002303 (0x2c bytes), align: 2
+  Segment part 183. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_6            000022D8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002304 - 00002307 (0x4 bytes), align: 2
+  Segment part 184. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_6               00002304 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002308 - 000024C7 (0x1c0 bytes), align: 2
+  Segment part 185. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_6           00002308 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000024C8 - 000024F3 (0x2c bytes), align: 2
+  Segment part 186. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_7            000024C8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000024F4 - 000024F7 (0x4 bytes), align: 2
+  Segment part 187. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_7               000024F4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000024F8 - 000026B7 (0x1c0 bytes), align: 2
+  Segment part 188. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_7           000024F8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000026B8 - 000026E3 (0x2c bytes), align: 2
+  Segment part 189. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_8            000026B8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000026E4 - 000026E7 (0x4 bytes), align: 2
+  Segment part 190. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_8               000026E4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000026E8 - 000028A7 (0x1c0 bytes), align: 2
+  Segment part 191. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_8           000026E8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000028A8 - 000028D3 (0x2c bytes), align: 2
+  Segment part 192. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_9            000028A8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000028D4 - 000028D7 (0x4 bytes), align: 2
+  Segment part 193. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_9               000028D4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000028D8 - 00002A97 (0x1c0 bytes), align: 2
+  Segment part 194. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_9           000028D8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002A98 - 00002AC3 (0x2c bytes), align: 2
+  Segment part 195. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_10           00002A98 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002AC4 - 00002AC7 (0x4 bytes), align: 2
+  Segment part 196. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_10              00002AC4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002AC8 - 00002C87 (0x1c0 bytes), align: 2
+  Segment part 197. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_10          00002AC8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002C88 - 00002CB3 (0x2c bytes), align: 2
+  Segment part 198. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_11           00002C88 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002CB4 - 00002CB7 (0x4 bytes), align: 2
+  Segment part 199. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_11              00002CB4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002CB8 - 00002E77 (0x1c0 bytes), align: 2
+  Segment part 200. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_11          00002CB8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002E78 - 00002EA3 (0x2c bytes), align: 2
+  Segment part 201. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_3_RB           00002E78 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002EA4 - 00002EA7 (0x4 bytes), align: 2
+  Segment part 202. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           longAct_RB              00002EA4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00002EA8 - 00003067 (0x1c0 bytes), align: 2
+  Segment part 203. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox99_4_RB          00002EA8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003068 - 00003093 (0x2c bytes), align: 2
+  Segment part 204. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr99_2              00003068 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003094 - 000030BF (0x2c bytes), align: 2
+  Segment part 205. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr223_5             00003094 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000030C0 - 000030EB (0x2c bytes), align: 2
+  Segment part 206. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrI_0               000030C0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000030EC - 00003117 (0x2c bytes), align: 2
+  Segment part 207. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrSnd1              000030EC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003118 - 00003143 (0x2c bytes), align: 2
+  Segment part 208. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr181               00003118 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003144 - 00003147 (0x4 bytes), align: 2
+  Segment part 209. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           extended_sounds         00003144 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003148 - 00003187 (0x40 bytes), align: 2
+  Segment part 210. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox18_3_2           00003148 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003188 - 000031B3 (0x2c bytes), align: 2
+  Segment part 211. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr1812              00003188 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000031B4 - 000031B7 (0x4 bytes), align: 2
+  Segment part 212. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ext_type_sounds         000031B4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000031B8 - 00003217 (0x60 bytes), align: 2
+  Segment part 213. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox182_3_2          000031B8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003218 - 00003243 (0x2c bytes), align: 2
+  Segment part 214. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr15                00003218 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003244 - 00003283 (0x40 bytes), align: 2
+  Segment part 215. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           sndGlobal2              00003244 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003284 - 000032AF (0x2c bytes), align: 2
+  Segment part 216. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr161               00003284 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000032B0 - 000032EF (0x40 bytes), align: 2
+  Segment part 217. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           sndMsg2                 000032B0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000032F0 - 0000331B (0x2c bytes), align: 2
+  Segment part 218. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr16r1              000032F0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000331C - 0000335B (0x40 bytes), align: 2
+  Segment part 219. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           pingsnd                 0000331C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000335C - 00003387 (0x2c bytes), align: 2
+  Segment part 220. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr16r2              0000335C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003388 - 000033C7 (0x40 bytes), align: 2
+  Segment part 221. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           sndLostConn             00003388 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000033C8 - 000033F3 (0x2c bytes), align: 2
+  Segment part 222. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrSnd0              000033C8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000033F4 - 0000341F (0x2c bytes), align: 2
+  Segment part 223. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_45               000033F4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003420 - 0000344B (0x2c bytes), align: 2
+  Segment part 224. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr467_1             00003420 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000344C - 0000344F (0x4 bytes), align: 2
+  Segment part 225. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ShowStatusIcon          0000344C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003450 - 000034EF (0xa0 bytes), align: 2
+  Segment part 226. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox9_1              00003450 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000034F0 - 0000351B (0x2c bytes), align: 2
+  Segment part 227. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrz_68              000034F0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000351C - 0000351F (0x4 bytes), align: 2
+  Segment part 228. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           show_xstatus            0000351C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003520 - 0000359F (0x80 bytes), align: 2
+  Segment part 229. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox_8z              00003520 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000035A0 - 000035CB (0x2c bytes), align: 2
+  Segment part 230. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrz_1               000035A0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000035CC - 000035CF (0x4 bytes), align: 2
+  Segment part 231. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           IDLEICON_XX             000035CC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000035D0 - 000035D3 (0x4 bytes), align: 2
+  Segment part 232. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           IDLEICON_YX             000035D0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000035D4 - 000035FF (0x2c bytes), align: 2
+  Segment part 233. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr780_1             000035D4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003600 - 00003603 (0x4 bytes), align: 2
+  Segment part 234. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ind_set_xstatus         00003600 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003604 - 00003643 (0x40 bytes), align: 2
+  Segment part 235. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox8_z2             00003604 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003644 - 0000366F (0x2c bytes), align: 2
+  Segment part 236. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr780_11            00003644 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003670 - 00003673 (0x4 bytes), align: 2
+  Segment part 237. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           blink_mess              00003670 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003674 - 000036B3 (0x40 bytes), align: 2
+  Segment part 238. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox81_z2            00003674 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000036B4 - 000036DF (0x2c bytes), align: 2
+  Segment part 239. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr19_22             000036B4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000036E0 - 000036E3 (0x4 bytes), align: 2
+  Segment part 240. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           NumStatusToIconBar      000036E0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000036E4 - 0000370F (0x2c bytes), align: 2
+  Segment part 241. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr19_242            000036E4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003710 - 00003713 (0x4 bytes), align: 2
+  Segment part 242. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           NumXStatusToIconBar     00003710 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003714 - 0000373F (0x2c bytes), align: 2
+  Segment part 243. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_32_1             00003714 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003740 - 0000376B (0x2c bytes), align: 2
+  Segment part 244. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr32_2              00003740 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000376C - 0000376F (0x4 bytes), align: 2
+  Segment part 245. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ADDITION_UIN            0000376C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003770 - 0000379B (0x2c bytes), align: 2
+  Segment part 246. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr332_3             00003770 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000379C - 0000379F (0x4 bytes), align: 2
+  Segment part 247. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ShowAddStatusToIconBar
+                                   0000379C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000037A0 - 000037CB (0x2c bytes), align: 2
+  Segment part 248. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr32_3              000037A0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000037CC - 000037CF (0x4 bytes), align: 2
+  Segment part 249. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           show_add_state          000037CC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000037D0 - 000037FB (0x2c bytes), align: 2
+  Segment part 250. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr32_5              000037D0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000037FC - 000037FF (0x4 bytes), align: 2
+  Segment part 251. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           show_add_xstate         000037FC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003800 - 0000382B (0x2c bytes), align: 2
+  Segment part 252. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_32_0             00003800 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000382C - 00003857 (0x2c bytes), align: 2
+  Segment part 253. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_4                0000382C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003858 - 00003883 (0x2c bytes), align: 2
+  Segment part 254. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr1_45              00003858 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003884 - 000038AF (0x2c bytes), align: 2
+  Segment part 255. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr65z               00003884 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000038B0 - 000038B3 (0x4 bytes), align: 2
+  Segment part 256. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           fonto                   000038B0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000038B4 - 000038DF (0x2c bytes), align: 2
+  Segment part 257. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr98                000038B4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000038E0 - 0000391F (0x40 bytes), align: 2
+  Segment part 258. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           fontpath                000038E0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003920 - 0000394B (0x2c bytes), align: 2
+  Segment part 259. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr65y               00003920 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000394C - 0000394F (0x4 bytes), align: 2
+  Segment part 260. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           spaco1                  0000394C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003950 - 0000397B (0x2c bytes), align: 2
+  Segment part 261. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrss_45             00003950 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000397C - 000039A7 (0x2c bytes), align: 2
+  Segment part 262. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr41                0000397C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000039A8 - 000039D3 (0x2c bytes), align: 2
+  Segment part 263. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrSm_5              000039A8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000039D4 - 000039D7 (0x4 bytes), align: 2
+  Segment part 264. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           UseStandartSmileSel     000039D4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000039D8 - 00003A17 (0x40 bytes), align: 2
+  Segment part 265. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcboxSm_6             000039D8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003A18 - 00003A43 (0x2c bytes), align: 2
+  Segment part 266. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr40_1              00003A18 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003A44 - 00003A47 (0x4 bytes), align: 2
+  Segment part 267. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SmBGcolor               00003A44 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003A48 - 00003A73 (0x2c bytes), align: 2
+  Segment part 268. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr40_2              00003A48 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003A74 - 00003A77 (0x4 bytes), align: 2
+  Segment part 269. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SmSelectColor           00003A74 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003A78 - 00003AA3 (0x2c bytes), align: 2
+  Segment part 270. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr40_3              00003A78 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003AA4 - 00003AA7 (0x4 bytes), align: 2
+  Segment part 271. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           SmFontColor             00003AA4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003AA8 - 00003AD3 (0x2c bytes), align: 2
+  Segment part 272. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr40                00003AA8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003AD4 - 00003AFF (0x2c bytes), align: 2
+  Segment part 273. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_m71              00003AD4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003B00 - 00003B2B (0x2c bytes), align: 2
+  Segment part 274. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrm71_2             00003B00 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003B2C - 00003B2F (0x4 bytes), align: 2
+  Segment part 275. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Is_UPTIME_On            00003B2C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003B30 - 00003B6F (0x40 bytes), align: 2
+  Segment part 276. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox71_2_2           00003B30 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003B70 - 00003B9B (0x2c bytes), align: 2
+  Segment part 277. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr699               00003B70 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003B9C - 00003B9F (0x4 bytes), align: 2
+  Segment part 278. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           onlineTime_x            00003B9C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003BA0 - 00003BA3 (0x4 bytes), align: 2
+  Segment part 279. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           onlineTime_y            00003BA0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003BA4 - 00003BCF (0x2c bytes), align: 2
+  Segment part 280. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr698               00003BA4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003BD0 - 00003BD3 (0x4 bytes), align: 2
+  Segment part 281. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Pause_Time              00003BD0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003BD4 - 00003C13 (0x40 bytes), align: 2
+  Segment part 282. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox85               00003BD4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003C14 - 00003C3F (0x2c bytes), align: 2
+  Segment part 283. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr123698            00003C14 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003C40 - 00003C43 (0x4 bytes), align: 2
+  Segment part 284. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isPingIdle              00003C40 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003C44 - 00003C83 (0x40 bytes), align: 2
+  Segment part 285. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox825              00003C44 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003C84 - 00003CAF (0x2c bytes), align: 2
+  Segment part 286. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghd66                 00003C84 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003CB0 - 00003CB3 (0x4 bytes), align: 2
+  Segment part 287. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Ping_X                  00003CB0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003CB4 - 00003CB7 (0x4 bytes), align: 2
+  Segment part 288. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Ping_Y                  00003CB4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003CB8 - 00003CE3 (0x2c bytes), align: 2
+  Segment part 289. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr1z9a_1            00003CB8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003CE4 - 00003CE7 (0x4 bytes), align: 2
+  Segment part 290. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ping_time_config        00003CE4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003CE8 - 00003D13 (0x2c bytes), align: 2
+  Segment part 291. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr298               00003CE8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003D14 - 00003D17 (0x4 bytes), align: 2
+  Segment part 292. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Is_Unread_On            00003D14 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003D18 - 00003D57 (0x40 bytes), align: 2
+  Segment part 293. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox86               00003D18 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003D58 - 00003D83 (0x2c bytes), align: 2
+  Segment part 294. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghd67                 00003D58 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003D84 - 00003D87 (0x4 bytes), align: 2
+  Segment part 295. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           unread_X                00003D84 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003D88 - 00003D8B (0x4 bytes), align: 2
+  Segment part 296. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           unread_Y                00003D88 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003D8C - 00003DB7 (0x2c bytes), align: 2
+  Segment part 297. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr71_3              00003D8C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003DB8 - 00003DBB (0x4 bytes), align: 2
+  Segment part 298. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Is_Online_On            00003DB8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003DBC - 00003DFB (0x40 bytes), align: 2
+  Segment part 299. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox71_2             00003DBC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003DFC - 00003E27 (0x2c bytes), align: 2
+  Segment part 300. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr712_3             00003DFC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003E28 - 00003E2B (0x4 bytes), align: 2
+  Segment part 301. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Is_Online_On_Align      00003E28 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003E2C - 00003E8B (0x60 bytes), align: 2
+  Segment part 302. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox271_522          00003E2C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003E8C - 00003EB7 (0x2c bytes), align: 2
+  Segment part 303. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghd71_1               00003E8C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003EB8 - 00003EBB (0x4 bytes), align: 2
+  Segment part 304. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           online_x                00003EB8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003EBC - 00003EBF (0x4 bytes), align: 2
+  Segment part 305. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           online_y                00003EBC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003EC0 - 00003EEB (0x2c bytes), align: 2
+  Segment part 306. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr71_32             00003EC0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003EEC - 00003EEF (0x4 bytes), align: 2
+  Segment part 307. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Is_SMARTCPU_On          00003EEC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003EF0 - 00003F2F (0x40 bytes), align: 2
+  Segment part 308. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox271_2            00003EF0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003F30 - 00003F5B (0x2c bytes), align: 2
+  Segment part 309. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghd83                 00003F30 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003F5C - 00003F5F (0x4 bytes), align: 2
+  Segment part 310. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           msg_d_x                 00003F5C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003F60 - 00003F63 (0x4 bytes), align: 2
+  Segment part 311. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           msg_d_y                 00003F60 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003F64 - 00003F8F (0x2c bytes), align: 2
+  Segment part 312. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrs19_1             00003F64 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003F90 - 00003F93 (0x4 bytes), align: 2
+  Segment part 313. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           main_msg_timer          00003F90 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003F94 - 00003FBF (0x2c bytes), align: 2
+  Segment part 314. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr60_2              00003F94 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003FC0 - 00003FC3 (0x4 bytes), align: 2
+  Segment part 315. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           fontColor               00003FC0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003FC4 - 00003FEF (0x2c bytes), align: 2
+  Segment part 316. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr60_3              00003FC4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003FF0 - 00003FF3 (0x4 bytes), align: 2
+  Segment part 317. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           bgrColor                00003FF0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00003FF4 - 0000401F (0x2c bytes), align: 2
+  Segment part 318. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr19a_1             00003FF4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004020 - 00004023 (0x4 bytes), align: 2
+  Segment part 319. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           main_lenght             00004020 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004024 - 0000404F (0x2c bytes), align: 2
+  Segment part 320. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr9z9               00004024 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004050 - 00004053 (0x4 bytes), align: 2
+  Segment part 321. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           use_cutter              00004050 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004054 - 00004093 (0x40 bytes), align: 2
+  Segment part 322. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox18a_4            00004054 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004094 - 000040BF (0x2c bytes), align: 2
+  Segment part 323. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_m90              00004094 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000040C0 - 000040EB (0x2c bytes), align: 2
+  Segment part 324. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_m61              000040C0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000040EC - 00004117 (0x2c bytes), align: 2
+  Segment part 325. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr668               000040EC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004118 - 0000411B (0x4 bytes), align: 2
+  Segment part 326. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Auto_Status             00004118 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000411C - 0000415B (0x40 bytes), align: 2
+  Segment part 327. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox89               0000411C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000415C - 00004187 (0x2c bytes), align: 2
+  Segment part 328. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_m61_1            0000415C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004188 - 0000418B (0x4 bytes), align: 2
+  Segment part 329. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           IsOnNAStatus            00004188 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000418C - 000041CB (0x40 bytes), align: 2
+  Segment part 330. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox_m61_2           0000418C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000041CC - 000041F7 (0x2c bytes), align: 2
+  Segment part 331. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr61_8              000041CC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000041F8 - 000041FB (0x4 bytes), align: 2
+  Segment part 332. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           NAStatusTime            000041F8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000041FC - 00004227 (0x2c bytes), align: 2
+  Segment part 333. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr6678              000041FC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004228 - 0000422B (0x4 bytes), align: 2
+  Segment part 334. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isAutoStatusOn          00004228 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000422C - 000043CB (0x1a0 bytes), align: 2
+  Segment part 335. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcboxa1_153           0000422C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000043CC - 000043F7 (0x2c bytes), align: 2
+  Segment part 336. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr667               000043CC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000043F8 - 000043FB (0x4 bytes), align: 2
+  Segment part 337. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           AUTO_ENGADE             000043F8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000043FC - 00004427 (0x2c bytes), align: 2
+  Segment part 338. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr61_18             000043FC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004428 - 0000442B (0x4 bytes), align: 2
+  Segment part 339. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           automsgcount            00004428 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000442C - 00004457 (0x2c bytes), align: 2
+  Segment part 340. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_13               0000442C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004458 - 0000445B (0x4 bytes), align: 2
+  Segment part 341. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           time_zone               00004458 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000445C - 0000487B (0x420 bytes), align: 2
+  Segment part 342. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox_13              0000445C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000487C - 000048A7 (0x2c bytes), align: 2
+  Segment part 343. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrzz_8              0000487C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000048A8 - 000048BF (0x18 bytes), align: 2
+  Segment part 344. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           awayHelloMsg            000048A8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000048C0 - 000048EB (0x2c bytes), align: 2
+  Segment part 345. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrzz_9              000048C0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000048EC - 000049EB (0x100 bytes), align: 2
+  Segment part 346. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           awayMsg                 000048EC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000049EC - 00004A17 (0x2c bytes), align: 2
+  Segment part 347. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr66_2              000049EC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004A18 - 00004A1B (0x4 bytes), align: 2
+  Segment part 348. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Reset_timer             00004A18 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004A1C - 00004A5B (0x40 bytes), align: 2
+  Segment part 349. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox90               00004A1C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004A5C - 00004A87 (0x2c bytes), align: 2
+  Segment part 350. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr663               00004A5C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004A88 - 00004A8B (0x4 bytes), align: 2
+  Segment part 351. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           showAwayIdle            00004A88 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004A8C - 00004ACB (0x40 bytes), align: 2
+  Segment part 352. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox82               00004A8C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004ACC - 00004AF7 (0x2c bytes), align: 2
+  Segment part 353. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghd6_7                00004ACC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004AF8 - 00004AFB (0x4 bytes), align: 2
+  Segment part 354. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           auto_x                  00004AF8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004AFC - 00004AFF (0x4 bytes), align: 2
+  Segment part 355. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           auto_y                  00004AFC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004B00 - 00004B2B (0x2c bytes), align: 2
+  Segment part 356. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_m60              00004B00 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004B2C - 00004B57 (0x2c bytes), align: 2
+  Segment part 357. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdra1                00004B2C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004B58 - 00004B83 (0x2c bytes), align: 2
+  Segment part 358. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdra1_3              00004B58 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004B84 - 00004B87 (0x4 bytes), align: 2
+  Segment part 359. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           status_1                00004B84 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004B88 - 00004D27 (0x1a0 bytes), align: 2
+  Segment part 360. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcboxa1_13            00004B88 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004D28 - 00004D53 (0x2c bytes), align: 2
+  Segment part 361. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdra1_2              00004D28 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004D54 - 00004D5B (0x8 bytes), align: 2
+  Segment part 362. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           tm_status_1             00004D54 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004D5C - 00004D87 (0x2c bytes), align: 2
+  Segment part 363. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdra1_1              00004D5C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004D88 - 00004D8B (0x4 bytes), align: 2
+  Segment part 364. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           status_2                00004D88 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004D8C - 00004F2B (0x1a0 bytes), align: 2
+  Segment part 365. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcboxa1_14            00004D8C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004F2C - 00004F57 (0x2c bytes), align: 2
+  Segment part 366. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdra1_4              00004F2C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004F58 - 00004F5F (0x8 bytes), align: 2
+  Segment part 367. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           tm_status_2             00004F58 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004F60 - 00004F8B (0x2c bytes), align: 2
+  Segment part 368. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdra1_5              00004F60 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004F8C - 00004F8F (0x4 bytes), align: 2
+  Segment part 369. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           status_3                00004F8C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00004F90 - 0000512F (0x1a0 bytes), align: 2
+  Segment part 370. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcboxa1_15            00004F90 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005130 - 0000515B (0x2c bytes), align: 2
+  Segment part 371. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdra1_6              00005130 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000515C - 00005163 (0x8 bytes), align: 2
+  Segment part 372. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           tm_status_3             0000515C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005164 - 0000518F (0x2c bytes), align: 2
+  Segment part 373. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdra1_7              00005164 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005190 - 00005193 (0x4 bytes), align: 2
+  Segment part 374. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           status_4                00005190 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005194 - 00005333 (0x1a0 bytes), align: 2
+  Segment part 375. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcboxa1_16            00005194 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005334 - 0000535F (0x2c bytes), align: 2
+  Segment part 376. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdra1_8              00005334 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005360 - 00005367 (0x8 bytes), align: 2
+  Segment part 377. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           tm_status_4             00005360 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005368 - 00005393 (0x2c bytes), align: 2
+  Segment part 378. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdra1_9              00005368 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005394 - 00005397 (0x4 bytes), align: 2
+  Segment part 379. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           status_5                00005394 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005398 - 00005537 (0x1a0 bytes), align: 2
+  Segment part 380. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcboxa1_17            00005398 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005538 - 00005563 (0x2c bytes), align: 2
+  Segment part 381. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdra1_14             00005538 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005564 - 0000556B (0x8 bytes), align: 2
+  Segment part 382. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           tm_status_5             00005564 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000556C - 00005597 (0x2c bytes), align: 2
+  Segment part 383. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdra0                0000556C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005598 - 000055C3 (0x2c bytes), align: 2
+  Segment part 384. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_91               00005598 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000055C4 - 000055EF (0x2c bytes), align: 2
+  Segment part 385. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr9_1               000055C4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000055F0 - 000055F3 (0x4 bytes), align: 2
+  Segment part 386. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isScreenSaverEna        000055F0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000055F4 - 00005633 (0x40 bytes), align: 2
+  Segment part 387. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox9_2              000055F4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005634 - 0000565F (0x2c bytes), align: 2
+  Segment part 388. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr9_3               00005634 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005660 - 00005663 (0x4 bytes), align: 2
+  Segment part 389. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           screenSaverTime         00005660 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005664 - 0000568F (0x2c bytes), align: 2
+  Segment part 390. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_90               00005664 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005690 - 000056BB (0x2c bytes), align: 2
+  Segment part 391. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_51               00005690 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000056BC - 000056E7 (0x2c bytes), align: 2
+  Segment part 392. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr51_0              000056BC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000056E8 - 000056EB (0x4 bytes), align: 2
+  Segment part 393. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PopupShow               000056E8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000056EC - 0000576B (0x80 bytes), align: 2
+  Segment part 394. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox51_2             000056EC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000576C - 00005797 (0x2c bytes), align: 2
+  Segment part 395. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr51_1              0000576C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005798 - 000057A3 (0xc bytes), align: 2
+  Segment part 396. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PopupMsgString          00005798 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000057A4 - 000057CF (0x2c bytes), align: 2
+  Segment part 397. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr51_2              000057A4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000057D0 - 000057DB (0xc bytes), align: 2
+  Segment part 398. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PopupOnlineString       000057D0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000057DC - 00005807 (0x2c bytes), align: 2
+  Segment part 399. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr51_3              000057DC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005808 - 0000580B (0x4 bytes), align: 2
+  Segment part 400. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PopupFont               00005808 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000580C - 00005837 (0x2c bytes), align: 2
+  Segment part 401. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr51_6              0000580C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005838 - 0000583B (0x4 bytes), align: 2
+  Segment part 402. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PopupBGCl               00005838 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000583C - 00005867 (0x2c bytes), align: 2
+  Segment part 403. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr51_4              0000583C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005868 - 0000586B (0x4 bytes), align: 2
+  Segment part 404. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PopupOnlineCl           00005868 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000586C - 00005897 (0x2c bytes), align: 2
+  Segment part 405. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr51_5              0000586C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005898 - 0000589B (0x4 bytes), align: 2
+  Segment part 406. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PopupMsgCl              00005898 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000589C - 000058C7 (0x2c bytes), align: 2
+  Segment part 407. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr51_9              0000589C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000058C8 - 000058CB (0x4 bytes), align: 2
+  Segment part 408. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isPopupOff              000058C8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000058CC - 000058F7 (0x2c bytes), align: 2
+  Segment part 409. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr51_7              000058CC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000058F8 - 000058FB (0x4 bytes), align: 2
+  Segment part 410. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PopupOffBGCl            000058F8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000058FC - 00005927 (0x2c bytes), align: 2
+  Segment part 411. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr51_8              000058FC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005928 - 0000592B (0x4 bytes), align: 2
+  Segment part 412. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PopupOffCl              00005928 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 0000592C - 00005957 (0x2c bytes), align: 2
+  Segment part 413. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_50               0000592C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005958 - 00005983 (0x2c bytes), align: 2
+  Segment part 414. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_m51              00005958 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005984 - 000059AF (0x2c bytes), align: 2
+  Segment part 415. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr65                00005984 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000059B0 - 000059B3 (0x4 bytes), align: 2
+  Segment part 416. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Vibra_cc                000059B0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000059B4 - 000059DF (0x2c bytes), align: 2
+  Segment part 417. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr66                000059B4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000059E0 - 000059EB (0xc bytes), align: 2
+  Segment part 418. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           CsmAdr                  000059E0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 000059EC - 00005A17 (0x2c bytes), align: 2
+  Segment part 419. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr67                000059EC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005A18 - 00005A37 (0x20 bytes), align: 2
+  Segment part 420. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           playing                 00005A18 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005A38 - 00005A63 (0x2c bytes), align: 2
+  Segment part 421. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr7820              00005A38 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005A64 - 00005A67 (0x4 bytes), align: 2
+  Segment part 422. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           Is_ID3_ANY_STATUS       00005A64 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005A68 - 00005A93 (0x2c bytes), align: 2
+  Segment part 423. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr780               00005A68 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005A94 - 00005A97 (0x4 bytes), align: 2
+  Segment part 424. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           show_send_info          00005A94 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005A98 - 00005AC3 (0x2c bytes), align: 2
+  Segment part 425. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr7_80              00005A98 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005AC4 - 00005AC7 (0x4 bytes), align: 2
+  Segment part 426. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           isLogStatusChange       00005AC4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005AC8 - 00005AF3 (0x2c bytes), align: 2
+  Segment part 427. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr71_30             00005AC8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005AF4 - 00005AF7 (0x4 bytes), align: 2
+  Segment part 428. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           IsShowLoopback          00005AF4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005AF8 - 00005B23 (0x2c bytes), align: 2
+  Segment part 429. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr71_31             00005AF8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005B24 - 00005B27 (0x4 bytes), align: 2
+  Segment part 430. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           IsOpenBrowser           00005B24 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005B28 - 00005B53 (0x2c bytes), align: 2
+  Segment part 431. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr71_33             00005B28 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005B54 - 00005B57 (0x4 bytes), align: 2
+  Segment part 432. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           IsMultiBuffer           00005B54 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005B58 - 00005B83 (0x2c bytes), align: 2
+  Segment part 433. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_m50              00005B58 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005B84 - 00005BAF (0x2c bytes), align: 2
+  Segment part 434. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_q1               00005B84 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005BB0 - 00005BDB (0x2c bytes), align: 2
+  Segment part 435. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_s2               00005BB0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005BDC - 00005BE3 (0x8 bytes), align: 2
+  Segment part 436. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PBRECT                  00005BDC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005BE4 - 00005C0F (0x2c bytes), align: 2
+  Segment part 437. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_s3               00005BE4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005C10 - 00005C13 (0x4 bytes), align: 2
+  Segment part 438. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           PBcolor                 00005C10 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005C14 - 00005C3F (0x2c bytes), align: 2
+  Segment part 439. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_s7               00005C14 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005C40 - 00005C43 (0x4 bytes), align: 2
+  Segment part 440. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           BGPBcolor               00005C40 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005C44 - 00005C6F (0x2c bytes), align: 2
+  Segment part 441. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_s4               00005C44 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005C70 - 00005C73 (0x4 bytes), align: 2
+  Segment part 442. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           IsInvertSoftKey         00005C70 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005C74 - 00005CB3 (0x40 bytes), align: 2
+  Segment part 443. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox_s5              00005C74 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005CB4 - 00005CDF (0x2c bytes), align: 2
+  Segment part 444. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_s6               00005CB4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005CE0 - 00005CE3 (0x4 bytes), align: 2
+  Segment part 445. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           IsShowInfo              00005CE0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005CE4 - 00005D23 (0x40 bytes), align: 2
+  Segment part 446. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfgcbox_s7              00005CE4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005D24 - 00005D4F (0x2c bytes), align: 2
+  Segment part 447. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr_q0               00005D24 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005D50 - 00005D7B (0x2c bytes), align: 2
+  Segment part 448. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrL_1               00005D50 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005D7C - 00005DA7 (0x2c bytes), align: 2
+  Segment part 449. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrL_2               00005D7C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005DA8 - 00005DAB (0x4 bytes), align: 2
+  Segment part 450. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           IsLogEna                00005DA8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005DAC - 00005DD7 (0x2c bytes), align: 2
+  Segment part 451. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrL_5               00005DAC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005DD8 - 00005DDB (0x4 bytes), align: 2
+  Segment part 452. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _fontlog                00005DD8 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005DDC - 00005E07 (0x2c bytes), align: 2
+  Segment part 453. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrL_3               00005DDC 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005E08 - 00005E0B (0x4 bytes), align: 2
+  Segment part 454. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           BGLog                   00005E08 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005E0C - 00005E37 (0x2c bytes), align: 2
+  Segment part 455. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrL_4               00005E0C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005E38 - 00005E3B (0x4 bytes), align: 2
+  Segment part 456. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FontClrLog              00005E38 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005E3C - 00005E67 (0x2c bytes), align: 2
+  Segment part 457. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdL_0                00005E3C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005E68 - 00005E93 (0x2c bytes), align: 2
+  Segment part 458. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrIn_1              00005E68 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005E94 - 00005EBF (0x2c bytes), align: 2
+  Segment part 459. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrIn_2              00005E94 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005EC0 - 00005EC3 (0x4 bytes), align: 2
+  Segment part 460. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           BGInfo                  00005EC0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005EC4 - 00005EEF (0x2c bytes), align: 2
+  Segment part 461. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrIn_3              00005EC4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005EF0 - 00005EF3 (0x4 bytes), align: 2
+  Segment part 462. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           FontClrInfo             00005EF0 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005EF4 - 00005F1F (0x2c bytes), align: 2
+  Segment part 463. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdrIn_0              00005EF4 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005F20 - 00005F4B (0x2c bytes), align: 2
+  Segment part 464. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr11_10             00005F20 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005F4C - 00005F6B (0x20 bytes), align: 2
+  Segment part 465. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           I_str                   00005F4C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005F6C - 00005F97 (0x2c bytes), align: 2
+  Segment part 466. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr11_9              00005F6C 
+    -------------------------------------------------------------------------
+CONFIG_C
+  Relative segment, address: CODE_AREA 00005F98 - 00006097 (0x100 bytes), align: 2
+  Segment part 467. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ignor_list              00005F98 
+
+    *************************************************************************
+
+  FILE NAME : D:\pasha\elf\_MY_PROJECT_\naticq_mod2\2ndconfig\kluchnik\Obj\main.r79
+  PROGRAM MODULE, NAME : main
+
+  SEGMENTS IN THE MODULE
+  ======================
+CODE
+  Relative segment, address: CODE_AREA 00000174 - 00000193 (0x20 bytes), align: 2
+  Segment part 3.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           main                    00000174        Absolute parts (?ABS_ENTRY_MOD)
+               stack 1 = 00000000 ( 00000004 )
+
+
+
+
+                ****************************************
+                *                                      *
+                *      SEGMENTS IN ADDRESS ORDER       *
+                *                                      *
+                ****************************************
+
+
+SEGMENT              SPACE    START ADDRESS   END ADDRESS     SIZE  TYPE  ALIGN
+=======              =====    =============   ===========     ====  ====  =====
+ELFBEGIN             CODE_AREA           00000000                     dse    0
+DATA_ID              CODE_AREA      00000000 - 00000003           4   rel    2
+START                CODE_AREA           00000004                     dse    0
+CODE                 CODE_AREA      00000004 - 00000193         190   rel    2
+DATA_C               CODE_AREA      00000194 - 000001CC          39   rel    2
+INITTAB              CODE_AREA      000001D0 - 000001DB           C   rel    2
+DATA_N               CODE_AREA           000001DC                     dse    0
+DATA_Z               CODE_AREA           000001DC                     dse    0
+CONFIG_C             CODE_AREA      000001DC - 00006097        5EBC   rel    2
+DATA_I               DATA_AREA      00000000 - 00000003           4   rel    2
+
+                ****************************************
+                *                                      *
+                *        END OF CROSS REFERENCE        *
+                *                                      *
+                ****************************************
+
+ 24 725 bytes of CODE memory
+      4 bytes of DATA memory
+
+Errors: none
+Warnings: none
+

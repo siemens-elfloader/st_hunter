@@ -1,0 +1,501 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION   09/Dec/2007  21:14:55 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  D:\Pasha\elf\googlecode\SieTextView\bookmark.c      /
+//    Command line    =  D:\Pasha\elf\googlecode\SieTextView\bookmark.c -D   /
+//                       NEWSGOLD -D ELKA -lC D:\Pasha\elf\googlecode\SieTex /
+//                       tView\Release\List\ -lA D:\Pasha\elf\googlecode\Sie /
+//                       TextView\Release\List\ -o                           /
+//                       D:\Pasha\elf\googlecode\SieTextView\Release\Obj\    /
+//                       -s9 --no_unroll --cpu_mode arm --endian little      /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --fpu None -I "D:\Pasha\ARM_Embedded_Workbench\Embe /
+//                       dded Workbench 4.0 Evaluation\ARM\INC\"             /
+//                       --inline_threshold=2                                /
+//    List file       =  D:\Pasha\elf\googlecode\SieTextView\Release\List\bo /
+//                       okmark.s79                                          /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME bookmark
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        MULTWEAK ??openBMKFile??rT
+        MULTWEAK ??readAddrInt??rT
+        MULTWEAK ??writeAddrInt??rT
+        PUBLIC openBMKFile
+        FUNCTION openBMKFile,0203H
+        LOCFRAME CSTACK, 28, STACK
+        PUBLIC readAddrInt
+        FUNCTION readAddrInt,0203H
+        LOCFRAME CSTACK, 32, STACK
+        PUBLIC writeAddrInt
+        FUNCTION writeAddrInt,0203H
+        LOCFRAME CSTACK, 32, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+openBMKFile         SYMBOL "openBMKFile"
+??openBMKFile??rT   SYMBOL "??rT", openBMKFile
+readAddrInt         SYMBOL "readAddrInt"
+??readAddrInt??rT   SYMBOL "??rT", readAddrInt
+writeAddrInt        SYMBOL "writeAddrInt"
+??writeAddrInt??rT  SYMBOL "??rT", writeAddrInt
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??openBMKFile??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE openBMKFile
+// D:\Pasha\elf\googlecode\SieTextView\bookmark.c
+//    1 #include "..\inc\swilib.h"
+//    2 #include "bookmark.h"
+//    3 /*
+//    4 ===============================
+//    5             È«©
+//    6 ===============================
+//    7 */
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function openBMKFile
+        ARM
+//    8 int openBMKFile(char *filename, unsigned int *ul, int st) {
+openBMKFile:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        MOV      R4,R0
+        MOV      R5,R1
+        MOV      R6,R2
+//    9   char *ext = NULL;
+        MOV      R7,#+0
+        MOV      R8,#+0
+//   10   char *bmk = filename;
+        B        ??openBMKFile_0
+//   11   while ((bmk = strrchr(bmk, '.'))) {
+//   12     if (bmk != ext) ext = bmk;
+??openBMKFile_1:
+        MOV      R8,R0
+??openBMKFile_0:
+        MOV      R1,#+46
+        SWI      +279
+        CMP      R0,#+0
+        CMPNE    R0,R8
+        BNE      ??openBMKFile_1
+//   13     else break;
+//   14   }
+//   15   if (!ext) ext = filename;
+        CMP      R8,#+0
+        MOVEQ    R8,R4
+//   16   
+//   17   bmk = malloc(ext - filename + 5);
+        SUB      R8,R8,R4
+        ADD      R0,R8,#+5
+        SWI      +20
+        MOV      R9,R0
+//   18   strncpy(bmk, filename, ext - filename);
+        MOV      R2,R8
+        MOV      R1,R4
+        SWI      +278
+//   19   bmk[ext - filename] = '\0';
+//   20   strcat(bmk, ".bmk");
+        LDR      R1,??openBMKFile_2  ;; `?<Constant ".bmk">`
+        STRB     R7,[R8, +R9]
+        MOV      R0,R9
+        SWI      +23
+//   21   unsigned int attrib;
+//   22   attrib = A_BIN;
+        MOV      R1,#+32768
+//   23   if (st) attrib += A_ReadWrite + A_Create + A_Truncate;
+        CMP      R6,#+0
+        MOVNE    R1,#+2
+        ORRNE    R1,R1,#0x8300
+//   24   else attrib += A_ReadOnly;
+//   25   return fopen(bmk, attrib, P_READ + P_WRITE, ul);
+        MOV      R3,R5
+        MOV      R2,#+384
+        MOV      R0,R9
+        SWI      +10
+        POP      {R4-R9,PC}       ;; return
+        DATA
+??openBMKFile_2:
+        DC32     `?<Constant ".bmk">`
+        CFI EndBlock cfiBlock1
+//   26 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??readAddrInt??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock2
+        REQUIRE readAddrInt
+//   27 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function readAddrInt
+        ARM
+//   28 int* readAddrInt(char *filename, int *bmkfd, unsigned int *ul, int *len, int flag) {      //∂¡»° È«©
+readAddrInt:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        MOV      R4,R1
+        MOV      R8,R0
+        LDR      R9,[SP, #+28]
+        MOV      R5,R2
+        MOV      R6,R3
+//   29 	*len = 0;
+        MOV      R0,#+0
+        STR      R0,[R6, #+0]
+//   30 	int* result = malloc(BOOK_NUM);
+        MOV      R0,#+100
+        SWI      +20
+        MOV      R7,R0
+//   31 	if (*bmkfd > 0) fclose(*bmkfd, ul);
+        LDR      R0,[R4, #+0]
+        CMP      R0,#+1
+        BLT      ??readAddrInt_0
+        MOV      R1,R5
+        SWI      +13
+//   32 	*bmkfd = openBMKFile(filename, ul, 0);
+??readAddrInt_0:
+        MOV      R2,#+0
+        MOV      R1,R5
+        MOV      R0,R8
+        BL       openBMKFile
+        STR      R0,[R4, #+0]
+//   33 	
+//   34 	if (*bmkfd < 0 && flag == 1) {
+        CMP      R0,#+0
+        BPL      ??readAddrInt_1
+        CMP      R9,#+1
+        BNE      ??readAddrInt_2
+//   35 		*bmkfd = openBMKFile(filename, ul, 1);
+        MOV      R2,#+1
+        MOV      R1,R5
+        MOV      R0,R8
+        BL       openBMKFile
+        STR      R0,[R4, #+0]
+//   36 	}
+//   37 	
+//   38 	if (*bmkfd < 0) return result;
+??readAddrInt_1:
+        LDR      R0,[R4, #+0]
+        CMP      R0,#+0
+        BMI      ??readAddrInt_2
+//   39 	char* buff = malloc(BOOK_NUM << 2);
+        MOV      R0,#+400
+        SWI      +20
+        MOV      R9,R0
+//   40   int bmk = 0, offset = 0, read = 0;
+        MOV      R8,#+0
+        B        ??readAddrInt_3
+//   41   while (lseek(*bmkfd, offset, S_SET, ul, ul) == offset) {
+//   42     if ((read = fread(*bmkfd, buff, BOOK_NUM, ul)) > 0) {
+??readAddrInt_4:
+        LDR      R0,[R4, #+0]
+        MOV      R3,R5
+        MOV      R2,#+100
+        MOV      R1,R9
+        SWI      +11
+        CMP      R0,#+1
+        BLT      ??readAddrInt_5
+//   43       for (int i = 0; i < read;) {
+        MOV      R1,#+0
+        MOV      R2,R9
+//   44         bmk = (buff[i + 3] << 24) | buff[i + 2] << 16 | buff[i + 1] << 8 | buff[i];
+//   45         result[i >> 2] = bmk;
+??readAddrInt_6:
+        LDRB     R12,[R2, #+3]
+        LDRB     LR,[R2, #+2]
+        ASR      R3,R1,#+2
+//   46         i += 4;
+        ADD      R1,R1,#+4
+        LSL      LR,LR,#+16
+        ORR      R12,LR,R12, LSL #+24
+        LDRB     LR,[R2, #+1]
+//   47       }
+        CMP      R1,R0
+        ORR      R12,R12,LR, LSL #+8
+        LDRB     LR,[R2], #+4
+        ORR      R12,LR,R12
+        STR      R12,[R7, +R3, LSL #+2]
+        BLT      ??readAddrInt_6
+//   48     }
+//   49     offset += (BOOK_NUM << 2);
+//   50     *len += (read >> 2);
+??readAddrInt_5:
+        LDR      R1,[R6, #+0]
+        ADD      R8,R8,#+400
+        ADD      R0,R1,R0, ASR #+2
+        STR      R0,[R6, #+0]
+//   51   }
+??readAddrInt_3:
+        MOV      R0,R5
+        PUSH     {R0}
+        CFI CFA R13+32
+        LDR      R0,[R4, #+0]
+        MOV      R3,R5
+        MOV      R2,#+0
+        MOV      R1,R8
+        SWI      +15
+        CMP      R0,R8
+        ADD      SP,SP,#+4
+        CFI CFA R13+28
+        BEQ      ??readAddrInt_4
+//   52   mfree(buff);
+        MOV      R0,R9
+        SWI      +21
+//   53   fclose(*bmkfd, ul);
+        LDR      R0,[R4, #+0]
+        MOV      R1,R5
+        SWI      +13
+//   54   *bmkfd = -1;
+        MVN      R0,#+0
+        STR      R0,[R4, #+0]
+//   55   return result;
+??readAddrInt_2:
+        MOV      R0,R7
+        POP      {R4-R9,PC}       ;; return
+        CFI EndBlock cfiBlock3
+//   56 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??writeAddrInt??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock4
+        REQUIRE writeAddrInt
+//   57 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function writeAddrInt
+        ARM
+//   58 int writeAddrInt(char *filename, int *bmkfd, unsigned int *ul, int *bmk, int len, int flag) {
+writeAddrInt:
+        PUSH     {R4-R9,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R9 Frame(CFA, -8)
+        CFI R8 Frame(CFA, -12)
+        CFI R7 Frame(CFA, -16)
+        CFI R6 Frame(CFA, -20)
+        CFI R5 Frame(CFA, -24)
+        CFI R4 Frame(CFA, -28)
+        CFI CFA R13+28
+        LDR      R7,[SP, #+28]
+        MOV      R5,R1
+        LDR      R1,[SP, #+32]
+        MOV      R6,R2
+        MOV      R4,R3
+//   59 	if (flag == 2) return 0;
+        CMP      R1,#+2
+        BEQ      ??writeAddrInt_0
+//   60 	if (*bmkfd <= 0) *bmkfd = openBMKFile(filename, ul, 1);
+        LDR      R1,[R5, #+0]
+        CMP      R1,#+1
+        BGE      ??writeAddrInt_1
+        MOV      R2,#+1
+        MOV      R1,R6
+        BL       openBMKFile
+        STR      R0,[R5, #+0]
+//   61 	if (*bmkfd <= 0) return 0;
+??writeAddrInt_1:
+        LDR      R0,[R5, #+0]
+        CMP      R0,#+1
+        BGE      ??writeAddrInt_2
+??writeAddrInt_0:
+        MOV      R0,#+0
+        POP      {R4-R9,PC}
+//   62 	int bufflen = len << 2;
+??writeAddrInt_2:
+        LSL      R8,R7,#+2
+//   63 	char* buff = malloc(bufflen);
+        MOV      R0,R8
+        SWI      +20
+        MOV      R9,R0
+//   64 	int j = 0;
+        MOV      R0,#+0
+//   65 	for (int i = 0; i < bufflen;) {
+        MOV      R1,#+0
+        CMP      R8,#+1
+        BLT      ??writeAddrInt_3
+        MOV      R2,R9
+//   66 		if (j < len) {
+??writeAddrInt_4:
+        CMP      R0,R7
+        BGE      ??writeAddrInt_3
+//   67 			buff[i++] = (char) (bmk[j] & 0xff);
+        LDR      R3,[R4, #+0]
+//   68 			buff[i++] = (char) ((bmk[j] >> 8) & 0xff);
+//   69 			buff[i++] = (char) ((bmk[j] >> 16) & 0xff);
+//   70 			buff[i++] = (char) ((bmk[j++] >> 24) & 0xff);
+        ADD      R0,R0,#+1
+        STRB     R3,[R2], #+1
+        LDR      R3,[R4, #+0]
+        ADD      R1,R1,#+4
+        ASR      R3,R3,#+8
+        STRB     R3,[R2], #+1
+        LDR      R3,[R4, #+0]
+//   71 		}
+//   72 		else
+//   73 			break;
+//   74 	}
+        CMP      R1,R8
+        ASR      R3,R3,#+16
+        STRB     R3,[R2], #+1
+        LDR      R3,[R4], #+4
+        ASR      R3,R3,#+24
+        STRB     R3,[R2], #+1
+        BLT      ??writeAddrInt_4
+//   75 	lseek(*bmkfd, 0, S_SET, ul, ul);
+??writeAddrInt_3:
+        MOV      R0,R6
+        PUSH     {R0}
+        CFI CFA R13+32
+        MOV      R3,R6
+        MOV      R2,#+0
+        LDR      R0,[R5, #+0]
+        MOV      R1,#+0
+        SWI      +15
+//   76 	
+//   77   if (fwrite(*bmkfd, buff, bufflen, ul)) {
+        LDR      R0,[R5, #+0]
+        MOV      R3,R6
+        MOV      R2,R8
+        MOV      R1,R9
+        SWI      +12
+        CMP      R0,#+0
+        ADD      SP,SP,#+4
+        CFI CFA R13+28
+        MOV      R0,R9
+        BEQ      ??writeAddrInt_5
+//   78   	mfree(buff);
+        SWI      +21
+//   79   	return 1;
+        MOV      R0,#+1
+        POP      {R4-R9,PC}
+//   80   }
+//   81   mfree(buff);
+??writeAddrInt_5:
+        SWI      +21
+//   82   return 0;
+        MOV      R0,#+0
+        POP      {R4-R9,PC}
+        CFI EndBlock cfiBlock5
+//   83 }
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant ".bmk">`:
+        DATA
+        DC8 ".bmk"
+        DC8 0, 0, 0
+
+        END
+//   84 /*
+//   85 ===============================
+//   86             end
+//   87 ===============================
+//   88 */
+// 
+// 760 bytes in segment CODE
+//   8 bytes in segment DATA_C
+// 
+// 748 bytes of CODE  memory (+ 12 bytes shared)
+//   8 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

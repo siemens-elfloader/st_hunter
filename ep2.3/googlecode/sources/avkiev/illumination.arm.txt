@@ -1,0 +1,59 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+Vrezka      equ 0x01B4964
+Patch       equ Patches + 0x6700
+;==========================================================
+org Patch
+            SUB     SP, SP, #8
+            LDRB    R0, [R0]
+            mvi     r4, 0x1942
+            mov     r11, r4
+
+            push    {r0,r1,LR}
+            mov     r4, r8
+            cmp     r4, #2
+            bcs     ex
+
+            LoadReg 0, config+4
+            CallLib GetBuffer
+            beq     ex
+            mov     r5, r0
+
+            push    {r2}
+            CallLib GetProfile
+            pop     {r2}
+            ldrb    r1, [r5, #1]
+            bic     r4, r1
+            lsl     r4, #3
+            add     r0, r4
+            add     r0, #4
+            ldrb    r0, [r5, r0]
+
+            ldrb    r3, [r5, #3]
+            cmp     r2, #0
+            beq     FadeOut
+            ldrb    r3, [r5, #2]
+            mov     r2, r0
+
+FadeOut:    mul     r3, r0
+            str     r3, [SP, #4*8]
+ex:         pop     {r0,r1,PC}
+;==========================================================
+        Align16
+config:     dd Magic, 0xAB12, 0,0
+db "{p=Illumination cp=avkiev id=AB12}"
+db "{4 b(8) Display v=100,100,100,100,100,100,100,100}"
+db "{12 b(8) Keyboard v=100,100,100,100,100,100,100,100}"
+db "{1 cb `Keyboard=Display`}"
+db "{2 b FactorOn v=5}"
+db "{3 b FactorOff v=30}"
+db 0
+;==========================================================
+org Vrezka
+    code32
+            add     LR, PC, #4
+            ldr     PC, aPatch
+aPatch:     dd      q1+Patch
+org 0x0910034
+END

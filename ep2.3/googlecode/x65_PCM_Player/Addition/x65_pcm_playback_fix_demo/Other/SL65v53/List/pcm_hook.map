@@ -1,0 +1,247 @@
+################################################################################
+#                                                                              #
+#      IAR Universal Linker V4.60E/386                                         #
+#                                                                              #
+#           Link time     =  13/Jun/2007  13:08:04                             #
+#           Target CPU    =  ARM                                               #
+#           List file     =  E:\PCMHOOK_PORTSL65\PCM_SRC\Other\SL65v53\List\pc #
+#                            m_hook.map                                        #
+#           Output file 1 =  E:\PCMHOOK_PORTSL65\PCM_SRC\VKP\SL65v53\pcm_hook. #
+#                            elf                                               #
+#                            Format: elf, variant: -yas                        #
+#           Command line  =  E:\PCMHOOK_PORTSL65\PCM_SRC\Other\SL65v53\Obj\mai #
+#                            n.r79                                             #
+#                            E:\PCMHOOK_PORTSL65\PCM_SRC\Other\SL65v53\Obj\pcm #
+#                            _hook.r79                                         #
+#                            -o                                                #
+#                            E:\PCMHOOK_PORTSL65\PCM_SRC\VKP\SL65v53\pcm_hook. #
+#                            elf                                               #
+#                            -Felf -yas -l                                     #
+#                            E:\PCMHOOK_PORTSL65\PCM_SRC\Other\SL65v53\List\pc #
+#                            m_hook.map                                        #
+#                            -xmsi                                             #
+#                            "-IE:\Проги\Телефон\ELF Компилятор\ARM\LIB\" -f   #
+#                            E:\PCMHOOK_PORTSL65\PCM_SRC\config\SL65v53.xcl    #
+#                            (-carm                                            #
+#                            -Z(CODE)START,CODE,PATCH_BODY,INITTAB=A0CF0000-FF #
+#                            FFFFFF                                            #
+#                            -Z(CODE)DATA_Z=A87898D8-A8789948                  #
+#                            -Z(CODE)PATCH_SKIP_CHECK_SAMPLE_RATE1=A1181D4C-FF #
+#                            FFFFFF                                            #
+#                            -Z(CODE)PATCH_SKIP_CHECK_SAMPLE_RATE2=A119D8D4-FF #
+#                            FFFFFF                                            #
+#                            -Z(CODE)PATCH_DAC_SAMPLE_RATE_SET_HOOK=A123FC2C-F #
+#                            FFFFFFF                                           #
+#                            -Z(CODE)PATCH_STEREOCONTROL=A123FF18-FFFFFFFF     #
+#                            -Z(CODE)PATCH_PCM_COPY_FRAME_H=A119D2FC-FFFFFFFF  #
+#                            -Z(CODE)PATCH_CHANGE_PCM_HOOK_POINTER=A119DA44-FF #
+#                            FFFFFF                                            #
+#                            -Z(CODE)PATCH_CLEAR_RAM_FRAME_FIX=A119D398-FFFFFF #
+#                            FF                                                #
+#                            -Z(CODE)PATCH_CLEAR_DSP_FRAME_FIX=A119D3CC-FFFFFF #
+#                            FF                                                #
+#                            -Z(CODE)PATCH_FRAME_SIZE_FIX_HOOK=A119D4A0-FFFFFF #
+#                            FF                                                #
+#                            -Z(CODE)PATCH_OLD_AUDIOHOOK=A119985C-FFFFFFFF     #
+#                            -Z(CODE)PATCH_JUMP=A123FC58-FFFFFFFF)             #
+#                                                                              #
+#                        Copyright 1987-2006 IAR Systems. All rights reserved. #
+################################################################################
+
+
+
+
+
+                ****************************************
+                *                                      *
+                *           CROSS REFERENCE            *
+                *                                      *
+                ****************************************
+
+                  There are no program entries.
+
+
+
+
+                ****************************************
+                *                                      *
+                *            RUNTIME MODEL             *
+                *                                      *
+                ****************************************
+
+  StackAlign4  = USED
+  __cpu_mode   = __pcs__interwork
+  __data_model = absolute
+  __endian     = little
+  __rt_version = 6
+
+
+
+                ****************************************
+                *                                      *
+                *              MODULE MAP              *
+                *                                      *
+                ****************************************
+
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  FILE NAME : E:\PCMHOOK_PORTSL65\PCM_SRC\Other\SL65v53\Obj\main.r79
+  PROGRAM MODULE, NAME : main
+
+  SEGMENTS IN THE MODULE
+  ======================
+DATA_Z
+  Relative segment, address: A87898D8 - A8789947 (0x70 bytes), align: 2
+  Segment part 2.             Intra module refs:   Segment part 8
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           pcm                     A87898D8 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 4. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: A0CF0000 - A0CF01AF (0x1b0 bytes), align: 2
+  Segment part 5.             Intra module refs:   Segment part 3
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           pcm_set_hook            A0CF0000 
+               stack 1 = 00000000 ( 00000004 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 6. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: A0CF01B0 - A0CF0237 (0x88 bytes), align: 2
+  Segment part 7.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           pcm_copy_frame_h        A0CF01B0        Segment part 4 (pcm_hook)
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: A0CF0238 - A0CF023B (0x4 bytes), align: 2
+  Segment part 8.             Intra module refs:   pcm_copy_frame_h
+                                                   pcm_set_hook
+    -------------------------------------------------------------------------
+PATCH_CHANGE_PCM_HOOK_POINTER
+  Relative segment, address: A119DA44 - A119DA47 (0x4 bytes), align: 2
+  Segment part 3. ROOT.
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: A0CF026C - A0CF0277 (0xc bytes), align: 2
+  Segment part 9. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?DATA_Z        A0CF026C 
+
+    *************************************************************************
+
+  FILE NAME : E:\PCMHOOK_PORTSL65\PCM_SRC\Other\SL65v53\Obj\pcm_hook.r79
+  PROGRAM MODULE, NAME : pcm_hook
+
+  SEGMENTS IN THE MODULE
+  ======================
+PATCH_SKIP_CHECK_SAMPLE_RATE1
+  Relative segment, address: A1181D4C - A1181D67 (0x1c bytes), align: 2
+  Segment part 0. ROOT.
+    -------------------------------------------------------------------------
+PATCH_SKIP_CHECK_SAMPLE_RATE2
+  Relative segment, address: A119D8D4 - A119D8D7 (0x4 bytes), align: 2
+  Segment part 1. ROOT.
+    -------------------------------------------------------------------------
+PATCH_DAC_SAMPLE_RATE_SET_HOOK
+  Relative segment, address: A123FC2C - A123FC4F (0x24 bytes), align: 2
+  Segment part 2. ROOT.
+    -------------------------------------------------------------------------
+PATCH_STEREOCONTROL
+  Relative segment, address: A123FF18 - A123FF1B (0x4 bytes), align: 2
+  Segment part 3. ROOT.
+    -------------------------------------------------------------------------
+PATCH_PCM_COPY_FRAME_H
+  Relative segment, address: A119D2FC - A119D2FF (0x4 bytes), align: 2
+  Segment part 4. ROOT.
+    -------------------------------------------------------------------------
+PATCH_FRAME_SIZE_FIX_HOOK
+  Relative segment, address: A119D4A0 - A119D4A3 (0x4 bytes), align: 2
+  Segment part 5. ROOT.
+    -------------------------------------------------------------------------
+PATCH_CLEAR_RAM_FRAME_FIX
+  Relative segment, address: A119D398 - A119D39B (0x4 bytes), align: 2
+  Segment part 6. ROOT.
+    -------------------------------------------------------------------------
+PATCH_CLEAR_DSP_FRAME_FIX
+  Relative segment, address: A119D3CC - A119D3CF (0x4 bytes), align: 2
+  Segment part 7. ROOT.
+    -------------------------------------------------------------------------
+PATCH_JUMP
+  Relative segment, address: A123FC58, align: 2
+  Segment part 8. ROOT.       Intra module refs:   Segment part 2
+    -------------------------------------------------------------------------
+PATCH_OLD_AUDIOHOOK
+  Relative segment, address: A119985C - A119985F (0x4 bytes), align: 2
+  Segment part 9. ROOT.
+    -------------------------------------------------------------------------
+PATCH_BODY
+  Relative segment, address: A0CF023C - A0CF026B (0x30 bytes), align: 2
+  Segment part 10. ROOT.      Intra module refs:   Segment part 5
+                                                   Segment part 9
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           GetFrameSize            A0CF023C 
+
+
+
+
+                ****************************************
+                *                                      *
+                *      SEGMENTS IN ADDRESS ORDER       *
+                *                                      *
+                ****************************************
+
+
+SEGMENT              SPACE    START ADDRESS   END ADDRESS     SIZE  TYPE  ALIGN
+=======              =====    =============   ===========     ====  ====  =====
+START                                   A0CF0000                     dse    0
+CODE                               A0CF0000 - A0CF023B         23C   rel    2
+PATCH_BODY                         A0CF023C - A0CF026B          30   rel    2
+INITTAB                            A0CF026C - A0CF0277           C   rel    2
+PATCH_SKIP_CHECK_SAMPLE_RATE1
+                                   A1181D4C - A1181D67          1C   rel    2
+PATCH_OLD_AUDIOHOOK
+                                   A119985C - A119985F           4   rel    2
+PATCH_PCM_COPY_FRAME_H
+                                   A119D2FC - A119D2FF           4   rel    2
+PATCH_CLEAR_RAM_FRAME_FIX
+                                   A119D398 - A119D39B           4   rel    2
+PATCH_CLEAR_DSP_FRAME_FIX
+                                   A119D3CC - A119D3CF           4   rel    2
+PATCH_FRAME_SIZE_FIX_HOOK
+                                   A119D4A0 - A119D4A3           4   rel    2
+PATCH_SKIP_CHECK_SAMPLE_RATE2
+                                   A119D8D4 - A119D8D7           4   rel    2
+PATCH_CHANGE_PCM_HOOK_POINTER
+                                   A119DA44 - A119DA47           4   rel    2
+PATCH_DAC_SAMPLE_RATE_SET_HOOK
+                                   A123FC2C - A123FC4F          24   rel    2
+PATCH_JUMP                              A123FC58                     rel    2
+PATCH_STEREOCONTROL
+                                   A123FF18 - A123FF1B           4   rel    2
+DATA_Z                             A87898D8 - A8789947          70   rel    2
+
+                ****************************************
+                *                                      *
+                *        END OF CROSS REFERENCE        *
+                *                                      *
+                ****************************************
+
+ 840 bytes of CODE memory
+
+Errors: none
+Warnings: none
+

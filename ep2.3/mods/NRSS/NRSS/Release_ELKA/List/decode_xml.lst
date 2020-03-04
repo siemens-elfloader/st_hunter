@@ -1,0 +1,940 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    29/Oct/2008  03:34:15 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT_\NRSS\decode_xml.c          #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT_\NRSS\decode_xml.c -D       #
+#                       NEWSGOLD -D ELKA -lCN D:\Pasha\elf\_MY_PROJECT_\NRSS #
+#                       \Release_ELKA\List\ -la D:\Pasha\elf\_MY_PROJECT_\NR #
+#                       SS\Release_ELKA\List\ -o D:\Pasha\elf\_MY_PROJECT_\N #
+#                       RSS\Release_ELKA\Obj\ -s9 --no_unroll --cpu_mode     #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --dlib_config            #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT_\NRSS\Release_ELKA\List\dec #
+#                       ode_xml.lst                                          #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT_\NRSS\Release_ELKA\Obj\deco #
+#                       de_xml.r79                                           #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT_\NRSS\decode_xml.c
+      1          #include "..\inc\swilib.h"
+      2          #include "decode_xml.h"
+      3          
+      4          #pragma inline
+      5          int IsSpace (int c){
+      6          	return	c == ' ' || c == '\n' || c == '\r' || c == '\t';
+      7          }
+      8          
+      9          #pragma inline
+     10          int IsLit (int c){
+     11            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+     12          }
+     13          
+     14          #pragma inline
+     15          int IsNum (int c){
+     16          	return (c >= '0' && c <= '9');
+     17          }
+     18          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     19          int IsName (int c){
+     20            return (IsLit(c) || IsNum(c) || c == '_' || c == '-' || c == ':');
+   \                     IsName:
+   \   00000000   610050E3           CMP      R0,#+97
+   \   00000004   020000BA           BLT      ??IsName_0
+   \   00000008   7B0050E3           CMP      R0,#+123
+   \   0000000C   0C0000BA           BLT      ??IsName_1
+   \   00000010   030000EA           B        ??IsName_2
+   \                     ??IsName_0:
+   \   00000014   410050E3           CMP      R0,#+65
+   \   00000018   010000BA           BLT      ??IsName_2
+   \   0000001C   5B0050E3           CMP      R0,#+91
+   \   00000020   070000BA           BLT      ??IsName_1
+   \                     ??IsName_2:
+   \   00000024   300050E3           CMP      R0,#+48
+   \   00000028   010000BA           BLT      ??IsName_3
+   \   0000002C   3A0050E3           CMP      R0,#+58
+   \   00000030   030000BA           BLT      ??IsName_1
+   \                     ??IsName_3:
+   \   00000034   5F0050E3           CMP      R0,#+95
+   \   00000038   2D005013           CMPNE    R0,#+45
+   \   0000003C   3A005013           CMPNE    R0,#+58
+   \   00000040   0100001A           BNE      ??IsName_4
+   \                     ??IsName_1:
+   \   00000044   0100A0E3           MOV      R0,#+1
+   \   00000048   1EFF2FE1           BX       LR
+   \                     ??IsName_4:
+   \   0000004C   0000A0E3           MOV      R0,#+0
+   \   00000050   1EFF2FE1           BX       LR               ;; return
+     21          }
+     22          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     23          void FreeAttrQueue(XMLAttr *ta)
+     24          {
+   \                     FreeAttrQueue:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+   \   00000008   3080BD08           POPEQ    {R4,R5,PC}
+     25            while (ta)
+     26            {
+     27              XMLAttr *p=ta->next;
+   \                     ??FreeAttrQueue_0:
+   \   0000000C   005094E5           LDR      R5,[R4, #+0]
+     28              mfree(ta->name);
+   \   00000010   040094E5           LDR      R0,[R4, #+4]
+   \   00000014   150000EF           SWI      +21
+     29              mfree(ta->param);
+   \   00000018   080094E5           LDR      R0,[R4, #+8]
+   \   0000001C   150000EF           SWI      +21
+     30              mfree(ta);
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   150000EF           SWI      +21
+     31              ta=p;
+   \   00000028   0540B0E1           MOVS     R4,R5
+     32            }
+   \   0000002C   F6FFFF1A           BNE      ??FreeAttrQueue_0
+     33          }
+   \   00000030   3080BDE8           POP      {R4,R5,PC}       ;; return
+     34          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     35          void DestroyTree(XMLNode *tmpp)
+     36          {
+   \                     DestroyTree:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040B0E1           MOVS     R4,R0
+   \   00000008   3080BD08           POPEQ    {R4,R5,PC}
+     37            while(tmpp)
+     38            {
+     39              FreeAttrQueue(tmpp->attr);
+   \                     ??DestroyTree_0:
+   \   0000000C   0C0094E5           LDR      R0,[R4, #+12]
+   \   00000010   ........           BL       FreeAttrQueue
+     40              if (tmpp->subnode)
+   \   00000014   040094E5           LDR      R0,[R4, #+4]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   0000000A           BEQ      ??DestroyTree_1
+     41              {
+     42                DestroyTree(tmpp->subnode);
+   \   00000020   F6FFFFEB           BL       DestroyTree
+     43              }
+     44              XMLNode *tmpp2=tmpp->next;
+   \                     ??DestroyTree_1:
+   \   00000024   005094E5           LDR      R5,[R4, #+0]
+     45              mfree(tmpp->name);
+   \   00000028   080094E5           LDR      R0,[R4, #+8]
+   \   0000002C   150000EF           SWI      +21
+     46              mfree(tmpp->value);
+   \   00000030   100094E5           LDR      R0,[R4, #+16]
+   \   00000034   150000EF           SWI      +21
+     47              mfree(tmpp);
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   150000EF           SWI      +21
+     48              tmpp=tmpp2;
+   \   00000040   0540B0E1           MOVS     R4,R5
+     49            }
+   \   00000044   F0FFFF1A           BNE      ??DestroyTree_0
+     50          }
+   \   00000048   3080BDE8           POP      {R4,R5,PC}       ;; return
+     51          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     52          void AddTextToNode(XMLNode *node, const char *s, int len)
+     53          {
+   \                     AddTextToNode:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+   \   00000004   0060A0E1           MOV      R6,R0
+     54            char *d;
+     55            int l;
+     56            if (node->value)
+   \   00000008   100096E5           LDR      R0,[R6, #+16]
+   \   0000000C   0170A0E1           MOV      R7,R1
+   \   00000010   0280A0E1           MOV      R8,R2
+   \   00000014   0040A0E3           MOV      R4,#+0
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   1100000A           BEQ      ??AddTextToNode_0
+     57            {
+     58              d=node->value=realloc(node->value, (l=strlen(node->value))+len+2);
+   \   00000020   1B0000EF           SWI      +27
+   \   00000024   0090A0E1           MOV      R9,R0
+   \   00000028   100096E5           LDR      R0,[R6, #+16]
+   \   0000002C   095088E0           ADD      R5,R8,R9
+   \   00000030   021085E2           ADD      R1,R5,#+2
+   \   00000034   BA0000EF           SWI      +186
+   \   00000038   100086E5           STR      R0,[R6, #+16]
+   \   0000003C   0060A0E1           MOV      R6,R0
+     59              d[l]=' ';
+   \   00000040   2000A0E3           MOV      R0,#+32
+   \   00000044   0600C9E7           STRB     R0,[R9, +R6]
+     60              strncpy(d+l+1, s, len);
+   \   00000048   0820A0E1           MOV      R2,R8
+   \   0000004C   0710A0E1           MOV      R1,R7
+   \   00000050   060089E0           ADD      R0,R9,R6
+   \   00000054   010080E2           ADD      R0,R0,#+1
+   \   00000058   160100EF           SWI      +278
+     61              d[l+len+1]=0;    
+   \   0000005C   060085E0           ADD      R0,R5,R6
+   \   00000060   0140C0E5           STRB     R4,[R0, #+1]
+   \   00000064   F083BDE8           POP      {R4-R9,PC}
+     62            }
+     63            else
+     64            {
+     65              d=node->value=malloc(len+1);
+   \                     ??AddTextToNode_0:
+   \   00000068   010088E2           ADD      R0,R8,#+1
+   \   0000006C   140000EF           SWI      +20
+   \   00000070   100086E5           STR      R0,[R6, #+16]
+   \   00000074   0060A0E1           MOV      R6,R0
+     66              strncpy(d, s, len);
+   \   00000078   0820A0E1           MOV      R2,R8
+   \   0000007C   0710A0E1           MOV      R1,R7
+   \   00000080   160100EF           SWI      +278
+     67              d[len]=0;    
+   \   00000084   0640C8E7           STRB     R4,[R8, +R6]
+     68            }
+     69          }
+   \   00000088   F083BDE8           POP      {R4-R9,PC}       ;; return
+     70          
+     71          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     72          XMLNode *EndTag(char *name, int name_len, XMLAttr *xattr)
+     73          {
+   \                     EndTag:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+     74            XMLNode *tmp=malloc(sizeof(XMLNode));
+   \   00000010   1400A0E3           MOV      R0,#+20
+   \   00000014   140000EF           SWI      +20
+   \   00000018   0070A0E1           MOV      R7,R0
+     75            zeromem(tmp,sizeof(XMLNode));
+   \   0000001C   1410A0E3           MOV      R1,#+20
+   \   00000020   1D0100EF           SWI      +285
+     76            tmp->name=malloc(name_len+1);
+   \   00000024   010085E2           ADD      R0,R5,#+1
+   \   00000028   140000EF           SWI      +20
+   \   0000002C   080087E5           STR      R0,[R7, #+8]
+     77            strncpy(tmp->name, name, name_len);
+   \   00000030   0520A0E1           MOV      R2,R5
+   \   00000034   0410A0E1           MOV      R1,R4
+   \   00000038   160100EF           SWI      +278
+     78            tmp->name[name_len]=0;
+   \   0000003C   080097E5           LDR      R0,[R7, #+8]
+   \   00000040   0010A0E3           MOV      R1,#+0
+   \   00000044   0010C5E7           STRB     R1,[R5, +R0]
+     79            tmp->attr=xattr;
+   \   00000048   0C6087E5           STR      R6,[R7, #+12]
+     80            return tmp;
+   \   0000004C   0700A0E1           MOV      R0,R7
+   \   00000050   F080BDE8           POP      {R4-R7,PC}       ;; return
+     81          }
+     82          
+     83          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     84          XMLAttr *EndAttr(char *name, int name_len, char *value, int value_len)
+     85          {
+   \                     EndAttr:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+   \   0000000C   0260A0E1           MOV      R6,R2
+   \   00000010   0370A0E1           MOV      R7,R3
+     86            XMLAttr *xattr=malloc(sizeof(XMLAttr));
+   \   00000014   0C00A0E3           MOV      R0,#+12
+   \   00000018   140000EF           SWI      +20
+   \   0000001C   0080A0E1           MOV      R8,R0
+     87            zeromem(xattr,sizeof(XMLAttr));
+   \   00000020   0C10A0E3           MOV      R1,#+12
+   \   00000024   1D0100EF           SWI      +285
+     88            xattr->name=malloc(name_len+1);
+   \   00000028   010085E2           ADD      R0,R5,#+1
+   \   0000002C   140000EF           SWI      +20
+   \   00000030   040088E5           STR      R0,[R8, #+4]
+     89            strncpy(xattr->name,name,name_len);
+   \   00000034   0520A0E1           MOV      R2,R5
+   \   00000038   0410A0E1           MOV      R1,R4
+   \   0000003C   160100EF           SWI      +278
+     90            xattr->name[name_len]=0;
+   \   00000040   040098E5           LDR      R0,[R8, #+4]
+   \   00000044   0040A0E3           MOV      R4,#+0
+   \   00000048   0040C5E7           STRB     R4,[R5, +R0]
+     91            if(value_len>0)
+   \   0000004C   010057E3           CMP      R7,#+1
+   \   00000050   070000BA           BLT      ??EndAttr_0
+     92            {
+     93              xattr->param=malloc(value_len+1); 
+   \   00000054   010087E2           ADD      R0,R7,#+1
+   \   00000058   140000EF           SWI      +20
+   \   0000005C   080088E5           STR      R0,[R8, #+8]
+     94              strncpy(xattr->param,value, value_len);
+   \   00000060   0720A0E1           MOV      R2,R7
+   \   00000064   0610A0E1           MOV      R1,R6
+   \   00000068   160100EF           SWI      +278
+     95              xattr->param[value_len]=0;
+   \   0000006C   080098E5           LDR      R0,[R8, #+8]
+   \   00000070   0040C7E7           STRB     R4,[R7, +R0]
+     96            }
+     97            return xattr;
+   \                     ??EndAttr_0:
+   \   00000074   0800A0E1           MOV      R0,R8
+   \   00000078   F081BDE8           POP      {R4-R8,PC}       ;; return
+     98          }
+     99          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    100          XMLNode *XMLDecode(char *buf, int size)
+    101          {
+   \                     XMLDecode:
+   \   00000000   F24F2DE9           PUSH     {R1,R4-R11,LR}
+   \   00000004   8BDF4DE2           SUB      SP,SP,#+556
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   00A0A0E3           MOV      R10,#+0
+    102            char *TagName;
+    103            int TagLen;
+    104            char *AttrName;
+    105            int AttrNameLen;
+    106            char *AttrValue;
+    107            int AttrValueLen;
+    108            char *Text;
+    109            int TextLen;
+    110          
+    111            XMLNode *TreeBranchs[128];
+    112          
+    113            XMLAttr *root_attr=0;
+    114            XMLAttr *bot_attr=0;
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   18108DE5           STR      R1,[SP, #+24]
+    115            XMLNode *root_node=0;
+   \   00000018   1C108DE5           STR      R1,[SP, #+28]
+    116            XMLNode *bot_node=0;
+   \   0000001C   00108DE5           STR      R1,[SP, #+0]
+    117            
+    118            int is_closed=0;
+   \   00000020   20108DE5           STR      R1,[SP, #+32]
+    119            int stack_pos=0;
+   \   00000024   0150A0E1           MOV      R5,R1
+    120            
+    121            int MSState = MS_BEGIN;
+   \   00000028   0160A0E3           MOV      R6,#+1
+    122            int TagState = TS_INDEFINITE;
+   \   0000002C   0670A0E1           MOV      R7,R6
+    123          
+    124            int i = 0;
+   \   00000030   0190A0E1           MOV      R9,R1
+   \   00000034   010000EA           B        ??XMLDecode_1
+    125            while (i<size)
+    126            {
+    127              int c = buf[i];   
+    128              switch (MSState)
+    129              {
+    130              case MS_BEGIN:
+    131                if (c == '<') {
+    132                  MSState = MS_BEGINTAG;
+    133                } else if (!IsSpace (c)) {
+    134                  goto L_ERR;
+    135                }
+    136                break;
+    137                
+    138              case MS_BEGINTAG:
+    139                if (IsLit (c)) {
+    140                  MSState = MS_TAGNAME;
+    141                  TagState = TS_NORMAL;
+    142                  TagName = buf+i;
+    143                  TagLen=1;
+    144                } else if (IsSpace(c)) {
+    145                  MSState = MS_MIDDLETAG;
+    146                  TagState = TS_NORMAL;
+    147                } else if (c == '?') {
+    148                  MSState = MS_MIDDLETAG;
+    149                  TagState = TS_DECLARATION;
+    150                } else if (c == '/') {
+    151                  MSState = MS_MIDDLETAG;
+    152                  TagState = TS_CLOSE;
+    153                } else if (c == '!') {
+    154                  MSState = MS_CHECK_DECL;
+    155                } else {
+    156                  goto L_ERR;
+    157                }
+    158                break;
+    159                
+    160              case MS_MIDDLETAG:
+    161                if (IsLit (c)) {
+    162                  MSState = MS_TAGNAME;
+    163                  TagName = buf+i;
+    164                  TagLen=1;
+    165                } else if (!IsSpace (c)) {
+    166                  goto L_ERR;
+    167                }
+    168                break;
+    169                
+    170              case MS_TAGNAME:
+    171                if (IsName (c)) {
+    172                  TagLen++;
+    173                } else if (IsSpace(c)) {
+    174                  MSState = MS_ENDTAGNAME;
+    175                } else if (c == '/') {
+    176                  TextLen=0;
+    177                  MSState = MS_ENDTAG;
+    178                  TagState = TS_EMPTY;
+    179                } else if (c == '>') {
+    180                  MSState = MS_TEXT;
+    181                  Text=buf+i+1;
+    182                  TextLen=0;
+    183                  goto L_ADD_TAG;
+    184                } else {
+    185                  goto L_ERR;
+    186                }
+    187                break;
+    188                
+    189              case MS_ENDTAGNAME:
+    190                if (IsLit (c)){
+    191                  MSState = MS_ATTRIBNAME;
+    192                  AttrName=buf+i;
+    193                  AttrNameLen=1;
+    194                } else if (c == '/'){
+    195                  MSState = MS_ENDTAG;
+    196                  TagState = TS_EMPTY;
+    197                } else if (c == '>'){
+    198                  MSState = MS_TEXT;
+    199                  Text=buf+i+1;
+    200                  TextLen=0;
+    201                  goto L_ADD_TAG;
+    202                } else if (!IsSpace(c) && (c != '?' && TagState != TS_DECLARATION)) {
+    203                  goto L_ERR;
+    204                }
+    205                break;
+    206                
+    207              case MS_ATTRIBNAME:
+    208                if (IsName(c)) {
+    209                  AttrNameLen++;
+    210                } else if (c == '=') {
+    211                  MSState = MS_ENDEQUALLY;
+    212                } else if (IsSpace(c)) {
+    213                  MSState = MS_ENDATTRIBNAME;
+    214                } else {
+    215                  goto L_ERR;
+    216                }
+    217                break;
+    218                
+    219              case MS_ENDATTRIBNAME:
+    220                if (c == '=') {
+    221                  MSState = MS_ENDEQUALLY;
+    222                } else if (!IsSpace(c)) {
+    223                  goto L_ERR;
+    224                }
+    225                break;
+    226                
+    227              case MS_ENDEQUALLY:
+    228                if ((c == '\"')||(c == '\'')) {
+    229                  MSState = MS_ATTRIBVALUE;
+    230                  AttrValue=buf+i+1;
+    231                  AttrValueLen=0;
+    232                } else if (!IsSpace(c)) {
+    233                  goto L_ERR;
+    234                }
+    235                break;
+    236                
+    237              case MS_ATTRIBVALUE:
+    238                if ((c == '\"')||(c == '\'')) {
+    239                  XMLAttr *xatr=EndAttr(AttrName, AttrNameLen, AttrValue, AttrValueLen);
+    240                  MSState = MS_ENDTAGNAME;
+    241                  if (!root_attr)
+    242                  {
+    243                    bot_attr=root_attr=xatr;
+    244                  }
+    245                  else
+    246                  {
+    247                    bot_attr->next=xatr;
+    248                    bot_attr=xatr;
+    249                  }
+    250                } else {
+    251                  AttrValueLen++;
+    252                }
+    253                break;
+    254                
+    255              case MS_ENDTAG:
+    256                if (c == '>') {
+    257                  MSState = MS_TEXT;
+    258                  Text=buf+i+1;
+    259                  TextLen=0;
+    260                L_ADD_TAG:
+    261                  {
+    262                    if((TagState == TS_NORMAL)||(TagState == TS_EMPTY))
+    263                    {
+    264                       XMLNode *tmp=EndTag(TagName,TagLen,root_attr);
+    265                       if (!root_node){
+    266                         root_node=tmp;
+    267                       }else{
+    268                         if(!is_closed)
+    269                           bot_node->next=tmp;
+    270                         else bot_node->subnode=tmp;
+    271                       }
+    272                       TreeBranchs[stack_pos++]=tmp;
+    273                       bot_node=tmp;
+    274                       root_attr=0;
+    275                       is_closed=1;
+    276                    }
+    277                    if((TagState == TS_EMPTY)||(TagState == TS_CLOSE))
+    278                    {
+    279                      if(stack_pos>0){
+    280                        bot_node=TreeBranchs[--stack_pos];
+    281                      }
+    282                      is_closed=0;
+    283                    }
+    284                    if (root_attr)  // удаляем мусор
+    285                    {
+    286                      FreeAttrQueue(root_attr);
+    287                      root_attr=NULL;            
+    288                    }
+    289                  }   
+    290                } else {
+    291                  goto L_ERR;
+    292                }
+    293                break;
+    294                
+    295              case MS_TEXT:
+    296                if (c == '<')
+    297                {
+    298                  if(TextLen>0)
+    299                  {
+    300                    if (bot_node)
+    301                    {
+    302                      AddTextToNode(bot_node, Text, TextLen);
+    303                    }
+    304                  }
+    305                  TextLen=0;
+    306                  MSState = MS_BEGINTAG;
+    307                  TagState = TS_INDEFINITE;
+    308                }
+    309                else
+    310                {
+    311                  if (TagState == TS_NORMAL) TextLen++;
+    312                }
+    313                break;
+    314                
+    315              case MS_CHECK_DECL:
+    316                if (!strncmp(buf+i, "[CDATA[", 7)) {
+    317                  i+=6;
+    318                  Text=buf+i+1;
+    319                  TextLen=0;
+    320                  MSState = MS_CDATA_SECTION;
+    321                  TagState = TS_NORMAL;
+    322                } else {
+    323                  goto L_ERR;
+    324                }
+    325                break;
+    326                
+    327              case MS_CDATA_SECTION:
+    328                if (buf[i]==']' && buf[i+1] ==']' && buf[i+2] =='>') {
+    329                  if(TextLen>0)
+    330                  {
+    331                    if (bot_node)
+    332                    {
+    333                      AddTextToNode(bot_node, Text, TextLen);
+    334                    }
+    335                  }
+    336                  TextLen=0;
+    337                  MSState = MS_BEGIN;
+    338                  TagState = TS_INDEFINITE;
+    339                  i+=2;
+    340                } else {
+    341                  TextLen++;
+   \                     ??XMLDecode_2:
+   \   00000038   0080A0E1           MOV      R8,R0
+    342                }       
+    343                break;
+    344              }
+    345              i++;
+   \                     ??XMLDecode_3:
+   \   0000003C   019089E2           ADD      R9,R9,#+1
+   \                     ??XMLDecode_1:
+   \   00000040   2C029DE5           LDR      R0,[SP, #+556]
+   \   00000044   000059E1           CMP      R9,R0
+   \   00000048   170000AA           BGE      ??XMLDecode_4
+   \   0000004C   04B0D9E7           LDRB     R11,[R9, +R4]
+   \   00000050   010088E2           ADD      R0,R8,#+1
+   \   00000054   011046E2           SUB      R1,R6,#+1
+   \   00000058   0C0051E3           CMP      R1,#+12
+   \   0000005C   F6FFFF8A           BHI      ??XMLDecode_3
+   \   00000060   022F8FE2           ADR      R2,??XMLDecode_0
+   \   00000064   8110A0E1           MOV      R1,R1, LSL #+1
+   \   00000068   F12092E1           LDRSH    R2,[R2, R1]
+   \   0000006C   02F18FE0           ADD      PC,PC,R2, LSL #+2
+   \                     ??XMLDecode_0:
+   \   00000070   060013003600       DC16     +6,+19,+54,+71
+   \              4700        
+   \   00000078   6D0088009900       DC16     +109,+136,+153,+156
+   \              9C00        
+   \   00000080   A6005A00D700       DC16     +166,+90,+215,+232
+   \              E800        
+   \   00000088   F5000000           DC16     +245,+0
+   \                     ??XMLDecode_5:
+   \   0000008C   3C005BE3           CMP      R11,#+60
+   \   00000090   0260A003           MOVEQ    R6,#+2
+   \   00000094   E8FFFF0A           BEQ      ??XMLDecode_3
+   \   00000098   20005BE3           CMP      R11,#+32
+   \   0000009C   0A005B13           CMPNE    R11,#+10
+   \   000000A0   0D005B13           CMPNE    R11,#+13
+   \   000000A4   09005B13           CMPNE    R11,#+9
+   \   000000A8   E3FFFF0A           BEQ      ??XMLDecode_3
+    346            }
+    347          L_ERR:
+    348            FreeAttrQueue(root_attr);
+   \                     ??XMLDecode_4:
+   \   000000AC   0A00A0E1           MOV      R0,R10
+   \   000000B0   ........           BL       FreeAttrQueue
+    349            return root_node;//
+   \   000000B4   1C009DE5           LDR      R0,[SP, #+28]
+   \   000000B8   8CDF8DE2           ADD      SP,SP,#+560
+   \   000000BC   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??XMLDecode_6:
+   \   000000C0   61005BE3           CMP      R11,#+97
+   \   000000C4   090000BA           BLT      ??XMLDecode_7
+   \   000000C8   7B005BE3           CMP      R11,#+123
+   \   000000CC   0B0000BA           BLT      ??XMLDecode_8
+   \                     ??XMLDecode_9:
+   \   000000D0   20005BE3           CMP      R11,#+32
+   \   000000D4   0A005B13           CMPNE    R11,#+10
+   \   000000D8   0D005B13           CMPNE    R11,#+13
+   \   000000DC   09005B13           CMPNE    R11,#+9
+   \   000000E0   0D00001A           BNE      ??XMLDecode_10
+   \   000000E4   0360A0E3           MOV      R6,#+3
+   \                     ??XMLDecode_11:
+   \   000000E8   0270A0E3           MOV      R7,#+2
+   \   000000EC   D2FFFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_7:
+   \   000000F0   41005BE3           CMP      R11,#+65
+   \   000000F4   F5FFFFBA           BLT      ??XMLDecode_9
+   \   000000F8   5B005BE3           CMP      R11,#+91
+   \   000000FC   F3FFFFAA           BGE      ??XMLDecode_9
+   \                     ??XMLDecode_8:
+   \   00000100   0460A0E3           MOV      R6,#+4
+   \   00000104   0270A0E3           MOV      R7,#+2
+   \                     ??XMLDecode_12:
+   \   00000108   041089E0           ADD      R1,R9,R4
+   \   0000010C   14108DE5           STR      R1,[SP, #+20]
+   \   00000110   0110A0E3           MOV      R1,#+1
+   \                     ??XMLDecode_13:
+   \   00000114   04108DE5           STR      R1,[SP, #+4]
+   \   00000118   C7FFFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_10:
+   \   0000011C   3F005BE3           CMP      R11,#+63
+   \   00000120   0360A003           MOVEQ    R6,#+3
+   \   00000124   0570A003           MOVEQ    R7,#+5
+   \   00000128   C3FFFF0A           BEQ      ??XMLDecode_3
+   \   0000012C   2F005BE3           CMP      R11,#+47
+   \   00000130   0360A003           MOVEQ    R6,#+3
+   \   00000134   0370A003           MOVEQ    R7,#+3
+   \   00000138   BFFFFF0A           BEQ      ??XMLDecode_3
+   \   0000013C   21005BE3           CMP      R11,#+33
+   \   00000140   D9FFFF1A           BNE      ??XMLDecode_4
+   \   00000144   0C60A0E3           MOV      R6,#+12
+   \   00000148   BBFFFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_14:
+   \   0000014C   61005BE3           CMP      R11,#+97
+   \   00000150   080000BA           BLT      ??XMLDecode_15
+   \   00000154   7B005BE3           CMP      R11,#+123
+   \   00000158   0A0000BA           BLT      ??XMLDecode_16
+   \                     ??XMLDecode_17:
+   \   0000015C   20005BE3           CMP      R11,#+32
+   \   00000160   0A005B13           CMPNE    R11,#+10
+   \   00000164   0D005B13           CMPNE    R11,#+13
+   \   00000168   B3FFFF0A           BEQ      ??XMLDecode_3
+   \   0000016C   09005BE3           CMP      R11,#+9
+   \                     ??XMLDecode_18:
+   \   00000170   CDFFFF1A           BNE      ??XMLDecode_4
+   \   00000174   B0FFFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_15:
+   \   00000178   41005BE3           CMP      R11,#+65
+   \   0000017C   F6FFFFBA           BLT      ??XMLDecode_17
+   \   00000180   5B005BE3           CMP      R11,#+91
+   \   00000184   F4FFFFAA           BGE      ??XMLDecode_17
+   \                     ??XMLDecode_16:
+   \   00000188   0460A0E3           MOV      R6,#+4
+   \   0000018C   DDFFFFEA           B        ??XMLDecode_12
+   \                     ??XMLDecode_19:
+   \   00000190   0B00A0E1           MOV      R0,R11
+   \   00000194   ........           BL       IsName
+   \   00000198   000050E3           CMP      R0,#+0
+   \   0000019C   0200000A           BEQ      ??XMLDecode_20
+   \   000001A0   04109DE5           LDR      R1,[SP, #+4]
+   \   000001A4   011081E2           ADD      R1,R1,#+1
+   \   000001A8   D9FFFFEA           B        ??XMLDecode_13
+   \                     ??XMLDecode_20:
+   \   000001AC   20005BE3           CMP      R11,#+32
+   \   000001B0   0A005B13           CMPNE    R11,#+10
+   \   000001B4   0D005B13           CMPNE    R11,#+13
+   \   000001B8   09005B13           CMPNE    R11,#+9
+   \   000001BC   0560A003           MOVEQ    R6,#+5
+   \   000001C0   9DFFFF0A           BEQ      ??XMLDecode_3
+   \   000001C4   2F005BE3           CMP      R11,#+47
+   \   000001C8   0300001A           BNE      ??XMLDecode_21
+   \   000001CC   0080A0E3           MOV      R8,#+0
+   \                     ??XMLDecode_22:
+   \   000001D0   0A60A0E3           MOV      R6,#+10
+   \   000001D4   0470A0E3           MOV      R7,#+4
+   \   000001D8   97FFFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_21:
+   \   000001DC   3E005BE3           CMP      R11,#+62
+   \   000001E0   B1FFFF1A           BNE      ??XMLDecode_4
+   \                     ??XMLDecode_23:
+   \   000001E4   0B60A0E3           MOV      R6,#+11
+   \   000001E8   041089E0           ADD      R1,R9,R4
+   \   000001EC   011081E2           ADD      R1,R1,#+1
+   \   000001F0   10108DE5           STR      R1,[SP, #+16]
+   \   000001F4   0080A0E3           MOV      R8,#+0
+   \   000001F8   020057E3           CMP      R7,#+2
+   \   000001FC   04005713           CMPNE    R7,#+4
+   \   00000200   6100001A           BNE      ??XMLDecode_24
+   \   00000204   04109DE5           LDR      R1,[SP, #+4]
+   \   00000208   14009DE5           LDR      R0,[SP, #+20]
+   \   0000020C   0A20A0E1           MOV      R2,R10
+   \   00000210   ........           BL       EndTag
+   \   00000214   1C109DE5           LDR      R1,[SP, #+28]
+   \   00000218   000051E3           CMP      R1,#+0
+   \   0000021C   4E00001A           BNE      ??XMLDecode_25
+   \   00000220   1C008DE5           STR      R0,[SP, #+28]
+   \   00000224   510000EA           B        ??XMLDecode_26
+   \                     ??XMLDecode_27:
+   \   00000228   61005BE3           CMP      R11,#+97
+   \   0000022C   040000BA           BLT      ??XMLDecode_28
+   \   00000230   7B005BE3           CMP      R11,#+123
+   \   00000234   060000BA           BLT      ??XMLDecode_29
+   \                     ??XMLDecode_30:
+   \   00000238   2F005BE3           CMP      R11,#+47
+   \   0000023C   0A00001A           BNE      ??XMLDecode_31
+   \   00000240   E2FFFFEA           B        ??XMLDecode_22
+   \                     ??XMLDecode_28:
+   \   00000244   41005BE3           CMP      R11,#+65
+   \   00000248   FAFFFFBA           BLT      ??XMLDecode_30
+   \   0000024C   5B005BE3           CMP      R11,#+91
+   \   00000250   F8FFFFAA           BGE      ??XMLDecode_30
+   \                     ??XMLDecode_29:
+   \   00000254   0660A0E3           MOV      R6,#+6
+   \   00000258   041089E0           ADD      R1,R9,R4
+   \   0000025C   24108DE5           STR      R1,[SP, #+36]
+   \   00000260   0110A0E3           MOV      R1,#+1
+   \                     ??XMLDecode_32:
+   \   00000264   08108DE5           STR      R1,[SP, #+8]
+   \   00000268   73FFFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_31:
+   \   0000026C   3E005BE3           CMP      R11,#+62
+   \   00000270   DBFFFF0A           BEQ      ??XMLDecode_23
+   \   00000274   20005BE3           CMP      R11,#+32
+   \   00000278   0A005B13           CMPNE    R11,#+10
+   \   0000027C   0D005B13           CMPNE    R11,#+13
+   \   00000280   09005B13           CMPNE    R11,#+9
+   \   00000284   3F005B13           CMPNE    R11,#+63
+   \   00000288   6BFFFF0A           BEQ      ??XMLDecode_3
+   \   0000028C   050057E3           CMP      R7,#+5
+   \   00000290   B6FFFFEA           B        ??XMLDecode_18
+   \                     ??XMLDecode_33:
+   \   00000294   0B00A0E1           MOV      R0,R11
+   \   00000298   ........           BL       IsName
+   \   0000029C   000050E3           CMP      R0,#+0
+   \   000002A0   08109D15           LDRNE    R1,[SP, #+8]
+   \   000002A4   01108112           ADDNE    R1,R1,#+1
+   \   000002A8   EDFFFF1A           BNE      ??XMLDecode_32
+   \   000002AC   3D005BE3           CMP      R11,#+61
+   \   000002B0   0100001A           BNE      ??XMLDecode_34
+   \                     ??XMLDecode_35:
+   \   000002B4   0860A0E3           MOV      R6,#+8
+   \   000002B8   5FFFFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_34:
+   \   000002BC   20005BE3           CMP      R11,#+32
+   \   000002C0   0A005B13           CMPNE    R11,#+10
+   \   000002C4   0D005B13           CMPNE    R11,#+13
+   \   000002C8   09005B13           CMPNE    R11,#+9
+   \   000002CC   76FFFF1A           BNE      ??XMLDecode_4
+   \   000002D0   0760A0E3           MOV      R6,#+7
+   \   000002D4   58FFFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_36:
+   \   000002D8   3D005BE3           CMP      R11,#+61
+   \   000002DC   F4FFFF0A           BEQ      ??XMLDecode_35
+   \   000002E0   9DFFFFEA           B        ??XMLDecode_17
+   \                     ??XMLDecode_37:
+   \   000002E4   22005BE3           CMP      R11,#+34
+   \   000002E8   27005B13           CMPNE    R11,#+39
+   \   000002EC   9AFFFF1A           BNE      ??XMLDecode_17
+   \   000002F0   0960A0E3           MOV      R6,#+9
+   \   000002F4   041089E0           ADD      R1,R9,R4
+   \   000002F8   011081E2           ADD      R1,R1,#+1
+   \   000002FC   28108DE5           STR      R1,[SP, #+40]
+   \   00000300   0010A0E3           MOV      R1,#+0
+   \                     ??XMLDecode_38:
+   \   00000304   0C108DE5           STR      R1,[SP, #+12]
+   \   00000308   4BFFFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_39:
+   \   0000030C   22005BE3           CMP      R11,#+34
+   \   00000310   27005B13           CMPNE    R11,#+39
+   \   00000314   0D00001A           BNE      ??XMLDecode_40
+   \   00000318   24009DE5           LDR      R0,[SP, #+36]
+   \   0000031C   0C309DE5           LDR      R3,[SP, #+12]
+   \   00000320   28209DE5           LDR      R2,[SP, #+40]
+   \   00000324   08109DE5           LDR      R1,[SP, #+8]
+   \   00000328   0560A0E3           MOV      R6,#+5
+   \   0000032C   ........           BL       EndAttr
+   \   00000330   00005AE3           CMP      R10,#+0
+   \   00000334   00A0A001           MOVEQ    R10,R0
+   \   00000338   18A08D05           STREQ    R10,[SP, #+24]
+   \   0000033C   3EFFFF0A           BEQ      ??XMLDecode_3
+   \   00000340   18109DE5           LDR      R1,[SP, #+24]
+   \   00000344   000081E5           STR      R0,[R1, #+0]
+   \   00000348   18008DE5           STR      R0,[SP, #+24]
+   \   0000034C   3AFFFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_40:
+   \   00000350   0C109DE5           LDR      R1,[SP, #+12]
+   \   00000354   011081E2           ADD      R1,R1,#+1
+   \   00000358   E9FFFFEA           B        ??XMLDecode_38
+   \                     ??XMLDecode_25:
+   \   0000035C   20109DE5           LDR      R1,[SP, #+32]
+   \   00000360   000051E3           CMP      R1,#+0
+   \   00000364   00109DE5           LDR      R1,[SP, #+0]
+   \   00000368   00008105           STREQ    R0,[R1, #+0]
+   \   0000036C   04008115           STRNE    R0,[R1, #+4]
+   \                     ??XMLDecode_26:
+   \   00000370   2C108DE2           ADD      R1,SP,#+44
+   \   00000374   050181E7           STR      R0,[R1, +R5, LSL #+2]
+   \   00000378   015085E2           ADD      R5,R5,#+1
+   \   0000037C   00008DE5           STR      R0,[SP, #+0]
+   \   00000380   00A0A0E3           MOV      R10,#+0
+   \   00000384   0110A0E3           MOV      R1,#+1
+   \   00000388   20108DE5           STR      R1,[SP, #+32]
+   \                     ??XMLDecode_24:
+   \   0000038C   040057E3           CMP      R7,#+4
+   \   00000390   03005713           CMPNE    R7,#+3
+   \   00000394   0700001A           BNE      ??XMLDecode_41
+   \   00000398   010055E3           CMP      R5,#+1
+   \   0000039C   030000BA           BLT      ??XMLDecode_42
+   \   000003A0   015045E2           SUB      R5,R5,#+1
+   \   000003A4   2C108DE2           ADD      R1,SP,#+44
+   \   000003A8   051191E7           LDR      R1,[R1, +R5, LSL #+2]
+   \   000003AC   00108DE5           STR      R1,[SP, #+0]
+   \                     ??XMLDecode_42:
+   \   000003B0   0010A0E3           MOV      R1,#+0
+   \   000003B4   20108DE5           STR      R1,[SP, #+32]
+   \                     ??XMLDecode_41:
+   \   000003B8   00005AE3           CMP      R10,#+0
+   \   000003BC   1EFFFF0A           BEQ      ??XMLDecode_3
+   \   000003C0   0A00A0E1           MOV      R0,R10
+   \   000003C4   ........           BL       FreeAttrQueue
+   \   000003C8   00A0A0E3           MOV      R10,#+0
+   \   000003CC   1AFFFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_43:
+   \   000003D0   3C005BE3           CMP      R11,#+60
+   \   000003D4   0B00001A           BNE      ??XMLDecode_44
+   \   000003D8   010058E3           CMP      R8,#+1
+   \   000003DC   050000BA           BLT      ??XMLDecode_45
+   \   000003E0   00009DE5           LDR      R0,[SP, #+0]
+   \   000003E4   000050E3           CMP      R0,#+0
+   \   000003E8   0200000A           BEQ      ??XMLDecode_45
+   \   000003EC   10109DE5           LDR      R1,[SP, #+16]
+   \   000003F0   0820A0E1           MOV      R2,R8
+   \   000003F4   ........           BL       AddTextToNode
+   \                     ??XMLDecode_45:
+   \   000003F8   0080A0E3           MOV      R8,#+0
+   \   000003FC   0260A0E3           MOV      R6,#+2
+   \   00000400   0170A0E3           MOV      R7,#+1
+   \   00000404   0CFFFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_44:
+   \   00000408   020057E3           CMP      R7,#+2
+   \   0000040C   0AFFFF1A           BNE      ??XMLDecode_3
+   \   00000410   08FFFFEA           B        ??XMLDecode_2
+   \                     ??XMLDecode_46:
+   \   00000414   88109FE5           LDR      R1,??XMLDecode_47  ;; `?<Constant "[CDATA[">`
+   \   00000418   0720A0E3           MOV      R2,#+7
+   \   0000041C   040089E0           ADD      R0,R9,R4
+   \   00000420   150100EF           SWI      +277
+   \   00000424   000050E3           CMP      R0,#+0
+   \   00000428   1FFFFF1A           BNE      ??XMLDecode_4
+   \   0000042C   069089E2           ADD      R9,R9,#+6
+   \   00000430   041089E0           ADD      R1,R9,R4
+   \   00000434   011081E2           ADD      R1,R1,#+1
+   \   00000438   10108DE5           STR      R1,[SP, #+16]
+   \   0000043C   0080A0E3           MOV      R8,#+0
+   \   00000440   0D60A0E3           MOV      R6,#+13
+   \   00000444   27FFFFEA           B        ??XMLDecode_11
+   \                     ??XMLDecode_48:
+   \   00000448   5D005BE3           CMP      R11,#+93
+   \   0000044C   F9FEFF1A           BNE      ??XMLDecode_2
+   \   00000450   041089E0           ADD      R1,R9,R4
+   \   00000454   0110D1E5           LDRB     R1,[R1, #+1]
+   \   00000458   5D0051E3           CMP      R1,#+93
+   \   0000045C   F5FEFF1A           BNE      ??XMLDecode_2
+   \   00000460   041089E0           ADD      R1,R9,R4
+   \   00000464   0210D1E5           LDRB     R1,[R1, #+2]
+   \   00000468   3E0051E3           CMP      R1,#+62
+   \   0000046C   F1FEFF1A           BNE      ??XMLDecode_2
+   \   00000470   010058E3           CMP      R8,#+1
+   \   00000474   050000BA           BLT      ??XMLDecode_49
+   \   00000478   00009DE5           LDR      R0,[SP, #+0]
+   \   0000047C   000050E3           CMP      R0,#+0
+   \   00000480   0200000A           BEQ      ??XMLDecode_49
+   \   00000484   10109DE5           LDR      R1,[SP, #+16]
+   \   00000488   0820A0E1           MOV      R2,R8
+   \   0000048C   ........           BL       AddTextToNode
+   \                     ??XMLDecode_49:
+   \   00000490   0080A0E3           MOV      R8,#+0
+   \   00000494   0160A0E3           MOV      R6,#+1
+   \   00000498   0170A0E3           MOV      R7,#+1
+   \   0000049C   029089E2           ADD      R9,R9,#+2
+   \   000004A0   E5FEFFEA           B        ??XMLDecode_3
+   \                     ??XMLDecode_47:
+   \   000004A4   ........           DC32     `?<Constant "[CDATA[">`
+    350          }
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "[CDATA[">`:
+   \   00000000   5B4344415441       DC8 "[CDATA["
+   \              5B00        
+
+   Maximum stack usage in bytes:
+
+     Function      CSTACK
+     --------      ------
+     AddTextToNode    28
+     DestroyTree      12
+     EndAttr          24
+     EndTag           20
+     FreeAttrQueue    12
+     IsName            0
+     XMLDecode       596
+
+
+   Segment part sizes:
+
+     Function/Label        Bytes
+     --------------        -----
+     IsName                  84
+     FreeAttrQueue           52
+     DestroyTree             76
+     AddTextToNode          140
+     EndTag                  84
+     EndAttr                124
+     XMLDecode             1192
+     ?<Constant "[CDATA[">    8
+      Others                 28
+
+ 
+ 1 780 bytes in segment CODE
+     8 bytes in segment DATA_C
+ 
+ 1 752 bytes of CODE  memory (+ 28 bytes shared)
+     8 bytes of CONST memory
+
+Errors: none
+Warnings: none

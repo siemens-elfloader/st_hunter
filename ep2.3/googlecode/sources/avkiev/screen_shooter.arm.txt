@@ -1,0 +1,121 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+Vrezka	equ	0x0424878
+Patch	equ	Patches + 0x7300
+;---------------------------------------------------------------------------
+org     Patch
+            push    {r4-r7,LR}
+            LoadReg 0, config+4
+            CallLib GetBuffer
+            bne     DoPatch
+
+            CallReg 0, aOldSub
+            b       ex
+
+DoPatch:    mov     r7, r0
+            mov     r0, #0
+            mov     r1, #0
+            mov     r2, #0
+            ldrb    r3, [r7,#1]
+            push    {r2}
+            CallLib PlaySound
+
+            AdrReg  6, aHeader
+            ldrh    r0, [r6, #2]
+            CallLib malloc
+            mov     r5, r0
+
+            mov     r1, r0
+            add     r1, #8
+            CallLib GetDateTime
+
+            ldrb    r0, [r5, #5]    ;D
+            ldrb    r1, [r5, #8]    ;H
+            ldrb    r2, [r5, #9]    ;M
+            ldrb    r3, [r5, #10]   ;S
+            push    {r0-r3}
+            ldrh    r1, [r5]        ;Y
+            mov     r0, #100
+            CallLib dwMODdw
+            mov     r2, r1
+            ldrb    r3, [r5, #4]    ;M
+            mov     r0, r5
+            add     r1, r7,#4
+            CallLib sprintf
+            add     SP, #20
+  
+            mov     r0, r5
+            mvi     r1, 0x301
+            mov     r2, #1
+            lsl     r2, #8
+            mov     r3, SP
+            CallLib fopen
+            push    {r0, r5}
+
+            mov     r0, r5
+            mov     r1, r6
+            ldrh    r2, [r6, #10]
+            CallLib memcpy
+            mov     r2, r0
+
+            CallLib RamScreenBuffer
+            mov     r1, r0
+            mov     r0, r2
+         
+            ldrh    r5, [r6, #22]   ;176
+            ldrh    r4, [r6, #18]   ;132
+            ldrh    r3, [r6, #34]
+            sub     r3, r4
+            sub     r3, r4
+            add     r0, r3
+            lsl     r7, r4,#2
+
+NextRow:    mov     r4, r7
+NextCol:    ldrh    r2, [r1]
+            lsl     r3, r2,#26
+            lsr     r3, #26
+            lsr     r2, #7
+            lsl     r2, #6
+            add     r2, r3
+            strh    r2, [r0]
+            add     r1, #2
+            add     r0, #2
+            sub     r4, #4
+            bne     NextCol
+            sub     r0, r7
+            sub     r5, #1
+            bne     NextRow
+
+            pop     {r0, r1}
+            mov     r4, r0
+            ldrh    r2, [r6, #2]
+            mov     r3, SP
+            CallLib fwrite
+
+            mov     r0, r4
+            mov     r1, SP
+            CallLib fclose
+    
+            mov     r0, r5
+            CallLib mfree
+ex:         pop     {r4-r7,PC}
+;---------------------------------------------------------------------------
+    Align16
+aHeader:    dw      0x4D42, 0xB5B6, 0, 0, 0, 54, 0, 40
+            dw      0, 132, 0, 176, 0, 1, 16, 0
+            dw      0, 0xB580, 0,0,0,0,0,0
+            dw      0,0,0, 0
+aOldSub:    dd      0xA032EBB7
+; ---------------------------------------------------------------------------
+        Align16
+config:     dd Magic, 0xAB15, 0, 0
+db "{p=ScreenShooter ver=2 cp=avkiev id=AB15}"
+db "{1 h Ringtone v=4C}"
+db "{4 s Format ml=50 v=`0:\Misc\Shots\%02u%02u%02u_%02u%02u%02u.bmp`}", 00
+;---------------------------------------------------------------------------
+org     Vrezka
+            dd      q1+Patch
+org 0x0424890
+;---------------------------------------------------------------------------
+END

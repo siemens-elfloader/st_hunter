@@ -1,0 +1,226 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    14/Oct/2008  21:19:38 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\player_tags.c  #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\player_tags.c  #
+#                       -D X75 -D kluchnik2 --preprocess                     #
+#                       D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\Release_SGOLD_ #
+#                       X75\List\ -lC D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\ #
+#                       Release_SGOLD_X75\List\ -o                           #
+#                       D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\Release_SGOLD_ #
+#                       X75\Obj\ -s9 --no_unroll --cpu_mode arm --endian     #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --fpu None --dlib_config "D:\Pasha\Embedded       #
+#                       Workbench 4.0 Evaluation2\ARM\LIB\dl5tpainl8n.h" -I  #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\Release_SGOLD_ #
+#                       X75\List\player_tags.lst                             #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\Release_SGOLD_ #
+#                       X75\Obj\player_tags.r79                              #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\player_tags.c
+      1          #ifdef NEWSGOLD
+      2          #include "..\inc\swilib.h"
+      3          #include "swilib2.h"
+      4          #include "player_tags.h"
+      5          #include "strings.h"
+      6          #include "NatICQ.h"
+      7          #include "main.h"
+      8          #include "configs.h"
+      9          int scr_w;
+     10          extern unsigned long  strtoul (const char *nptr,char **endptr,int base); //must overwrite
+     11          unsigned int pcsmid=0;
+     12          extern unsigned int cfnt;
+     13          extern int Is_Id3tag_Enabled;
+     14          //extern char CsmAdr[];
+     15          unsigned int cfnt=FONT_SMALL_BOLD;
+     16          char teast2[256];
+     17          char teast3[256];
+     18          
+     19          void *pcsmadr=NULL;
+     20          WSHDR *wstag=NULL;
+     21          word tagw=0;
+     22            
+     23          //------------------------------------
+     24          
+     25          extern int CurrentXStatus;
+     26          //extern int Is_ID3_ANY_STATUS;
+     27          void  initTags()
+     28          {
+     29            pcsmadr=(void *)strtoul(CsmAdr,NULL,16);
+     30            if (!wstag)    wstag=AllocWS(256);
+     31          };
+     32          
+     33          //------------------------------------
+     34          
+     35          void GetTags()
+     36          {
+     37            if((CurrentXStatus!=11 || !Is_ID3_ANY_STATUS)||(!Is_Id3tag_Enabled))
+     38            {
+     39              sprintf(teast3, "zaebaloaq");
+     40            }
+     41            else
+     42              if(Is_Id3tag_Enabled)
+     43               {
+     44                {
+     45                 L1://Respect to Rst7
+     46                  if (pcsmid)
+     47                  {
+     48                    CSM_RAM *csmp=FindCSMbyID(pcsmid);
+     49                    if (csmp)
+     50                    {
+     51                      WSHDR *fn=((WSHDR **)csmp)[0x2C/4];
+     52                      if (!fn)return;
+     53                      if (!fn->wsbody) return;
+     54                      if (fn->wsbody[0]);
+     55              #ifdef ELKA
+     56                      WSHDR **wws=((WSHDR ***)csmp)[(0x18C/4)]-1;
+     57              #else
+     58                      WSHDR **wws=((WSHDR ***)csmp)[(0x170/4)]-1;
+     59              #endif
+     60                      if (wws)        
+     61                      {
+     62                        WSHDR *tws;
+     63                        const char unk[]="Unknown";
+     64                        const char pr[]="%w - %w";
+     65                        if (!(tws=wws[2]));
+     66                        else
+     67                          if (!(tws->wsbody));
+     68                        else
+     69                          if (tws->wsbody[0])      
+     70                            wstrcpy(wstag,tws);
+     71                        else  wsprintf(wstag,"%t",unk);
+     72                          if (!(tws=wws[1]));
+     73                        else
+     74                          if (!(tws->wsbody));
+     75                        else
+     76                           if (tws->wsbody[0])     
+     77                              wsprintf(wstag,pr,wstag,tws);
+     78                         else
+     79                           wstrcpy(wstag,fn);            
+     80                           //Патчим строку на предмет win1251
+     81                          int i=1;
+     82                          int c;
+     83                          tagw=0;
+     84                          while(i<=wstag->wsbody[0])		{
+     85                            c=wstag->wsbody[i];
+     86                            if (c==0xA8) c=0x401;
+     87                            if (c==0xAA) c=0x404;
+     88                            if (c==0xAF) c=0x407;
+     89                            if (c==0xB8) c=0x451;
+     90                            if (c==0xBA) c=0x454;
+     91                            if (c==0xBF) c=0x457;
+     92                            if ((c>=0xC0)&&(c<0x100)) c+=0x350;
+     93                            wstag->wsbody[i++]=c;
+     94                            tagw+=GetSymbolWidth(c,cfnt);
+     95                          }
+     96                        }
+     97                        else;
+     98                    }
+     99                    else pcsmid=0;
+    100                  }
+    101                  else  
+    102                  {
+    103                    CSM_RAM *p=((void **)CSM_root()->csm_q)[2];
+    104                    while(p)
+    105                    {
+    106                      if (p->constr==pcsmadr) break;
+    107                      p=p->next;
+    108                    }
+    109                    if (p)
+    110                    {
+    111                      pcsmid=p->id;
+    112                    goto L1;
+    113                    }
+    114                  }
+    115                convWS_to_ANSI(wstag, teast2);
+    116                if(_GetPlayStatus()==2)
+    117                {
+    118                  if(strcmp(teast2,teast3)) 
+    119                  {
+    120                  //  ShowMSG(1,(int)teast2);
+    121                    CurrentXStatus=0;
+    122                    set_my_xstatus();  
+    123                    set_my_xstatus2();
+    124                    strcpy(teast3, teast2);
+    125                    CurrentXStatus=11;
+    126                  }
+    127                 }
+    128                else
+    129                {
+    130                  if((teast3[0]!='N'&&teast3[8]!='P')&&(_GetPlayStatus()!=1)) 
+    131                  {
+    132                    CurrentXStatus=0;
+    133                    set_my_xstatus();
+    134                    sprintf(teast2, "Nothing Played"); 
+    135                    set_my_xstatus2();
+    136                    strcpy(teast3, teast2);
+    137                    CurrentXStatus=11;
+    138                  }
+    139                 }
+    140               }
+    141             }  
+    142          };  
+    143          
+    144          /*
+    145          int  ShowTag(void){
+    146            if (pcsmadr&&((_GetPlayStatus()==2)));else return 2;
+    147            GUI *igui;
+    148            if (!TopG(DISPLACE_OF_IDLEGUI_ID))return 0;
+    149            
+    150            if (!(igui=GetTopGUI())) return 0;
+    151            if (igui){
+    152          #ifdef ELKA
+    153              {
+    154                void *canvasdata = BuildCanvas();
+    155          #else
+    156              void *idata = GetDataOfItemByID(igui, 2);
+    157              if (idata)
+    158              {
+    159                void *canvasdata = ((void **)idata)[DISPLACE_OF_IDLECANVAS / 4];        
+    160          #endif        
+    161                
+    162                DrawCanvas(canvasdata,cTgr.x, cTgr.y,cTgr.x2, cTgr.y+GetFontYSIZE(cfnt), 1);  
+    163          
+    164                if (tagw<scr_w)
+    165                  DrawString(wstag,cTgr.x,cTgr.y,cTgr.x2,cTgr.y+GetFontYSIZE(cfnt),cfnt,TEXT_ALIGNMIDDLE,(char*)clr,GetPaletteAdrByColorIndex(23));
+    166                else{
+    167                  static byte dir=0;
+    168                  int dif=tagw-scr_w;
+    169                  static short sm=0;
+    170          //        int step=(7*tagw)/scr_w;
+    171                  int step=4+(3*tagw)/scr_w;        
+    172                  sm+=step*(dir?-1:1);
+    173                  
+    174                  DrawScrollString(wstag,cTgr.x,cTgr.y,cTgr.x2,cTgr.y+GetFontYSIZE(cfnt)+10,sm+1,cfnt,TEXT_ALIGNLEFT,(char*)clr,GetPaletteAdrByColorIndex(23));
+    175                  if ((sm-step)<0)dir=0;else
+    176                   if ((sm)>dif)dir=1;
+    177                }
+    178              }
+    179            }
+    180            return 1;
+    181          } ;
+    182          */
+    183          #endif
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+
+ 
+ 
+ 0 bytes of memory
+
+Errors: none
+Warnings: none

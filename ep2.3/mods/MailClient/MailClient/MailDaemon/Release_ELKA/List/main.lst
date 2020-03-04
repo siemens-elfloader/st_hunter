@@ -1,0 +1,1371 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    19/May/2008  22:00:12 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\main #
+#                       .c                                                   #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\main #
+#                       .c -D NEWSGOLD -D ELKA -lcN                          #
+#                       D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rele #
+#                       ase_ELKA\List\ -la D:\Pasha\elf\_MY_PROJECT_\MailCli #
+#                       ent\MailDaemon\Release_ELKA\List\ -o                 #
+#                       D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rele #
+#                       ase_ELKA\Obj\ -s9 --no_unroll --cpu_mode arm         #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --fpu None --dlib_config              #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rele #
+#                       ase_ELKA\List\main.lst                               #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rele #
+#                       ase_ELKA\Obj\main.r79                                #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\main.c
+      1          #include "swilib.h"
+      2          #include "..\conf_loader.h"
+      3          #include "..\mailclient.h"
+      4          #include "print.h"
+      5          #define TMR_SECOND 216
+      6          
+      7          const char mailer_db_name[]=MDB_NAME;
+      8          
+      9          const char ipc_viewer_name[]=IPC_VIEWER_NAME;
+     10          const char ipc_my_name[]=IPC_DAEMON_NAME;
+     11          
+     12          volatile int viewer_present=-1; //Активен ли вьювер
+     13          
+     14          typedef struct
+     15          {
+     16            CSM_RAM csm;
+     17          }MAIN_CSM;
+     18          
+     19          #pragma inline
+     20          int is_digit(int c)
+     21          {
+     22            if (c>=0&&c<=9) return (1);
+     23            return (0);
+     24          }
+     25          
+     26          #pragma inline=forced
+     27          int toupper(int c)
+     28          {
+     29            if ((c>='a')&&(c<='z')) c+='A'-'a';
+     30            return(c);
+     31          }
+     32          
+     33          
+     34          
+     35          char *recived_line;
+     36          
+     37          volatile int sendq_l=0;
+     38          volatile void *sendq_p=NULL;
+     39          
+     40          volatile int maincsm_id;
+     41          
+     42          int strcmp_nocase(const char *s1,const char *s2)
+     43          {
+     44            int i;
+     45            int c;
+     46            while(!(i=(c=toupper(*s1++))-toupper(*s2++))) if (!c) break;
+     47            return(i);
+     48          }
+     49          
+     50          
+     51          const char percent_t[]="%t";
+     52          const char empty_str[]="";
+     53          const char eol[]="\r\n";
+     54          
+     55          
+     56          
+     57          POP_STAT pop_stat;
+     58          //Флаг для больших сообщений
+     59          int mes_rec=0;
+     60          
+     61          
+     62          GBSTMR reconnect_tmr;
+     63          volatile int is_gprs_online=1;
+     64          volatile ML_DAEMON *mails;
+     65          
+     66          ML_DAEMON *cur_ml;
+     67          
+     68          
+     69          int sock=-1;
+     70          
+     71          #pragma segment="ELFBEGIN"
+     72          void ElfKiller(void)
+     73          {
+     74            kill_data(__segment_begin("ELFBEGIN"),(void (*)(void *))mfree_adr());
+     75          }
+     76          
+     77          void FreeMailDB()
+     78          {
+     79            ML_DAEMON *ml_cur=(ML_DAEMON *)mails;
+     80            ML_DAEMON *ml_prev;
+     81            while (ml_cur)
+     82            {
+     83              if (ml_cur->uidl) mfree(ml_cur->uidl);
+     84              ml_prev=ml_cur;
+     85              ml_cur=ml_cur->next;
+     86              mfree(ml_prev);
+     87            }
+     88            mails=0;
+     89          }
+     90          
+     91          void InitMailDB()
+     92          {
+     93            char fname[256];
+     94            int f;
+     95            MAIL_DB mail_db;
+     96            char *uidl;
+     97            ML_DAEMON *ml_cur=(ML_DAEMON *)&mails;
+     98            unsigned int err;
+     99            strcpy(fname,EML_PATH);
+    100            strcat(fname,mailer_db_name);
+    101            FreeMailDB();
+    102            if ((f=fopen(fname,A_BIN+A_ReadOnly,P_READ,&err))!=-1)
+    103            {
+    104              while (fread(f,&mail_db,sizeof(MAIL_DB),&err)==sizeof(MAIL_DB))
+    105              {
+    106                if(mail_db.magic!=MDB_MAGIC) break;
+    107                ml_cur=ml_cur->next=malloc(sizeof(ML_DAEMON));
+    108                ml_cur->next=0;
+    109                ml_cur->state=mail_db.state;
+    110                ml_cur->is_read=mail_db.is_read;
+    111                ml_cur->mail_size=mail_db.mail_size;
+    112                if (mail_db.uidl_len)
+    113                {
+    114                  uidl=malloc(mail_db.uidl_len+1);
+    115                  uidl[mail_db.uidl_len]=0;
+    116                  fread(f,uidl,mail_db.uidl_len,&err);
+    117                  ml_cur->uidl=uidl;
+    118                }
+    119                else ml_cur->uidl=0;
+    120                ml_cur->num_in_list=-1;
+    121              }
+    122              fclose(f,&err);
+    123            }
+    124          }
+    125          
+    126          void write_mail_DB()
+    127          {
+    128            int f;
+    129            unsigned int err;
+    130            char fname[128];
+    131            ML_DAEMON *ml_list=(ML_DAEMON *)&mails;
+    132            MAIL_DB mail_db;
+    133            strcpy(fname,EML_PATH);
+    134            strcat(fname,mailer_db_name);
+    135            if ((f=fopen(fname,A_WriteOnly+A_BIN+A_Create+A_Truncate,P_WRITE,&err))!=-1)
+    136            {
+    137              while((ml_list=ml_list->next))
+    138              {
+    139                mail_db.magic=MDB_MAGIC;
+    140                mail_db.uidl_len=ml_list->uidl?strlen(ml_list->uidl):0;
+    141                mail_db.state=ml_list->state;
+    142                mail_db.is_read=ml_list->is_read;
+    143                mail_db.mail_size=ml_list->mail_size;
+    144                mail_db.hdr[0] = 0;
+    145                fwrite(f,&mail_db,sizeof(MAIL_DB),&err);
+    146                if (mail_db.uidl_len) fwrite(f,ml_list->uidl,mail_db.uidl_len,&err);
+    147              }
+    148              fclose(f,&err);
+    149            }
+    150          }
+    151          
+    152          void add_uidl_if_exist(char *recv_line)
+    153          {
+    154            int num_in_list=strtoul(recv_line,0,10);
+    155            recv_line=strchr(recv_line,' ')+1;
+    156            *strrchr(recv_line,'\r')=0;
+    157            ML_DAEMON *ml_list=(ML_DAEMON *)&mails;
+    158            ML_DAEMON *ml_cur;
+    159            while(ml_list->next)
+    160            {
+    161              ml_list=ml_list->next;
+    162              if (ml_list->uidl)
+    163              {
+    164                if (!strcmp(recv_line,ml_list->uidl))
+    165                {
+    166                  ml_list->num_in_list=num_in_list;
+    167                  return;
+    168                }
+    169              }
+    170            }
+    171            ml_cur=ml_list->next=malloc(sizeof(ML_DAEMON));
+    172            ml_cur->num_in_list=num_in_list;
+    173            ml_cur->next=0;
+    174            ml_cur->uidl=malloc(strlen(recv_line)+1);
+    175            strcpy(ml_cur->uidl,recv_line);
+    176            if (DEFAULT_ACTION==1 && LOAD_IF_LESS)
+    177            {
+    178              ml_cur->state=M_IS_BIG_LETTER;
+    179            }
+    180            else ml_cur->state=DEFAULT_ACTION;
+    181            ml_cur->is_read=0;
+    182            ml_cur->mail_size=0;
+    183          }
+    184            
+    185          void set_mes_size(char *recv_line)
+    186          {
+    187            int num_in_list;
+    188            int mes_size;
+    189            num_in_list=strtoul(recv_line,0,10);
+    190            mes_size=strtoul(strchr(recv_line,' ')+1,0,10);
+    191          
+    192            ML_DAEMON *ml_list=(ML_DAEMON *)mails;
+    193            while(ml_list)
+    194            {
+    195              if (ml_list->num_in_list==num_in_list)
+    196              {
+    197                ml_list->mail_size=mes_size;
+    198                if (ml_list->state==M_IS_BIG_LETTER)
+    199                {
+    200                  ml_list->state=mes_size>LOAD_IF_LESS?M_LOAD_HEADER:M_LOAD_FULL;
+    201                }
+    202                return;
+    203              }
+    204              ml_list=ml_list->next;
+    205            }
+    206          }
+    207          
+    208          void remove_cur_from_list()
+    209          {
+    210            char fname[128];
+    211            unsigned int err;
+    212            ML_DAEMON *ml_list=(ML_DAEMON *)&mails;
+    213            ML_DAEMON *ml_prev=ml_list;
+    214            while ((ml_list=ml_list->next))
+    215            {
+    216              if (!strcmp(ml_list->uidl,cur_ml->uidl))
+    217              {
+    218                sprintf(fname,"%s%s.eml",EML_PATH,cur_ml->uidl);
+    219                unlink(fname,&err);
+    220                ml_prev->next=cur_ml->next;
+    221                mfree(cur_ml->uidl);
+    222                mfree(cur_ml);
+    223                cur_ml=ml_prev;
+    224                return;
+    225              }
+    226              ml_prev=ml_list;
+    227            }
+    228          }
+    229            
+    230          void do_losted_mes()
+    231          {
+    232            if (IF_DEL_AUX==0 || cur_ml->state==M_DELETE) remove_cur_from_list();
+    233          }  
+    234          
+    235          void end_socket();
+    236          
+    237          void ClearSendQ(void)
+    238          {
+    239            mfree((void *)sendq_p);
+    240            sendq_p=NULL;
+    241            sendq_l=0;
+    242          }
+    243          
+    244          void send_str(char* str)
+    245          {
+    246            int j;
+    247            int i;
+    248            if (str)
+    249            {
+    250              j=strlen(str);
+    251              // Проверяем не надо ли добавить в очередь
+    252              if (sendq_p)
+    253              {
+    254                // Если есть то добавляем в нее
+    255                sendq_p=realloc((void *)sendq_p, sendq_l+j);
+    256                memcpy((char *)sendq_p+sendq_l,str,j);
+    257                sendq_l+=j;
+    258                return;     
+    259              }
+    260              sendq_p=malloc(j);
+    261              memcpy((char *)sendq_p,str,j);
+    262              sendq_l=j;
+    263            }
+    264            // отправляем уже существующие в очереди
+    265            while((i=sendq_l)!=0)
+    266            {
+    267              i=i>0x400?0x400:i;
+    268              j=send(sock,(void *)sendq_p,i,0);
+    269              pop_stat.total_send+=j;
+    270              snprintf(pop_stat.log,255,"send res %d",j);
+    271              REDRAW();
+    272              if (j<0)
+    273              {
+    274                j=*socklasterr();
+    275                if ((j==0xC9) || (j==0xD6))
+    276                {
+    277                  // Передали что хотели
+    278                  strcpy(pop_stat.log,"Send delayed...");
+    279                  return;
+    280                }
+    281                else
+    282                {
+    283                  // Ошибка 
+    284                  LockSched();
+    285                  ShowMSG(1,(int)"send error!");
+    286                  UnlockSched();
+    287                  end_socket();
+    288                  return;
+    289                }
+    290              }
+    291              memcpy((void *)sendq_p,(char *)sendq_p+j,sendq_l-=j);
+    292              if (j<i)
+    293              {
+    294                // передали меньше чем заказывали
+    295                return;
+    296              }
+    297            }
+    298            mfree((void *)sendq_p);
+    299            sendq_p=NULL;
+    300          }
+    301          
+    302          void send_login()
+    303          {
+    304            char login[128];
+    305            sprintf(login,"USER %s\r\n",MAIL_LOGIN);
+    306            send_str(login);
+    307          }
+    308          
+    309          void send_pass()
+    310          {
+    311            char pass[128];
+    312            sprintf(pass,"PASS %s\r\n",MAIL_PASS);
+    313            send_str(pass);
+    314          }
+    315          
+    316          void send_get_stat()
+    317          {send_str("STAT\r\n");}
+    318          
+    319          void send_get_uidl_list()
+    320          {send_str("UIDL\r\n");}
+    321          
+    322          void get_list()
+    323          {send_str("LIST\r\n");}
+    324          
+    325          void send_get_mes(int i)
+    326          {
+    327            char buf[64];
+    328            sprintf(buf,"RETR %u\r\n",i);
+    329            send_str(buf);
+    330          }
+    331          
+    332          void send_get_headers(int i)
+    333          {
+    334            char buf[64];
+    335            sprintf(buf,"TOP %u 0\r\n",i);
+    336            send_str(buf);
+    337          }
+    338          
+    339          void send_del_mes(int i)
+    340          {
+    341            char buf[64];
+    342            sprintf(buf,"DELE %u\r\n",i);
+    343            send_str(buf);
+    344          }
+    345          
+    346          void send_quit()
+    347          {send_str("QUIT\r\n");}
+    348          
+    349          
+    350          int resp_ok(char *buf)
+    351          {
+    352            if (strncmp(buf,"+OK",3)) return -1;
+    353            return (0);
+    354          }
+    355          
+    356          
+    357          int fhandler=-1;
+    358          
+    359          void end_connect(char *err)
+    360          {
+    361            strcpy(pop_stat.log,err);
+    362            REDRAW();
+    363            send_quit();
+    364            end_socket();
+    365            if (recived_line)
+    366            {
+    367              mfree(recived_line);
+    368              recived_line=0;
+    369            }
+    370            if (fhandler!=-1)
+    371            {
+    372              //Закроем поток если некорректно вышли
+    373              unsigned int err;
+    374              fclose(fhandler,&err);
+    375            }
+    376            if (viewer_present!=-1)
+    377            {
+    378              IPC_REQ *ipc=malloc(sizeof(IPC_REQ));
+    379              ipc->name_to=ipc_viewer_name;
+    380              ipc->name_from=ipc_my_name;
+    381              ipc->data=0;
+    382              GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_LOADING_FINISHED,ipc);
+    383            }
+    384          }
+    385            
+    386          
+    387          void process_line(char *rec_line)
+    388          {
+    389            unsigned int err;
+    390            switch(pop_stat.pop_state)
+    391            {
+    392            case POP_GREETING:
+    393              if (resp_ok(rec_line))
+    394              {
+    395                end_connect(rec_line);
+    396                return;
+    397              }
+    398              send_login();
+    399              pop_stat.pop_state=POP_VER_LOGIN;
+    400              REDRAW();
+    401              return;
+    402              
+    403            case POP_VER_LOGIN:
+    404              if (resp_ok(rec_line))
+    405              {
+    406                end_connect(rec_line);
+    407                return;
+    408              }
+    409              send_pass();
+    410              pop_stat.pop_state=POP_VER_PASS;
+    411              REDRAW();
+    412              return;
+    413              
+    414            case POP_VER_PASS:
+    415              if (resp_ok(rec_line))
+    416              {
+    417                end_connect(rec_line);
+    418                return;
+    419              }
+    420              send_get_stat();
+    421              pop_stat.pop_state=POP_GET_STAT;
+    422              REDRAW();
+    423              return;
+    424              
+    425            case POP_GET_STAT:
+    426              if (resp_ok(rec_line))
+    427              {
+    428                end_connect(rec_line);
+    429                return;
+    430              }
+    431              pop_stat.in_pop3=strtoul(strchr(rec_line,' ')+1,0,10);
+    432              if (!pop_stat.in_pop3)
+    433              {
+    434                pop_stat.pop_state=0;
+    435                end_connect("Mailbox is empty");
+    436                return;
+    437              }
+    438              send_get_uidl_list();
+    439              pop_stat.pop_state=POP_GET_UIDL_LIST;
+    440              REDRAW();
+    441              return;
+    442              
+    443            case POP_GET_UIDL_LIST:
+    444              if (!mes_rec)
+    445              {
+    446                if (resp_ok(rec_line))
+    447                {
+    448                  end_connect(rec_line);
+    449                  return;
+    450                }
+    451                mes_rec=1;
+    452                return;
+    453              }
+    454              else
+    455              {
+    456                if (strcmp(rec_line,".\r\n"))
+    457                {
+    458                  add_uidl_if_exist(rec_line);
+    459                  return;
+    460                }
+    461                else
+    462                {
+    463                  mes_rec=0;
+    464                  get_list();
+    465                  pop_stat.pop_state=POP_GET_LIST;
+    466                  REDRAW();
+    467                  return;
+    468                }
+    469              }
+    470              
+    471            case POP_GET_LIST:
+    472              if (!mes_rec)
+    473              {
+    474                if (resp_ok(rec_line))
+    475                {
+    476                  end_connect(rec_line);
+    477                  return;
+    478                }
+    479                mes_rec=1;
+    480                break;
+    481              }
+    482              else
+    483              {
+    484                if (strcmp(rec_line,".\r\n"))
+    485                {
+    486                  set_mes_size(rec_line);
+    487                  return;
+    488                }
+    489                else
+    490                {
+    491                  mes_rec=0;
+    492                  cur_ml=(ML_DAEMON*)&mails;
+    493                  write_mail_DB();
+    494                  pop_stat.pop_state=POP_PROCESS_LIST;
+    495                  REDRAW();
+    496                }
+    497              }
+    498              
+    499            case POP_PROCESS_LIST:
+    500            case POP_RECEIVE_HEADERS:
+    501            case POP_RECEIVE_MESSAGE:
+    502            case POP_DELETE_MESSAGE:
+    503              if (pop_stat.pop_state==POP_RECEIVE_HEADERS||pop_stat.pop_state==POP_RECEIVE_MESSAGE)
+    504              {
+    505                if (!mes_rec)
+    506                {
+    507                  char fname[128];
+    508                  if (resp_ok(rec_line))
+    509                  {
+    510                    end_connect(rec_line);
+    511                    return;
+    512                  }
+    513                  sprintf(fname,"%s%s.eml",EML_PATH,cur_ml->uidl);
+    514                  if ((fhandler=fopen(fname,A_WriteOnly+A_Create+A_Truncate+A_BIN,P_WRITE,&err))==-1)
+    515                  {
+    516                    end_connect(pop_stat.pop_state==POP_RECEIVE_HEADERS?"Can't write headers!":"Can't write message!");
+    517                    return;
+    518                  }
+    519                  mes_rec=1;
+    520                  return;
+    521                }
+    522                else
+    523                {
+    524                  if (strcmp(rec_line,".\r\n"))
+    525                  {
+    526                    fwrite(fhandler,rec_line,strlen(rec_line),&err);
+    527                    return;
+    528                  }
+    529                  else
+    530                  {
+    531                    cur_ml->state=(pop_stat.pop_state==POP_RECEIVE_HEADERS)?M_HEADERS_LOADED:M_FULL_LOADED;
+    532                    fclose(fhandler,&err);
+    533                    fhandler=-1;
+    534                    mes_rec=0;
+    535                    write_mail_DB();
+    536                    pop_stat.pop3_recv++;
+    537                    if (pop_stat.pop_state==POP_RECEIVE_MESSAGE)
+    538                    {
+    539                      if (DEL_AFTER_LOAD)
+    540                      {
+    541                        send_del_mes(cur_ml->num_in_list);
+    542                        pop_stat.pop_state=POP_DELETE_MESSAGE;
+    543                        REDRAW();
+    544                        return;
+    545                      }
+    546                    }    
+    547                    pop_stat.pop_state=POP_PROCESS_LIST;
+    548                    REDRAW();
+    549                  }
+    550                }
+    551              }
+    552              else if (pop_stat.pop_state==POP_DELETE_MESSAGE)
+    553              {
+    554                if (resp_ok(rec_line))
+    555                {
+    556                  end_connect("Can't delete!");
+    557                  return;
+    558                }
+    559                pop_stat.pop3_del++;
+    560                pop_stat.pop_state=POP_PROCESS_LIST;
+    561                REDRAW();
+    562              }
+    563              
+    564              while ((cur_ml=cur_ml->next))
+    565              {
+    566                if (cur_ml->num_in_list==-1)
+    567                {
+    568                  do_losted_mes();
+    569                  continue;
+    570                }
+    571                switch(cur_ml->state)
+    572                {
+    573                case M_LOAD_HEADER:
+    574                  send_get_headers(cur_ml->num_in_list);
+    575                  pop_stat.pop_state=POP_RECEIVE_HEADERS;
+    576                  REDRAW();
+    577                  return;
+    578                case M_LOAD_FULL:
+    579                  send_get_mes(cur_ml->num_in_list);
+    580                  pop_stat.pop_state=POP_RECEIVE_MESSAGE;
+    581                  REDRAW();
+    582                  return;
+    583                case M_HEADERS_LOADED:
+    584                case M_FULL_LOADED:
+    585                  continue;
+    586                  
+    587                case M_DELETE:
+    588                  send_del_mes(cur_ml->num_in_list);
+    589                  remove_cur_from_list();
+    590                  pop_stat.pop_state=POP_DELETE_MESSAGE;
+    591                  REDRAW();
+    592                  return;
+    593                }
+    594              }
+    595              pop_stat.pop_state=0;
+    596              write_mail_DB();
+    597              end_connect("Done!");
+    598              return;
+    599            }
+    600          }
+    601          
+    602          #define BUF_SIZE 1024
+    603          void get_answer(void)
+    604          {
+    605            char msg_buf[BUF_SIZE];
+    606            char *s=msg_buf;
+    607            char *d; //Куда
+    608            int c;
+    609            int i;
+    610            i=recv(sock,msg_buf,BUF_SIZE-1,0);
+    611            if (i>0)
+    612            {
+    613              pop_stat.total_recv+=i;
+    614              REDRAW();
+    615              d=recived_line;
+    616              if (d)
+    617              {
+    618                //Уже была строка
+    619                d=recived_line=realloc(recived_line,strlen(d)+i+1); //Возможно, мы добавим весь буфер и \0
+    620                d+=strlen(d);
+    621              }
+    622              else
+    623              {
+    624                //Заново
+    625               L_NEWLINE:
+    626                 d=recived_line=malloc(i+1); //Возможно, это будет целый буфер и \0
+    627              }
+    628              while(i)
+    629              {
+    630                i--;
+    631                c=*d++=*s++; //Копируем символ
+    632                if (c=='\n')
+    633                {
+    634                  //Конец строки
+    635                  *d=0;
+    636                  process_line(recived_line);
+    637                  mfree(recived_line);
+    638                  goto L_NEWLINE;
+    639                }
+    640              }
+    641              *d=0; //Временно закончили строку
+    642            }
+    643          }
+    644          
+    645          // ==============================================================================================
+    646          int DNR_ID=0;
+    647          int DNR_TRIES=3;
+    648          
+    649          
+    650          void create_connect(void)
+    651          {
+    652            char ip_adr[64];
+    653            char *end_ip;
+    654            unsigned int ip;
+    655            int err;
+    656            int ***p_res=NULL;
+    657            
+    658            void do_reconnect(void);
+    659            SOCK_ADDR sa;
+    660            //Устанавливаем соединение
+    661            pop_stat.connect_state=0;
+    662            GBS_DelTimer(&reconnect_tmr);
+    663            ClearSendQ();
+    664            if (!IsGPRSEnabled())
+    665            {
+    666              is_gprs_online=0;
+    667              snprintf(pop_stat.log,255,"Wait for GPRS up!");
+    668              return;
+    669            }
+    670            DNR_ID=0;
+    671            strcpy(ip_adr,POP3_ADRESS);
+    672            end_ip=strrchr(ip_adr,':');
+    673            if (end_ip) *end_ip=0;
+    674            ip=str2ip(ip_adr);
+    675            if (ip!=0xFFFFFFFF)  
+    676            {
+    677              snprintf(pop_stat.log,255,"Connect via IP...");
+    678              REDRAW();
+    679              sa.ip=ip;
+    680              goto L_CONNECT;
+    681            }  
+    682            snprintf(pop_stat.log,255,"Send DNR...");
+    683            REDRAW();
+    684            *socklasterr()=0;
+    685            err=async_gethostbyname(POP3_ADRESS,&p_res,&DNR_ID); //03461351 3<70<19<81
+    686            if (err)
+    687            {
+    688              if ((err==0xC9)||(err==0xD6))
+    689              {
+    690                if (DNR_ID)
+    691                {
+    692          	return; //Ждем готовности DNR
+    693                }
+    694              }
+    695              else
+    696              {
+    697                snprintf(pop_stat.log,255,"DNR ERROR %d!",err);
+    698                REDRAW();
+    699                GBS_StartTimerProc(&reconnect_tmr,TMR_SECOND*120,do_reconnect);
+    700                return;
+    701              }
+    702            }
+    703            if (p_res)
+    704            {
+    705              if (p_res[3])
+    706              {
+    707                snprintf(pop_stat.log,255,"DNR Ok, connecting...");
+    708                REDRAW();
+    709                DNR_TRIES=0;
+    710                sa.ip=p_res[3][0][0];
+    711          
+    712              L_CONNECT:
+    713                zeromem(&pop_stat,sizeof(POP_STAT));
+    714                sock=socket(1,1,0);
+    715          
+    716                if (sock!=-1)
+    717                {
+    718          	sa.family=1;
+    719          	sa.port=htons(POP3_PORT);
+    720          	if (connect(sock,&sa,sizeof(sa))!=-1)
+    721          	{
+    722          	  pop_stat.connect_state=1;
+    723          	  REDRAW();
+    724          	}
+    725          	else
+    726          	{
+    727          	  closesocket(sock);
+    728          	  sock=-1;
+    729          	  LockSched();
+    730          	  ShowMSG(1,(int)"Can't connect!");
+    731          	  UnlockSched();
+    732          	  GBS_StartTimerProc(&reconnect_tmr,TMR_SECOND*120,do_reconnect);
+    733          	}
+    734                }
+    735                else
+    736                {
+    737          	LockSched();
+    738          	ShowMSG(1,(int)"Can't create socket, GPRS restarted!");
+    739          	UnlockSched();
+    740          	//Не осилили создания сокета, закрываем GPRS-сессию
+    741          	GPRS_OnOff(0,1);
+    742                }
+    743              }	
+    744            }
+    745            else
+    746            {
+    747              DNR_TRIES--;
+    748              LockSched();
+    749              ShowMSG(1,(int)"Host not found!");
+    750              UnlockSched();
+    751            }
+    752          }
+    753          
+    754          void do_reconnect(void)
+    755          {
+    756            if (is_gprs_online)
+    757            {
+    758              DNR_TRIES=3;
+    759              SUBPROC((void*)create_connect);
+    760            }
+    761          }
+    762          
+    763          void end_socket(void)
+    764          {
+    765            if (sock>=0)
+    766            {
+    767              shutdown(sock,2);
+    768              closesocket(sock);
+    769            }
+    770          }
+    771          
+    772          #ifdef NEWSGOLD
+    773          #define sms_submess 0x26
+    774          #else
+    775          #define sms_submess 0x1E
+    776          #endif
+    777          
+    778          
+    779          int numbercmp(const char *num, const char *numlist)
+    780          {
+    781            const char *num2=num;
+    782            int i;
+    783            int c,d;
+    784            for (;;) 
+    785            {
+    786              c=*num++;
+    787              d=*numlist++;
+    788              if(d==',') d=0;
+    789              i=c-d;
+    790              if (!i) 
+    791              {
+    792                if (!c) break;
+    793                else continue;
+    794              }
+    795              numlist=strchr(numlist,',');
+    796              if (!numlist) break;
+    797              numlist++;
+    798              num=num2;
+    799            }
+    800            return(i);
+    801          }
+    802          
+    803          IPC_REQ gipc;
+    804          
+    805          void CheckDoubleRun(void)
+    806          {
+    807            if ((int)(gipc.data)>1)
+    808            {
+    809              LockSched();
+    810              CloseCSM(maincsm_id);
+    811              ShowMSG(1,(int)"MailDaemon already started!");
+    812              UnlockSched();
+    813            }
+    814            else
+    815            {
+    816              gipc.name_to=ipc_viewer_name;
+    817              gipc.name_from=ipc_my_name;
+    818              gipc.data=&pop_stat;
+    819              GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_DAEMON_LOGON,&gipc);
+    820            }
+    821          }
+    822          
+    823          
+    824          
+    825          #define idlegui_id(icsm) (((int *)icsm)[DISPLACE_OF_IDLEGUI_ID/4])
+    826          int checkGui(int id)
+    827          {
+    828           int retval = 0; 
+    829           if (IsGuiOnTop(id)) 
+    830           {
+    831              GUI* igui = GetTopGUI();
+    832              if (igui)
+    833              {
+    834          #ifdef ELKA
+    835                canvasdata = BuildCanvas();
+    836                retval = 1;
+    837          #else
+    838                void *idata = GetDataOfItemByID(igui, 2);
+    839                if (idata)
+    840                {
+    841                  canvasdata = ((void **)idata)[DISPLACE_OF_IDLECANVAS / 4];
+    842                  retval = 1;
+    843                }
+    844          #endif
+    845              }  
+    846           }
+    847           return retval;
+    848          }
+    849          
+    850          extern const unsigned int X;
+    851          extern const unsigned int Y;
+    852          extern const char fontpath[];
+    853          void *canvasdata;
+    854          extern  const int align;
+    855          int unread;
+    856          
+    857          int maincsm_onmessage(CSM_RAM* data,GBS_MSG* msg)
+    858          {
+    859            if (msg->msg==MSG_RECONFIGURE_REQ)
+    860            {
+    861              if (strcmp_nocase(successed_config_filename,(char *)msg->data0)==0)
+    862              {
+    863                ShowMSG(1,(int)"MailDaemon config updated!");
+    864                InitConfig();
+    865              }
+    866            }
+    867            if (msg->msg==MSG_IPC)  // Пришло сообщение, возможно от вьювера
+    868            { 
+    869              IPC_REQ *ipc;
+    870              if ((ipc=(IPC_REQ*)msg->data0))
+    871              {
+    872                if (strcmp_nocase(ipc->name_to,ipc_my_name)==0)
+    873                {
+    874                  switch (msg->submess)
+    875                  {
+    876                  case IPC_VIEWER_LOGON:
+    877                    if (viewer_present)
+    878                    {
+    879                      viewer_present=0;
+    880                      ipc->name_to=ipc->name_from;
+    881                      ipc->name_from=ipc_my_name;
+    882                      ipc->data=&pop_stat;
+    883                      GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_DAEMON_LOGON,ipc);
+    884                    }
+    885                    break;
+    886                    
+    887                  case IPC_VIEWER_LOGFF:
+    888                    if (!viewer_present)
+    889                    {
+    890                      viewer_present=-1;   // Вьювер вышел
+    891                    }
+    892                    break;
+    893                    
+    894                  case IPC_CHECK_MAILBOX:
+    895                    ipc->name_to=ipc->name_from;
+    896                    ipc->name_from=ipc_my_name;
+    897                    if ((pop_stat.connect_state==0)&&(sock==-1))
+    898                    {
+    899                      GBS_DelTimer(&reconnect_tmr);
+    900                      DNR_TRIES=3;
+    901                      SUBPROC((void *)create_connect);
+    902                      ipc->data=(void *)1;
+    903                    }
+    904                    else
+    905                      ipc->data=(void *)0;
+    906                    GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_CHECK_MAILBOX,ipc);
+    907                    break;
+    908                    
+    909                  case IPC_STOP_CHECKING:
+    910                    mfree(ipc);
+    911                    SUBPROC((void *)end_connect,"Manually stopped");
+    912                    break;
+    913                    
+    914                  case IPC_CHECK_DOUBLERUN:
+    915                    ipc->data=(void *)((int)(ipc->data)+1);
+    916                    //Если приняли свое собственное сообщение, значит запускаем чекер
+    917                    if (ipc->name_from==ipc_my_name) SUBPROC((void *)CheckDoubleRun);
+    918                    break;
+    919                  }
+    920                }
+    921              }
+    922            }
+    923            if (msg->msg==MSG_SMS_RX)
+    924            {
+    925              if (msg->submess==sms_submess)
+    926              {
+    927                char number[64];
+    928                int GetSMSNumber(const PDU *sms, char *number);
+    929                if (GetSMSNumber(IncommingPDU(),number))
+    930                {
+    931                  if (!numbercmp(number,SMSFORWARD))
+    932                  {
+    933                    if ((pop_stat.connect_state==0)&&(sock==-1))
+    934                    {
+    935                      GBS_DelTimer(&reconnect_tmr);
+    936                      DNR_TRIES=3;
+    937                      SUBPROC((void *)create_connect);
+    938                    }
+    939                  }
+    940                }
+    941              }
+    942            }
+    943            if (msg->msg==MSG_HELPER_TRANSLATOR)
+    944            {
+    945              switch((int)msg->data0)
+    946              {
+    947              case LMAN_DISCONNECT_IND:
+    948                is_gprs_online=0;
+    949                break;
+    950              case LMAN_CONNECT_CNF:
+    951                is_gprs_online=1;
+    952                GBS_StartTimerProc(&reconnect_tmr,TMR_SECOND*120,do_reconnect);
+    953                break;
+    954              case ENIP_DNR_HOST_BY_NAME:
+    955                if ((int)msg->data1==DNR_ID)
+    956                {
+    957          	if (DNR_TRIES) SUBPROC((void *)create_connect);
+    958                }
+    959                break;
+    960              }
+    961              if ((int)msg->data1==sock)
+    962              {
+    963                //Если наш сокет
+    964                switch((int)msg->data0)
+    965                {
+    966                case ENIP_SOCK_CONNECTED:
+    967          	if (pop_stat.connect_state==1)
+    968          	{
+    969          	  //Соединение установленно, посылаем пакет login
+    970                    InitMailDB();
+    971          	  strcpy(pop_stat.log,"Try to login...");
+    972                    pop_stat.connect_state=2;
+    973          	  REDRAW();
+    974          	}
+    975          	else
+    976          	{
+    977          	  ShowMSG(1,(int)"Illegal message ENIP_SOCK_CONNECTED!");
+    978          	}
+    979          	break;
+    980                case ENIP_SOCK_DATA_READ:
+    981          	if (pop_stat.connect_state>=2)
+    982          	{
+    983          	  //Если посылали send
+    984          	  SUBPROC((void *)get_answer);
+    985          	  //    REDRAW();
+    986          	}
+    987          	else
+    988          	{
+    989          	  ShowMSG(1,(int)"Illegal message ENIP_DATA_READ");
+    990          	}
+    991          	break;
+    992                  
+    993                case ENIP_BUFFER_FREE:
+    994                  if (!sendq_p)
+    995                  {
+    996                    ShowMSG(1,(int)"Illegal ENIP_BUFFER_FREE!");
+    997                    SUBPROC((void *)end_socket);
+    998                  }
+    999                  else
+   1000                  {
+   1001                    //Досылаем очередь
+   1002                    snprintf(pop_stat.log,255,"ENIP_BUFFER_FREE");
+   1003                    REDRAW();
+   1004                    SUBPROC((void *)send_str,0);
+   1005                  }
+   1006                  break;
+   1007                  
+   1008                case ENIP_BUFFER_FREE1:
+   1009                  if (!sendq_p)
+   1010                  {
+   1011                    ShowMSG(1,(int)"Illegal ENIP_BUFFER_FREE1!");
+   1012                    SUBPROC((void *)end_socket);
+   1013                  }
+   1014                  else
+   1015                  {
+   1016                    // Досылаем очередь
+   1017                    snprintf(pop_stat.log,255,"ENIP_BUFFER_FREE1");
+   1018                    REDRAW();
+   1019                    SUBPROC((void *)send_str,0);
+   1020                  }
+   1021                  break;
+   1022                    
+   1023                  
+   1024                case ENIP_SOCK_REMOTE_CLOSED:
+   1025          	//Закрыт со стороны сервера
+   1026          	if (pop_stat.connect_state) SUBPROC((void *)end_socket);
+   1027          	break;
+   1028                  
+   1029                case ENIP_SOCK_CLOSED:
+   1030          	pop_stat.connect_state=0;
+   1031          	sock=-1;
+   1032                  if (sendq_p)
+   1033                  {
+   1034                    snprintf(pop_stat.log,255,"Disconnected, %d bytes not sended!", sendq_l);
+   1035                  }
+   1036          	REDRAW();
+   1037                  SUBPROC((void *)ClearSendQ);
+   1038          	break;
+   1039                }
+   1040              }
+   1041              
+   1042            }
+   1043            //pop_stat->pop3_recv,pop_stat->in_pop3
+   1044              void *icsm;
+   1045              char s[64];
+   1046              icsm=FindCSMbyID(CSM_root()->idle_id);
+   1047              unread=pop_stat.pop3_recv;
+   1048              void SetIconBarHandler();
+   1049              SetIconBarHandler();
+   1050          
+   1051              if(icsm && checkGui(idlegui_id(icsm)))
+   1052              {
+   1053                sprintf(s, "Recv msg: %d/%d",pop_stat.pop3_recv,pop_stat.in_pop3);
+   1054                PrintField(X,Y, s, align, 1, 1);    
+   1055              }
+   1056              
+   1057            return(1);
+   1058          }
+   1059          // ==============================================================================================
+   1060          
+   1061          static void maincsm_oncreate(CSM_RAM *data)
+   1062          {
+   1063            gipc.name_to=ipc_my_name;
+   1064            gipc.name_from=ipc_my_name;
+   1065            gipc.data=0;
+   1066            GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_CHECK_DOUBLERUN,&gipc);
+   1067          }
+   1068          
+   1069          
+   1070          static void maincsm_onclose(CSM_RAM *csm)
+   1071          {
+   1072            gipc.name_to=ipc_viewer_name;
+   1073            gipc.name_from=ipc_my_name;
+   1074            gipc.data=(void *)0;
+   1075            GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_DAEMON_LOGOFF,&gipc);
+   1076            
+   1077            GBS_DelTimer(&reconnect_tmr);
+   1078            if (recived_line)
+   1079            {
+   1080              mfree(recived_line); 
+   1081              recived_line=NULL;
+   1082            }
+   1083            FreeMailDB();
+   1084            SUBPROC((void *)end_socket);
+   1085            SUBPROC((void *)ClearSendQ);
+   1086            SUBPROC((void *)ElfKiller);
+   1087          }
+   1088          
+   1089          static unsigned short maincsm_name_body[140];
+   1090          const int minus11=-11;
+   1091          
+   1092          
+   1093          #pragma swi_number=0x27 
+   1094          __swi __arm void AddIconToIconBar(int pic, short *num);
+   1095          
+   1096          
+   1097          void addIconBar(short* num)
+   1098          {
+   1099             if(unread)
+   1100                AddIconToIconBar(7000, num);   
+   1101          }
+   1102          
+   1103          typedef struct
+   1104          {
+   1105            char check_name[8];
+   1106            int addr;
+   1107          }ICONBAR_H;
+   1108          
+   1109          struct
+   1110          {
+   1111            CSM_DESC maincsm;
+   1112            WSHDR maincsm_name;
+   1113            ICONBAR_H iconbar_handler;
+   1114          }MAINCSM =
+   1115          {
+   1116            {
+   1117            maincsm_onmessage,
+   1118            maincsm_oncreate,
+   1119          #ifdef NEWSGOLD
+   1120            0,
+   1121            0,
+   1122            0,
+   1123            0,
+   1124          #endif
+   1125            maincsm_onclose,
+   1126            sizeof(MAIN_CSM),
+   1127            1,
+   1128            &minus11
+   1129            },
+   1130            {
+   1131              maincsm_name_body,
+   1132              NAMECSM_MAGIC1,
+   1133              NAMECSM_MAGIC2,
+   1134              0x0,
+   1135              139      
+   1136            }
+   1137             ,
+   1138            {
+   1139              "IconBar"
+   1140            }
+   1141          };
+   1142          
+   1143          void SetIconBarHandler()
+   1144          {
+   1145            MAINCSM.iconbar_handler.addr = (int)addIconBar;
+   1146          }
+   1147          
+   1148          static void UpdateCSMname(void)
+   1149          {
+   1150            wsprintf((WSHDR *)(&MAINCSM.maincsm_name),"MailDaemon");
+   1151          }
+   1152          
+   1153          int main(char *exename, char *fname)
+   1154          {
+   1155            CSM_RAM *save_cmpc;
+   1156            MAIN_CSM main_csm;
+   1157            InitConfig();
+   1158            UpdateCSMname();
+   1159            LockSched();
+   1160            
+   1161            PrintLibInit(1);
+   1162            FontPathInit((char *)fontpath, 1);
+   1163            
+   1164            SetIconBarHandler();
+   1165            save_cmpc=CSM_root()->csm_q->current_msg_processing_csm;
+   1166            CSM_root()->csm_q->current_msg_processing_csm=CSM_root()->csm_q->csm.first;
+   1167            maincsm_id=CreateCSM(&MAINCSM.maincsm,&main_csm,0);
+   1168            CSM_root()->csm_q->current_msg_processing_csm=save_cmpc;
+   1169            UnlockSched();
+   1170            return (0);
+   1171          }
+   1172          
+   1173          
+   1174          int GetSMSNumber(const PDU *sms, char *number)
+   1175          {
+   1176            const char *p=sms->data;
+   1177            unsigned int i;
+   1178            unsigned int m;
+   1179            unsigned int c;
+   1180            unsigned int c1;
+   1181            if ((*p++)!=0x11) return (0);
+   1182            if ((*p++)!=0x11) return (0);
+   1183            if (!(*p++)) return (0);
+   1184            c=*p++; //Пропускаем SCA
+   1185            p+=c;
+   1186            if ((*p++)&3) return (0); //Неподходящий тип сообщения ;)
+   1187            i=*p++; //Длина номера в нибблах
+   1188            if (*p++==0x91) *number++='+';
+   1189            m=0;
+   1190            c=0;
+   1191            while(m<i && m<32)
+   1192            {
+   1193              if (m&1) c1=c>>4; else c1=(c=(*p++))&0x0F;
+   1194              *number++=c1+'0';
+   1195              m++;
+   1196            }
+   1197            *number=0;
+   1198            return (1);
+   1199          }
+   1200          
+   1201          
+
+   Maximum stack usage in bytes:
+
+     Function             CSTACK
+     --------             ------
+     CheckDoubleRun          12
+     ClearSendQ               8
+     ElfKiller                4
+     FreeMailDB              12
+     GetSMSNumber             8
+     InitMailDB             424
+     SetIconBarHandler        0
+     addIconBar               4
+     add_uidl_if_exist       24
+     checkGui                 8
+     create_connect         120
+     do_losted_mes            4
+     do_reconnect             4
+     end_connect             24
+     end_socket               8
+     get_answer            1048
+     get_list                 4
+     main                    56
+     maincsm_onclose         12
+     maincsm_oncreate         4
+     maincsm_onmessage      184
+     numbercmp               12
+     process_line           168
+     remove_cur_from_list   148
+     resp_ok                  4
+     send_del_mes            68
+     send_get_headers        68
+     send_get_mes            68
+     send_get_stat            4
+     send_get_uidl_list       4
+     send_login             132
+     send_pass              132
+     send_quit                4
+     send_str                20
+     set_mes_size            12
+     strcmp_nocase            0
+     write_mail_DB          288
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     mailer_db_name                   12
+     ?<Constant "MailDaemon already st...">
+                                     344
+     ??strcmp_nocase_0                76
+     percent_t                         3
+     empty_str                         1
+     eol                               3
+     ElfKiller                        28
+     FreeMailDB                       68
+     InitMailDB                      276
+     write_mail_DB                   224
+     add_uidl_if_exist               220
+     set_mes_size                    124
+     remove_cur_from_list            148
+     do_losted_mes                    56
+     ClearSendQ                       32
+     send_str                        344
+     send_login                       48
+     send_pass                        48
+     send_get_stat                    12
+     send_get_uidl_list               12
+     get_list                         12
+     send_get_mes                     44
+     send_get_headers                 44
+     send_del_mes                     44
+     send_quit                        12
+     resp_ok                          32
+     end_connect                     164
+     process_line                    936
+     get_answer                      192
+     create_connect                  600
+     do_reconnect                     40
+     end_socket                       40
+     numbercmp                        92
+     CheckDoubleRun                  120
+     checkGui                         60
+     canvasdata                        4
+     maincsm_onmessage              1116
+     maincsm_oncreate                 76
+     maincsm_onclose                 132
+     maincsm_name_body               280
+     minus11                           4
+     addIconBar                       44
+     MAINCSM                         440
+     SetIconBarHandler                20
+     main                            156
+     GetSMSNumber                    180
+     ??DataTable7                      4
+     ??DataTable8                      4
+     ??DataTable11                     4
+     ??DataTable12                     4
+     ??DataTable20                     4
+     ??DataTable24                     4
+     ??DataTable33                     4
+     ??DataTable34                     4
+     ??DataTable40                     4
+     ??DataTable41                     4
+     ??DataTable42                     4
+     ??DataTable43                     4
+     ??DataTable45                     4
+     ??DataTable46                     4
+     ?<Initializer for MAINCSM>      440
+     ?<Constant "Mailbox is empty">  128
+     ?<Constant "Wait for GPRS up!">
+                                     164
+     ?<Constant ".\r\n">               4
+     ?<Constant "MailDaemon">         12
+     ?<Constant "send res %d">        40
+     ?<Constant "USER %s\r\n">        12
+     ?<Constant "PASS %s\r\n">        12
+     ?<Constant "RETR %u\r\n">        12
+     ?<Constant "TOP %u 0\r\n">       12
+     ?<Constant "DELE %u\r\n">        12
+     ?<Constant "+OK">                 4
+      Others                         244
+
+ 
+ 6 148 bytes in segment CODE
+   779 bytes in segment DATA_C
+   440 bytes in segment DATA_I
+   440 bytes in segment DATA_ID
+   284 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 5 928 bytes of CODE  memory (+ 244 bytes shared)
+ 1 219 bytes of CONST memory
+   724 bytes of DATA  memory
+
+Errors: none
+Warnings: none

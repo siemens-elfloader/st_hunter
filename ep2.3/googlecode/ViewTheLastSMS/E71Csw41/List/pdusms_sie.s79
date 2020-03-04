@@ -1,0 +1,850 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   14/May/2008  13:01:57 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  D:\Pasha\elf\googlecode\ViewTheLastSMS\pdusms_sie.c /
+//    Command line    =  D:\Pasha\elf\googlecode\ViewTheLastSMS\pdusms_sie.c /
+//                        -D NEWSGOLD -D ELKA -D VKP -lC                     /
+//                       D:\Pasha\elf\googlecode\ViewTheLastSMS\E71Csw41\Lis /
+//                       t\ -lA D:\Pasha\elf\googlecode\ViewTheLastSMS\E71Cs /
+//                       w41\List\ -o D:\Pasha\elf\googlecode\ViewTheLastSMS /
+//                       \E71Csw41\Obj\ -s9 --no_unroll --cpu_mode arm       /
+//                       --endian little --cpu ARM926EJ-S --stack_align 4    /
+//                       --interwork -e --fpu None -I "D:\Pasha\Embedded     /
+//                       Workbench 4.0 Evaluation2\ARM\INC\"                 /
+//                       --inline_threshold=2                                /
+//    List file       =  D:\Pasha\elf\googlecode\ViewTheLastSMS\E71Csw41\Lis /
+//                       t\pdusms_sie.s79                                    /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME pdusms_sie
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        MULTWEAK ??Add2WS??rA
+        MULTWEAK ??GetSMSData??rT
+        MULTWEAK ??Hex2Num??rA
+        MULTWEAK ??PDU_decode??rA
+        MULTWEAK ??SMS_In??rA
+        MULTWEAK ??SMS_NotOut??rA
+        PUBLIC Add2WS
+        FUNCTION Add2WS,0203H
+        LOCFRAME CSTACK, 12, STACK
+        PUBLIC GetSMSData
+        FUNCTION GetSMSData,0203H
+        LOCFRAME CSTACK, 320, STACK
+        PUBLIC Hex2Num
+        FUNCTION Hex2Num,0203H
+        LOCFRAME CSTACK, 20, STACK
+        PUBLIC PDU_decode
+        FUNCTION PDU_decode,0203H
+        LOCFRAME CSTACK, 4, STACK
+        PUBLIC SMS_In
+        FUNCTION SMS_In,0203H
+        LOCFRAME CSTACK, 16, STACK
+        PUBLIC SMS_NotOut
+        FUNCTION SMS_NotOut,0203H
+        LOCFRAME CSTACK, 20, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+Add2WS              SYMBOL "Add2WS"
+??Add2WS??rA        SYMBOL "??rA", Add2WS
+GetSMSData          SYMBOL "GetSMSData"
+??GetSMSData??rT    SYMBOL "??rT", GetSMSData
+Hex2Num             SYMBOL "Hex2Num"
+??Hex2Num??rA       SYMBOL "??rA", Hex2Num
+PDU_decode          SYMBOL "PDU_decode"
+??PDU_decode??rA    SYMBOL "??rA", PDU_decode
+SMS_In              SYMBOL "SMS_In"
+??SMS_In??rA        SYMBOL "??rA", SMS_In
+SMS_NotOut          SYMBOL "SMS_NotOut"
+??SMS_NotOut??rA    SYMBOL "??rA", SMS_NotOut
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Hex2Num??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock0
+        REQUIRE Hex2Num
+// D:\Pasha\elf\googlecode\ViewTheLastSMS\pdusms_sie.c
+//    1 
+//    2 #include "..\inc\swilib.h"
+//    3 
+//    4 #define TYPE_OUT	0
+//    5 #define TYPE_IN		1
+//    6 #define TYPE_UNK	2
+//    7 #define TYPE_DRAFT	3
+//    8 
+//    9 #ifdef VKP
+//   10 #define PROCESSOR_MODE __thumb
+//   11 #else
+//   12 #define PROCESSOR_MODE __arm
+//   13 #endif
+//   14 
+//   15 typedef struct
+//   16 {
+//   17 	int type;
+//   18 	char SMS_CENTER[32];
+//   19 	char Number[32];
+//   20 	char Time[32];
+//   21 	WSHDR *SMS_TEXT;
+//   22 }SMS_DATA;
+//   23 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function Hex2Num
+        THUMB
+//   24 PROCESSOR_MODE void Hex2Num(char *hex, char *num, int len)
+//   25 {
+Hex2Num:
+        PUSH     {R4-R7}
+        CFI R7 Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+//   26 	int c;
+//   27 	int i=0,j;
+//   28 	char *p=hex;
+//   29 	if(*p==0x91)
+        LDRB     R5,[R0, #+0]
+        MOVS     R3,#+0
+        MOVS     R4,#+0
+        CMP      R5,#+145
+        BNE      ??Hex2Num_0
+//   30 	{
+//   31 		num[i]='+';
+        MOVS     R4,#+43
+        STRB     R4,[R1, #+0]
+//   32 		i++;
+        MOVS     R4,#+1
+//   33 	}
+//   34 	p++;
+??Hex2Num_0:
+        ADDS     R0,R0,#+1
+//   35 	for (j=0; j<len; j++)
+        MOVS     R5,#+0
+        B        ??Hex2Num_1
+//   36 	{
+//   37 		c=p[j]%0x10;
+//   38 		if(c>=0&&c<=9)
+//   39 			num[i]=c+'0';
+//   40 		else
+//   41 			break;
+//   42 		i++;
+//   43 		c=p[j]/0x10;
+//   44 		if(c>=0&&c<=9)
+//   45 			num[i]=c+'0';
+??Hex2Num_2:
+        ADDS     R6,R6,#+48
+        STRB     R6,[R1, R4]
+//   46 		else
+//   47 			break;
+//   48 		i++;
+        ADDS     R4,R4,#+1
+        ADDS     R5,R5,#+1
+??Hex2Num_1:
+        CMP      R5,R2
+        BGE      ??Hex2Num_3
+        LDRB     R6,[R0, R5]
+        LSRS     R7,R6,#+4
+        LSLS     R7,R7,#+4
+        SUBS     R6,R6,R7
+        BMI      ??Hex2Num_3
+        CMP      R6,#+10
+        BGE      ??Hex2Num_3
+        ADDS     R6,R6,#+48
+        STRB     R6,[R1, R4]
+        LDRB     R6,[R0, R5]
+        ADDS     R4,R4,#+1
+        LSRS     R6,R6,#+4
+        BMI      ??Hex2Num_3
+        CMP      R6,#+10
+        BLT      ??Hex2Num_2
+//   49 	}
+//   50 	num[i]=0;
+??Hex2Num_3:
+        STRB     R3,[R1, R4]
+//   51 }
+        POP      {R4-R7}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI CFA R13+0
+        BX       LR
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Add2WS??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock2
+        REQUIRE Add2WS
+//   52 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function Add2WS
+        THUMB
+//   53 PROCESSOR_MODE void Add2WS(char *data, char *wsbody, int len)
+//   54 {
+Add2WS:
+        PUSH     {R4,R5}
+        CFI R5 Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//   55 	int i;
+//   56 	for(i=0; i<len; i+=2)
+        MOVS     R3,#+0
+        CMP      R2,#+1
+        BGE      ??Add2WS_0
+        B        ??Add2WS_1
+//   57 	{
+//   58 		wsbody[i+2]=data[i+1];
+??Add2WS_2:
+        ADDS     R5,R0,R3
+        LDRB     R5,[R5, #+1]
+        ADDS     R4,R1,R3
+        STRB     R5,[R4, #+2]
+//   59 		wsbody[i+3]=data[i];
+        LDRB     R5,[R0, R3]
+//   60 	}
+        ADDS     R3,R3,#+2
+        STRB     R5,[R4, #+3]
+??Add2WS_0:
+        CMP      R3,R2
+        BLT      ??Add2WS_2
+//   61 	unsigned short *p=(unsigned short *)wsbody;
+//   62 	*p=len/2;
+??Add2WS_1:
+        LSRS     R0,R2,#+31
+        ADDS     R0,R0,R2
+        ASRS     R0,R0,#+1
+        STRH     R0,[R1, #+0]
+//   63 }
+        POP      {R4,R5}
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI CFA R13+0
+        BX       LR
+        CFI EndBlock cfiBlock3
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SMS_NotOut??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock4
+        REQUIRE SMS_NotOut
+//   64 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function SMS_NotOut
+        THUMB
+//   65 PROCESSOR_MODE void SMS_NotOut(char *PDU_data, SMS_DATA *data, int oftype)
+//   66 {
+SMS_NotOut:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+//   67 	char *p=PDU_data;
+//   68 	int c=*p++;
+        LDRB     R7,[R0, #+0]
+        MOVS     R5,R1
+        MOVS     R4,R2
+        ADDS     R6,R0,#+1
+//   69 	if(c) //len
+        CMP      R7,#+0
+        BEQ      ??SMS_NotOut_0
+//   70 		Hex2Num(p, data->SMS_CENTER, c);
+        MOVS     R2,R7
+        ADDS     R1,R1,#+4
+        MOVS     R0,R6
+        BL       Hex2Num
+//   71 	p+=c+2;
+??SMS_NotOut_0:
+        ADDS     R7,R6,R7
+//   72 	c=*p++;
+        LDRB     R6,[R7, #+2]
+        ADDS     R7,R7,#+3
+//   73 	if(c)
+        CMP      R6,#+0
+        BEQ      ??SMS_NotOut_1
+        MOVS     R0,#+0
+        ADDS     R0,R0,R6
+        ASRS     R0,R0,#+1
+        LSLS     R1,R0,#+1
+        SUBS     R1,R6,R1
+        BEQ      ??SMS_NotOut_2
+//   74 	{
+//   75 		if(c%2)
+//   76 			c=c/2+2;
+        ADDS     R6,R0,#+2
+        B        ??SMS_NotOut_3
+//   77 		else
+//   78 			c=c/2+1;
+??SMS_NotOut_2:
+        ADDS     R6,R0,#+1
+//   79 		Hex2Num(p, data->Number, c);
+??SMS_NotOut_3:
+        MOVS     R2,R6
+        MOVS     R1,R5
+        ADDS     R1,R1,#+36
+        MOVS     R0,R7
+        BL       Hex2Num
+//   80 	}
+//   81 	p+=c+oftype;
+//   82 	c=*p++;
+//   83 	Add2WS(p, (char *)data->SMS_TEXT->wsbody, c);
+??SMS_NotOut_1:
+        ADDS     R5,R5,#+68
+        LDR      R1,[R5, #+32]
+        ADDS     R0,R6,R4
+        LDR      R1,[R1, #+0]
+        ADDS     R0,R7,R0
+        LDRB     R2,[R0, #+0]
+        ADDS     R0,R0,#+1
+        BL       Add2WS
+//   84 	data->Time[0]=0;
+        MOVS     R0,#+0
+        STRB     R0,[R5, #+0]
+//   85 }
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SMS_In??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock6
+        REQUIRE SMS_In
+//   86 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function SMS_In
+        THUMB
+//   87 PROCESSOR_MODE void SMS_In(char *PDU_data, SMS_DATA *data)
+//   88 {
+SMS_In:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+//   89 	char *p=PDU_data;
+//   90 	int c=*p++;
+        LDRB     R6,[R0, #+0]
+        MOVS     R4,R1
+        ADDS     R5,R0,#+1
+//   91 	if(c) //len
+        CMP      R6,#+0
+        BEQ      ??SMS_In_0
+//   92 		Hex2Num(p, data->SMS_CENTER, c);
+        MOVS     R2,R6
+        ADDS     R1,R1,#+4
+        MOVS     R0,R5
+        BL       Hex2Num
+//   93 	p+=c+1;
+??SMS_In_0:
+        ADDS     R6,R5,R6
+//   94 	c=*p++;
+        LDRB     R5,[R6, #+1]
+        ADDS     R6,R6,#+2
+//   95 	if(c)
+        CMP      R5,#+0
+        BEQ      ??SMS_In_1
+        MOVS     R0,#+0
+        ADDS     R0,R0,R5
+        ASRS     R0,R0,#+1
+        LSLS     R1,R0,#+1
+        SUBS     R1,R5,R1
+        BEQ      ??SMS_In_2
+//   96 	{
+//   97 		if(c%2)
+//   98 			c=c/2+2;
+        ADDS     R5,R0,#+2
+        B        ??SMS_In_3
+//   99 		else
+//  100 			c=c/2+1;
+??SMS_In_2:
+        ADDS     R5,R0,#+1
+//  101 		Hex2Num(p, data->Number, c);
+??SMS_In_3:
+        MOVS     R2,R5
+        MOVS     R1,R4
+        ADDS     R1,R1,#+36
+        MOVS     R0,R6
+        BL       Hex2Num
+//  102 	}
+//  103 	p+=c+2;
+??SMS_In_1:
+        ADDS     R0,R6,R5
+        ADDS     R0,R0,#+2
+//  104 	//time
+//  105 	int i;
+//  106 	char *pp=data->Time;
+        MOVS     R1,R4
+        ADDS     R1,R1,#+68
+//  107 	for (i=0; i<6; i++)
+        MOVS     R2,#+0
+        MOVS     R3,#+0
+//  108 	{
+//  109 		*pp++=p[i]%0x10+'0';
+??SMS_In_4:
+        LDRB     R5,[R0, R3]
+        LSRS     R6,R5,#+4
+        LSLS     R6,R6,#+4
+        SUBS     R5,R5,R6
+        ADDS     R5,R5,#+48
+        STRB     R5,[R1, #+0]
+//  110 		*pp++=p[i]/0x10+'0';
+        LDRB     R5,[R0, R3]
+        LSRS     R5,R5,#+4
+        ADDS     R5,R5,#+48
+        STRB     R5,[R1, #+1]
+        ADDS     R1,R1,#+2
+//  111 		if(i<2)
+        CMP      R3,#+2
+        BGE      ??SMS_In_5
+//  112 			*pp++='-';
+        MOVS     R5,#+45
+        B.N      ??SMS_In_6
+//  113 		if(i==2)
+??SMS_In_5:
+        BNE      ??SMS_In_7
+//  114 			*pp++=' ';
+        MOVS     R5,#+32
+        B.N      ??SMS_In_6
+//  115 		if(i>2&&i<5)
+??SMS_In_7:
+        CMP      R3,#+5
+        BGE      ??SMS_In_8
+//  116 			*pp++=':';
+        MOVS     R5,#+58
+??SMS_In_6:
+        STRB     R5,[R1, #+0]
+        ADDS     R1,R1,#+1
+//  117 	}
+??SMS_In_8:
+        ADDS     R3,R3,#+1
+        CMP      R3,#+6
+        BLT      ??SMS_In_4
+//  118 	*pp=0;
+        STRB     R2,[R1, #+0]
+//  119 	p+=7;
+//  120 	c=*p++;
+//  121 	Add2WS(p, (char *)data->SMS_TEXT->wsbody, c);
+        LDR      R1,[R4, #+100]
+        LDRB     R2,[R0, #+7]
+        LDR      R1,[R1, #+0]
+        ADDS     R0,R0,#+8
+        BL       Add2WS
+//  122 }
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??PDU_decode??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock8
+        REQUIRE PDU_decode
+//  123 //0 fail, 1, seccess, 2,unk type
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function PDU_decode
+        THUMB
+//  124 PROCESSOR_MODE int PDU_decode(char *PDU_data, SMS_DATA *data)
+//  125 {
+PDU_decode:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOVS     R2,R0
+//  126 	int c;
+//  127 	char *p=PDU_data;
+//  128 	if ( *p++ != 0x11 )
+        LDRB     R0,[R2, #+0]
+        CMP      R0,#+17
+        BEQ      ??PDU_decode_0
+//  129 		return 0;
+??PDU_decode_1:
+        MOVS     R0,#+0
+        POP      {PC}
+//  130 	if ( *p++ != 0x11 )
+??PDU_decode_0:
+        ADDS     R2,R2,#+1
+        ADDS     R0,R2,#+1
+        LDRB     R2,[R2, #+0]
+        CMP      R2,#+17
+        BNE      ??PDU_decode_1
+//  131 		return 0;
+//  132 	c=*p++;
+        LDRB     R2,[R0, #+0]
+        ADDS     R0,R0,#+1
+//  133 	switch(c)
+        CMP      R2,#+1
+        BEQ      ??PDU_decode_2
+        CMP      R2,#+3
+        BEQ      ??PDU_decode_2
+        CMP      R2,#+5
+        BEQ      ??PDU_decode_3
+        CMP      R2,#+7
+        BEQ      ??PDU_decode_4
+        B        ??PDU_decode_5
+//  134 	{
+//  135 		case 0x5:
+//  136 			data->type=TYPE_OUT;
+??PDU_decode_3:
+        MOVS     R2,#+0
+        STR      R2,[R1, #+0]
+//  137 			SMS_NotOut(p, data, 2);
+        MOVS     R2,#+2
+        B.N      ??PDU_decode_6
+//  138 			return 1;
+//  139 		case 0x3: //未查看
+//  140 		case 0x1:
+//  141 			data->type=TYPE_IN;
+??PDU_decode_2:
+        MOVS     R2,#+1
+        STR      R2,[R1, #+0]
+//  142 			SMS_In(p, data);
+        BL       SMS_In
+//  143 			return 1;
+        MOVS     R0,#+1
+        POP      {PC}
+//  144 		case 0x7:
+//  145 			data->type=TYPE_DRAFT;
+??PDU_decode_4:
+        MOVS     R2,#+3
+        STR      R2,[R1, #+0]
+//  146 			SMS_NotOut(p, data, 3);
+??PDU_decode_6:
+        BL       SMS_NotOut
+//  147 			return 1;
+        MOVS     R0,#+1
+        POP      {PC}
+//  148 	}
+//  149 	data->type=TYPE_UNK;
+??PDU_decode_5:
+        MOVS     R0,#+2
+        STR      R0,[R1, #+0]
+//  150 	return 2;
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock9
+//  151 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GetSMSData??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock10
+        REQUIRE GetSMSData
+//  152 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon0
+        CFI Function GetSMSData
+        ARM
+//  153 void GetSMSData(WSHDR *the_ws)
+//  154 {
+GetSMSData:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+//  155 	SMS_DATA data;
+//  156 	zeromem(&data, sizeof(SMS_DATA));
+//  157 	WSHDR *xws=AllocWS(256);
+//  158 	data.SMS_TEXT=xws;
+//  159 	int i=PDU_decode((char *)IncommingPDU(), &data);
+//  160 	if(i==0)
+        LDR      R6,??GetSMSData_0  ;; `?<Constant "\\300\\264\\327\\324:\\n">`
+        SUB      SP,SP,#+296
+        CFI CFA R13+316
+        MOV      R5,R0
+        MOV      R1,#+104
+        ADD      R0,SP,#+192
+        SWI      +285
+        MOV      R0,#+256
+        SWI      +293
+        MOV      R4,R0
+        STR      R4,[SP, #+292]
+        SWI      +33243
+        ADD      R1,SP,#+192
+        BLX      PDU_decode
+        CMP      R0,#+0
+//  161 	{
+//  162 		wsprintf(the_ws, "Read PDU error!");
+        ADDEQ    R1,R6,#+8
+        BEQ      ??GetSMSData_1
+//  163 	}
+//  164 	else if(i==1)
+        CMP      R0,#+1
+        BNE      ??GetSMSData_2
+//  165 	{
+//  166 		char out[]="发送到:\n";
+        LDR      R1,??GetSMSData_0+0x4  ;; `?<Constant "\\267\\242\\313\\315\\265\\275:\\n">`
+        MOV      R0,SP
+        LDM      R1,{R2,R3,R7}
+//  167 		char in[]="来自:\n";
+//  168 		char type_out[]="类型: 去短信";
+        LDR      R1,??GetSMSData_0+0x8  ;; `?<Constant "\\300\\340\\320\\315: \\310\\245\\266\\314`
+        STM      R0,{R2,R3,R7}
+        LDM      R6,{R2,R3}
+        ADD      R0,SP,#+12
+        STM      R0,{R2,R3}
+        LDM      R1,{R2,R3,R7,R12}
+//  169 		char type_in[]="类型: 来短信";
+        LDR      R1,??GetSMSData_0+0xC  ;; `?<Constant "\\300\\340\\320\\315: \\300\\264\\266\\314`
+        ADD      R0,SP,#+20
+        STM      R0,{R2,R3,R7,R12}
+        LDM      R1,{R2,R3,R7,R12}
+//  170 		char type_draft[]="类型: 草稿";
+        LDR      R1,??GetSMSData_0+0x10  ;; `?<Constant "\\300\\340\\320\\315: \\262\\335\\270\\345`
+        ADD      R0,SP,#+36
+        STM      R0,{R2,R3,R7,R12}
+        LDM      R1,{R2,R3,R7}
+        ADD      R0,SP,#+52
+        STM      R0,{R2,R3,R7}
+//  171 		char *p_io;
+//  172 		char oth[128];
+//  173 		if(data.type==TYPE_OUT)
+        LDR      R0,[SP, #+192]
+        CMP      R0,#+0
+//  174 		{
+//  175 			p_io=type_out;
+        ADDEQ    R7,SP,#+20
+//  176 			strcpy(oth, out);
+        BEQ      ??GetSMSData_3
+//  177 			strcat(oth, data.Number);
+//  178 		}
+//  179 		else if(data.type==TYPE_IN)
+        CMP      R0,#+1
+        BNE      ??GetSMSData_4
+//  180 		{
+//  181 			p_io=type_in;
+        ADD      R7,SP,#+36
+//  182 			strcpy(oth, in);
+        ADD      R1,SP,#+12
+        ADD      R0,SP,#+64
+        SWI      +26
+//  183 			strcat(oth, data.Number);
+        ADD      R1,SP,#+228
+        ADD      R0,SP,#+64
+        SWI      +23
+//  184 			strcat(oth, "\n时间:\n");
+        ADD      R1,R6,#+24
+        ADD      R0,SP,#+64
+        SWI      +23
+//  185 			strcat(oth, data.Time);
+        ADD      R1,SP,#+260
+        B        ??GetSMSData_5
+//  186 		}
+//  187 		else
+//  188 		{
+//  189 			p_io=type_draft;
+??GetSMSData_4:
+        ADD      R7,SP,#+52
+//  190 			strcpy(oth, out);
+??GetSMSData_3:
+        MOV      R1,SP
+        ADD      R0,SP,#+64
+        SWI      +26
+//  191 			strcat(oth, data.Number);
+        ADD      R1,SP,#+228
+??GetSMSData_5:
+        ADD      R0,SP,#+64
+        SWI      +23
+//  192 		}
+//  193 		
+//  194 		//wsprintf(the_ws, "%t\n%t\n%s\n%t\n%t", p_io, "信息中心:", data.SMS_CENTER, oth, "内容:\n");
+//  195 		wsprintf(the_ws, "%t\n%t\n%t", p_io, oth, "内容:\n");
+        ADD      R0,R6,#+44
+        PUSH     {R0}
+        CFI CFA R13+320
+        ADD      R3,SP,#+68
+        MOV      R2,R7
+        ADD      R1,R6,#+32
+        MOV      R0,R5
+        SWI      +292
+//  196 		wstrcat(the_ws, data.SMS_TEXT);
+        LDR      R1,[SP, #+296]
+        MOV      R0,R5
+        SWI      +289
+        ADD      SP,SP,#+4
+        CFI CFA R13+316
+        B        ??GetSMSData_6
+//  197 	}
+//  198 	else
+//  199 		wsprintf(the_ws, "Unknow Type!");
+??GetSMSData_2:
+        ADD      R1,R6,#+52
+??GetSMSData_1:
+        MOV      R0,R5
+        SWI      +292
+//  200 	FreeWS(xws);
+??GetSMSData_6:
+        MOV      R0,R4
+        SWI      +297
+//  201 }
+        ADD      SP,SP,#+296
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        DATA
+??GetSMSData_0:
+        DC32     `?<Constant "\\300\\264\\327\\324:\\n">`
+        DC32     `?<Constant "\\267\\242\\313\\315\\265\\275:\\n">`
+        DC32     `?<Constant "\\300\\340\\320\\315: \\310\\245\\266\\314`
+        DC32     `?<Constant "\\300\\340\\320\\315: \\300\\264\\266\\314`
+        DC32     `?<Constant "\\300\\340\\320\\315: \\262\\335\\270\\345`
+        CFI EndBlock cfiBlock11
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "\\300\\264\\327\\324:\\n">`:
+        DATA
+        DC8 "\300\264\327\324:\012"
+        DC8 0
+        DC8 "Read PDU error!"
+        DC8 "\012\312\261\274\344:\012"
+        DC8 "%t\012%t\012%t"
+        DC8 0, 0, 0
+        DC8 "\304\332\310\335:\012"
+        DC8 0
+        DC8 "Unknow Type!"
+        DC8 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "\\267\\242\\313\\315\\265\\275:\\n">`:
+        DATA
+        DC8 "\267\242\313\315\265\275:\012"
+        DC8 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "\\300\\340\\320\\315: \\310\\245\\266\\314`:
+        DATA
+        DC8 "\300\340\320\315: \310\245\266\314\320\305"
+        DC8 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "\\300\\340\\320\\315: \\300\\264\\266\\314`:
+        DATA
+        DC8 "\300\340\320\315: \300\264\266\314\320\305"
+        DC8 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "\\300\\340\\320\\315: \\262\\335\\270\\345`:
+        DATA
+        DC8 "\300\340\320\315: \262\335\270\345"
+        DC8 0
+
+        END
+//  202 
+// 
+// 818 bytes in segment CODE
+// 124 bytes in segment DATA_C
+// 
+// 774 bytes of CODE  memory (+ 44 bytes shared)
+// 124 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

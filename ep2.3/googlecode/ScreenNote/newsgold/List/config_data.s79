@@ -1,0 +1,451 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   14/May/2010  13:33:18 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  F:\SVN\cn\ScreenNote\config_data.c                  /
+//    Command line    =  F:\SVN\cn\ScreenNote\config_data.c -lC              /
+//                       F:\SVN\cn\ScreenNote\newsgold\List\ -lA             /
+//                       F:\SVN\cn\ScreenNote\newsgold\List\ -o              /
+//                       F:\SVN\cn\ScreenNote\newsgold\Obj\ -s9 --no_unroll  /
+//                       --cpu_mode arm --endian little --cpu ARM926EJ-S     /
+//                       --stack_align 4 --interwork -e --fpu None           /
+//                       --segment code=CONFIG --segment data=CONFIG -I      /
+//                       "F:\software\Embedded Workbench 4.0                 /
+//                       Evaluation\ARM\INC\" --inline_threshold=2           /
+//    List file       =  F:\SVN\cn\ScreenNote\newsgold\List\config_data.s79  /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME config_data
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        PUBLIC cfgcbox1_1
+        PUBLIC cfgcbox2_1
+        PUBLIC cfgcolor
+        PUBLIC cfgdat
+        PUBLIC cfgdcolor
+        PUBLIC cfgdfont
+        PUBLIC cfgdoutlcolor
+        PUBLIC cfgfont
+        PUBLIC cfghdr0
+        PUBLIC cfghdr1
+        PUBLIC cfghdr1_1
+        PUBLIC cfghdr1_3
+        PUBLIC cfghdr1_4
+        PUBLIC cfghdr1_5
+        PUBLIC cfghdr1_6
+        PUBLIC cfghdr1_7
+        PUBLIC cfghdr2
+        PUBLIC cfghdr2_1
+        PUBLIC cfghdr2_2
+        PUBLIC cfghdr2_3
+        PUBLIC cfghdr2_4
+        PUBLIC cfghdr2_5
+        PUBLIC cfghdr2_6
+        PUBLIC cfghdr4
+        PUBLIC cfghdr_m1
+        PUBLIC cfghdr_m10
+        PUBLIC cfghdr_m2
+        PUBLIC cfghdr_m20
+        PUBLIC cfgoutlcolor
+        PUBLIC cfgtime1
+        PUBLIC cfgtime2
+        PUBLIC cfgupdate_time
+        PUBLIC cfgweek
+        PUBLIC cfgx
+        PUBLIC cfgx2
+        PUBLIC cfgxd
+        PUBLIC cfgxd2
+        PUBLIC cfgy
+        PUBLIC cfgy2
+        PUBLIC cfgyd
+        PUBLIC cfgyd2
+        PUBLIC root_dir
+// F:\SVN\cn\ScreenNote\config_data.c
+//    1 #include "..\inc\cfg_items.h"
+//    2 
+//    3 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//    4 __root const CFG_HDR cfghdr0={CFG_STR_UTF8,"根目录",3,127};
+cfghdr0:
+        DATA
+        DC32 2
+        DC8 "\270\371\304\277\302\274"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 3, 127
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//    5 __root const char root_dir[128]="0:\\Elf tool\\Snote";
+root_dir:
+        DATA
+        DC8 "0:\\Elf tool\\Snote"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//    6 
+//    7 // -------------------------------------------------------------------------- //
+//    8 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//    9 __root const CFG_HDR cfghdr_m1={CFG_LEVEL,"按星期显示",1,0};
+cfghdr_m1:
+        DATA
+        DC32 9
+        DC8 "\260\264\320\307\306\332\317\324\312\276"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//   10 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   11 __root const CFG_HDR cfghdr1_1={CFG_CBOX,"按星期显示",0,2};
+cfghdr1_1:
+        DATA
+        DC32 5
+        DC8 "\260\264\320\307\306\332\317\324\312\276"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   12 __root const unsigned int cfgweek=1;
+cfgweek:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   13 __root const CFG_CBOX_ITEM cfgcbox1_1[2]={"no","yes"};
+cfgcbox1_1:
+        DATA
+        DC8 "no"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "yes"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   14 
+//   15 /*__root const CFG_HDR cfghdr1_2={CFG_CBOX,"显示文件",0,3};
+//   16 __root const unsigned int cfgcheck=2;
+//   17 __root const CFG_CBOX_ITEM cfgcbox1[3]={"0-23.tmo","0.tmo","0-23.tmo 和 0.tmo"};*/
+//   18 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   19 __root const CFG_HDR cfghdr1_3={CFG_COORDINATES,"左上角坐标",0,0};
+cfghdr1_3:
+        DATA
+        DC32 7
+        DC8 "\327\363\311\317\275\307\327\370\261\352"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   20 __root const unsigned int cfgx=10;
+cfgx:
+        DATA
+        DC32 10
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   21 __root const unsigned int cfgy=30;
+cfgy:
+        DATA
+        DC32 30
+//   22 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   23 __root const CFG_HDR cfghdr1_4={CFG_COORDINATES,"右下角坐标",0,0};
+cfghdr1_4:
+        DATA
+        DC32 7
+        DC8 "\323\322\317\302\275\307\327\370\261\352"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   24 __root const unsigned int cfgx2=122;
+cfgx2:
+        DATA
+        DC32 122
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   25 __root const unsigned int cfgy2=45;
+cfgy2:
+        DATA
+        DC32 45
+//   26 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   27 __root const CFG_HDR cfghdr1_5={CFG_UINT,"字体颜色",0,24};
+cfghdr1_5:
+        DATA
+        DC32 1
+        DC8 "\327\326\314\345\321\325\311\253"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 24
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   28 __root const int unsigned cfgcolor=7;
+cfgcolor:
+        DATA
+        DC32 7
+//   29 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   30 __root const CFG_HDR cfghdr1_6={CFG_UINT,"字体描边颜色",0,24};
+cfghdr1_6:
+        DATA
+        DC32 1
+        DC8 "\327\326\314\345\303\350\261\337\321\325\311\253"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 24
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   31 __root const int unsigned cfgoutlcolor=1;
+cfgoutlcolor:
+        DATA
+        DC32 1
+//   32 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   33 __root const CFG_HDR cfghdr1_7={CFG_UINT,"字号",0,15};
+cfghdr1_7:
+        DATA
+        DC32 1
+        DC8 "\327\326\272\305"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 15
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   34 __root const unsigned int cfgfont=8;
+cfgfont:
+        DATA
+        DC32 8
+//   35 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   36 __root const CFG_HDR cfghdr_m10={CFG_LEVEL,"",0,0};
+cfghdr_m10:
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   37 
+//   38 // -------------------------------------------------------------------------- //
+//   39 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   40 __root const CFG_HDR cfghdr_m2={CFG_LEVEL,"按日期显示",1,0};
+cfghdr_m2:
+        DATA
+        DC32 9
+        DC8 "\260\264\310\325\306\332\317\324\312\276"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 1, 0
+//   41 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   42 __root const CFG_HDR cfghdr2_1={CFG_CBOX,"按日期显示",0,2};
+cfghdr2_1:
+        DATA
+        DC32 5
+        DC8 "\260\264\310\325\306\332\317\324\312\276"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 2
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   43 __root const int unsigned cfgdat=1;
+cfgdat:
+        DATA
+        DC32 1
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   44 __root const CFG_CBOX_ITEM cfgcbox2_1[2]={"no","yes"};
+cfgcbox2_1:
+        DATA
+        DC8 "no"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 "yes"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//   45 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   46 __root const CFG_HDR cfghdr2_2={CFG_COORDINATES,"左上角坐标",0,0};
+cfghdr2_2:
+        DATA
+        DC32 7
+        DC8 "\327\363\311\317\275\307\327\370\261\352"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   47 __root const unsigned int cfgxd=10;
+cfgxd:
+        DATA
+        DC32 10
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   48 __root const unsigned int cfgyd=120;
+cfgyd:
+        DATA
+        DC32 120
+//   49 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   50 __root const CFG_HDR cfghdr2_3={CFG_COORDINATES,"右下角坐标",0,0};
+cfghdr2_3:
+        DATA
+        DC32 7
+        DC8 "\323\322\317\302\275\307\327\370\261\352"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   51 __root const unsigned int cfgxd2=122;
+cfgxd2:
+        DATA
+        DC32 122
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   52 __root const unsigned int cfgyd2=135;
+cfgyd2:
+        DATA
+        DC32 135
+//   53 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   54 __root const CFG_HDR cfghdr2_4={CFG_UINT,"字体颜色",0,24};
+cfghdr2_4:
+        DATA
+        DC32 1
+        DC8 "\327\326\314\345\321\325\311\253"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 24
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   55 __root const int unsigned cfgdcolor=2;
+cfgdcolor:
+        DATA
+        DC32 2
+//   56 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   57 __root const CFG_HDR cfghdr2_5={CFG_UINT,"字体描边颜色",0,24};
+cfghdr2_5:
+        DATA
+        DC32 1
+        DC8 "\327\326\314\345\303\350\261\337\321\325\311\253"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 24
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   58 __root const int unsigned cfgdoutlcolor=1;
+cfgdoutlcolor:
+        DATA
+        DC32 1
+//   59 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   60 __root const CFG_HDR cfghdr2_6={CFG_UINT,"字号",0,15};
+cfghdr2_6:
+        DATA
+        DC32 1
+        DC8 "\327\326\272\305"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 15
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   61 __root const int unsigned cfgdfont=8;
+cfgdfont:
+        DATA
+        DC32 8
+//   62 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   63 __root const CFG_HDR cfghdr_m20={CFG_LEVEL,"",0,0};
+cfghdr_m20:
+        DATA
+        DC32 9
+        DC8 ""
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 0
+//   64 
+//   65 // -------------------------------------------------------------------------- //
+//   66 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   67 __root const CFG_HDR cfghdr1={CFG_UINT,"显示时间从(0-23)",0,23};
+cfghdr1:
+        DATA
+        DC32 1
+        DC8 "\317\324\312\276\312\261\274\344\264\323(0-23)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 23
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   68 __root const unsigned int cfgtime1=6;
+cfgtime1:
+        DATA
+        DC32 6
+//   69 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   70 __root const CFG_HDR cfghdr2={CFG_UINT,"到(0-23)",0,23};
+cfghdr2:
+        DATA
+        DC32 1
+        DC8 "\265\275(0-23)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 23
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   71 __root const unsigned int cfgtime2=2;
+cfgtime2:
+        DATA
+        DC32 2
+//   72 
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   73 __root const CFG_HDR cfghdr4={CFG_UINT,"更新频率(sec)",0,300};
+cfghdr4:
+        DATA
+        DC32 1
+        DC8 "\270\374\320\302\306\265\302\312(sec)"
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC32 0, 300
+
+        RSEG CONFIG_C:CONST:SORT:ROOT(2)
+//   74 __root const int unsigned cfgupdate_time=300;
+cfgupdate_time:
+        DATA
+        DC32 300
+
+        END
+// 
+// 1 212 bytes in segment CONFIG_C
+// 
+// 1 212 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

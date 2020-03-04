@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="GExtD" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="SG">
+				<Option output="../../elfs/$(PROJECT_NAME)/$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="../../Objects/$(PROJECT_NAME)/$(TARGET_NAME)/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="NSG">
+				<Option output="../../elfs/$(PROJECT_NAME)/$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="../../Objects/$(PROJECT_NAME)/$(TARGET_NAME)/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="ELKA">
+				<Option output="../../elfs/$(PROJECT_NAME)/$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="../../Objects/$(PROJECT_NAME)/$(TARGET_NAME)/" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O1" />
+					<Add option="-O" />
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DELKA" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Os" />
+			<Add option="-O" />
+			<Add option="-std=gnu99" />
+			<Add directory="../include" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add option="--defsym __ex=0" />
+			<Add option="--gc-section" />
+			<Add library="c-1.0" />
+			<Add library="gcc-4.6.1" />
+			<Add library="crt" />
+			<Add library="crt_helper" />
+			<Add directory="../libs" />
+		</Linker>
+		<Unit filename="IPCExtD.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="IPCExtD.h" />
+		<Unit filename="extsdata.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="extsdata.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="main.h" />
+		<Unit filename="parser.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="parser.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

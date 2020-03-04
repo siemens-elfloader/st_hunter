@@ -1,0 +1,1155 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    07/Feb/2009  14:43:59 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\screen_save.c  #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\screen_save.c  #
+#                       -D NEWSGOLD -D ELKA -D kluchnik -D BCFG -D ICONBAR   #
+#                       --preprocess D:\pasha\elf\_MY_PROJECT_\naticq_mod2\k #
+#                       luchnik_iconbar\List\ -lC                            #
+#                       D:\pasha\elf\_MY_PROJECT_\naticq_mod2\kluchnik_iconb #
+#                       ar\List\ -o D:\pasha\elf\_MY_PROJECT_\naticq_mod2\kl #
+#                       uchnik_iconbar\Obj\ -s9 --cpu_mode arm --endian      #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --fpu None --dlib_config "D:\Embedded Workbench   #
+#                       4.0 Evaluation2\ARM\LIB\dl5tpainl8n.h" -I            #
+#                       "D:\Embedded Workbench 4.0 Evaluation2\ARM\INC\"     #
+#                       --inline_threshold=2                                 #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\kluchnik_iconb #
+#                       ar\List\screen_save.lst                              #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\kluchnik_iconb #
+#                       ar\Obj\screen_save.r79                               #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\naticq_mod2\screen_save.c
+      1          #ifdef NEWSGOLD
+      2          #include "../inc/swilib.h"
+      3          #include "../inc/pnglist.h"
+      4          #include "NatICQ.h"
+      5          #include "main.h"
+      6          #include "rect_patcher.h"
+      7          #include "screen_save.h"
+      8          #include "strings.h"
+      9          #include "addon.h"
+     10          #include "configs.h"
+     11          
+     12          typedef struct
+     13          {
+     14            GUI gui;
+     15            WSHDR *ws;
+     16          }SCREEN_GUI;
+     17          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     18          int battery;
+   \                     battery:
+   \   00000000                      DS8 4
+     19          int iks,igrek;
+   \                     iks:
+   \   00000004                      DS8 4
+   \                     igrek:
+   \   00000008                      DS8 4
+     20          char laiks[32];
+     21          TTime time;
+   \                     time:
+   \   0000000C                      DS8 8
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     laiks:
+   \   00000000                      DS8 32
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     22          int color_SS;
+   \                     color_SS:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     23          int menu;
+   \                     menu:
+   \   00000000                      DS8 4
+     24          //extern WSHDR *wsLogBuffer;
+     25          
+     26          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     27          void Draw()
+     28          {
+   \                     Draw:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+     29            WSHDR *ws=AllocWS(32);
+     30            GetDateTime(NULL, &time);
+   \   00000004   ........           LDR      R6,??DataTable4  ;; battery
+   \   00000008   2000A0E3           MOV      R0,#+32
+   \   0000000C   250100EF           SWI      +293
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   0C1086E2           ADD      R1,R6,#+12
+   \   00000018   0000A0E3           MOV      R0,#+0
+   \   0000001C   B40000EF           SWI      +180
+     31            wsprintf(ws, "%02d:%02d", time.hour, time.min);
+   \   00000020   0D30D6E5           LDRB     R3,[R6, #+13]
+   \   00000024   0C20D6E5           LDRB     R2,[R6, #+12]
+   \   00000028   88109FE5           LDR      R1,??Draw_0      ;; `?<Constant "%02d:%02d">`
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   240100EF           SWI      +292
+     32            DrawString(ws,iks-10,igrek-40,iks-10+Get_WS_width(ws,FONT_MEDIUM_BOLD)+2,igrek-40+GetFontYSIZE(FONT_MEDIUM_BOLD),FONT_SMALL,0,GetPaletteAdrByColorIndex(5),GetPaletteAdrByColorIndex(23));
+   \   00000034   1700A0E3           MOV      R0,#+23
+   \   00000038   2E0100EF           SWI      +302
+   \   0000003C   0070A0E1           MOV      R7,R0
+   \   00000040   0500A0E3           MOV      R0,#+5
+   \   00000044   2E0100EF           SWI      +302
+   \   00000048   0080A0E1           MOV      R8,R0
+   \   0000004C   0500A0E3           MOV      R0,#+5
+   \   00000050   C50100EF           SWI      +453
+   \   00000054   0050A0E1           MOV      R5,R0
+   \   00000058   0510A0E3           MOV      R1,#+5
+   \   0000005C   0400A0E1           MOV      R0,R4
+   \   00000060   080200EF           SWI      +520
+   \   00000064   041096E5           LDR      R1,[R6, #+4]
+   \   00000068   082096E5           LDR      R2,[R6, #+8]
+   \   0000006C   80002DE9           PUSH     {R7}
+   \   00000070   00012DE9           PUSH     {R8}
+   \   00000074   0030A0E3           MOV      R3,#+0
+   \   00000078   08002DE9           PUSH     {R3}
+   \   0000007C   010080E0           ADD      R0,R0,R1
+   \   00000080   0A1041E2           SUB      R1,R1,#+10
+   \   00000084   0830A0E3           MOV      R3,#+8
+   \   00000088   08002DE9           PUSH     {R3}
+   \   0000008C   023085E0           ADD      R3,R5,R2
+   \   00000090   282042E2           SUB      R2,R2,#+40
+   \   00000094   283043E2           SUB      R3,R3,#+40
+   \   00000098   08002DE9           PUSH     {R3}
+   \   0000009C   083040E2           SUB      R3,R0,#+8
+   \   000000A0   0400A0E1           MOV      R0,R4
+   \   000000A4   4C0100EF           SWI      +332
+     33            FreeWS(ws);
+   \   000000A8   0400A0E1           MOV      R0,R4
+   \   000000AC   290100EF           SWI      +297
+     34          }
+   \   000000B0   14D08DE2           ADD      SP,SP,#+20
+   \   000000B4   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??Draw_0:
+   \   000000B8   ........           DC32     `?<Constant "%02d:%02d">`
+     35          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     36          void Draw2()
+     37          {
+   \                     Draw2:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+     38            battery = *RamCap();
+   \   00000004   C4409FE5           LDR      R4,??Draw2_0     ;; battery
+   \   00000008   C88000EF           SWI      +32968
+   \   0000000C   B000D0E1           LDRH     R0,[R0, #+0]
+   \   00000010   000084E5           STR      R0,[R4, #+0]
+     39            iks=iks-10;
+   \   00000014   040094E5           LDR      R0,[R4, #+4]
+   \   00000018   0A0040E2           SUB      R0,R0,#+10
+   \   0000001C   040084E5           STR      R0,[R4, #+4]
+     40            igrek = igrek-7+GetFontYSIZE(11);
+   \   00000020   0B00A0E3           MOV      R0,#+11
+   \   00000024   C50100EF           SWI      +453
+   \   00000028   081094E5           LDR      R1,[R4, #+8]
+   \   0000002C   070040E2           SUB      R0,R0,#+7
+   \   00000030   010080E0           ADD      R0,R0,R1
+   \   00000034   080084E5           STR      R0,[R4, #+8]
+     41            WSHDR *ws=AllocWS(32);
+   \   00000038   2000A0E3           MOV      R0,#+32
+   \   0000003C   250100EF           SWI      +293
+     42            wsprintf(ws,"Bat:%d%", battery);
+   \   00000040   002094E5           LDR      R2,[R4, #+0]
+   \   00000044   88109FE5           LDR      R1,??Draw2_0+0x4  ;; `?<Constant "Bat:%d%">`
+   \   00000048   0050A0E1           MOV      R5,R0
+   \   0000004C   240100EF           SWI      +292
+     43            DrawString(ws,ScreenW()-Get_WS_width(ws,FONT_SMALL_ITALIC_BOLD)-2,igrek,ScreenW()-1,igrek+GetFontYSIZE(FONT_SMALL_ITALIC_BOLD),
+     44                          FONT_SMALL_ITALIC_BOLD,TEXT_ALIGNRIGHT,FontClrInfo,GetPaletteAdrByColorIndex(23));
+   \   00000050   1700A0E3           MOV      R0,#+23
+   \   00000054   2E0100EF           SWI      +302
+   \   00000058   0090A0E1           MOV      R9,R0
+   \   0000005C   0B00A0E3           MOV      R0,#+11
+   \   00000060   C50100EF           SWI      +453
+   \   00000064   0060A0E1           MOV      R6,R0
+   \   00000068   888100EF           SWI      +33160
+   \   0000006C   0070A0E1           MOV      R7,R0
+   \   00000070   888100EF           SWI      +33160
+   \   00000074   0080A0E1           MOV      R8,R0
+   \   00000078   0B10A0E3           MOV      R1,#+11
+   \   0000007C   0500A0E1           MOV      R0,R5
+   \   00000080   080200EF           SWI      +520
+   \   00000084   082094E5           LDR      R2,[R4, #+8]
+   \   00000088   ........           LDR      R1,??DataTable5  ;; FontClrInfo
+   \   0000008C   00022DE9           PUSH     {R9}
+   \   00000090   02002DE9           PUSH     {R1}
+   \   00000094   013047E2           SUB      R3,R7,#+1
+   \   00000098   000048E0           SUB      R0,R8,R0
+   \   0000009C   0410A0E3           MOV      R1,#+4
+   \   000000A0   02002DE9           PUSH     {R1}
+   \   000000A4   0B10A0E3           MOV      R1,#+11
+   \   000000A8   02002DE9           PUSH     {R1}
+   \   000000AC   021086E0           ADD      R1,R6,R2
+   \   000000B0   02002DE9           PUSH     {R1}
+   \   000000B4   021040E2           SUB      R1,R0,#+2
+   \   000000B8   0500A0E1           MOV      R0,R5
+   \   000000BC   4C0100EF           SWI      +332
+     45            FreeWS(ws);
+   \   000000C0   0500A0E1           MOV      R0,R5
+   \   000000C4   290100EF           SWI      +297
+     46          }
+   \   000000C8   14D08DE2           ADD      SP,SP,#+20
+   \   000000CC   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??Draw2_0:
+   \   000000D0   ........           DC32     battery
+   \   000000D4   ........           DC32     `?<Constant "Bat:%d%">`
+     47          
+     48          extern int total_unread;
+     49          extern int total_unread2;
+     50          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     51          void Draw3()
+     52          {
+   \                     Draw3:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+     53            iks=iks-15;
+   \   00000004   ........           LDR      R4,??DataTable4  ;; battery
+   \   00000008   040094E5           LDR      R0,[R4, #+4]
+   \   0000000C   0F0040E2           SUB      R0,R0,#+15
+   \   00000010   040084E5           STR      R0,[R4, #+4]
+     54            igrek = igrek-2+GetFontYSIZE(11);
+   \   00000014   0B00A0E3           MOV      R0,#+11
+   \   00000018   C50100EF           SWI      +453
+   \   0000001C   081094E5           LDR      R1,[R4, #+8]
+   \   00000020   020040E2           SUB      R0,R0,#+2
+   \   00000024   010080E0           ADD      R0,R0,R1
+   \   00000028   080084E5           STR      R0,[R4, #+8]
+     55            WSHDR *ws=AllocWS(32);
+   \   0000002C   2000A0E3           MOV      R0,#+32
+   \   00000030   250100EF           SWI      +293
+     56            wsprintf(ws, "Unread: %d/%d", total_unread, total_unread2);
+   \   00000034   98109FE5           LDR      R1,??Draw3_0     ;; `?<Constant "Unread: %d/%d">`
+   \   00000038   0050A0E1           MOV      R5,R0
+   \   0000003C   94009FE5           LDR      R0,??Draw3_0+0x4  ;; total_unread2
+   \   00000040   003090E5           LDR      R3,[R0, #+0]
+   \   00000044   90009FE5           LDR      R0,??Draw3_0+0x8  ;; total_unread
+   \   00000048   002090E5           LDR      R2,[R0, #+0]
+   \   0000004C   0500A0E1           MOV      R0,R5
+   \   00000050   240100EF           SWI      +292
+     57            DrawString(ws,ScreenW()-Get_WS_width(ws,FONT_SMALL_ITALIC_BOLD)-2,igrek,ScreenW()-1,igrek+GetFontYSIZE(FONT_SMALL_ITALIC_BOLD),
+     58                       FONT_SMALL_ITALIC_BOLD,0,FontClrInfo,GetPaletteAdrByColorIndex(23));
+   \   00000054   1700A0E3           MOV      R0,#+23
+   \   00000058   2E0100EF           SWI      +302
+   \   0000005C   0090A0E1           MOV      R9,R0
+   \   00000060   0B00A0E3           MOV      R0,#+11
+   \   00000064   C50100EF           SWI      +453
+   \   00000068   0060A0E1           MOV      R6,R0
+   \   0000006C   888100EF           SWI      +33160
+   \   00000070   0070A0E1           MOV      R7,R0
+   \   00000074   888100EF           SWI      +33160
+   \   00000078   0080A0E1           MOV      R8,R0
+   \   0000007C   0B10A0E3           MOV      R1,#+11
+   \   00000080   0500A0E1           MOV      R0,R5
+   \   00000084   080200EF           SWI      +520
+   \   00000088   082094E5           LDR      R2,[R4, #+8]
+   \   0000008C   ........           LDR      R1,??DataTable5  ;; FontClrInfo
+   \   00000090   00022DE9           PUSH     {R9}
+   \   00000094   02002DE9           PUSH     {R1}
+   \   00000098   013047E2           SUB      R3,R7,#+1
+   \   0000009C   000048E0           SUB      R0,R8,R0
+   \   000000A0   0010A0E3           MOV      R1,#+0
+   \   000000A4   02002DE9           PUSH     {R1}
+   \   000000A8   0B10A0E3           MOV      R1,#+11
+   \   000000AC   02002DE9           PUSH     {R1}
+   \   000000B0   021086E0           ADD      R1,R6,R2
+   \   000000B4   02002DE9           PUSH     {R1}
+   \   000000B8   021040E2           SUB      R1,R0,#+2
+   \   000000BC   0500A0E1           MOV      R0,R5
+   \   000000C0   4C0100EF           SWI      +332
+     59            FreeWS(ws);
+   \   000000C4   0500A0E1           MOV      R0,R5
+   \   000000C8   290100EF           SWI      +297
+     60          }
+   \   000000CC   14D08DE2           ADD      SP,SP,#+20
+   \   000000D0   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??Draw3_0:
+   \   000000D4   ........           DC32     `?<Constant "Unread: %d/%d">`
+   \   000000D8   ........           DC32     total_unread2
+   \   000000DC   ........           DC32     total_unread
+     61          
+     62          extern unsigned int UIN;
+     63          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     64          void Draw5()
+     65          {
+   \                     Draw5:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+     66            WSHDR *ws=AllocWS(32);
+   \   00000004   2000A0E3           MOV      R0,#+32
+   \   00000008   250100EF           SWI      +293
+     67            wsprintf(ws, "NatICQ: %d", UIN);
+   \   0000000C   7C109FE5           LDR      R1,??Draw5_0     ;; `?<Constant "NatICQ: %d">`
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   78009FE5           LDR      R0,??Draw5_0+0x4  ;; UIN
+   \   00000018   002090E5           LDR      R2,[R0, #+0]
+   \   0000001C   0400A0E1           MOV      R0,R4
+   \   00000020   240100EF           SWI      +292
+     68            DrawString(ws,0,YDISP+15,ScreenW()-1,40+GetFontYSIZE(FONT_SMALL_ITALIC_BOLD),FONT_SMALL_ITALIC_BOLD,TEXT_ALIGNMIDDLE,GetPaletteAdrByColorIndex(4),GetPaletteAdrByColorIndex(23));
+   \   00000024   1700A0E3           MOV      R0,#+23
+   \   00000028   2E0100EF           SWI      +302
+   \   0000002C   0050A0E1           MOV      R5,R0
+   \   00000030   0400A0E3           MOV      R0,#+4
+   \   00000034   2E0100EF           SWI      +302
+   \   00000038   0060A0E1           MOV      R6,R0
+   \   0000003C   0B00A0E3           MOV      R0,#+11
+   \   00000040   C50100EF           SWI      +453
+   \   00000044   0070A0E1           MOV      R7,R0
+   \   00000048   888100EF           SWI      +33160
+   \   0000004C   20002DE9           PUSH     {R5}
+   \   00000050   40002DE9           PUSH     {R6}
+   \   00000054   0210A0E3           MOV      R1,#+2
+   \   00000058   02002DE9           PUSH     {R1}
+   \   0000005C   013040E2           SUB      R3,R0,#+1
+   \   00000060   2720A0E3           MOV      R2,#+39
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   0B10A0E3           MOV      R1,#+11
+   \   0000006C   02002DE9           PUSH     {R1}
+   \   00000070   281087E2           ADD      R1,R7,#+40
+   \   00000074   02002DE9           PUSH     {R1}
+   \   00000078   0010A0E3           MOV      R1,#+0
+   \   0000007C   4C0100EF           SWI      +332
+     69            FreeWS(ws);
+   \   00000080   0400A0E1           MOV      R0,R4
+   \   00000084   290100EF           SWI      +297
+     70          }
+   \   00000088   14D08DE2           ADD      SP,SP,#+20
+   \   0000008C   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??Draw5_0:
+   \   00000090   ........           DC32     `?<Constant "NatICQ: %d">`
+   \   00000094   ........           DC32     UIN
+     71          
+     72          extern int uptimeHour;
+     73          extern int uptimeMin;
+     74          extern int uptimeSec;
+     75          extern char hostbuf2[128];
+     76          extern char PINGO[256];
+     77          extern int main2_count;
+     78          extern int main_count;
+     79          extern int msg_away_timer;
+     80          extern int connect_state;
+     81          extern volatile unsigned long ALLTOTALRECEIVED;	//by BoBa 10.07
+     82          extern volatile unsigned long ALLTOTALSENDED;
+     83          extern volatile int sendq_l; //Длинна очереди для send
+     84          extern int kopa_online;
+     85          extern int kopa_kontaktu;
+     86          extern int away_m;
+     87          extern int CurrentPrivateStatus;
+     88          extern int Is_Vibra_Enabled;
+     89          extern unsigned int Is_Sounds_Enabled;
+     90          extern int Is_Double_Vibra_On;
+     91          extern char away_msg_time_dace[];
+     92          extern int saver_on;
+     93          extern int dace_unread;
+     94          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     95          void reftes()
+     96          {
+     97            iks=95;
+   \                     reftes:
+   \   00000000   ........           LDR      R0,??DataTable4  ;; battery
+   \   00000004   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000008   40D04DE2           SUB      SP,SP,#+64
+     98            igrek=130;
+     99            int scr_w=ScreenW()-1;
+    100            int scr_h=ScreenH()-1;
+    101            WSHDR *ws=AllocWS(128);
+    102          
+    103            DrawRectangle(0,YDISP,scr_w,scr_h,0,BGInfo,BGInfo); 
+    104            char *sws=malloc(64);
+    105            *(sws)=0;
+    106            
+    107            int y=YDISP+60;
+    108            char ss[64];
+    109            if(away_m){ sprintf(ss,"[A:%s]",away_msg_time_dace); strcat(sws,ss); }    
+   \   0000000C   14749FE5           LDR      R7,??reftes_0+0x10  ;; `?<Constant "[A:%s]">`
+   \   00000010   5F10A0E3           MOV      R1,#+95
+   \   00000014   041080E5           STR      R1,[R0, #+4]
+   \   00000018   8210A0E3           MOV      R1,#+130
+   \   0000001C   081080E5           STR      R1,[R0, #+8]
+   \   00000020   888100EF           SWI      +33160
+   \   00000024   015040E2           SUB      R5,R0,#+1
+   \   00000028   898100EF           SWI      +33161
+   \   0000002C   016040E2           SUB      R6,R0,#+1
+   \   00000030   8000A0E3           MOV      R0,#+128
+   \   00000034   250100EF           SWI      +293
+   \   00000038   0040A0E1           MOV      R4,R0
+   \   0000003C   E8039FE5           LDR      R0,??reftes_0+0x14  ;; BGInfo
+   \   00000040   0630A0E1           MOV      R3,R6
+   \   00000044   0010A0E1           MOV      R1,R0
+   \   00000048   02002DE9           PUSH     {R1}
+   \   0000004C   01002DE9           PUSH     {R0}
+   \   00000050   0520A0E1           MOV      R2,R5
+   \   00000054   1810A0E3           MOV      R1,#+24
+   \   00000058   0000A0E3           MOV      R0,#+0
+   \   0000005C   01002DE9           PUSH     {R0}
+   \   00000060   B40100EF           SWI      +436
+   \   00000064   4000A0E3           MOV      R0,#+64
+   \   00000068   140000EF           SWI      +20
+   \   0000006C   0050A0E1           MOV      R5,R0
+   \   00000070   0000A0E3           MOV      R0,#+0
+   \   00000074   0000C5E5           STRB     R0,[R5, #+0]
+   \   00000078   B0039FE5           LDR      R0,??reftes_0+0x18  ;; away_m
+   \   0000007C   000090E5           LDR      R0,[R0, #+0]
+   \   00000080   0CD08DE2           ADD      SP,SP,#+12
+   \   00000084   000050E3           CMP      R0,#+0
+   \   00000088   0600000A           BEQ      ??reftes_1
+   \   0000008C   A0239FE5           LDR      R2,??reftes_0+0x1C  ;; away_msg_time_dace
+   \   00000090   0710A0E1           MOV      R1,R7
+   \   00000094   0D00A0E1           MOV      R0,SP
+   \   00000098   160000EF           SWI      +22
+   \   0000009C   0D10A0E1           MOV      R1,SP
+   \   000000A0   0500A0E1           MOV      R0,R5
+   \   000000A4   170000EF           SWI      +23
+    110            if(CurrentPrivateStatus==1) { strcat(sws,"[I]");  }  
+   \                     ??reftes_1:
+   \   000000A8   88039FE5           LDR      R0,??reftes_0+0x20  ;; CurrentPrivateStatus
+   \   000000AC   000090E5           LDR      R0,[R0, #+0]
+   \   000000B0   010050E3           CMP      R0,#+1
+   \   000000B4   0200001A           BNE      ??reftes_2
+   \   000000B8   D61F8FE2           ADR      R1,??reftes_0    ;; "[I]"
+   \   000000BC   0500A0E1           MOV      R0,R5
+   \   000000C0   170000EF           SWI      +23
+    111            if(Is_Vibra_Enabled)        { strcat(sws,"[V]");  }  
+   \                     ??reftes_2:
+   \   000000C4   70039FE5           LDR      R0,??reftes_0+0x24  ;; Is_Vibra_Enabled
+   \   000000C8   000090E5           LDR      R0,[R0, #+0]
+   \   000000CC   000050E3           CMP      R0,#+0
+   \   000000D0   0200000A           BEQ      ??reftes_3
+   \   000000D4   D01F8FE2           ADR      R1,??reftes_0+0x4  ;; "[V]"
+   \   000000D8   0500A0E1           MOV      R0,R5
+   \   000000DC   170000EF           SWI      +23
+    112            if(Is_Sounds_Enabled)       { strcat(sws,"[S]");  }  
+   \                     ??reftes_3:
+   \   000000E0   58039FE5           LDR      R0,??reftes_0+0x28  ;; Is_Sounds_Enabled
+   \   000000E4   000090E5           LDR      R0,[R0, #+0]
+   \   000000E8   000050E3           CMP      R0,#+0
+   \   000000EC   0200000A           BEQ      ??reftes_4
+   \   000000F0   CA1F8FE2           ADR      R1,??reftes_0+0x8  ;; "[S]"
+   \   000000F4   0500A0E1           MOV      R0,R5
+   \   000000F8   170000EF           SWI      +23
+    113            if(Is_Double_Vibra_On)      { strcat(sws,"[Vr]"); }
+   \                     ??reftes_4:
+   \   000000FC   40039FE5           LDR      R0,??reftes_0+0x2C  ;; Is_Double_Vibra_On
+   \   00000100   000090E5           LDR      R0,[R0, #+0]
+   \   00000104   000050E3           CMP      R0,#+0
+   \   00000108   0200000A           BEQ      ??reftes_5
+   \   0000010C   081087E2           ADD      R1,R7,#+8
+   \   00000110   0500A0E1           MOV      R0,R5
+   \   00000114   170000EF           SWI      +23
+    114          
+    115            wsprintf(ws,"%s",sws);
+    116            DrawString(ws,2,ScreenH()-GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)-4,ScreenW(),ScreenH(),FONT_SMALL_ITALIC_BOLD,TEXT_ALIGNMIDDLE,FontClrInfo,GetPaletteAdrByColorIndex(23));
+   \                     ??reftes_5:
+   \   00000118   ........           LDR      R6,??DataTable5  ;; FontClrInfo
+   \   0000011C   0520A0E1           MOV      R2,R5
+   \   00000120   BF1F8FE2           ADR      R1,??reftes_0+0xC  ;; "%s"
+   \   00000124   0400A0E1           MOV      R0,R4
+   \   00000128   240100EF           SWI      +292
+   \   0000012C   1700A0E3           MOV      R0,#+23
+   \   00000130   2E0100EF           SWI      +302
+   \   00000134   00B0A0E1           MOV      R11,R0
+   \   00000138   898100EF           SWI      +33161
+   \   0000013C   0080A0E1           MOV      R8,R0
+   \   00000140   888100EF           SWI      +33160
+   \   00000144   0090A0E1           MOV      R9,R0
+   \   00000148   898100EF           SWI      +33161
+   \   0000014C   00A0A0E1           MOV      R10,R0
+   \   00000150   0B00A0E3           MOV      R0,#+11
+   \   00000154   C50100EF           SWI      +453
+   \   00000158   00082DE9           PUSH     {R11}
+   \   0000015C   0610A0E1           MOV      R1,R6
+   \   00000160   02002DE9           PUSH     {R1}
+   \   00000164   0930A0E1           MOV      R3,R9
+   \   00000168   00004AE0           SUB      R0,R10,R0
+   \   0000016C   042040E2           SUB      R2,R0,#+4
+   \   00000170   0210A0E3           MOV      R1,#+2
+   \   00000174   02002DE9           PUSH     {R1}
+   \   00000178   0400A0E1           MOV      R0,R4
+   \   0000017C   0B10A0E3           MOV      R1,#+11
+   \   00000180   02002DE9           PUSH     {R1}
+   \   00000184   00012DE9           PUSH     {R8}
+    117            
+    118            if(connect_state==3)   
+   \   00000188   B8829FE5           LDR      R8,??reftes_0+0x30  ;; connect_state
+   \   0000018C   0210A0E3           MOV      R1,#+2
+   \   00000190   4C0100EF           SWI      +332
+   \   00000194   000098E5           LDR      R0,[R8, #+0]
+   \   00000198   14D08DE2           ADD      SP,SP,#+20
+   \   0000019C   030050E3           CMP      R0,#+3
+   \   000001A0   0F00001A           BNE      ??reftes_6
+    119               wsprintf(ws,"Online: %02d:%02d:%02d\nServer: %s \n%s\n", uptimeHour, uptimeMin, uptimeSec, hostbuf2,PINGO);   
+   \   000001A4   A0029FE5           LDR      R0,??reftes_0+0x34  ;; PINGO
+   \   000001A8   101087E2           ADD      R1,R7,#+16
+   \   000001AC   01002DE9           PUSH     {R0}
+   \   000001B0   98029FE5           LDR      R0,??reftes_0+0x38  ;; hostbuf2
+   \   000001B4   01002DE9           PUSH     {R0}
+   \   000001B8   94029FE5           LDR      R0,??reftes_0+0x3C  ;; uptimeSec
+   \   000001BC   000090E5           LDR      R0,[R0, #+0]
+   \   000001C0   01002DE9           PUSH     {R0}
+   \   000001C4   8C029FE5           LDR      R0,??reftes_0+0x40  ;; uptimeMin
+   \   000001C8   003090E5           LDR      R3,[R0, #+0]
+   \   000001CC   88029FE5           LDR      R0,??reftes_0+0x44  ;; uptimeHour
+   \   000001D0   002090E5           LDR      R2,[R0, #+0]
+   \   000001D4   0400A0E1           MOV      R0,R4
+   \   000001D8   240100EF           SWI      +292
+   \   000001DC   0CD08DE2           ADD      SP,SP,#+12
+   \   000001E0   020000EA           B        ??reftes_7
+    120            else
+    121               wsprintf(ws,"Offline\n");
+   \                     ??reftes_6:
+   \   000001E4   381087E2           ADD      R1,R7,#+56
+   \   000001E8   0400A0E1           MOV      R0,R4
+   \   000001EC   240100EF           SWI      +292
+    122               
+    123            DrawString(ws,2,y,ScreenW()-1,y+(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*3),FONT_SMALL_ITALIC_BOLD,0,FontClrInfo,GetPaletteAdrByColorIndex(23));
+   \                     ??reftes_7:
+   \   000001F0   1700A0E3           MOV      R0,#+23
+   \   000001F4   2E0100EF           SWI      +302
+   \   000001F8   00A0A0E1           MOV      R10,R0
+   \   000001FC   0B00A0E3           MOV      R0,#+11
+   \   00000200   C50100EF           SWI      +453
+   \   00000204   0090A0E1           MOV      R9,R0
+   \   00000208   888100EF           SWI      +33160
+   \   0000020C   00042DE9           PUSH     {R10}
+   \   00000210   0610A0E1           MOV      R1,R6
+   \   00000214   02002DE9           PUSH     {R1}
+   \   00000218   013040E2           SUB      R3,R0,#+1
+   \   0000021C   5420A0E3           MOV      R2,#+84
+   \   00000220   0400A0E1           MOV      R0,R4
+   \   00000224   0010A0E3           MOV      R1,#+0
+   \   00000228   02002DE9           PUSH     {R1}
+   \   0000022C   0B10A0E3           MOV      R1,#+11
+   \   00000230   02002DE9           PUSH     {R1}
+   \   00000234   891089E0           ADD      R1,R9,R9, LSL #+1
+   \   00000238   541081E2           ADD      R1,R1,#+84
+   \   0000023C   02002DE9           PUSH     {R1}
+   \   00000240   0210A0E3           MOV      R1,#+2
+   \   00000244   4C0100EF           SWI      +332
+    124            if(connect_state==3)   
+   \   00000248   000098E5           LDR      R0,[R8, #+0]
+   \   0000024C   14D08DE2           ADD      SP,SP,#+20
+   \   00000250   030050E3           CMP      R0,#+3
+   \   00000254   0B00A0E3           MOV      R0,#+11
+   \   00000258   0200001A           BNE      ??reftes_8
+    125              y+=(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*3);
+   \   0000025C   C50100EF           SWI      +453
+   \   00000260   800080E0           ADD      R0,R0,R0, LSL #+1
+   \   00000264   000000EA           B        ??reftes_9
+    126            else
+    127              y+=(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*1);
+   \                     ??reftes_8:
+   \   00000268   C50100EF           SWI      +453
+   \                     ??reftes_9:
+   \   0000026C   548080E2           ADD      R8,R0,#+84
+    128          
+    129            wsprintf(ws, "Send mess: %d \nRecv mess: %d \n", main2_count, main_count);
+   \   00000270   E8019FE5           LDR      R0,??reftes_0+0x48  ;; main_count
+   \   00000274   441087E2           ADD      R1,R7,#+68
+   \   00000278   003090E5           LDR      R3,[R0, #+0]
+   \   0000027C   E0019FE5           LDR      R0,??reftes_0+0x4C  ;; main2_count
+   \   00000280   002090E5           LDR      R2,[R0, #+0]
+   \   00000284   0400A0E1           MOV      R0,R4
+   \   00000288   240100EF           SWI      +292
+    130            DrawString(ws,2,y,ScreenW()-1,y+(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*2),FONT_SMALL_ITALIC_BOLD,0,FontClrInfo,GetPaletteAdrByColorIndex(23));
+   \   0000028C   1700A0E3           MOV      R0,#+23
+   \   00000290   2E0100EF           SWI      +302
+   \   00000294   00A0A0E1           MOV      R10,R0
+   \   00000298   0B00A0E3           MOV      R0,#+11
+   \   0000029C   C50100EF           SWI      +453
+   \   000002A0   0090A0E1           MOV      R9,R0
+   \   000002A4   888100EF           SWI      +33160
+   \   000002A8   00042DE9           PUSH     {R10}
+   \   000002AC   0610A0E1           MOV      R1,R6
+   \   000002B0   02002DE9           PUSH     {R1}
+   \   000002B4   013040E2           SUB      R3,R0,#+1
+   \   000002B8   0820A0E1           MOV      R2,R8
+   \   000002BC   0400A0E1           MOV      R0,R4
+   \   000002C0   0010A0E3           MOV      R1,#+0
+   \   000002C4   02002DE9           PUSH     {R1}
+   \   000002C8   0B10A0E3           MOV      R1,#+11
+   \   000002CC   02002DE9           PUSH     {R1}
+   \   000002D0   891088E0           ADD      R1,R8,R9, LSL #+1
+   \   000002D4   02002DE9           PUSH     {R1}
+   \   000002D8   0210A0E3           MOV      R1,#+2
+   \   000002DC   4C0100EF           SWI      +332
+    131            y+=(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*2);
+   \   000002E0   0B00A0E3           MOV      R0,#+11
+   \   000002E4   C50100EF           SWI      +453
+   \   000002E8   808088E0           ADD      R8,R8,R0, LSL #+1
+    132             
+    133            wsprintf(ws,"Not action %d sec",msg_away_timer*5);
+   \   000002EC   74019FE5           LDR      R0,??reftes_0+0x50  ;; msg_away_timer
+   \   000002F0   641087E2           ADD      R1,R7,#+100
+   \   000002F4   000090E5           LDR      R0,[R0, #+0]
+   \   000002F8   002180E0           ADD      R2,R0,R0, LSL #+2
+   \   000002FC   0400A0E1           MOV      R0,R4
+   \   00000300   240100EF           SWI      +292
+    134            DrawString(ws,2,y,ScreenW()-1,y+GetFontYSIZE(FONT_SMALL_ITALIC_BOLD),FONT_SMALL_ITALIC_BOLD,0,FontClrInfo,GetPaletteAdrByColorIndex(23));
+   \   00000304   1700A0E3           MOV      R0,#+23
+   \   00000308   2E0100EF           SWI      +302
+   \   0000030C   00A0A0E1           MOV      R10,R0
+   \   00000310   0B00A0E3           MOV      R0,#+11
+   \   00000314   C50100EF           SWI      +453
+   \   00000318   0090A0E1           MOV      R9,R0
+   \   0000031C   888100EF           SWI      +33160
+   \   00000320   00042DE9           PUSH     {R10}
+   \   00000324   0610A0E1           MOV      R1,R6
+   \   00000328   02002DE9           PUSH     {R1}
+   \   0000032C   013040E2           SUB      R3,R0,#+1
+   \   00000330   0820A0E1           MOV      R2,R8
+   \   00000334   0400A0E1           MOV      R0,R4
+   \   00000338   0010A0E3           MOV      R1,#+0
+   \   0000033C   02002DE9           PUSH     {R1}
+   \   00000340   0B10A0E3           MOV      R1,#+11
+   \   00000344   02002DE9           PUSH     {R1}
+   \   00000348   081089E0           ADD      R1,R9,R8
+   \   0000034C   02002DE9           PUSH     {R1}
+   \   00000350   0210A0E3           MOV      R1,#+2
+   \   00000354   4C0100EF           SWI      +332
+   \   00000358   28D08DE2           ADD      SP,SP,#+40
+    135            y+=(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*1);
+   \   0000035C   0B00A0E3           MOV      R0,#+11
+   \   00000360   C50100EF           SWI      +453
+   \   00000364   088080E0           ADD      R8,R0,R8
+    136            
+    137            unsigned long RX=ALLTOTALRECEIVED;
+   \   00000368   FC009FE5           LDR      R0,??reftes_0+0x54  ;; ALLTOTALRECEIVED
+    138            unsigned long TX=ALLTOTALSENDED;//sendq_l	
+    139          
+    140            wsprintf(ws, "Traffic:\n<-Rx: %db\n->Tx: %db \n->Queue: %db \n"
+    141                         "Online contact: %d [total: %d] \n",RX,TX,sendq_l,kopa_kontaktu, kopa_online);
+   \   0000036C   781087E2           ADD      R1,R7,#+120
+   \   00000370   002090E5           LDR      R2,[R0, #+0]
+   \   00000374   F4009FE5           LDR      R0,??reftes_0+0x58  ;; ALLTOTALSENDED
+   \   00000378   003090E5           LDR      R3,[R0, #+0]
+   \   0000037C   F0009FE5           LDR      R0,??reftes_0+0x5C  ;; kopa_online
+   \   00000380   000090E5           LDR      R0,[R0, #+0]
+   \   00000384   01002DE9           PUSH     {R0}
+   \   00000388   E8009FE5           LDR      R0,??reftes_0+0x60  ;; kopa_kontaktu
+   \   0000038C   000090E5           LDR      R0,[R0, #+0]
+   \   00000390   01002DE9           PUSH     {R0}
+   \   00000394   E0009FE5           LDR      R0,??reftes_0+0x64  ;; sendq_l
+   \   00000398   000090E5           LDR      R0,[R0, #+0]
+   \   0000039C   01002DE9           PUSH     {R0}
+   \   000003A0   0400A0E1           MOV      R0,R4
+   \   000003A4   240100EF           SWI      +292
+    142            DrawString(ws,2,y,ScreenW()-1,y+(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*5),FONT_SMALL_ITALIC_BOLD,0,FontClrInfo,GetPaletteAdrByColorIndex(23));
+   \   000003A8   1700A0E3           MOV      R0,#+23
+   \   000003AC   2E0100EF           SWI      +302
+   \   000003B0   0090A0E1           MOV      R9,R0
+   \   000003B4   0B00A0E3           MOV      R0,#+11
+   \   000003B8   C50100EF           SWI      +453
+   \   000003BC   0070A0E1           MOV      R7,R0
+   \   000003C0   888100EF           SWI      +33160
+   \   000003C4   00022DE9           PUSH     {R9}
+   \   000003C8   40002DE9           PUSH     {R6}
+   \   000003CC   0010A0E3           MOV      R1,#+0
+   \   000003D0   02002DE9           PUSH     {R1}
+   \   000003D4   013040E2           SUB      R3,R0,#+1
+   \   000003D8   0820A0E1           MOV      R2,R8
+   \   000003DC   0400A0E1           MOV      R0,R4
+   \   000003E0   0B10A0E3           MOV      R1,#+11
+   \   000003E4   02002DE9           PUSH     {R1}
+   \   000003E8   071187E0           ADD      R1,R7,R7, LSL #+2
+   \   000003EC   081081E0           ADD      R1,R1,R8
+   \   000003F0   02002DE9           PUSH     {R1}
+   \   000003F4   0210A0E3           MOV      R1,#+2
+   \   000003F8   4C0100EF           SWI      +332
+    143          
+    144            Draw5();
+   \   000003FC   ........           BL       Draw5
+    145            
+    146            FreeWS(ws);
+   \   00000400   0400A0E1           MOV      R0,R4
+   \   00000404   290100EF           SWI      +297
+    147            mfree(sws);
+   \   00000408   0500A0E1           MOV      R0,R5
+   \   0000040C   150000EF           SWI      +21
+    148          }
+   \   00000410   60D08DE2           ADD      SP,SP,#+96
+   \   00000414   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??reftes_0:
+   \   00000418   5B495D00           DC8      "[I]"
+   \   0000041C   5B565D00           DC8      "[V]"
+   \   00000420   5B535D00           DC8      "[S]"
+   \   00000424   25730000           DC8      "%s",+0
+   \   00000428   ........           DC32     `?<Constant "[A:%s]">`
+   \   0000042C   ........           DC32     BGInfo
+   \   00000430   ........           DC32     away_m
+   \   00000434   ........           DC32     away_msg_time_dace
+   \   00000438   ........           DC32     CurrentPrivateStatus
+   \   0000043C   ........           DC32     Is_Vibra_Enabled
+   \   00000440   ........           DC32     Is_Sounds_Enabled
+   \   00000444   ........           DC32     Is_Double_Vibra_On
+   \   00000448   ........           DC32     connect_state
+   \   0000044C   ........           DC32     PINGO
+   \   00000450   ........           DC32     hostbuf2
+   \   00000454   ........           DC32     uptimeSec
+   \   00000458   ........           DC32     uptimeMin
+   \   0000045C   ........           DC32     uptimeHour
+   \   00000460   ........           DC32     main_count
+   \   00000464   ........           DC32     main2_count
+   \   00000468   ........           DC32     msg_away_timer
+   \   0000046C   ........           DC32     ALLTOTALRECEIVED
+   \   00000470   ........           DC32     ALLTOTALSENDED
+   \   00000474   ........           DC32     kopa_online
+   \   00000478   ........           DC32     kopa_kontaktu
+   \   0000047C   ........           DC32     sendq_l
+    149          /*
+    150          int y_log=0;
+    151          char black1[]={0x00,0x00,0x00,100};
+    152          extern int line_log;
+    153          static void ShowLog()
+    154          {
+    155            DisableIconBar(1);
+    156            DrawRectangle(0,0,ScreenW()-1,ScreenH()-1,0,black1,black1); 
+    157            DrawString(wsLogBuffer,2,2+y_log,ScreenW()-1,y_log+ScreenH()-1,FONT_SMALL_ITALIC_BOLD,0,GetPaletteAdrByColorIndex(2),GetPaletteAdrByColorIndex(23));
+    158          }
+    159          */
+    160          extern IMGHDR screen;
+    161          extern int DrwImage(IMGHDR *img, int x, int y/*, char *pen, char *brush*/);
+    162          extern int hy;
+
+   \                                 In segment CODE, align 4, keep-with-next
+    163          static void method0(SCREEN_GUI *data)
+    164          {
+    165            DrwImage(&screen,0,hy+2);
+   \                     method0:
+   \   00000000   1C009FE5           LDR      R0,??method0_0   ;; hy
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   000090E5           LDR      R0,[R0, #+0]
+   \   0000000C   0010A0E3           MOV      R1,#+0
+   \   00000010   022080E2           ADD      R2,R0,#+2
+   \   00000014   0C009FE5           LDR      R0,??method0_0+0x4  ;; screen
+   \   00000018   ........           _BLF     DrwImage,??DrwImage??rA
+    166            //if(!menu)   
+    167            reftes();
+   \   0000001C   0040BDE8           POP      {LR}             ;; Pop
+   \   00000020   ........           B        reftes           ;; tailcall
+   \                     ??method0_0:
+   \   00000024   ........           DC32     hy
+   \   00000028   ........           DC32     screen
+    168          //  else ShowLog();
+    169          }
+    170          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    171          static void method1(SCREEN_GUI *data,void *(*malloc_adr)(int))
+    172          {
+   \                     method1:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    173            data->ws=AllocWS(50);
+   \   00000008   3200A0E3           MOV      R0,#+50
+   \   0000000C   250100EF           SWI      +293
+   \   00000010   340084E5           STR      R0,[R4, #+52]
+    174            data->gui.state=1;
+   \   00000014   0100A0E3           MOV      R0,#+1
+   \   00000018   0C00C4E5           STRB     R0,[R4, #+12]
+    175            DoScreen();
+   \   0000001C   ........           _BLF     DoScreen,??DoScreen??rA
+    176          //  DrawRectangle(0,YDISP,ScreenW()-1,ScreenH()-1,0,black,black); 
+    177            color_SS=0;
+   \   00000020   0C009FE5           LDR      R0,??method1_0   ;; color_SS
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   001080E5           STR      R1,[R0, #+0]
+    178            reftes();
+   \   0000002C   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000030   ........           B        reftes           ;; tailcall
+   \                     ??method1_0:
+   \   00000034   ........           DC32     color_SS
+    179            
+    180          }
+    181          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    182          static void method2(SCREEN_GUI *data,void (*mfree_adr)(void *))
+    183          {
+   \                     method2:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    184            mfree(screen.bitmap);
+   \   00000008   18009FE5           LDR      R0,??method2_0   ;; screen + 8
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   150000EF           SWI      +21
+    185            data->gui.state=0;
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   0C00C4E5           STRB     R0,[R4, #+12]
+    186            FreeWS(data->ws);
+   \   0000001C   340094E5           LDR      R0,[R4, #+52]
+   \   00000020   290100EF           SWI      +297
+    187          }
+   \   00000024   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??method2_0:
+   \   00000028   ........           DC32     screen + 8
+    188          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    189          static void method3(SCREEN_GUI *data,void *(*malloc_adr)(int),void (*mfree_adr)(void *))//fokus
+    190          {
+   \                     method3:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    191            saver_on=1;
+   \   00000004   0110A0E3           MOV      R1,#+1
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   ........           LDR      R0,??DataTable8  ;; saver_on
+   \   00000010   001080E5           STR      R1,[R0, #+0]
+    192            DisableIDLETMR();
+   \   00000014   7F0100EF           SWI      +383
+    193            data->gui.state=2;
+   \   00000018   0200A0E3           MOV      R0,#+2
+   \   0000001C   0C00C4E5           STRB     R0,[R4, #+12]
+    194            reftes();
+   \   00000020   1040BDE8           POP      {R4,LR}          ;; Pop
+   \   00000024   ........           B        reftes           ;; tailcall
+    195          }
+    196          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    197          static void method4(SCREEN_GUI *data,void (*mfree_adr)(void *))//unfokus
+    198          {
+    199            saver_on=0;
+   \                     method4:
+   \   00000000   ........           LDR      R1,??DataTable8  ;; saver_on
+   \   00000004   0020A0E3           MOV      R2,#+0
+   \   00000008   002081E5           STR      R2,[R1, #+0]
+    200            if (data->gui.state!=2)
+   \   0000000C   0C10D0E5           LDRB     R1,[R0, #+12]
+   \   00000010   020051E3           CMP      R1,#+2
+    201              return;
+    202            data->gui.state=1;
+   \   00000014   0110A003           MOVEQ    R1,#+1
+   \   00000018   0C10C005           STRBEQ   R1,[R0, #+12]
+    203          }
+   \   0000001C   1EFF2FE1           BX       LR               ;; return
+    204          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    205          static int method5(SCREEN_GUI *data,GUI_MSG *msg)
+    206          {
+   \                     method5:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+    207            int m=msg->gbsmsg->msg;
+   \   00000004   040091E5           LDR      R0,[R1, #+4]
+   \   00000008   044090E5           LDR      R4,[R0, #+4]
+    208            int key=msg->gbsmsg->submess;
+   \   0000000C   085090E5           LDR      R5,[R0, #+8]
+    209            DirectRedrawGUI();
+   \   00000010   3F0100EF           SWI      +319
+    210            if(m==KEY_DOWN)
+   \   00000014   9300A0E3           MOV      R0,#+147
+   \   00000018   400F80E3           ORR      R0,R0,#0x100
+   \   0000001C   000054E1           CMP      R4,R0
+   \   00000020   0500001A           BNE      ??method5_0
+    211            {
+    212              if(key==UP_BUTTON && !menu)
+   \   00000024   3B0055E3           CMP      R5,#+59
+   \   00000028   0500001A           BNE      ??method5_1
+   \   0000002C   18009FE5           LDR      R0,??method5_2   ;; menu
+   \   00000030   000090E5           LDR      R0,[R0, #+0]
+   \   00000034   000050E3           CMP      R0,#+0
+   \   00000038   0100001A           BNE      ??method5_1
+    213                return 0;
+   \                     ??method5_0:
+   \   0000003C   0000A0E3           MOV      R0,#+0
+   \   00000040   3080BDE8           POP      {R4,R5,PC}
+    214          /*    else
+    215                if(key==LEFT_BUTTON || key==RIGHT_BUTTON) menu=!menu;
+    216              else
+    217                if(key==UP_BUTTON && menu)   y_log++;
+    218              else
+    219                if(key==DOWN_BUTTON && menu) y_log--;
+    220              else
+    221                if(key=='9') y_log=-(GetFontYSIZE(FONT_SMALL_ITALIC_BOLD)*(line_log-1));
+    222              else 
+    223                if(key=='3') y_log=2;*/
+    224              else
+    225                return 1;
+   \                     ??method5_1:
+   \   00000044   0100A0E3           MOV      R0,#+1
+   \   00000048   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??method5_2:
+   \   0000004C   ........           DC32     menu
+    226            }
+    227            /*
+    228            if(m==LONG_PRESS && menu)
+    229            {
+    230              if(key==UP_BUTTON)   y_log+=10;
+    231              if(key==DOWN_BUTTON) y_log-=10;
+    232            }*/
+    233            
+    234            return(0);
+    235          }
+    236          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    237          static int method8(void){return(0);}
+   \                     method8:
+   \   00000000   0000A0E3           MOV      R0,#+0
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+    238          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    239          static int method9(void){return(0);}
+   \                     method9:
+   \   00000000   0000A0E3           MOV      R0,#+0
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+    240          
+    241          extern void kill_data(void *p, void (*func_p)(void *));
+    242          static const void * const gui_methods[11]={
+    243            (void *)method0,  //Redraw
+    244            (void *)method1,  //Create
+    245            (void *)method2,  //Close
+    246            (void *)method3,  //Focus
+    247            (void *)method4,  //Unfocus
+    248            (void *)method5,  //OnKey
+    249            0,
+    250            (void *)kill_data, //method7, //Destroy
+    251            (void *)method8,
+    252            (void *)method9,
+    253            0
+    254          };
+    255          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    256          int CreateScreenSelectGUI()
+    257          {
+    258            saver_on=1;
+   \                     CreateScreenSelectGUI:
+   \   00000000   ........           LDR      R0,??DataTable8  ;; saver_on
+   \   00000004   30402DE9           PUSH     {R4,R5,LR}
+   \   00000008   0110A0E3           MOV      R1,#+1
+   \   0000000C   001080E5           STR      R1,[R0, #+0]
+    259          //  char* iconbars = RamIconBar();
+    260          //  *iconbars = 0;
+    261            static const RECT Canvas={0,0,0,0};
+    262            SCREEN_GUI *screen_gui=malloc(sizeof(SCREEN_GUI));
+   \   00000010   3800A0E3           MOV      R0,#+56
+   \   00000014   140000EF           SWI      +20
+   \   00000018   0040A0E1           MOV      R4,R0
+    263            zeromem(screen_gui,sizeof(SCREEN_GUI));
+   \   0000001C   3810A0E3           MOV      R1,#+56
+   \   00000020   1D0100EF           SWI      +285
+    264            patch_rect((RECT*)&Canvas,0,0,ScreenW()-1,ScreenH()-1);
+   \   00000024   898100EF           SWI      +33161
+   \   00000028   0050A0E1           MOV      R5,R0
+   \   0000002C   888100EF           SWI      +33160
+   \   00000030   34209FE5           LDR      R2,??CreateScreenSelectGUI_0  ;; ??Canvas
+   \   00000034   011045E2           SUB      R1,R5,#+1
+   \   00000038   010040E2           SUB      R0,R0,#+1
+   \   0000003C   0030A0E3           MOV      R3,#+0
+   \   00000040   003082E5           STR      R3,[R2, #+0]
+   \   00000044   B400C2E1           STRH     R0,[R2, #+4]
+   \   00000048   B610C2E1           STRH     R1,[R2, #+6]
+    265            screen_gui->gui.canvas=(void *)(&Canvas);
+   \   0000004C   002084E5           STR      R2,[R4, #+0]
+    266            screen_gui->gui.methods=(void *)gui_methods;
+   \   00000050   080082E2           ADD      R0,R2,#+8
+   \   00000054   040084E5           STR      R0,[R4, #+4]
+    267            screen_gui->gui.item_ll.data_mfree=(void (*)(void *))mfree_adr();
+   \   00000058   158000EF           SWI      +32789
+   \   0000005C   200084E5           STR      R0,[R4, #+32]
+    268            return CreateGUI(screen_gui);
+   \   00000060   0400A0E1           MOV      R0,R4
+   \   00000064   370100EF           SWI      +311
+   \   00000068   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??CreateScreenSelectGUI_0:
+   \   0000006C   ........           DC32     ??Canvas
+    269          }
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     ??Canvas:
+   \   00000000   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000008   ............       DC32 method0, method1, method2, method3, method4, method5, 0H
+   \              ............
+   \              ............
+   \              ............
+   \              00000000    
+   \   00000024   ............       DC32 kill_data, method8, method9, 0H
+   \              ............
+   \              00000000    
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     battery
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     FontClrInfo
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     saver_on
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%02d:%02d">`:
+   \   00000000   253032643A25       DC8 "%02d:%02d"
+   \              30326400    
+   \   0000000A   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Bat:%d%">`:
+   \   00000000   4261743A2564       DC8 "Bat:%d%"
+   \              2500        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Unread: %d/%d">`:
+   \   00000000   556E72656164       DC8 "Unread: %d/%d"
+   \              3A2025642F25
+   \              6400        
+   \   0000000E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "NatICQ: %d">`:
+   \   00000000   4E6174494351       DC8 "NatICQ: %d"
+   \              3A20256400  
+   \   0000000B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "[A:%s]">`:
+   \   00000000   5B413A25735D       DC8 "[A:%s]"
+   \              00          
+   \   00000007   00                 DC8 0
+   \   00000008   5B56725D00         DC8 "[Vr]"
+   \   0000000D   000000             DC8 0, 0, 0
+   \   00000010   4F6E6C696E65       DC8 "Online: %02d:%02d:%02d\012Server: %s \012%s\012"
+   \              3A2025303264
+   \              3A253032643A
+   \              253032640A53
+   \              65727665723A
+   \              202573200A25
+   \              730A00      
+   \   00000037   00                 DC8 0
+   \   00000038   4F66666C696E       DC8 "Offline\012"
+   \              650A00      
+   \   00000041   000000             DC8 0, 0, 0
+   \   00000044   53656E64206D       DC8 "Send mess: %d \012Recv mess: %d \012"
+   \              6573733A2025
+   \              64200A526563
+   \              76206D657373
+   \              3A202564200A
+   \              00          
+   \   00000063   00                 DC8 0
+   \   00000064   4E6F74206163       DC8 "Not action %d sec"
+   \              74696F6E2025
+   \              642073656300
+   \   00000076   0000               DC8 0, 0
+   \   00000078   547261666669       DC8 54H, 72H, 61H, 66H, 66H, 69H, 63H, 3AH
+   \              633A        
+   \   00000080   0A3C2D52783A       DC8 0AH, 3CH, 2DH, 52H, 78H, 3AH, 20H, 25H
+   \              2025        
+   \   00000088   64620A2D3E54       DC8 64H, 62H, 0AH, 2DH, 3EH, 54H, 78H, 3AH
+   \              783A        
+   \   00000090   20256462200A       DC8 20H, 25H, 64H, 62H, 20H, 0AH, 2DH, 3EH
+   \              2D3E        
+   \   00000098   51756575653A       DC8 51H, 75H, 65H, 75H, 65H, 3AH, 20H, 25H
+   \              2025        
+   \   000000A0   6462200A4F6E       DC8 64H, 62H, 20H, 0AH, 4FH, 6EH, 6CH, 69H
+   \              6C69        
+   \   000000A8   6E6520636F6E       DC8 6EH, 65H, 20H, 63H, 6FH, 6EH, 74H, 61H
+   \              7461        
+   \   000000B0   63743A202564       DC8 63H, 74H, 3AH, 20H, 25H, 64H, 20H, 5BH
+   \              205B        
+   \   000000B8   746F74616C3A       DC8 74H, 6FH, 74H, 61H, 6CH, 3AH, 20H, 25H
+   \              2025        
+   \   000000C0   645D200A00         DC8 64H, 5DH, 20H, 0AH, 0
+   \   000000C5   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   5B495D00           DC8 "[I]"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   5B565D00           DC8 "[V]"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   5B535D00           DC8 "[S]"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   257300             DC8 "%s"
+    270          #endif
+
+   Maximum stack usage in bytes:
+
+     Function              CSTACK
+     --------              ------
+     CreateScreenSelectGUI    12
+     Draw                     44
+     Draw2                    48
+     Draw3                    48
+     Draw5                    40
+     method0                   4
+     method1                   8
+     method2                   8
+     method3                   8
+     method4                   0
+     method5                  12
+     method8                   0
+     method9                   0
+     reftes                  140
+
+
+   Segment part sizes:
+
+     Function/Label              Bytes
+     --------------              -----
+     battery                       20
+     laiks                         32
+     color_SS                       4
+     menu                           4
+     Draw                         188
+     Draw2                        216
+     Draw3                        224
+     Draw5                        152
+     reftes                      1152
+     method0                       44
+     method1                       56
+     method2                       44
+     method3                       40
+     method4                       32
+     method5                       80
+     method8                        8
+     method9                        8
+     CreateScreenSelectGUI        112
+     Canvas                        52
+     ??DataTable4                   4
+     ??DataTable5                   4
+     ??DataTable8                   4
+     ?<Constant "%02d:%02d">       12
+     ?<Constant "Bat:%d%">          8
+     ?<Constant "Unread: %d/%d">   16
+     ?<Constant "NatICQ: %d">      12
+     ?<Constant "[A:%s]">         200
+     ?<Constant "[I]">              4
+     ?<Constant "[V]">              4
+     ?<Constant "[S]">              4
+     ?<Constant "%s">               3
+      Others                       92
+
+ 
+ 2 448 bytes in segment CODE
+   315 bytes in segment DATA_C
+    60 bytes in segment DATA_Z
+    12 bytes in segment INITTAB
+ 
+ 2 368 bytes of CODE  memory (+ 92 bytes shared)
+   315 bytes of CONST memory
+    60 bytes of DATA  memory
+
+Errors: none
+Warnings: none

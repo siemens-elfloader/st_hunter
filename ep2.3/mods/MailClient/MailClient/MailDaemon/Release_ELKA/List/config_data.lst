@@ -1,0 +1,170 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    19/May/2008  22:00:05 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT_\MailClient\config_data.c   #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT_\MailClient\config_data.c   #
+#                       -D NEWSGOLD -lcN D:\Pasha\elf\_MY_PROJECT_\MailClien #
+#                       t\MailDaemon\Release_ELKA\List\ -la                  #
+#                       D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rele #
+#                       ase_ELKA\List\ -o D:\Pasha\elf\_MY_PROJECT_\MailClie #
+#                       nt\MailDaemon\Release_ELKA\Obj\ -s9 --no_unroll      #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --fpu None            #
+#                       --dlib_config "D:\Pasha\Embedded Workbench 4.0       #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" --segment         #
+#                       code=CONFIG --segment data=CONFIG -I                 #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rele #
+#                       ase_ELKA\List\config_data.lst                        #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT_\MailClient\MailDaemon\Rele #
+#                       ase_ELKA\Obj\config_data.r79                         #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT_\MailClient\config_data.c
+      1          #include "..\inc\cfg_items.h"
+      2          
+      3          #ifdef NEWSGOLD
+      4          #define DEFAULT_DISK "4"
+      5          #else
+      6          #define DEFAULT_DISK "0"
+      7          #endif
+      8          
+      9          __root const CFG_HDR cfghdr0={CFG_STR_WIN1251,"Login",0,63};
+     10          __root const char MAIL_LOGIN[64]="";
+     11          
+     12          __root const CFG_HDR cfghdr1={CFG_STR_PASS,"Password",0,31};
+     13          __root const char MAIL_PASS[32]="";
+     14          
+     15          __root const CFG_HDR cfghdr2={CFG_STR_WIN1251,"POP3 adress",0,31};
+     16          __root const char POP3_ADRESS[32]="pop.km.ru";
+     17          
+     18          __root const CFG_HDR cfghdr3={CFG_UINT,"POP3 port",0,65535};
+     19          __root const unsigned int POP3_PORT=110;
+     20          
+     21          __root const CFG_HDR cfghdr4={CFG_STR_UTF8,"Eml Files Path",0,63};
+     22          __root const char EML_PATH[64]=DEFAULT_DISK ":\\ZBin\\EMailClient\\data\\";
+     23          
+     24          __root const CFG_HDR cfghdr41={CFG_STR_UTF8,"Default SaveAs Folder",0,63};
+     25          __root const char SAVE_AS_FOLDER[64]=DEFAULT_DISK ":\\Misc\\";
+     26          
+     27          __root const CFG_HDR cfghdr5={CFG_CBOX,"Load",0,2};
+     28          __root const int DEFAULT_ACTION = 0;
+     29          __root const CFG_CBOX_ITEM cfgcbox1[2]={"Only Headers","Headers+Text"};
+     30          
+     31          __root const CFG_HDR cfghdr51={CFG_UINT,"Load if size less then",0,0xFFFFFFFF};
+     32          __root const unsigned int LOAD_IF_LESS = 0;
+     33          
+     34          __root const CFG_HDR cfghdr6={CFG_CBOX,"Action if mail del from server",0,2};
+     35          __root const int IF_DEL_AUX = 0;
+     36          __root const CFG_CBOX_ITEM cfgcbox2[2]={"Delete From Phone","Nothing"};
+     37          
+     38          __root const CFG_HDR cfghdr61={CFG_CHECKBOX,"Delete from serv after loading",0,0};
+     39          __root const int DEL_AFTER_LOAD = 0;
+     40          
+     41          __root const CFG_HDR cfghdr62={CFG_STR_WIN1251,"Number SMS Forward",0,31};
+     42          __root const char SMSFORWARD[32]="684";
+     43          
+     44          __root const CFG_HDR cfghdr7={CFG_STR_UTF8,"Icon Message Unreaded",3,63};
+     45          __root const char I_UNREAD[64]=DEFAULT_DISK ":\\ZBin\\EMailClient\\img\\mes_unread.png";
+     46          
+     47          __root const CFG_HDR cfghdr8={CFG_STR_UTF8,"Icon Message readed",3,63};
+     48          __root const char I_READ[64]=DEFAULT_DISK ":\\ZBin\\EMailClient\\img\\mes_read.png";
+     49          
+     50          __root const CFG_HDR cfghdr9={CFG_STR_UTF8,"Icon Only Header",3,63};
+     51          __root const char I_HEADER[64]=DEFAULT_DISK ":\\ZBin\\EMailClient\\img\\only_head.png";
+     52          
+     53          __root const CFG_HDR cfghdr10={CFG_STR_UTF8,"Icon Header with attach",3,63};
+     54          __root const char I_HEADER_ATT[64]=DEFAULT_DISK ":\\ZBin\\EMailClient\\img\\only_head_att.png";
+     55          
+     56          __root const CFG_HDR cfghdr11={CFG_STR_UTF8,"Icon Message unread with att",3,63};
+     57          __root const char I_MES_UNREAD_ATT[64]=DEFAULT_DISK ":\\ZBin\\EMailClient\\img\\mes_unread_att.png";
+     58          
+     59          __root const CFG_HDR cfghdr12={CFG_STR_UTF8,"Icon Message read with att",3,63};
+     60          __root const char I_MES_READ_ATT[64]=DEFAULT_DISK ":\\ZBin\\EMailClient\\img\\mes_read_att.png";
+     61          
+     62          __root const CFG_HDR cfghdr13={CFG_STR_UTF8,"Icon Message for download",3,63};
+     63          __root const char I_MES_DOWN[64]=DEFAULT_DISK ":\\ZBin\\EMailClient\\img\\mes_for_download.png";
+     64          
+     65          __root const CFG_HDR cfghdr14={CFG_STR_UTF8,"Icon Message for delete",3,63};
+     66          __root const char I_MES_DEL[64]=DEFAULT_DISK ":\\ZBin\\EMailClient\\img\\mes_for_delete.png";
+     67          
+     68          __root const CFG_HDR cfghdr15={CFG_STR_UTF8,"font path",3,63};
+     69          __root const char fontpath[64]="4:\\elf\\naticq\\font\\";
+     70          
+     71          __root const CFG_HDR cfghd67 = {CFG_COORDINATES,"Координаты",0,0};
+     72          __root const unsigned int X = 2;
+     73          __root const unsigned int Y = 65;
+     74          
+     75          __root const CFG_HDR cfghdr298 = {CFG_CBOX,"Align",0,3};
+     76          __root const int align = 0;
+     77          __root const CFG_CBOX_ITEM cfgcbox86[3]={"Left","Center","Right"};
+
+
+   Segment part sizes:
+
+     Function/Label   Bytes
+     --------------   -----
+     cfghdr0            44
+     MAIL_LOGIN         64
+     cfghdr1            44
+     MAIL_PASS          32
+     cfghdr2            44
+     POP3_ADRESS        32
+     cfghdr3            44
+     POP3_PORT           4
+     cfghdr4            44
+     EML_PATH           64
+     cfghdr41           44
+     SAVE_AS_FOLDER     64
+     cfghdr5            44
+     DEFAULT_ACTION      4
+     cfgcbox1           64
+     cfghdr51           44
+     LOAD_IF_LESS        4
+     cfghdr6            44
+     IF_DEL_AUX          4
+     cfgcbox2           64
+     cfghdr61           44
+     DEL_AFTER_LOAD      4
+     cfghdr62           44
+     SMSFORWARD         32
+     cfghdr7            44
+     I_UNREAD           64
+     cfghdr8            44
+     I_READ             64
+     cfghdr9            44
+     I_HEADER           64
+     cfghdr10           44
+     I_HEADER_ATT       64
+     cfghdr11           44
+     I_MES_UNREAD_ATT   64
+     cfghdr12           44
+     I_MES_READ_ATT     64
+     cfghdr13           44
+     I_MES_DOWN         64
+     cfghdr14           44
+     I_MES_DEL          64
+     cfghdr15           44
+     fontpath           64
+     cfghd67            44
+     X                   4
+     Y                   4
+     cfghdr298          44
+     align               4
+     cfgcbox86          96
+
+ 
+ 2 088 bytes in segment CONFIG_C
+ 
+ 2 088 bytes of CONST memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,75 @@
+typedef struct
+{
+CFG_HDR cfghdr0;
+
+//© string
+CFG_HDR cfghdr01;
+int cfgStTxt;
+
+//Update Time
+CFG_HDR cfghdr02;
+unsigned int cfgUpTime;
+
+CFG_HDR cfghdr025;
+unsigned int cfgScrDelay;
+.............
+	
+int myConfigSize = sizeof(myConfig);
+  myConfig* myConf = (myConfig*)malloc(myConfigSize);
+  newCfgFile = InitConfig(myConf, myConfigSize, bcfgnum, config_name[0]-'0');
+
+
+
+const char *config_path = ":\\ZBin\\etc\\ExtraInfo";
+ verhigh = 2 verlov = 52
+int InitConfig(void* cfgstruct, int len, int bcfgnum, int disk)
+{
+  int result;
+  char config_name[128];
+  if (bcfgnum)
+    sprintf(config_name, "%d%s%d%d_%d.bcfg", disk, config_path, VERHIGH, VERLOW/10, bcfgnum);
+  else
+    sprintf(config_name, "%d%s%d%d.bcfg", disk, config_path, VERHIGH, VERLOW/10);
+  result = LoadConfigData(config_name,  cfgstruct, len);
+  return result;
+}
+
+int LoadConfigData(const char *fname, void* cfg, int len)
+{
+  int f;
+  unsigned int ul;
+  int result=-1;
+  
+  if ((f=fopen(fname,A_ReadOnly+A_BIN,P_READ,&ul))!=-1)
+  {
+    if (fread(f,cfg,len,&ul)==len)
+    {
+      fclose(f,&ul);
+      result = 0;
+    }
+    else
+    {
+      fclose(f,&ul);
+    }
+  }
+#ifdef BCFGGEN
+  if (result == -1)
+  {
+    extern const CFG_HDR cfghdr0; //first var in CONFIG
+    void* bcfg=(void*)&cfghdr0;
+    unsigned int lenbcfg=(int)__segment_end("CONFIG_C")-(int)__segment_begin("CONFIG_C");
+    if ((f=fopen(fname,A_ReadWrite+A_Create+A_Truncate,P_READ+P_WRITE,&ul))!=-1)
+    {
+      if (fwrite(f,bcfg,lenbcfg,&ul)==len)
+      {
+        memcpy(cfg,bcfg,len);
+        result=0;
+      }
+      fclose(f,&ul);
+    }
+  }
+#endif
+  return(result);
+}
+
+

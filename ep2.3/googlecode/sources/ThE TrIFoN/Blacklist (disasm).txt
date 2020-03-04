@@ -1,0 +1,38 @@
+$ARM9E
+$genonly
+
+patch equ 04A1760h
+vrezka equ 050974Eh
+RejectCall equ 0xA07CBF16 + 1
+orig_proc equ 0xA0509770 + 1
+
+q0 equ 0xA0000000
+
+
+AREA STARTUPCODE, CODE, at 0x000000
+code32
+
+ ; --------------- S U B R O U T I N E ---------------------------------------
+
+org patch
+black_list_proc:                         ; CODE XREF: FFS_A1:A050974Ep
+STMFD   SP!, {LR}       ; Store Block to Memory
+STMFD   SP!, {R0-SP}    ; Store Block to Memory
+MOV     R0, #0
+MOV     LR, PC          ; Rd = Op2
+LDR     PC, aRejectCall; Indirect Jump
+
+LDMFD   SP!, {R0-SP}    ; Load Block from Memory
+LDMFD   SP!, {LR}       ; Load Block from Memory
+LDR     PC, aOrigCallProc ;Indirect Jump
+                               ; CODE XREF: black_list_proc+8j
+LDMFD   SP!, {PC}       ; Load Block from Memory
+
+aRejectCall: dd RejectCall
+aOrigCallProc: dd orig_proc
+aRama: dd Rama
+
+org vrezka
+CallARM q0+patch
+align16
+END

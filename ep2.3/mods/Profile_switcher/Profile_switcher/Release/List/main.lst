@@ -1,0 +1,351 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION    27/Jul/2007  12:35:22 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\41325_profile_switcher_s-c.ru\main.c    #
+#    Command line    =  D:\Pasha\elf\41325_profile_switcher_s-c.ru\main.c    #
+#                       -lC D:\Pasha\elf\41325_profile_switcher_s-c.ru\Relea #
+#                       se\List\ -o D:\Pasha\elf\41325_profile_switcher_s-c. #
+#                       ru\Release\Obj\ -s9 --no_unroll --no_clustering      #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --fpu None            #
+#                       --dlib_config "D:\Pasha\ARM_Embedded_Workbench\Embed #
+#                       ded Workbench 4.0 Evaluation\ARM\LIB\dl5tpainl8n.h"  #
+#                       -I "D:\Pasha\ARM_Embedded_Workbench\Embedded         #
+#                       Workbench 4.0 Evaluation\ARM\INC\"                   #
+#                       --inline_threshold=2                                 #
+#    List file       =  D:\Pasha\elf\41325_profile_switcher_s-c.ru\Release\L #
+#                       ist\main.lst                                         #
+#    Object file     =  D:\Pasha\elf\41325_profile_switcher_s-c.ru\Release\O #
+#                       bj\main.r79                                          #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\41325_profile_switcher_s-c.ru\main.c
+      1          #include "..\inc\swilib.h"
+      2          #include "..\inc\cfg_items.h"
+      3          #include "conf_loader.h"
+      4          extern void InitConfig();
+      5          extern const unsigned int profile1;
+      6          extern const unsigned int profile2;
+      7          extern const unsigned int profile3;
+      8          extern const unsigned int profile4;
+      9          extern const unsigned int profile5;
+     10          extern const unsigned int profile6;
+     11          extern const unsigned int profile7;
+     12          extern const unsigned int profile8;
+     13          extern const unsigned int profile9;
+     14          extern const unsigned int profile10;
+     15          extern const unsigned int profile11;
+     16          extern const unsigned int profile12;
+     17          extern const unsigned int profile13;
+     18          extern const unsigned int profile14;
+     19          extern const unsigned int profile15;
+     20          extern const unsigned int profile16;
+     21          extern const unsigned int profile17;
+     22          extern const unsigned int profile18;
+     23          extern const unsigned int profile19;
+     24          extern const unsigned int profile20;
+     25          extern const unsigned int profile21;
+     26          extern const unsigned int profile22;
+     27          extern const unsigned int profile23;
+     28          extern const unsigned int profile24;
+     29          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     30          GBSTMR mytmr;
+   \                     mytmr:
+   \   00000000                      DS8 16
+     31          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     32          void change(void)
+     33          { TDate date;
+   \                     change:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   10D04DE2           SUB      SP,SP,#+16
+     34            TTime time; 
+     35            GetDateTime(&date,&time);  
+   \   00000008   0D10A0E1           MOV      R1,SP
+   \   0000000C   08008DE2           ADD      R0,SP,#+8
+   \   00000010   B40000EF           SWI      +180
+     36            if(time.hour==0 && time.min==0) SetProfile(profile1);
+   \   00000014   0000DDE5           LDRB     R0,[SP, #+0]
+   \   00000018   000050E3           CMP      R0,#+0
+   \   0000001C   0100DDE5           LDRB     R0,[SP, #+1]
+   \   00000020   0300001A           BNE      ??change_0
+   \   00000024   000050E3           CMP      R0,#+0
+   \   00000028   8D00001A           BNE      ??change_1
+   \   0000002C   48029FE5           LDR      R0,??change_2    ;; profile1
+   \   00000030   880000EA           B        ??change_3
+     37            else if(time.hour==1 && time.min==0) SetProfile(profile2);
+   \                     ??change_0:
+   \   00000034   0010DDE5           LDRB     R1,[SP, #+0]
+   \   00000038   010051E3           CMP      R1,#+1
+   \   0000003C   0300001A           BNE      ??change_4
+   \   00000040   000050E3           CMP      R0,#+0
+   \   00000044   8600001A           BNE      ??change_1
+   \   00000048   30029FE5           LDR      R0,??change_2+0x4  ;; profile2
+   \   0000004C   810000EA           B        ??change_3
+     38            else if(time.hour==2 && time.min==0) SetProfile(profile3);
+   \                     ??change_4:
+   \   00000050   020051E3           CMP      R1,#+2
+   \   00000054   0300001A           BNE      ??change_5
+   \   00000058   000050E3           CMP      R0,#+0
+   \   0000005C   8000001A           BNE      ??change_1
+   \   00000060   1C029FE5           LDR      R0,??change_2+0x8  ;; profile3
+   \   00000064   7B0000EA           B        ??change_3
+     39            else if(time.hour==3 && time.min==0) SetProfile(profile4);
+   \                     ??change_5:
+   \   00000068   030051E3           CMP      R1,#+3
+   \   0000006C   0300001A           BNE      ??change_6
+   \   00000070   000050E3           CMP      R0,#+0
+   \   00000074   7A00001A           BNE      ??change_1
+   \   00000078   08029FE5           LDR      R0,??change_2+0xC  ;; profile4
+   \   0000007C   750000EA           B        ??change_3
+     40            else if(time.hour==4 && time.min==0) SetProfile(profile5);
+   \                     ??change_6:
+   \   00000080   040051E3           CMP      R1,#+4
+   \   00000084   0300001A           BNE      ??change_7
+   \   00000088   000050E3           CMP      R0,#+0
+   \   0000008C   7400001A           BNE      ??change_1
+   \   00000090   F4019FE5           LDR      R0,??change_2+0x10  ;; profile5
+   \   00000094   6F0000EA           B        ??change_3
+     41            else if(time.hour==5 && time.min==0) SetProfile(profile6);
+   \                     ??change_7:
+   \   00000098   050051E3           CMP      R1,#+5
+   \   0000009C   0300001A           BNE      ??change_8
+   \   000000A0   000050E3           CMP      R0,#+0
+   \   000000A4   6E00001A           BNE      ??change_1
+   \   000000A8   E0019FE5           LDR      R0,??change_2+0x14  ;; profile6
+   \   000000AC   690000EA           B        ??change_3
+     42            else if(time.hour==6 && time.min==0) SetProfile(profile7);
+   \                     ??change_8:
+   \   000000B0   060051E3           CMP      R1,#+6
+   \   000000B4   0300001A           BNE      ??change_9
+   \   000000B8   000050E3           CMP      R0,#+0
+   \   000000BC   6800001A           BNE      ??change_1
+   \   000000C0   CC019FE5           LDR      R0,??change_2+0x18  ;; profile7
+   \   000000C4   630000EA           B        ??change_3
+     43            else if(time.hour==7 && time.min==0) SetProfile(profile8);
+   \                     ??change_9:
+   \   000000C8   070051E3           CMP      R1,#+7
+   \   000000CC   0300001A           BNE      ??change_10
+   \   000000D0   000050E3           CMP      R0,#+0
+   \   000000D4   6200001A           BNE      ??change_1
+   \   000000D8   B8019FE5           LDR      R0,??change_2+0x1C  ;; profile8
+   \   000000DC   5D0000EA           B        ??change_3
+     44            else if(time.hour==8 && time.min==0) SetProfile(profile9);
+   \                     ??change_10:
+   \   000000E0   080051E3           CMP      R1,#+8
+   \   000000E4   0300001A           BNE      ??change_11
+   \   000000E8   000050E3           CMP      R0,#+0
+   \   000000EC   5C00001A           BNE      ??change_1
+   \   000000F0   A4019FE5           LDR      R0,??change_2+0x20  ;; profile9
+   \   000000F4   570000EA           B        ??change_3
+     45            else if(time.hour==9 && time.min==0) SetProfile(profile10);
+   \                     ??change_11:
+   \   000000F8   090051E3           CMP      R1,#+9
+   \   000000FC   0300001A           BNE      ??change_12
+   \   00000100   000050E3           CMP      R0,#+0
+   \   00000104   5600001A           BNE      ??change_1
+   \   00000108   90019FE5           LDR      R0,??change_2+0x24  ;; profile10
+   \   0000010C   510000EA           B        ??change_3
+     46            else if(time.hour==10 && time.min==0) SetProfile(profile11);
+   \                     ??change_12:
+   \   00000110   0A0051E3           CMP      R1,#+10
+   \   00000114   0300001A           BNE      ??change_13
+   \   00000118   000050E3           CMP      R0,#+0
+   \   0000011C   5000001A           BNE      ??change_1
+   \   00000120   7C019FE5           LDR      R0,??change_2+0x28  ;; profile11
+   \   00000124   4B0000EA           B        ??change_3
+     47            else if(time.hour==11 && time.min==0) SetProfile(profile12);
+   \                     ??change_13:
+   \   00000128   0B0051E3           CMP      R1,#+11
+   \   0000012C   0300001A           BNE      ??change_14
+   \   00000130   000050E3           CMP      R0,#+0
+   \   00000134   4A00001A           BNE      ??change_1
+   \   00000138   68019FE5           LDR      R0,??change_2+0x2C  ;; profile12
+   \   0000013C   450000EA           B        ??change_3
+     48            else if(time.hour==12 && time.min==0) SetProfile(profile13);
+   \                     ??change_14:
+   \   00000140   0C0051E3           CMP      R1,#+12
+   \   00000144   0300001A           BNE      ??change_15
+   \   00000148   000050E3           CMP      R0,#+0
+   \   0000014C   4400001A           BNE      ??change_1
+   \   00000150   54019FE5           LDR      R0,??change_2+0x30  ;; profile13
+   \   00000154   3F0000EA           B        ??change_3
+     49            else if(time.hour==13 && time.min==0) SetProfile(profile14);
+   \                     ??change_15:
+   \   00000158   0D0051E3           CMP      R1,#+13
+   \   0000015C   0300001A           BNE      ??change_16
+   \   00000160   000050E3           CMP      R0,#+0
+   \   00000164   3E00001A           BNE      ??change_1
+   \   00000168   40019FE5           LDR      R0,??change_2+0x34  ;; profile14
+   \   0000016C   390000EA           B        ??change_3
+     50            else if(time.hour==14 && time.min==0) SetProfile(profile15);
+   \                     ??change_16:
+   \   00000170   0E0051E3           CMP      R1,#+14
+   \   00000174   0300001A           BNE      ??change_17
+   \   00000178   000050E3           CMP      R0,#+0
+   \   0000017C   3800001A           BNE      ??change_1
+   \   00000180   2C019FE5           LDR      R0,??change_2+0x38  ;; profile15
+   \   00000184   330000EA           B        ??change_3
+     51            else if(time.hour==15 && time.min==0) SetProfile(profile16);
+   \                     ??change_17:
+   \   00000188   0F0051E3           CMP      R1,#+15
+   \   0000018C   0300001A           BNE      ??change_18
+   \   00000190   000050E3           CMP      R0,#+0
+   \   00000194   3200001A           BNE      ??change_1
+   \   00000198   18019FE5           LDR      R0,??change_2+0x3C  ;; profile16
+   \   0000019C   2D0000EA           B        ??change_3
+     52            else if(time.hour==16 && time.min==0) SetProfile(profile17);
+   \                     ??change_18:
+   \   000001A0   100051E3           CMP      R1,#+16
+   \   000001A4   0300001A           BNE      ??change_19
+   \   000001A8   000050E3           CMP      R0,#+0
+   \   000001AC   2C00001A           BNE      ??change_1
+   \   000001B0   04019FE5           LDR      R0,??change_2+0x40  ;; profile17
+   \   000001B4   270000EA           B        ??change_3
+     53            else if(time.hour==17 && time.min==0) SetProfile(profile18);
+   \                     ??change_19:
+   \   000001B8   110051E3           CMP      R1,#+17
+   \   000001BC   0300001A           BNE      ??change_20
+   \   000001C0   000050E3           CMP      R0,#+0
+   \   000001C4   2600001A           BNE      ??change_1
+   \   000001C8   F0009FE5           LDR      R0,??change_2+0x44  ;; profile18
+   \   000001CC   210000EA           B        ??change_3
+     54            else if(time.hour==18 && time.min==0) SetProfile(profile19);
+   \                     ??change_20:
+   \   000001D0   120051E3           CMP      R1,#+18
+   \   000001D4   0300001A           BNE      ??change_21
+   \   000001D8   000050E3           CMP      R0,#+0
+   \   000001DC   2000001A           BNE      ??change_1
+   \   000001E0   DC009FE5           LDR      R0,??change_2+0x48  ;; profile19
+   \   000001E4   1B0000EA           B        ??change_3
+     55            else if(time.hour==19 && time.min==0) SetProfile(profile20);
+   \                     ??change_21:
+   \   000001E8   130051E3           CMP      R1,#+19
+   \   000001EC   0300001A           BNE      ??change_22
+   \   000001F0   000050E3           CMP      R0,#+0
+   \   000001F4   1A00001A           BNE      ??change_1
+   \   000001F8   C8009FE5           LDR      R0,??change_2+0x4C  ;; profile20
+   \   000001FC   150000EA           B        ??change_3
+     56            else if(time.hour==20 && time.min==0) SetProfile(profile21);
+   \                     ??change_22:
+   \   00000200   140051E3           CMP      R1,#+20
+   \   00000204   0300001A           BNE      ??change_23
+   \   00000208   000050E3           CMP      R0,#+0
+   \   0000020C   1400001A           BNE      ??change_1
+   \   00000210   B4009FE5           LDR      R0,??change_2+0x50  ;; profile21
+   \   00000214   0F0000EA           B        ??change_3
+     57            else if(time.hour==21 && time.min==0) SetProfile(profile22);
+   \                     ??change_23:
+   \   00000218   150051E3           CMP      R1,#+21
+   \   0000021C   0300001A           BNE      ??change_24
+   \   00000220   000050E3           CMP      R0,#+0
+   \   00000224   0E00001A           BNE      ??change_1
+   \   00000228   A0009FE5           LDR      R0,??change_2+0x54  ;; profile22
+   \   0000022C   090000EA           B        ??change_3
+     58            else if(time.hour==22 && time.min==0) SetProfile(profile23);
+   \                     ??change_24:
+   \   00000230   160051E3           CMP      R1,#+22
+   \   00000234   0300001A           BNE      ??change_25
+   \   00000238   000050E3           CMP      R0,#+0
+   \   0000023C   0800001A           BNE      ??change_1
+   \   00000240   8C009FE5           LDR      R0,??change_2+0x58  ;; profile23
+   \   00000244   030000EA           B        ??change_3
+     59            else if(time.hour==23 && time.min==0) SetProfile(profile24);
+   \                     ??change_25:
+   \   00000248   170051E3           CMP      R1,#+23
+   \   0000024C   00005003           CMPEQ    R0,#+0
+   \   00000250   0300001A           BNE      ??change_1
+   \   00000254   7C009FE5           LDR      R0,??change_2+0x5C  ;; profile24
+   \                     ??change_3:
+   \   00000258   000090E5           LDR      R0,[R0, #+0]
+   \   0000025C   FF0000E2           AND      R0,R0,#0xFF
+   \   00000260   B70000EF           SWI      +183
+     60          GBS_StartTimerProc(&mytmr,216*30,change);
+   \                     ??change_1:
+   \   00000264   70209FE5           LDR      R2,??change_2+0x60  ;; change
+   \   00000268   70009FE5           LDR      R0,??change_2+0x64  ;; mytmr
+   \   0000026C   5010A0E3           MOV      R1,#+80
+   \   00000270   641D81E3           ORR      R1,R1,#0x1900
+   \   00000274   4D0000EF           SWI      +77
+     61          }
+   \   00000278   0F80BDE8           POP      {R0-R3,PC}       ;; return
+   \                     ??change_2:
+   \   0000027C   ........           DC32     profile1
+   \   00000280   ........           DC32     profile2
+   \   00000284   ........           DC32     profile3
+   \   00000288   ........           DC32     profile4
+   \   0000028C   ........           DC32     profile5
+   \   00000290   ........           DC32     profile6
+   \   00000294   ........           DC32     profile7
+   \   00000298   ........           DC32     profile8
+   \   0000029C   ........           DC32     profile9
+   \   000002A0   ........           DC32     profile10
+   \   000002A4   ........           DC32     profile11
+   \   000002A8   ........           DC32     profile12
+   \   000002AC   ........           DC32     profile13
+   \   000002B0   ........           DC32     profile14
+   \   000002B4   ........           DC32     profile15
+   \   000002B8   ........           DC32     profile16
+   \   000002BC   ........           DC32     profile17
+   \   000002C0   ........           DC32     profile18
+   \   000002C4   ........           DC32     profile19
+   \   000002C8   ........           DC32     profile20
+   \   000002CC   ........           DC32     profile21
+   \   000002D0   ........           DC32     profile22
+   \   000002D4   ........           DC32     profile23
+   \   000002D8   ........           DC32     profile24
+   \   000002DC   ........           DC32     change
+   \   000002E0   ........           DC32     mytmr
+     62          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     63          int main(void)
+     64          {
+   \                     main:
+   \   00000000   00402DE9           PUSH     {LR}
+     65            InitConfig();
+   \   00000004   ........           _BLF     InitConfig,??InitConfig??rA
+     66            change();
+   \   00000008   ........           BL       change
+     67            return 0;
+   \   0000000C   0000A0E3           MOV      R0,#+0
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+     68          }
+
+   Maximum stack usage in bytes:
+
+     Function CSTACK
+     -------- ------
+     change      20
+     main         4
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+     mytmr            16
+     change          740
+     main             20
+      Others          32
+
+ 
+ 780 bytes in segment CODE
+  16 bytes in segment DATA_Z
+  12 bytes in segment INITTAB
+ 
+ 760 bytes of CODE memory (+ 32 bytes shared)
+  16 bytes of DATA memory
+
+Errors: none
+Warnings: none

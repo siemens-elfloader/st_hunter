@@ -1,0 +1,107 @@
+12.01.12
++Flip* add 16bit suppport
+
++DrawLayerRECT add 32bit suppport
+
++константы 16бит и 32бит	-> 8 10
+
+T_16COL
+T_32COL
+
++Rotate90 add 16bit suppport
+
++Rotate (int ang) - some optimiz
+
++JPEG через либу проверено
+
+*RGB16_2_RGBA если непрозрачный c.A=0xFF; //было 0х64 
+
+Resize проверено на 16 и 32 бита
+
+*FRotate  баг c фоном (принудительный вызов Clean после создания битмапа)
+
+
+13.01.12
+1. Конструктор с вызовом Create
+
+2. Введена ф-ция NotReleaseBitmap (); - битмап не будет удален в деструкторе
+
+3. Переделаны функции
+int FRotate (AIMG *dst, float angle);
+
+//Если изображение не нужно масштабировать возвращает 1 не производит операций
+int Resize (AIMG *dst, int px, int py);
+
+int FResize (AIMG *dst, float k);
+
+dst должен быть проинициализирован AIMG img; AIMG *img=new AIMG ();
+dst содержит измененное изображение
+
+4. FResize тип битмапа исходного, а не 32
+
+5. Rotate90 оптимиз.
+
+6. Копия изображения Fork (AIMG *dst);
+
+7. Заполнение цветом void Fill (color clr);
+
+8. проверка на 32 SetAlphaLevel
+
+9. CreateFromPNG в настройках #define  __SWILIB_PNG__
+
+10. DrawLine частные случаи рисования линии: hor/vert
+
+
+14.01.12
+
+1. Разделил ф-ции по группам, вынес в отдельные файлы
+
+2. DrawRect -> DrawFillRect, DrawRect
+
+3. Обработка выделения памяти
+
+4. DrawCircle, smooth, wave, blur from de
+
+5. вынес system draw
+
+6. Поддержка многострочного тектса '\n'
+
+15.01.12
+
+1. Поддержка кодировок
+#define UTF16 0
+#define UTF8 1
+#define ASCII 2
+
+void SetCharMap (int id);
+
+2. сохранение JPEG, PNG 
+CreateFromPNG  через либу в настройках убрать #define  __SWILIB_PNG__
+
+3. libaimg.so 
+
+
+16.01.12
+фиксы
+
+DrawEllipse
+
+Rotate90 () для Т_32COL очищать битмап
+if (bpnum_==T_32COL) img->Clean ();
+
+17.01.12
+Resize ()
+if (bpnum_==T_32COL) img->Clean ();
+
+
+ToDo
+
+обработка ошибок при открытии JPEG
+
+Позже
+
+учитывать параметры при выводе букв, а не коэф.
+
+посмотреть triangle из de
+
+Rotate - исп. матрицы для преобразования 270

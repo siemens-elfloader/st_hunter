@@ -1,0 +1,1370 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Nov/2010  19:53:17 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\KCalendar\main.c           #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\KCalendar\main.c           #
+#                       --preprocess D:\pasha\elf\_MY_PROJECT_\KCalendar\SGO #
+#                       LD\List\ -lC D:\pasha\elf\_MY_PROJECT_\KCalendar\SGO #
+#                       LD\List\ -o D:\pasha\elf\_MY_PROJECT_\KCalendar\SGOL #
+#                       D\Obj\ -s9 --no_unroll --cpu_mode arm --endian       #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --fpu None --dlib_config "D:\pasha\Embedded       #
+#                       Workbench 4.0 Evaluation2\ARM\LIB\dl5tpainl8n.h" -I  #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\KCalendar\SGOLD\List\main. #
+#                       lst                                                  #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\KCalendar\SGOLD\Obj\main.r #
+#                       79                                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\KCalendar\main.c
+      1          #include "..\inc\swilib.h"
+      2          #include "conf_loader.h"
+      3          #include "config_data.h"
+      4          
+      5          typedef struct
+      6          {
+      7            CSM_RAM csm;
+      8            int gui_id;
+      9          }MAIN_CSM;
+     10          
+     11          typedef struct
+     12          {
+     13            GUI gui;
+     14            WSHDR *ws1;
+     15            WSHDR *ws2;
+     16            int i1;
+     17          }MAIN_GUI;
+     18          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     19          char config_name[64];
+   \                     config_name:
+   \   00000000                      DS8 64
+     20            
+
+   \                                 In segment CODE, align 4, keep-with-next
+     21          const char *color(int i)
+     22          {
+   \                     color:
+   \   00000000   00402DE9           PUSH     {LR}
+     23            switch(i)
+   \   00000004   010040E2           SUB      R0,R0,#+1
+   \   00000008   1E0050E3           CMP      R0,#+30
+   \   0000000C   4800008A           BHI      ??color_1
+   \   00000010   011F8FE2           ADR      R1,??color_0
+   \   00000014   0010D1E7           LDRB     R1,[R1, R0]
+   \   00000018   01F18FE0           ADD      PC,PC,R1, LSL #+2
+   \                     ??color_0:
+   \   0000001C   07090B0D           DC8      +7,+9,+11,+13
+   \   00000020   0F111315           DC8      +15,+17,+19,+21
+   \   00000024   17191B1D           DC8      +23,+25,+27,+29
+   \   00000028   1F212325           DC8      +31,+33,+35,+37
+   \   0000002C   27292B2D           DC8      +39,+41,+43,+45
+   \   00000030   2F313335           DC8      +47,+49,+51,+53
+   \   00000034   37393B3D           DC8      +55,+57,+59,+61
+   \   00000038   3F414300           DC8      +63,+65,+67,+0
+     24            {
+     25              case 1: return (const char*)CLR_1;
+   \                     ??color_2:
+   \   0000003C   FC009FE5           LDR      R0,??color_3     ;; CLR_1
+   \   00000040   0080BDE8           POP      {PC}
+     26              case 2: return (const char*)CLR_2;
+   \                     ??color_4:
+   \   00000044   F8009FE5           LDR      R0,??color_3+0x4  ;; CLR_2
+   \   00000048   0080BDE8           POP      {PC}
+     27              case 3: return (const char*)CLR_3;
+   \                     ??color_5:
+   \   0000004C   F4009FE5           LDR      R0,??color_3+0x8  ;; CLR_3
+   \   00000050   0080BDE8           POP      {PC}
+     28              case 4: return (const char*)CLR_4;
+   \                     ??color_6:
+   \   00000054   F0009FE5           LDR      R0,??color_3+0xC  ;; CLR_4
+   \   00000058   0080BDE8           POP      {PC}
+     29              case 5: return (const char*)CLR_5;
+   \                     ??color_7:
+   \   0000005C   EC009FE5           LDR      R0,??color_3+0x10  ;; CLR_5
+   \   00000060   0080BDE8           POP      {PC}
+     30              case 6: return (const char*)CLR_6;
+   \                     ??color_8:
+   \   00000064   E8009FE5           LDR      R0,??color_3+0x14  ;; CLR_6
+   \   00000068   0080BDE8           POP      {PC}
+     31              case 7: return (const char*)CLR_7;
+   \                     ??color_9:
+   \   0000006C   E4009FE5           LDR      R0,??color_3+0x18  ;; CLR_7
+   \   00000070   0080BDE8           POP      {PC}
+     32              case 8: return (const char*)CLR_8;
+   \                     ??color_10:
+   \   00000074   E0009FE5           LDR      R0,??color_3+0x1C  ;; CLR_8
+   \   00000078   0080BDE8           POP      {PC}
+     33              case 9: return (const char*)CLR_9;
+   \                     ??color_11:
+   \   0000007C   DC009FE5           LDR      R0,??color_3+0x20  ;; CLR_9
+   \   00000080   0080BDE8           POP      {PC}
+     34              case 10: return (const char*)CLR_10;
+   \                     ??color_12:
+   \   00000084   D8009FE5           LDR      R0,??color_3+0x24  ;; CLR_10
+   \   00000088   0080BDE8           POP      {PC}
+     35              case 11: return (const char*)CLR_11;
+   \                     ??color_13:
+   \   0000008C   D4009FE5           LDR      R0,??color_3+0x28  ;; CLR_11
+   \   00000090   0080BDE8           POP      {PC}
+     36              case 12: return (const char*)CLR_12;
+   \                     ??color_14:
+   \   00000094   D0009FE5           LDR      R0,??color_3+0x2C  ;; CLR_12
+   \   00000098   0080BDE8           POP      {PC}
+     37              case 13: return (const char*)CLR_13;
+   \                     ??color_15:
+   \   0000009C   CC009FE5           LDR      R0,??color_3+0x30  ;; CLR_13
+   \   000000A0   0080BDE8           POP      {PC}
+     38              case 14: return (const char*)CLR_14;
+   \                     ??color_16:
+   \   000000A4   C8009FE5           LDR      R0,??color_3+0x34  ;; CLR_14
+   \   000000A8   0080BDE8           POP      {PC}
+     39              case 15: return (const char*)CLR_15;
+   \                     ??color_17:
+   \   000000AC   C4009FE5           LDR      R0,??color_3+0x38  ;; CLR_15
+   \   000000B0   0080BDE8           POP      {PC}
+     40              case 16: return (const char*)CLR_16;
+   \                     ??color_18:
+   \   000000B4   C0009FE5           LDR      R0,??color_3+0x3C  ;; CLR_16
+   \   000000B8   0080BDE8           POP      {PC}
+     41              case 17: return (const char*)CLR_17;
+   \                     ??color_19:
+   \   000000BC   BC009FE5           LDR      R0,??color_3+0x40  ;; CLR_17
+   \   000000C0   0080BDE8           POP      {PC}
+     42              case 18: return (const char*)CLR_18;
+   \                     ??color_20:
+   \   000000C4   B8009FE5           LDR      R0,??color_3+0x44  ;; CLR_18
+   \   000000C8   0080BDE8           POP      {PC}
+     43              case 19: return (const char*)CLR_19;
+   \                     ??color_21:
+   \   000000CC   B4009FE5           LDR      R0,??color_3+0x48  ;; CLR_19
+   \   000000D0   0080BDE8           POP      {PC}
+     44              case 20: return (const char*)CLR_20;
+   \                     ??color_22:
+   \   000000D4   B0009FE5           LDR      R0,??color_3+0x4C  ;; CLR_20
+   \   000000D8   0080BDE8           POP      {PC}
+     45              case 21: return (const char*)CLR_21;
+   \                     ??color_23:
+   \   000000DC   AC009FE5           LDR      R0,??color_3+0x50  ;; CLR_21
+   \   000000E0   0080BDE8           POP      {PC}
+     46              case 22: return (const char*)CLR_22;
+   \                     ??color_24:
+   \   000000E4   A8009FE5           LDR      R0,??color_3+0x54  ;; CLR_22
+   \   000000E8   0080BDE8           POP      {PC}
+     47              case 23: return (const char*)CLR_23;
+   \                     ??color_25:
+   \   000000EC   A4009FE5           LDR      R0,??color_3+0x58  ;; CLR_23
+   \   000000F0   0080BDE8           POP      {PC}
+     48              case 24: return (const char*)CLR_24;
+   \                     ??color_26:
+   \   000000F4   A0009FE5           LDR      R0,??color_3+0x5C  ;; CLR_24
+   \   000000F8   0080BDE8           POP      {PC}
+     49              case 25: return (const char*)CLR_25;
+   \                     ??color_27:
+   \   000000FC   9C009FE5           LDR      R0,??color_3+0x60  ;; CLR_25
+   \   00000100   0080BDE8           POP      {PC}
+     50              case 26: return (const char*)CLR_26;
+   \                     ??color_28:
+   \   00000104   98009FE5           LDR      R0,??color_3+0x64  ;; CLR_26
+   \   00000108   0080BDE8           POP      {PC}
+     51              case 27: return (const char*)CLR_27;
+   \                     ??color_29:
+   \   0000010C   94009FE5           LDR      R0,??color_3+0x68  ;; CLR_27
+   \   00000110   0080BDE8           POP      {PC}
+     52              case 28: return (const char*)CLR_28;
+   \                     ??color_30:
+   \   00000114   90009FE5           LDR      R0,??color_3+0x6C  ;; CLR_28
+   \   00000118   0080BDE8           POP      {PC}
+     53              case 29: return (const char*)CLR_29;
+   \                     ??color_31:
+   \   0000011C   8C009FE5           LDR      R0,??color_3+0x70  ;; CLR_29
+   \   00000120   0080BDE8           POP      {PC}
+     54              case 30: return (const char*)CLR_30;
+   \                     ??color_32:
+   \   00000124   88009FE5           LDR      R0,??color_3+0x74  ;; CLR_30
+   \   00000128   0080BDE8           POP      {PC}
+     55              case 31: return (const char*)CLR_31;
+   \                     ??color_33:
+   \   0000012C   84009FE5           LDR      R0,??color_3+0x78  ;; CLR_31
+   \   00000130   0080BDE8           POP      {PC}
+     56              default : return GetPaletteAdrByColorIndex(25);//прозрачный
+   \                     ??color_1:
+   \   00000134   1900A0E3           MOV      R0,#+25
+   \   00000138   2E0100EF           SWI      +302
+   \   0000013C   0080BDE8           POP      {PC}             ;; return
+   \                     ??color_3:
+   \   00000140   ........           DC32     CLR_1
+   \   00000144   ........           DC32     CLR_2
+   \   00000148   ........           DC32     CLR_3
+   \   0000014C   ........           DC32     CLR_4
+   \   00000150   ........           DC32     CLR_5
+   \   00000154   ........           DC32     CLR_6
+   \   00000158   ........           DC32     CLR_7
+   \   0000015C   ........           DC32     CLR_8
+   \   00000160   ........           DC32     CLR_9
+   \   00000164   ........           DC32     CLR_10
+   \   00000168   ........           DC32     CLR_11
+   \   0000016C   ........           DC32     CLR_12
+   \   00000170   ........           DC32     CLR_13
+   \   00000174   ........           DC32     CLR_14
+   \   00000178   ........           DC32     CLR_15
+   \   0000017C   ........           DC32     CLR_16
+   \   00000180   ........           DC32     CLR_17
+   \   00000184   ........           DC32     CLR_18
+   \   00000188   ........           DC32     CLR_19
+   \   0000018C   ........           DC32     CLR_20
+   \   00000190   ........           DC32     CLR_21
+   \   00000194   ........           DC32     CLR_22
+   \   00000198   ........           DC32     CLR_23
+   \   0000019C   ........           DC32     CLR_24
+   \   000001A0   ........           DC32     CLR_25
+   \   000001A4   ........           DC32     CLR_26
+   \   000001A8   ........           DC32     CLR_27
+   \   000001AC   ........           DC32     CLR_28
+   \   000001B0   ........           DC32     CLR_29
+   \   000001B4   ........           DC32     CLR_30
+   \   000001B8   ........           DC32     CLR_31
+     57              //case '': return (const char*)CLR_;
+     58            }  
+     59          }
+     60          
+     61          
+     62          
+
+   \                                 In segment DATA_C, align 1, align-sorted
+     63          const char _s[]="%s";
+   \                     _s:
+   \   00000000   257300             DC8 "%s"
+     64          
+     65          #pragma inline=forced
+     66          int toupper(int c)
+     67          {
+     68            if((c>='a')&&(c<='z')) c+='A'-'a';
+     69            return(c);
+     70          }
+     71          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     72          int strncmpNoCase(const char *s1,const char *s2,unsigned int n)
+     73          {
+   \                     strncmpNoCase:
+   \   00000000   10002DE9           PUSH     {R4}
+     74            int i;
+     75            int c;
+     76            while(!(i=(c=toupper(*s1++))-toupper(*s2++))&&(--n)) if (!c) break;
+   \                     ??strncmpNoCase_0:
+   \   00000004   0030D0E5           LDRB     R3,[R0, #+0]
+   \   00000008   610053E3           CMP      R3,#+97
+   \   0000000C   010000BA           BLT      ??strncmpNoCase_1
+   \   00000010   7B0053E3           CMP      R3,#+123
+   \   00000014   203043B2           SUBLT    R3,R3,#+32
+   \                     ??strncmpNoCase_1:
+   \   00000018   0040D1E5           LDRB     R4,[R1, #+0]
+   \   0000001C   010080E2           ADD      R0,R0,#+1
+   \   00000020   03C0A0E1           MOV      R12,R3
+   \   00000024   610054E3           CMP      R4,#+97
+   \   00000028   010000BA           BLT      ??strncmpNoCase_2
+   \   0000002C   7B0054E3           CMP      R4,#+123
+   \   00000030   204044B2           SUBLT    R4,R4,#+32
+   \                     ??strncmpNoCase_2:
+   \   00000034   011081E2           ADD      R1,R1,#+1
+   \   00000038   043053E0           SUBS     R3,R3,R4
+   \   0000003C   0200001A           BNE      ??strncmpNoCase_3
+   \   00000040   012052E2           SUBS     R2,R2,#+1
+   \   00000044   00005C13           CMPNE    R12,#+0
+   \   00000048   EDFFFF1A           BNE      ??strncmpNoCase_0
+     77            return(i);
+   \                     ??strncmpNoCase_3:
+   \   0000004C   1000BDE8           POP      {R4}
+   \   00000050   0300A0E1           MOV      R0,R3
+   \   00000054   1EFF2FE1           BX       LR               ;; return
+     78          }
+     79          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     80          int GetWidth(char *s, int font)
+     81          {
+   \                     GetWidth:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0150A0E1           MOV      R5,R1
+     82            WSHDR *ws=AllocWS(strlen(s));
+   \   0000000C   1B0000EF           SWI      +27
+   \   00000010   250100EF           SWI      +293
+   \   00000014   0060A0E1           MOV      R6,R0
+     83            wsprintf(ws,"%t",s);
+   \   00000018   0420A0E1           MOV      R2,R4
+   \   0000001C   131F8FE2           ADR      R1,??GetWidth_0  ;; "%t"
+   \   00000020   240100EF           SWI      +292
+     84            unsigned short *body=ws->wsbody;
+   \   00000024   004096E5           LDR      R4,[R6, #+0]
+     85            int len=body[0],width;
+   \   00000028   B070D4E1           LDRH     R7,[R4, #+0]
+     86            if(len>0) width=1; else width=0;
+   \   0000002C   010057E3           CMP      R7,#+1
+   \   00000030   0C0000BA           BLT      ??GetWidth_1
+   \   00000034   0180A0E3           MOV      R8,#+1
+     87            while(len>0)
+     88            {
+     89              width+=GetSymbolWidth(body[len],font);
+   \                     ??GetWidth_2:
+   \   00000038   870084E0           ADD      R0,R4,R7, LSL #+1
+   \   0000003C   B000D0E1           LDRH     R0,[R0, #+0]
+   \   00000040   0510A0E1           MOV      R1,R5
+     90              len--; 
+   \   00000044   017047E2           SUB      R7,R7,#+1
+   \   00000048   E10100EF           SWI      +481
+   \   0000004C   088080E0           ADD      R8,R0,R8
+     91            }
+   \   00000050   010057E3           CMP      R7,#+1
+   \   00000054   F7FFFFAA           BGE      ??GetWidth_2
+     92            FreeWS(ws);
+   \                     ??GetWidth_3:
+   \   00000058   0600A0E1           MOV      R0,R6
+   \   0000005C   290100EF           SWI      +297
+     93            return (width+1);
+   \   00000060   010088E2           ADD      R0,R8,#+1
+   \   00000064   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??GetWidth_1:
+   \   00000068   0080A0E3           MOV      R8,#+0
+   \   0000006C   F9FFFFEA           B        ??GetWidth_3
+   \                     ??GetWidth_0:
+   \   00000070   25740000           DC8      "%t",+0
+     94          }
+     95          
+     96          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     97          IMGHDR DoScreen(int ScrH,int HEADERSIZE)
+     98          {
+   \                     DoScreen:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0150A0E1           MOV      R5,R1
+     99            IMGHDR screen={0,0,8,""};
+   \   00000008   60109FE5           LDR      R1,??DoScreen_0  ;; `?<Constant {0, 0, 8, &""}>`
+   \   0000000C   08D04DE2           SUB      SP,SP,#+8
+   \   00000010   0040A0E1           MOV      R4,R0
+   \   00000014   0260A0E1           MOV      R6,R2
+   \   00000018   0C0091E8           LDM      R1,{R2,R3}
+   \   0000001C   0D00A0E1           MOV      R0,SP
+   \   00000020   0C0080E8           STM      R0,{R2,R3}
+    100            int ScrW=ScreenW();
+   \   00000024   888100EF           SWI      +33160
+   \   00000028   0080A0E1           MOV      R8,R0
+    101            char *ms=RamScreenBuffer();
+   \   0000002C   E08000EF           SWI      +32992
+   \   00000030   0070A0E1           MOV      R7,R0
+    102            screen.w=ScrW;
+    103            screen.h=ScrH;  
+    104            screen.bitmap=malloc(ScrW*ScrH*2);
+   \   00000034   950800E0           MUL      R0,R5,R8
+   \   00000038   0080CDE5           STRB     R8,[SP, #+0]
+   \   0000003C   0150CDE5           STRB     R5,[SP, #+1]
+   \   00000040   8050A0E1           LSL      R5,R0,#+1
+   \   00000044   0500A0E1           MOV      R0,R5
+   \   00000048   140000EF           SWI      +20
+   \   0000004C   04008DE5           STR      R0,[SP, #+4]
+    105            ms+=(HEADERSIZE*2);
+    106            memcpy(screen.bitmap, ms, ScrW*ScrH*2);
+   \   00000050   0520A0E1           MOV      R2,R5
+   \   00000054   861087E0           ADD      R1,R7,R6, LSL #+1
+   \   00000058   1E0100EF           SWI      +286
+    107            return screen;
+   \   0000005C   0D00A0E1           MOV      R0,SP
+   \   00000060   0C0090E8           LDM      R0,{R2,R3}
+   \   00000064   0400A0E1           MOV      R0,R4
+   \   00000068   0C0084E8           STM      R4,{R2,R3}
+   \   0000006C   F681BDE8           POP      {R1,R2,R4-R8,PC}  ;; return
+   \                     ??DoScreen_0:
+   \   00000070   ........           DC32     `?<Constant {0, 0, 8, &""}>`
+    108          }
+    109          
+    110          
+    111          int count_days[]={31,28,31,30,31,30,31,31,30,31,30,31};
+    112          //int X_POS = ;
+    113          //int Y_POS = ;
+    114          int space = 0;
+    115          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    116          void DrawCal()
+    117          {
+   \                     DrawCal:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   \   00000004   18D04DE2           SUB      SP,SP,#+24
+    118            TDate date;
+    119            GetDateTime(&date,0);
+   \   00000008   0010A0E3           MOV      R1,#+0
+   \   0000000C   04008DE2           ADD      R0,SP,#+4
+   \   00000010   B40000EF           SWI      +180
+    120            date.day = 1;// как бы первый день месяца, чтоб узнать какой день недели был первого числа месяца
+   \   00000014   0110A0E3           MOV      R1,#+1
+   \   00000018   0910CDE5           STRB     R1,[SP, #+9]
+    121            int daypos = GetWeek(&date);//номер первой позиции
+   \   0000001C   04008DE2           ADD      R0,SP,#+4
+   \   00000020   B50000EF           SWI      +181
+    122          //  int space = GetWidth("25",FONT);
+    123          
+    124            int pos_x = daypos * space + X_POS; //первая позиция по Х
+   \   00000024   ........           LDR      R1,??DataTable5  ;; X_POS
+   \   00000028   0040A0E1           MOV      R4,R0
+   \   0000002C   001091E5           LDR      R1,[R1, #+0]
+   \   00000030   2C029FE5           LDR      R0,??DrawCal_0+0x4  ;; Shot + 56
+   \   00000034   00108DE5           STR      R1,[SP, #+0]
+   \   00000038   000090E5           LDR      R0,[R0, #+0]
+   \   0000003C   901425E0           MLA      R5,R0,R4,R1
+    125            int pos_y = 5 + Y_POS; // первая позиция по У
+   \   00000040   ........           LDR      R1,??DataTable6  ;; Y_POS
+    126            WSHDR *ws = AllocWS(32);
+   \   00000044   2000A0E3           MOV      R0,#+32
+   \   00000048   001091E5           LDR      R1,[R1, #+0]
+   \   0000004C   10108DE5           STR      R1,[SP, #+16]
+   \   00000050   056081E2           ADD      R6,R1,#+5
+   \   00000054   250100EF           SWI      +293
+   \   00000058   0070A0E1           MOV      R7,R0
+    127            GetDateTime(&date,0);
+   \   0000005C   0010A0E3           MOV      R1,#+0
+   \   00000060   04008DE2           ADD      R0,SP,#+4
+   \   00000064   B40000EF           SWI      +180
+    128            
+    129            for(int i = 0 ; i < count_days[date.month] + 1 ; i++)
+   \   00000068   0010A0E3           MOV      R1,#+0
+   \   0000006C   0C108DE5           STR      R1,[SP, #+12]
+   \   00000070   260000EA           B        ??DrawCal_1
+    130            {
+    131              //дата
+    132              wsprintf(ws, "%02d/%02d/%04d",date.day, date.month,date.year);
+    133              DrawString(ws,X_POS+2,Y_POS+1,X_POS+Get_WS_width(ws,FONT)+5/*((GetWidth("25",FONT) + 3)*7)*/,Y_POS+GetFontYSIZE(FONT)+1,FONT_SMALL,TEXT_OUTLINE,GetPaletteAdrByColorIndex(0),GetPaletteAdrByColorIndex(1));
+    134              
+    135              //цветной квадратик
+    136              DrawRectangle(pos_x+2,pos_y+GetFontYSIZE(FONT),pos_x+space,pos_y+GetFontYSIZE(FONT)*2,0,0/*CLR_BACK*/,color(i+1));
+    137              //день месяца
+    138              wsprintf(ws,"%d",i+1);
+    139              DrawString(ws,pos_x,pos_y+GetFontYSIZE(FONT),pos_x+space,pos_y+GetFontYSIZE(FONT)*2+1,FONT_SMALL,TEXT_OUTLINE+TEXT_ALIGNRIGHT,((i+1)==date.day) ? CLR_CURDAY : GetPaletteAdrByColorIndex(0),GetPaletteAdrByColorIndex(1));
+   \                     ??DrawCal_2:
+   \   00000074   0000A0E3           MOV      R0,#+0
+   \   00000078   2E0100EF           SWI      +302
+   \   0000007C   00B0A0E1           MOV      R11,R0
+   \                     ??DrawCal_3:
+   \   00000080   0800A0E1           MOV      R0,R8
+   \   00000084   C50100EF           SWI      +453
+   \   00000088   14008DE5           STR      R0,[SP, #+20]
+   \   0000008C   0800A0E1           MOV      R0,R8
+   \   00000090   C50100EF           SWI      +453
+   \   00000094   00022DE9           PUSH     {R9}
+   \   00000098   00082DE9           PUSH     {R11}
+   \   0000009C   2410A0E3           MOV      R1,#+36
+   \   000000A0   02002DE9           PUSH     {R1}
+   \   000000A4   062080E0           ADD      R2,R0,R6
+   \   000000A8   0700A0E1           MOV      R0,R7
+    140              
+    141              pos_x += space;//прибавили шаг
+    142              daypos++;//позиция дня недели
+   \   000000AC   014084E2           ADD      R4,R4,#+1
+   \   000000B0   0710A0E3           MOV      R1,#+7
+   \   000000B4   02002DE9           PUSH     {R1}
+   \   000000B8   24109DE5           LDR      R1,[SP, #+36]
+   \   000000BC   811086E0           ADD      R1,R6,R1, LSL #+1
+   \   000000C0   011081E2           ADD      R1,R1,#+1
+   \   000000C4   02002DE9           PUSH     {R1}
+   \   000000C8   94119FE5           LDR      R1,??DrawCal_0+0x4  ;; Shot + 56
+   \   000000CC   001091E5           LDR      R1,[R1, #+0]
+   \   000000D0   053081E0           ADD      R3,R1,R5
+   \   000000D4   0510A0E1           MOV      R1,R5
+   \   000000D8   4C0100EF           SWI      +332
+   \   000000DC   80019FE5           LDR      R0,??DrawCal_0+0x4  ;; Shot + 56
+    143              if(daypos >= 7)//если дошли до новой недели, то
+   \   000000E0   070054E3           CMP      R4,#+7
+   \   000000E4   000090E5           LDR      R0,[R0, #+0]
+   \   000000E8   14D08DE2           ADD      SP,SP,#+20
+   \   000000EC   055080E0           ADD      R5,R0,R5
+   \   000000F0   050000BA           BLT      ??DrawCal_4
+    144              {
+    145                 pos_y += GetFontYSIZE(FONT)+1;// У смещаем вниз
+   \   000000F4   0800A0E1           MOV      R0,R8
+   \   000000F8   C50100EF           SWI      +453
+    146                 pos_x = X_POS;// Х на стартовую позицию
+   \   000000FC   00509DE5           LDR      R5,[SP, #+0]
+   \   00000100   010080E2           ADD      R0,R0,#+1
+   \   00000104   066080E0           ADD      R6,R0,R6
+    147                 daypos = 0;
+   \   00000108   0040A0E3           MOV      R4,#+0
+    148              }
+   \                     ??DrawCal_4:
+   \   0000010C   0CA08DE5           STR      R10,[SP, #+12]
+   \                     ??DrawCal_1:
+   \   00000110   0830DDE5           LDRB     R3,[SP, #+8]
+   \   00000114   4C119FE5           LDR      R1,??DrawCal_0+0x8  ;; Shot
+   \   00000118   0C009DE5           LDR      R0,[SP, #+12]
+   \   0000011C   031181E0           ADD      R1,R1,R3, LSL #+2
+   \   00000120   081091E5           LDR      R1,[R1, #+8]
+   \   00000124   011081E2           ADD      R1,R1,#+1
+   \   00000128   010050E1           CMP      R0,R1
+   \   0000012C   470000AA           BGE      ??DrawCal_5
+   \   00000130   04009DE5           LDR      R0,[SP, #+4]
+   \   00000134   30119FE5           LDR      R1,??DrawCal_0+0xC  ;; `?<Constant "%02d/%02d/%04d">`
+   \   00000138   01002DE9           PUSH     {R0}
+   \   0000013C   0D20DDE5           LDRB     R2,[SP, #+13]
+   \   00000140   0700A0E1           MOV      R0,R7
+   \   00000144   240100EF           SWI      +292
+   \   00000148   0100A0E3           MOV      R0,#+1
+   \   0000014C   2E0100EF           SWI      +302
+   \   00000150   0090A0E1           MOV      R9,R0
+   \   00000154   0000A0E3           MOV      R0,#+0
+   \   00000158   2E0100EF           SWI      +302
+   \   0000015C   00A0A0E1           MOV      R10,R0
+   \   00000160   ........           LDR      R0,??DataTable8  ;; FONT
+   \   00000164   008090E5           LDR      R8,[R0, #+0]
+   \   00000168   0800A0E1           MOV      R0,R8
+   \   0000016C   C50100EF           SWI      +453
+   \   00000170   00B0A0E1           MOV      R11,R0
+   \   00000174   0810A0E1           MOV      R1,R8
+   \   00000178   0700A0E1           MOV      R0,R7
+   \   0000017C   080200EF           SWI      +520
+   \   00000180   00022DE9           PUSH     {R9}
+   \   00000184   00042DE9           PUSH     {R10}
+   \   00000188   2010A0E3           MOV      R1,#+32
+   \   0000018C   02002DE9           PUSH     {R1}
+   \   00000190   0710A0E3           MOV      R1,#+7
+   \   00000194   02002DE9           PUSH     {R1}
+   \   00000198   24109DE5           LDR      R1,[SP, #+36]
+   \   0000019C   01108BE0           ADD      R1,R11,R1
+   \   000001A0   011081E2           ADD      R1,R1,#+1
+   \   000001A4   02002DE9           PUSH     {R1}
+   \   000001A8   18109DE5           LDR      R1,[SP, #+24]
+   \   000001AC   010080E0           ADD      R0,R0,R1
+   \   000001B0   053080E2           ADD      R3,R0,#+5
+   \   000001B4   28009DE5           LDR      R0,[SP, #+40]
+   \   000001B8   021081E2           ADD      R1,R1,#+2
+   \   000001BC   012080E2           ADD      R2,R0,#+1
+   \   000001C0   0700A0E1           MOV      R0,R7
+   \   000001C4   4C0100EF           SWI      +332
+   \   000001C8   24009DE5           LDR      R0,[SP, #+36]
+   \   000001CC   01A080E2           ADD      R10,R0,#+1
+   \   000001D0   0A00A0E1           MOV      R0,R10
+   \   000001D4   ........           BL       color
+   \   000001D8   00B0A0E1           MOV      R11,R0
+   \   000001DC   0800A0E1           MOV      R0,R8
+   \   000001E0   C50100EF           SWI      +453
+   \   000001E4   0090A0E1           MOV      R9,R0
+   \   000001E8   0800A0E1           MOV      R0,R8
+   \   000001EC   C50100EF           SWI      +453
+   \   000001F0   00082DE9           PUSH     {R11}
+   \   000001F4   0010A0E3           MOV      R1,#+0
+   \   000001F8   02002DE9           PUSH     {R1}
+   \   000001FC   02002DE9           PUSH     {R1}
+   \   00000200   5C109FE5           LDR      R1,??DrawCal_0+0x4  ;; Shot + 56
+   \   00000204   893086E0           ADD      R3,R6,R9, LSL #+1
+   \   00000208   001091E5           LDR      R1,[R1, #+0]
+   \   0000020C   052081E0           ADD      R2,R1,R5
+   \   00000210   061080E0           ADD      R1,R0,R6
+   \   00000214   020085E2           ADD      R0,R5,#+2
+   \   00000218   B40100EF           SWI      +436
+   \   0000021C   24D08DE2           ADD      SP,SP,#+36
+   \   00000220   0A20A0E1           MOV      R2,R10
+   \   00000224   0D1F8FE2           ADR      R1,??DrawCal_0   ;; "%d"
+   \   00000228   0700A0E1           MOV      R0,R7
+   \   0000022C   240100EF           SWI      +292
+   \   00000230   0100A0E3           MOV      R0,#+1
+   \   00000234   2E0100EF           SWI      +302
+   \   00000238   0090A0E1           MOV      R9,R0
+   \   0000023C   0900DDE5           LDRB     R0,[SP, #+9]
+   \   00000240   00005AE1           CMP      R10,R0
+   \   00000244   8AFFFF1A           BNE      ??DrawCal_2
+   \   00000248   20B09FE5           LDR      R11,??DrawCal_0+0x10  ;; CLR_CURDAY
+   \   0000024C   8BFFFFEA           B        ??DrawCal_3
+    149            }  
+    150            FreeWS(ws);
+   \                     ??DrawCal_5:
+   \   00000250   0700A0E1           MOV      R0,R7
+   \   00000254   290100EF           SWI      +297
+    151          }
+   \   00000258   18D08DE2           ADD      SP,SP,#+24
+   \   0000025C   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??DrawCal_0:
+   \   00000260   25640000           DC8      "%d",+0
+   \   00000264   ........           DC32     Shot + 56
+   \   00000268   ........           DC32     Shot
+   \   0000026C   ........           DC32     `?<Constant "%02d/%02d/%04d">`
+   \   00000270   ........           DC32     CLR_CURDAY
+    152          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    153          void DrwImage(IMGHDR *img, int x, int y)
+    154          {
+   \                     DrwImage:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   2CD04DE2           SUB      SP,SP,#+44
+   \   00000008   0040B0E1           MOVS     R4,R0
+    155            if(!img) return;
+   \   0000000C   1000000A           BEQ      ??DrwImage_0
+    156            RECT rc;
+    157            DRWOBJ drwobj;
+    158            StoreXYWHtoRECT(&rc,x,y,img->w,img->h);
+   \   00000010   0100D4E5           LDRB     R0,[R4, #+1]
+   \   00000014   01002DE9           PUSH     {R0}
+   \   00000018   0030D4E5           LDRB     R3,[R4, #+0]
+   \   0000001C   04008DE2           ADD      R0,SP,#+4
+   \   00000020   330100EF           SWI      +307
+    159            SetPropTo_Obj5(&drwobj,&rc,0,img);
+   \   00000024   0430A0E1           MOV      R3,R4
+   \   00000028   0020A0E3           MOV      R2,#+0
+   \   0000002C   04108DE2           ADD      R1,SP,#+4
+   \   00000030   0C008DE2           ADD      R0,SP,#+12
+   \   00000034   510100EF           SWI      +337
+    160            SetColor(&drwobj,0,0/*pen,brush*/);
+   \   00000038   0020A0E3           MOV      R2,#+0
+   \   0000003C   0010A0E3           MOV      R1,#+0
+   \   00000040   0C008DE2           ADD      R0,SP,#+12
+   \   00000044   4B0100EF           SWI      +331
+    161            DrawObject(&drwobj);
+   \   00000048   0C008DE2           ADD      R0,SP,#+12
+   \   0000004C   2A0100EF           SWI      +298
+    162          }
+   \   00000050   04D08DE2           ADD      SP,SP,#+4
+   \                     ??DrwImage_0:
+   \   00000054   2CD08DE2           ADD      SP,SP,#+44       ;; stack cleaning
+   \   00000058   1080BDE8           POP      {R4,PC}          ;; return
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    163          
+    164          IMGHDR Shot;
+   \                     Shot:
+   \   00000000                      DS8 8
+   \   00000008                      REQUIRE `?<Initializer for Shot>`
+   \                     count_days:
+   \   00000008                      DS8 48
+   \   00000038                      REQUIRE `?<Initializer for count_days>`
+   \                     space:
+   \   00000038                      DS8 4
+   \   0000003C                      REQUIRE `?<Initializer for space>`
+    165          int len_line;
+   \                     len_line:
+   \   0000003C                      DS8 4
+   \   00000040                      REQUIRE `?<Initializer for len_line>`
+
+   \                                 In segment CODE, align 4, keep-with-next
+    166          void MM_OnRedraw(MAIN_GUI *data)
+    167          {  
+   \                     MM_OnRedraw:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+    168            DrwImage(&Shot,0,YDISP);
+   \   00000004   ........           LDR      R4,??DataTable7  ;; Shot
+   \   00000008   0020A0E3           MOV      R2,#+0
+   \   0000000C   0010A0E3           MOV      R1,#+0
+    169            DrawRoundedFrame(X_POS,Y_POS,X_POS + space*7+5,Y_POS+GetFontYSIZE(FONT)*8,5,5,0,CLR_BORD,CLR_BACK);
+   \   00000010   B8809FE5           LDR      R8,??MM_OnRedraw_0  ;; CLR_BORD
+   \   00000014   0400A0E1           MOV      R0,R4
+   \   00000018   ........           BL       DrwImage
+   \   0000001C   ........           LDR      R0,??DataTable8  ;; FONT
+   \   00000020   005090E5           LDR      R5,[R0, #+0]
+   \   00000024   0500A0E1           MOV      R0,R5
+   \   00000028   C50100EF           SWI      +453
+   \   0000002C   ........           LDR      R1,??DataTable5  ;; X_POS
+   \   00000030   006091E5           LDR      R6,[R1, #+0]
+   \   00000034   ........           LDR      R1,??DataTable6  ;; Y_POS
+   \   00000038   007091E5           LDR      R7,[R1, #+0]
+   \   0000003C   90109FE5           LDR      R1,??MM_OnRedraw_0+0x4  ;; CLR_BACK
+   \   00000040   803187E0           ADD      R3,R7,R0, LSL #+3
+   \   00000044   02002DE9           PUSH     {R1}
+   \   00000048   0810A0E1           MOV      R1,R8
+   \   0000004C   02002DE9           PUSH     {R1}
+   \   00000050   0010A0E3           MOV      R1,#+0
+   \   00000054   02002DE9           PUSH     {R1}
+   \   00000058   0510A0E3           MOV      R1,#+5
+   \   0000005C   02002DE9           PUSH     {R1}
+   \   00000060   02002DE9           PUSH     {R1}
+   \   00000064   380094E5           LDR      R0,[R4, #+56]
+   \   00000068   0710A0E1           MOV      R1,R7
+   \   0000006C   800160E0           RSB      R0,R0,R0, LSL #+3
+   \   00000070   060080E0           ADD      R0,R0,R6
+   \   00000074   052080E2           ADD      R2,R0,#+5
+   \   00000078   0600A0E1           MOV      R0,R6
+   \   0000007C   500100EF           SWI      +336
+    170            DrawLine(X_POS,Y_POS+GetFontYSIZE(FONT)+3,X_POS+len_line + 10,Y_POS+GetFontYSIZE(FONT)+3,0,CLR_BORD);
+   \   00000080   0500A0E1           MOV      R0,R5
+   \   00000084   C50100EF           SWI      +453
+   \   00000088   0090A0E1           MOV      R9,R0
+   \   0000008C   0500A0E1           MOV      R0,R5
+   \   00000090   C50100EF           SWI      +453
+   \   00000094   00012DE9           PUSH     {R8}
+   \   00000098   0010A0E3           MOV      R1,#+0
+   \   0000009C   02002DE9           PUSH     {R1}
+   \   000000A0   070080E0           ADD      R0,R0,R7
+   \   000000A4   071089E0           ADD      R1,R9,R7
+   \   000000A8   033081E2           ADD      R3,R1,#+3
+   \   000000AC   3C1094E5           LDR      R1,[R4, #+60]
+   \   000000B0   061081E0           ADD      R1,R1,R6
+   \   000000B4   0A2081E2           ADD      R2,R1,#+10
+   \   000000B8   031080E2           ADD      R1,R0,#+3
+   \   000000BC   0600A0E1           MOV      R0,R6
+   \   000000C0   B30100EF           SWI      +435
+    171            DrawCal();
+   \   000000C4   ........           BL       DrawCal
+    172          }
+   \   000000C8   1CD08DE2           ADD      SP,SP,#+28
+   \   000000CC   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??MM_OnRedraw_0:
+   \   000000D0   ........           DC32     CLR_BORD
+   \   000000D4   ........           DC32     CLR_BACK
+    173          
+    174          
+    175          //------------------------------------------
+    176          
+    177          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    178          void MM_onCreate(MAIN_GUI *data, void *(*malloc_adr)(int))
+    179          {
+   \                     MM_onCreate:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    180            int HSIZE = YDISP*ScreenW();
+    181            int ScrH = ScreenH()-YDISP;
+    182              
+    183            Shot = DoScreen(ScrH, HSIZE);
+   \   00000004   ........           LDR      R5,??DataTable7  ;; Shot
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   888100EF           SWI      +33160
+   \   00000010   898100EF           SWI      +33161
+   \   00000014   0020A0E3           MOV      R2,#+0
+   \   00000018   0010A0E1           MOV      R1,R0
+   \   0000001C   0500A0E1           MOV      R0,R5
+   \   00000020   ........           BL       DoScreen
+    184            len_line = GetWidth("12/08/2009",FONT);
+   \   00000024   ........           LDR      R0,??DataTable8  ;; FONT
+   \   00000028   006090E5           LDR      R6,[R0, #+0]
+   \   0000002C   30009FE5           LDR      R0,??MM_onCreate_0+0x4  ;; `?<Constant "12/08/2009">`
+   \   00000030   0610A0E1           MOV      R1,R6
+   \   00000034   ........           BL       GetWidth
+   \   00000038   3C0085E5           STR      R0,[R5, #+60]
+    185            space = GetWidth("25",FONT);
+   \   0000003C   0610A0E1           MOV      R1,R6
+   \   00000040   060F8FE2           ADR      R0,??MM_onCreate_0  ;; "25"
+   \   00000044   ........           BL       GetWidth
+   \   00000048   380085E5           STR      R0,[R5, #+56]
+    186          #ifdef ELKA
+    187            space += 3;
+    188          #else
+    189            space++;
+   \   0000004C   010080E2           ADD      R0,R0,#+1
+   \   00000050   380085E5           STR      R0,[R5, #+56]
+    190          #endif
+    191            
+    192            data->gui.state=1;
+   \   00000054   0100A0E3           MOV      R0,#+1
+   \   00000058   0C00C4E5           STRB     R0,[R4, #+12]
+    193          }
+   \   0000005C   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??MM_onCreate_0:
+   \   00000060   32350000           DC8      "25",+0
+   \   00000064   ........           DC32     `?<Constant "12/08/2009">`
+    194          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    195          void MM_onClose(MAIN_GUI *data, void (*mfree_adr)(void *))
+    196          {
+   \                     MM_onClose:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    197            mfree(Shot.bitmap);
+   \   00000008   10009FE5           LDR      R0,??MM_onClose_0  ;; Shot + 4
+   \   0000000C   000090E5           LDR      R0,[R0, #+0]
+   \   00000010   150000EF           SWI      +21
+    198            data->gui.state=0;
+   \   00000014   0000A0E3           MOV      R0,#+0
+   \   00000018   0C00C4E5           STRB     R0,[R4, #+12]
+    199          }
+   \   0000001C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??MM_onClose_0:
+   \   00000020   ........           DC32     Shot + 4
+    200          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    201          void MM_onFocus(MAIN_GUI *data, void *(*malloc_adr)(int), void (*mfree_adr)(void *))
+    202          {
+   \                     MM_onFocus:
+   \   00000000   00402DE9           PUSH     {LR}
+    203            data->gui.state=2;
+   \   00000004   0210A0E3           MOV      R1,#+2
+   \   00000008   0C10C0E5           STRB     R1,[R0, #+12]
+    204            DisableIDLETMR();
+   \   0000000C   7F0100EF           SWI      +383
+    205          }
+   \   00000010   0080BDE8           POP      {PC}             ;; return
+    206          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    207          void MM_onUnfocus(MAIN_GUI *data, void (*mfree_adr)(void *))
+    208          {
+    209            if (data->gui.state!=2) return;
+   \                     MM_onUnfocus:
+   \   00000000   0C10D0E5           LDRB     R1,[R0, #+12]
+   \   00000004   020051E3           CMP      R1,#+2
+    210            data->gui.state=1;
+   \   00000008   0110A003           MOVEQ    R1,#+1
+   \   0000000C   0C10C005           STRBEQ   R1,[R0, #+12]
+    211          }
+   \   00000010   1EFF2FE1           BX       LR               ;; return
+    212          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    213          int MM_OnKey(MAIN_GUI *data, GUI_MSG *msg)
+    214          {
+    215           // DirectRedrawGUI(); 
+    216          //  REDRAW();
+    217            int k=msg->gbsmsg->submess;
+   \                     MM_OnKey:
+   \   00000000   040091E5           LDR      R0,[R1, #+4]
+    218          
+    219            if (msg->gbsmsg->msg==KEY_DOWN || msg->gbsmsg->msg==LONG_PRESS)
+   \   00000004   9330A0E3           MOV      R3,#+147
+   \   00000008   F220D0E1           LDRSH    R2,[R0, #+2]
+   \   0000000C   041090E5           LDR      R1,[R0, #+4]
+   \   00000010   403F83E3           ORR      R3,R3,#0x100
+   \   00000014   030052E1           CMP      R2,R3
+   \   00000018   0300000A           BEQ      ??MM_OnKey_0
+   \   0000001C   0200A0E1           MOV      R0,R2
+   \   00000020   022083E2           ADD      R2,R3,#+2
+   \   00000024   020050E1           CMP      R0,R2
+   \   00000028   0200001A           BNE      ??MM_OnKey_1
+    220            {
+    221              if(k==RED_BUTTON) return 1;
+   \                     ??MM_OnKey_0:
+   \   0000002C   0C0051E3           CMP      R1,#+12
+   \   00000030   0100A003           MOVEQ    R0,#+1
+   \   00000034   1EFF2F01           BXEQ     LR
+    222            }   
+    223            return(0);
+   \                     ??MM_OnKey_1:
+   \   00000038   0000A0E3           MOV      R0,#+0
+   \   0000003C   1EFF2FE1           BX       LR               ;; return
+    224          }
+    225          
+    226          extern void kill_data(void *p, void (*func_p)(void *));
+    227          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    228          int MM_method8(void){return(0);}
+   \                     MM_method8:
+   \   00000000   0000A0E3           MOV      R0,#+0
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+    229          int MM_method9(void){return(0);}
+   \                     MM_method9:
+   \   00000000   0000A0E3           MOV      R0,#+0
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+    230          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    231          static const void * const gui_methods[11]={
+   \                     gui_methods:
+   \   00000000   ............       DC32 MM_OnRedraw, MM_onCreate, MM_onClose, MM_onFocus, MM_onUnfocus
+   \              ............
+   \              ............
+   \              ....        
+   \   00000014   ........0000       DC32 MM_OnKey, 0H, kill_data, MM_method8, MM_method9, 0H
+   \              0000........
+   \              ............
+   \              ....00000000
+    232            (void *)MM_OnRedraw,
+    233            (void *)MM_onCreate,
+    234            (void *)MM_onClose,
+    235            (void *)MM_onFocus,
+    236            (void *)MM_onUnfocus,
+    237            (void *)MM_OnKey,
+    238            0,
+    239            (void *)kill_data,
+    240            (void *)MM_method8,
+    241            (void *)MM_method9,
+    242            0
+    243          };
+    244          
+    245          
+    246          const RECT Canvas={0,0,0,0};
+   \                     Canvas:
+   \   0000002C   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+
+   \                                 In segment CODE, align 4, keep-with-next
+    247          static void maincsm_oncreate(CSM_RAM *data)
+    248          {
+   \                     maincsm_oncreate:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+    249          
+    250            MAIN_GUI *main_gui=malloc(sizeof(MAIN_GUI));
+   \   00000008   3C00A0E3           MOV      R0,#+60
+   \   0000000C   140000EF           SWI      +20
+   \   00000010   0050A0E1           MOV      R5,R0
+    251            MAIN_CSM*csm=(MAIN_CSM*)data;
+    252            zeromem(main_gui,sizeof(MAIN_GUI));
+   \   00000014   3C10A0E3           MOV      R1,#+60
+   \   00000018   1D0100EF           SWI      +285
+    253            //patch_rect((RECT*)&Canvas,0,0,ScreenW()-1,ScreenH()-1);
+    254            main_gui->gui.canvas=(void *)(&Canvas);
+   \   0000001C   2C009FE5           LDR      R0,??maincsm_oncreate_0  ;; gui_methods
+   \   00000020   2C1080E2           ADD      R1,R0,#+44
+   \   00000024   001085E5           STR      R1,[R5, #+0]
+    255          //  main_gui->gui.flag30=2;
+    256            main_gui->gui.methods=(void *)gui_methods;
+   \   00000028   040085E5           STR      R0,[R5, #+4]
+    257            main_gui->gui.item_ll.data_mfree=(void (*)(void *))mfree_adr();
+   \   0000002C   158000EF           SWI      +32789
+   \   00000030   1C0085E5           STR      R0,[R5, #+28]
+    258            csm->csm.state=0;
+   \   00000034   0000A0E3           MOV      R0,#+0
+   \   00000038   100084E5           STR      R0,[R4, #+16]
+    259            csm->csm.unk1=0;
+   \   0000003C   140084E5           STR      R0,[R4, #+20]
+    260            csm->gui_id=CreateGUI(main_gui);
+   \   00000040   0500A0E1           MOV      R0,R5
+   \   00000044   370100EF           SWI      +311
+   \   00000048   280084E5           STR      R0,[R4, #+40]
+    261            
+    262          }
+   \   0000004C   3080BDE8           POP      {R4,R5,PC}       ;; return
+   \                     ??maincsm_oncreate_0:
+   \   00000050   ........           DC32     gui_methods
+    263          
+    264          
+    265          //---------------------------------------------------------------------------//
+    266          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    267          int strcmp_nocase(const char *s1,const char *s2)
+    268          {
+    269            int i;
+    270            int c;
+    271            while(!(i=(c=toupper(*s1++))-toupper(*s2++))) if (!c) break;
+   \                     strcmp_nocase:
+   \                     ??strcmp_nocase_0:
+   \   00000000   0020D0E5           LDRB     R2,[R0, #+0]
+   \   00000004   610052E3           CMP      R2,#+97
+   \   00000008   010000BA           BLT      ??strcmp_nocase_1
+   \   0000000C   7B0052E3           CMP      R2,#+123
+   \   00000010   202042B2           SUBLT    R2,R2,#+32
+   \                     ??strcmp_nocase_1:
+   \   00000014   00C0D1E5           LDRB     R12,[R1, #+0]
+   \   00000018   010080E2           ADD      R0,R0,#+1
+   \   0000001C   0230A0E1           MOV      R3,R2
+   \   00000020   61005CE3           CMP      R12,#+97
+   \   00000024   010000BA           BLT      ??strcmp_nocase_2
+   \   00000028   7B005CE3           CMP      R12,#+123
+   \   0000002C   20C04CB2           SUBLT    R12,R12,#+32
+   \                     ??strcmp_nocase_2:
+   \   00000030   011081E2           ADD      R1,R1,#+1
+   \   00000034   0C2052E0           SUBS     R2,R2,R12
+   \   00000038   0100001A           BNE      ??strcmp_nocase_3
+   \   0000003C   000053E3           CMP      R3,#+0
+   \   00000040   EEFFFF1A           BNE      ??strcmp_nocase_0
+    272            return(i);
+   \                     ??strcmp_nocase_3:
+   \   00000044   0200A0E1           MOV      R0,R2
+   \   00000048   1EFF2FE1           BX       LR               ;; return
+    273          }
+    274          
+    275          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    276          void ElfKiller(void)
+    277          {
+   \                     ElfKiller:
+   \   00000000   00402DE9           PUSH     {LR}
+    278            extern void *ELF_BEGIN;
+    279            kill_data(&ELF_BEGIN,(void (*)(void *))mfree_adr());
+   \   00000004   158000EF           SWI      +32789
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??ElfKiller_0  ;; ELF_BEGIN
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??ElfKiller_0:
+   \   00000018   ........           DC32     ELF_BEGIN
+    280          }
+    281          
+    282          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    283          static void maincsm_onclose(CSM_RAM *csm)
+    284          {
+    285            SUBPROC((void *)ElfKiller);
+   \                     maincsm_onclose:
+   \   00000000   08009FE5           LDR      R0,??maincsm_onclose_0  ;; ElfKiller
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   710100EF           SWI      +369
+    286          }
+   \   0000000C   0080BDE8           POP      {PC}             ;; return
+   \                     ??maincsm_onclose_0:
+   \   00000010   ........           DC32     ElfKiller
+    287          
+    288          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    289          static int maincsm_onmessage(CSM_RAM *data, GBS_MSG *msg)
+    290          {
+   \                     maincsm_onmessage:
+   \   00000000   00402DE9           PUSH     {LR}
+    291            MAIN_CSM *csm=(MAIN_CSM*)data;
+    292            if ((msg->msg==MSG_GUI_DESTROYED)&&((int)msg->data0==csm->gui_id))
+   \   00000004   F220D1E1           LDRSH    R2,[R1, #+2]
+   \   00000008   980052E3           CMP      R2,#+152
+   \   0000000C   0500001A           BNE      ??maincsm_onmessage_0
+   \   00000010   082091E5           LDR      R2,[R1, #+8]
+   \   00000014   283090E5           LDR      R3,[R0, #+40]
+   \   00000018   030052E1           CMP      R2,R3
+   \   0000001C   1100001A           BNE      ??maincsm_onmessage_1
+    293            {
+    294              csm->csm.state=-3;
+   \   00000020   0220E0E3           MVN      R2,#+2
+   \   00000024   102080E5           STR      R2,[R0, #+16]
+    295            }
+    296            
+    297            if (msg->msg==MSG_RECONFIGURE_REQ)
+   \                     ??maincsm_onmessage_0:
+   \   00000028   F200D1E1           LDRSH    R0,[R1, #+2]
+   \   0000002C   F120A0E3           MOV      R2,#+241
+   \   00000030   C02F82E3           ORR      R2,R2,#0x300
+   \   00000034   020050E1           CMP      R0,R2
+   \   00000038   0A00001A           BNE      ??maincsm_onmessage_1
+    298            {
+    299              extern const char *successed_config_filename;
+    300              if (strcmp_nocase(successed_config_filename,(char *)msg->data0)==0)
+   \   0000003C   2C009FE5           LDR      R0,??maincsm_onmessage_2  ;; successed_config_filename
+   \   00000040   081091E5           LDR      R1,[R1, #+8]
+   \   00000044   000090E5           LDR      R0,[R0, #+0]
+   \   00000048   ........           BL       strcmp_nocase
+   \   0000004C   000050E3           CMP      R0,#+0
+   \   00000050   0400001A           BNE      ??maincsm_onmessage_1
+    301              {
+    302                ShowMSG(1,(int)"KCalendar config updated!");
+   \   00000054   18109FE5           LDR      R1,??maincsm_onmessage_2+0x4  ;; `?<Constant "KCalendar config upda...">`
+   \   00000058   0100A0E3           MOV      R0,#+1
+   \   0000005C   480100EF           SWI      +328
+    303                InitConfig(config_name);
+   \   00000060   ........           LDR      R0,??DataTable10  ;; config_name
+   \   00000064   ........           _BLF     InitConfig,??InitConfig??rA
+    304              }
+    305            }
+    306          
+    307            return(1);
+   \                     ??maincsm_onmessage_1:
+   \   00000068   0100A0E3           MOV      R0,#+1
+   \   0000006C   0080BDE8           POP      {PC}             ;; return
+   \                     ??maincsm_onmessage_2:
+   \   00000070   ........           DC32     successed_config_filename
+   \   00000074   ........           DC32     `?<Constant "KCalendar config upda...">`
+    308          }
+    309          
+    310          
+    311          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    312          const int minus11=-11;
+   \                     minus11:
+   \   00000000   F5FFFFFF           DC32 -11
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    313          unsigned short maincsm_name_body[140];
+   \                     maincsm_name_body:
+   \   00000000                      DS8 280
+    314          
+    315          static const struct
+    316          {
+    317            CSM_DESC maincsm;
+    318            WSHDR maincsm_name;
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "kCalendar - (c)kluchnik">`:
+   \   00000000   6B43616C656E       DC8 "kCalendar - (c)kluchnik"
+   \              646172202D20
+   \              2863296B6C75
+   \              63686E696B00
+   \   00000018   ............       DC32 maincsm_onmessage, maincsm_oncreate, maincsm_onclose, 44, 1
+   \              ............
+   \              2C0000000100
+   \              0000        
+   \   0000002C   ............       DC32 minus11, maincsm_name_body, 55AACCCCH, 3333AA55H, 0
+   \              ....CCCCAA55
+   \              55AA33330000
+   \              0000        
+   \   00000040   8B00               DC16 139
+   \   00000042   0000               DC8 0, 0
+    319          }MAINCSM =
+    320          {
+    321            {
+    322            maincsm_onmessage,
+    323            maincsm_oncreate,
+    324          #ifdef NEWSGOLD
+    325            0,
+    326            0,
+    327            0,
+    328            0,
+    329          #endif
+    330            maincsm_onclose,
+    331            sizeof(MAIN_CSM),
+    332            1,
+    333            &minus11
+    334            },
+    335            {
+    336              maincsm_name_body,
+    337              NAMECSM_MAGIC1,
+    338              NAMECSM_MAGIC2,
+    339              0x0,
+    340              139
+    341            }
+    342          };
+    343          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    344          void UpdateCSMname(void)
+    345          {
+    346            wsprintf((WSHDR *)(&MAINCSM.maincsm_name),"kCalendar - (c)kluchnik");
+   \                     UpdateCSMname:
+   \   00000000   10009FE5           LDR      R0,??UpdateCSMname_0  ;; `?<Constant "kCalendar - (c)kluchnik">`
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   300080E2           ADD      R0,R0,#+48
+   \   00000010   240100EF           SWI      +292
+    347          }
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+   \                     ??UpdateCSMname_0:
+   \   00000018   ........           DC32     `?<Constant "kCalendar - (c)kluchnik">`
+    348          
+    349          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    350          int main(char *exename, char *fname)
+    351          { 
+   \                     main:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+    352            zeromem(config_name,sizeof(config_name));
+   \   00000004   ........           LDR      R5,??DataTable10  ;; config_name
+   \   00000008   2CD04DE2           SUB      SP,SP,#+44
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   4010A0E3           MOV      R1,#+64
+   \   00000014   0500A0E1           MOV      R0,R5
+   \   00000018   1D0100EF           SWI      +285
+    353            char *ptr = strrchr(exename,'\\')+1;
+   \   0000001C   5C10A0E3           MOV      R1,#+92
+   \   00000020   0400A0E1           MOV      R0,R4
+   \   00000024   170100EF           SWI      +279
+   \   00000028   016080E2           ADD      R6,R0,#+1
+    354            memcpy(config_name, (char*)(exename+(strlen(exename)-strlen(ptr))),strlen(ptr)-4);
+   \   0000002C   0600A0E1           MOV      R0,R6
+   \   00000030   1B0000EF           SWI      +27
+   \   00000034   0070A0E1           MOV      R7,R0
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   1B0000EF           SWI      +27
+   \   00000040   0080A0E1           MOV      R8,R0
+   \   00000044   0600A0E1           MOV      R0,R6
+   \   00000048   1B0000EF           SWI      +27
+   \   0000004C   042047E2           SUB      R2,R7,#+4
+   \   00000050   000048E0           SUB      R0,R8,R0
+   \   00000054   041080E0           ADD      R1,R0,R4
+   \   00000058   0500A0E1           MOV      R0,R5
+   \   0000005C   1E0100EF           SWI      +286
+    355            
+    356            InitConfig(config_name);
+   \   00000060   0500A0E1           MOV      R0,R5
+   \   00000064   ........           _BLF     InitConfig,??InitConfig??rA
+    357            MAIN_CSM main_csm;
+    358            LockSched();
+   \   00000068   460100EF           SWI      +326
+    359            UpdateCSMname();
+   \   0000006C   ........           BL       UpdateCSMname
+    360            CreateCSM(&MAINCSM.maincsm,&main_csm,0);
+   \   00000070   18009FE5           LDR      R0,??main_0      ;; `?<Constant "kCalendar - (c)kluchnik">` + 24
+   \   00000074   0020A0E3           MOV      R2,#+0
+   \   00000078   0D10A0E1           MOV      R1,SP
+   \   0000007C   070100EF           SWI      +263
+    361            UnlockSched();
+   \   00000080   470100EF           SWI      +327
+    362          
+    363            return 0;
+   \   00000084   0000A0E3           MOV      R0,#+0
+   \   00000088   2CD08DE2           ADD      SP,SP,#+44
+   \   0000008C   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??main_0:
+   \   00000090   ........           DC32     `?<Constant "kCalendar - (c)kluchnik">` + 24
+    364          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     X_POS
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     Y_POS
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     Shot
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     FONT
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     config_name
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for Shot>`:
+   \   00000000   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for count_days>`:
+   \   00000008   1F0000001C00       DC32 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+   \              00001F000000
+   \              1E0000001F00
+   \              00001E000000
+   \              1F0000001F00
+   \              00001E000000
+   \              1F0000001E00
+   \              00001F000000
+   \                     `?<Initializer for space>`:
+   \   00000038   00000000           DC32 0
+   \                     `?<Initializer for len_line>`:
+   \   0000003C   00000000           DC8 0, 0, 0, 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   257400             DC8 "%t"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "">`:
+   \   00000000   00                 DC8 ""
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant {0, 0, 8, &""}>`:
+   \   00000000   0000               DC8 0, 0
+   \   00000002   0800               DC16 8
+   \   00000004   ........           DC32 `?<Constant "">`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%02d/%02d/%04d">`:
+   \   00000000   253032642F25       DC8 "%02d/%02d/%04d"
+   \              3032642F2530
+   \              346400      
+   \   0000000F   00                 DC8 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   256400             DC8 "%d"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "12/08/2009">`:
+   \   00000000   31322F30382F       DC8 "12/08/2009"
+   \              3230303900  
+   \   0000000B   00                 DC8 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   323500             DC8 "25"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "KCalendar config upda...">`:
+   \   00000000   4B43616C656E       DC8 "KCalendar config updated!"
+   \              64617220636F
+   \              6E6669672075
+   \              706461746564
+   \              2100        
+   \   0000001A   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function          CSTACK
+     --------          ------
+     DoScreen             32
+     DrawCal              96
+     DrwImage             56
+     ElfKiller             4
+     GetWidth             24
+     MM_OnKey              0
+     MM_OnRedraw          56
+     MM_method8            0
+     MM_method9            0
+     MM_onClose            8
+     MM_onCreate          16
+     MM_onFocus            4
+     MM_onUnfocus          0
+     UpdateCSMname         4
+     color                 4
+     main                 68
+     maincsm_onclose       4
+     maincsm_oncreate     12
+     maincsm_onmessage     4
+     strcmp_nocase         0
+     strncmpNoCase         4
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     config_name                      64
+     color                           444
+     _s                                3
+     strncmpNoCase                    88
+     GetWidth                        116
+     DoScreen                        116
+     DrawCal                         628
+     DrwImage                         92
+     Shot                             64
+     MM_OnRedraw                     216
+     MM_onCreate                     104
+     MM_onClose                       36
+     MM_onFocus                       20
+     MM_onUnfocus                     20
+     MM_OnKey                         64
+     MM_method8                        8
+     MM_method9                        8
+     gui_methods                      52
+     maincsm_oncreate                 84
+     ??strcmp_nocase_0                76
+     ElfKiller                        28
+     maincsm_onclose                  20
+     maincsm_onmessage               120
+     minus11                           4
+     maincsm_name_body               280
+     ?<Constant "kCalendar - (c)kluchnik">
+                                      68
+     UpdateCSMname                    28
+     main                            148
+     ??DataTable5                      4
+     ??DataTable6                      4
+     ??DataTable7                      4
+     ??DataTable8                      4
+     ??DataTable10                     4
+     ?<Initializer for Shot>          64
+     ?<Constant "%t">                  3
+     ?<Constant "">                    1
+     ?<Constant {0, 0, 8, &""}>        8
+     ?<Constant "%02d/%02d/%04d">     16
+     ?<Constant "%d">                  3
+     ?<Constant "12/08/2009">         12
+     ?<Constant "25">                  3
+     ?<Constant "KCalendar config upda...">
+                                      28
+      Others                         132
+
+ 
+ 2 592 bytes in segment CODE
+   201 bytes in segment DATA_C
+    64 bytes in segment DATA_I
+    64 bytes in segment DATA_ID
+   344 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 2 484 bytes of CODE  memory (+ 132 bytes shared)
+   265 bytes of CONST memory
+   408 bytes of DATA  memory
+
+Errors: none
+Warnings: none

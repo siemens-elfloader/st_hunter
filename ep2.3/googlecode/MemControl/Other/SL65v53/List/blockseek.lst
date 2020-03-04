@@ -1,0 +1,228 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    08/Aug/2010  00:10:34 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemCont #
+#                       rol\blockseek.c                                      #
+#    Command line    =  "C:\Documents and Settings\loquat\桌面\SuDoKu\MemCon #
+#                       trol\blockseek.c" -D SL65sw53 -lCN "C:\Documents     #
+#                       and Settings\loquat\桌面\SuDoKu\MemControl\Other\SL6 #
+#                       5v53\List\" -lb "C:\Documents and                    #
+#                       Settings\loquat\桌面\SuDoKu\MemControl\Other\SL65v53 #
+#                       \List\" -o "C:\Documents and                         #
+#                       Settings\loquat\桌面\SuDoKu\MemControl\Other\SL65v53 #
+#                       \Obj\" -s9 --no_unroll --no_clustering --cpu_mode    #
+#                       thumb --endian little --cpu ARM926EJ-S               #
+#                       --stack_align 4 --interwork -e --fpu None -I         #
+#                       "F:\software\Embedded Workbench 4.0                  #
+#                       Evaluation\ARM\INC\" --inline_threshold=2            #
+#    List file       =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemCont #
+#                       rol\Other\SL65v53\List\blockseek.lst                 #
+#    Object file     =  C:\Documents and Settings\loquat\桌面\SuDoKu\MemCont #
+#                       rol\Other\SL65v53\Obj\blockseek.r79                  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+C:\Documents and Settings\loquat\桌面\SuDoKu\MemControl\blockseek.c
+      1          /*
+      2          Structure EEPROM
+      3          (r) feanor for a good explanation
+      4          
+      5          EELITE
+      6          --------------------------------------------------------------------------------
+      7          0xA0FE0000:
+      8          <begin>
+      9          EELITE's Blocks
+     10          
+     11          EIT: (Upwards), descriptors of 16 bytes (4 / 4 / 4 / 4)
+     12          
+     13          Status / Block number / length / offset from the beginning EELITE
+     14          
+     15          Status: 0OFFFFFF - removed S0FFFFFF - working
+     16          length: size = length - 1
+     17          Displacement: Destination address = 0xA0FE0000 + offset + 1
+     18          
+     19          <end>
+     20          
+     21          0xA0FFFFF0
+     22          --------------------------------------------------------------------------------
+     23          
+     24          
+     25          EEFULL (1)
+     26          --------------------------------------------------------------------------------
+     27          0xA0220000:
+     28          <begin>
+     29          EEFULL's Blocks
+     30          
+     31          EIT: (bottom to top), descriptors of 16 bytes (4 / 4 / 4 / 4)
+     32          
+     33          Status / block number / length / offset from the beginning EEFULL (1)
+     34          
+     35          Status: 0OFFFFFF - removed S0FFFFFF - working
+     36          block number: the real number of the block = block number + 5000
+     37          length: size = length - 1
+     38          Displacement: Destination address = 0xA0220000 + offset + 1
+     39          
+     40          <end>
+     41          
+     42          0xA023FFF0:
+     43          --------------------------------------------------------------------------------
+     44          
+     45          EEFULL (2)
+     46          --------------------------------------------------------------------------------
+     47          0xA0240000:
+     48          <begin>
+     49          EEFULL's Blocks
+     50          
+     51          EIT: (bottom to top), descriptors of 16 bytes (4 / 4 / 4 / 4)
+     52          
+     53          Status / block number / length / offset from the beginning EEFULL (2)
+     54          
+     55          Status: 0OFFFFFF - removed S0FFFFFF - working
+     56          block number: the real number of the block = block number + 5000
+     57          length: size = length - 1
+     58          Displacement: Destination address = 0xA0240000 + offset + 1
+     59          
+     60          <end>
+     61          
+     62          0xA025FFF0:
+     63          --------------------------------------------------------------------------------
+     64          */
+     65          
+     66          #include "config\config.h"  
+     67          
+     68          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     69          __thumb unsigned long FindEEFULLBlock() //Searching for EEFULL "handles" through the EIT
+     70          {
+   \                     FindEEFULLBlock:
+   \   00000000   30B4               PUSH     {R4,R5}
+     71           unsigned long result = 0;
+   \   00000002   0020               MOVS     R0,#+0
+     72           
+     73            for (unsigned long *element = (unsigned long*)0xA023FFF0; element[1]!=0xFFFFFFFF; element-=0x04)
+   \   00000004   134C               LDR      R4,??FindEEFULLBlock_0  ;; 0xffffffffa023fff0
+   \   00000006   0021               MOVS     R1,#+0
+   \   00000008   C943               MVNS     R1,R1
+   \   0000000A   9822               MOVS     R2,#+152
+   \   0000000C   5200               LSLS     R2,R2,#+1
+   \   0000000E   00E0               B        ??FindEEFULLBlock_1
+   \                     ??FindEEFULLBlock_2:
+   \   00000010   103C               SUBS     R4,R4,#+16
+   \                     ??FindEEFULLBlock_1:
+   \   00000012   6568               LDR      R5,[R4, #+4]
+   \   00000014   3F23               MOVS     R3,#+63
+   \   00000016   DB43               MVNS     R3,R3
+   \   00000018   8D42               CMP      R5,R1
+   \   0000001A   0AD0               BEQ      ??FindEEFULLBlock_3
+     74            {
+     75             if (element[0]==0xFFFFFFC0 && element[1]==EEPROMBLOCKNUM-5000)
+   \   0000001C   2568               LDR      R5,[R4, #+0]
+   \   0000001E   9D42               CMP      R5,R3
+   \   00000020   F6D1               BNE      ??FindEEFULLBlock_2
+   \   00000022   6368               LDR      R3,[R4, #+4]
+   \   00000024   9342               CMP      R3,R2
+   \   00000026   F3D1               BNE      ??FindEEFULLBlock_2
+     76              {
+     77               result = element[3]+0xA0220000+1;
+   \   00000028   E068               LDR      R0,[R4, #+12]
+   \   0000002A   0B49               LDR      R1,??FindEEFULLBlock_0+0x4  ;; 0xffffffffa0220001
+   \   0000002C   4018               ADDS     R0,R0,R1
+     78               goto FIND;
+   \   0000002E   30BC               POP      {R4,R5}
+   \   00000030   7047               BX       LR
+     79              }
+     80            }
+     81            
+     82            for (unsigned long *element = (unsigned long*)0xA025FFF0; element[1]!=0xFFFFFFFF; element-=0x04)
+   \                     ??FindEEFULLBlock_3:
+   \   00000032   0A4C               LDR      R4,??FindEEFULLBlock_0+0x8  ;; 0xffffffffa025fff0
+   \   00000034   00E0               B        ??FindEEFULLBlock_4
+   \                     ??FindEEFULLBlock_5:
+   \   00000036   103C               SUBS     R4,R4,#+16
+   \                     ??FindEEFULLBlock_4:
+   \   00000038   6568               LDR      R5,[R4, #+4]
+   \   0000003A   8D42               CMP      R5,R1
+   \   0000003C   08D0               BEQ      ??FindEEFULLBlock_6
+     83            {
+     84             if (element[0]==0xFFFFFFC0 && element[1]==EEPROMBLOCKNUM-5000)
+   \   0000003E   2568               LDR      R5,[R4, #+0]
+   \   00000040   9D42               CMP      R5,R3
+   \   00000042   F8D1               BNE      ??FindEEFULLBlock_5
+   \   00000044   6568               LDR      R5,[R4, #+4]
+   \   00000046   9542               CMP      R5,R2
+   \   00000048   F5D1               BNE      ??FindEEFULLBlock_5
+     85              {
+     86               result = element[3]+0xA0240000+1;
+   \   0000004A   E068               LDR      R0,[R4, #+12]
+   \   0000004C   0449               LDR      R1,??FindEEFULLBlock_0+0xC  ;; 0xffffffffa0240001
+   \   0000004E   4018               ADDS     R0,R0,R1
+     87               goto FIND;
+     88              }
+     89            }
+     90           
+     91           
+     92          FIND:
+     93           
+     94            return  result;
+   \                     ??FindEEFULLBlock_6:
+   \   00000050   30BC               POP      {R4,R5}
+   \   00000052   7047               BX       LR
+   \                     ??FindEEFULLBlock_0:
+   \   00000054   F0FF23A0           DC32     0xffffffffa023fff0
+   \   00000058   010022A0           DC32     0xffffffffa0220001
+   \   0000005C   F0FF25A0           DC32     0xffffffffa025fff0
+   \   00000060   010024A0           DC32     0xffffffffa0240001
+     95          }
+     96          
+     97          
+     98          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     99          __thumb void SeekBlock()
+    100          {
+   \                     SeekBlock:
+   \   00000000   00B5               PUSH     {LR}
+    101            *(( (unsigned long *)RAMFORPATCHADDR)+0x03) = FindEEFULLBlock() + EEPROMOFFSET;
+   \   00000002   ........           BL       FindEEFULLBlock
+   \   00000006   0249               LDR      R1,??SeekBlock_0  ;; 0xffffffffa876fd0c
+   \   00000008   3D30               ADDS     R0,R0,#+61
+   \   0000000A   0860               STR      R0,[R1, #+0]
+    102          
+    103          }
+   \   0000000C   00BD               POP      {PC}             ;; return
+   \   0000000E   C046               Nop      
+   \                     ??SeekBlock_0:
+   \   00000010   0CFD76A8           DC32     0xffffffffa876fd0c
+    104          
+    105          
+
+   Maximum stack usage in bytes:
+
+     Function        CSTACK
+     --------        ------
+     FindEEFULLBlock    12
+     SeekBlock           4
+
+
+   Segment part sizes:
+
+     Function/Label  Bytes
+     --------------  -----
+     FindEEFULLBlock  100
+     SeekBlock         20
+      Others           16
+
+ 
+ 136 bytes in segment CODE
+ 
+ 120 bytes of CODE memory (+ 16 bytes shared)
+
+Errors: none
+Warnings: none

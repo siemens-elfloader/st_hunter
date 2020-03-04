@@ -1,0 +1,1557 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION    22/Jan/2008  23:56:08 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\idater\main.cpp                         #
+#    Command line    =  D:\Pasha\elf\idater\main.cpp -D NEWSGOLD -D ELKA     #
+#                       -lC D:\Pasha\elf\idater\Release\List\ -o             #
+#                       D:\Pasha\elf\idater\Release\Obj\ -s9 --cpu_mode arm  #
+#                       --endian little --cpu ARM926EJ-S --stack_align 4     #
+#                       --interwork -e --fpu None --dlib_config              #
+#                       "D:\Pasha\ARM_Embedded_Workbench\Embedded Workbench  #
+#                       4.0 Evaluation\ARM\LIB\dl5tpainl8n.h" -I             #
+#                       "D:\Pasha\ARM_Embedded_Workbench\Embedded Workbench  #
+#                       4.0 Evaluation\ARM\INC\" --inline_threshold=2        #
+#    List file       =  D:\Pasha\elf\idater\Release\List\main.lst            #
+#    Object file     =  D:\Pasha\elf\idater\Release\Obj\main.r79             #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\idater\main.cpp
+      1          #include "..\inc\swilib.h"
+      2          #include "../inc/cfg_items.h"
+      3          #include "conf_loader.h"
+      4          #include "print.h"
+      5          
+      6          #define IPC_TEXTINFO_NAME "iDater"
+      7          #define IPC_UPDATE_STAT 1
+      8          
+      9          const char ipc_my_name[]=IPC_TEXTINFO_NAME;
+     10          const IPC_REQ my_ipc={
+     11            ipc_my_name,
+     12            ipc_my_name,
+     13            NULL
+     14          };
+     15          
+     16          #define TMR_SECOND 216
+     17          GBSTMR mytmr;
+     18          
+     19          extern void InitConfig();
+     20          int my_csm_id;
+     21          unsigned int *ErrorNumber;
+     22          
+     23          const char percent_t[]="%t";
+     24          int (*old_icsm_onMessage)(CSM_RAM*,GBS_MSG*);
+     25          void (*old_icsm_onClose)(CSM_RAM*);
+     26          extern void kill_data(void *p, void (*func_p)(void *));
+     27          
+     28          #pragma segment="ELFBEGIN"
+
+   \                                 In segment CODE, align 4, keep-with-next
+     29          void ElfKiller(void)
+     30          {
+   \                     ElfKiller:
+   \   00000000   00402DE9           PUSH     {LR}
+     31            kill_data(__segment_begin("ELFBEGIN"),(void (*)(void *))mfree_adr());
+   \   00000004   158000EF           SWI      +32789
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??ElfKiller_0  ;; SFB(ELFBEGIN)
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??ElfKiller_0:
+   \   00000018   ........           DC32     SFB(ELFBEGIN)
+     32          }
+     33          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     34          void TimerProc(void)
+     35          {  
+     36            GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_UPDATE_STAT,&my_ipc);
+   \                     TimerProc:
+   \   00000000   ........           LDR      R3,??DataTable6  ;; my_ipc
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   0120A0E3           MOV      R2,#+1
+   \   0000000C   B010A0E3           MOV      R1,#+176
+   \   00000010   DE1C81E3           ORR      R1,R1,#0xDE00
+   \   00000014   0900A0E3           MOV      R0,#+9
+   \   00000018   420C80E3           ORR      R0,R0,#0x4200
+   \   0000001C   000100EF           SWI      +256
+     37          }
+   \   00000020   0080BDE8           POP      {PC}             ;; return
+     38          
+     39          typedef struct
+     40          {
+     41            CSM_RAM csm;
+     42            int gui_id;
+     43          }MAIN_CSM;   
+     44          
+     45          // ----------------------------------------------------------------------------
+     46          #define idlegui_id(icsm) (((int *)icsm)[DISPLACE_OF_IDLEGUI_ID/4])
+     47          
+     48          #pragma inline=forced
+     49          int toupper(int c)
+     50          {
+     51            if ((c>='a')&&(c<='z')) c+='A'-'a';
+     52            return(c);
+     53          }
+     54          #pragma inline
+     55          int strcmp_nocase(const char *s1,const char *s2)
+     56          {
+     57            int i;
+     58            int c;
+     59            while(!(i=(c=toupper(*s1++))-toupper(*s2++))) if (!c) break;
+     60            return(i);
+     61          }
+     62          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     63          int get_string_width(WSHDR *ws, int font)
+     64          {
+   \                     get_string_width:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+     65            int width=0;
+     66            unsigned short *body=ws->wsbody;
+   \   00000004   006090E5           LDR      R6,[R0, #+0]
+   \   00000008   0140A0E1           MOV      R4,R1
+     67            int len=body[0];
+   \   0000000C   B070D6E1           LDRH     R7,[R6, #+0]
+   \   00000010   0050A0E3           MOV      R5,#+0
+   \   00000014   000057E3           CMP      R7,#+0
+   \   00000018   0600000A           BEQ      ??get_string_width_0
+     68            while(len)
+     69            {
+     70              width+=GetSymbolWidth(body[len],font);
+   \                     ??get_string_width_1:
+   \   0000001C   870086E0           ADD      R0,R6,R7, LSL #+1
+   \   00000020   B000D0E1           LDRH     R0,[R0, #+0]
+   \   00000024   0410A0E1           MOV      R1,R4
+   \   00000028   E10100EF           SWI      +481
+   \   0000002C   055080E0           ADD      R5,R0,R5
+     71              len--;
+   \   00000030   017057E2           SUBS     R7,R7,#+1
+     72            }
+   \   00000034   F8FFFF1A           BNE      ??get_string_width_1
+     73            return (width+1);//хз, без этого тупит
+   \                     ??get_string_width_0:
+   \   00000038   010085E2           ADD      R0,R5,#+1
+   \   0000003C   F080BDE8           POP      {R4-R7,PC}       ;; return
+     74          }
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     75          
+     76          const char per_t[]="%t";
+     77          
+     78          extern const unsigned int X1;
+     79          extern const unsigned int Y1;
+     80          extern const unsigned int X2;
+     81          extern const unsigned int Y2;
+     82          extern const unsigned int X3;
+     83          extern const unsigned int Y3;
+     84          extern const unsigned int X4;
+     85          extern const unsigned int Y4;
+     86          
+     87          extern const int month_font;
+     88          extern const int day_font;
+     89          extern const int week_font;
+     90          extern const int font;
+     91          extern const int date_font;
+     92          
+     93          extern const int DRAW_MODE;
+     94          extern const int MONTH_MODE;
+     95          extern const int WEEK_MODE;
+     96          extern const int DATE_MODE;
+     97          
+     98          extern const char col_month[];
+     99          extern const char col[];
+    100          extern const char col_week[];
+    101          extern const char col_date[];
+    102          
+    103          extern const int align;
+    104          extern const int align_month;
+    105          extern const int align_week;
+    106          extern const int align_date;
+    107          extern const int space;
+    108          
+    109          extern const char FontPath[128];
+    110          extern const char FontPath2[128];
+    111          extern const char FontPath3[128];
+    112          extern const int fullset;
+    113          
+    114          const char per_s[]="%s";
+    115          void *canvasdata;
+   \                     canvasdata:
+   \   00000000                      DS8 4
+    116          char *s,*s1,*s2,*s3;
+   \                     s:
+   \   00000004                      DS8 4
+   \                     s1:
+   \   00000008                      DS8 4
+   \                     s2:
+   \   0000000C                      DS8 4
+   \                     s3:
+   \   00000010                      DS8 4
+   \                     mytmr:
+   \   00000014                      DS8 16
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     my_csm_id:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     ErrorNumber:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     old_icsm_onMessage:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     old_icsm_onClose:
+   \   00000000                      DS8 4
+    117          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    118          int maincsm_onmessage(CSM_RAM* data,GBS_MSG* msg)
+    119          {
+   \                     maincsm_onmessage:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   D8D04DE2           SUB      SP,SP,#+216
+    120            void *icsm;
+    121            if (msg->msg==MSG_RECONFIGURE_REQ)
+   \   00000008   BC459FE5           LDR      R4,??maincsm_onmessage_0+0x4  ;; canvasdata
+   \   0000000C   ........           LDR      R5,??DataTable7  ;; `?<Constant {&"\\317\\355", &"\\302\\362", &"\\321\\3`
+   \   00000010   0160A0E1           MOV      R6,R1
+   \   00000014   040096E5           LDR      R0,[R6, #+4]
+   \   00000018   AF10A0E3           MOV      R1,#+175
+   \   0000001C   DE1C81E3           ORR      R1,R1,#0xDE00
+   \   00000020   010050E1           CMP      R0,R1
+   \   00000024   3100001A           BNE      ??maincsm_onmessage_1
+    122            {
+    123              extern const char *successed_config_filename;
+    124              if (strcmp_nocase(successed_config_filename,(char *)msg->data0)==0)
+   \   00000028   A0159FE5           LDR      R1,??maincsm_onmessage_0+0x8  ;; successed_config_filename
+   \   0000002C   0C0096E5           LDR      R0,[R6, #+12]
+   \   00000030   001091E5           LDR      R1,[R1, #+0]
+   \                     ??maincsm_onmessage_2:
+   \   00000034   0020D1E5           LDRB     R2,[R1, #+0]
+   \   00000038   610052E3           CMP      R2,#+97
+   \   0000003C   010000BA           BLT      ??maincsm_onmessage_3
+   \   00000040   7B0052E3           CMP      R2,#+123
+   \   00000044   202042B2           SUBLT    R2,R2,#+32
+   \                     ??maincsm_onmessage_3:
+   \   00000048   0030D0E5           LDRB     R3,[R0, #+0]
+   \   0000004C   011081E2           ADD      R1,R1,#+1
+   \   00000050   610053E3           CMP      R3,#+97
+   \   00000054   010000BA           BLT      ??maincsm_onmessage_4
+   \   00000058   7B0053E3           CMP      R3,#+123
+   \   0000005C   203043B2           SUBLT    R3,R3,#+32
+   \                     ??maincsm_onmessage_4:
+   \   00000060   010080E2           ADD      R0,R0,#+1
+   \   00000064   033052E0           SUBS     R3,R2,R3
+   \   00000068   4100001A           BNE      ??maincsm_onmessage_5
+   \   0000006C   000052E3           CMP      R2,#+0
+   \   00000070   EFFFFF1A           BNE      ??maincsm_onmessage_2
+    125              {
+    126                ShowMSG(1,(int)"iDater config updated!");
+   \   00000074   6C1085E2           ADD      R1,R5,#+108
+   \   00000078   0100A0E3           MOV      R0,#+1
+   \   0000007C   480100EF           SWI      +328
+    127                InitConfig();
+   \   00000080   ........           _BLF     InitConfig,??InitConfig??rA
+    128                
+    129                FontPathFree();
+   \   00000084   ........           _BLF     FontPathFree,??FontPathFree??rA
+    130                
+    131                sprintf(s,per_s,FontPath);
+   \   00000088   ........           LDR      R2,??DataTable8  ;; FontPath
+   \   0000008C   040094E5           LDR      R0,[R4, #+4]
+   \   00000090   1C1085E2           ADD      R1,R5,#+28
+   \   00000094   160000EF           SWI      +22
+    132                FontPathInit(1,s,fullset);
+   \   00000098   ........           LDR      R0,??DataTable9  ;; fullset
+   \   0000009C   041094E5           LDR      R1,[R4, #+4]
+   \   000000A0   007090E5           LDR      R7,[R0, #+0]
+   \   000000A4   0100A0E3           MOV      R0,#+1
+   \   000000A8   0720A0E1           MOV      R2,R7
+   \   000000AC   ........           _BLF     FontPathInit,??FontPathInit??rA
+    133                
+    134                sprintf(s,per_s,FontPath2);
+   \   000000B0   ........           LDR      R2,??DataTable10  ;; FontPath2
+   \   000000B4   040094E5           LDR      R0,[R4, #+4]
+   \   000000B8   1C1085E2           ADD      R1,R5,#+28
+   \   000000BC   160000EF           SWI      +22
+    135                FontPathInit(2,s,fullset);
+   \   000000C0   041094E5           LDR      R1,[R4, #+4]
+   \   000000C4   0720A0E1           MOV      R2,R7
+   \   000000C8   0200A0E3           MOV      R0,#+2
+   \   000000CC   ........           _BLF     FontPathInit,??FontPathInit??rA
+    136                  
+    137                sprintf(s,per_s,FontPath3);
+   \   000000D0   ........           LDR      R2,??DataTable11  ;; FontPath3
+   \   000000D4   040094E5           LDR      R0,[R4, #+4]
+   \   000000D8   1C1085E2           ADD      R1,R5,#+28
+   \   000000DC   160000EF           SWI      +22
+    138                FontPathInit(3,s,fullset);
+   \   000000E0   041094E5           LDR      R1,[R4, #+4]
+   \   000000E4   0720A0E1           MOV      R2,R7
+   \   000000E8   0300A0E3           MOV      R0,#+3
+   \   000000EC   ........           _BLF     FontPathInit,??FontPathInit??rA
+    139              }
+    140            }
+    141            if (msg->msg==MSG_IPC)
+   \                     ??maincsm_onmessage_1:
+   \   000000F0   040096E5           LDR      R0,[R6, #+4]
+   \   000000F4   B010A0E3           MOV      R1,#+176
+   \   000000F8   DE1C81E3           ORR      R1,R1,#0xDE00
+   \   000000FC   010050E1           CMP      R0,R1
+   \   00000100   1B00001A           BNE      ??maincsm_onmessage_5
+    142            {
+    143              IPC_REQ *ipc;
+    144              if ((ipc=(IPC_REQ*)msg->data0))
+   \   00000104   0C0096E5           LDR      R0,[R6, #+12]
+   \   00000108   000050E3           CMP      R0,#+0
+   \   0000010C   1800000A           BEQ      ??maincsm_onmessage_5
+    145              {
+    146                if (strcmp_nocase(ipc->name_to,ipc_my_name)==0)
+   \   00000110   000090E5           LDR      R0,[R0, #+0]
+   \   00000114   8C1085E2           ADD      R1,R5,#+140
+   \                     ??maincsm_onmessage_6:
+   \   00000118   0020D0E5           LDRB     R2,[R0, #+0]
+   \   0000011C   610052E3           CMP      R2,#+97
+   \   00000120   010000BA           BLT      ??maincsm_onmessage_7
+   \   00000124   7B0052E3           CMP      R2,#+123
+   \   00000128   202042B2           SUBLT    R2,R2,#+32
+   \                     ??maincsm_onmessage_7:
+   \   0000012C   0030D1E5           LDRB     R3,[R1, #+0]
+   \   00000130   010080E2           ADD      R0,R0,#+1
+   \   00000134   610053E3           CMP      R3,#+97
+   \   00000138   010000BA           BLT      ??maincsm_onmessage_8
+   \   0000013C   7B0053E3           CMP      R3,#+123
+   \   00000140   203043B2           SUBLT    R3,R3,#+32
+   \                     ??maincsm_onmessage_8:
+   \   00000144   011081E2           ADD      R1,R1,#+1
+   \   00000148   033052E0           SUBS     R3,R2,R3
+   \   0000014C   0800001A           BNE      ??maincsm_onmessage_5
+   \   00000150   000052E3           CMP      R2,#+0
+   \   00000154   EFFFFF1A           BNE      ??maincsm_onmessage_6
+    147                {
+    148                  switch (msg->submess)
+   \   00000158   080096E5           LDR      R0,[R6, #+8]
+   \   0000015C   010050E3           CMP      R0,#+1
+   \   00000160   0300001A           BNE      ??maincsm_onmessage_5
+    149                  {
+    150                  case IPC_UPDATE_STAT:
+    151                    GBS_StartTimerProc(&mytmr, 10*TMR_SECOND/10, TimerProc);
+   \   00000164   68249FE5           LDR      R2,??maincsm_onmessage_0+0xC  ;; TimerProc
+   \   00000168   D810A0E3           MOV      R1,#+216
+   \   0000016C   140084E2           ADD      R0,R4,#+20
+   \   00000170   4D0000EF           SWI      +77
+    152                  }
+    153                }
+    154              }
+    155            }
+    156            icsm=FindCSMbyID(CSM_root()->idle_id);
+   \                     ??maincsm_onmessage_5:
+   \   00000174   068100EF           SWI      +33030
+   \   00000178   040090E5           LDR      R0,[R0, #+4]
+   \   0000017C   080100EF           SWI      +264
+    157            
+    158           
+    159            if (icsm)
+   \   00000180   000050E3           CMP      R0,#+0
+   \   00000184   0C01000A           BEQ      ??maincsm_onmessage_9
+    160            {
+    161              if (IsGuiOnTop(idlegui_id(icsm))) //Если IdleGui на самом верху
+   \   00000188   2C0090E5           LDR      R0,[R0, #+44]
+   \   0000018C   350100EF           SWI      +309
+   \   00000190   000050E3           CMP      R0,#+0
+   \   00000194   0801000A           BEQ      ??maincsm_onmessage_9
+    162              {
+    163                GUI *igui=GetTopGUI();
+    164                if (igui) //И он существует
+   \   00000198   4D0100EF           SWI      +333
+   \   0000019C   000050E3           CMP      R0,#+0
+   \   000001A0   0501000A           BEQ      ??maincsm_onmessage_9
+    165                {
+    166                     canvasdata = BuildCanvas();
+   \   000001A4   F18000EF           SWI      +33009
+   \   000001A8   000084E5           STR      R0,[R4, #+0]
+    167                     TDate date;
+    168                     TTime time;
+    169                     GetDateTime(&date, &time); 
+   \   000001AC   24108DE2           ADD      R1,SP,#+36
+   \   000001B0   0D00A0E1           MOV      R0,SP
+   \   000001B4   B40000EF           SWI      +180
+    170                    /* WSHDR *ws1,*ws2,*ws3;
+    171                     ws1=AllocWS(128);
+    172                     ws2=AllocWS(128);
+    173                     ws3=AllocWS(128);
+    174                     */
+    175                     char *mmonth[12]={"Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"};
+   \   000001B8   18149FE5           LDR      R1,??maincsm_onmessage_0+0x10  ;; `?<Constant {&"\\337\\355\\342", &"\\324\\345\\342", `
+   \   000001BC   A8008DE2           ADD      R0,SP,#+168
+   \   000001C0   CC50B1E8           LDM      R1!,{R2,R3,R6,R7,R12,LR}
+   \   000001C4   CC50A0E8           STM      R0!,{R2,R3,R6,R7,R12,LR}
+   \   000001C8   CC5091E8           LDM      R1,{R2,R3,R6,R7,R12,LR}
+    176                     char *mmonth2[12]={"Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сенябрь","Октябрь","Ноябрь","Декабрь"};
+   \   000001CC   08149FE5           LDR      R1,??maincsm_onmessage_0+0x14  ;; `?<Constant {&"\\337\\355\\342\\340\\360\\374", &"\\32`
+   \   000001D0   CC5080E8           STM      R0,{R2,R3,R6,R7,R12,LR}
+   \   000001D4   CC50B1E8           LDM      R1!,{R2,R3,R6,R7,R12,LR}
+   \   000001D8   78008DE2           ADD      R0,SP,#+120
+   \   000001DC   CC50A0E8           STM      R0!,{R2,R3,R6,R7,R12,LR}
+   \   000001E0   CC5091E8           LDM      R1,{R2,R3,R6,R7,R12,LR}
+    177                     char *mmonth3[12]={"Января","Февраля","Марта","Апреля","Мая","Июня","Июля","Августа","Сенября","Октября","Ноября","Декабря"};
+   \   000001E4   F4139FE5           LDR      R1,??maincsm_onmessage_0+0x18  ;; `?<Constant {&"\\337\\355\\342\\340\\360\\377", &"\\32`
+   \   000001E8   CC5080E8           STM      R0,{R2,R3,R6,R7,R12,LR}
+   \   000001EC   CC50B1E8           LDM      R1!,{R2,R3,R6,R7,R12,LR}
+   \   000001F0   48008DE2           ADD      R0,SP,#+72
+   \   000001F4   CC50A0E8           STM      R0!,{R2,R3,R6,R7,R12,LR}
+   \   000001F8   CC5091E8           LDM      R1,{R2,R3,R6,R7,R12,LR}
+    178             
+    179                     char *dday[7]={"Пн","Вт","Ср","Чт","Пт","Сб","Вс"};
+    180                     char *dday2[7]={"Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"};
+   \   000001FC   E0139FE5           LDR      R1,??maincsm_onmessage_0+0x1C  ;; `?<Constant {&"\\317\\356\\355\\345\\344\\345\\353\\374`
+   \   00000200   CC5080E8           STM      R0,{R2,R3,R6,R7,R12,LR}
+   \   00000204   CC5195E8           LDM      R5,{R2,R3,R6-R8,R12,LR}
+   \   00000208   2C008DE2           ADD      R0,SP,#+44
+   \   0000020C   CC5180E8           STM      R0,{R2,R3,R6-R8,R12,LR}
+   \   00000210   CC5191E8           LDM      R1,{R2,R3,R6-R8,R12,LR}
+   \   00000214   08008DE2           ADD      R0,SP,#+8
+   \   00000218   CC5180E8           STM      R0,{R2,R3,R6-R8,R12,LR}
+    181                                 
+    182                     if(DRAW_MODE==0)
+   \   0000021C   C4039FE5           LDR      R0,??maincsm_onmessage_0+0x20  ;; DRAW_MODE
+   \   00000220   001090E5           LDR      R1,[R0, #+0]
+   \   00000224   000051E3           CMP      R1,#+0
+   \   00000228   5800001A           BNE      ??maincsm_onmessage_10
+    183                     {         
+    184                       if(MONTH_MODE!=0)//если показываем месяц,на всякий случай...
+   \   0000022C   B8039FE5           LDR      R0,??maincsm_onmessage_0+0x24  ;; MONTH_MODE
+   \   00000230   001090E5           LDR      R1,[R0, #+0]
+   \   00000234   000051E3           CMP      R1,#+0
+   \   00000238   1D00000A           BEQ      ??maincsm_onmessage_11
+    185                       {
+    186                         if(MONTH_MODE==1)//Январь
+   \   0000023C   0430DDE5           LDRB     R3,[SP, #+4]
+   \   00000240   080094E5           LDR      R0,[R4, #+8]
+   \   00000244   010051E3           CMP      R1,#+1
+    187                         {
+    188                          //wsprintf(ws1,per_t,mmonth2[date.month-1]);
+    189                           sprintf(s1,per_s,mmonth2[date.month-1]);
+   \   00000248   78108D02           ADDEQ    R1,SP,#+120
+   \   0000024C   0500000A           BEQ      ??maincsm_onmessage_12
+    190                         }
+    191                         else if(MONTH_MODE==2)//Января
+   \   00000250   020051E3           CMP      R1,#+2
+    192                         {
+    193                          //wsprintf(ws1,per_t,mmonth[date.month-1]);
+    194                           sprintf(s1,per_s,mmonth3[date.month-1]);
+   \   00000254   48108D02           ADDEQ    R1,SP,#+72
+   \   00000258   0200000A           BEQ      ??maincsm_onmessage_12
+    195                         }
+    196                         else if(MONTH_MODE==3)//Янв
+   \   0000025C   030051E3           CMP      R1,#+3
+   \   00000260   0400001A           BNE      ??maincsm_onmessage_13
+    197                         {
+    198                          //wsprintf(ws1,per_t,mmonth[date.month-1]);
+    199                           sprintf(s1,per_s,mmonth[date.month-1]);
+   \   00000264   A8108DE2           ADD      R1,SP,#+168
+   \                     ??maincsm_onmessage_12:
+   \   00000268   031181E0           ADD      R1,R1,R3, LSL #+2
+   \   0000026C   042011E5           LDR      R2,[R1, #-4]
+   \   00000270   1C1085E2           ADD      R1,R5,#+28
+   \   00000274   160000EF           SWI      +22
+    200                         }
+    201                         PrintField(X1,Y1,s1,align_month,month_font,space);               
+   \                     ??maincsm_onmessage_13:
+   \   00000278   70039FE5           LDR      R0,??maincsm_onmessage_0+0x28  ;; space
+   \   0000027C   000090E5           LDR      R0,[R0, #+0]
+   \   00000280   01002DE9           PUSH     {R0}
+   \   00000284   68039FE5           LDR      R0,??maincsm_onmessage_0+0x2C  ;; month_font
+   \   00000288   000090E5           LDR      R0,[R0, #+0]
+   \   0000028C   01002DE9           PUSH     {R0}
+   \   00000290   082094E5           LDR      R2,[R4, #+8]
+   \   00000294   5C039FE5           LDR      R0,??maincsm_onmessage_0+0x30  ;; align_month
+   \   00000298   003090E5           LDR      R3,[R0, #+0]
+   \   0000029C   58039FE5           LDR      R0,??maincsm_onmessage_0+0x34  ;; Y1
+   \   000002A0   001090E5           LDR      R1,[R0, #+0]
+   \   000002A4   54039FE5           LDR      R0,??maincsm_onmessage_0+0x38  ;; X1
+   \   000002A8   000090E5           LDR      R0,[R0, #+0]
+   \   000002AC   ........           _BLF     PrintField,??PrintField??rA
+   \   000002B0   08D08DE2           ADD      SP,SP,#+8
+    202                         //void PrintField( int x, int y, char *str, int align, int font, int space); //вывод строки
+    203                         // DrawCanvas(canvasdata, X1, Y1, X1+Get_WS_width(ws1, month_font), Y1+GetFontYSIZE(month_font), 1);                 
+    204                         //DrawString(ws1,X1,Y1,X1+Get_WS_width(ws1, month_font)+4, Y1+GetFontYSIZE(month_font), month_font,0,col_month,GetPaletteAdrByColorIndex(23)); 
+    205                       }
+    206                      
+    207                      if(WEEK_MODE!=0)
+   \                     ??maincsm_onmessage_11:
+   \   000002B4   48039FE5           LDR      R0,??maincsm_onmessage_0+0x3C  ;; WEEK_MODE
+   \   000002B8   000090E5           LDR      R0,[R0, #+0]
+   \   000002BC   000050E3           CMP      R0,#+0
+   \   000002C0   1D00000A           BEQ      ??maincsm_onmessage_14
+    208                        {
+    209                          if(WEEK_MODE==2)
+   \   000002C4   020050E3           CMP      R0,#+2
+   \   000002C8   0300001A           BNE      ??maincsm_onmessage_15
+    210                          {
+    211                            //wsprintf(ws2,per_t,dday[GetWeek(&date)]);
+    212                              sprintf(s2,per_s,dday[GetWeek(&date)]);
+   \   000002CC   0D00A0E1           MOV      R0,SP
+   \   000002D0   B50000EF           SWI      +181
+   \   000002D4   2C108DE2           ADD      R1,SP,#+44
+   \   000002D8   040000EA           B        ??maincsm_onmessage_16
+    213                          }
+    214                          else if(WEEK_MODE==1)
+   \                     ??maincsm_onmessage_15:
+   \   000002DC   010050E3           CMP      R0,#+1
+   \   000002E0   0600001A           BNE      ??maincsm_onmessage_17
+    215                          {
+    216                            //wsprintf(ws2,per_t,dday2[GetWeek(&date)]);
+    217                              sprintf(s2,per_s,dday2[GetWeek(&date)]);
+   \   000002E4   0D00A0E1           MOV      R0,SP
+   \   000002E8   B50000EF           SWI      +181
+   \   000002EC   08108DE2           ADD      R1,SP,#+8
+   \                     ??maincsm_onmessage_16:
+   \   000002F0   002191E7           LDR      R2,[R1, +R0, LSL #+2]
+   \   000002F4   0C0094E5           LDR      R0,[R4, #+12]
+   \   000002F8   1C1085E2           ADD      R1,R5,#+28
+   \   000002FC   160000EF           SWI      +22
+    218                          }  
+    219                            PrintField(X2,Y2,s2,align_week,week_font,space);  
+   \                     ??maincsm_onmessage_17:
+   \   00000300   E8029FE5           LDR      R0,??maincsm_onmessage_0+0x28  ;; space
+   \   00000304   000090E5           LDR      R0,[R0, #+0]
+   \   00000308   01002DE9           PUSH     {R0}
+   \   0000030C   F4029FE5           LDR      R0,??maincsm_onmessage_0+0x40  ;; week_font
+   \   00000310   000090E5           LDR      R0,[R0, #+0]
+   \   00000314   01002DE9           PUSH     {R0}
+   \   00000318   0C2094E5           LDR      R2,[R4, #+12]
+   \   0000031C   E8029FE5           LDR      R0,??maincsm_onmessage_0+0x44  ;; align_week
+   \   00000320   003090E5           LDR      R3,[R0, #+0]
+   \   00000324   E4029FE5           LDR      R0,??maincsm_onmessage_0+0x48  ;; Y2
+   \   00000328   001090E5           LDR      R1,[R0, #+0]
+   \   0000032C   E0029FE5           LDR      R0,??maincsm_onmessage_0+0x4C  ;; X2
+   \   00000330   000090E5           LDR      R0,[R0, #+0]
+   \   00000334   ........           _BLF     PrintField,??PrintField??rA
+   \   00000338   08D08DE2           ADD      SP,SP,#+8
+    220          //                DrawCanvas(canvasdata, X2, Y2, X2+Get_WS_width(ws1, week_font), Y1+GetFontYSIZE(week_font), 1); 
+    221            //              DrawString(ws2,X2,Y2,X2+Get_WS_width(ws2, week_font)+4, Y2+GetFontYSIZE(week_font), week_font,0,col_week,GetPaletteAdrByColorIndex(23)); 
+    222                        }
+    223          
+    224                       if(DATE_MODE)
+   \                     ??maincsm_onmessage_14:
+   \   0000033C   D4029FE5           LDR      R0,??maincsm_onmessage_0+0x50  ;; DATE_MODE
+   \   00000340   000090E5           LDR      R0,[R0, #+0]
+   \   00000344   000050E3           CMP      R0,#+0
+   \   00000348   9B00000A           BEQ      ??maincsm_onmessage_9
+    225                       {
+    226                       // wsprintf(ws3,"%d",date.day);
+    227                          sprintf(s3,"%d",date.day);
+   \   0000034C   0520DDE5           LDRB     R2,[SP, #+5]
+   \   00000350   100094E5           LDR      R0,[R4, #+16]
+   \   00000354   9B1F8FE2           ADR      R1,??maincsm_onmessage_0  ;; "%d"
+   \   00000358   160000EF           SWI      +22
+    228                          PrintField(X3,Y3,s3,align_date,date_font,space);  
+   \   0000035C   8C029FE5           LDR      R0,??maincsm_onmessage_0+0x28  ;; space
+   \   00000360   000090E5           LDR      R0,[R0, #+0]
+   \   00000364   01002DE9           PUSH     {R0}
+   \   00000368   AC029FE5           LDR      R0,??maincsm_onmessage_0+0x54  ;; date_font
+   \   0000036C   000090E5           LDR      R0,[R0, #+0]
+   \   00000370   01002DE9           PUSH     {R0}
+   \   00000374   102094E5           LDR      R2,[R4, #+16]
+   \   00000378   A0029FE5           LDR      R0,??maincsm_onmessage_0+0x58  ;; align_date
+   \   0000037C   003090E5           LDR      R3,[R0, #+0]
+   \   00000380   9C029FE5           LDR      R0,??maincsm_onmessage_0+0x5C  ;; Y3
+   \   00000384   001090E5           LDR      R1,[R0, #+0]
+   \   00000388   98029FE5           LDR      R0,??maincsm_onmessage_0+0x60  ;; X3
+   \   0000038C   870000EA           B        ??maincsm_onmessage_18
+    229                   //     DrawCanvas(canvasdata, X3, Y3, X3+Get_WS_width(ws1,date_font), Y3+GetFontYSIZE(date_font), 1); 
+    230                     //   DrawString(ws3,X3,Y3,X3+Get_WS_width(ws3, date_font), Y3+GetFontYSIZE(date_font), date_font,0,col_date,GetPaletteAdrByColorIndex(23)); 
+    231                       }
+    232                     }
+    233          
+    234                    if(DRAW_MODE==1)//17.01.08
+   \                     ??maincsm_onmessage_10:
+   \   00000390   0520DDE5           LDRB     R2,[SP, #+5]
+   \   00000394   0430DDE5           LDRB     R3,[SP, #+4]
+   \   00000398   080094E5           LDR      R0,[R4, #+8]
+   \   0000039C   010051E3           CMP      R1,#+1
+   \   000003A0   0600001A           BNE      ??maincsm_onmessage_19
+    235                     {     
+    236                     //  wsprintf(ws1, "%02d.%02d.%02d", date.day,date.month,date.year-2000);           
+    237                       //DrawCanvas(canvasdata, X4, Y4, X4+Get_WS_width(ws1,font), Y4+GetFontYSIZE(font), 1); 
+    238                       //DrawString(ws1,X4,Y4,X4+Get_WS_width(ws1,font), Y4+GetFontYSIZE(font), font,0,col,GetPaletteAdrByColorIndex(23)); 
+    239                       sprintf(s1, "%02d.%02d.%02d", date.day,date.month,date.year-2000); 
+   \   000003A4   00109DE5           LDR      R1,[SP, #+0]
+   \   000003A8   CF60E0E3           MVN      R6,#+207
+   \   000003AC   706EC6E3           BIC      R6,R6,#0x700
+   \   000003B0   011086E0           ADD      R1,R6,R1
+   \   000003B4   02002DE9           PUSH     {R1}
+   \   000003B8   201085E2           ADD      R1,R5,#+32
+   \                     ??maincsm_onmessage_20:
+   \   000003BC   100000EA           B        ??maincsm_onmessage_21
+    240                       PrintField(X4,Y4,s1,align,font,space);  
+    241          //( int x, int y, char *str, int align, int font, int space, int lineSpace, int isScroll, short fixSize, int maxLen); //вывод текста
+    242          //             PrintText(X4,Y4,s1,align,1,space,1,0,strlen(s1),strlen(s1));
+    243                     }
+    244                     
+    245                     if(DRAW_MODE==2)//17.01.2008
+   \                     ??maincsm_onmessage_19:
+   \   000003C0   020051E3           CMP      R1,#+2
+   \   000003C4   0300001A           BNE      ??maincsm_onmessage_22
+    246                     {     
+    247                       ///wsprintf(ws1, "%02d.%02d.%04d", date.day,date.month,date.year);           
+    248                       //DrawCanvas(canvasdata, X4, Y4, X4+Get_WS_width(ws1,font), Y4+GetFontYSIZE(font), 1); 
+    249                       //DrawString(ws1,X4,Y4,X4+Get_WS_width(ws1,font), Y4+GetFontYSIZE(font), font,0,col,GetPaletteAdrByColorIndex(23)); 
+    250                         sprintf(s1, "%02d.%02d.%04d", date.day,date.month,date.year);           
+   \   000003C8   00109DE5           LDR      R1,[SP, #+0]
+   \   000003CC   02002DE9           PUSH     {R1}
+   \   000003D0   301085E2           ADD      R1,R5,#+48
+   \   000003D4   0A0000EA           B        ??maincsm_onmessage_21
+    251                         PrintField(X4,Y4,s1,align,font,space);  
+    252                     }
+    253                     
+    254                     if(DRAW_MODE==3)//сб 12.01
+   \                     ??maincsm_onmessage_22:
+   \   000003D8   030051E3           CMP      R1,#+3
+   \   000003DC   1B00001A           BNE      ??maincsm_onmessage_23
+    255                     {     
+    256                      // wsprintf(ws1, "%t %02d.%02d",dday[GetWeek(&date)],date.day,date.month);           
+    257                      // DrawCanvas(canvasdata, X4, Y4, X4+Get_WS_width(ws1,font), Y4+GetFontYSIZE(font), 1); 
+    258                      // DrawString(ws1,X4,Y4,X4+Get_WS_width(ws1,font), Y4+GetFontYSIZE(font), font,0,col,GetPaletteAdrByColorIndex(23)); 
+    259                         sprintf(s1, "%s %02d.%02d",dday[GetWeek(&date)],date.day,date.month); 
+   \   000003E0   0D00A0E1           MOV      R0,SP
+   \   000003E4   B50000EF           SWI      +181
+   \   000003E8   0410DDE5           LDRB     R1,[SP, #+4]
+   \   000003EC   02002DE9           PUSH     {R1}
+   \   000003F0   0930DDE5           LDRB     R3,[SP, #+9]
+   \   000003F4   30108DE2           ADD      R1,SP,#+48
+   \   000003F8   002191E7           LDR      R2,[R1, +R0, LSL #+2]
+   \   000003FC   401085E2           ADD      R1,R5,#+64
+   \                     ??maincsm_onmessage_24:
+   \   00000400   080094E5           LDR      R0,[R4, #+8]
+   \                     ??maincsm_onmessage_21:
+   \   00000404   160000EF           SWI      +22
+    260                         PrintField(X4,Y4,s1,align,font,space);  
+   \   00000408   E0019FE5           LDR      R0,??maincsm_onmessage_0+0x28  ;; space
+   \   0000040C   000090E5           LDR      R0,[R0, #+0]
+   \   00000410   01002DE9           PUSH     {R0}
+   \   00000414   10029FE5           LDR      R0,??maincsm_onmessage_0+0x64  ;; font
+   \   00000418   000090E5           LDR      R0,[R0, #+0]
+   \   0000041C   01002DE9           PUSH     {R0}
+   \   00000420   082094E5           LDR      R2,[R4, #+8]
+   \   00000424   04029FE5           LDR      R0,??maincsm_onmessage_0+0x68  ;; align
+   \   00000428   003090E5           LDR      R3,[R0, #+0]
+   \   0000042C   00029FE5           LDR      R0,??maincsm_onmessage_0+0x6C  ;; Y4
+   \   00000430   001090E5           LDR      R1,[R0, #+0]
+   \   00000434   FC019FE5           LDR      R0,??maincsm_onmessage_0+0x70  ;; X4
+   \   00000438   000090E5           LDR      R0,[R0, #+0]
+   \   0000043C   ........           _BLF     PrintField,??PrintField??rA
+   \   00000440   0CD08DE2           ADD      SP,SP,#+12
+   \   00000444   0100A0E3           MOV      R0,#+1
+   \   00000448   D8D08DE2           ADD      SP,SP,#+216
+   \   0000044C   F081BDE8           POP      {R4-R8,PC}
+    261                     }
+    262                     
+    263                     if(DRAW_MODE==4)//Суббота 12.01
+   \                     ??maincsm_onmessage_23:
+   \   00000450   040051E3           CMP      R1,#+4
+   \   00000454   0900001A           BNE      ??maincsm_onmessage_25
+    264                     {     
+    265                       sprintf(s1, "%s %02d.%02d",dday2[GetWeek(&date)],date.day,date.month); 
+   \   00000458   0D00A0E1           MOV      R0,SP
+   \   0000045C   B50000EF           SWI      +181
+   \   00000460   0410DDE5           LDRB     R1,[SP, #+4]
+   \   00000464   02002DE9           PUSH     {R1}
+   \   00000468   0930DDE5           LDRB     R3,[SP, #+9]
+   \   0000046C   0C108DE2           ADD      R1,SP,#+12
+   \   00000470   002191E7           LDR      R2,[R1, +R0, LSL #+2]
+   \   00000474   080094E5           LDR      R0,[R4, #+8]
+   \   00000478   401085E2           ADD      R1,R5,#+64
+   \   0000047C   E0FFFFEA           B        ??maincsm_onmessage_21
+    266                       PrintField(X4,Y4,s1,align,font,space);  
+    267                     }
+    268                     
+    269                     if(DRAW_MODE==5)//Сб 12 Янв
+   \                     ??maincsm_onmessage_25:
+   \   00000480   050051E3           CMP      R1,#+5
+   \   00000484   0B00001A           BNE      ??maincsm_onmessage_26
+    270                     {     
+    271                       sprintf(s1, "%s %02d %s",dday[GetWeek(&date)],date.day,mmonth[date.month-1]); 
+   \   00000488   0D00A0E1           MOV      R0,SP
+   \   0000048C   B50000EF           SWI      +181
+   \   00000490   0410DDE5           LDRB     R1,[SP, #+4]
+   \   00000494   A8208DE2           ADD      R2,SP,#+168
+   \   00000498   011182E0           ADD      R1,R2,R1, LSL #+2
+   \   0000049C   041011E5           LDR      R1,[R1, #-4]
+   \   000004A0   02002DE9           PUSH     {R1}
+   \   000004A4   0930DDE5           LDRB     R3,[SP, #+9]
+   \   000004A8   30108DE2           ADD      R1,SP,#+48
+   \   000004AC   002191E7           LDR      R2,[R1, +R0, LSL #+2]
+   \   000004B0   501085E2           ADD      R1,R5,#+80
+   \   000004B4   D1FFFFEA           B        ??maincsm_onmessage_24
+    272                       PrintField(X4,Y4,s1,align,font,space);  
+    273                     }
+    274                     
+    275                     if(DRAW_MODE==6)//Сб 12 Января
+   \                     ??maincsm_onmessage_26:
+   \   000004B8   060051E3           CMP      R1,#+6
+   \   000004BC   0C00001A           BNE      ??maincsm_onmessage_27
+    276                     {     
+    277                       sprintf(s1, "%s %02d %s",dday2[GetWeek(&date)],date.day,mmonth2[date.month-1]); 
+   \   000004C0   0D00A0E1           MOV      R0,SP
+   \   000004C4   B50000EF           SWI      +181
+   \   000004C8   0410DDE5           LDRB     R1,[SP, #+4]
+   \   000004CC   78208DE2           ADD      R2,SP,#+120
+   \   000004D0   011182E0           ADD      R1,R2,R1, LSL #+2
+   \   000004D4   041011E5           LDR      R1,[R1, #-4]
+   \   000004D8   02002DE9           PUSH     {R1}
+   \   000004DC   0930DDE5           LDRB     R3,[SP, #+9]
+   \   000004E0   0C108DE2           ADD      R1,SP,#+12
+   \   000004E4   002191E7           LDR      R2,[R1, +R0, LSL #+2]
+   \   000004E8   080094E5           LDR      R0,[R4, #+8]
+   \   000004EC   501085E2           ADD      R1,R5,#+80
+   \   000004F0   C3FFFFEA           B        ??maincsm_onmessage_21
+    278                       PrintField(X4,Y4,s1,align,font,space);  
+    279                     }
+    280                     
+    281                     if(DRAW_MODE==7)//Суббота 12 Янв
+   \                     ??maincsm_onmessage_27:
+   \   000004F4   070051E3           CMP      R1,#+7
+   \   000004F8   0C00001A           BNE      ??maincsm_onmessage_28
+    282                     {     
+    283                       sprintf(s1, "%s %02d %s",dday2[GetWeek(&date)],date.day,mmonth[date.month-1]); 
+   \   000004FC   0D00A0E1           MOV      R0,SP
+   \   00000500   B50000EF           SWI      +181
+   \   00000504   0410DDE5           LDRB     R1,[SP, #+4]
+   \   00000508   A8208DE2           ADD      R2,SP,#+168
+   \   0000050C   011182E0           ADD      R1,R2,R1, LSL #+2
+   \   00000510   041011E5           LDR      R1,[R1, #-4]
+   \   00000514   02002DE9           PUSH     {R1}
+   \   00000518   0930DDE5           LDRB     R3,[SP, #+9]
+   \   0000051C   0C108DE2           ADD      R1,SP,#+12
+   \   00000520   002191E7           LDR      R2,[R1, +R0, LSL #+2]
+   \   00000524   080094E5           LDR      R0,[R4, #+8]
+   \   00000528   501085E2           ADD      R1,R5,#+80
+   \   0000052C   B4FFFFEA           B        ??maincsm_onmessage_21
+    284                       PrintField(X4,Y4,s1,align,font,space);  
+    285                     }
+    286                     
+    287                     if(DRAW_MODE==8)//Сб 12 
+   \                     ??maincsm_onmessage_28:
+   \   00000530   080051E3           CMP      R1,#+8
+   \   00000534   0700001A           BNE      ??maincsm_onmessage_29
+    288                     {     
+    289                       sprintf(s1, "%s %02d",dday2[GetWeek(&date)],date.day); 
+   \   00000538   0D00A0E1           MOV      R0,SP
+   \   0000053C   B50000EF           SWI      +181
+   \   00000540   0530DDE5           LDRB     R3,[SP, #+5]
+   \   00000544   08108DE2           ADD      R1,SP,#+8
+   \   00000548   002191E7           LDR      R2,[R1, +R0, LSL #+2]
+   \   0000054C   080094E5           LDR      R0,[R4, #+8]
+   \   00000550   5C1085E2           ADD      R1,R5,#+92
+   \   00000554   080000EA           B        ??maincsm_onmessage_30
+    290                       PrintField(X4,Y4,s1,align,font,space);  
+    291                     }
+    292                     
+    293                     if(DRAW_MODE==9)//12 Сб
+   \                     ??maincsm_onmessage_29:
+   \   00000558   090051E3           CMP      R1,#+9
+   \   0000055C   1600001A           BNE      ??maincsm_onmessage_9
+    294                     {     
+    295                       sprintf(s1, "%02d %s",date.day,dday2[GetWeek(&date)]); 
+   \   00000560   0D00A0E1           MOV      R0,SP
+   \   00000564   B50000EF           SWI      +181
+   \   00000568   0520DDE5           LDRB     R2,[SP, #+5]
+   \   0000056C   08108DE2           ADD      R1,SP,#+8
+   \   00000570   003191E7           LDR      R3,[R1, +R0, LSL #+2]
+   \   00000574   080094E5           LDR      R0,[R4, #+8]
+   \   00000578   641085E2           ADD      R1,R5,#+100
+   \                     ??maincsm_onmessage_30:
+   \   0000057C   160000EF           SWI      +22
+    296                       PrintField(X4,Y4,s1,align,font,space);  
+   \   00000580   68009FE5           LDR      R0,??maincsm_onmessage_0+0x28  ;; space
+   \   00000584   000090E5           LDR      R0,[R0, #+0]
+   \   00000588   01002DE9           PUSH     {R0}
+   \   0000058C   98009FE5           LDR      R0,??maincsm_onmessage_0+0x64  ;; font
+   \   00000590   000090E5           LDR      R0,[R0, #+0]
+   \   00000594   01002DE9           PUSH     {R0}
+   \   00000598   082094E5           LDR      R2,[R4, #+8]
+   \   0000059C   8C009FE5           LDR      R0,??maincsm_onmessage_0+0x68  ;; align
+   \   000005A0   003090E5           LDR      R3,[R0, #+0]
+   \   000005A4   88009FE5           LDR      R0,??maincsm_onmessage_0+0x6C  ;; Y4
+   \   000005A8   001090E5           LDR      R1,[R0, #+0]
+   \   000005AC   84009FE5           LDR      R0,??maincsm_onmessage_0+0x70  ;; X4
+   \                     ??maincsm_onmessage_18:
+   \   000005B0   000090E5           LDR      R0,[R0, #+0]
+   \   000005B4   ........           _BLF     PrintField,??PrintField??rA
+   \   000005B8   08D08DE2           ADD      SP,SP,#+8
+    297                     }
+    298                 }
+    299              }
+    300            }
+    301           return(1);
+   \                     ??maincsm_onmessage_9:
+   \   000005BC   0100A0E3           MOV      R0,#+1
+   \   000005C0   D8D08DE2           ADD      SP,SP,#+216
+   \   000005C4   F081BDE8           POP      {R4-R8,PC}       ;; return
+   \                     ??maincsm_onmessage_0:
+   \   000005C8   25640000           DC8      "%d",+0
+   \   000005CC   ........           DC32     canvasdata
+   \   000005D0   ........           DC32     successed_config_filename
+   \   000005D4   ........           DC32     TimerProc
+   \   000005D8   ........           DC32     `?<Constant {&"\\337\\355\\342", &"\\324\\345\\342", `
+   \   000005DC   ........           DC32     `?<Constant {&"\\337\\355\\342\\340\\360\\374", &"\\32`
+   \   000005E0   ........           DC32     `?<Constant {&"\\337\\355\\342\\340\\360\\377", &"\\32`
+   \   000005E4   ........           DC32     `?<Constant {&"\\317\\356\\355\\345\\344\\345\\353\\374`
+   \   000005E8   ........           DC32     DRAW_MODE
+   \   000005EC   ........           DC32     MONTH_MODE
+   \   000005F0   ........           DC32     space
+   \   000005F4   ........           DC32     month_font
+   \   000005F8   ........           DC32     align_month
+   \   000005FC   ........           DC32     Y1
+   \   00000600   ........           DC32     X1
+   \   00000604   ........           DC32     WEEK_MODE
+   \   00000608   ........           DC32     week_font
+   \   0000060C   ........           DC32     align_week
+   \   00000610   ........           DC32     Y2
+   \   00000614   ........           DC32     X2
+   \   00000618   ........           DC32     DATE_MODE
+   \   0000061C   ........           DC32     date_font
+   \   00000620   ........           DC32     align_date
+   \   00000624   ........           DC32     Y3
+   \   00000628   ........           DC32     X3
+   \   0000062C   ........           DC32     font
+   \   00000630   ........           DC32     align
+   \   00000634   ........           DC32     Y4
+   \   00000638   ........           DC32     X4
+    302          }
+    303          
+    304          /*
+    305          Сб 12 Янв +5
+    306          Суббота 12 Января +6
+    307          Суббота 12 Янв +7
+    308          Сб 12.01 +3
+    309          Суббота 12.01 +4
+    310          Сб 12 +8
+    311          12 Сб +9
+    312          12.01.08 +1
+    313          12.01.2008 +2
+    314          */
+
+   \                                 In segment CODE, align 4, keep-with-next
+    315          static void maincsm_oncreate(CSM_RAM *data)
+    316          { 
+   \                     maincsm_oncreate:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    317            s =malloc(128);
+   \   00000004   4C409FE5           LDR      R4,??maincsm_oncreate_0  ;; canvasdata
+   \   00000008   8000A0E3           MOV      R0,#+128
+   \   0000000C   140000EF           SWI      +20
+   \   00000010   040084E5           STR      R0,[R4, #+4]
+    318            s1=malloc(256);
+   \   00000014   400FA0E3           MOV      R0,#+256
+   \   00000018   140000EF           SWI      +20
+   \   0000001C   080084E5           STR      R0,[R4, #+8]
+    319            s2=malloc(256);
+   \   00000020   400FA0E3           MOV      R0,#+256
+   \   00000024   140000EF           SWI      +20
+   \   00000028   0C0084E5           STR      R0,[R4, #+12]
+    320            s3=malloc(256);
+   \   0000002C   400FA0E3           MOV      R0,#+256
+   \   00000030   140000EF           SWI      +20
+    321            
+    322            GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_UPDATE_STAT,&my_ipc);
+   \   00000034   ........           LDR      R3,??DataTable6  ;; my_ipc
+   \   00000038   100084E5           STR      R0,[R4, #+16]
+   \   0000003C   0120A0E3           MOV      R2,#+1
+   \   00000040   B010A0E3           MOV      R1,#+176
+   \   00000044   DE1C81E3           ORR      R1,R1,#0xDE00
+   \   00000048   0900A0E3           MOV      R0,#+9
+   \   0000004C   420C80E3           ORR      R0,R0,#0x4200
+   \   00000050   000100EF           SWI      +256
+    323          }
+   \   00000054   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??maincsm_oncreate_0:
+   \   00000058   ........           DC32     canvasdata
+    324          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    325          void maincsm_onclose(CSM_RAM *data)
+    326          { 
+    327          //  mfree(s1);
+    328            //mfree(s2);
+    329            //mfree(s2);
+    330          
+    331            FontPathFree();
+   \                     maincsm_onclose:
+   \   00000000   ........           _BF      FontPathFree,??FontPathFree??rA  ;; tailcall
+    332            extern void seqkill(void *data, void(*next_in_seq)(CSM_RAM *), void *data_to_kill, void *seqkiller);
+    333            extern void *ELF_BEGIN;
+    334          }
+    335          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    336          static unsigned short maincsm_name_body[140];
+   \                     maincsm_name_body:
+   \   00000000                      DS8 280
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant {&"\\317\\355", &"\\302\\362", &"\\321\\3`:
+   \   00000000   ............       DC32 `?<Constant "\\317\\355">`, `?<Constant "\\302\\362">`
+   \              ....        
+   \   00000008   ............       DC32 `?<Constant "\\321\\360">`, `?<Constant "\\327\\362">`
+   \              ....        
+   \   00000010   ............       DC32 `?<Constant "\\317\\362">`, `?<Constant "\\321\\341">`
+   \              ....        
+   \   00000018   ........           DC32 `?<Constant "\\302\\361">`
+   \                     per_s:
+   \   0000001C   257300             DC8 "%s"
+   \   0000001F   00                 DC8 0
+   \   00000020   253032642E25       DC8 "%02d.%02d.%02d"
+   \              3032642E2530
+   \              326400      
+   \   0000002F   00                 DC8 0
+   \   00000030   253032642E25       DC8 "%02d.%02d.%04d"
+   \              3032642E2530
+   \              346400      
+   \   0000003F   00                 DC8 0
+   \   00000040   257320253032       DC8 "%s %02d.%02d"
+   \              642E25303264
+   \              00          
+   \   0000004D   000000             DC8 0, 0, 0
+   \   00000050   257320253032       DC8 "%s %02d %s"
+   \              6420257300  
+   \   0000005B   00                 DC8 0
+   \   0000005C   257320253032       DC8 "%s %02d"
+   \              6400        
+   \   00000064   253032642025       DC8 "%02d %s"
+   \              7300        
+   \   0000006C   694461746572       DC8 "iDater config updated!"
+   \              20636F6E6669
+   \              672075706461
+   \              7465642100  
+   \   00000083   00                 DC8 0
+   \   00000084   694461746572       DC8 "iDater"
+   \              00          
+   \   0000008B   00                 DC8 0
+   \                     ipc_my_name:
+   \   0000008C   694461746572       DC8 "iDater"
+   \              00          
+   \   00000093   00                 DC8 0
+   \   00000094   ............       DC32 maincsm_onmessage, maincsm_oncreate, 0, 0, 0, 0, maincsm_onclose
+   \              ....00000000
+   \              000000000000
+   \              000000000000
+   \              ........    
+   \   000000B0   280000000100       DC32 40, 1, minus11, maincsm_name_body, 55AACCCCH, 3333AA55H, 0
+   \              0000........
+   \              ........CCCC
+   \              AA5555AA3333
+   \              00000000    
+   \   000000CC   8B00               DC16 139
+   \   000000CE   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     my_ipc:
+   \   00000000   ............       DC32 ipc_my_name, ipc_my_name, 0H
+   \              ....00000000
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     percent_t:
+   \   00000000   257400             DC8 "%t"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     per_t:
+   \   00000000   257400             DC8 "%t"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    337          const int minus11=-11;
+   \                     minus11:
+   \   00000000   F5FFFFFF           DC32 -11
+    338          
+    339          static const struct
+    340          {
+    341            CSM_DESC maincsm;
+    342            WSHDR maincsm_name;
+    343          }MAINCSM =
+    344          {
+    345            {
+    346            maincsm_onmessage,
+    347            maincsm_oncreate,
+    348          #ifdef NEWSGOLD
+    349            0,
+    350            0,
+    351            0,
+    352            0,
+    353          #endif
+    354            maincsm_onclose,
+    355            sizeof(CSM_RAM),
+    356            1,
+    357            &minus11
+    358            },
+    359            {
+    360              maincsm_name_body,
+    361              NAMECSM_MAGIC1,
+    362              NAMECSM_MAGIC2,
+    363              0x0,
+    364              139
+    365            }
+    366          };
+    367          
+    368          
+    369          static void UpdateCSMname(void)
+    370          {
+    371            wsprintf((WSHDR *)(&MAINCSM.maincsm_name),"iDater");
+    372          }
+    373          // ----------------------------------------------------------------------------
+    374          
+    375          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    376          CSM_DESC icsmd;
+   \                     icsmd:
+   \   00000000                      DS8 40
+
+   \                                 In segment CODE, align 4, keep-with-next
+    377          int main()
+    378          {
+   \                     main:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    379            CSMROOT *csmr;
+    380            CSM_RAM *save_cmpc;
+    381            CSM_RAM main_csm;
+    382            InitConfig();
+    383            UpdateCSMname();
+   \   00000004   ........           LDR      R4,??DataTable7  ;; `?<Constant {&"\\317\\355", &"\\302\\362", &"\\321\\3`
+   \   00000008   28D04DE2           SUB      SP,SP,#+40
+   \   0000000C   ........           _BLF     InitConfig,??InitConfig??rA
+   \   00000010   841084E2           ADD      R1,R4,#+132
+   \   00000014   BC0084E2           ADD      R0,R4,#+188
+   \   00000018   240100EF           SWI      +292
+    384            LockSched();
+   \   0000001C   460100EF           SWI      +326
+    385            csmr=CSM_root();
+   \   00000020   068100EF           SWI      +33030
+   \   00000024   0050A0E1           MOV      R5,R0
+    386            save_cmpc=csmr->csm_q->current_msg_processing_csm;
+   \   00000028   080095E5           LDR      R0,[R5, #+8]
+    387            csmr->csm_q->current_msg_processing_csm=csmr->csm_q->csm.first;
+    388            CreateCSM(&MAINCSM.maincsm,&main_csm,0);
+   \   0000002C   0020A0E3           MOV      R2,#+0
+   \   00000030   081090E5           LDR      R1,[R0, #+8]
+   \   00000034   046090E5           LDR      R6,[R0, #+4]
+   \   00000038   041080E5           STR      R1,[R0, #+4]
+   \   0000003C   0D10A0E1           MOV      R1,SP
+   \   00000040   940084E2           ADD      R0,R4,#+148
+   \   00000044   070100EF           SWI      +263
+    389            csmr->csm_q->current_msg_processing_csm=save_cmpc;
+   \   00000048   080095E5           LDR      R0,[R5, #+8]
+   \   0000004C   046080E5           STR      R6,[R0, #+4]
+    390            UnlockSched();
+   \   00000050   470100EF           SWI      +327
+    391          
+    392            char *s=malloc(128);
+   \   00000054   8000A0E3           MOV      R0,#+128
+   \   00000058   140000EF           SWI      +20
+    393            sprintf(s,per_s,FontPath);
+   \   0000005C   ........           LDR      R2,??DataTable8  ;; FontPath
+   \   00000060   0050A0E1           MOV      R5,R0
+   \   00000064   1C1084E2           ADD      R1,R4,#+28
+   \   00000068   160000EF           SWI      +22
+    394            FontPathInit(1,s,fullset);
+   \   0000006C   ........           LDR      R0,??DataTable9  ;; fullset
+   \   00000070   0510A0E1           MOV      R1,R5
+   \   00000074   006090E5           LDR      R6,[R0, #+0]
+   \   00000078   0100A0E3           MOV      R0,#+1
+   \   0000007C   0620A0E1           MOV      R2,R6
+   \   00000080   ........           _BLF     FontPathInit,??FontPathInit??rA
+    395            
+    396            sprintf(s,per_s,FontPath2);
+   \   00000084   ........           LDR      R2,??DataTable10  ;; FontPath2
+   \   00000088   1C1084E2           ADD      R1,R4,#+28
+   \   0000008C   0500A0E1           MOV      R0,R5
+   \   00000090   160000EF           SWI      +22
+    397            FontPathInit(2,s,fullset);
+   \   00000094   0620A0E1           MOV      R2,R6
+   \   00000098   0510A0E1           MOV      R1,R5
+   \   0000009C   0200A0E3           MOV      R0,#+2
+   \   000000A0   ........           _BLF     FontPathInit,??FontPathInit??rA
+    398            
+    399            sprintf(s,per_s,FontPath3);
+   \   000000A4   ........           LDR      R2,??DataTable11  ;; FontPath3
+   \   000000A8   1C1084E2           ADD      R1,R4,#+28
+   \   000000AC   0500A0E1           MOV      R0,R5
+   \   000000B0   160000EF           SWI      +22
+    400            FontPathInit(3,s,fullset);
+   \   000000B4   0620A0E1           MOV      R2,R6
+   \   000000B8   0510A0E1           MOV      R1,R5
+   \   000000BC   0300A0E3           MOV      R0,#+3
+   \   000000C0   ........           _BLF     FontPathInit,??FontPathInit??rA
+    401            return (0);
+   \   000000C4   0000A0E3           MOV      R0,#+0
+   \   000000C8   28D08DE2           ADD      SP,SP,#+40
+   \   000000CC   7080BDE8           POP      {R4-R6,PC}       ;; return
+    402          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     my_ipc
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable7:
+   \   00000000   ........           DC32     `?<Constant {&"\\317\\355", &"\\302\\362", &"\\321\\3`
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     FontPath
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable9:
+   \   00000000   ........           DC32     fullset
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     FontPath2
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable11:
+   \   00000000   ........           DC32     FontPath3
+
+   \                                 In segment ELFBEGIN, align 1
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\337\\355\\342">`:
+   \   00000000   DFEDE200           DC8 "\337\355\342"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\321\\341">`:
+   \   00000000   D1E100             DC8 "\321\341"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\302\\361">`:
+   \   00000000   C2F100             DC8 "\302\361"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\317\\356\\355\\345\\344\\345\\353\\374\\3`:
+   \   00000000   CFEEEDE5E4E5       DC8 "\317\356\355\345\344\345\353\374\355\350\352"
+   \              EBFCEDE8EA00
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\302\\362\\356\\360\\355\\350\\352">`:
+   \   00000000   C2F2EEF0EDE8       DC8 "\302\362\356\360\355\350\352"
+   \              EA00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\360\\345\\344\\340">`:
+   \   00000000   D1F0E5E4E000       DC8 "\321\360\345\344\340"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\327\\345\\362\\342\\345\\360\\343">`:
+   \   00000000   D7E5F2E2E5F0       DC8 "\327\345\362\342\345\360\343"
+   \              E300        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\317\\377\\362\\355\\350\\366\\340">`:
+   \   00000000   CFFFF2EDE8F6       DC8 "\317\377\362\355\350\366\340"
+   \              E000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\302\\356\\361\\352\\360\\345\\361\\345\\3`:
+   \   00000000   C2EEF1EAF0E5       DC8 "\302\356\361\352\360\345\361\345\355\374\345"
+   \              F1E5EDFCE500
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\352\\362\\377\\341\\360\\374">`:
+   \   00000000   CEEAF2FFE1F0       DC8 "\316\352\362\377\341\360\374"
+   \              FC00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant {&"\\317\\356\\355\\345\\344\\345\\353\\374`:
+   \   00000000   ........           DC32 `?<Constant "\\317\\356\\355\\345\\344\\345\\353\\374\\3`
+   \   00000004   ........           DC32 `?<Constant "\\302\\362\\356\\360\\355\\350\\352">`
+   \   00000008   ........           DC32 `?<Constant "\\321\\360\\345\\344\\340">`
+   \   0000000C   ........           DC32 `?<Constant "\\327\\345\\362\\342\\345\\360\\343">`
+   \   00000010   ........           DC32 `?<Constant "\\317\\377\\362\\355\\350\\366\\340">`
+   \   00000014   ........           DC32 `?<Constant "\\321\\363\\341\\341\\356\\362\\340">`
+   \   00000018   ........           DC32 `?<Constant "\\302\\356\\361\\352\\360\\345\\361\\345\\3`
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   256400             DC8 "%d"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\324\\345\\342">`:
+   \   00000000   D4E5E200           DC8 "\324\345\342"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\314\\340\\360">`:
+   \   00000000   CCE0F000           DC8 "\314\340\360"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\300\\357\\360">`:
+   \   00000000   C0EFF000           DC8 "\300\357\360"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\314\\340\\351">`:
+   \   00000000   CCE0E900           DC8 "\314\340\351"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\310\\376\\355">`:
+   \   00000000   C8FEED00           DC8 "\310\376\355"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\310\\376\\353">`:
+   \   00000000   C8FEEB00           DC8 "\310\376\353"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\300\\342\\343">`:
+   \   00000000   C0E2E300           DC8 "\300\342\343"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\345\\355">`:
+   \   00000000   D1E5ED00           DC8 "\321\345\355"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\352\\362">`:
+   \   00000000   CEEAF200           DC8 "\316\352\362"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\315\\356\\377">`:
+   \   00000000   CDEEFF00           DC8 "\315\356\377"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\304\\345\\352">`:
+   \   00000000   C4E5EA00           DC8 "\304\345\352"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant {&"\\337\\355\\342", &"\\324\\345\\342", `:
+   \   00000000   ............       DC32 `?<Constant "\\337\\355\\342">`, `?<Constant "\\324\\345\\342">`
+   \              ....        
+   \   00000008   ............       DC32 `?<Constant "\\314\\340\\360">`, `?<Constant "\\300\\357\\360">`
+   \              ....        
+   \   00000010   ............       DC32 `?<Constant "\\314\\340\\351">`, `?<Constant "\\310\\376\\355">`
+   \              ....        
+   \   00000018   ............       DC32 `?<Constant "\\310\\376\\353">`, `?<Constant "\\300\\342\\343">`
+   \              ....        
+   \   00000020   ............       DC32 `?<Constant "\\321\\345\\355">`, `?<Constant "\\316\\352\\362">`
+   \              ....        
+   \   00000028   ............       DC32 `?<Constant "\\315\\356\\377">`, `?<Constant "\\304\\345\\352">`
+   \              ....        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\337\\355\\342\\340\\360\\374">`:
+   \   00000000   DFEDE2E0F0FC       DC8 "\337\355\342\340\360\374"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\324\\345\\342\\360\\340\\353\\374">`:
+   \   00000000   D4E5E2F0E0EB       DC8 "\324\345\342\360\340\353\374"
+   \              FC00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\314\\340\\360\\362">`:
+   \   00000000   CCE0F0F200         DC8 "\314\340\360\362"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\300\\357\\360\\345\\353\\374">`:
+   \   00000000   C0EFF0E5EBFC       DC8 "\300\357\360\345\353\374"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\310\\376\\355\\374">`:
+   \   00000000   C8FEEDFC00         DC8 "\310\376\355\374"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\310\\376\\353\\374">`:
+   \   00000000   C8FEEBFC00         DC8 "\310\376\353\374"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\300\\342\\343\\363\\361\\362">`:
+   \   00000000   C0E2E3F3F1F2       DC8 "\300\342\343\363\361\362"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\345\\355\\377\\341\\360\\374">`:
+   \   00000000   D1E5EDFFE1F0       DC8 "\321\345\355\377\341\360\374"
+   \              FC00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\363\\341\\341\\356\\362\\340">`:
+   \   00000000   D1F3E1E1EEF2       DC8 "\321\363\341\341\356\362\340"
+   \              E000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\315\\356\\377\\341\\360\\374">`:
+   \   00000000   CDEEFFE1F0FC       DC8 "\315\356\377\341\360\374"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\304\\345\\352\\340\\341\\360\\374">`:
+   \   00000000   C4E5EAE0E1F0       DC8 "\304\345\352\340\341\360\374"
+   \              FC00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant {&"\\337\\355\\342\\340\\360\\374", &"\\32`:
+   \   00000000   ........           DC32 `?<Constant "\\337\\355\\342\\340\\360\\374">`
+   \   00000004   ........           DC32 `?<Constant "\\324\\345\\342\\360\\340\\353\\374">`
+   \   00000008   ........           DC32 `?<Constant "\\314\\340\\360\\362">`
+   \   0000000C   ........           DC32 `?<Constant "\\300\\357\\360\\345\\353\\374">`
+   \   00000010   ........           DC32 `?<Constant "\\314\\340\\351">`
+   \   00000014   ........           DC32 `?<Constant "\\310\\376\\355\\374">`
+   \   00000018   ........           DC32 `?<Constant "\\310\\376\\353\\374">`
+   \   0000001C   ........           DC32 `?<Constant "\\300\\342\\343\\363\\361\\362">`
+   \   00000020   ........           DC32 `?<Constant "\\321\\345\\355\\377\\341\\360\\374">`
+   \   00000024   ........           DC32 `?<Constant "\\316\\352\\362\\377\\341\\360\\374">`
+   \   00000028   ........           DC32 `?<Constant "\\315\\356\\377\\341\\360\\374">`
+   \   0000002C   ........           DC32 `?<Constant "\\304\\345\\352\\340\\341\\360\\374">`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\337\\355\\342\\340\\360\\377">`:
+   \   00000000   DFEDE2E0F0FF       DC8 "\337\355\342\340\360\377"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\324\\345\\342\\360\\340\\353\\377">`:
+   \   00000000   D4E5E2F0E0EB       DC8 "\324\345\342\360\340\353\377"
+   \              FF00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\314\\340\\360\\362\\340">`:
+   \   00000000   CCE0F0F2E000       DC8 "\314\340\360\362\340"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\300\\357\\360\\345\\353\\377">`:
+   \   00000000   C0EFF0E5EBFF       DC8 "\300\357\360\345\353\377"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\314\\340\\377">`:
+   \   00000000   CCE0FF00           DC8 "\314\340\377"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\310\\376\\355\\377">`:
+   \   00000000   C8FEEDFF00         DC8 "\310\376\355\377"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\310\\376\\353\\377">`:
+   \   00000000   C8FEEBFF00         DC8 "\310\376\353\377"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\300\\342\\343\\363\\361\\362\\340">`:
+   \   00000000   C0E2E3F3F1F2       DC8 "\300\342\343\363\361\362\340"
+   \              E000        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\321\\345\\355\\377\\341\\360\\377">`:
+   \   00000000   D1E5EDFFE1F0       DC8 "\321\345\355\377\341\360\377"
+   \              FF00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\316\\352\\362\\377\\341\\360\\377">`:
+   \   00000000   CEEAF2FFE1F0       DC8 "\316\352\362\377\341\360\377"
+   \              FF00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\315\\356\\377\\341\\360\\377">`:
+   \   00000000   CDEEFFE1F0FF       DC8 "\315\356\377\341\360\377"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\304\\345\\352\\340\\341\\360\\377">`:
+   \   00000000   C4E5EAE0E1F0       DC8 "\304\345\352\340\341\360\377"
+   \              FF00        
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant {&"\\337\\355\\342\\340\\360\\377", &"\\32`:
+   \   00000000   ........           DC32 `?<Constant "\\337\\355\\342\\340\\360\\377">`
+   \   00000004   ........           DC32 `?<Constant "\\324\\345\\342\\360\\340\\353\\377">`
+   \   00000008   ........           DC32 `?<Constant "\\314\\340\\360\\362\\340">`
+   \   0000000C   ........           DC32 `?<Constant "\\300\\357\\360\\345\\353\\377">`
+   \   00000010   ........           DC32 `?<Constant "\\314\\340\\377">`
+   \   00000014   ........           DC32 `?<Constant "\\310\\376\\355\\377">`
+   \   00000018   ........           DC32 `?<Constant "\\310\\376\\353\\377">`
+   \   0000001C   ........           DC32 `?<Constant "\\300\\342\\343\\363\\361\\362\\340">`
+   \   00000020   ........           DC32 `?<Constant "\\321\\345\\355\\377\\341\\360\\377">`
+   \   00000024   ........           DC32 `?<Constant "\\316\\352\\362\\377\\341\\360\\377">`
+   \   00000028   ........           DC32 `?<Constant "\\315\\356\\377\\341\\360\\377">`
+   \   0000002C   ........           DC32 `?<Constant "\\304\\345\\352\\340\\341\\360\\377">`
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\317\\355">`:
+   \   00000000   CFED00             DC8 "\317\355"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\302\\362">`:
+   \   00000000   C2F200             DC8 "\302\362"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\321\\360">`:
+   \   00000000   D1F000             DC8 "\321\360"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\327\\362">`:
+   \   00000000   D7F200             DC8 "\327\362"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "\\317\\362">`:
+   \   00000000   CFF200             DC8 "\317\362"
+
+   Maximum stack usage in bytes:
+
+     Function          CSTACK
+     --------          ------
+     ElfKiller             4
+     TimerProc             4
+     get_string_width     20
+     main                 56
+     maincsm_onclose       4
+     maincsm_oncreate      8
+     maincsm_onmessage   252
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     ElfKiller                        28
+     TimerProc                        36
+     get_string_width                 64
+     canvasdata                       36
+     my_csm_id                         4
+     ErrorNumber                       4
+     old_icsm_onMessage                4
+     old_icsm_onClose                  4
+     maincsm_onmessage              1596
+     maincsm_oncreate                 92
+     maincsm_onclose                   4
+     maincsm_name_body               280
+     ?<Constant {&"\317\355", &"\302\362", &"\321\3
+                                     208
+     my_ipc                           12
+     percent_t                         3
+     per_t                             3
+     minus11                           4
+     icsmd                            40
+     main                            208
+     ??DataTable6                      4
+     ??DataTable7                      4
+     ??DataTable8                      4
+     ??DataTable9                      4
+     ??DataTable10                     4
+     ??DataTable11                     4
+     ?<Constant "\337\355\342">        4
+     ?<Constant "\321\341">            3
+     ?<Constant "\302\361">            3
+     ?<Constant "\317\356\355\345\344\345\353\374\3
+                                      12
+     ?<Constant "\302\362\356\360\355\350\352">
+                                       8
+     ?<Constant "\321\360\345\344\340">
+                                       8
+     ?<Constant "\327\345\362\342\345\360\343">
+                                       8
+     ?<Constant "\317\377\362\355\350\366\340">
+                                       8
+     ?<Constant "\302\356\361\352\360\345\361\345\3
+                                      12
+     ?<Constant "\316\352\362\377\341\360\374">
+                                       8
+     ?<Constant {&"\317\356\355\345\344\345\353\374
+                                      28
+     ?<Constant "%d">                  3
+     ?<Constant "\324\345\342">        4
+     ?<Constant "\314\340\360">        4
+     ?<Constant "\300\357\360">        4
+     ?<Constant "\314\340\351">        4
+     ?<Constant "\310\376\355">        4
+     ?<Constant "\310\376\353">        4
+     ?<Constant "\300\342\343">        4
+     ?<Constant "\321\345\355">        4
+     ?<Constant "\316\352\362">        4
+     ?<Constant "\315\356\377">        4
+     ?<Constant "\304\345\352">        4
+     ?<Constant {&"\337\355\342", &"\324\345\342",
+                                      48
+     ?<Constant "\337\355\342\340\360\374">
+                                       8
+     ?<Constant "\324\345\342\360\340\353\374">
+                                       8
+     ?<Constant "\314\340\360\362">    8
+     ?<Constant "\300\357\360\345\353\374">
+                                       8
+     ?<Constant "\310\376\355\374">    8
+     ?<Constant "\310\376\353\374">    8
+     ?<Constant "\300\342\343\363\361\362">
+                                       8
+     ?<Constant "\321\345\355\377\341\360\374">
+                                       8
+     ?<Constant "\321\363\341\341\356\362\340">
+                                       8
+     ?<Constant "\315\356\377\341\360\374">
+                                       8
+     ?<Constant "\304\345\352\340\341\360\374">
+                                       8
+     ?<Constant {&"\337\355\342\340\360\374", &"\32
+                                      48
+     ?<Constant "\337\355\342\340\360\377">
+                                       8
+     ?<Constant "\324\345\342\360\340\353\377">
+                                       8
+     ?<Constant "\314\340\360\362\340">
+                                       8
+     ?<Constant "\300\357\360\345\353\377">
+                                       8
+     ?<Constant "\314\340\377">        4
+     ?<Constant "\310\376\355\377">    8
+     ?<Constant "\310\376\353\377">    8
+     ?<Constant "\300\342\343\363\361\362\340">
+                                       8
+     ?<Constant "\321\345\355\377\341\360\377">
+                                       8
+     ?<Constant "\316\352\362\377\341\360\377">
+                                       8
+     ?<Constant "\315\356\377\341\360\377">
+                                       8
+     ?<Constant "\304\345\352\340\341\360\377">
+                                       8
+     ?<Constant {&"\337\355\342\340\360\377", &"\32
+                                      48
+     ?<Constant "\317\355">            3
+     ?<Constant "\302\362">            3
+     ?<Constant "\321\360">            3
+     ?<Constant "\327\362">            3
+     ?<Constant "\317\362">            3
+      Others                         100
+
+ 
+ 2 140 bytes in segment CODE
+   718 bytes in segment DATA_C
+   372 bytes in segment DATA_Z
+    12 bytes in segment INITTAB
+ 
+ 2 052 bytes of CODE  memory (+ 100 bytes shared)
+   718 bytes of CONST memory
+   372 bytes of DATA  memory
+
+Errors: none
+Warnings: none

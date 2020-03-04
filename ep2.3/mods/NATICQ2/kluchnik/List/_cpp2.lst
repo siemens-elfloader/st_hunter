@@ -1,0 +1,81 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    23/Mar/2009  22:45:34 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\_cpp2.cpp         #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\_cpp2.cpp -D      #
+#                       NEWSGOLD -D ELKA -D GUI_INTERFACE -D ICONBAR -D      #
+#                       kluchnik --preprocess D:\pasha\elf\_MY_PROJECT_\_NAT #
+#                       ICQ2\kluchnik\List\ -lC D:\pasha\elf\_MY_PROJECT_\_N #
+#                       ATICQ2\kluchnik\List\ -o D:\pasha\elf\_MY_PROJECT_\_ #
+#                       NATICQ2\kluchnik\Obj\ -s9 --no_unroll --cpu_mode     #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --ec++ --dlib_config     #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\kluchnik\List\_cp #
+#                       p2.lst                                               #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\_NATICQ2\kluchnik\Obj\_cpp #
+#                       2.r79                                                #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\_NATICQ2\_cpp2.cpp
+      1          #include "..\inc\swilib.h"
+      2          
+      3          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      4          void* operator new(size_t sz){return malloc(sz);};
+   \                     `??operator new`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   140000EF           SWI      +20
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+      5          void* operator new[](size_t sz){return malloc(sz);};
+   \                     `??operator new[]`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   140000EF           SWI      +20
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+      6          void operator delete(void * p){mfree(p);};
+   \                     `??operator delete`:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   150000EF           SWI      +21
+   \   00000008   0080BDE8           POP      {PC}             ;; return
+      7          
+
+   Maximum stack usage in bytes:
+
+     Function                CSTACK
+     --------                ------
+     operator delete(void *)     4
+     operator new(size_t)        4
+     operator new[](size_t)      4
+
+
+   Segment part sizes:
+
+     Function/Label          Bytes
+     --------------          -----
+     operator new(size_t)      12
+     operator new[](size_t)    12
+     operator delete(void *)   12
+      Others                   12
+
+ 
+ 48 bytes in segment CODE
+ 
+ 36 bytes of CODE memory (+ 12 bytes shared)
+
+Errors: none
+Warnings: none

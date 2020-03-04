@@ -1,0 +1,1170 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    27/Dec/2008  18:39:05 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  K:\Pasha\elf\_MY_PROJECT_\q\Копия surpriz\main.cpp   #
+#    Command line    =  "K:\Pasha\elf\_MY_PROJECT_\q\Копия                   #
+#                       surpriz\main.cpp" -D NEWSGOLD -D ELKA -lC            #
+#                       "K:\Pasha\elf\_MY_PROJECT_\q\Копия                   #
+#                       surpriz\Release\List\" -o                            #
+#                       "K:\Pasha\elf\_MY_PROJECT_\q\Копия                   #
+#                       surpriz\Release\Obj\" -s9 --cpu_mode arm --endian    #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --fpu None --dlib_config "K:\Pasha\Embedded       #
+#                       Workbench 4.0 Evaluation2\ARM\LIB\dl5tpainl8n.h" -I  #
+#                       "K:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  K:\Pasha\elf\_MY_PROJECT_\q\Копия                    #
+#                       surpriz\Release\List\main.lst                        #
+#    Object file     =  K:\Pasha\elf\_MY_PROJECT_\q\Копия                    #
+#                       surpriz\Release\Obj\main.r79                         #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+K:\Pasha\elf\_MY_PROJECT_\q\Копия surpriz\main.cpp
+      1          #include "..\inc\swilib.h"
+      2          #include "../inc/xtask_ipc.h"
+      3          //#include "../inc/cfg_items.h"
+      4          //#include "conf_loader.h"
+      5          
+      6          //-------------------------------------//
+      7          
+      8          #define IPC_TEXTINFO_NAME "surpriz" 
+      9          #define IPC_UPDATE_STAT 1 
+     10          
+     11          const char my_name[]=IPC_TEXTINFO_NAME;
+     12          const IPC_REQ my_ipc={//эт структура ипц,в будущем отправим ее таску:)
+     13            my_name,
+     14            my_name,
+     15            NULL
+     16          };
+     17          
+     18          //-------------------------------------//
+     19          //в принципе это тоже нужно для демона
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     20          int (*old_icsm_onMessage)(CSM_RAM*,GBS_MSG*);
+   \                     old_icsm_onMessage:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     21          void (*old_icsm_onClose)(CSM_RAM*);
+   \                     old_icsm_onClose:
+   \   00000000                      DS8 4
+     22          
+     23          extern void kill_data(void *p, void (*func_p)(void *));
+     24          
+     25          #pragma segment="ELFBEGIN"
+
+   \                                 In segment CODE, align 4, keep-with-next
+     26          void ElfKiller(void)
+     27          {
+   \                     ElfKiller:
+   \   00000000   00402DE9           PUSH     {LR}
+     28            kill_data(__segment_begin("ELFBEGIN"),(void (*)(void *))mfree_adr());
+   \   00000004   158000EF           SWI      +32789
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??ElfKiller_0  ;; SFB(ELFBEGIN)
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??ElfKiller_0:
+   \   00000018   ........           DC32     SFB(ELFBEGIN)
+     29          }
+     30          
+     31          //-------------------------------------//
+     32          
+     33          
+     34          
+     35          #define TMR_SECOND 216
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     36          GBSTMR mytmr;
+   \                     mytmr:
+   \   00000000                      DS8 16
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     37          int my_csm_id;
+   \                     my_csm_id:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     38          unsigned int *ErrorNumber;
+   \                     ErrorNumber:
+   \   00000000                      DS8 4
+     39          
+     40          const char percent_t[]="%t";
+     41          
+     42          typedef struct
+     43          {
+     44            CSM_RAM csm;
+     45            int gui_id;
+     46          }MAIN_CSM;   
+     47          
+     48          // ----------------------------------------------------------------------------
+     49          #define idlegui_id(icsm) (((int *)icsm)[DISPLACE_OF_IDLEGUI_ID/4])
+     50          
+     51          #pragma inline=forced
+     52          int toupper(int c)
+     53          {
+     54            if ((c>='a')&&(c<='z')) c+='A'-'a';
+     55            return(c);
+     56          }
+     57          #pragma inline
+     58          int strcmp_nocase(const char *s1,const char *s2)
+     59          {
+     60            int i;
+     61            int c;
+     62            while(!(i=(c=toupper(*s1++))-toupper(*s2++))) if (!c) break;
+     63            return(i);
+     64          }
+     65          
+     66          const unsigned char rndtab[256] ={
+     67            1,   8, 109, 220, 222, 241, 149, 107,  75, 248, 254, 140,  16,  66,
+     68           74,  21, 211,  47,  80, 242, 154,  27, 205, 128, 161,  89,  77,  36,
+     69           95, 110,  85,  48, 212, 140, 211, 249,  22,  79, 200,  50,  28, 188,
+     70           52, 140, 202, 120,  68, 145,  62,  70, 184, 190,  91, 197, 152, 224,
+     71          149, 104,  25, 178, 252, 182, 202, 182, 141, 197,   4,  81, 181, 242,
+     72          145,  42,  39, 227, 156, 198, 225, 193, 219,  93, 122, 175, 249,   1,
+     73          175, 143,  70, 239,  46, 246, 163,  53, 163, 109, 168, 135,   2, 235,
+     74           25,  92,  20, 145, 138,  77,  69, 166,  78, 176, 173, 212, 166, 113,
+     75           94, 161,  41,  50, 239,  49, 111, 164,  70,  60,   2,  37, 171,  75,
+     76          136, 156,  11,  56,  42, 146, 138, 229,  73, 146,  77,  61,  98, 196,
+     77          135, 106,  63, 197, 195,  86,  96, 203, 113, 101, 170, 247, 181, 113,
+     78           80, 250, 108,   7, 255, 237, 129, 226,  79, 107, 112, 166, 103, 241,
+     79           24, 223, 239, 120, 198,  58,  60,  82, 128,   3, 184,  66, 143, 224,
+     80          145, 224,  81, 206, 163,  45,  63,  90, 168, 114,  59,  33, 159,  95,
+     81           28, 139, 123,  98, 125, 196,  15,  70, 194, 253,  54,  14, 109, 226,
+     82           71,  17, 161,  93, 186,  87, 244, 138,  20,  52, 123, 251,  26,  36,
+     83           17,  46,  52, 231, 232,  76,  31, 221,  84,  37, 216, 165, 212, 106,
+     84          197, 242,  98,  43,  39, 175, 254, 145, 190,  84, 118, 222, 187, 136,
+     85          120, 163, 236, 249
+     86          };
+     87          
+     88          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     89          unsigned int Random(int min,int max)
+     90          {
+   \                     Random:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   10D04DE2           SUB      SP,SP,#+16
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+     91            static const int DMonth[]={0,31,59,90,120,151,181,212,243,273,304,334,365};
+     92            unsigned int iday;
+     93            TTime tt;
+     94            TDate dd;
+     95            GetDateTime(&dd,&tt);
+   \   00000010   0D10A0E1           MOV      R1,SP
+   \   00000014   08008DE2           ADD      R0,SP,#+8
+   \   00000018   B40000EF           SWI      +180
+     96            dd.year=dd.year%100;
+   \   0000001C   08109DE5           LDR      R1,[SP, #+8]
+   \   00000020   98209FE5           LDR      R2,??Random_0    ;; 0x51eb851f
+   \   00000024   92318CE0           UMULL    R3,R12,R2,R1
+     97            iday=DMonth[tt.millisec%12];
+     98            iday = (tt.millisec+60*(tt.sec+60*(tt.hour+24* iday)));
+   \   00000028   94209FE5           LDR      R2,??Random_0+0x4  ;; ??DMonth
+   \   0000002C   ACC2A0E1           LSR      R12,R12,#+5
+   \   00000030   6430A0E3           MOV      R3,#+100
+   \   00000034   930C0CE0           MUL      R12,R3,R12
+   \   00000038   0CC041E0           SUB      R12,R1,R12
+   \   0000003C   08C08DE5           STR      R12,[SP, #+8]
+   \   00000040   04009DE5           LDR      R0,[SP, #+4]
+   \   00000044   7CC09FE5           LDR      R12,??Random_0+0x8  ;; 0xffffffffaaaaaaab
+   \   00000048   0030DDE5           LDRB     R3,[SP, #+0]
+   \   0000004C   0210DDE5           LDRB     R1,[SP, #+2]
+   \   00000050   9CE086E0           UMULL    LR,R6,R12,R0
+   \   00000054   0CE0A0E3           MOV      LR,#+12
+   \   00000058   A661A0E1           LSR      R6,R6,#+3
+   \   0000005C   9E0606E0           MUL      R6,LR,R6
+   \   00000060   18C0A0E3           MOV      R12,#+24
+   \   00000064   066040E0           SUB      R6,R0,R6
+   \   00000068   066192E7           LDR      R6,[R2, +R6, LSL #+2]
+   \   0000006C   9C3623E0           MLA      R3,R12,R6,R3
+   \   00000070   3C60A0E3           MOV      R6,#+60
+   \   00000074   961321E0           MLA      R1,R6,R3,R1
+   \   00000078   960120E0           MLA      R0,R6,R1,R0
+     99            iday*=rndtab[iday%256];
+    100            iday=iday%max;//получаем любое значение из диапазона до максимума
+   \   0000007C   FF1000E2           AND      R1,R0,#0xFF
+   \   00000080   021081E0           ADD      R1,R1,R2
+   \   00000084   3410D1E5           LDRB     R1,[R1, #+52]
+   \   00000088   910000E0           MUL      R0,R1,R0
+   \   0000008C   0510A0E1           MOV      R1,R5
+   \   00000090   ........           _BLF     ??divu32_a,??rA??divu32_a
+    101            
+    102            if(iday<min)//если значение меньше минимума
+   \   00000094   040050E1           CMP      R0,R4
+   \   00000098   0600002A           BCS      ??Random_1
+    103            {
+    104              while(iday<min)
+    105              {
+    106                iday=rndtab[iday%256]%(max-min);
+   \                     ??Random_2:
+   \   0000009C   FF0000E2           AND      R0,R0,#0xFF
+   \   000000A0   020080E0           ADD      R0,R0,R2
+   \   000000A4   3400D0E5           LDRB     R0,[R0, #+52]
+   \   000000A8   041045E0           SUB      R1,R5,R4
+   \   000000AC   ........           _BLF     ??div32_a,??rA??div32_a
+    107              }    
+   \   000000B0   040050E1           CMP      R0,R4
+   \   000000B4   F8FFFF3A           BCC      ??Random_2
+    108            }
+    109            return iday;
+   \                     ??Random_1:
+   \   000000B8   10D08DE2           ADD      SP,SP,#+16       ;; stack cleaning
+   \   000000BC   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??Random_0:
+   \   000000C0   1F85EB51           DC32     0x51eb851f
+   \   000000C4   ........           DC32     ??DMonth
+   \   000000C8   ABAAAAAA           DC32     0xffffffffaaaaaaab
+    110          }
+    111          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    112          int get_string_width(WSHDR *ws, int font)
+    113          {
+   \                     get_string_width:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+    114            int width=0;
+    115            unsigned short *body=ws->wsbody;
+   \   00000004   006090E5           LDR      R6,[R0, #+0]
+   \   00000008   0140A0E1           MOV      R4,R1
+    116            int len=body[0];
+   \   0000000C   B070D6E1           LDRH     R7,[R6, #+0]
+   \   00000010   0050A0E3           MOV      R5,#+0
+   \   00000014   000057E3           CMP      R7,#+0
+   \   00000018   0600000A           BEQ      ??get_string_width_0
+    117            while(len)
+    118            {
+    119              width+=GetSymbolWidth(body[len],font);
+   \                     ??get_string_width_1:
+   \   0000001C   870086E0           ADD      R0,R6,R7, LSL #+1
+   \   00000020   B000D0E1           LDRH     R0,[R0, #+0]
+   \   00000024   0410A0E1           MOV      R1,R4
+   \   00000028   E10100EF           SWI      +481
+   \   0000002C   055080E0           ADD      R5,R0,R5
+    120              len--;
+   \   00000030   017057E2           SUBS     R7,R7,#+1
+    121            }
+   \   00000034   F8FFFF1A           BNE      ??get_string_width_1
+    122            return (width+1);//хз, без этого тупит
+   \                     ??get_string_width_0:
+   \   00000038   010085E2           ADD      R0,R5,#+1
+   \   0000003C   F080BDE8           POP      {R4-R7,PC}       ;; return
+    123          }
+    124          
+    125          const char per_t[]="%t";
+    126          
+    127          const char per_s[]="%s";
+    128          void *canvasdata;
+    129          char *s,*s1,*s2,*s3;
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    130          int X1=2,Y1=50;
+   \                     X1:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for X1>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     Y1:
+   \   00000000                      DS8 4
+   \   00000004                      REQUIRE `?<Initializer for Y1>`
+    131          int col=0;
+    132          GBSTMR tmr;
+    133          int str;
+    134          WSHDR *ws1;
+    135          
+    136          int ys = 0;
+    137          int xs = 0;
+    138          
+    139          int yy[10][2];
+    140          int xx[10][2];
+    141          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    142          void Canvas()
+    143          {
+    144          
+    145          
+    146          }
+   \                     Canvas:
+   \   00000000   1EFF2FE1           BX       LR               ;; return
+    147          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    148          int DrawChar(char *s,int x,int y)
+    149          {
+   \                     DrawChar:
+   \   00000000   F0432DE9           PUSH     {R4-R9,LR}
+    150            y += (!ys ? 3 : 0);
+   \   00000004   ........           LDR      R5,??DataTable4  ;; yy
+   \   00000008   0140A0E1           MOV      R4,R1
+   \   0000000C   AC1095E5           LDR      R1,[R5, #+172]
+   \   00000010   000051E3           CMP      R1,#+0
+    151            ys = !ys;  
+   \   00000014   0110A003           MOVEQ    R1,#+1
+   \   00000018   0010A013           MOVNE    R1,#+0
+   \   0000001C   AC1085E5           STR      R1,[R5, #+172]
+    152            if(col<23) col++; else col=0;
+   \   00000020   A41095E5           LDR      R1,[R5, #+164]
+   \   00000024   0330A003           MOVEQ    R3,#+3
+   \   00000028   0030A013           MOVNE    R3,#+0
+   \   0000002C   026083E0           ADD      R6,R3,R2
+   \   00000030   170051E3           CMP      R1,#+23
+   \   00000034   011081B2           ADDLT    R1,R1,#+1
+   \   00000038   0010A0A3           MOVGE    R1,#+0
+   \   0000003C   A41085E5           STR      R1,[R5, #+164]
+    153            int wslen;
+    154            wsprintf(ws1,per_t,s); 
+   \   00000040   BC109FE5           LDR      R1,??DrawChar_0  ;; per_t
+   \   00000044   0020A0E1           MOV      R2,R0
+   \   00000048   A80095E5           LDR      R0,[R5, #+168]
+   \   0000004C   240100EF           SWI      +292
+    155            wslen = get_string_width(ws1, FONT_MEDIUM);
+   \   00000050   A80095E5           LDR      R0,[R5, #+168]
+   \   00000054   0410A0E3           MOV      R1,#+4
+   \   00000058   ........           BL       get_string_width
+   \   0000005C   0070A0E1           MOV      R7,R0
+    156            int fonth = GetFontYSIZE(FONT_MEDIUM);
+   \   00000060   0400A0E3           MOV      R0,#+4
+   \   00000064   C50100EF           SWI      +453
+    157            int font = FONT_MEDIUM;
+    158            DrawCanvas(canvasdata, xx[0][0]-10, y - (fonth*2), xx[0][0] + wslen, y + (fonth*(yy[0][1]?2:1)), 1);
+   \   00000068   501095E5           LDR      R1,[R5, #+80]
+   \   0000006C   0080A0E1           MOV      R8,R0
+   \   00000070   040095E5           LDR      R0,[R5, #+4]
+   \   00000074   0120A0E3           MOV      R2,#+1
+   \   00000078   04002DE9           PUSH     {R2}
+   \   0000007C   000050E3           CMP      R0,#+0
+   \   00000080   0200A013           MOVNE    R0,#+2
+   \   00000084   0100A003           MOVEQ    R0,#+1
+   \   00000088   906822E0           MLA      R2,R0,R8,R6
+   \   0000008C   013087E0           ADD      R3,R7,R1
+   \   00000090   04002DE9           PUSH     {R2}
+   \   00000094   A00095E5           LDR      R0,[R5, #+160]
+   \   00000098   0A1041E2           SUB      R1,R1,#+10
+   \   0000009C   882046E0           SUB      R2,R6,R8, LSL #+1
+   \   000000A0   250000EF           SWI      +37
+    159            DrawString(ws1,x+2,y,x+wslen+4, y+fonth, font,0,GetPaletteAdrByColorIndex(col),GetPaletteAdrByColorIndex(23));
+   \   000000A4   1700A0E3           MOV      R0,#+23
+   \   000000A8   2E0100EF           SWI      +302
+   \   000000AC   0090A0E1           MOV      R9,R0
+   \   000000B0   A40095E5           LDR      R0,[R5, #+164]
+   \   000000B4   2E0100EF           SWI      +302
+   \   000000B8   00022DE9           PUSH     {R9}
+   \   000000BC   01002DE9           PUSH     {R0}
+   \   000000C0   0620A0E1           MOV      R2,R6
+   \   000000C4   021084E2           ADD      R1,R4,#+2
+   \   000000C8   0000A0E3           MOV      R0,#+0
+   \   000000CC   01002DE9           PUSH     {R0}
+   \   000000D0   0400A0E3           MOV      R0,#+4
+   \   000000D4   01002DE9           PUSH     {R0}
+   \   000000D8   060088E0           ADD      R0,R8,R6
+   \   000000DC   01002DE9           PUSH     {R0}
+   \   000000E0   040087E0           ADD      R0,R7,R4
+   \   000000E4   043080E2           ADD      R3,R0,#+4
+   \   000000E8   A80095E5           LDR      R0,[R5, #+168]
+   \   000000EC   4C0100EF           SWI      +332
+    160            return get_string_width(ws1,font);
+   \   000000F0   A80095E5           LDR      R0,[R5, #+168]
+   \   000000F4   0410A0E3           MOV      R1,#+4
+   \   000000F8   ........           BL       get_string_width
+   \   000000FC   1CD08DE2           ADD      SP,SP,#+28
+   \   00000100   F083BDE8           POP      {R4-R9,PC}       ;; return
+   \                     ??DrawChar_0:
+   \   00000104   ........           DC32     per_t
+    161          }
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     yy:
+   \   00000000                      DS8 80
+   \                     xx:
+   \   00000050                      DS8 80
+   \                     canvasdata:
+   \   000000A0                      DS8 4
+   \                     col:
+   \   000000A4                      DS8 4
+   \                     ws1:
+   \   000000A8                      DS8 4
+   \                     ys:
+   \   000000AC                      DS8 4
+    162          
+    163          int w;
+   \                     w:
+   \   000000B0                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     s:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     s1:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     s2:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     s3:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     tmr:
+   \   00000000                      DS8 16
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     `str`:
+   \   00000000                      DS8 4
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+   \                     xs:
+   \   00000000                      DS8 4
+    164          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    165          char white[] = "\xFF\xFF\xFF\x64";
+   \                     white:
+   \   00000000                      DS8 8
+   \   00000008                      REQUIRE `?<Initializer for white>`
+    166          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    167          void drawpoint(int h, int w)
+    168          {
+    169           //SetPixel(int x,int y,char *color);
+    170          
+    171            if(h%2) SetPixel(w,h,white);
+   \                     drawpoint:
+   \   00000000   24209FE5           LDR      R2,??drawpoint_0  ;; white
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   0130A0E1           MOV      R3,R1
+   \   0000000C   A01F80E0           ADD      R1,R0,R0, LSR #+31
+   \   00000010   C110A0E1           ASR      R1,R1,#+1
+   \   00000014   811050E0           SUBS     R1,R0,R1, LSL #+1
+   \   00000018   0010A0E1           MOV      R1,R0
+   \   0000001C   0300A011           MOVNE    R0,R3
+    172            else SetPixel(w+5,h,white);
+   \   00000020   05008302           ADDEQ    R0,R3,#+5
+   \   00000024   030200EF           SWI      +515
+    173          }
+   \   00000028   0080BDE8           POP      {PC}             ;; return
+   \                     ??drawpoint_0:
+   \   0000002C   ........           DC32     white
+    174          /*
+    175          void DrawWord(char *s)
+    176          {
+    177            int len = strlen(s);
+    178            int x = 0;
+    179            int y = 0;
+    180            //for(int i = 0 ; i < len && *s ; i++)
+    181            {
+    182              y = Random(0,5);
+    183              X1 += DrawChar(s,X1,y);
+    184            }
+    185          }*/
+    186          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    187          void upd1(int x)
+    188          { 
+   \                     upd1:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+    189           if((yy[0][0] < (ScreenH()-1 - GetFontYSIZE(FONT_MEDIUM))) && (!yy[0][1])) yy[0][0]+=5;
+   \   00000004   ........           LDR      R5,??DataTable4  ;; yy
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0160A0E3           MOV      R6,#+1
+   \   00000010   898100EF           SWI      +33161
+   \   00000014   0080A0E1           MOV      R8,R0
+   \   00000018   0400A0E3           MOV      R0,#+4
+   \   0000001C   C50100EF           SWI      +453
+   \   00000020   001095E5           LDR      R1,[R5, #+0]
+   \   00000024   0070A0E3           MOV      R7,#+0
+   \   00000028   012048E2           SUB      R2,R8,#+1
+   \   0000002C   000042E0           SUB      R0,R2,R0
+   \   00000030   000051E1           CMP      R1,R0
+   \   00000034   050000AA           BGE      ??upd1_0
+   \   00000038   040095E5           LDR      R0,[R5, #+4]
+   \   0000003C   000050E3           CMP      R0,#+0
+   \   00000040   0200001A           BNE      ??upd1_0
+   \   00000044   050081E2           ADD      R0,R1,#+5
+   \                     ??upd1_1:
+   \   00000048   000085E5           STR      R0,[R5, #+0]
+   \   0000004C   040000EA           B        ??upd1_2
+    190            else
+    191            {
+    192              yy[0][1] = 1;
+   \                     ??upd1_0:
+   \   00000050   046085E5           STR      R6,[R5, #+4]
+    193              if(yy[0][0] > 0) yy[0][0]-=5;
+   \   00000054   010051E3           CMP      R1,#+1
+   \   00000058   050041A2           SUBGE    R0,R1,#+5
+   \   0000005C   F9FFFFAA           BGE      ??upd1_1
+    194              else
+    195                yy[0][1] = 0;
+   \   00000060   047085E5           STR      R7,[R5, #+4]
+    196            }
+    197            
+    198            if((xx[0][0] + x < ScreenW()-1) && (!xx[0][1])) xx[0][0]+=5;
+   \                     ??upd1_2:
+   \   00000064   888100EF           SWI      +33160
+   \   00000068   501095E5           LDR      R1,[R5, #+80]
+   \   0000006C   010040E2           SUB      R0,R0,#+1
+   \   00000070   012084E0           ADD      R2,R4,R1
+   \   00000074   000052E1           CMP      R2,R0
+   \   00000078   030000AA           BGE      ??upd1_3
+   \   0000007C   540095E5           LDR      R0,[R5, #+84]
+   \   00000080   000050E3           CMP      R0,#+0
+   \   00000084   05008102           ADDEQ    R0,R1,#+5
+   \   00000088   0300000A           BEQ      ??upd1_4
+    199            else
+    200            {
+    201              xx[0][1] = 1;
+   \                     ??upd1_3:
+   \   0000008C   546085E5           STR      R6,[R5, #+84]
+    202              if(xx[0][0] > 0) xx[0][0]-=5;
+   \   00000090   010051E3           CMP      R1,#+1
+   \   00000094   020000BA           BLT      ??upd1_5
+   \   00000098   050041E2           SUB      R0,R1,#+5
+   \                     ??upd1_4:
+   \   0000009C   500085E5           STR      R0,[R5, #+80]
+   \   000000A0   F081BDE8           POP      {R4-R8,PC}
+    203              else
+    204                xx[0][1] = 0;  
+   \                     ??upd1_5:
+   \   000000A4   547085E5           STR      R7,[R5, #+84]
+    205            }
+    206          }
+   \   000000A8   F081BDE8           POP      {R4-R8,PC}       ;; return
+    207          
+    208          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    209          void draw1()
+    210          {    
+    211            int x = xx[0][0];
+   \                     draw1:
+   \   00000000   ........           LDR      R0,??DataTable4  ;; yy
+   \   00000004   70402DE9           PUSH     {R4-R6,LR}
+    212            int y = yy[0][0];
+   \   00000008   004090E5           LDR      R4,[R0, #+0]
+   \   0000000C   505090E5           LDR      R5,[R0, #+80]
+    213            x += DrawChar("Т",x,y);
+   \   00000010   0420A0E1           MOV      R2,R4
+   \   00000014   0510A0E1           MOV      R1,R5
+   \   00000018   2C0F8FE2           ADR      R0,??draw1_0     ;; "Т"
+   \   0000001C   ........           BL       DrawChar
+   \   00000020   055080E0           ADD      R5,R0,R5
+    214            x += DrawChar("ы",x,y);
+   \   00000024   0420A0E1           MOV      R2,R4
+   \   00000028   0510A0E1           MOV      R1,R5
+   \   0000002C   280F8FE2           ADR      R0,??draw1_0+0x4  ;; "ы"
+   \   00000030   ........           BL       DrawChar
+   \   00000034   055080E0           ADD      R5,R0,R5
+    215            x += DrawChar(" ",x,y);
+   \   00000038   0420A0E1           MOV      R2,R4
+   \   0000003C   0510A0E1           MOV      R1,R5
+   \   00000040   240F8FE2           ADR      R0,??draw1_0+0x8  ;; " "
+   \   00000044   ........           BL       DrawChar
+   \   00000048   055080E0           ADD      R5,R0,R5
+    216            x += DrawChar("т",x,y);
+   \   0000004C   0420A0E1           MOV      R2,R4
+   \   00000050   0510A0E1           MOV      R1,R5
+   \   00000054   200F8FE2           ADR      R0,??draw1_0+0xC  ;; "т"
+   \   00000058   ........           BL       DrawChar
+   \   0000005C   055080E0           ADD      R5,R0,R5
+    217            x += DrawChar("е",x,y);
+   \   00000060   1E6F8FE2           ADR      R6,??draw1_0+0x10  ;; "е"
+   \   00000064   0420A0E1           MOV      R2,R4
+   \   00000068   0510A0E1           MOV      R1,R5
+   \   0000006C   0600A0E1           MOV      R0,R6
+   \   00000070   ........           BL       DrawChar
+   \   00000074   055080E0           ADD      R5,R0,R5
+    218            x += DrawChar("п",x,y);
+   \   00000078   0420A0E1           MOV      R2,R4
+   \   0000007C   0510A0E1           MOV      R1,R5
+   \   00000080   170F8FE2           ADR      R0,??draw1_0+0x14  ;; "п"
+   \   00000084   ........           BL       DrawChar
+   \   00000088   055080E0           ADD      R5,R0,R5
+    219            x += DrawChar("е",x,y);
+   \   0000008C   0420A0E1           MOV      R2,R4
+   \   00000090   0510A0E1           MOV      R1,R5
+   \   00000094   0600A0E1           MOV      R0,R6
+   \   00000098   ........           BL       DrawChar
+   \   0000009C   055080E0           ADD      R5,R0,R5
+    220            x += DrawChar("р",x,y);
+   \   000000A0   0420A0E1           MOV      R2,R4
+   \   000000A4   0510A0E1           MOV      R1,R5
+   \   000000A8   0E0F8FE2           ADR      R0,??draw1_0+0x18  ;; "р"
+   \   000000AC   ........           BL       DrawChar
+   \   000000B0   055080E0           ADD      R5,R0,R5
+    221            x += DrawChar("ь",x,y);
+   \   000000B4   0420A0E1           MOV      R2,R4
+   \   000000B8   0510A0E1           MOV      R1,R5
+   \   000000BC   0A0F8FE2           ADR      R0,??draw1_0+0x1C  ;; "ь"
+   \   000000C0   ........           BL       DrawChar
+   \   000000C4   050080E0           ADD      R0,R0,R5
+    222            /*
+    223            char s[2];
+    224            sprintf(s,"%d\\%d",xx[0][0],x);  
+    225            x += DrawChar(s,x,y);*/
+    226            upd1(x);
+   \   000000C8   ........           BL       upd1
+    227          }
+   \   000000CC   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??draw1_0:
+   \   000000D0   D2000000           DC8      "Т",+0,+0
+   \   000000D4   FB000000           DC8      "ы",+0,+0
+   \   000000D8   20000000           DC8      " ",+0,+0
+   \   000000DC   F2000000           DC8      "т",+0,+0
+   \   000000E0   E5000000           DC8      "е",+0,+0
+   \   000000E4   EF000000           DC8      "п",+0,+0
+   \   000000E8   F0000000           DC8      "р",+0,+0
+   \   000000EC   FC000000           DC8      "ь",+0,+0
+    228          
+    229          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    230          void idle()
+    231          {
+   \                     idle:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    232            void *icsm;
+    233            w=ScreenW();
+   \   00000004   44409FE5           LDR      R4,??idle_0      ;; yy
+   \   00000008   888100EF           SWI      +33160
+   \   0000000C   B00084E5           STR      R0,[R4, #+176]
+    234            icsm=FindCSMbyID(CSM_root()->idle_id);  
+   \   00000010   068100EF           SWI      +33030
+   \   00000014   040090E5           LDR      R0,[R0, #+4]
+   \   00000018   080100EF           SWI      +264
+    235            if (icsm)
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   1080BD08           POPEQ    {R4,PC}
+    236            {
+    237              if (IsGuiOnTop(idlegui_id(icsm))) //Если IdleGui на самом верху
+   \   00000024   2C0090E5           LDR      R0,[R0, #+44]
+   \   00000028   350100EF           SWI      +309
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   1080BD08           POPEQ    {R4,PC}
+    238              {
+    239                GUI *igui=GetTopGUI();
+    240                if (igui) //И он существует
+   \   00000034   4D0100EF           SWI      +333
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   1080BD08           POPEQ    {R4,PC}
+    241                {
+    242                  canvasdata = BuildCanvas();
+   \   00000040   F18000EF           SWI      +33009
+   \   00000044   A00084E5           STR      R0,[R4, #+160]
+    243                  draw1();
+   \   00000048   ........           BL       draw1
+    244                  /*for(int i=0; i < ScreenH()-1;i+=2)
+    245                  {
+    246                    drawpoint(i,Random(1,ScreenW()-1));        
+    247                  }*/
+    248          /*        str=DrawChar ("Д",2);
+    249                  str+=DrawChar("ю",str);        
+    250                  str+=DrawChar("х",str);
+    251                  str+=DrawChar("а",str);
+    252                  Y1=50;
+    253                  X1=35;
+    254                  str=DrawChar ("В",2)+2;
+    255                  str+=DrawChar("л",str);        
+    256                  str+=DrawChar("а",str);
+    257                  str+=DrawChar("д",str);
+    258                  str+=DrawChar("е",str);
+    259                  str+=DrawChar("г",str);
+    260                  str=DrawChar ("К",2)+2;
+    261                  str+=DrawChar("о",str);
+    262                  str+=DrawChar("т",str);
+    263                  str+=DrawChar("я",str);
+    264                  str+=DrawChar("р",str);
+    265                  str+=DrawChar("а",str);
+    266          
+    267                  Y1 = Y1+GetFontYSIZE(FONT_MEDIUM)+5;
+    268                  X1 = 25;
+    269                  
+    270                  str=DrawChar("Н",2)+2;
+    271                  str+=DrawChar("О",str);
+    272                  str+=DrawChar("В",str);
+    273                  str+=DrawChar("Ы",str);
+    274                  str+=DrawChar("М",str);
+    275                  
+    276                  str+=DrawChar("Г",str);
+    277                  str+=DrawChar("О",str);
+    278                  str+=DrawChar("Д",str);
+    279                  str+=DrawChar("О",str);
+    280                  str+=DrawChar("М!!!",str);
+    281                  str=DrawChar("с",2);
+    282                  
+    283                  str+=10;
+    284                  
+    285                  str+=DrawChar("Д",str);
+    286                  str+=DrawChar("н",str);
+    287                  str+=DrawChar("ю",str);
+    288                  str+=DrawChar("х",str);
+    289                  str+=DrawChar("о",str);
+    290                  str+=DrawChar("й",str);
+    291                  str+=DrawChar("!",str);
+    292          
+    293            
+    294                  wsprintf(ws1,per_t,"Ты постарел(");
+    295                  DrawString(ws1,2,Y1+GetFontYSIZE(FONT_MEDIUM)*2,ScreenW()-1,Y1+GetFontYSIZE(FONT_MEDIUM)*2+5+GetFontYSIZE(FONT_SMALL),FONT_SMALL,2,GetPaletteAdrByColorIndex(col),GetPaletteAdrByColorIndex(23));*/
+    296                }
+    297              }
+    298            }
+    299          }
+   \   0000004C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??idle_0:
+   \   00000050   ........           DC32     yy
+    300          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    301          void check()
+    302          {
+   \                     check:
+   \   00000000   00402DE9           PUSH     {LR}
+    303           idle();
+   \   00000004   ........           BL       idle
+    304           GBS_StartTimerProc(&tmr, 10*TMR_SECOND/10,check);
+   \   00000008   0C209FE5           LDR      R2,??check_0     ;; check
+   \   0000000C   ........           LDR      R0,??DataTable5  ;; tmr
+   \   00000010   D810A0E3           MOV      R1,#+216
+   \   00000014   4D0000EF           SWI      +77
+    305          }
+   \   00000018   0080BDE8           POP      {PC}             ;; return
+   \                     ??check_0:
+   \   0000001C   ........           DC32     check
+
+   \                                 In segment CODE, align 4, keep-with-next
+    306          int maincsm_onmessage(CSM_RAM* data,GBS_MSG* msg)
+    307          {
+    308          
+    309           return(1);
+   \                     maincsm_onmessage:
+   \   00000000   0100A0E3           MOV      R0,#+1
+   \   00000004   1EFF2FE1           BX       LR               ;; return
+    310          }
+    311          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    312          static void maincsm_oncreate(CSM_RAM *data)
+    313          { 
+   \                     maincsm_oncreate:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+    314           ws1=AllocWS(256);
+   \   00000004   ........           LDR      R4,??DataTable4  ;; yy
+   \   00000008   400FA0E3           MOV      R0,#+256
+   \   0000000C   250100EF           SWI      +293
+   \   00000010   A80084E5           STR      R0,[R4, #+168]
+    315           yy[0][0] = 10;
+   \   00000014   0A00A0E3           MOV      R0,#+10
+   \   00000018   000084E5           STR      R0,[R4, #+0]
+    316           xx[0][0] = 2;
+   \   0000001C   0200A0E3           MOV      R0,#+2
+   \   00000020   500084E5           STR      R0,[R4, #+80]
+    317           xx[0][1] = 0;
+   \   00000024   0000A0E3           MOV      R0,#+0
+   \   00000028   540084E5           STR      R0,[R4, #+84]
+    318          }
+   \   0000002C   1080BDE8           POP      {R4,PC}          ;; return
+    319          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    320          void maincsm_onclose(CSM_RAM *data)
+    321          { 
+    322            GBS_DelTimer(&tmr);
+   \                     maincsm_onclose:
+   \   00000000   ........           LDR      R0,??DataTable5  ;; tmr
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   8C0100EF           SWI      +396
+    323            extern void seqkill(void *data, void(*next_in_seq)(CSM_RAM *), void *data_to_kill, void *seqkiller);
+    324            extern void *ELF_BEGIN;
+    325          }
+   \   0000000C   0080BDE8           POP      {PC}             ;; return
+    326          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    327          static unsigned short maincsm_name_body[140];
+   \                     maincsm_name_body:
+   \   00000000                      DS8 280
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "XTask">`:
+   \   00000000   585461736B00       DC8 "XTask"
+   \   00000006   0000               DC8 0, 0
+   \   00000008   C2EE20C1EBFF       DC8 "\302\356 \301\353\377!!!"
+   \              21212100    
+   \   00000012   0000               DC8 0, 0
+   \   00000014   737572707269       DC8 "surpriz"
+   \              7A00        
+   \                     my_name:
+   \   0000001C   737572707269       DC8 "surpriz"
+   \              7A00        
+   \   00000024   ............       DC32 maincsm_onmessage, maincsm_oncreate, 0, 0, 0, 0, maincsm_onclose
+   \              ....00000000
+   \              000000000000
+   \              000000000000
+   \              ........    
+   \   00000040   280000000100       DC32 40, 1, minus11, maincsm_name_body, 55AACCCCH, 3333AA55H, 0
+   \              0000........
+   \              ........CCCC
+   \              AA5555AA3333
+   \              00000000    
+   \   0000005C   8B00               DC16 139
+   \   0000005E   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     my_ipc:
+   \   00000000   ............       DC32 my_name, my_name, 0H
+   \              ....00000000
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     percent_t:
+   \   00000000   257400             DC8 "%t"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     ??DMonth:
+   \   00000000   000000001F00       DC32 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365
+   \              00003B000000
+   \              5A0000007800
+   \              000097000000
+   \              B5000000D400
+   \              0000F3000000
+   \              110100003001
+   \              00004E010000
+   \              6D010000    
+   \                     rndtab:
+   \   00000034   01086DDCDEF1       DC8 1, 8, 109, 220, 222, 241, 149, 107, 75, 248, 254, 140, 16, 66, 74
+   \              956B4BF8FE8C
+   \              10424A      
+   \   00000043   15D32F50F29A       DC8 21, 211, 47, 80, 242, 154, 27, 205, 128, 161, 89, 77, 36, 95, 110
+   \              1BCD80A1594D
+   \              245F6E      
+   \   00000052   5530D48CD3F9       DC8 85, 48, 212, 140, 211, 249, 22, 79, 200, 50, 28, 188, 52, 140, 202
+   \              164FC8321CBC
+   \              348CCA      
+   \   00000061   7844913E46B8       DC8 120, 68, 145, 62, 70, 184, 190, 91, 197, 152, 224, 149, 104, 25
+   \              BE5BC598E095
+   \              6819        
+   \   0000006F   B2FCB6CAB68D       DC8 178, 252, 182, 202, 182, 141, 197, 4, 81, 181, 242, 145, 42, 39
+   \              C50451B5F291
+   \              2A27        
+   \   0000007D   E39CC6E1C1DB       DC8 227, 156, 198, 225, 193, 219, 93, 122, 175, 249, 1, 175, 143, 70
+   \              5D7AAFF901AF
+   \              8F46        
+   \   0000008B   EF2EF6A335A3       DC8 239, 46, 246, 163, 53, 163, 109, 168, 135, 2, 235, 25, 92, 20, 145
+   \              6DA88702EB19
+   \              5C1491      
+   \   0000009A   8A4D45A64EB0       DC8 138, 77, 69, 166, 78, 176, 173, 212, 166, 113, 94, 161, 41, 50, 239
+   \              ADD4A6715EA1
+   \              2932EF      
+   \   000000A9   316FA4463C02       DC8 49, 111, 164, 70, 60, 2, 37, 171, 75, 136, 156, 11, 56, 42, 146
+   \              25AB4B889C0B
+   \              382A92      
+   \   000000B8   8AE549924D3D       DC8 138, 229, 73, 146, 77, 61, 98, 196, 135, 106, 63, 197, 195, 86, 96
+   \              62C4876A3FC5
+   \              C35660      
+   \   000000C7   CB7165AAF7B5       DC8 203, 113, 101, 170, 247, 181, 113, 80, 250, 108, 7, 255, 237, 129
+   \              7150FA6C07FF
+   \              ED81        
+   \   000000D5   E24F6B70A667       DC8 226, 79, 107, 112, 166, 103, 241, 24, 223, 239, 120, 198, 58, 60
+   \              F118DFEF78C6
+   \              3A3C        
+   \   000000E3   528003B8428F       DC8 82, 128, 3, 184, 66, 143, 224, 145, 224, 81, 206, 163, 45, 63, 90
+   \              E091E051CEA3
+   \              2D3F5A      
+   \   000000F2   A8723B219F5F       DC8 168, 114, 59, 33, 159, 95, 28, 139, 123, 98, 125, 196, 15, 70, 194
+   \              1C8B7B627DC4
+   \              0F46C2      
+   \   00000101   FD360E6DE247       DC8 253, 54, 14, 109, 226, 71, 17, 161, 93, 186, 87, 244, 138, 20, 52
+   \              11A15DBA57F4
+   \              8A1434      
+   \   00000110   7BFB1A24112E       DC8 123, 251, 26, 36, 17, 46, 52, 231, 232, 76, 31, 221, 84, 37, 216
+   \              34E7E84C1FDD
+   \              5425D8      
+   \   0000011F   A5D46AC5F262       DC8 165, 212, 106, 197, 242, 98, 43, 39, 175, 254, 145, 190, 84, 118
+   \              2B27AFFE91BE
+   \              5476        
+   \   0000012D   DEBB8878A3EC       DC8 222, 187, 136, 120, 163, 236, 249
+   \              F9          
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     per_t:
+   \   00000000   257400             DC8 "%t"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     per_s:
+   \   00000000   257300             DC8 "%s"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+    328          const int minus11=-11;
+   \                     minus11:
+   \   00000000   F5FFFFFF           DC32 -11
+    329          
+    330          static const struct
+    331          {
+    332            CSM_DESC maincsm;
+    333            WSHDR maincsm_name;
+    334          }MAINCSM =
+    335          {
+    336            {
+    337            maincsm_onmessage,
+    338            maincsm_oncreate,
+    339          #ifdef NEWSGOLD
+    340            0,
+    341            0,
+    342            0,
+    343            0,
+    344          #endif
+    345            maincsm_onclose,
+    346            sizeof(CSM_RAM),
+    347            1,
+    348            &minus11
+    349            },
+    350            {
+    351              maincsm_name_body,
+    352              NAMECSM_MAGIC1,
+    353              NAMECSM_MAGIC2,
+    354              0x0,
+    355              139
+    356            }
+    357          };
+    358          
+    359          
+    360          static void UpdateCSMname(void)
+    361          {
+    362            wsprintf((WSHDR *)(&MAINCSM.maincsm_name),"surpriz");
+    363          }
+    364          // ----------------------------------------------------------------------------
+    365          
+    366          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+    367          CSM_DESC icsmd;
+   \                     icsmd:
+   \   00000000                      DS8 40
+
+   \                                 In segment CODE, align 4, keep-with-next
+    368          int main()
+    369          {
+   \                     main:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    370          //-------------------------------------//
+    371            CSMROOT *csmr;//А это самое интересное:) тут замуты с цсм для того чтобы он определялся как демон,А не просто процесс
+    372            CSM_RAM *save_cmpc;//и голову ломать не стоит,прост копируешь отсюда и усе...
+    373            CSM_RAM main_csm;
+    374            UpdateCSMname();
+   \   00000004   A0409FE5           LDR      R4,??main_0      ;; `?<Constant "XTask">`
+   \   00000008   3CD04DE2           SUB      SP,SP,#+60
+   \   0000000C   141084E2           ADD      R1,R4,#+20
+   \   00000010   4C0084E2           ADD      R0,R4,#+76
+   \   00000014   240100EF           SWI      +292
+    375            LockSched();
+   \   00000018   460100EF           SWI      +326
+    376            csmr=CSM_root();
+   \   0000001C   068100EF           SWI      +33030
+   \   00000020   0050A0E1           MOV      R5,R0
+    377            save_cmpc=csmr->csm_q->current_msg_processing_csm;
+   \   00000024   080095E5           LDR      R0,[R5, #+8]
+    378            csmr->csm_q->current_msg_processing_csm=csmr->csm_q->csm.first;
+    379            CreateCSM(&MAINCSM.maincsm,&main_csm,0);
+   \   00000028   0020A0E3           MOV      R2,#+0
+   \   0000002C   081090E5           LDR      R1,[R0, #+8]
+   \   00000030   046090E5           LDR      R6,[R0, #+4]
+   \   00000034   041080E5           STR      R1,[R0, #+4]
+   \   00000038   14108DE2           ADD      R1,SP,#+20
+   \   0000003C   240084E2           ADD      R0,R4,#+36
+   \   00000040   070100EF           SWI      +263
+    380            csmr->csm_q->current_msg_processing_csm=save_cmpc;
+   \   00000044   080095E5           LDR      R0,[R5, #+8]
+   \   00000048   046080E5           STR      R6,[R0, #+4]
+    381            UnlockSched();
+   \   0000004C   470100EF           SWI      +327
+    382          //-------------------------------------//
+    383            ShowMSG(1,(int)"Во Бля!!!");  
+   \   00000050   081084E2           ADD      R1,R4,#+8
+   \   00000054   0100A0E3           MOV      R0,#+1
+   \   00000058   480100EF           SWI      +328
+    384            check();
+   \   0000005C   ........           BL       check
+    385          
+    386            const char ipc_xtask_name[]=IPC_XTASK_NAME;
+   \   00000060   0C0094E8           LDM      R4,{R2,R3}
+   \   00000064   0C008DE2           ADD      R0,SP,#+12
+   \   00000068   0C0080E8           STM      R0,{R2,R3}
+    387            
+    388            IPC_REQ gipc;
+    389            gipc.name_to=ipc_xtask_name;
+   \   0000006C   0C108DE2           ADD      R1,SP,#+12
+   \   00000070   00108DE5           STR      R1,[SP, #+0]
+    390            gipc.name_from=my_name;
+   \   00000074   1C1084E2           ADD      R1,R4,#+28
+   \   00000078   04108DE5           STR      R1,[SP, #+4]
+    391            gipc.data=0;
+   \   0000007C   0010A0E3           MOV      R1,#+0
+   \   00000080   08108DE5           STR      R1,[SP, #+8]
+    392            GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_XTASK_IDLE,&gipc);
+   \   00000084   0D30A0E1           MOV      R3,SP
+   \   00000088   0120A0E3           MOV      R2,#+1
+   \   0000008C   B010A0E3           MOV      R1,#+176
+   \   00000090   DE1C81E3           ORR      R1,R1,#0xDE00
+   \   00000094   0900A0E3           MOV      R0,#+9
+   \   00000098   420C80E3           ORR      R0,R0,#0x4200
+   \   0000009C   000100EF           SWI      +256
+    393          
+    394            return (0);
+   \   000000A0   0000A0E3           MOV      R0,#+0
+   \   000000A4   3CD08DE2           ADD      SP,SP,#+60
+   \   000000A8   7080BDE8           POP      {R4-R6,PC}       ;; return
+   \                     ??main_0:
+   \   000000AC   ........           DC32     `?<Constant "XTask">`
+    395          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     yy
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable5:
+   \   00000000   ........           DC32     tmr
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for X1>`:
+   \   00000000   02000000           DC32 2
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for Y1>`:
+   \   00000000   32000000           DC32 50
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for white>`:
+   \   00000000   FFFFFF6400         DC8 "\377\377\377d"
+   \   00000005   000000             DC8 0, 0, 0
+
+   \                                 In segment ELFBEGIN, align 1
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   EF00               DC8 "\357"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   F000               DC8 "\360"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   E500               DC8 "\345"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   F200               DC8 "\362"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   2000               DC8 " "
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   FB00               DC8 "\373"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   D200               DC8 "\322"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   FC00               DC8 "\374"
+
+   Maximum stack usage in bytes:
+
+     Function          CSTACK
+     --------          ------
+     Canvas                0
+     DrawChar             56
+     ElfKiller             4
+     Random               32
+     check                 4
+     draw1                16
+     drawpoint             4
+     get_string_width     20
+     idle                  8
+     main                 76
+     maincsm_onclose       4
+     maincsm_oncreate      8
+     maincsm_onmessage     0
+     upd1                 24
+
+
+   Segment part sizes:
+
+     Function/Label           Bytes
+     --------------           -----
+     old_icsm_onMessage          4
+     old_icsm_onClose            4
+     ElfKiller                  28
+     mytmr                      16
+     my_csm_id                   4
+     ErrorNumber                 4
+     Random                    204
+     get_string_width           64
+     X1                          4
+     Y1                          4
+     Canvas                      4
+     DrawChar                  264
+     yy                        180
+     s                           4
+     s1                          4
+     s2                          4
+     s3                          4
+     tmr                        16
+     str                         4
+     xs                          4
+     white                       8
+     drawpoint                  48
+     upd1                      172
+     draw1                     240
+     idle                       84
+     check                      32
+     maincsm_onmessage           8
+     maincsm_oncreate           48
+     maincsm_onclose            16
+     maincsm_name_body         280
+     ?<Constant "XTask">        96
+     my_ipc                     12
+     percent_t                   3
+     DMonth                    308
+     per_t                       3
+     per_s                       3
+     minus11                     4
+     icsmd                      40
+     main                      176
+     ??DataTable4                4
+     ??DataTable5                4
+     ?<Initializer for X1>       4
+     ?<Initializer for Y1>       4
+     ?<Initializer for white>    8
+     ?<Constant "\357">          2
+     ?<Constant "\360">          2
+     ?<Constant "\345">          2
+     ?<Constant "\362">          2
+     ?<Constant " ">             2
+     ?<Constant "\373">          2
+     ?<Constant "\322">          2
+     ?<Constant "\374">          2
+      Others                   116
+
+ 
+ 1 488 bytes in segment CODE
+   445 bytes in segment DATA_C
+    16 bytes in segment DATA_I
+    16 bytes in segment DATA_ID
+   572 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 1 396 bytes of CODE  memory (+ 116 bytes shared)
+   461 bytes of CONST memory
+   588 bytes of DATA  memory
+
+Errors: none
+Warnings: none

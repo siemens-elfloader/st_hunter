@@ -1,0 +1,49 @@
+/* GSProperty<int> value; value = 0; int a = value(); */
+
+#ifndef __GS_PROPERTY_H__
+#define __GS_PROPERTY_H__
+
+
+template<typename type>
+class GSProperty
+{
+public:
+
+    GSProperty( const type & v )
+    {
+      value = v;
+      _set = _get = [=](const type & v){ return v; };
+    }
+
+    GSProperty( type (*get)(const type &) = default_op,
+                type (*set)(const type &) = default_op)
+    {
+      this->_get = get;
+      this->_set = set;
+    }
+
+    GSProperty & operator = ( const type & v ) {
+      value = _set(v);
+      return *this;
+    }
+
+    const type operator ()() const {
+      return _get(value);
+    }
+
+    type & get() {
+        return value;
+    }
+
+    static inline type default_op( const type & v ) {
+      return v;
+    }
+
+private:
+    type (*_get)(const type &);
+    type (*_set)(const type &);
+    type value;
+};
+
+
+#endif

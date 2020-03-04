@@ -1,0 +1,165 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+Patch		equ	0x0FC5900
+PatchID		equ	0x0100CD01
+
+Y_week		equ	1
+Y_date		equ	2
+ShowInLock	equ	3 ; 3.0 - in lock, 3.1 - in unlock
+
+memDate		equ	4 ; 16 bytes
+year		equ	4
+month		equ	8
+day		equ	9
+BgColor		equ	20
+WeekColor	equ	24
+BorderColor	equ	28
+WorkdayColor	equ	32
+HolidayColor	equ	36
+
+; 13 28 43 58 73 88 103
+
+org Patch
+
+Entry:
+	push	{lr}
+	LoadReg	0, config + 4
+	bl	GetBuffer
+	beq	_ex
+	bl	IsUnlocked
+	add	r0, #1
+	ldrb	r1, [r6,#ShowInLock]
+	lsr	r1, r0
+	bcc	_ex ; <
+	bl	RamStby
+	ldr	r0, [r7]
+	cmp	r0, #0
+	beq	_ex
+	bl	IsScreenSaver
+	bne	_ex
+	mov	r0, #14 ; X
+	ldrb	r1, [r6,#Y_week]
+	bl	Pic_Calendar
+	mov	r2, r7
+	mov	r3, #WeekColor
+_for:
+	bl	Draw
+	add	r0, #15
+	add	r2, #1
+	cmp	r0, #118
+	blt	_for
+	add	r0, r6, #memDate
+	mov	r1, r0
+	add	r1, #8
+	bl	GetDateTime
+	add	r0, r6, #memDate
+	bl	GetWeek
+	add	r0, #2
+	ldrb	r1, [r6,#day]
+_1:
+	sub	r1, #7
+	cmp	r1, #0
+	bgt	_1
+	neg	r1, r1
+	add	r1, r0, r1
+	cmp	r1, #7
+	ble	_2
+	sub	r1, #7
+_2:
+	ldrb	r0, [r6,#month]
+	sub	r0, #1
+	AdrReg	7, Days
+	ldrb	r5, [r7,r0] ; day in month
+	lsl	r4, r1, #4
+	sub	r4, r1 ; r1*15
+	sub	r0, r4, #2 ; X
+	ldrb	r1, [r6,#Y_date]
+	mov	r4, #1
+_beg:
+	cmp	r0, #118
+	blt	_3
+	mov	r0, #13
+	add	r1, #12
+_3:
+	push	{r6}
+	ldrb	r6, [r6,#day]
+	cmp	r4, r6
+	pop	{r6}
+	bne	_4
+	push	{r0-r7}
+	sub	r0, #1
+	sub	r1, #1
+	bl	Pic_Calendar
+	add	r2, r7, #7
+	mov	r3, #BorderColor
+	bl	Draw ; today border
+	pop	{r0-r7}
+_4:
+	push	{r0,r1}
+	mov	r1, r4
+	mov	r0, #10
+	bl	dwMODdw
+	mov	r3, r1 ; 2nd num
+	cmp	r0, #0
+	beq	_5
+	bl	PicLittle0
+	add	r2, r7, r0 ; 1st num
+	pop	{r0,r1}
+	push	{r3}
+	mov	r3, #WorkdayColor
+	cmp	r0, #88
+	blt	$+4
+	add	r3, #4
+	bl	Draw
+	pop	{r3}
+	b	_6
+_5:
+	pop	{r0,r1}
+_6:
+	bl	PicLittle0
+	add	r2, r7, r3
+	add	r0, #6
+	mov	r3, #WorkdayColor
+	cmp	r0, #88
+	blt	$+4
+	add	r3, #4
+	bl	Draw
+	add	r0, #9
+	add	r4, #1
+	cmp	r4, r5
+	ble	_beg
+_ex:
+	pop	{pc}
+
+Draw:
+; in: R0 = x, R1= y, R2 = pic num, R3 = font color (24 -> r6+24
+	push	{r0-r7,lr}
+	mov	r4, r6
+	add	r4, #BgColor
+	add	r3, r6
+	push	{r4}
+	bl	DrawImgBW
+	add	sp, #4
+	pop	{r0-r7,pc}
+
+AlignData4
+Days	db	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+
+Align16
+config	dd	Magic, PatchID, Entry + q1, 0
+/*
+{patch=Calendar ver=4.6 id=0100CD01}\
+{1 sl `Y week` range=44..77 v=58}\
+{2 sl `Y date` range=56..89 v=71}\
+{3.0 cb `Show in lock`}\
+{3.1 cb `Show in unlock` v=1}\
+{20 h BgColor ml=4 v=00000000}\
+{24 h WeekColor ml=4 v=00000064}\
+{28 h BorderColor ml=4 v=00000064}\
+{32 h WorkdayColor ml=4 v=00000064}\
+{36 h HolidayColor ml=4 v=00000064}\
+{}
+",00
+*/
+end

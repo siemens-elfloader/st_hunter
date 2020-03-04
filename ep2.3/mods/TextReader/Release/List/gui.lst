@@ -1,0 +1,568 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION    02/Nov/2007  11:41:03 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\TextRead\gui.c                          #
+#    Command line    =  D:\Pasha\elf\TextRead\gui.c -lC                      #
+#                       D:\Pasha\elf\TextRead\Release\List\ -o               #
+#                       D:\Pasha\elf\TextRead\Release\Obj\ -s9 --cpu_mode    #
+#                       arm --endian little --cpu ARM926EJ-S --stack_align   #
+#                       4 --interwork -e --fpu None --dlib_config            #
+#                       "D:\Pasha\ARM_Embedded_Workbench\Embedded Workbench  #
+#                       4.0 Evaluation\ARM\LIB\dl5tpainl8n.h" -I             #
+#                       "D:\Pasha\ARM_Embedded_Workbench\Embedded Workbench  #
+#                       4.0 Evaluation\ARM\INC\" --inline_threshold=2        #
+#    List file       =  D:\Pasha\elf\TextRead\Release\List\gui.lst           #
+#    Object file     =  D:\Pasha\elf\TextRead\Release\Obj\gui.r79            #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\TextRead\gui.c
+      1          //#include "..\inc\swilib.h"
+      2          #include "main.h"
+
+  void patch_header2(const HEADER_DESC* headc)
+                           ^
+"D:\Pasha\elf\TextRead\main.h",43  Error[Pe020]: identifier "HEADER_DESC" is
+          undefined
+
+    HEADER_DESC *head=(HEADER_DESC *)headc;
+    ^
+"D:\Pasha\elf\TextRead\main.h",45  Error[Pe020]: identifier "HEADER_DESC" is
+          undefined
+
+    HEADER_DESC *head=(HEADER_DESC *)headc;
+                 ^
+"D:\Pasha\elf\TextRead\main.h",45  Error[Pe020]: identifier "head" is undefined
+
+    HEADER_DESC *head=(HEADER_DESC *)headc;
+                                    ^
+"D:\Pasha\elf\TextRead\main.h",45  Error[Pe029]: expected an expression
+
+    HEADER_DESC *head=(HEADER_DESC *)headc;
+                                     ^
+"D:\Pasha\elf\TextRead\main.h",45  Error[Pe065]: expected a ";"
+
+    head->rc.y=YDISP;
+               ^
+"D:\Pasha\elf\TextRead\main.h",47  Error[Pe020]: identifier "YDISP" is
+          undefined
+
+    head->rc.x2=ScreenW()-1;
+                ^
+"D:\Pasha\elf\TextRead\main.h",48  Warning[Pe223]: function "ScreenW" declared
+          implicitly
+
+    head->rc.y2=HeaderH()+YDISP;
+                ^
+"D:\Pasha\elf\TextRead\main.h",49  Warning[Pe223]: function "HeaderH" declared
+          implicitly
+
+  void patch_input2(const INPUTDIA_DESC* inp)
+                          ^
+"D:\Pasha\elf\TextRead\main.h",52  Error[Pe020]: identifier "INPUTDIA_DESC" is
+          undefined
+
+    ((INPUTDIA_DESC*)inp)->rc.x=0;
+      ^
+"D:\Pasha\elf\TextRead\main.h",54  Error[Pe020]: identifier "INPUTDIA_DESC" is
+          undefined
+
+    ((INPUTDIA_DESC*)inp)->rc.x=0;
+                    ^
+"D:\Pasha\elf\TextRead\main.h",54  Error[Pe029]: expected an expression
+
+    ((INPUTDIA_DESC*)inp)->rc.x=0;
+                     ^
+"D:\Pasha\elf\TextRead\main.h",54  Error[Pe018]: expected a ")"
+
+    ((INPUTDIA_DESC*)inp)->rc.y=HeaderH()+1+YDISP;
+                    ^
+"D:\Pasha\elf\TextRead\main.h",55  Error[Pe029]: expected an expression
+
+    ((INPUTDIA_DESC*)inp)->rc.y=HeaderH()+1+YDISP;
+                     ^
+"D:\Pasha\elf\TextRead\main.h",55  Error[Pe018]: expected a ")"
+
+    ((INPUTDIA_DESC*)inp)->rc.y=HeaderH()+1+YDISP;
+                                ^
+"D:\Pasha\elf\TextRead\main.h",55  Warning[Pe223]: function "HeaderH" declared
+          implicitly
+
+    ((INPUTDIA_DESC*)inp)->rc.y=HeaderH()+1+YDISP;
+                                            ^
+"D:\Pasha\elf\TextRead\main.h",55  Error[Pe020]: identifier "YDISP" is
+          undefined
+
+    ((INPUTDIA_DESC*)inp)->rc.x2=ScreenW()-1;
+                    ^
+"D:\Pasha\elf\TextRead\main.h",56  Error[Pe029]: expected an expression
+
+    ((INPUTDIA_DESC*)inp)->rc.x2=ScreenW()-1;
+                     ^
+"D:\Pasha\elf\TextRead\main.h",56  Error[Pe018]: expected a ")"
+
+    ((INPUTDIA_DESC*)inp)->rc.x2=ScreenW()-1;
+                                 ^
+"D:\Pasha\elf\TextRead\main.h",56  Warning[Pe223]: function "ScreenW" declared
+          implicitly
+
+    ((INPUTDIA_DESC*)inp)->rc.y2=ScreenH()-SoftkeyH()-1;
+                    ^
+"D:\Pasha\elf\TextRead\main.h",57  Error[Pe029]: expected an expression
+
+    ((INPUTDIA_DESC*)inp)->rc.y2=ScreenH()-SoftkeyH()-1;
+                     ^
+"D:\Pasha\elf\TextRead\main.h",57  Error[Pe018]: expected a ")"
+
+    ((INPUTDIA_DESC*)inp)->rc.y2=ScreenH()-SoftkeyH()-1;
+                                 ^
+"D:\Pasha\elf\TextRead\main.h",57  Warning[Pe223]: function "ScreenH" declared
+          implicitly
+
+    ((INPUTDIA_DESC*)inp)->rc.y2=ScreenH()-SoftkeyH()-1;
+                                           ^
+"D:\Pasha\elf\TextRead\main.h",57  Warning[Pe223]: function "SoftkeyH"
+          declared implicitly
+      3          
+      4          #define TMR_SECOND 216
+      5          typedef struct
+      6          {
+      7           char *str;
+      8          }DRAW;
+      9          DRAW txt[22];
+     10          void DrawText2(char *filename)
+     11          {  
+     12             //char *ss=malloc(484);
+     13          //   char tmp[100][22];
+     14             char file_name[32];
+     15             DIR_ENTRY de;
+                    ^
+Error[Pe020]: identifier "DIR_ENTRY" is undefined
+     16             int file_size=0;
+     17             unsigned int err;
+     18             char path[256];
+     19             sprintf(path,per_s,filename);
+                    ^
+Warning[Pe223]: function "sprintf" declared implicitly
+
+     sprintf(path,per_s,filename);
+                  ^
+"D:\Pasha\elf\TextRead\gui.c",19  Error[Pe020]: identifier "per_s" is undefined
+     20             char *ptr=path+strlen(path)+1;
+                                   ^
+Warning[Pe223]: function "strlen" declared implicitly
+     21             if (FindFirstFile(&de,path,&err))
+                        ^
+Warning[Pe223]: function "FindFirstFile" declared implicitly
+     22                { 
+     23                  strcpy(file_name,de.file_name);  
+                         ^
+Warning[Pe223]: function "strcpy" declared implicitly
+     24                  file_size = de.file_size;
+     25                }FindClose(&de,&err);
+                        ^
+Warning[Pe223]: function "FindClose" declared implicitly
+     26                  
+     27            ews = AllocWS(file_size); 
+                   ^
+Error[Pe020]: identifier "ews" is undefined
+
+    ews = AllocWS(file_size); 
+          ^
+"D:\Pasha\elf\TextRead\gui.c",27  Warning[Pe223]: function "AllocWS" declared
+          implicitly
+     28            char *s=malloc(file_size);
+                           ^
+Warning[Pe223]: function "malloc" declared implicitly
+
+    char *s=malloc(file_size);
+            ^
+"D:\Pasha\elf\TextRead\gui.c",28  Error[Pe144]: a value of type "int" cannot
+          be used to initialize an entity of type "char *"
+     29           // WSHDR *ws=AllocWS(16384);
+     30            WSHDR *wss=AllocWS(file_size);
+                   ^
+Error[Pe020]: identifier "WSHDR" is undefined
+
+    WSHDR *wss=AllocWS(file_size);
+           ^
+"D:\Pasha\elf\TextRead\gui.c",30  Error[Pe020]: identifier "wss" is undefined
+     31          //  int seek=0x0;
+     32            if((f=fopen(filename,A_ReadOnly,P_READ,&err))!=-1)
+                       ^
+Error[Pe020]: identifier "f" is undefined
+
+    if((f=fopen(filename,A_ReadOnly,P_READ,&err))!=-1)
+          ^
+"D:\Pasha\elf\TextRead\gui.c",32  Warning[Pe223]: function "fopen" declared
+          implicitly
+
+    if((f=fopen(filename,A_ReadOnly,P_READ,&err))!=-1)
+                         ^
+"D:\Pasha\elf\TextRead\gui.c",32  Error[Pe020]: identifier "A_ReadOnly" is
+          undefined
+
+    if((f=fopen(filename,A_ReadOnly,P_READ,&err))!=-1)
+                                    ^
+"D:\Pasha\elf\TextRead\gui.c",32  Error[Pe020]: identifier "P_READ" is
+          undefined
+     33            /*if(file_size>0x4000)
+     34            {
+     35              while(seek < file_size)
+     36                {
+     37                  lseek(f, seek, S_SET, &err, &err);
+     38                  size+=fread32(f,s,16384,&err);
+     39                  seek+=0x4000;
+     40                }
+     41            }
+     42            else
+     43            {*/
+     44              size=fread(f,s,16384,&err);
+                     ^
+Error[Pe020]: identifier "size" is undefined
+
+      size=fread(f,s,16384,&err);
+           ^
+"D:\Pasha\elf\TextRead\gui.c",44  Warning[Pe223]: function "fread" declared
+          implicitly
+     45           // }
+     46            fclose(f,&err);
+                   ^
+Warning[Pe223]: function "fclose" declared implicitly
+     47            int k=0;
+     48            int j;
+     49            int strr=0;
+     50           // for(strr=0;strr<strlen(s);strr++)
+     51           // {
+     52              txt[0].str=malloc(220);
+                               ^
+Error[Pe513]: a value of type "int" cannot be assigned to an entity of type
+          "char *"
+     53              for(j=0;j<220;j++,k++)
+     54                *(txt[0].str+j)=*(s+k);
+     55            //}
+     56          
+     57            //for(int i=0;i<5;i++,k+=12)
+     58            //{
+     59              wsprintf(ews, per_t ,txt[0].str);
+                     ^
+Warning[Pe223]: function "wsprintf" declared implicitly
+
+      wsprintf(ews, per_t ,txt[0].str);
+                    ^
+"D:\Pasha\elf\TextRead\gui.c",59  Error[Pe020]: identifier "per_t" is undefined
+     60            //  DrawRoundedFrame(0,0,131,175,0,0,0,GetPaletteAdrByColorIndex(1),GetPaletteAdrByColorIndex(1));   
+     61              DrawString(ews,2,2+k,128,172,7,32,GetPaletteAdrByColorIndex(124),GetPaletteAdrByColorIndex(125)); //7
+                     ^
+Warning[Pe223]: function "DrawString" declared implicitly
+
+      DrawString(ews,2,2+k,128,172,7,32,GetPaletteAdrByColorIndex(124),GetPaletteAdrByColorIndex(125)); //7
+                                        ^
+"D:\Pasha\elf\TextRead\gui.c",61  Warning[Pe223]: function
+          "GetPaletteAdrByColorIndex" declared implicitly
+
+    int strr=0;
+        ^
+"D:\Pasha\elf\TextRead\gui.c",49  Warning[Pe177]: variable "strr" was declared
+          but never referenced
+     62            //}
+     63          //  FreeWS(ews);
+     64          //  FreeWS(ws);
+     65            //FreeWS(wss);
+     66          //  mfree(s);
+     67          }
+     68          
+     69          void Gui_OnRedraw(MAIN_GUI *data)
+                                   ^
+Error[Pe020]: identifier "MAIN_GUI" is undefined
+     70          {
+     71          //  REDRAW();
+     72            DrawRoundedFrame(0,0,131,175,0,0,0,GetPaletteAdrByColorIndex(1),GetPaletteAdrByColorIndex(1));   
+                   ^
+Warning[Pe223]: function "DrawRoundedFrame" declared implicitly
+
+    DrawRoundedFrame(0,0,131,175,0,0,0,GetPaletteAdrByColorIndex(1),GetPaletteAdrByColorIndex(1));   
+                                       ^
+"D:\Pasha\elf\TextRead\gui.c",72  Warning[Pe223]: function
+          "GetPaletteAdrByColorIndex" declared implicitly
+     73            DrawText2(file/*,codepage*/);
+                             ^
+Error[Pe020]: identifier "file" is undefined
+     74          }
+     75          
+     76          void Gui_onCreate(MAIN_GUI *data, void *(*malloc_adr)(int))
+                                   ^
+Error[Pe020]: identifier "MAIN_GUI" is undefined
+     77          {
+     78            data->gui.state=1;
+                   ^
+Error[Pe132]: expression must have pointer-to-struct-or-union type
+     79          }
+     80          
+     81          void Gui_onClose(MAIN_GUI *data, void (*mfree_adr)(void *))
+                                  ^
+Error[Pe020]: identifier "MAIN_GUI" is undefined
+     82          {
+     83            data->gui.state=0;
+                   ^
+Error[Pe132]: expression must have pointer-to-struct-or-union type
+     84          }
+     85          
+     86          void Gui_onFocus(MAIN_GUI *data, void *(*malloc_adr)(int), void (*mfree_adr)(void *))
+                                  ^
+Error[Pe020]: identifier "MAIN_GUI" is undefined
+     87          {
+     88            data->gui.state=2;
+                   ^
+Error[Pe132]: expression must have pointer-to-struct-or-union type
+     89            DisableIDLETMR();
+                   ^
+Warning[Pe223]: function "DisableIDLETMR" declared implicitly
+     90          }
+     91          
+     92          void Gui_onUnfocus(MAIN_GUI *data, void (*mfree_adr)(void *))
+                                    ^
+Error[Pe020]: identifier "MAIN_GUI" is undefined
+     93          {
+     94            if (data->gui.state!=2) return;
+                       ^
+Error[Pe132]: expression must have pointer-to-struct-or-union type
+     95            data->gui.state=1;
+                   ^
+Error[Pe132]: expression must have pointer-to-struct-or-union type
+     96          }
+     97          
+     98          int Gui_OnKey(MAIN_GUI *data, GUI_MSG *msg)
+                               ^
+Error[Pe020]: identifier "MAIN_GUI" is undefined
+
+  int Gui_OnKey(MAIN_GUI *data, GUI_MSG *msg)
+                                ^
+"D:\Pasha\elf\TextRead\gui.c",98  Error[Pe020]: identifier "GUI_MSG" is
+          undefined
+     99          { 
+    100           DirectRedrawGUI();
+                  ^
+Warning[Pe223]: function "DirectRedrawGUI" declared implicitly
+    101          //  if (msg->gbsmsg->msg==/*LONG_PRESS*/KEY_DOWN && msg->gbsmsg->submess=='#') kdblock=!kdblock; 
+    102            if (msg->gbsmsg->msg==KEY_DOWN)
+                       ^
+Error[Pe132]: expression must have pointer-to-struct-or-union type
+
+    if (msg->gbsmsg->msg==KEY_DOWN)
+                          ^
+"D:\Pasha\elf\TextRead\gui.c",102  Error[Pe020]: identifier "KEY_DOWN" is
+          undefined
+    103            {
+    104              switch(msg->gbsmsg->submess)
+                            ^
+Error[Pe132]: expression must have pointer-to-struct-or-union type
+    105              {
+    106             
+    107               case RED_BUTTON:case '0':return(1);   
+                           ^
+Error[Pe020]: identifier "RED_BUTTON" is undefined
+    108               case '5':DrawText2(file/*,codepage*/);break;
+                                         ^
+Error[Pe020]: identifier "file" is undefined
+    109              }     
+    110              
+    111            }
+    112           return(0);
+    113          }
+    114          #ifdef NEWSGOLD
+    115          void Gui_kill_data(MAIN_GUI *data, void (*mfree_adr)(void *))
+    116          {
+    117            mfree_adr(data);
+    118          }
+    119          #else
+    120          extern void Gui_kill_data(void *p, void (*func_p)(void *));
+    121          #endif
+    122          int Gui_method8(void){return(0);}
+    123          int Gui_method9(void){return(0);}
+    124          const void * const gui_methods[11]={
+    125            (void *)Gui_OnRedraw,	
+    126            (void *)Gui_onCreate,	
+    127            (void *)Gui_onClose,	
+    128            (void *)Gui_onFocus,	
+    129            (void *)Gui_onUnfocus,
+    130            (void *)Gui_OnKey,	
+    131             0,
+    132            (void *)Gui_kill_data,	//Destroy
+    133            (void *)Gui_method8,
+    134            (void *)Gui_method9,
+    135            0
+    136          };
+    137          
+    138          const RECT Canvas={0,0,131,172};
+                       ^
+Error[Pe020]: identifier "RECT" is undefined
+    139          void Gui_maincsm_oncreate(CSM_RAM *data)
+                                           ^
+Error[Pe020]: identifier "CSM_RAM" is undefined
+    140          {
+    141            MAIN_GUI *main_gui=malloc(sizeof(MAIN_GUI));
+                   ^
+Error[Pe020]: identifier "MAIN_GUI" is undefined
+
+    MAIN_GUI *main_gui=malloc(sizeof(MAIN_GUI));
+              ^
+"D:\Pasha\elf\TextRead\gui.c",141  Error[Pe020]: identifier "main_gui" is
+          undefined
+
+    MAIN_GUI *main_gui=malloc(sizeof(MAIN_GUI));
+                       ^
+"D:\Pasha\elf\TextRead\gui.c",141  Warning[Pe223]: function "malloc" declared
+          implicitly
+    142            MAIN_CSM*csm=(MAIN_CSM*)data;
+                   ^
+Error[Pe020]: identifier "MAIN_CSM" is undefined
+
+    MAIN_CSM*csm=(MAIN_CSM*)data;
+             ^
+"D:\Pasha\elf\TextRead\gui.c",142  Error[Pe020]: identifier "csm" is undefined
+
+    MAIN_CSM*csm=(MAIN_CSM*)data;
+                           ^
+"D:\Pasha\elf\TextRead\gui.c",142  Error[Pe029]: expected an expression
+
+    MAIN_CSM*csm=(MAIN_CSM*)data;
+                            ^
+"D:\Pasha\elf\TextRead\gui.c",142  Error[Pe065]: expected a ";"
+    143            zeromem(main_gui,sizeof(MAIN_GUI));
+                   ^
+Warning[Pe223]: function "zeromem" declared implicitly
+    144            main_gui->gui.canvas=(void *)(&Canvas);
+    145            main_gui->gui.flag30=2;
+    146            main_gui->gui.methods=(void *)gui_methods;
+    147            main_gui->gui.item_ll.data_mfree=(void (*)(void *))mfree_adr();
+                                                                      ^
+Warning[Pe223]: function "mfree_adr" declared implicitly
+    148            csm->csm.state=0;
+    149            csm->csm.unk1=0;
+    150            csm->gui_id=CreateGUI(main_gui);
+                               ^
+Warning[Pe223]: function "CreateGUI" declared implicitly
+    151            MAINGUI_ID=csm->gui_id;
+                   ^
+Error[Pe020]: identifier "MAINGUI_ID" is undefined
+    152          }
+    153          
+    154          void Gui_ElfKiller(void)
+    155          { 
+    156            //GBS_DelTimer(&timer);
+    157            //GBS_DelTimer(&menu_tmr);
+    158            extern void kill_data(void *p, void (*func_p)(void *));
+    159            extern void *ELF_BEGIN;
+    160            kill_data(&ELF_BEGIN,(void (*)(void *))mfree_adr());
+                                                          ^
+Warning[Pe223]: function "mfree_adr" declared implicitly
+    161          }
+    162          
+    163          void Gui_maincsm_onclose(CSM_RAM *csm)
+                                          ^
+Error[Pe020]: identifier "CSM_RAM" is undefined
+    164          {
+    165            //GBS_DelTimer(&menu_tmr);
+    166            //GBS_DelTimer(&timer);
+    167            SUBPROC((void *)Gui_ElfKiller);
+                   ^
+Warning[Pe223]: function "SUBPROC" declared implicitly
+    168          }
+    169          
+    170          int Gui_maincsm_onmessage(CSM_RAM *data, GBS_MSG *msg)
+                                           ^
+Error[Pe020]: identifier "CSM_RAM" is undefined
+
+  int Gui_maincsm_onmessage(CSM_RAM *data, GBS_MSG *msg)
+                                           ^
+"D:\Pasha\elf\TextRead\gui.c",170  Error[Pe020]: identifier "GBS_MSG" is
+          undefined
+    171          {
+    172            MAIN_CSM *csm=(MAIN_CSM*)data;
+                   ^
+Error[Pe020]: identifier "MAIN_CSM" is undefined
+
+    MAIN_CSM *csm=(MAIN_CSM*)data;
+              ^
+"D:\Pasha\elf\TextRead\gui.c",172  Error[Pe020]: identifier "csm" is undefined
+
+    MAIN_CSM *csm=(MAIN_CSM*)data;
+                            ^
+"D:\Pasha\elf\TextRead\gui.c",172  Error[Pe029]: expected an expression
+
+    MAIN_CSM *csm=(MAIN_CSM*)data;
+                             ^
+"D:\Pasha\elf\TextRead\gui.c",172  Error[Pe065]: expected a ";"
+    173            if ((msg->msg==MSG_GUI_DESTROYED)&&((int)msg->data0==csm->gui_id))
+                        ^
+Error[Pe132]: expression must have pointer-to-struct-or-union type
+
+    if ((msg->msg==MSG_GUI_DESTROYED)&&((int)msg->data0==csm->gui_id))
+                   ^
+"D:\Pasha\elf\TextRead\gui.c",173  Error[Pe020]: identifier "MSG_GUI_DESTROYED"
+          is undefined
+
+    if ((msg->msg==MSG_GUI_DESTROYED)&&((int)msg->data0==csm->gui_id))
+                                             ^
+"D:\Pasha\elf\TextRead\gui.c",173  Error[Pe132]: expression must have
+          pointer-to-struct-or-union type
+    174            {
+    175              csm->csm.state=-3;
+    176            }
+    177            return(1);
+    178          }
+    179          
+    180          const struct
+    181          {
+    182            CSM_DESC maincsm;
+                   ^
+Error[Pe020]: identifier "CSM_DESC" is undefined
+    183            WSHDR maincsm_name;
+                   ^
+Error[Pe020]: identifier "WSHDR" is undefined
+    184          }MAINCSM =
+    185          {
+    186            {
+    187            Gui_maincsm_onmessage,
+    188            Gui_maincsm_oncreate,
+    189          #ifdef NEWSGOLD
+    190            0,
+    191            0,
+    192            0,
+    193            0,
+    194          #endif
+    195            Gui_maincsm_onclose,
+    196            sizeof(MAIN_CSM),
+                          ^
+Error[Pe020]: identifier "MAIN_CSM" is undefined
+    197            1,
+    198            &minus11
+                    ^
+Error[Pe020]: identifier "minus11" is undefined
+    199            },
+    200            {
+    201              maincsm_name_body,
+                     ^
+Error[Pe020]: identifier "maincsm_name_body" is undefined
+    202              NAMECSM_MAGIC1,
+                     ^
+Error[Pe020]: identifier "NAMECSM_MAGIC1" is undefined
+    203              NAMECSM_MAGIC2,
+                     ^
+Error[Pe020]: identifier "NAMECSM_MAGIC2" is undefined
+    204              0x0,
+    205              139
+    206            }
+    207          };
+    208          
+    209          
+
+Errors: 73
+Warnings: 30

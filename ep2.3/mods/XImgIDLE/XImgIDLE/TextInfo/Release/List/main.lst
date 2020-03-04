@@ -1,0 +1,149 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION    16/Jul/2007  15:44:10 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\XImgIDLE\TextInfo\main.cpp              #
+#    Command line    =  D:\Pasha\elf\XImgIDLE\TextInfo\main.cpp -D NEWSGOLD  #
+#                       -D ELKA -lC D:\Pasha\elf\XImgIDLE\TextInfo\Release\L #
+#                       ist\ -o D:\Pasha\elf\XImgIDLE\TextInfo\Release\Obj\  #
+#                       -s9 --cpu_mode arm --endian little --cpu ARM926EJ-S  #
+#                       --stack_align 4 --interwork -e --fpu None            #
+#                       --dlib_config "D:\Pasha\ARM_Embedded_Workbench\Embed #
+#                       ded Workbench 4.0 Evaluation\ARM\LIB\dl5tpainl8n.h"  #
+#                       -I "D:\Pasha\ARM_Embedded_Workbench\Embedded         #
+#                       Workbench 4.0 Evaluation\ARM\INC\"                   #
+#                       --inline_threshold=2                                 #
+#    List file       =  D:\Pasha\elf\XImgIDLE\TextInfo\Release\List\main.lst #
+#    Object file     =  D:\Pasha\elf\XImgIDLE\TextInfo\Release\Obj\main.r79  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\XImgIDLE\TextInfo\main.cpp
+      1          #include "..\inc\swilib.h"
+      2          #include "../inc/cfg_items.h"
+      3          #include "conf_loader.h"
+      4          
+      5          #define UPDATE_TIME (1*262)
+      6          #define ELF_ID 0x1EF
+      7          
+      8          char name[256];
+      9          CSM_DESC icsmd;
+     10          
+     11          extern void InitConfig();
+     12          
+     13          int (*old_icsm_onMessage)(CSM_RAM*,GBS_MSG*);
+     14          
+     15          GBSTMR mytmr;
+     16          
+     17          const char per_t[]="%t";
+     18          // ----------------------------------------------------------------------------
+     19          int start()
+     20          {
+     21                WSHDR *ws;
+     22                ws=AllocWS(256);
+     23                str_2ws(ws,name,128);
+     24                ExecuteFile(ws,0,0);
+     25                FreeWS(ws);
+     26                return(1);
+     27              
+     28            return(0);
+                   ^
+Warning[Pe111]: statement is unreachable
+     29          }
+     30          
+     31          //====================================
+     32          //        Вызов эльфа
+     33          //====================================
+     34          
+     35          int my_keyhook(int submsg, int msg)
+     36          {
+     37            int scrH=ScreenH();
+     38            int scrW=ScreenW();
+     39            if(IsUnlocked() && submsg==BTN)
+                                              ^
+Error[Pe020]: identifier "BTN" is undefined
+     40            {
+     41              if(mode==1)
+                        ^
+Error[Pe020]: identifier "mode" is undefined
+     42              {
+     43                if(msg==KEY_UP)
+     44                {
+     45                  GBS_SendMessage(MMI_CEPID,KEY_DOWN,BTN);
+     46                  return(0);
+     47                }
+     48                if(msg==KEY_DOWN)
+     49                {
+     50                  mode=0;
+     51                  GBS_SendMessage(MMI_CEPID,KEY_UP,BTN);
+     52                  return(0);
+     53                }
+     54              }
+     55          
+     56              if(msg==KEY_UP)
+     57              { if(mode==2)
+     58                {
+     59                  mode=0;
+     60                  return(2);
+     61                }
+     62              }
+     63              else if(msg==(LONG_P?LONG_PRESS:KEY_DOWN) )//длинное нажатие или нет
+                                   ^
+Error[Pe020]: identifier "LONG_P" is undefined
+     64              { //Вызов закладок
+     65                start();
+     66              }
+     67          
+     68             
+     69             if(!IsUnlocked()) return(2);
+     70          
+     71              if(LONG_P)
+     72              {
+     73                if(msg==LONG_PRESS)
+     74                {
+     75                  mode=2;
+     76                  return(2);
+     77                }
+     78                if(msg==KEY_DOWN)
+     79                {
+     80                  mode=1;
+     81                  return(2);
+     82                }
+     83              }
+     84              else  return(2);
+     85            } 
+     86            return(0);
+     87          
+     88          }
+     89          
+     90          
+     91          // ----------------------------------------------------------------------------
+     92          
+     93          int main(void)
+     94          { InitConfig();
+     95            LockSched();
+     96            CSM_RAM *icsm=FindCSMbyID(CSM_root()->idle_id);
+     97            memcpy(&icsmd,icsm->constr,sizeof(icsmd));
+     98            old_icsm_onClose=icsmd.onClose;
+                   ^
+Error[Pe020]: identifier "old_icsm_onClose" is undefined
+     99            old_icsm_onMessage=icsmd.onMessage;
+    100            icsmd.onClose=MyIDLECSM_onClose;
+                                 ^
+Error[Pe020]: identifier "MyIDLECSM_onClose" is undefined
+    101            icsmd.onMessage=MyIDLECSM_onMessage;
+                                   ^
+Error[Pe020]: identifier "MyIDLECSM_onMessage" is undefined
+    102            icsm->constr=&icsmd;
+    103            AddKeybMsgHook((void *)my_keyhook);
+    104            UnlockSched();
+    105            return 0;
+    106          }
+
+Errors: 6
+Warnings: 1

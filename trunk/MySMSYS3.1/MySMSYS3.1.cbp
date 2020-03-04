@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MySMSYS3.1" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="NSG">
+				<Option output="..\..\elfs\$(PROJECT_NAME)\$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\Objects\$(PROJECT_NAME)\$(TARGET_NAME)\" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="SG">
+				<Option output="..\..\elfs\$(PROJECT_NAME)\$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\Objects\$(PROJECT_NAME)\$(TARGET_NAME)\" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="ELKA">
+				<Option output="..\..\elfs\$(PROJECT_NAME)\$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\Objects\$(PROJECT_NAME)\$(TARGET_NAME)\" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DELKA" />
+				</Compiler>
+			</Target>
+			<Target title="S68">
+				<Option output="..\..\elfs\$(PROJECT_NAME)\$(PROJECT_NAME)_$(TARGET_NAME).elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\Objects\$(PROJECT_NAME)\$(TARGET_NAME)\" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DS68" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-marm" />
+			<Add option="-O2" />
+			<Add option="-W" />
+			<Add option="-D__NO_LIBC" />
+			<Add option="-DLANG_EN" />
+			<Add directory="..\include" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add option="--defsym __ex=0" />
+			<Add option="--gc-section" />
+			<Add library="c-1.0" />
+			<Add library="gcc-4.6.1" />
+			<Add library="stdc++-1.2.2" />
+			<Add library="supc++" />
+			<Add library="crt" />
+			<Add library="crt_helper" />
+			<Add directory="..\libs" />
+		</Linker>
+		<Unit filename="AFile.cpp" />
+		<Unit filename="AFile.h" />
+		<Unit filename="AdrList.cpp" />
+		<Unit filename="AdrList.h" />
+		<Unit filename="CSMSwaper.cpp" />
+		<Unit filename="CSMSwaper.h" />
+		<Unit filename="CodeShow.cpp" />
+		<Unit filename="CodeShow.h" />
+		<Unit filename="CreateMenu.cpp" />
+		<Unit filename="CreateMenu.h" />
+		<Unit filename="DaemonCSM.cpp" />
+		<Unit filename="DaemonCSM.h" />
+		<Unit filename="DialogCSM.cpp" />
+		<Unit filename="DialogCSM.h" />
+		<Unit filename="EditGUI.cpp" />
+		<Unit filename="EditGUI.h" />
+		<Unit filename="File.cpp" />
+		<Unit filename="File.h" />
+		<Unit filename="GlobalVariable.cpp" />
+		<Unit filename="GlobalVariable.h" />
+		<Unit filename="IconPack.cpp" />
+		<Unit filename="IconPack.h" />
+		<Unit filename="IpcMessage.cpp" />
+		<Unit filename="KeyHook.cpp" />
+		<Unit filename="KeyHook.h" />
+		<Unit filename="LangPack.cpp" />
+		<Unit filename="LangPack.h" />
+		<Unit filename="MainMenu.cpp" />
+		<Unit filename="MainMenu.h" />
+		<Unit filename="Mss3App.cpp" />
+		<Unit filename="Mss3App.h" />
+		<Unit filename="MyIpcMessage.cpp" />
+		<Unit filename="MyIpcMessage.h" />
+		<Unit filename="NativeAddressbook.cpp" />
+		<Unit filename="NativeAddressbook.h" />
+		<Unit filename="NumList.cpp" />
+		<Unit filename="NumList.h" />
+		<Unit filename="OthersMenu.cpp" />
+		<Unit filename="OthersMenu.h" />
+		<Unit filename="PlaySound.cpp" />
+		<Unit filename="PlaySound.h" />
+		<Unit filename="PopupGUI.cpp" />
+		<Unit filename="PopupGUI.h" />
+		<Unit filename="SendList.cpp" />
+		<Unit filename="SendList.h" />
+		<Unit filename="SiemensPDU.cpp" />
+		<Unit filename="SiemensPDU.h" />
+		<Unit filename="SmsData.cpp" />
+		<Unit filename="SmsData.h" />
+		<Unit filename="SmsListMenu.cpp" />
+		<Unit filename="SmsListMenu.h" />
+		<Unit filename="StrConst.cpp" />
+		<Unit filename="StrConst.h" />
+		<Unit filename="TViewGUI.cpp" />
+		<Unit filename="TViewGUI.h" />
+		<Unit filename="TabGUI.cpp" />
+		<Unit filename="TabGUI.h" />
+		<Unit filename="Template.cpp" />
+		<Unit filename="Template.h" />
+		<Unit filename="Vibra.cpp" />
+		<Unit filename="Vibra.h" />
+		<Unit filename="conf_loader.cpp" />
+		<Unit filename="conf_loader.h" />
+		<Unit filename="config_data.c">
+			<Option compilerVar="CC" />
+			<Option compiler="armelfgcc" use="1" buildCommand="$compiler $options -xc $includes -c $file -o $object -O0" />
+		</Unit>
+		<Unit filename="config_data.h" />
+		<Unit filename="define.h" />
+		<Unit filename="include.h" />
+		<Unit filename="lgp_pic.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="rect_patcher.cpp" />
+		<Unit filename="rect_patcher.h" />
+		<Unit filename="string_works.cpp" />
+		<Unit filename="string_works.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

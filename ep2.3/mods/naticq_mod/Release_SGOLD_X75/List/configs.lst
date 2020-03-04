@@ -1,0 +1,3760 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    28/Jul/2010  10:49:55 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod\configs.c       #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\naticq_mod\configs.c -D    #
+#                       X75 -D kluchnik2 --preprocess                        #
+#                       D:\pasha\elf\_MY_PROJECT_\naticq_mod\Release_SGOLD_X #
+#                       75\List\ -lC D:\pasha\elf\_MY_PROJECT_\naticq_mod\Re #
+#                       lease_SGOLD_X75\List\ -o D:\pasha\elf\_MY_PROJECT_\n #
+#                       aticq_mod\Release_SGOLD_X75\Obj\ -s9 --no_unroll     #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --fpu None            #
+#                       --dlib_config "D:\pasha\Embedded Workbench 4.0       #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\naticq_mod\Release_SGOLD_X #
+#                       75\List\configs.lst                                  #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod\Release_SGOLD_X #
+#                       75\Obj\configs.r79                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\naticq_mod\configs.c
+      1          #include "../inc/swilib.h"
+      2          #include "../inc/cfg_items.h"
+      3          #include "../inc/pnglist.h"
+      4          #include "configs.h"
+      5          #include "NatICQ.h"
+      6          #include "conf_loader.h"
+      7          
+      8          //Теперь конфиги делаются отдельно!!!!как в экстраинфо! прикладываю два проекта 1stconfig && 2ndconfig
+      9          //должны находится в папке с исходником натаси в своих папках!чтобы конфиг можно было удоьно редактировать
+     10          //если изменили какой то из конфигов,то так же нужно изменить структуры в таком же порядке,
+     11          //как зменили конфиг с темиже данными!и поправить функцию UpdateConfig(),и потом скомпилить отдельно эльфы 1stconfig && 2ndconfig,
+     12          //чтобы получить разные конфиги...по другому пока не знаю как сделать...
+     13          //та и короче...теперь меняется тока конфиг мода...оригинальный конфиг не трогать!
+     14          //понятнее хз как объяснить....;)
+     15          // by kluchnik 31.03.08 
+     16          
+     17          
+     18          //--------------------------------------------------------------------//
+     19          //------------------------  ORIGINAL CONFIG  -------------------------//
+     20          //--------------------------------------------------------------------//
+     21          
+     22          typedef struct 
+     23          {
+     24            
+     25            CFG_HDR cfghdr0;
+     26            unsigned int UIN;
+     27            
+     28            CFG_HDR cfghdr1;
+     29            char PASS[9];
+     30          
+     31            
+     32          //--- NETWORK SETTING ---//
+     33            
+     34          CFG_HDR cfghdr2;
+     35            CFG_HDR cfghdr2_1;
+     36            char NATICQ_HOST[128];
+     37          
+     38            CFG_HDR cfghdr2_2;
+     39            unsigned int NATICQ_PORT;
+     40          
+     41            CFG_HDR cfghdr2_3;
+     42            unsigned int RECONNECT_TIME;
+     43            
+     44            CFG_HDR cfghdr2_4;
+     45            char HIST_PATH[64];
+     46          
+     47            CFG_HDR cfghdr2_5;
+     48            char SMILE_FILE[64];
+     49          
+     50            CFG_HDR cfghdr2_6;
+     51            char SMILE_PATH[64];
+     52          
+     53            CFG_HDR cfghdr2_7;
+     54            char ICON_PATH[64];
+     55          
+     56            CFG_HDR cfghdr2_8;
+     57            char XSTATUSES_PATH[64];
+     58          
+     59            CFG_HDR cfghdr2_9;
+     60            char TEMPLATES_PATH[64];
+     61          CFG_HDR cfghdr3;//NETWORK SETTING
+     62          
+     63          
+     64          //---  INTERFACE ---//
+     65          
+     66          CFG_HDR cfghdr4;
+     67          //Status icon on mainscreen position
+     68            CFG_HDR cfghdr4_1;
+     69            unsigned int IDLEICON_X;
+     70            unsigned int IDLEICON_Y;
+     71            
+     72          //Popup chat
+     73            CFG_HDR cfghdr4_2;
+     74            int DEVELOP_IF;
+     75            CFG_CBOX_ITEM cfgcbox4_2[3];
+     76            
+     77          //Sorting
+     78            CFG_HDR cfghdr4_3;
+     79            int SORT_CLIST;
+     80            CFG_CBOX_ITEM cfgcbox4_3[2];
+     81          
+     82          //First letter when typing
+     83            CFG_HDR cfghdr4_4;
+     84            int FIRST_LETTER;
+     85            CFG_CBOX_ITEM cfgcbox4_4[2];
+     86          
+     87          
+     88            
+     89          //--- FONT AND COLOR ---//
+     90            
+     91           CFG_HDR cfghdr4_5;
+     92              CFG_HDR cfghdr4_5_1;
+     93              unsigned int I_COLOR;
+     94            
+     95              CFG_HDR cfghdr4_5_2;
+     96              unsigned int TO_COLOR;
+     97            
+     98              CFG_HDR cfghdr4_5_3;
+     99              unsigned int X_COLOR;
+    100            
+    101              CFG_HDR cfghdr4_5_4;
+    102              unsigned int ED_FONT_SIZE;
+    103            
+    104              CFG_HDR cfghdr4_5_5;
+    105              unsigned int ED_H_FONT_SIZE;
+    106            
+    107              CFG_HDR cfghdr4_5_6;
+    108              unsigned int ED_X_FONT_SIZE;
+    109            
+    110              CFG_HDR cfghdr4_5_7;
+    111              unsigned int O_I_COLOR;
+    112            
+    113              CFG_HDR cfghdr4_5_8;
+    114              unsigned int O_TO_COLOR;
+    115              
+    116              CFG_HDR cfghdr4_5_9;
+    117              unsigned int O_X_COLOR;
+    118            
+    119              CFG_HDR cfghdr4_5_10;
+    120              unsigned int O_ED_FONT_SIZE;
+    121            
+    122              CFG_HDR cfghdr4_5_11;
+    123              unsigned int O_ED_H_FONT_SIZE;
+    124            
+    125              CFG_HDR cfghdr4_5_12;
+    126              unsigned int O_ED_X_FONT_SIZE;
+    127            
+    128              CFG_HDR cfghdr4_5_13;
+    129              unsigned int ACK_COLOR;
+    130            
+    131              CFG_HDR cfghdr4_5_14;
+    132              unsigned int UNACK_COLOR;
+    133            CFG_HDR cfghdr4_6;//FONT & COLOR  
+    134          
+    135            
+    136          //--- ILLUMINATION ---//
+    137          //Illumination by BoBa 19.04.2007
+    138            
+    139            CFG_HDR cfghdr4_7;
+    140              CFG_HDR cfghdr4_7_1;
+    141              unsigned int ILL_DISP_RECV;
+    142            
+    143              CFG_HDR cfghdr4_7_2;
+    144              unsigned int ILL_KEYS_RECV;
+    145            
+    146              CFG_HDR cfghdr4_7_3;
+    147              unsigned int ILL_RECV_TMR;
+    148            
+    149              CFG_HDR cfghdr4_7_4;
+    150              unsigned int ILL_RECV_FADE;
+    151            
+    152              CFG_HDR cfghdr4_7_5;
+    153              unsigned int ILL_DISP_SEND;
+    154            
+    155              CFG_HDR cfghdr4_7_6;
+    156              unsigned int ILL_KEYS_SEND;
+    157            
+    158              CFG_HDR cfghdr4_7_7;
+    159              unsigned int ILL_SEND_TMR;
+    160            
+    161              CFG_HDR cfghdr4_7_8;
+    162              unsigned int ILL_SEND_FADE;
+    163            
+    164              CFG_HDR cfghdr4_7_9;
+    165              unsigned int ILL_OFF_FADE;
+    166            CFG_HDR cfghdr4_8;  //ILLUMINATION
+    167           
+    168          CFG_HDR cfghdr5;//INTERFACE
+    169          
+    170          
+    171          
+    172          //---------------------//
+    173          //       HISTORY       //
+    174          //---------------------//
+    175          
+    176          //History
+    177          CFG_HDR cfghdr6;
+    178          
+    179          //Enable history logging
+    180              CFG_HDR cfghdr6_1;
+    181              int LOG_ALL;
+    182              CFG_CBOX_ITEM cfgcbox6_1[2];
+    183          
+    184          //History type
+    185              CFG_HDR cfghdr6_2;
+    186              int HISTORY_TYPE;
+    187              CFG_CBOX_ITEM cfgcbox6_2[2];
+    188            
+    189          //Enable status logging
+    190              CFG_HDR cfghdr6_3;
+    191              int LOG_STATCH;
+    192              CFG_CBOX_ITEM cfgcbox6_3[2];
+    193          
+    194          //Enable X-status logging
+    195              CFG_HDR cfghdr6_4;
+    196              int LOG_XTXT;
+    197              CFG_CBOX_ITEM cfgcbox6_4[2];
+    198            
+    199          //Auto request X-status if entering to chat
+    200              CFG_HDR cfghdr6_5;
+    201              int ENA_AUTO_XTXT;
+    202              CFG_CBOX_ITEM cfgcbox6_5[2];
+    203          
+    204          //Don't log X-status, if it same as prevision
+    205              CFG_HDR cfghdr6_6;
+    206              int NOT_LOG_SAME_XTXT;
+    207              CFG_CBOX_ITEM cfgcbox6_6[2];
+    208          
+    209          //Buffer for fill from history
+    210              CFG_HDR cfghdr6_7;
+    211              int HISTORY_BUFFER;
+    212              CFG_CBOX_ITEM cfgcbox6_7[6];
+    213            
+    214          CFG_HDR cfghdr7;//HISTORY
+    215          
+    216          
+    217          //---------------------//
+    218          //    NOTYFY POWER     //
+    219          //---------------------//
+    220          
+    221          CFG_HDR cfghdr8;
+    222          
+    223            CFG_HDR cfghdr8_1;
+    224            unsigned int sndVolume;
+    225          
+    226            CFG_HDR cfghdr8_2;
+    227            unsigned int vibraPower;
+    228          
+    229            CFG_HDR cfghdr8_3;
+    230            int VIBR_TYPE;
+    231            CFG_CBOX_ITEM cfgcbox8_3[2];
+    232          
+    233            CFG_HDR cfghdr8_4;
+    234            int VIBR_ON_CONNECT;
+    235            CFG_CBOX_ITEM cfgcbox8_4[2];
+    236          
+    237            
+    238          //--- SOUND SETUP ---//
+    239            
+    240            CFG_HDR cfghdr8_5;
+    241          
+    242              CFG_HDR cfghdr8_5_1;
+    243              char sndStartup[64];
+    244            
+    245              CFG_HDR cfghdr8_5_2;
+    246              char sndSrvMsg[64];
+    247            
+    248              CFG_HDR cfghdr8_5_3;
+    249              char sndGlobal[64];
+    250            
+    251              CFG_HDR cfghdr8_5_4;
+    252              char sndMsg[64];
+    253            
+    254              CFG_HDR cfghdr8_5_5;
+    255              char sndMsgSent[64];
+    256            CFG_HDR cfghdr8_6;//SOUND SETUP
+    257            
+    258          CFG_HDR cfghdr9;//NOTYFY POWER
+    259          }myConfig;
+    260          
+    261          
+    262          
+    263          
+    264          //----------------------------------------------//
+    265          //                  MOD CONFIG                  //
+    266          //----------------------------------------------//
+    267          
+    268          typedef struct
+    269          {
+    270            CFG_HDR cfghdr0;
+    271            CFG_HDR cfghdr31;//={CFG_LEVEL,"Оригинальные настройки",1,0};
+    272          
+    273          //Popup chat
+    274            CFG_HDR cfghdr4_2;//={CFG_CBOX,"Popup",0,2};
+    275            int DEVELOP_IF_MOD;
+    276            CFG_CBOX_ITEM cfgcbox15_1[2];//={"Use set orig.config", "After unlock"};
+    277            
+    278          //history
+    279            CFG_HDR cfghdr6_8;//"Show Active contact"
+    280            int SHOW_ACTIVE;
+    281            CFG_CBOX_ITEM cfgcbox6_8[2];//={"No","Yes"};
+    282          
+    283            CFG_HDR cfghdr6_10;//={CFG_CBOX,"Save history with name",0,2};
+    284            int HISTORY_SAVE_TYPE;// = 1;
+    285            CFG_CBOX_ITEM cfgcbox6_9[2];//={"No","Yes"};
+    286              
+    287          //Buffer for fill from history
+    288            CFG_HDR cfghdr6_7;//={CFG_CBOX,"History read buffer",0,2};
+    289            int HISTORY_BUFFER_MOD;
+    290            CFG_CBOX_ITEM cfgcbox6_7[2];//={"Use set orig.conf.","4 kbyte"};    
+    291              
+    292          
+    293            CFG_HDR cfghdr181;//={CFG_CBOX,"Extended sounds",0,2};
+    294            unsigned int extended_sounds;
+    295            CFG_CBOX_ITEM cfgcbox18_3_2[2];//={"No","Yes"};
+    296              
+    297            CFG_HDR cfghdr15;//={CFG_STR_UTF8,"add online msg path",0,63};
+    298            char sndGlobal2[64];
+    299            
+    300            CFG_HDR cfghdr161;//={CFG_STR_UTF8,"add new msg path",0,63};
+    301            char sndMsg2[64];
+    302              
+    303            CFG_HDR cfghdr16r1;//={CFG_STR_UTF8,"ping sound",0,63};
+    304            char pingsnd[64];
+    305              
+    306          CFG_HDR cfghdr30;
+    307          
+    308          
+    309          //----------- НАСТРОЙКА КЛАВИШ -----------//
+    310          
+    311          
+    312          //View settings
+    313            CFG_HDR cfghdr23_4;
+    314            
+    315          //Action on # button in contact list
+    316            CFG_HDR cfghdr78_4520;
+    317            int ActionResh;
+    318            CFG_CBOX_ITEM cfgcbox_668_z[2];
+    319            
+    320          
+    321          //Press vol up or vol down button in CL
+    322            CFG_HDR cfghdr34_642;
+    323            int isVolDownButton;
+    324            CFG_CBOX_ITEM cfgcbox434_56[2];
+    325            
+    326            CFG_HDR cfghdr34_6342;
+    327            int isVolUpButton;
+    328            CFG_CBOX_ITEM cfgcbox4134_56[2];
+    329            
+    330            CFG_HDR cfghdr99_1;  
+    331            
+    332            //Long press right in chat
+    333            CFG_HDR cfghdr4_67;
+    334            int LongRightAction;
+    335            CFG_CBOX_ITEM cfgcbox4_56[3];
+    336          
+    337          //Long press right in chat
+    338            CFG_HDR cfghdr34_64;
+    339            int LongLeftAction ;
+    340            CFG_CBOX_ITEM cfgcbox444_56[2];
+    341            
+    342          
+    343            CFG_HDR cfghdr23_1;
+    344            int LongVolUpAction;
+    345            CFG_CBOX_ITEM cfgcbox23_2[2];
+    346          
+    347            CFG_HDR cfghdr23_3;
+    348            int LongVolDownAction ;
+    349            CFG_CBOX_ITEM cfgcbox23_4[2];
+    350          
+    351            CFG_HDR cfghdr99_3_0;
+    352            int longAct_0;
+    353            CFG_CBOX_ITEM cfgcbox99_4_0[14];
+    354          
+    355            CFG_HDR cfghdr99_3_1;
+    356            int longAct_1;
+    357            CFG_CBOX_ITEM cfgcbox99_4_1[14];
+    358            
+    359            CFG_HDR cfghdr99_3_2;
+    360            int longAct_2;
+    361            CFG_CBOX_ITEM cfgcbox99_4_2[14];
+    362                
+    363            CFG_HDR cfghdr99_3_3;
+    364            int longAct_3;
+    365            CFG_CBOX_ITEM cfgcbox99_4_3[14];
+    366                
+    367            CFG_HDR cfghdr99_3_4;
+    368            int longAct_4;
+    369            CFG_CBOX_ITEM cfgcbox99_4_4[14];
+    370            
+    371            CFG_HDR cfghdr99_3_5;
+    372            int longAct_5;
+    373            CFG_CBOX_ITEM cfgcbox99_4_5[14];
+    374                
+    375            CFG_HDR cfghdr99_3_6;
+    376            int longAct_6;
+    377            CFG_CBOX_ITEM cfgcbox99_4_6[14];
+    378            
+    379            CFG_HDR cfghdr99_3_7;
+    380            int longAct_7;
+    381            CFG_CBOX_ITEM cfgcbox99_4_7[14];
+    382                
+    383            CFG_HDR cfghdr99_3_8;
+    384            int longAct_8;
+    385            CFG_CBOX_ITEM cfgcbox99_4_8[14];
+    386                
+    387            CFG_HDR cfghdr99_3_9;
+    388            int longAct_9;
+    389            CFG_CBOX_ITEM cfgcbox99_4_9[14];
+    390            
+    391            CFG_HDR cfghdr99_3_10;
+    392            int longAct_10;
+    393            CFG_CBOX_ITEM cfgcbox99_4_10[14];
+    394                
+    395            CFG_HDR cfghdr99_3_11;
+    396            int longAct_11;
+    397            CFG_CBOX_ITEM cfgcbox99_4_11[14];
+    398                
+    399            CFG_HDR cfghdr99_3_RB;
+    400            int longAct_RB;
+    401            CFG_CBOX_ITEM cfgcbox99_4_RB[14];
+    402            
+    403            CFG_HDR cfghdr00_2;
+    404          
+    405          CFG_HDR cfghdr223_5; //НАСТРОКА КЛАВИШ
+    406          	
+    407          	
+    408          //----------- STATUS SETTING -----------//
+    409            
+    410          
+    411          CFG_HDR cfghdr_45;
+    412          #ifdef NEWSGOLD
+    413          //Status icon on mainscreen position
+    414              CFG_HDR cfghdr467_1;
+    415              int ShowStatusIcon;
+    416              CFG_CBOX_ITEM cfgcbox9_1[5];
+    417          #endif
+    418          #ifdef NEWSGOLD
+    419          //Show x-status on iconbar or mainscreen
+    420              CFG_HDR cfghdrz_68;
+    421              int show_xstatus;
+    422              CFG_CBOX_ITEM cfgcbox_8z[4];
+    423          #else
+    424              CFG_HDR cfghdrz_68;
+    425              int show_xstatus;
+    426              CFG_CBOX_ITEM cfgcbox_8z[2];
+    427          #endif
+    428          //Xstatus idle position
+    429              CFG_HDR cfghdrz_1;
+    430              unsigned int IDLEICON_XX;
+    431              unsigned int IDLEICON_YX;
+    432          
+    433              CFG_HDR cfghdr780_1;
+    434              int ind_set_xstatus;
+    435              CFG_CBOX_ITEM cfgcbox8_z2[2];
+    436              
+    437          #ifdef NEWSGOLD
+    438          //Number first pic status in folder img for show in iconbar
+    439              CFG_HDR cfghdr19_22;
+    440              unsigned int NumStatusToIconBar;  
+    441          
+    442          //Number first pic x-status in folder img for show in iconbar    
+    443              CFG_HDR cfghdr19_242;
+    444              unsigned int NumXStatusToIconBar;  
+    445          
+    446              CFG_HDR cfghdr_32_1;//={CFG_LEVEL,"Доп. статус в иконбар",1,0};
+    447           
+    448                CFG_HDR cfghdr32_2;//={CFG_UINT,"UIN",0,0xFFFFFFFF};
+    449                unsigned int ADDITION_UIN;
+    450                
+    451                CFG_HDR cfghdr32_3;//={CFG_CBOX,"Показывать",0,2};
+    452                int show_add_state;
+    453                CFG_CBOX_ITEM cfgcbox32_4[2];
+    454          
+    455                CFG_HDR cfghdr32_5;//={CFG_CBOX,"Показывать хстатус",0,2};
+    456                int show_add_xstate;
+    457                CFG_CBOX_ITEM cfgcbox32_6[2];       
+    458          
+    459             CFG_HDR cfghdr_32_0;
+    460          #endif
+    461          CFG_HDR cfghdr_4;//STATUS SETTINGS
+    462            
+    463            
+    464          //----------- PNGFONT SETTING -----------//     
+    465            
+    466          CFG_HDR cfghdr1_45;
+    467             
+    468          //Nember png-font or system
+    469             CFG_HDR cfghdr65z;
+    470             unsigned int fonto;
+    471              
+    472          //Path to png-font
+    473             CFG_HDR cfghdr98;
+    474             char fontpath[64];
+    475          
+    476          //Coordinates for message on idle
+    477             CFG_HDR cfghd83;
+    478             unsigned int msg_d_x ;
+    479             unsigned int msg_d_y ;   
+    480             
+    481             CFG_HDR cfghdrs19_1;
+    482             unsigned int main_msg_timer;
+    483             
+    484            CFG_HDR cfghdr60_2;
+    485            char fontColor[4];
+    486            
+    487            CFG_HDR cfghdr60_3;
+    488            char bgrColor[4];
+    489          
+    490          //Max show symbol on idle
+    491            CFG_HDR cfghdr19a_1;
+    492            unsigned int main_lenght;
+    493                
+    494            CFG_HDR cfghdr9z9;
+    495            int use_cutter;
+    496            CFG_CBOX_ITEM cfgcbox18a_4[2];
+    497          
+    498            CFG_HDR cfghdr65y;
+    499            unsigned int spaco1;
+    500                
+    501          CFG_HDR cfghdrss_45;//PNGFONT SETTING
+    502          
+    503          
+    504          //-------------------------------------------------------//
+    505          //                SMILES COLOR SETTING                   //
+    506          //-------------------------------------------------------//
+    507          
+    508          
+    509          CFG_HDR cfghdr41;//={CFG_LEVEL,"Цвета выбора смайлов",1,0};
+    510          
+    511           CFG_HDR cfghdr40_1;//={CFG_COLOR,"Цвет фона",0,0};
+    512           char SmBGcolor[4];
+    513            
+    514           CFG_HDR cfghdr40_2;//={CFG_COLOR,"Цвет курсора",0,0};
+    515           char SmSelectColor[4];
+    516            
+    517           CFG_HDR cfghdr40_3;//={CFG_COLOR,"Цвет текста стат.",0,0};
+    518           char SmFontColor[4];
+    519          
+    520          CFG_HDR cfghdr40;
+    521            
+    522          
+    523          //-------------------------------------------------------//
+    524          //                     IDLE SETTING                      //
+    525          //-------------------------------------------------------//
+    526          
+    527          CFG_HDR cfghdr_m71;
+    528          
+    529              CFG_HDR cfghdr699;
+    530              unsigned int onlineTime_x;
+    531              unsigned int onlineTime_y;
+    532          
+    533              CFG_HDR cfghdr698;
+    534              int Pause_Time;
+    535              CFG_CBOX_ITEM cfgcbox85[2];
+    536          
+    537          
+    538              CFG_HDR cfghd66;
+    539              unsigned int Ping_X ;
+    540              unsigned int Ping_Y ;
+    541              
+    542              CFG_HDR cfghdr1z9a_1;
+    543              unsigned int ping_time_config ;
+    544              
+    545              CFG_HDR cfghdr298;
+    546              int Is_Unread_On;
+    547              CFG_CBOX_ITEM cfgcbox86[2];
+    548              
+    549              CFG_HDR cfghd67;
+    550              unsigned int unread_X;
+    551              unsigned int unread_Y;
+    552              
+    553              CFG_HDR cfghdr71_3;// = {CFG_CBOX,"Показывать подключ.",0,2};
+    554              int Is_Online_On;
+    555              CFG_CBOX_ITEM cfgcbox71_2[2];
+    556              
+    557              CFG_HDR cfghd71_1;// = {CFG_COORDINATES,"Подключ.контакты",0,0};
+    558              unsigned int online_x;
+    559              unsigned int online_y;  
+    560          
+    561          CFG_HDR cfghdr_m90;
+    562          
+    563          
+    564          //-------------------------------------------------------//
+    565          //                     AUTO STATUS                       //
+    566          //-------------------------------------------------------//
+    567          
+    568          
+    569          CFG_HDR cfghdr_m61;
+    570          
+    571              CFG_HDR cfghdr668;
+    572              int Auto_Status;
+    573              CFG_CBOX_ITEM cfgcbox89[2];
+    574              
+    575              
+    576              CFG_HDR cfghdr_m61_1;// = {CFG_CBOX,"Вкл. недоступен",0,2};
+    577              int IsOnNAStatus ;
+    578              CFG_CBOX_ITEM cfgcbox_m61_2[2];//={"No","Yes"};
+    579          
+    580              CFG_HDR cfghdr61_8;//={CFG_UINT,"Время до недоступен(мин)",0,150};
+    581              unsigned int NAStatusTime;    
+    582              
+    583              CFG_HDR cfghdr6678;// = {CFG_CBOX,"Включить автоматически при",0,2};
+    584              int isAutoStatusOn;// = 0;
+    585              CFG_CBOX_ITEM cfgcboxa1_153[13];//={"Выключен","В сети", "Отошел", "Недоступен", "Не беспокоить", "Занят", "Готов болтать", "Невидимый", "Депрессия", "Злой", "Дома", "Жру","На работе"};
+    586          
+    587              
+    588              CFG_HDR cfghdr667;
+    589              unsigned int AUTO_ENGADE;
+    590              
+    591              CFG_HDR cfghdr61_18;//={CFG_UINT,"Количество ответов",0,150};
+    592              unsigned int automsgcount;//=3;
+    593              
+    594              CFG_HDR cfghdr_13;
+    595              int time_zone;
+    596              CFG_CBOX_ITEM cfgcbox_13[33];
+    597              
+    598              CFG_HDR cfghdrzz_8;
+    599              char awayHelloMsg[24];
+    600              
+    601              CFG_HDR cfghdrzz_9;
+    602              char awayMsg[256];
+    603              
+    604              CFG_HDR cfghdr66_2;
+    605              int Reset_timer;
+    606              CFG_CBOX_ITEM cfgcbox90[2];
+    607            
+    608          //Show away time on idle
+    609              CFG_HDR cfghdr663;
+    610              int showAwayIdle ;
+    611              CFG_CBOX_ITEM cfgcbox82[2];
+    612              
+    613              CFG_HDR cfghd6_7;
+    614              unsigned int auto_x;
+    615              unsigned int auto_y;
+    616            
+    617          CFG_HDR cfghdr_m60;
+    618          
+    619          
+    620          
+    621          //-------------------------------------------------------//
+    622          //                   AUTO CHANGE STATUS                  //
+    623          //-------------------------------------------------------//
+    624          
+    625          
+    626          CFG_HDR cfghdra1;
+    627          
+    628              CFG_HDR cfghdra1_3;
+    629              int status_1;
+    630              CFG_CBOX_ITEM cfgcboxa1_13[13];
+    631          
+    632              CFG_HDR cfghdra1_2;
+    633              TTime tm_status_1;     
+    634          
+    635              CFG_HDR cfghdra1_1;
+    636              int status_2;
+    637              CFG_CBOX_ITEM cfgcboxa1_14[13];
+    638          
+    639              CFG_HDR cfghdra1_4;
+    640              TTime tm_status_2;
+    641          
+    642              CFG_HDR cfghdra1_5;
+    643              int status_3;
+    644              CFG_CBOX_ITEM cfgcboxa1_15[13];
+    645              
+    646              CFG_HDR cfghdra1_6;
+    647              TTime tm_status_3;
+    648          
+    649              CFG_HDR cfghdra1_7;
+    650              int status_4;
+    651              CFG_CBOX_ITEM cfgcboxa1_16[13];
+    652              
+    653              CFG_HDR cfghdra1_8;
+    654              TTime tm_status_4;
+    655          
+    656              CFG_HDR cfghdra1_9;
+    657              int status_5 ;
+    658              CFG_CBOX_ITEM cfgcboxa1_17[13];
+    659              
+    660              CFG_HDR cfghdra1_14;
+    661              TTime tm_status_5;
+    662              
+    663          CFG_HDR cfghdra0;
+    664          
+    665          //-------------------------------------------------------//
+    666          //                    SCREEN SAVER                       //
+    667          //-------------------------------------------------------//
+    668          #ifdef NEWSGOLD
+    669          
+    670          CFG_HDR cfghdr_91;//={CFG_LEVEL,"Заставка",1,0};
+    671          
+    672              CFG_HDR cfghdr9_1;// = {CFG_CBOX,"Включить заставку",0,2};
+    673              int isScreenSaverEna;
+    674              CFG_CBOX_ITEM cfgcbox9_2[2];
+    675              
+    676              CFG_HDR cfghdr9_3;//={CFG_UINT,"Время до срабатывания(12=1мин)",0,1000};
+    677              unsigned int screenSaverTime;
+    678          CFG_HDR cfghdr_90;
+    679          
+    680          #endif
+    681          
+    682          //-------------------------------------------------------//
+    683          //                     POPUP MESSAGE                     //
+    684          //-------------------------------------------------------//
+    685          
+    686          CFG_HDR cfghdr_51;//={CFG_LEVEL,"Всплывающие сообщ.",1,0};
+    687          
+    688             CFG_HDR cfghdr51_0;// = {CFG_CBOX,"Показывать",0,4};
+    689             int PopupShow;
+    690             CFG_CBOX_ITEM cfgcbox51_2[4];//={"Ничего","Вход.сообш.","Подкл.конт.","Все"};
+    691              
+    692             CFG_HDR cfghdr51_1;//={CFG_STR_UTF8,"Формат входящ.сооб.",0,8};
+    693             char PopupMsgString[9];//="%s";
+    694              
+    695             CFG_HDR cfghdr51_2;//={CFG_STR_UTF8,"Формат подкл.контакта",0,8};
+    696             char PopupOnlineString[9];//=">%s<";  
+    697              
+    698             CFG_HDR cfghdr51_3;//={CFG_UINT,"Шрифт всплыв.сообщ",0,1000};
+    699             unsigned int PopupFont;
+    700             
+    701             CFG_HDR cfghdr51_6;//={CFG_COLOR,"Фон всплыв.сообщ.",0,0};
+    702             char PopupBGCl[4];
+    703          
+    704             CFG_HDR cfghdr51_4;//={CFG_COLOR,"Цвет подкл.контакта",0,0};
+    705             char PopupOnlineCl[4];
+    706              
+    707             CFG_HDR cfghdr51_5;//={CFG_COLOR,"Цвет входящ.сообщ.",0,0};
+    708             char PopupMsgCl[4];
+    709             
+    710          CFG_HDR cfghdr_50;//={CFG_LEVEL,"",0,0};
+    711          
+    712          
+    713          
+    714          //-------------------------------------------------------//
+    715          //              SETTING CONTACTLIST HEADER               //
+    716          //-------------------------------------------------------//
+    717          
+    718          CFG_HDR cfghdr_s1;//={CFG_LEVEL,"Настройка заголовка КЛ",1,0};
+    719          
+    720          //Show contact header with...
+    721              CFG_HDR cfghdrs1_3;// = {CFG_CBOX,"Показывать в заголовке КЛ",0,6};
+    722              int TIME_OR_MSG;
+    723              CFG_CBOX_ITEM cfgcboxs2[6];//={"Время","Сообщения","Контакты","Все","Пнг шрифт(все)","Ничего"};
+    724          
+    725              CFG_HDR cfghdrs1_s1;//={CFG_UINT,"Время подкл./отключ.(сек)",0,1000};
+    726              unsigned int ON_OFF_TIME;
+    727              
+    728              
+    729              CFG_HDR cfghdrs1_15;
+    730              int ShowTraff;
+    731              CFG_CBOX_ITEM cfgcboxs15[2];
+    732              
+    733              CFG_HDR cfghdrs1_11;//={CFG_CBOX,"Отображать кол-во контактов",0,2};
+    734              int isShowCont;
+    735              CFG_CBOX_ITEM cfgcboxs11[2];
+    736          
+    737              CFG_HDR cfghdrs1_12;//={CFG_CBOX,"Отображать кол-во непрочит.",0,2};
+    738              int isShowUnread;
+    739              CFG_CBOX_ITEM cfgcboxs12[2];
+    740          
+    741              CFG_HDR cfghdrs1_4;//={CFG_CBOX,"Отображать вибру [R] ",0,2};
+    742              int isShowV ;
+    743              CFG_CBOX_ITEM cfgcboxs3[2];
+    744              
+    745              CFG_HDR cfghdrs1_5;//={CFG_CBOX,"Отображать звук [S]",0,2};
+    746              int isShowS ;
+    747              CFG_CBOX_ITEM cfgcboxs5[2];
+    748              
+    749              CFG_HDR cfghdrs1_6;//={CFG_CBOX,"Отображать автостатус [A]",0,2};
+    750              int isShowA ;
+    751              CFG_CBOX_ITEM cfgcboxs6[2];
+    752              
+    753              CFG_HDR cfghdrs1_7;//={CFG_CBOX,"Отображать напоминалку [R]",0,2};
+    754              int isShowR ;
+    755              CFG_CBOX_ITEM cfgcboxs7[2];
+    756              
+    757              CFG_HDR cfghdrs1_8;//={CFG_CBOX,"Отображать статус/время [Tm/Xs]",0,2};
+    758              int isShowTmXs ;
+    759              CFG_CBOX_ITEM cfgcboxs8[2];
+    760              
+    761              CFG_HDR cfghdrs1_13;//={CFG_CBOX,"Отображать инвиз [I]",0,2};
+    762              int isShowI;
+    763              CFG_CBOX_ITEM cfgcboxs13[2];
+    764              
+    765              CFG_HDR cfghdrs1_9;//={CFG_CBOX,"Отображать заряд батареи",0,2};
+    766              int isShowBat ;
+    767              CFG_CBOX_ITEM cfgcboxs9[2];
+    768              
+    769              CFG_HDR cfghdrs1_10;//={CFG_CBOX,"Отображать время",0,2};
+    770              int isShowTime;
+    771              CFG_CBOX_ITEM cfgcboxs10[2];
+    772              
+    773          CFG_HDR cfghdr_s0;
+    774          
+    775          
+    776          
+    777          //-------------------------------------------------------//
+    778          //                      EXTRA CONFIG                     //
+    779          //-------------------------------------------------------//
+    780          
+    781          CFG_HDR cfghdr_m51;
+    782          
+    783           
+    784          //Vibra count in vibra remaider
+    785              CFG_HDR cfghdr65;
+    786              unsigned int Vibra_cc;
+    787          #ifdef NEWSGOLD
+    788          //CSM for player
+    789              CFG_HDR cfghdr66;
+    790              char CsmAdr[9];  
+    791              
+    792          //Text before name track
+    793              CFG_HDR cfghdr67;
+    794              char playing[13];
+    795          #endif
+    796          //Show command sending    
+    797              CFG_HDR cfghdr780;
+    798              int show_send_info;
+    799              CFG_CBOX_ITEM cfgcbox8_z[2];
+    800              
+    801          //Show changr status contact
+    802              CFG_HDR cfghdr7_80;
+    803              int isLogStatusChange;
+    804              CFG_CBOX_ITEM cfgcbox8df_z[2];
+    805          
+    806          //Show Loopback contact in CL
+    807              CFG_HDR cfghdr71_30;
+    808              int IsShowLoopback;
+    809              CFG_CBOX_ITEM cfgcbox_3z[2];
+    810              
+    811              CFG_HDR cfghdr71_31;//={CFG_CBOX,"Открывать ссылки",0,2};
+    812              int IsOpenBrowser;
+    813              CFG_CBOX_ITEM cfgcbox_32[2];
+    814              
+    815              CFG_HDR cfghdr71_33;//={CFG_CBOX,"Открывать ссылки",0,2};
+    816              int IsMultiBuffer;
+    817              CFG_CBOX_ITEM cfgcbox_34[2];   
+    818          
+    819          CFG_HDR cfghdr_m50;//level
+    820          
+    821          //---------------------------------------//
+    822          //        SETTING LOADING SCREEN         //
+    823          //---------------------------------------//
+    824          
+    825          
+    826          CFG_HDR cfghdr_q1;//={CFG_LEVEL,"Экран заргузки",1,0};
+    827          
+    828            CFG_HDR cfghdr_s2;// = {CFG_RECT, "Прогрессбар", 0, 0};
+    829            RECT PBRECT;// = {4,281,236,294};//LOadScreenRECT
+    830             
+    831            CFG_HDR cfghdr_s3;//={CFG_COLOR,"Цвет прогрессбара",0,0};
+    832            char PBcolor[4];//={0x00,0x00,0x00,100};//ProgressBarColor
+    833          
+    834            CFG_HDR cfghdr_s7;//={CFG_COLOR,"Фон прогрессбара",0,0};
+    835            char BGPBcolor[4];//={0xFF,0xFF,0xFF,100};//BackGroundProgressBarColor
+    836            
+    837            CFG_HDR cfghdr_s4;//={CFG_CBOX,"Менять софты",0,2};
+    838            int IsInvertSoftKey;
+    839            CFG_CBOX_ITEM cfgcbox_s5[2];//={"No","Yes"};  
+    840          
+    841            CFG_HDR cfghdr_s6;//={CFG_CBOX,"Показывать инфу",0,2};
+    842            int IsShowInfo;
+    843            CFG_CBOX_ITEM cfgcbox_s7[2];//={"No","Yes"};    
+    844          
+    845          CFG_HDR cfghdr_q0;//={CFG_LEVEL,"",0,0};
+    846          
+    847          
+    848          //--------------------------------------//
+    849          
+    850          CFG_HDR cfghdr11_10;
+    851          char myName[32];
+    852          
+    853          CFG_HDR cfghdr11_9;
+    854          char ignor_list[256];
+    855          
+    856          }myConfigMod;
+    857          
+    858          
+    859          #ifdef NEWSGOLD
+    860          #define DEFAULT_DISK "4"
+    861          #else
+    862          #define DEFAULT_DISK "0"
+    863          #endif
+    864          
+    865          //------------ origin setting ---------------//
+    866          
+    867          int DEVELOP_IF_MOD;
+    868          int SHOW_ACTIVE;
+    869          int HISTORY_SAVE_TYPE;
+    870          int HISTORY_BUFFER_MOD;
+    871          unsigned int extended_sounds;
+    872          char sndGlobal2[64];
+    873          char sndMsg2[64];
+    874          char pingsnd[64];
+    875          
+    876          
+    877          //------------ SETTING BUTTON -------------//
+    878          
+    879          int LongRightAction;
+    880          int LongLeftAction;
+    881          int ActionResh;
+    882          int LongVolUpAction;
+    883          int LongVolDownAction ;
+    884          int isVolUpButton;//If action vol up && vol down button on elka
+    885          int isVolDownButton;
+    886          
+    887          int longAct_0;
+    888          int longAct_1;
+    889          int longAct_2;
+    890          int longAct_3;
+    891          int longAct_4;
+    892          int longAct_5;
+    893          int longAct_6;
+    894          int longAct_7;
+    895          int longAct_8;
+    896          int longAct_9;
+    897          int longAct_10;
+    898          int longAct_11;
+    899          int longAct_RB;
+    900           
+    901          
+    902          //------------ STATUS SETTING --------------//
+    903          
+    904          #ifdef NEWSGOLD
+    905          int ShowStatusIcon;
+    906          #endif
+    907          int show_xstatus;
+    908          unsigned int IDLEICON_XX;
+    909          unsigned int IDLEICON_YX;
+    910          int ind_set_xstatus;
+    911          #ifdef NEWSGOLD
+    912          unsigned int NumStatusToIconBar;
+    913          unsigned int NumXStatusToIconBar;
+    914          
+    915          unsigned int ADDITION_UIN;
+    916          int show_add_state;
+    917          int show_add_xstate;
+    918          #endif
+    919          
+    920          
+    921          //----------- PNG FONT SETTING -------------//
+    922          
+    923          unsigned int fonto;
+    924          char fontpath[64];
+    925          unsigned int msg_d_x;
+    926          unsigned int msg_d_y;
+    927          unsigned int main_msg_timer;//Кол-во секунд сколько показывать сообщения на идле
+    928          char fontColor[];//Цвет для системного шрифта
+    929          char bgrColor[];
+    930          unsigned int main_lenght;
+    931          int use_cutter;
+    932          unsigned int spaco1;
+    933          unsigned int spaco2;
+    934            
+    935          
+    936          //------------ smiles color -----------------//
+    937          
+    938          char SmBGcolor[4];
+    939          char SmSelectColor[4];
+    940          char SmFontColor[4];
+    941          
+    942          
+    943          //---------------- idle set -----------------//
+    944          
+    945          //Online time on idle
+    946          unsigned int onlineTime_x;
+    947          unsigned int onlineTime_y;
+    948          int Pause_Time;  
+    949          
+    950          unsigned int Ping_X;
+    951          unsigned int Ping_Y;
+    952          unsigned int ping_time_config;
+    953          
+    954          int Is_Unread_On;
+    955          unsigned int unread_X;
+    956          unsigned int unread_Y;
+    957          
+    958          int Is_Online_On;
+    959          unsigned int online_x;
+    960          unsigned int online_y;  
+    961          
+    962          //---------------- AUTO STATUS ---------------//
+    963          
+    964          int Auto_Status;//Включен автостатус или нет 
+    965          int IsOnNAStatus;
+    966          unsigned int NAStatusTime;    
+    967          int isAutoStatusOn;// = 0;
+    968          unsigned int AUTO_ENGADE;
+    969          unsigned int automsgcount;
+    970          int time_zone;
+    971          char awayHelloMsg[24];//hello msg
+    972          char awayMsg[256];//message
+    973          int showAwayIdle;  
+    974          unsigned int auto_x;
+    975          unsigned int auto_y;
+    976          int Reset_timer;  
+    977          
+    978          
+    979          //------------- AUTO CHANGE STATUS ------------//
+    980          
+    981          TTime tm_status_1;
+    982          unsigned int status_1;
+    983          TTime tm_status_2;
+    984          unsigned int status_2;
+    985          TTime tm_status_3;
+    986          unsigned int status_3;
+    987          TTime tm_status_4;
+    988          unsigned int status_4;
+    989          TTime tm_status_5;
+    990          unsigned int status_5;    
+    991              
+    992          
+    993          //---------------  SCREEN SAVER ---------------//
+    994          
+    995          #ifdef NEWSGOLD
+    996          unsigned int screenSaverTime;
+    997          int isScreenSaverEna;
+    998          #endif
+    999          
+   1000          //------------ popup message -----------------//
+   1001          
+   1002          int PopupShow;// = 3;
+   1003          char PopupMsgString[9];//="%s";
+   1004          char PopupOnlineString[9];//=">%s<";  
+   1005          unsigned int PopupFont;//=FONT_SMALL;
+   1006          char PopupBGCl[4];
+   1007          char PopupOnlineCl[4];    
+   1008          char PopupMsgCl[4];
+   1009          
+   1010          
+   1011          //------------ CL HEADER SETTING -------------//
+   1012          
+   1013          int TIME_OR_MSG;
+   1014          unsigned int ON_OFF_TIME;
+   1015          int ShowTraff;
+   1016          int isShowCont;
+   1017          int isShowUnread;
+   1018          int isShowI;
+   1019          int isShowV;
+   1020          int isShowS;
+   1021          int isShowR;
+   1022          int isShowA;
+   1023          int isShowTmXs;
+   1024          int isShowTime;
+   1025          int isShowBat;
+   1026          
+   1027          
+   1028          //-------------  EXTRA CONFIG ---------------//
+   1029          
+   1030          unsigned int Vibra_cc;
+   1031          #ifdef NEWSGOLD
+   1032          char playing[13];
+   1033          char CsmAdr[9];
+   1034          #endif
+   1035          int show_send_info;  
+   1036          int isLogStatusChange;
+   1037          int IsShowLoopback;//Show Loopback contact in CL
+   1038          int IsOpenBrowser;
+   1039          int IsMultiBuffer;
+   1040          
+   1041          
+   1042          //-------------  LOAD SCREEN SET ------------//
+   1043          
+   1044          RECT PBRECT;
+   1045          char PBcolor[4];
+   1046          char BGPBcolor[4];
+   1047          int IsInvertSoftKey;
+   1048          int IsShowInfo;
+   1049          
+   1050          
+   1051          
+   1052          char ignor_list[256];
+   1053          //char myName[256];
+   1054          char I_str[32];
+   1055          
+   1056          //------------ ORIGINAL SETTING -------------//  
+   1057          
+   1058          unsigned int UIN;
+   1059          char PASS[9];
+   1060          
+   1061          int VIBR_ON_CONNECT;
+   1062          int SHOW_ACTIVE;
+   1063          int VIBR_TYPE;
+   1064          int DEVELOP_IF;
+   1065          
+   1066          int LOG_ALL;
+   1067          int LOG_STATCH;
+   1068          int FIRST_LETTER;
+   1069          int SORT_CLIST;
+   1070          
+   1071          
+   1072          int HISTORY_TYPE;
+   1073          unsigned int vibraPower;
+   1074          
+   1075          unsigned int IDLEICON_X;
+   1076          unsigned int IDLEICON_Y;
+   1077            
+   1078          unsigned int I_COLOR;
+   1079          unsigned int TO_COLOR;
+   1080          unsigned int X_COLOR;
+   1081          unsigned int O_I_COLOR;
+   1082          unsigned int O_TO_COLOR;
+   1083          unsigned int O_X_COLOR;
+   1084            
+   1085          unsigned int ED_FONT_SIZE;
+   1086          unsigned int ED_H_FONT_SIZE;
+   1087          unsigned int ED_X_FONT_SIZE;
+   1088          unsigned int O_ED_FONT_SIZE;
+   1089          unsigned int O_ED_H_FONT_SIZE;
+   1090          unsigned int O_ED_X_FONT_SIZE;
+   1091            
+   1092          unsigned int ACK_COLOR;
+   1093          unsigned int UNACK_COLOR;
+   1094            
+   1095          int ENA_AUTO_XTXT;
+   1096          int NOT_LOG_SAME_XTXT;
+   1097          int LOG_XTXT;
+   1098          int HISTORY_BUFFER;  
+   1099            
+   1100          //Illumination by BoBa 19.04.2007
+   1101          ///////////
+   1102          unsigned int ILL_DISP_RECV;
+   1103          unsigned int ILL_KEYS_RECV;
+   1104          unsigned int ILL_RECV_TMR;
+   1105          unsigned int ILL_DISP_SEND;
+   1106          unsigned int ILL_KEYS_SEND;
+   1107          unsigned int ILL_SEND_TMR;
+   1108          unsigned int ILL_SEND_FADE;
+   1109          unsigned int ILL_RECV_FADE;
+   1110          unsigned int ILL_OFF_FADE;
+   1111          
+   1112          char sndStartup[64];
+   1113          char sndSrvMsg[64];
+   1114          char sndGlobal[64];
+   1115          char sndGlobal2[64];
+   1116          char sndMsg[64];
+   1117          char sndMsgSent[64];
+   1118          unsigned int sndVolume;
+   1119            
+   1120          char SMILE_FILE[64];
+   1121          char TEMPLATES_PATH[64];
+   1122          char ICON_PATH[64];
+   1123          char SMILE_PATH[64];
+   1124          char XSTATUSES_PATH[64];
+   1125          char HIST_PATH[64];
+   1126          char NATICQ_HOST[128];
+   1127          unsigned int NATICQ_PORT;
+   1128          unsigned int RECONNECT_TIME;
+   1129          
+   1130          
+   1131          
+   1132          //--------------------------------------------------------//
+   1133          //                      INIT CONFIGS                      //
+   1134          //--------------------------------------------------------//
+   1135          
+   1136          char per_s[]="%s";
+   1137          
+   1138          char suc_config_name[64];
+   1139          char suc_config_name_mod[64];
+   1140          extern int maincsm_id;
+
+   \                                 In segment CODE, align 4, keep-with-next
+   1141          int UpdateConfig()
+   1142          { 
+   \                     UpdateConfig:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+   1143            int myConfigSize = sizeof(myConfig);
+   1144            myConfig* myConf = (myConfig*)malloc(myConfigSize);
+   1145            int newCfgFile;
+   1146            int myConfigModSize = sizeof(myConfigMod);
+   1147            myConfigMod* myConfMod = (myConfigMod*)malloc(myConfigModSize);
+   1148            int newCfgModFile;// = InitConfig(myConfMod, myConfigModSize, "NATICQMod",disk);
+   1149            
+   1150          #ifdef kluchnik
+   1151            newCfgFile= InitConfig(myConf, myConfigSize, "NATICQ_2747093",4);
+   1152            newCfgModFile = InitConfig(myConfMod, myConfigModSize, "NATICQMod_2747093",4);  
+   1153            sprintf(suc_config_name,"4:\\zbin\\etc\\NATICQ_2747093.bcfg");      
+   1154            sprintf(suc_config_name_mod,"4:\\zbin\\etc\\NATICQMod_2747093.bcfg");      
+   1155          #else
+   1156            if((newCfgFile= InitConfig(myConf, myConfigSize, "NATICQRun",4))!=-1)
+   \   00000004   38899FE5           LDR      R8,??UpdateConfig_0  ;; `?<Constant "0:\\\\zbin\\\\etc\\\\NATICQMod...">`
+   \   00000008   38699FE5           LDR      R6,??UpdateConfig_0+0x4  ;; PBRECT
+   \   0000000C   4400A0E3           MOV      R0,#+68
+   \   00000010   4C0D80E3           ORR      R0,R0,#0x1300
+   \   00000014   140000EF           SWI      +20
+   \   00000018   0040A0E1           MOV      R4,R0
+   \   0000001C   E070A0E3           MOV      R7,#+224
+   \   00000020   4B7C87E3           ORR      R7,R7,#0x4B00
+   \   00000024   0700A0E1           MOV      R0,R7
+   \   00000028   140000EF           SWI      +20
+   \   0000002C   0050A0E1           MOV      R5,R0
+   \   00000030   0430A0E3           MOV      R3,#+4
+   \   00000034   AC2088E2           ADD      R2,R8,#+172
+   \   00000038   4D1D83E3           ORR      R1,R3,#0x1340
+   \   0000003C   0400A0E1           MOV      R0,R4
+   \   00000040   ........           _BLF     InitConfig,??InitConfig??rA
+   \   00000044   00A0A0E1           MOV      R10,R0
+   \   00000048   0090E0E3           MVN      R9,#+0
+   \   0000004C   09005AE1           CMP      R10,R9
+   1157            { 
+   1158              sprintf(suc_config_name,"4:\\zbin\\etc\\NATICQRun.bcfg"); 
+   \   00000050   1C108812           ADDNE    R1,R8,#+28
+   \   00000054   0700001A           BNE      ??UpdateConfig_1
+   1159            }
+   1160            else
+   1161            {
+   1162               newCfgFile= InitConfig(myConf, myConfigSize, "NATICQRun",0);
+   \   00000058   0030A0E3           MOV      R3,#+0
+   \   0000005C   AC2088E2           ADD      R2,R8,#+172
+   \   00000060   4410A0E3           MOV      R1,#+68
+   \   00000064   4C1D81E3           ORR      R1,R1,#0x1300
+   \   00000068   0400A0E1           MOV      R0,R4
+   \   0000006C   ........           _BLF     InitConfig,??InitConfig??rA
+   \   00000070   00A0A0E1           MOV      R10,R0
+   1163               sprintf(suc_config_name,"0:\\zbin\\etc\\NATICQRun.bcfg");
+   \   00000074   901088E2           ADD      R1,R8,#+144
+   \                     ??UpdateConfig_1:
+   \   00000078   A400A0E3           MOV      R0,#+164
+   \   0000007C   900E80E3           ORR      R0,R0,#0x900
+   \   00000080   060080E0           ADD      R0,R0,R6
+   \   00000084   160000EF           SWI      +22
+   1164            }
+   1165            
+   1166            if((newCfgModFile = InitConfig(myConfMod, myConfigModSize, "NATICQMod2",4))!=-1)
+   \   00000088   0430A0E3           MOV      R3,#+4
+   \   0000008C   682088E2           ADD      R2,R8,#+104
+   \   00000090   0710A0E1           MOV      R1,R7
+   \   00000094   0500A0E1           MOV      R0,R5
+   \   00000098   ........           _BLF     InitConfig,??InitConfig??rA
+   \   0000009C   00B0A0E1           MOV      R11,R0
+   \   000000A0   09005BE1           CMP      R11,R9
+   1167            {
+   1168              sprintf(suc_config_name_mod,"4:\\zbin\\etc\\NATICQMod2.bcfg");      
+   \   000000A4   74108812           ADDNE    R1,R8,#+116
+   \   000000A8   0600001A           BNE      ??UpdateConfig_2
+   1169            }
+   1170            else
+   1171            {
+   1172               newCfgModFile = InitConfig(myConfMod, myConfigModSize, "NATICQMod2",0);
+   \   000000AC   0030A0E3           MOV      R3,#+0
+   \   000000B0   682088E2           ADD      R2,R8,#+104
+   \   000000B4   0710A0E1           MOV      R1,R7
+   \   000000B8   0500A0E1           MOV      R0,R5
+   \   000000BC   ........           _BLF     InitConfig,??InitConfig??rA
+   \   000000C0   00B0A0E1           MOV      R11,R0
+   1173               sprintf(suc_config_name_mod,"0:\\zbin\\etc\\NATICQMod2.bcfg");      
+   \   000000C4   0810A0E1           MOV      R1,R8
+   \                     ??UpdateConfig_2:
+   \   000000C8   E400A0E3           MOV      R0,#+228
+   \   000000CC   900E80E3           ORR      R0,R0,#0x900
+   \   000000D0   060080E0           ADD      R0,R0,R6
+   \   000000D4   160000EF           SWI      +22
+   \   000000D8   E400A0E3           MOV      R0,#+228
+   \   000000DC   900E80E3           ORR      R0,R0,#0x900
+   \   000000E0   060080E0           ADD      R0,R0,R6
+   1174            }
+   1175          #endif
+   1176          
+   1177          if(get_file_size(suc_config_name_mod)!=sizeof(myConfigMod) || get_file_size(suc_config_name)!=sizeof(myConfig))
+   \   000000E4   ........           _BLF     get_file_size,??get_file_size??rA
+   \   000000E8   070050E1           CMP      R0,R7
+   \   000000EC   0700001A           BNE      ??UpdateConfig_3
+   \   000000F0   A400A0E3           MOV      R0,#+164
+   \   000000F4   900E80E3           ORR      R0,R0,#0x900
+   \   000000F8   060080E0           ADD      R0,R0,R6
+   \   000000FC   ........           _BLF     get_file_size,??get_file_size??rA
+   \   00000100   4410A0E3           MOV      R1,#+68
+   \   00000104   4C1D81E3           ORR      R1,R1,#0x1300
+   \   00000108   010050E1           CMP      R0,R1
+   \   0000010C   0700000A           BEQ      ??UpdateConfig_4
+   1178          {
+   1179             LockSched();
+   \                     ??UpdateConfig_3:
+   \   00000110   460100EF           SWI      +326
+   1180             ShowMSG(2,(int)"Config mod not correct!!!");
+   \   00000114   4C1088E2           ADD      R1,R8,#+76
+   \   00000118   0200A0E3           MOV      R0,#+2
+   \   0000011C   480100EF           SWI      +328
+   1181             UnlockSched();
+   \   00000120   470100EF           SWI      +327
+   1182           //  void ElfKiller(void);
+   1183             //SUBPROC((void *)ElfKiller);
+   1184             CloseCSM(maincsm_id);
+   \   00000124   20089FE5           LDR      R0,??UpdateConfig_0+0x8  ;; maincsm_id
+   \   00000128   000090E5           LDR      R0,[R0, #+0]
+   \   0000012C   FC0100EF           SWI      +508
+   1185          }
+   1186            
+   1187          if(newCfgFile!=-1 && newCfgModFile!=-1)//Если конфиги есть
+   \                     ??UpdateConfig_4:
+   \   00000130   09005AE1           CMP      R10,R9
+   \   00000134   09005B11           CMPNE    R11,R9
+   \   00000138   F701000A           BEQ      ??UpdateConfig_5
+   \   0000013C   E400A0E3           MOV      R0,#+228
+   \   00000140   C40D80E3           ORR      R0,R0,#0x3100
+   \   00000144   05B080E0           ADD      R11,R0,R5
+   \   00000148   100E9BE5           LDR      R0,[R11, #+3600]
+   1188          {  
+   1189          //-------------------- MOD CONFIG ---------------------//
+   1190            
+   1191          //-------------- setting interface ---------------//
+   1192            
+   1193            TIME_OR_MSG=myConfMod->TIME_OR_MSG;  
+   1194            IsShowLoopback=myConfMod->IsShowLoopback;//Show Loopback contact in CL  
+   1195            SHOW_ACTIVE=myConfMod->SHOW_ACTIVE;
+   \   0000014C   849085E2           ADD      R9,R5,#+132
+   \   00000150   D80186E5           STR      R0,[R6, #+472]
+   \   00000154   F400A0E3           MOV      R0,#+244
+   \   00000158   410C80E3           ORR      R0,R0,#0x4100
+   \   0000015C   05A080E0           ADD      R10,R0,R5
+   \   00000160   58059AE5           LDR      R0,[R10, #+1368]
+   1196            HISTORY_SAVE_TYPE=myConfMod->HISTORY_SAVE_TYPE;
+   1197            IsOpenBrowser=myConfMod->IsOpenBrowser; 
+   1198            IsMultiBuffer=myConfMod->IsMultiBuffer;
+   1199            
+   1200            
+   1201          //-------------- log status change ---------------//
+   1202            
+   1203            isLogStatusChange=myConfMod->isLogStatusChange;
+   1204            
+   1205            
+   1206          //-------------- setting png font ----------------//
+   1207            
+   1208            sprintf(fontpath,per_s,myConfMod->fontpath);
+   \   00000164   C17FA0E3           MOV      R7,#+772
+   \   00000168   180286E5           STR      R0,[R6, #+536]
+   \   0000016C   700099E5           LDR      R0,[R9, #+112]
+   \   00000170   061087E0           ADD      R1,R7,R6
+   \   00000174   340286E5           STR      R0,[R6, #+564]
+   \   00000178   E00099E5           LDR      R0,[R9, #+224]
+   \   0000017C   D40086E5           STR      R0,[R6, #+212]
+   \   00000180   C8059AE5           LDR      R0,[R10, #+1480]
+   \   00000184   1C0286E5           STR      R0,[R6, #+540]
+   \   00000188   38069AE5           LDR      R0,[R10, #+1592]
+   \   0000018C   200286E5           STR      R0,[R6, #+544]
+   \   00000190   E8049AE5           LDR      R0,[R10, #+1256]
+   \   00000194   140286E5           STR      R0,[R6, #+532]
+   \   00000198   FC00A0E3           MOV      R0,#+252
+   \   0000019C   880D80E3           ORR      R0,R0,#0x2200
+   \   000001A0   052080E0           ADD      R2,R0,R5
+   \   000001A4   E20F86E2           ADD      R0,R6,#+904
+   \   000001A8   160000EF           SWI      +22
+   \   000001AC   6000A0E3           MOV      R0,#+96
+   \   000001B0   840D80E3           ORR      R0,R0,#0x2100
+   \   000001B4   058080E0           ADD      R8,R0,R5
+   \   000001B8   6C0198E5           LDR      R0,[R8, #+364]
+   \   000001BC   400186E5           STR      R0,[R6, #+320]
+   1209            fonto=myConfMod->fonto;
+   1210            spaco1=myConfMod->spaco1;
+   \   000001C0   6C0398E5           LDR      R0,[R8, #+876]
+   \   000001C4   580186E5           STR      R0,[R6, #+344]
+   1211            spaco2=myConfMod->spaco1;//так нада
+   \   000001C8   6C0398E5           LDR      R0,[R8, #+876]
+   \   000001CC   5C0186E5           STR      R0,[R6, #+348]
+   1212            
+   1213            
+   1214          //---------- Цвет для системного шрифта ----------//
+   1215            
+   1216            for(int i=0;i<4;i++)
+   \   000001D0   0000A0E3           MOV      R0,#+0
+   1217            {
+   1218              fontColor[i]=myConfMod->fontColor[i];
+   \                     ??UpdateConfig_6:
+   \   000001D4   CC10A0E3           MOV      R1,#+204
+   \   000001D8   8C1D81E3           ORR      R1,R1,#0x2300
+   \   000001DC   052080E0           ADD      R2,R0,R5
+   \   000001E0   021081E0           ADD      R1,R1,R2
+   \   000001E4   0030D1E5           LDRB     R3,[R1, #+0]
+   \   000001E8   062080E0           ADD      R2,R0,R6
+   1219              bgrColor[i]=myConfMod->bgrColor[i];
+   1220            }
+   \   000001EC   010080E2           ADD      R0,R0,#+1
+   \   000001F0   E032C2E5           STRB     R3,[R2, #+736]
+   \   000001F4   3010D1E5           LDRB     R1,[R1, #+48]
+   \   000001F8   040050E3           CMP      R0,#+4
+   \   000001FC   E112C2E5           STRB     R1,[R2, #+737]
+   \   00000200   F3FFFFBA           BLT      ??UpdateConfig_6
+   1221            
+   1222            Is_Unread_On=myConfMod->Is_Unread_On;
+   \   00000204   E40598E5           LDR      R0,[R8, #+1508]
+   1223            
+   1224            
+   1225          //------------- automessage setting --------------//
+   1226            
+   1227            AUTO_ENGADE=myConfMod->AUTO_ENGADE;//time to away
+   1228            isAutoStatusOn=myConfMod->isAutoStatusOn;
+   1229            automsgcount=myConfMod->automsgcount;
+   1230            Auto_Status=myConfMod->Auto_Status;//Включен автостатус или нет
+   1231            time_zone=myConfMod->time_zone;
+   1232            auto_x=myConfMod->auto_x;
+   1233            auto_y=myConfMod->auto_y;
+   1234            showAwayIdle=myConfMod->showAwayIdle;
+   1235            sprintf(awayHelloMsg,per_s,myConfMod->awayHelloMsg);//hello msg
+   \   00000208   061087E0           ADD      R1,R7,R6
+   \   0000020C   780186E5           STR      R0,[R6, #+376]
+   \   00000210   640A98E5           LDR      R0,[R8, #+2660]
+   \   00000214   A00186E5           STR      R0,[R6, #+416]
+   \   00000218   940898E5           LDR      R0,[R8, #+2196]
+   \   0000021C   9C0186E5           STR      R0,[R6, #+412]
+   \   00000220   940A98E5           LDR      R0,[R8, #+2708]
+   \   00000224   A40186E5           STR      R0,[R6, #+420]
+   \   00000228   840798E5           LDR      R0,[R8, #+1924]
+   \   0000022C   900186E5           STR      R0,[R6, #+400]
+   \   00000230   C40A98E5           LDR      R0,[R8, #+2756]
+   \   00000234   A80186E5           STR      R0,[R6, #+424]
+   \   00000238   E0009BE5           LDR      R0,[R11, #+224]
+   \   0000023C   B00186E5           STR      R0,[R6, #+432]
+   \   00000240   E4009BE5           LDR      R0,[R11, #+228]
+   \   00000244   B40186E5           STR      R0,[R6, #+436]
+   \   00000248   70009BE5           LDR      R0,[R11, #+112]
+   \   0000024C   AC0186E5           STR      R0,[R6, #+428]
+   \   00000250   7400A0E3           MOV      R0,#+116
+   \   00000254   C00D80E3           ORR      R0,R0,#0x3000
+   \   00000258   052080E0           ADD      R2,R0,R5
+   \   0000025C   F20F86E2           ADD      R0,R6,#+968
+   \   00000260   160000EF           SWI      +22
+   1236            snprintf(awayMsg,256,per_s,myConfMod->awayMsg);//message
+   \   00000264   B800A0E3           MOV      R0,#+184
+   \   00000268   C00D80E3           ORR      R0,R0,#0x3000
+   \   0000026C   053080E0           ADD      R3,R0,R5
+   \   00000270   062087E0           ADD      R2,R7,R6
+   \   00000274   401FA0E3           MOV      R1,#+256
+   \   00000278   F80F86E2           ADD      R0,R6,#+992
+   \   0000027C   1B0100EF           SWI      +283
+   1237            Reset_timer=myConfMod->Reset_timer;//reset away timer on send message or key down
+   \   00000280   00009BE5           LDR      R0,[R11, #+0]
+   1238            IsOnNAStatus=myConfMod->IsOnNAStatus;
+   1239            NAStatusTime=myConfMod->NAStatusTime;    
+   1240            
+   1241            
+   1242          //------------- AUTO CHANGE STATUS ------------//
+   1243          
+   1244            tm_status_1=myConfMod->tm_status_1;
+   1245            status_1=myConfMod->status_1;
+   1246            
+   1247            tm_status_2=myConfMod->tm_status_2;
+   1248            status_2=myConfMod->status_2;
+   1249            
+   1250            tm_status_3=myConfMod->tm_status_3;
+   1251            status_3=myConfMod->status_3;
+   1252            
+   1253            tm_status_4=myConfMod->tm_status_4;
+   1254            status_4=myConfMod->status_4;
+   1255            
+   1256            tm_status_5=myConfMod->tm_status_5;
+   1257            status_5=myConfMod->status_5;    
+   1258          
+   1259          
+   1260          //------------- Online time on idle --------------//
+   1261            
+   1262            onlineTime_x=myConfMod->onlineTime_x;
+   1263            onlineTime_y=myConfMod->onlineTime_y;
+   1264            Pause_Time=myConfMod->Pause_Time;
+   1265          
+   1266            
+   1267          //----------------- setting ping -----------------//
+   1268            
+   1269            Ping_X=myConfMod->Ping_X;
+   1270            Ping_Y=myConfMod->Ping_Y;
+   1271            sprintf(pingsnd,per_s,myConfMod->pingsnd);
+   \   00000284   E32F85E2           ADD      R2,R5,#+908
+   \   00000288   B80186E5           STR      R0,[R6, #+440]
+   \   0000028C   F40798E5           LDR      R0,[R8, #+2036]
+   \   00000290   940186E5           STR      R0,[R6, #+404]
+   \   00000294   640898E5           LDR      R0,[R8, #+2148]
+   \   00000298   980186E5           STR      R0,[R6, #+408]
+   \   0000029C   2000A0E3           MOV      R0,#+32
+   \   000002A0   D40D80E3           ORR      R0,R0,#0x3500
+   \   000002A4   050080E0           ADD      R0,R0,R5
+   \   000002A8   030090E8           LDM      R0,{R0,R1}
+   \   000002AC   A80086E5           STR      R0,[R6, #+168]
+   \   000002B0   AC1086E5           STR      R1,[R6, #+172]
+   \   000002B4   6C019BE5           LDR      R0,[R11, #+364]
+   \   000002B8   BC0186E5           STR      R0,[R6, #+444]
+   \   000002BC   2400A0E3           MOV      R0,#+36
+   \   000002C0   DC0D80E3           ORR      R0,R0,#0x3700
+   \   000002C4   050080E0           ADD      R0,R0,R5
+   \   000002C8   030090E8           LDM      R0,{R0,R1}
+   \   000002CC   B00086E5           STR      R0,[R6, #+176]
+   \   000002D0   B41086E5           STR      R1,[R6, #+180]
+   \   000002D4   70039BE5           LDR      R0,[R11, #+880]
+   \   000002D8   C00186E5           STR      R0,[R6, #+448]
+   \   000002DC   2800A0E3           MOV      R0,#+40
+   \   000002E0   E40D80E3           ORR      R0,R0,#0x3900
+   \   000002E4   050080E0           ADD      R0,R0,R5
+   \   000002E8   030090E8           LDM      R0,{R0,R1}
+   \   000002EC   B80086E5           STR      R0,[R6, #+184]
+   \   000002F0   BC1086E5           STR      R1,[R6, #+188]
+   \   000002F4   74059BE5           LDR      R0,[R11, #+1396]
+   \   000002F8   C40186E5           STR      R0,[R6, #+452]
+   \   000002FC   2C00A0E3           MOV      R0,#+44
+   \   00000300   EC0D80E3           ORR      R0,R0,#0x3B00
+   \   00000304   050080E0           ADD      R0,R0,R5
+   \   00000308   030090E8           LDM      R0,{R0,R1}
+   \   0000030C   C00086E5           STR      R0,[R6, #+192]
+   \   00000310   C41086E5           STR      R1,[R6, #+196]
+   \   00000314   78079BE5           LDR      R0,[R11, #+1912]
+   \   00000318   C80186E5           STR      R0,[R6, #+456]
+   \   0000031C   3000A0E3           MOV      R0,#+48
+   \   00000320   F40D80E3           ORR      R0,R0,#0x3D00
+   \   00000324   050080E0           ADD      R0,R0,R5
+   \   00000328   030090E8           LDM      R0,{R0,R1}
+   \   0000032C   C80086E5           STR      R0,[R6, #+200]
+   \   00000330   CC1086E5           STR      R1,[R6, #+204]
+   \   00000334   7C099BE5           LDR      R0,[R11, #+2428]
+   \   00000338   061087E0           ADD      R1,R7,R6
+   \   0000033C   CC0186E5           STR      R0,[R6, #+460]
+   \   00000340   DC0498E5           LDR      R0,[R8, #+1244]
+   \   00000344   600186E5           STR      R0,[R6, #+352]
+   \   00000348   E00498E5           LDR      R0,[R8, #+1248]
+   \   0000034C   640186E5           STR      R0,[R6, #+356]
+   \   00000350   100598E5           LDR      R0,[R8, #+1296]
+   \   00000354   680186E5           STR      R0,[R6, #+360]
+   \   00000358   800598E5           LDR      R0,[R8, #+1408]
+   \   0000035C   6C0186E5           STR      R0,[R6, #+364]
+   \   00000360   840598E5           LDR      R0,[R8, #+1412]
+   \   00000364   700186E5           STR      R0,[R6, #+368]
+   \   00000368   D20F86E2           ADD      R0,R6,#+840
+   \   0000036C   160000EF           SWI      +22
+   1272            ping_time_config=myConfMod->ping_time_config;
+   \   00000370   B40598E5           LDR      R0,[R8, #+1460]
+   \   00000374   740186E5           STR      R0,[R6, #+372]
+   1273            
+   1274          //---------- show online contact on idle --------//
+   1275            
+   1276            Is_Online_On=myConfMod->Is_Online_On;
+   \   00000378   880698E5           LDR      R0,[R8, #+1672]
+   \   0000037C   840186E5           STR      R0,[R6, #+388]
+   1277            online_x=myConfMod->online_x;
+   \   00000380   F80698E5           LDR      R0,[R8, #+1784]
+   \   00000384   880186E5           STR      R0,[R6, #+392]
+   1278            online_y=myConfMod->online_y;  
+   \   00000388   FC0698E5           LDR      R0,[R8, #+1788]
+   \   0000038C   8C0186E5           STR      R0,[R6, #+396]
+   1279          
+   1280            
+   1281          //------- setting last 5 message on idle ---------//
+   1282            
+   1283            main_msg_timer=myConfMod->main_msg_timer;
+   \   00000390   3C0298E5           LDR      R0,[R8, #+572]
+   \   00000394   4C0186E5           STR      R0,[R6, #+332]
+   1284            msg_d_x=myConfMod->msg_d_x;
+   \   00000398   080298E5           LDR      R0,[R8, #+520]
+   \   0000039C   440186E5           STR      R0,[R6, #+324]
+   1285            msg_d_y=myConfMod->msg_d_y;
+   \   000003A0   0C0298E5           LDR      R0,[R8, #+524]
+   \   000003A4   480186E5           STR      R0,[R6, #+328]
+   1286            main_lenght=myConfMod->main_lenght;
+   \   000003A8   CC0298E5           LDR      R0,[R8, #+716]
+   \   000003AC   500186E5           STR      R0,[R6, #+336]
+   1287            use_cutter=myConfMod->use_cutter;
+   \   000003B0   FC0298E5           LDR      R0,[R8, #+764]
+   \   000003B4   540186E5           STR      R0,[R6, #+340]
+   1288            
+   1289            
+   1290          //----------------- player setting ---------------//
+   1291          
+   1292          #ifdef NEWSGOLD
+   1293            sprintf(CsmAdr,per_s,myConfMod->CsmAdr);//csm mediaplayer
+   1294            sprintf(playing,per_s,myConfMod->playing);//text before name song
+   1295          #endif
+   1296            
+   1297          //----------- number status to iconbar -----------//
+   1298            
+   1299          #ifdef NEWSGOLD
+   1300            NumStatusToIconBar=myConfMod->NumStatusToIconBar;
+   1301            NumXStatusToIconBar=myConfMod->NumXStatusToIconBar;
+   1302            ShowStatusIcon=myConfMod->ShowStatusIcon;
+   1303            
+   1304            ADDITION_UIN=myConfMod->ADDITION_UIN;
+   1305            show_add_state=myConfMod->show_add_state;
+   1306            show_add_xstate=myConfMod->show_add_xstate;
+   1307          #endif
+   1308            
+   1309            
+   1310          //--------------- setting xstatus ----------------//
+   1311            
+   1312            show_xstatus=myConfMod->show_xstatus;
+   \   000003B8   000098E5           LDR      R0,[R8, #+0]
+   \   000003BC   300186E5           STR      R0,[R6, #+304]
+   1313            IDLEICON_XX=myConfMod->IDLEICON_XX;
+   \   000003C0   700098E5           LDR      R0,[R8, #+112]
+   \   000003C4   340186E5           STR      R0,[R6, #+308]
+   1314            IDLEICON_YX=myConfMod->IDLEICON_YX;
+   \   000003C8   740098E5           LDR      R0,[R8, #+116]
+   \   000003CC   380186E5           STR      R0,[R6, #+312]
+   1315            ind_set_xstatus=myConfMod->ind_set_xstatus;;
+   \   000003D0   A40098E5           LDR      R0,[R8, #+164]
+   \   000003D4   3C0186E5           STR      R0,[R6, #+316]
+   1316            
+   1317          //------------------ setting keys ----------------//
+   1318            
+   1319            LongRightAction=myConfMod->LongRightAction;
+   \   000003D8   480599E5           LDR      R0,[R9, #+1352]
+   \   000003DC   E00086E5           STR      R0,[R6, #+224]
+   1320            LongLeftAction=myConfMod->LongLeftAction;  
+   \   000003E0   D80599E5           LDR      R0,[R9, #+1496]
+   \   000003E4   E40086E5           STR      R0,[R6, #+228]
+   1321            ActionResh=myConfMod->ActionResh;//действие на # в контакт листе
+   \   000003E8   CC0399E5           LDR      R0,[R9, #+972]
+   \   000003EC   E80086E5           STR      R0,[R6, #+232]
+   1322              
+   1323          //-  If action vol up && vol down button on elka -//
+   1324            
+   1325            LongVolUpAction=myConfMod->LongVolUpAction;
+   \   000003F0   480699E5           LDR      R0,[R9, #+1608]
+   \   000003F4   EC0086E5           STR      R0,[R6, #+236]
+   1326            LongVolDownAction=myConfMod->LongVolDownAction;
+   \   000003F8   B80699E5           LDR      R0,[R9, #+1720]
+   \   000003FC   F00086E5           STR      R0,[R6, #+240]
+   1327            isVolUpButton=myConfMod->isVolUpButton;
+   \   00000400   AC0499E5           LDR      R0,[R9, #+1196]
+   \   00000404   F40086E5           STR      R0,[R6, #+244]
+   1328            isVolDownButton=myConfMod->isVolDownButton;
+   \   00000408   3C0499E5           LDR      R0,[R9, #+1084]
+   \   0000040C   F80086E5           STR      R0,[R6, #+248]
+   1329          
+   1330          //---------- LONG PRESS ACTION ON CL -----------//
+   1331          
+   1332            longAct_0=myConfMod->longAct_0;
+   \   00000410   280799E5           LDR      R0,[R9, #+1832]
+   \   00000414   FC0086E5           STR      R0,[R6, #+252]
+   1333            longAct_1=myConfMod->longAct_1;
+   \   00000418   180999E5           LDR      R0,[R9, #+2328]
+   \   0000041C   000186E5           STR      R0,[R6, #+256]
+   1334            longAct_2=myConfMod->longAct_2;
+   \   00000420   080B99E5           LDR      R0,[R9, #+2824]
+   \   00000424   040186E5           STR      R0,[R6, #+260]
+   1335            longAct_3=myConfMod->longAct_3;
+   \   00000428   F80C99E5           LDR      R0,[R9, #+3320]
+   \   0000042C   080186E5           STR      R0,[R6, #+264]
+   1336            longAct_4=myConfMod->longAct_4;
+   \   00000430   E80E99E5           LDR      R0,[R9, #+3816]
+   \   00000434   0C0186E5           STR      R0,[R6, #+268]
+   \   00000438   5C00A0E3           MOV      R0,#+92
+   \   0000043C   440D80E3           ORR      R0,R0,#0x1100
+   \   00000440   050080E0           ADD      R0,R0,R5
+   \   00000444   001090E5           LDR      R1,[R0, #+0]
+   \   00000448   101186E5           STR      R1,[R6, #+272]
+   1337            longAct_5=myConfMod->longAct_5;
+   1338            longAct_6=myConfMod->longAct_6;
+   \   0000044C   F01190E5           LDR      R1,[R0, #+496]
+   \   00000450   141186E5           STR      R1,[R6, #+276]
+   1339            longAct_7=myConfMod->longAct_7;
+   \   00000454   E01390E5           LDR      R1,[R0, #+992]
+   \   00000458   181186E5           STR      R1,[R6, #+280]
+   1340            longAct_8=myConfMod->longAct_8;
+   \   0000045C   D01590E5           LDR      R1,[R0, #+1488]
+   \   00000460   1C1186E5           STR      R1,[R6, #+284]
+   1341            longAct_9=myConfMod->longAct_9;
+   \   00000464   C01790E5           LDR      R1,[R0, #+1984]
+   \   00000468   201186E5           STR      R1,[R6, #+288]
+   1342            longAct_10=myConfMod->longAct_10;
+   \   0000046C   B01990E5           LDR      R1,[R0, #+2480]
+   \   00000470   241186E5           STR      R1,[R6, #+292]
+   1343            longAct_11=myConfMod->longAct_11;
+   \   00000474   A01B90E5           LDR      R1,[R0, #+2976]
+   \   00000478   281186E5           STR      R1,[R6, #+296]
+   1344            longAct_RB=myConfMod->longAct_RB;
+   \   0000047C   900D90E5           LDR      R0,[R0, #+3472]
+   1345            
+   1346          //---------------- other setting -----------------//
+   1347            
+   1348            sprintf(ignor_list,per_s,myConfMod->ignor_list);
+   \   00000480   061087E0           ADD      R1,R7,R6
+   \   00000484   2C0186E5           STR      R0,[R6, #+300]
+   \   00000488   E000A0E3           MOV      R0,#+224
+   \   0000048C   4A0C80E3           ORR      R0,R0,#0x4A00
+   \   00000490   052080E0           ADD      R2,R0,R5
+   \   00000494   7D0F87E2           ADD      R0,R7,#+500
+   \   00000498   060080E0           ADD      R0,R0,R6
+   \   0000049C   160000EF           SWI      +22
+   1349            sprintf(I_str,per_s,myConfMod->myName);
+   \   000004A0   9400A0E3           MOV      R0,#+148
+   \   000004A4   4A0C80E3           ORR      R0,R0,#0x4A00
+   \   000004A8   052080E0           ADD      R2,R0,R5
+   \   000004AC   061087E0           ADD      R1,R7,R6
+   \   000004B0   BD0F87E2           ADD      R0,R7,#+756
+   \   000004B4   060080E0           ADD      R0,R0,R6
+   \   000004B8   160000EF           SWI      +22
+   1350            show_send_info=myConfMod->show_send_info;
+   \   000004BC   78049AE5           LDR      R0,[R10, #+1144]
+   \   000004C0   100286E5           STR      R0,[R6, #+528]
+   1351            
+   1352            Vibra_cc=myConfMod->Vibra_cc;//vibra remainder
+   \   000004C4   48049AE5           LDR      R0,[R10, #+1096]
+   \   000004C8   0C0286E5           STR      R0,[R6, #+524]
+   1353            
+   1354            unread_X=myConfMod->unread_X;
+   \   000004CC   540698E5           LDR      R0,[R8, #+1620]
+   \   000004D0   7C0186E5           STR      R0,[R6, #+380]
+   1355            unread_Y=myConfMod->unread_Y;
+   \   000004D4   580698E5           LDR      R0,[R8, #+1624]
+   \   000004D8   800186E5           STR      R0,[R6, #+384]
+   1356            
+   1357            
+   1358          //------------- Screen Saver setting -------------//
+   1359            
+   1360          #ifdef NEWSGOLD
+   1361            screenSaverTime=myConfMod->screenSaverTime;
+   1362            isScreenSaverEna=myConfMod->isScreenSaverEna;
+   1363          #endif
+   1364            
+   1365          //------------ smiles && popup color -------------//
+   1366          
+   1367            for(int i=0;i<4;i++)
+   \   000004DC   0000A0E3           MOV      R0,#+0
+   1368            {
+   1369              SmBGcolor[i]=myConfMod->SmBGcolor[i];
+   \                     ??UpdateConfig_7:
+   \   000004E0   5410A0E3           MOV      R1,#+84
+   \   000004E4   941D81E3           ORR      R1,R1,#0x2500
+   \   000004E8   052080E0           ADD      R2,R0,R5
+   \   000004EC   021081E0           ADD      R1,R1,R2
+   \   000004F0   0030D1E5           LDRB     R3,[R1, #+0]
+   \   000004F4   062080E0           ADD      R2,R0,R6
+   \   000004F8   E432C2E5           STRB     R3,[R2, #+740]
+   1370              SmSelectColor[i]=myConfMod->SmSelectColor[i];
+   \   000004FC   3030D1E5           LDRB     R3,[R1, #+48]
+   \   00000500   E832C2E5           STRB     R3,[R2, #+744]
+   1371              SmFontColor[i]=myConfMod->SmFontColor[i];
+   \   00000504   6010D1E5           LDRB     R1,[R1, #+96]
+   \   00000508   EC12C2E5           STRB     R1,[R2, #+748]
+   1372              
+   1373              PopupBGCl[i]=myConfMod->PopupBGCl[i];;
+   \   0000050C   0C10A0E3           MOV      R1,#+12
+   \   00000510   FC1D81E3           ORR      R1,R1,#0x3F00
+   \   00000514   052080E0           ADD      R2,R0,R5
+   \   00000518   021081E0           ADD      R1,R1,R2
+   \   0000051C   0030D1E5           LDRB     R3,[R1, #+0]
+   \   00000520   062080E0           ADD      R2,R0,R6
+   1374              PopupOnlineCl[i]=myConfMod->PopupOnlineCl[i];    
+   1375              PopupMsgCl[i]=myConfMod->PopupMsgCl[i];
+   1376              
+   1377              
+   1378              PBcolor[i]=myConfMod->PBcolor[i];
+   1379              BGPBcolor[i]=myConfMod->BGPBcolor[i];
+   1380            }
+   \   00000524   010080E2           ADD      R0,R0,#+1
+   \   00000528   F032C2E5           STRB     R3,[R2, #+752]
+   \   0000052C   3030D1E5           LDRB     R3,[R1, #+48]
+   \   00000530   040050E3           CMP      R0,#+4
+   \   00000534   F432C2E5           STRB     R3,[R2, #+756]
+   \   00000538   6030D1E5           LDRB     R3,[R1, #+96]
+   \   0000053C   F832C2E5           STRB     R3,[R2, #+760]
+   \   00000540   1C3AD1E5           LDRB     R3,[R1, #+2588]
+   \   00000544   FC32C2E5           STRB     R3,[R2, #+764]
+   \   00000548   4C1AD1E5           LDRB     R1,[R1, #+2636]
+   \   0000054C   0013C2E5           STRB     R1,[R2, #+768]
+   \   00000550   E2FFFFBA           BLT      ??UpdateConfig_7
+   1381          
+   1382            
+   1383          //----------------- popup message ----------------//
+   1384          
+   1385            PopupShow=myConfMod->PopupShow;
+   \   00000554   D80B9BE5           LDR      R0,[R11, #+3032]
+   1386            sprintf(PopupMsgString,per_s,myConfMod->PopupMsgString);
+   \   00000558   061087E0           ADD      R1,R7,R6
+   \   0000055C   D00186E5           STR      R0,[R6, #+464]
+   \   00000560   6C00A0E3           MOV      R0,#+108
+   \   00000564   F80D80E3           ORR      R0,R0,#0x3E00
+   \   00000568   052080E0           ADD      R2,R0,R5
+   \   0000056C   4E0E86E2           ADD      R0,R6,#+1248
+   \   00000570   160000EF           SWI      +22
+   1387            sprintf(PopupOnlineString,per_s,myConfMod->PopupOnlineString);
+   \   00000574   A400A0E3           MOV      R0,#+164
+   \   00000578   F80D80E3           ORR      R0,R0,#0x3E00
+   \   0000057C   052080E0           ADD      R2,R0,R5
+   \   00000580   061087E0           ADD      R1,R7,R6
+   \   00000584   7A0F87E2           ADD      R0,R7,#+488
+   \   00000588   060080E0           ADD      R0,R0,R6
+   \   0000058C   160000EF           SWI      +22
+   1388            PopupFont=myConfMod->PopupFont;
+   \   00000590   F80C9BE5           LDR      R0,[R11, #+3320]
+   1389            
+   1390            
+   1391            
+   1392          //--------------- CL HEADER SETTING --------------//
+   1393          
+   1394            isShowCont=myConfMod->isShowCont;
+   1395            ShowTraff=myConfMod->ShowTraff;
+   1396            isShowUnread=myConfMod->isShowUnread;
+   1397            isShowI=myConfMod->isShowI;
+   1398            isShowV=myConfMod->isShowV;
+   1399            isShowS=myConfMod->isShowS;
+   1400            isShowR=myConfMod->isShowR;
+   1401            isShowA=myConfMod->isShowA;
+   1402            isShowTmXs=myConfMod->isShowTmXs;
+   1403            isShowTime=myConfMod->isShowTime;
+   1404            isShowBat=myConfMod->isShowBat;
+   1405            ON_OFF_TIME=myConfMod->ON_OFF_TIME;
+   1406          //-------------  LOAD SCREEN SET ------------//
+   1407          
+   1408            PBRECT=myConfMod->PBRECT;
+   1409            IsInvertSoftKey=myConfMod->IsInvertSoftKey;
+   1410            IsShowInfo=myConfMod->IsShowInfo;
+   1411          
+   1412          
+   1413          //------------------ ORIGINAL CONFIG --------------------//
+   1414            
+   1415            UIN=myConf->UIN;
+   \   00000594   2C8084E2           ADD      R8,R4,#+44
+   \   00000598   D40186E5           STR      R0,[R6, #+468]
+   \   0000059C   A00F9BE5           LDR      R0,[R11, #+4000]
+   1416            sprintf(PASS,per_s,myConf->PASS);
+   \   000005A0   5C2084E2           ADD      R2,R4,#+92
+   \   000005A4   E40186E5           STR      R0,[R6, #+484]
+   \   000005A8   300F9BE5           LDR      R0,[R11, #+3888]
+   \   000005AC   E00186E5           STR      R0,[R6, #+480]
+   \   000005B0   00009AE5           LDR      R0,[R10, #+0]
+   \   000005B4   E80186E5           STR      R0,[R6, #+488]
+   \   000005B8   A0029AE5           LDR      R0,[R10, #+672]
+   \   000005BC   EC0186E5           STR      R0,[R6, #+492]
+   \   000005C0   70009AE5           LDR      R0,[R10, #+112]
+   \   000005C4   F00186E5           STR      R0,[R6, #+496]
+   \   000005C8   E0009AE5           LDR      R0,[R10, #+224]
+   \   000005CC   F40186E5           STR      R0,[R6, #+500]
+   \   000005D0   C0019AE5           LDR      R0,[R10, #+448]
+   \   000005D4   F80186E5           STR      R0,[R6, #+504]
+   \   000005D8   50019AE5           LDR      R0,[R10, #+336]
+   \   000005DC   FC0186E5           STR      R0,[R6, #+508]
+   \   000005E0   30029AE5           LDR      R0,[R10, #+560]
+   \   000005E4   000286E5           STR      R0,[R6, #+512]
+   \   000005E8   80039AE5           LDR      R0,[R10, #+896]
+   \   000005EC   040286E5           STR      R0,[R6, #+516]
+   \   000005F0   10039AE5           LDR      R0,[R10, #+784]
+   \   000005F4   080286E5           STR      R0,[R6, #+520]
+   \   000005F8   000F9BE5           LDR      R0,[R11, #+3840]
+   \   000005FC   DC0186E5           STR      R0,[R6, #+476]
+   \   00000600   F400A0E3           MOV      R0,#+244
+   \   00000604   480C80E3           ORR      R0,R0,#0x4800
+   \   00000608   050080E0           ADD      R0,R0,R5
+   \   0000060C   B010D0E1           LDRH     R1,[R0, #0]
+   \   00000610   B010C6E1           STRH     R1,[R6, #+0]
+   \   00000614   B210D0E1           LDRH     R1,[R0, #+2]
+   \   00000618   B210C6E1           STRH     R1,[R6, #+2]
+   \   0000061C   B410D0E1           LDRH     R1,[R0, #+4]
+   \   00000620   B410C6E1           STRH     R1,[R6, #+4]
+   \   00000624   B610D0E1           LDRH     R1,[R0, #+6]
+   \   00000628   B610C6E1           STRH     R1,[R6, #+6]
+   \   0000062C   94079AE5           LDR      R0,[R10, #+1940]
+   \   00000630   061087E0           ADD      R1,R7,R6
+   \   00000634   240286E5           STR      R0,[R6, #+548]
+   \   00000638   04089AE5           LDR      R0,[R10, #+2052]
+   \   0000063C   280286E5           STR      R0,[R6, #+552]
+   \   00000640   000098E5           LDR      R0,[R8, #+0]
+   \   00000644   2C0286E5           STR      R0,[R6, #+556]
+   \   00000648   C50F87E2           ADD      R0,R7,#+788
+   \   0000064C   060080E0           ADD      R0,R0,R6
+   \   00000650   160000EF           SWI      +22
+   1417            
+   1418            SORT_CLIST=myConf->SORT_CLIST;
+   \   00000654   440598E5           LDR      R0,[R8, #+1348]
+   1419            LOG_ALL=myConf->LOG_ALL;
+   1420            LOG_STATCH=myConf->LOG_STATCH;
+   1421            VIBR_TYPE=myConf->VIBR_TYPE;
+   1422            VIBR_ON_CONNECT=myConf->VIBR_ON_CONNECT;
+   1423          
+   1424            DEVELOP_IF_MOD=myConfMod->DEVELOP_IF_MOD;
+   1425            if(!DEVELOP_IF_MOD)
+   1426              DEVELOP_IF=myConf->DEVELOP_IF;
+   1427            else
+   1428              DEVELOP_IF=3;
+   1429            FIRST_LETTER=myConf->FIRST_LETTER;    
+   1430          
+   1431            HISTORY_TYPE=myConf->HISTORY_TYPE;
+   1432            
+   1433           
+   1434            sprintf(HIST_PATH,per_s,myConf->HIST_PATH);
+   \   00000658   732F84E2           ADD      R2,R4,#+460
+   \   0000065C   4C0286E5           STR      R0,[R6, #+588]
+   \   00000660   7C0B98E5           LDR      R0,[R8, #+2940]
+   \   00000664   061087E0           ADD      R1,R7,R6
+   \   00000668   400286E5           STR      R0,[R6, #+576]
+   \   0000066C   5C0C98E5           LDR      R0,[R8, #+3164]
+   \   00000670   440286E5           STR      R0,[R6, #+580]
+   \   00000674   C40F98E5           LDR      R0,[R8, #+4036]
+   \   00000678   380286E5           STR      R0,[R6, #+568]
+   \   0000067C   6000A0E3           MOV      R0,#+96
+   \   00000680   400D80E3           ORR      R0,R0,#0x1000
+   \   00000684   040090E7           LDR      R0,[R0, +R4]
+   \   00000688   300286E5           STR      R0,[R6, #+560]
+   \   0000068C   000099E5           LDR      R0,[R9, #+0]
+   \   00000690   D00086E5           STR      R0,[R6, #+208]
+   \   00000694   000050E3           CMP      R0,#+0
+   \   00000698   B4049805           LDREQ    R0,[R8, #+1204]
+   \   0000069C   0300A013           MOVNE    R0,#+3
+   \   000006A0   3C0286E5           STR      R0,[R6, #+572]
+   \   000006A4   B40598E5           LDR      R0,[R8, #+1460]
+   \   000006A8   480286E5           STR      R0,[R6, #+584]
+   \   000006AC   EC0B98E5           LDR      R0,[R8, #+3052]
+   \   000006B0   500286E5           STR      R0,[R6, #+592]
+   \   000006B4   5E0E87E2           ADD      R0,R7,#+1504
+   \   000006B8   060080E0           ADD      R0,R0,R6
+   \   000006BC   160000EF           SWI      +22
+   1435            sprintf(NATICQ_HOST,per_s,myConf->NATICQ_HOST);
+   \   000006C0   C02084E2           ADD      R2,R4,#+192
+   \   000006C4   061087E0           ADD      R1,R7,R6
+   \   000006C8   620E87E2           ADD      R0,R7,#+1568
+   \   000006CC   060080E0           ADD      R0,R0,R6
+   \   000006D0   160000EF           SWI      +22
+   1436            NATICQ_PORT=myConf->NATICQ_PORT;
+   \   000006D4   400198E5           LDR      R0,[R8, #+320]
+   \   000006D8   D00286E5           STR      R0,[R6, #+720]
+   1437            RECONNECT_TIME=myConf->RECONNECT_TIME; //2058
+   \   000006DC   700198E5           LDR      R0,[R8, #+368]
+   \   000006E0   D40286E5           STR      R0,[R6, #+724]
+   1438            
+   1439            vibraPower=myConf->vibraPower;  
+   \   000006E4   940F98E5           LDR      R0,[R8, #+3988]
+   \   000006E8   540286E5           STR      R0,[R6, #+596]
+   1440            
+   1441            IDLEICON_X=myConf->IDLEICON_X;
+   \   000006EC   800498E5           LDR      R0,[R8, #+1152]
+   \   000006F0   580286E5           STR      R0,[R6, #+600]
+   1442            IDLEICON_Y=myConf->IDLEICON_Y;
+   \   000006F4   840498E5           LDR      R0,[R8, #+1156]
+   \   000006F8   5C0286E5           STR      R0,[R6, #+604]
+   1443            
+   1444            I_COLOR=myConf->I_COLOR;
+   \   000006FC   500698E5           LDR      R0,[R8, #+1616]
+   \   00000700   600286E5           STR      R0,[R6, #+608]
+   1445            TO_COLOR=myConf->TO_COLOR;
+   \   00000704   800698E5           LDR      R0,[R8, #+1664]
+   \   00000708   640286E5           STR      R0,[R6, #+612]
+   1446            X_COLOR=myConf->X_COLOR;
+   \   0000070C   B00698E5           LDR      R0,[R8, #+1712]
+   \   00000710   680286E5           STR      R0,[R6, #+616]
+   1447            O_I_COLOR=myConf->O_I_COLOR;
+   \   00000714   700798E5           LDR      R0,[R8, #+1904]
+   \   00000718   6C0286E5           STR      R0,[R6, #+620]
+   1448            O_TO_COLOR=myConf->O_TO_COLOR;
+   \   0000071C   A00798E5           LDR      R0,[R8, #+1952]
+   \   00000720   700286E5           STR      R0,[R6, #+624]
+   1449            O_X_COLOR=myConf->O_X_COLOR;
+   \   00000724   D00798E5           LDR      R0,[R8, #+2000]
+   \   00000728   740286E5           STR      R0,[R6, #+628]
+   1450            
+   1451            ED_FONT_SIZE=myConf->ED_FONT_SIZE;
+   \   0000072C   E00698E5           LDR      R0,[R8, #+1760]
+   \   00000730   780286E5           STR      R0,[R6, #+632]
+   1452            ED_H_FONT_SIZE=myConf->ED_H_FONT_SIZE;
+   \   00000734   100798E5           LDR      R0,[R8, #+1808]
+   \   00000738   7C0286E5           STR      R0,[R6, #+636]
+   1453            ED_X_FONT_SIZE=myConf->ED_X_FONT_SIZE;
+   \   0000073C   400798E5           LDR      R0,[R8, #+1856]
+   \   00000740   800286E5           STR      R0,[R6, #+640]
+   1454            O_ED_FONT_SIZE=myConf->O_ED_FONT_SIZE;
+   \   00000744   000898E5           LDR      R0,[R8, #+2048]
+   \   00000748   840286E5           STR      R0,[R6, #+644]
+   1455            O_ED_H_FONT_SIZE=myConf->O_ED_H_FONT_SIZE;
+   \   0000074C   300898E5           LDR      R0,[R8, #+2096]
+   \   00000750   880286E5           STR      R0,[R6, #+648]
+   1456            O_ED_X_FONT_SIZE=myConf->O_ED_X_FONT_SIZE;
+   \   00000754   600898E5           LDR      R0,[R8, #+2144]
+   1457            
+   1458            ACK_COLOR=myConf->ACK_COLOR;
+   1459            UNACK_COLOR=myConf->UNACK_COLOR;
+   1460            
+   1461            ENA_AUTO_XTXT=myConf->ENA_AUTO_XTXT;
+   1462            NOT_LOG_SAME_XTXT=myConf->NOT_LOG_SAME_XTXT;
+   1463            LOG_XTXT=myConf->LOG_XTXT;
+   1464            HISTORY_BUFFER_MOD=myConfMod->HISTORY_BUFFER_MOD;  
+   1465            if(!HISTORY_BUFFER_MOD)
+   1466               HISTORY_BUFFER=myConf->HISTORY_BUFFER;  
+   1467            else
+   1468              HISTORY_BUFFER=5;
+   1469            
+   1470          //Illumination by BoBa 19.04.2007
+   1471          ///////////
+   1472            ILL_DISP_RECV=myConf->ILL_DISP_RECV;
+   1473            ILL_KEYS_RECV=myConf->ILL_KEYS_RECV;
+   1474            ILL_DISP_SEND=myConf->ILL_DISP_SEND;
+   1475            ILL_KEYS_SEND=myConf->ILL_KEYS_SEND;
+   1476            ILL_SEND_TMR=myConf->ILL_SEND_TMR;
+   1477            ILL_SEND_FADE=myConf->ILL_SEND_FADE;
+   1478            ILL_RECV_TMR=myConf->ILL_RECV_TMR;
+   1479            ILL_RECV_FADE=myConf->ILL_RECV_FADE;
+   1480            ILL_OFF_FADE=myConf->ILL_OFF_FADE;
+   1481            
+   1482          //=============================Проигрывание звука=======================
+   1483            
+   1484            sprintf(sndStartup,per_s,myConf->sndStartup);
+   \   00000758   061087E0           ADD      R1,R7,R6
+   \   0000075C   8C0286E5           STR      R0,[R6, #+652]
+   \   00000760   900898E5           LDR      R0,[R8, #+2192]
+   \   00000764   900286E5           STR      R0,[R6, #+656]
+   \   00000768   C00898E5           LDR      R0,[R8, #+2240]
+   \   0000076C   940286E5           STR      R0,[R6, #+660]
+   \   00000770   3C0D98E5           LDR      R0,[R8, #+3388]
+   \   00000774   980286E5           STR      R0,[R6, #+664]
+   \   00000778   AC0D98E5           LDR      R0,[R8, #+3500]
+   \   0000077C   9C0286E5           STR      R0,[R6, #+668]
+   \   00000780   CC0C98E5           LDR      R0,[R8, #+3276]
+   \   00000784   A00286E5           STR      R0,[R6, #+672]
+   \   00000788   500199E5           LDR      R0,[R9, #+336]
+   \   0000078C   D80086E5           STR      R0,[R6, #+216]
+   \   00000790   000050E3           CMP      R0,#+0
+   \   00000794   1C0E9805           LDREQ    R0,[R8, #+3612]
+   \   00000798   0500A013           MOVNE    R0,#+5
+   \   0000079C   A40286E5           STR      R0,[R6, #+676]
+   \   000007A0   480998E5           LDR      R0,[R8, #+2376]
+   \   000007A4   A80286E5           STR      R0,[R6, #+680]
+   \   000007A8   780998E5           LDR      R0,[R8, #+2424]
+   \   000007AC   AC0286E5           STR      R0,[R6, #+684]
+   \   000007B0   080A98E5           LDR      R0,[R8, #+2568]
+   \   000007B4   B40286E5           STR      R0,[R6, #+692]
+   \   000007B8   380A98E5           LDR      R0,[R8, #+2616]
+   \   000007BC   B80286E5           STR      R0,[R6, #+696]
+   \   000007C0   680A98E5           LDR      R0,[R8, #+2664]
+   \   000007C4   BC0286E5           STR      R0,[R6, #+700]
+   \   000007C8   980A98E5           LDR      R0,[R8, #+2712]
+   \   000007CC   C00286E5           STR      R0,[R6, #+704]
+   \   000007D0   A80998E5           LDR      R0,[R8, #+2472]
+   \   000007D4   B00286E5           STR      R0,[R6, #+688]
+   \   000007D8   D80998E5           LDR      R0,[R8, #+2520]
+   \   000007DC   C40286E5           STR      R0,[R6, #+708]
+   \   000007E0   C80A98E5           LDR      R0,[R8, #+2760]
+   \   000007E4   C80286E5           STR      R0,[R6, #+712]
+   \   000007E8   FC00A0E3           MOV      R0,#+252
+   \   000007EC   400D80E3           ORR      R0,R0,#0x1000
+   \   000007F0   042080E0           ADD      R2,R0,R4
+   \   000007F4   C80F87E2           ADD      R0,R7,#+800
+   \   000007F8   060080E0           ADD      R0,R0,R6
+   \   000007FC   160000EF           SWI      +22
+   1485            sprintf(sndSrvMsg,per_s,myConf->sndSrvMsg);
+   \   00000800   6800A0E3           MOV      R0,#+104
+   \   00000804   440D80E3           ORR      R0,R0,#0x1100
+   \   00000808   042080E0           ADD      R2,R0,R4
+   \   0000080C   061087E0           ADD      R1,R7,R6
+   \   00000810   D80F87E2           ADD      R0,R7,#+864
+   \   00000814   060080E0           ADD      R0,R0,R6
+   \   00000818   160000EF           SWI      +22
+   1486            sprintf(sndGlobal,per_s,myConf->sndGlobal);
+   \   0000081C   ED0E87E2           ADD      R0,R7,#+3792
+   \   00000820   042080E0           ADD      R2,R0,R4
+   \   00000824   061087E0           ADD      R1,R7,R6
+   \   00000828   B30E40E2           SUB      R0,R0,#+2864
+   \   0000082C   060080E0           ADD      R0,R0,R6
+   \   00000830   160000EF           SWI      +22
+   1487            sprintf(sndGlobal2,per_s,myConfMod->sndGlobal2);
+   \   00000834   AD2F85E2           ADD      R2,R5,#+692
+   \   00000838   061087E0           ADD      R1,R7,R6
+   \   0000083C   F80F87E2           ADD      R0,R7,#+992
+   \   00000840   060080E0           ADD      R0,R0,R6
+   \   00000844   160000EF           SWI      +22
+   1488            sprintf(sndMsg,per_s,myConf->sndMsg);
+   \   00000848   492D84E2           ADD      R2,R4,#+4672
+   \   0000084C   061087E0           ADD      R1,R7,R6
+   \   00000850   420E87E3           ORR      R0,R7,#0x420
+   \   00000854   060080E0           ADD      R0,R0,R6
+   \   00000858   160000EF           SWI      +22
+   1489            sprintf(sndMsg2,per_s,myConfMod->sndMsg2);
+   \   0000085C   C82F85E2           ADD      R2,R5,#+800
+   \   00000860   061087E0           ADD      R1,R7,R6
+   \   00000864   C20F86E2           ADD      R0,R6,#+776
+   \   00000868   160000EF           SWI      +22
+   1490            extended_sounds=myConfMod->extended_sounds;
+   \   0000086C   C00199E5           LDR      R0,[R9, #+448]
+   1491            sprintf(sndMsgSent,per_s,myConf->sndMsgSent);
+   \   00000870   061087E0           ADD      R1,R7,R6
+   \   00000874   DC0086E5           STR      R0,[R6, #+220]
+   \   00000878   AC00A0E3           MOV      R0,#+172
+   \   0000087C   480D80E3           ORR      R0,R0,#0x1200
+   \   00000880   042080E0           ADD      R2,R0,R4
+   \   00000884   460E87E3           ORR      R0,R7,#0x460
+   \   00000888   060080E0           ADD      R0,R0,R6
+   \   0000088C   160000EF           SWI      +22
+   1492            sndVolume=myConf->sndVolume; 
+   \   00000890   640F98E5           LDR      R0,[R8, #+3940]
+   1493          
+   1494          //-----------------------------------------
+   1495            
+   1496            vibraPower=myConf->vibraPower;
+   1497               
+   1498            sprintf(TEMPLATES_PATH,per_s,myConf->TEMPLATES_PATH);
+   \   00000894   FA2F84E2           ADD      R2,R4,#+1000
+   \   00000898   CC0286E5           STR      R0,[R6, #+716]
+   \   0000089C   940F98E5           LDR      R0,[R8, #+3988]
+   \   000008A0   061087E0           ADD      R1,R7,R6
+   \   000008A4   540286E5           STR      R0,[R6, #+596]
+   \   000008A8   4E0E87E3           ORR      R0,R7,#0x4E0
+   \   000008AC   060080E0           ADD      R0,R0,R6
+   \   000008B0   160000EF           SWI      +22
+   1499            sprintf(ICON_PATH,per_s,myConf->ICON_PATH);
+   \   000008B4   C42F84E2           ADD      R2,R4,#+784
+   \   000008B8   061087E0           ADD      R1,R7,R6
+   \   000008BC   520E87E2           ADD      R0,R7,#+1312
+   \   000008C0   060080E0           ADD      R0,R0,R6
+   \   000008C4   160000EF           SWI      +22
+   1500            sprintf(SMILE_FILE,per_s,myConf->SMILE_FILE);
+   \   000008C8   8E2F84E2           ADD      R2,R4,#+568
+   \   000008CC   061087E0           ADD      R1,R7,R6
+   \   000008D0   4A0E87E3           ORR      R0,R7,#0x4A0
+   \   000008D4   060080E0           ADD      R0,R0,R6
+   \   000008D8   160000EF           SWI      +22
+   1501            sprintf(SMILE_PATH,per_s,myConf->SMILE_PATH);
+   \   000008DC   A92F84E2           ADD      R2,R4,#+676
+   \   000008E0   061087E0           ADD      R1,R7,R6
+   \   000008E4   560E87E2           ADD      R0,R7,#+1376
+   \   000008E8   060080E0           ADD      R0,R0,R6
+   \   000008EC   160000EF           SWI      +22
+   1502            sprintf(XSTATUSES_PATH,per_s,myConf->XSTATUSES_PATH);
+   \   000008F0   DF2F84E2           ADD      R2,R4,#+892
+   \   000008F4   061087E0           ADD      R1,R7,R6
+   \   000008F8   5A0E87E2           ADD      R0,R7,#+1440
+   \   000008FC   060080E0           ADD      R0,R0,R6
+   \   00000900   160000EF           SWI      +22
+   1503            
+   1504            
+   1505          //-----------------------------------------
+   1506            
+   1507            mfree(myConf);
+   \   00000904   0400A0E1           MOV      R0,R4
+   \   00000908   150000EF           SWI      +21
+   1508            mfree(myConfMod);
+   \   0000090C   0500A0E1           MOV      R0,R5
+   \   00000910   150000EF           SWI      +21
+   \   00000914   0000A0E3           MOV      R0,#+0
+   \   00000918   F08FBDE8           POP      {R4-R11,PC}
+   1509          }
+   1510          else
+   1511          {
+   1512            LockSched();
+   \                     ??UpdateConfig_5:
+   \   0000091C   460100EF           SWI      +326
+   1513            ShowMSG(1,(int)"Can't open configs!");
+   \   00000920   381088E2           ADD      R1,R8,#+56
+   \   00000924   0100A0E3           MOV      R0,#+1
+   \   00000928   480100EF           SWI      +328
+   1514            UnlockSched();
+   \   0000092C   470100EF           SWI      +327
+   1515            CloseCSM(maincsm_id);
+   \   00000930   14009FE5           LDR      R0,??UpdateConfig_0+0x8  ;; maincsm_id
+   \   00000934   000090E5           LDR      R0,[R0, #+0]
+   \   00000938   FC0100EF           SWI      +508
+   1516          }
+   1517          return 0;
+   \   0000093C   0000A0E3           MOV      R0,#+0
+   \   00000940   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??UpdateConfig_0:
+   \   00000944   ........           DC32     `?<Constant "0:\\\\zbin\\\\etc\\\\NATICQMod...">`
+   \   00000948   ........           DC32     PBRECT
+   \   0000094C   ........           DC32     maincsm_id
+   1518          }
+
+   \                                 In segment DATA_I, align 4, align-sorted
+   \                     PBRECT:
+   \   00000000                      DS8 8
+   \   00000008                      REQUIRE `?<Initializer for PBRECT>`
+   1519          
+   1520          
+   1521          
+   1522          //===================================================================
+   1523          
+   1524          /*
+   1525            uins.txt
+   1526            uin;pass
+   1527            123456;qwe123
+   1528          */
+   1529          
+   1530          #define max_uin 10
+   1531          ADDUIN addonuin[max_uin];
+   \                     addonuin:
+   \   00000008                      DS8 160
+   \   000000A8                      REQUIRE `?<Initializer for addonuin>`
+   \                     tm_status_1:
+   \   000000A8                      DS8 8
+   \   000000B0                      REQUIRE `?<Initializer for tm_status_1>`
+   \                     tm_status_2:
+   \   000000B0                      DS8 8
+   \   000000B8                      REQUIRE `?<Initializer for tm_status_2>`
+   \                     tm_status_3:
+   \   000000B8                      DS8 8
+   \   000000C0                      REQUIRE `?<Initializer for tm_status_3>`
+   \                     tm_status_4:
+   \   000000C0                      DS8 8
+   \   000000C8                      REQUIRE `?<Initializer for tm_status_4>`
+   \                     tm_status_5:
+   \   000000C8                      DS8 8
+   \   000000D0                      REQUIRE `?<Initializer for tm_status_5>`
+   \                     DEVELOP_IF_MOD:
+   \   000000D0                      DS8 4
+   \   000000D4                      REQUIRE `?<Initializer for DEVELOP_IF_MOD>`
+   \                     HISTORY_SAVE_TYPE:
+   \   000000D4                      DS8 4
+   \   000000D8                      REQUIRE `?<Initializer for HISTORY_SAVE_TYPE>`
+   \                     HISTORY_BUFFER_MOD:
+   \   000000D8                      DS8 4
+   \   000000DC                      REQUIRE `?<Initializer for HISTORY_BUFFER_MOD>`
+   \                     extended_sounds:
+   \   000000DC                      DS8 4
+   \   000000E0                      REQUIRE `?<Initializer for extended_sounds>`
+   \                     LongRightAction:
+   \   000000E0                      DS8 4
+   \   000000E4                      REQUIRE `?<Initializer for LongRightAction>`
+   \                     LongLeftAction:
+   \   000000E4                      DS8 4
+   \   000000E8                      REQUIRE `?<Initializer for LongLeftAction>`
+   \                     ActionResh:
+   \   000000E8                      DS8 4
+   \   000000EC                      REQUIRE `?<Initializer for ActionResh>`
+   \                     LongVolUpAction:
+   \   000000EC                      DS8 4
+   \   000000F0                      REQUIRE `?<Initializer for LongVolUpAction>`
+   \                     LongVolDownAction:
+   \   000000F0                      DS8 4
+   \   000000F4                      REQUIRE `?<Initializer for LongVolDownAction>`
+   \                     isVolUpButton:
+   \   000000F4                      DS8 4
+   \   000000F8                      REQUIRE `?<Initializer for isVolUpButton>`
+   \                     isVolDownButton:
+   \   000000F8                      DS8 4
+   \   000000FC                      REQUIRE `?<Initializer for isVolDownButton>`
+   \                     longAct_0:
+   \   000000FC                      DS8 4
+   \   00000100                      REQUIRE `?<Initializer for longAct_0>`
+   \                     longAct_1:
+   \   00000100                      DS8 4
+   \   00000104                      REQUIRE `?<Initializer for longAct_1>`
+   \                     longAct_2:
+   \   00000104                      DS8 4
+   \   00000108                      REQUIRE `?<Initializer for longAct_2>`
+   \                     longAct_3:
+   \   00000108                      DS8 4
+   \   0000010C                      REQUIRE `?<Initializer for longAct_3>`
+   \                     longAct_4:
+   \   0000010C                      DS8 4
+   \   00000110                      REQUIRE `?<Initializer for longAct_4>`
+   \                     longAct_5:
+   \   00000110                      DS8 4
+   \   00000114                      REQUIRE `?<Initializer for longAct_5>`
+   \                     longAct_6:
+   \   00000114                      DS8 4
+   \   00000118                      REQUIRE `?<Initializer for longAct_6>`
+   \                     longAct_7:
+   \   00000118                      DS8 4
+   \   0000011C                      REQUIRE `?<Initializer for longAct_7>`
+   \                     longAct_8:
+   \   0000011C                      DS8 4
+   \   00000120                      REQUIRE `?<Initializer for longAct_8>`
+   \                     longAct_9:
+   \   00000120                      DS8 4
+   \   00000124                      REQUIRE `?<Initializer for longAct_9>`
+   \                     longAct_10:
+   \   00000124                      DS8 4
+   \   00000128                      REQUIRE `?<Initializer for longAct_10>`
+   \                     longAct_11:
+   \   00000128                      DS8 4
+   \   0000012C                      REQUIRE `?<Initializer for longAct_11>`
+   \                     longAct_RB:
+   \   0000012C                      DS8 4
+   \   00000130                      REQUIRE `?<Initializer for longAct_RB>`
+   \                     show_xstatus:
+   \   00000130                      DS8 4
+   \   00000134                      REQUIRE `?<Initializer for show_xstatus>`
+   \                     IDLEICON_XX:
+   \   00000134                      DS8 4
+   \   00000138                      REQUIRE `?<Initializer for IDLEICON_XX>`
+   \                     IDLEICON_YX:
+   \   00000138                      DS8 4
+   \   0000013C                      REQUIRE `?<Initializer for IDLEICON_YX>`
+   \                     ind_set_xstatus:
+   \   0000013C                      DS8 4
+   \   00000140                      REQUIRE `?<Initializer for ind_set_xstatus>`
+   \                     fonto:
+   \   00000140                      DS8 4
+   \   00000144                      REQUIRE `?<Initializer for fonto>`
+   \                     msg_d_x:
+   \   00000144                      DS8 4
+   \   00000148                      REQUIRE `?<Initializer for msg_d_x>`
+   \                     msg_d_y:
+   \   00000148                      DS8 4
+   \   0000014C                      REQUIRE `?<Initializer for msg_d_y>`
+   \                     main_msg_timer:
+   \   0000014C                      DS8 4
+   \   00000150                      REQUIRE `?<Initializer for main_msg_timer>`
+   \                     main_lenght:
+   \   00000150                      DS8 4
+   \   00000154                      REQUIRE `?<Initializer for main_lenght>`
+   \                     use_cutter:
+   \   00000154                      DS8 4
+   \   00000158                      REQUIRE `?<Initializer for use_cutter>`
+   \                     spaco1:
+   \   00000158                      DS8 4
+   \   0000015C                      REQUIRE `?<Initializer for spaco1>`
+   \                     spaco2:
+   \   0000015C                      DS8 4
+   \   00000160                      REQUIRE `?<Initializer for spaco2>`
+   \                     onlineTime_x:
+   \   00000160                      DS8 4
+   \   00000164                      REQUIRE `?<Initializer for onlineTime_x>`
+   \                     onlineTime_y:
+   \   00000164                      DS8 4
+   \   00000168                      REQUIRE `?<Initializer for onlineTime_y>`
+   \                     Pause_Time:
+   \   00000168                      DS8 4
+   \   0000016C                      REQUIRE `?<Initializer for Pause_Time>`
+   \                     Ping_X:
+   \   0000016C                      DS8 4
+   \   00000170                      REQUIRE `?<Initializer for Ping_X>`
+   \                     Ping_Y:
+   \   00000170                      DS8 4
+   \   00000174                      REQUIRE `?<Initializer for Ping_Y>`
+   \                     ping_time_config:
+   \   00000174                      DS8 4
+   \   00000178                      REQUIRE `?<Initializer for ping_time_config>`
+   \                     Is_Unread_On:
+   \   00000178                      DS8 4
+   \   0000017C                      REQUIRE `?<Initializer for Is_Unread_On>`
+   \                     unread_X:
+   \   0000017C                      DS8 4
+   \   00000180                      REQUIRE `?<Initializer for unread_X>`
+   \                     unread_Y:
+   \   00000180                      DS8 4
+   \   00000184                      REQUIRE `?<Initializer for unread_Y>`
+   \                     Is_Online_On:
+   \   00000184                      DS8 4
+   \   00000188                      REQUIRE `?<Initializer for Is_Online_On>`
+   \                     online_x:
+   \   00000188                      DS8 4
+   \   0000018C                      REQUIRE `?<Initializer for online_x>`
+   \                     online_y:
+   \   0000018C                      DS8 4
+   \   00000190                      REQUIRE `?<Initializer for online_y>`
+   \                     Auto_Status:
+   \   00000190                      DS8 4
+   \   00000194                      REQUIRE `?<Initializer for Auto_Status>`
+   \                     IsOnNAStatus:
+   \   00000194                      DS8 4
+   \   00000198                      REQUIRE `?<Initializer for IsOnNAStatus>`
+   \                     NAStatusTime:
+   \   00000198                      DS8 4
+   \   0000019C                      REQUIRE `?<Initializer for NAStatusTime>`
+   \                     isAutoStatusOn:
+   \   0000019C                      DS8 4
+   \   000001A0                      REQUIRE `?<Initializer for isAutoStatusOn>`
+   \                     AUTO_ENGADE:
+   \   000001A0                      DS8 4
+   \   000001A4                      REQUIRE `?<Initializer for AUTO_ENGADE>`
+   \                     automsgcount:
+   \   000001A4                      DS8 4
+   \   000001A8                      REQUIRE `?<Initializer for automsgcount>`
+   \                     time_zone:
+   \   000001A8                      DS8 4
+   \   000001AC                      REQUIRE `?<Initializer for time_zone>`
+   \                     showAwayIdle:
+   \   000001AC                      DS8 4
+   \   000001B0                      REQUIRE `?<Initializer for showAwayIdle>`
+   \                     auto_x:
+   \   000001B0                      DS8 4
+   \   000001B4                      REQUIRE `?<Initializer for auto_x>`
+   \                     auto_y:
+   \   000001B4                      DS8 4
+   \   000001B8                      REQUIRE `?<Initializer for auto_y>`
+   \                     Reset_timer:
+   \   000001B8                      DS8 4
+   \   000001BC                      REQUIRE `?<Initializer for Reset_timer>`
+   \                     status_1:
+   \   000001BC                      DS8 4
+   \   000001C0                      REQUIRE `?<Initializer for status_1>`
+   \                     status_2:
+   \   000001C0                      DS8 4
+   \   000001C4                      REQUIRE `?<Initializer for status_2>`
+   \                     status_3:
+   \   000001C4                      DS8 4
+   \   000001C8                      REQUIRE `?<Initializer for status_3>`
+   \                     status_4:
+   \   000001C8                      DS8 4
+   \   000001CC                      REQUIRE `?<Initializer for status_4>`
+   \                     status_5:
+   \   000001CC                      DS8 4
+   \   000001D0                      REQUIRE `?<Initializer for status_5>`
+   \                     PopupShow:
+   \   000001D0                      DS8 4
+   \   000001D4                      REQUIRE `?<Initializer for PopupShow>`
+   \                     PopupFont:
+   \   000001D4                      DS8 4
+   \   000001D8                      REQUIRE `?<Initializer for PopupFont>`
+   \                     TIME_OR_MSG:
+   \   000001D8                      DS8 4
+   \   000001DC                      REQUIRE `?<Initializer for TIME_OR_MSG>`
+   \                     ON_OFF_TIME:
+   \   000001DC                      DS8 4
+   \   000001E0                      REQUIRE `?<Initializer for ON_OFF_TIME>`
+   \                     ShowTraff:
+   \   000001E0                      DS8 4
+   \   000001E4                      REQUIRE `?<Initializer for ShowTraff>`
+   \                     isShowCont:
+   \   000001E4                      DS8 4
+   \   000001E8                      REQUIRE `?<Initializer for isShowCont>`
+   \                     isShowUnread:
+   \   000001E8                      DS8 4
+   \   000001EC                      REQUIRE `?<Initializer for isShowUnread>`
+   \                     isShowI:
+   \   000001EC                      DS8 4
+   \   000001F0                      REQUIRE `?<Initializer for isShowI>`
+   \                     isShowV:
+   \   000001F0                      DS8 4
+   \   000001F4                      REQUIRE `?<Initializer for isShowV>`
+   \                     isShowS:
+   \   000001F4                      DS8 4
+   \   000001F8                      REQUIRE `?<Initializer for isShowS>`
+   \                     isShowR:
+   \   000001F8                      DS8 4
+   \   000001FC                      REQUIRE `?<Initializer for isShowR>`
+   \                     isShowA:
+   \   000001FC                      DS8 4
+   \   00000200                      REQUIRE `?<Initializer for isShowA>`
+   \                     isShowTmXs:
+   \   00000200                      DS8 4
+   \   00000204                      REQUIRE `?<Initializer for isShowTmXs>`
+   \                     isShowTime:
+   \   00000204                      DS8 4
+   \   00000208                      REQUIRE `?<Initializer for isShowTime>`
+   \                     isShowBat:
+   \   00000208                      DS8 4
+   \   0000020C                      REQUIRE `?<Initializer for isShowBat>`
+   \                     Vibra_cc:
+   \   0000020C                      DS8 4
+   \   00000210                      REQUIRE `?<Initializer for Vibra_cc>`
+   \                     show_send_info:
+   \   00000210                      DS8 4
+   \   00000214                      REQUIRE `?<Initializer for show_send_info>`
+   \                     isLogStatusChange:
+   \   00000214                      DS8 4
+   \   00000218                      REQUIRE `?<Initializer for isLogStatusChange>`
+   \                     IsShowLoopback:
+   \   00000218                      DS8 4
+   \   0000021C                      REQUIRE `?<Initializer for IsShowLoopback>`
+   \                     IsOpenBrowser:
+   \   0000021C                      DS8 4
+   \   00000220                      REQUIRE `?<Initializer for IsOpenBrowser>`
+   \                     IsMultiBuffer:
+   \   00000220                      DS8 4
+   \   00000224                      REQUIRE `?<Initializer for IsMultiBuffer>`
+   \                     IsInvertSoftKey:
+   \   00000224                      DS8 4
+   \   00000228                      REQUIRE `?<Initializer for IsInvertSoftKey>`
+   \                     IsShowInfo:
+   \   00000228                      DS8 4
+   \   0000022C                      REQUIRE `?<Initializer for IsShowInfo>`
+   \                     UIN:
+   \   0000022C                      DS8 4
+   \   00000230                      REQUIRE `?<Initializer for UIN>`
+   \                     VIBR_ON_CONNECT:
+   \   00000230                      DS8 4
+   \   00000234                      REQUIRE `?<Initializer for VIBR_ON_CONNECT>`
+   \                     SHOW_ACTIVE:
+   \   00000234                      DS8 4
+   \   00000238                      REQUIRE `?<Initializer for SHOW_ACTIVE>`
+   \                     VIBR_TYPE:
+   \   00000238                      DS8 4
+   \   0000023C                      REQUIRE `?<Initializer for VIBR_TYPE>`
+   \                     DEVELOP_IF:
+   \   0000023C                      DS8 4
+   \   00000240                      REQUIRE `?<Initializer for DEVELOP_IF>`
+   \                     LOG_ALL:
+   \   00000240                      DS8 4
+   \   00000244                      REQUIRE `?<Initializer for LOG_ALL>`
+   \                     LOG_STATCH:
+   \   00000244                      DS8 4
+   \   00000248                      REQUIRE `?<Initializer for LOG_STATCH>`
+   \                     FIRST_LETTER:
+   \   00000248                      DS8 4
+   \   0000024C                      REQUIRE `?<Initializer for FIRST_LETTER>`
+   \                     SORT_CLIST:
+   \   0000024C                      DS8 4
+   \   00000250                      REQUIRE `?<Initializer for SORT_CLIST>`
+   \                     HISTORY_TYPE:
+   \   00000250                      DS8 4
+   \   00000254                      REQUIRE `?<Initializer for HISTORY_TYPE>`
+   \                     vibraPower:
+   \   00000254                      DS8 4
+   \   00000258                      REQUIRE `?<Initializer for vibraPower>`
+   \                     IDLEICON_X:
+   \   00000258                      DS8 4
+   \   0000025C                      REQUIRE `?<Initializer for IDLEICON_X>`
+   \                     IDLEICON_Y:
+   \   0000025C                      DS8 4
+   \   00000260                      REQUIRE `?<Initializer for IDLEICON_Y>`
+   \                     I_COLOR:
+   \   00000260                      DS8 4
+   \   00000264                      REQUIRE `?<Initializer for I_COLOR>`
+   \                     TO_COLOR:
+   \   00000264                      DS8 4
+   \   00000268                      REQUIRE `?<Initializer for TO_COLOR>`
+   \                     X_COLOR:
+   \   00000268                      DS8 4
+   \   0000026C                      REQUIRE `?<Initializer for X_COLOR>`
+   \                     O_I_COLOR:
+   \   0000026C                      DS8 4
+   \   00000270                      REQUIRE `?<Initializer for O_I_COLOR>`
+   \                     O_TO_COLOR:
+   \   00000270                      DS8 4
+   \   00000274                      REQUIRE `?<Initializer for O_TO_COLOR>`
+   \                     O_X_COLOR:
+   \   00000274                      DS8 4
+   \   00000278                      REQUIRE `?<Initializer for O_X_COLOR>`
+   \                     ED_FONT_SIZE:
+   \   00000278                      DS8 4
+   \   0000027C                      REQUIRE `?<Initializer for ED_FONT_SIZE>`
+   \                     ED_H_FONT_SIZE:
+   \   0000027C                      DS8 4
+   \   00000280                      REQUIRE `?<Initializer for ED_H_FONT_SIZE>`
+   \                     ED_X_FONT_SIZE:
+   \   00000280                      DS8 4
+   \   00000284                      REQUIRE `?<Initializer for ED_X_FONT_SIZE>`
+   \                     O_ED_FONT_SIZE:
+   \   00000284                      DS8 4
+   \   00000288                      REQUIRE `?<Initializer for O_ED_FONT_SIZE>`
+   \                     O_ED_H_FONT_SIZE:
+   \   00000288                      DS8 4
+   \   0000028C                      REQUIRE `?<Initializer for O_ED_H_FONT_SIZE>`
+   \                     O_ED_X_FONT_SIZE:
+   \   0000028C                      DS8 4
+   \   00000290                      REQUIRE `?<Initializer for O_ED_X_FONT_SIZE>`
+   \                     ACK_COLOR:
+   \   00000290                      DS8 4
+   \   00000294                      REQUIRE `?<Initializer for ACK_COLOR>`
+   \                     UNACK_COLOR:
+   \   00000294                      DS8 4
+   \   00000298                      REQUIRE `?<Initializer for UNACK_COLOR>`
+   \                     ENA_AUTO_XTXT:
+   \   00000298                      DS8 4
+   \   0000029C                      REQUIRE `?<Initializer for ENA_AUTO_XTXT>`
+   \                     NOT_LOG_SAME_XTXT:
+   \   0000029C                      DS8 4
+   \   000002A0                      REQUIRE `?<Initializer for NOT_LOG_SAME_XTXT>`
+   \                     LOG_XTXT:
+   \   000002A0                      DS8 4
+   \   000002A4                      REQUIRE `?<Initializer for LOG_XTXT>`
+   \                     HISTORY_BUFFER:
+   \   000002A4                      DS8 4
+   \   000002A8                      REQUIRE `?<Initializer for HISTORY_BUFFER>`
+   \                     ILL_DISP_RECV:
+   \   000002A8                      DS8 4
+   \   000002AC                      REQUIRE `?<Initializer for ILL_DISP_RECV>`
+   \                     ILL_KEYS_RECV:
+   \   000002AC                      DS8 4
+   \   000002B0                      REQUIRE `?<Initializer for ILL_KEYS_RECV>`
+   \                     ILL_RECV_TMR:
+   \   000002B0                      DS8 4
+   \   000002B4                      REQUIRE `?<Initializer for ILL_RECV_TMR>`
+   \                     ILL_DISP_SEND:
+   \   000002B4                      DS8 4
+   \   000002B8                      REQUIRE `?<Initializer for ILL_DISP_SEND>`
+   \                     ILL_KEYS_SEND:
+   \   000002B8                      DS8 4
+   \   000002BC                      REQUIRE `?<Initializer for ILL_KEYS_SEND>`
+   \                     ILL_SEND_TMR:
+   \   000002BC                      DS8 4
+   \   000002C0                      REQUIRE `?<Initializer for ILL_SEND_TMR>`
+   \                     ILL_SEND_FADE:
+   \   000002C0                      DS8 4
+   \   000002C4                      REQUIRE `?<Initializer for ILL_SEND_FADE>`
+   \                     ILL_RECV_FADE:
+   \   000002C4                      DS8 4
+   \   000002C8                      REQUIRE `?<Initializer for ILL_RECV_FADE>`
+   \                     ILL_OFF_FADE:
+   \   000002C8                      DS8 4
+   \   000002CC                      REQUIRE `?<Initializer for ILL_OFF_FADE>`
+   \                     sndVolume:
+   \   000002CC                      DS8 4
+   \   000002D0                      REQUIRE `?<Initializer for sndVolume>`
+   \                     NATICQ_PORT:
+   \   000002D0                      DS8 4
+   \   000002D4                      REQUIRE `?<Initializer for NATICQ_PORT>`
+   \                     RECONNECT_TIME:
+   \   000002D4                      DS8 4
+   \   000002D8                      REQUIRE `?<Initializer for RECONNECT_TIME>`
+   1532          
+   1533          char *temp_chars; //Собственно файл
+   \                     temp_chars:
+   \   000002D8                      DS8 4
+   \   000002DC                      REQUIRE `?<Initializer for temp_chars>`
+   1534          char **temp_lines; //Массив указателей на строки
+   \                     temp_lines:
+   \   000002DC                      DS8 4
+   \   000002E0                      REQUIRE `?<Initializer for temp_lines>`
+   \                     fontColor:
+   \   000002E0                      DS8 1
+   \   000002E1                      REQUIRE `?<Initializer for fontColor>`
+   \                     bgrColor:
+   \   000002E1                      DS8 1
+   \   000002E2                      REQUIRE `?<Initializer for bgrColor>`
+   \   000002E2                      DS8 2
+   \                     SmBGcolor:
+   \   000002E4                      DS8 4
+   \   000002E8                      REQUIRE `?<Initializer for SmBGcolor>`
+   \                     SmSelectColor:
+   \   000002E8                      DS8 4
+   \   000002EC                      REQUIRE `?<Initializer for SmSelectColor>`
+   \                     SmFontColor:
+   \   000002EC                      DS8 4
+   \   000002F0                      REQUIRE `?<Initializer for SmFontColor>`
+   \                     PopupBGCl:
+   \   000002F0                      DS8 4
+   \   000002F4                      REQUIRE `?<Initializer for PopupBGCl>`
+   \                     PopupOnlineCl:
+   \   000002F4                      DS8 4
+   \   000002F8                      REQUIRE `?<Initializer for PopupOnlineCl>`
+   \                     PopupMsgCl:
+   \   000002F8                      DS8 4
+   \   000002FC                      REQUIRE `?<Initializer for PopupMsgCl>`
+   \                     PBcolor:
+   \   000002FC                      DS8 4
+   \   00000300                      REQUIRE `?<Initializer for PBcolor>`
+   \                     BGPBcolor:
+   \   00000300                      DS8 4
+   \   00000304                      REQUIRE `?<Initializer for BGPBcolor>`
+   \                     per_s:
+   \   00000304                      DS8 3
+   \   00000307                      REQUIRE `?<Initializer for per_s>`
+   \   00000307                      DS8 1
+   \                     sndMsg2:
+   \   00000308                      DS8 64
+   \   00000348                      REQUIRE `?<Initializer for sndMsg2>`
+   \                     pingsnd:
+   \   00000348                      DS8 64
+   \   00000388                      REQUIRE `?<Initializer for pingsnd>`
+   \                     fontpath:
+   \   00000388                      DS8 64
+   \   000003C8                      REQUIRE `?<Initializer for fontpath>`
+   \                     awayHelloMsg:
+   \   000003C8                      DS8 24
+   \   000003E0                      REQUIRE `?<Initializer for awayHelloMsg>`
+   \                     awayMsg:
+   \   000003E0                      DS8 256
+   \   000004E0                      REQUIRE `?<Initializer for awayMsg>`
+   \                     PopupMsgString:
+   \   000004E0                      DS8 12
+   \   000004EC                      REQUIRE `?<Initializer for PopupMsgString>`
+   \                     PopupOnlineString:
+   \   000004EC                      DS8 12
+   \   000004F8                      REQUIRE `?<Initializer for PopupOnlineString>`
+   \                     ignor_list:
+   \   000004F8                      DS8 256
+   \   000005F8                      REQUIRE `?<Initializer for ignor_list>`
+   \                     I_str:
+   \   000005F8                      DS8 32
+   \   00000618                      REQUIRE `?<Initializer for I_str>`
+   \                     PASS:
+   \   00000618                      DS8 12
+   \   00000624                      REQUIRE `?<Initializer for PASS>`
+   \                     sndStartup:
+   \   00000624                      DS8 64
+   \   00000664                      REQUIRE `?<Initializer for sndStartup>`
+   \                     sndSrvMsg:
+   \   00000664                      DS8 64
+   \   000006A4                      REQUIRE `?<Initializer for sndSrvMsg>`
+   \                     sndGlobal:
+   \   000006A4                      DS8 64
+   \   000006E4                      REQUIRE `?<Initializer for sndGlobal>`
+   \                     sndGlobal2:
+   \   000006E4                      DS8 64
+   \   00000724                      REQUIRE `?<Initializer for sndGlobal2>`
+   \                     sndMsg:
+   \   00000724                      DS8 64
+   \   00000764                      REQUIRE `?<Initializer for sndMsg>`
+   \                     sndMsgSent:
+   \   00000764                      DS8 64
+   \   000007A4                      REQUIRE `?<Initializer for sndMsgSent>`
+   \                     SMILE_FILE:
+   \   000007A4                      DS8 64
+   \   000007E4                      REQUIRE `?<Initializer for SMILE_FILE>`
+   \                     TEMPLATES_PATH:
+   \   000007E4                      DS8 64
+   \   00000824                      REQUIRE `?<Initializer for TEMPLATES_PATH>`
+   \                     ICON_PATH:
+   \   00000824                      DS8 64
+   \   00000864                      REQUIRE `?<Initializer for ICON_PATH>`
+   \                     SMILE_PATH:
+   \   00000864                      DS8 64
+   \   000008A4                      REQUIRE `?<Initializer for SMILE_PATH>`
+   \                     XSTATUSES_PATH:
+   \   000008A4                      DS8 64
+   \   000008E4                      REQUIRE `?<Initializer for XSTATUSES_PATH>`
+   \                     HIST_PATH:
+   \   000008E4                      DS8 64
+   \   00000924                      REQUIRE `?<Initializer for HIST_PATH>`
+   \                     NATICQ_HOST:
+   \   00000924                      DS8 128
+   \   000009A4                      REQUIRE `?<Initializer for NATICQ_HOST>`
+   \                     suc_config_name:
+   \   000009A4                      DS8 64
+   \   000009E4                      REQUIRE `?<Initializer for suc_config_name>`
+   \                     suc_config_name_mod:
+   \   000009E4                      DS8 64
+   \   00000A24                      REQUIRE `?<Initializer for suc_config_name_mod>`
+   1535          
+
+   \                                 In segment CODE, align 4, keep-with-next
+   1536          void FreeUINS(void)
+   1537          {
+   \                     FreeUINS:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   1538            if (temp_lines) mfree(temp_lines);
+   \   00000004   ........           LDR      R4,??DataTable2  ;; PBRECT
+   \   00000008   DC0294E5           LDR      R0,[R4, #+732]
+   \   0000000C   000050E3           CMP      R0,#+0
+   \   00000010   0000000A           BEQ      ??FreeUINS_0
+   \   00000014   150000EF           SWI      +21
+   1539            if (temp_chars) mfree(temp_chars);
+   \                     ??FreeUINS_0:
+   \   00000018   D80294E5           LDR      R0,[R4, #+728]
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0100000A           BEQ      ??FreeUINS_1
+   \   00000024   150000EF           SWI      +21
+   1540            temp_lines=NULL;
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \                     ??FreeUINS_1:
+   \   0000002C   DC0284E5           STR      R0,[R4, #+732]
+   1541            temp_chars=NULL;
+   \   00000030   D80284E5           STR      R0,[R4, #+728]
+   1542          }
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+   1543          
+
+   \                                 In segment CODE, align 4, keep-with-next
+   1544          int LoadUIN()
+   1545          {
+   \                     LoadUIN:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+   1546            FSTATS stat;
+   1547            char fn[256];
+   1548            int f;
+   1549            unsigned int ul;
+   1550            int i;
+   1551            int fsize;
+   1552            char *p;
+   1553            char *pp;
+   1554            int c;
+   1555            FreeUINS();
+   1556            strcpy(fn,TEMPLATES_PATH);
+   \   00000004   ........           LDR      R4,??DataTable2  ;; PBRECT
+   \   00000008   4BDF4DE2           SUB      SP,SP,#+300
+   1557            i=strlen(fn);
+   1558            sprintf(fn+i,"\\uins.txt");
+   1559            if (GetFileStats(fn,&stat,&ul)==-1) return 0;
+   \   0000000C   0050E0E3           MVN      R5,#+0
+   \   00000010   ........           BL       FreeUINS
+   \   00000014   E400A0E3           MOV      R0,#+228
+   \   00000018   700E80E3           ORR      R0,R0,#0x700
+   \   0000001C   041080E0           ADD      R1,R0,R4
+   \   00000020   04008DE2           ADD      R0,SP,#+4
+   \   00000024   1A0000EF           SWI      +26
+   \   00000028   04008DE2           ADD      R0,SP,#+4
+   \   0000002C   1B0000EF           SWI      +27
+   \   00000030   04119FE5           LDR      R1,??LoadUIN_0   ;; `?<Constant "\\\\uins.txt">`
+   \   00000034   0070A0E1           MOV      R7,R0
+   \   00000038   04008DE2           ADD      R0,SP,#+4
+   \   0000003C   000087E0           ADD      R0,R7,R0
+   \   00000040   160000EF           SWI      +22
+   \   00000044   0D20A0E1           MOV      R2,SP
+   \   00000048   411F8DE2           ADD      R1,SP,#+260
+   \   0000004C   04008DE2           ADD      R0,SP,#+4
+   \   00000050   840000EF           SWI      +132
+   \   00000054   050050E1           CMP      R0,R5
+   \   00000058   0200001A           BNE      ??LoadUIN_1
+   \                     ??LoadUIN_2:
+   \   0000005C   0000A0E3           MOV      R0,#+0
+   \   00000060   4BDF8DE2           ADD      SP,SP,#+300
+   \   00000064   F087BDE8           POP      {R4-R10,PC}
+   1560            if ((fsize=stat.size)<=0) return 0;
+   \                     ??LoadUIN_1:
+   \   00000068   08719DE5           LDR      R7,[SP, #+264]
+   \   0000006C   010057E3           CMP      R7,#+1
+   \   00000070   F9FFFFBA           BLT      ??LoadUIN_2
+   1561            if((f=fopen(fn,A_ReadOnly+A_BIN,P_READ,&ul))==-1) return 0;
+   \   00000074   0D30A0E1           MOV      R3,SP
+   \   00000078   8020A0E3           MOV      R2,#+128
+   \   0000007C   801CA0E3           MOV      R1,#+32768
+   \   00000080   04008DE2           ADD      R0,SP,#+4
+   \   00000084   0A0000EF           SWI      +10
+   \   00000088   0080A0E1           MOV      R8,R0
+   \   0000008C   050058E1           CMP      R8,R5
+   \   00000090   F1FFFF0A           BEQ      ??LoadUIN_2
+   1562            p=temp_chars=malloc(fsize+1);
+   \   00000094   010087E2           ADD      R0,R7,#+1
+   \   00000098   140000EF           SWI      +20
+   \   0000009C   D80284E5           STR      R0,[R4, #+728]
+   \   000000A0   0050A0E1           MOV      R5,R0
+   1563            p[fread(f,p,fsize,&ul)]=0;
+   \   000000A4   0060A0E3           MOV      R6,#+0
+   \   000000A8   0D30A0E1           MOV      R3,SP
+   \   000000AC   0720A0E1           MOV      R2,R7
+   \   000000B0   0510A0E1           MOV      R1,R5
+   \   000000B4   0800A0E1           MOV      R0,R8
+   \   000000B8   0B0000EF           SWI      +11
+   \   000000BC   0560C0E7           STRB     R6,[R0, +R5]
+   1564            fclose(f,&ul);
+   \   000000C0   0D10A0E1           MOV      R1,SP
+   \   000000C4   0800A0E1           MOV      R0,R8
+   \   000000C8   0D0000EF           SWI      +13
+   1565            i=0;
+   \   000000CC   0070A0E3           MOV      R7,#+0
+   1566            pp=p;
+   \   000000D0   0580A0E1           MOV      R8,R5
+   1567            for(;;)
+   1568            {
+   1569              c=*p;
+   \                     ??LoadUIN_3:
+   \   000000D4   0090D5E5           LDRB     R9,[R5, #+0]
+   1570              if (c<32)
+   \   000000D8   200059E3           CMP      R9,#+32
+   \   000000DC   0E0000AA           BGE      ??LoadUIN_4
+   1571              {
+   1572                if (pp&&(pp!=p))
+   \   000000E0   000058E3           CMP      R8,#+0
+   \   000000E4   05005811           CMPNE    R8,R5
+   \   000000E8   0600000A           BEQ      ??LoadUIN_5
+   1573                {
+   1574          	temp_lines=realloc(temp_lines,(i+1)*sizeof(char *));
+   \   000000EC   DC0294E5           LDR      R0,[R4, #+732]
+   \   000000F0   01A087E2           ADD      R10,R7,#+1
+   \   000000F4   0A11A0E1           LSL      R1,R10,#+2
+   \   000000F8   BA0000EF           SWI      +186
+   \   000000FC   DC0284E5           STR      R0,[R4, #+732]
+   1575          	temp_lines[i++]=pp;
+   \   00000100   078180E7           STR      R8,[R0, +R7, LSL #+2]
+   \   00000104   0A70A0E1           MOV      R7,R10
+   1576                }
+   1577                pp=NULL;
+   \                     ??LoadUIN_5:
+   \   00000108   0080A0E3           MOV      R8,#+0
+   1578                if (!c) break;
+   \   0000010C   000059E3           CMP      R9,#+0
+   \   00000110   0600000A           BEQ      ??LoadUIN_6
+   1579                *p=0;
+   \   00000114   0060C5E5           STRB     R6,[R5, #+0]
+   \   00000118   010000EA           B        ??LoadUIN_7
+   1580              }
+   1581              else
+   1582              {
+   1583                if (pp==NULL) pp=p;
+   \                     ??LoadUIN_4:
+   \   0000011C   000058E3           CMP      R8,#+0
+   \   00000120   0580A001           MOVEQ    R8,R5
+   1584              }
+   1585              p++;
+   \                     ??LoadUIN_7:
+   \   00000124   015085E2           ADD      R5,R5,#+1
+   1586              if(i>max_uin) break;
+   \   00000128   0B0057E3           CMP      R7,#+11
+   \   0000012C   E8FFFFBA           BLT      ??LoadUIN_3
+   1587            }
+   1588            return i;
+   \                     ??LoadUIN_6:
+   \   00000130   0700A0E1           MOV      R0,R7
+   \   00000134   4BDF8DE2           ADD      SP,SP,#+300
+   \   00000138   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??LoadUIN_0:
+   \   0000013C   ........           DC32     `?<Constant "\\\\uins.txt">`
+   1589          }
+   1590          
+   1591          
+   1592          extern const char percent_s[];
+   1593          extern unsigned long  strtoul (const char *nptr,char **endptr,int base);
+   1594          
+
+   \                                 In segment CODE, align 4, keep-with-next
+   1595          int ParseUINS()
+   1596          {
+   \                     ParseUINS:
+   \   00000000   F0412DE9           PUSH     {R4-R8,LR}
+   \   00000004   0CD04DE2           SUB      SP,SP,#+12
+   1597            char *pass;
+   1598            char uin[9];
+   1599            int i=LoadUIN();
+   1600            int j=0;
+   \   00000008   0050A0E3           MOV      R5,#+0
+   \   0000000C   ........           BL       LoadUIN
+   \   00000010   0040B0E1           MOVS     R4,R0
+   1601            if(i==0) return 0;
+   \   00000014   3100000A           BEQ      ??ParseUINS_0
+   1602            
+   1603            addonuin[0].uin=UIN;//В первую ячейку уин из конфига
+   \   00000018   ........           LDR      R6,??DataTable2  ;; PBRECT
+   1604            snprintf(addonuin[0].pass,9,percent_s,PASS);
+   \   0000001C   C4709FE5           LDR      R7,??ParseUINS_1  ;; percent_s
+   \   00000020   2C0296E5           LDR      R0,[R6, #+556]
+   \   00000024   0720A0E1           MOV      R2,R7
+   \   00000028   080086E5           STR      R0,[R6, #+8]
+   \   0000002C   1800A0E3           MOV      R0,#+24
+   \   00000030   600E80E3           ORR      R0,R0,#0x600
+   \   00000034   063080E0           ADD      R3,R0,R6
+   \   00000038   0910A0E3           MOV      R1,#+9
+   \   0000003C   0C0086E2           ADD      R0,R6,#+12
+   \   00000040   1B0100EF           SWI      +283
+   \   00000044   010054E3           CMP      R4,#+1
+   \   00000048   220000AA           BGE      ??ParseUINS_2
+   \   0000004C   0500A0E1           MOV      R0,R5
+   \   00000050   FE81BDE8           POP      {R1-R8,PC}
+   1605            
+   1606            while(j<i)
+   1607            {
+   1608             pass=strrchr(temp_lines[j],';')+1; 
+   \                     ??ParseUINS_3:
+   \   00000054   DC0296E5           LDR      R0,[R6, #+732]
+   \   00000058   3B10A0E3           MOV      R1,#+59
+   \   0000005C   050190E7           LDR      R0,[R0, +R5, LSL #+2]
+   1609             snprintf(addonuin[j+1].pass,9,percent_s,pass);
+   \   00000060   058286E0           ADD      R8,R6,R5, LSL #+4
+   \   00000064   170100EF           SWI      +279
+   \   00000068   013080E2           ADD      R3,R0,#+1
+   \   0000006C   0720A0E1           MOV      R2,R7
+   \   00000070   0910A0E3           MOV      R1,#+9
+   \   00000074   1C0088E2           ADD      R0,R8,#+28
+   \   00000078   1B0100EF           SWI      +283
+   1610            // ShowMSG(2,(int)pass);
+   1611             int k;
+   1612             for(k=0; k<9 && temp_lines[j][k]!=';';k++)
+   \   0000007C   0000A0E3           MOV      R0,#+0
+   \                     ??ParseUINS_4:
+   \   00000080   DC1296E5           LDR      R1,[R6, #+732]
+   \   00000084   051181E0           ADD      R1,R1,R5, LSL #+2
+   \   00000088   002091E5           LDR      R2,[R1, #+0]
+   \   0000008C   0220D0E7           LDRB     R2,[R0, +R2]
+   \   00000090   3B0052E3           CMP      R2,#+59
+   \   00000094   0600000A           BEQ      ??ParseUINS_5
+   1613                uin[k]=temp_lines[j][k];
+   \   00000098   001091E5           LDR      R1,[R1, #+0]
+   \   0000009C   0D20A0E1           MOV      R2,SP
+   \   000000A0   0110D0E7           LDRB     R1,[R0, +R1]
+   \   000000A4   0210C0E7           STRB     R1,[R0, +R2]
+   \   000000A8   010080E2           ADD      R0,R0,#+1
+   \   000000AC   090050E3           CMP      R0,#+9
+   \   000000B0   F2FFFFBA           BLT      ??ParseUINS_4
+   1614             uin[k]=0;
+   \                     ??ParseUINS_5:
+   \   000000B4   0D10A0E1           MOV      R1,SP
+   \   000000B8   0020A0E3           MOV      R2,#+0
+   \   000000BC   0120C0E7           STRB     R2,[R0, +R1]
+   1615             addonuin[j+1].uin=strtoul(uin,0,10);
+   \   000000C0   0A20A0E3           MOV      R2,#+10
+   \   000000C4   0010A0E3           MOV      R1,#+0
+   \   000000C8   0D00A0E1           MOV      R0,SP
+   \   000000CC   ........           _BLF     strtoul,??strtoul??rA
+   \   000000D0   180088E5           STR      R0,[R8, #+24]
+   1616          //   ShowMSG(2,(int)uin);   
+   1617             j++;
+   \   000000D4   015085E2           ADD      R5,R5,#+1
+   1618            }
+   \                     ??ParseUINS_2:
+   \   000000D8   040055E1           CMP      R5,R4
+   \   000000DC   DCFFFFBA           BLT      ??ParseUINS_3
+   1619          return j;
+   \                     ??ParseUINS_0:
+   \   000000E0   0500A0E1           MOV      R0,R5
+   \   000000E4   FE81BDE8           POP      {R1-R8,PC}       ;; return
+   \                     ??ParseUINS_1:
+   \   000000E8   ........           DC32     percent_s
+   1620          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   ........           DC32     PBRECT
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for PBRECT>`:
+   \   00000000   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for addonuin>`:
+   \   00000008   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000018   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000028   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000038   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000048   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000058   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000068   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000078   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000088   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000098   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for tm_status_1>`:
+   \   000000A8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for tm_status_2>`:
+   \   000000B0   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for tm_status_3>`:
+   \   000000B8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for tm_status_4>`:
+   \   000000C0   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for tm_status_5>`:
+   \   000000C8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for DEVELOP_IF_MOD>`:
+   \   000000D0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for HISTORY_SAVE_TYPE>`:
+   \   000000D4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for HISTORY_BUFFER_MOD>`:
+   \   000000D8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for extended_sounds>`:
+   \   000000DC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for LongRightAction>`:
+   \   000000E0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for LongLeftAction>`:
+   \   000000E4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ActionResh>`:
+   \   000000E8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for LongVolUpAction>`:
+   \   000000EC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for LongVolDownAction>`:
+   \   000000F0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isVolUpButton>`:
+   \   000000F4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isVolDownButton>`:
+   \   000000F8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_0>`:
+   \   000000FC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_1>`:
+   \   00000100   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_2>`:
+   \   00000104   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_3>`:
+   \   00000108   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_4>`:
+   \   0000010C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_5>`:
+   \   00000110   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_6>`:
+   \   00000114   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_7>`:
+   \   00000118   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_8>`:
+   \   0000011C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_9>`:
+   \   00000120   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_10>`:
+   \   00000124   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_11>`:
+   \   00000128   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for longAct_RB>`:
+   \   0000012C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for show_xstatus>`:
+   \   00000130   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for IDLEICON_XX>`:
+   \   00000134   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for IDLEICON_YX>`:
+   \   00000138   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ind_set_xstatus>`:
+   \   0000013C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for fonto>`:
+   \   00000140   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for msg_d_x>`:
+   \   00000144   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for msg_d_y>`:
+   \   00000148   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for main_msg_timer>`:
+   \   0000014C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for main_lenght>`:
+   \   00000150   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for use_cutter>`:
+   \   00000154   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for spaco1>`:
+   \   00000158   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for spaco2>`:
+   \   0000015C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for onlineTime_x>`:
+   \   00000160   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for onlineTime_y>`:
+   \   00000164   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Pause_Time>`:
+   \   00000168   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Ping_X>`:
+   \   0000016C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Ping_Y>`:
+   \   00000170   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ping_time_config>`:
+   \   00000174   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Is_Unread_On>`:
+   \   00000178   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for unread_X>`:
+   \   0000017C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for unread_Y>`:
+   \   00000180   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Is_Online_On>`:
+   \   00000184   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for online_x>`:
+   \   00000188   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for online_y>`:
+   \   0000018C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Auto_Status>`:
+   \   00000190   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for IsOnNAStatus>`:
+   \   00000194   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for NAStatusTime>`:
+   \   00000198   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isAutoStatusOn>`:
+   \   0000019C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for AUTO_ENGADE>`:
+   \   000001A0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for automsgcount>`:
+   \   000001A4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for time_zone>`:
+   \   000001A8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for showAwayIdle>`:
+   \   000001AC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for auto_x>`:
+   \   000001B0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for auto_y>`:
+   \   000001B4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Reset_timer>`:
+   \   000001B8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for status_1>`:
+   \   000001BC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for status_2>`:
+   \   000001C0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for status_3>`:
+   \   000001C4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for status_4>`:
+   \   000001C8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for status_5>`:
+   \   000001CC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for PopupShow>`:
+   \   000001D0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for PopupFont>`:
+   \   000001D4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for TIME_OR_MSG>`:
+   \   000001D8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ON_OFF_TIME>`:
+   \   000001DC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ShowTraff>`:
+   \   000001E0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isShowCont>`:
+   \   000001E4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isShowUnread>`:
+   \   000001E8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isShowI>`:
+   \   000001EC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isShowV>`:
+   \   000001F0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isShowS>`:
+   \   000001F4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isShowR>`:
+   \   000001F8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isShowA>`:
+   \   000001FC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isShowTmXs>`:
+   \   00000200   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isShowTime>`:
+   \   00000204   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isShowBat>`:
+   \   00000208   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for Vibra_cc>`:
+   \   0000020C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for show_send_info>`:
+   \   00000210   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for isLogStatusChange>`:
+   \   00000214   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for IsShowLoopback>`:
+   \   00000218   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for IsOpenBrowser>`:
+   \   0000021C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for IsMultiBuffer>`:
+   \   00000220   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for IsInvertSoftKey>`:
+   \   00000224   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for IsShowInfo>`:
+   \   00000228   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for UIN>`:
+   \   0000022C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for VIBR_ON_CONNECT>`:
+   \   00000230   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for SHOW_ACTIVE>`:
+   \   00000234   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for VIBR_TYPE>`:
+   \   00000238   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for DEVELOP_IF>`:
+   \   0000023C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for LOG_ALL>`:
+   \   00000240   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for LOG_STATCH>`:
+   \   00000244   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for FIRST_LETTER>`:
+   \   00000248   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for SORT_CLIST>`:
+   \   0000024C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for HISTORY_TYPE>`:
+   \   00000250   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for vibraPower>`:
+   \   00000254   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for IDLEICON_X>`:
+   \   00000258   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for IDLEICON_Y>`:
+   \   0000025C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for I_COLOR>`:
+   \   00000260   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for TO_COLOR>`:
+   \   00000264   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for X_COLOR>`:
+   \   00000268   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for O_I_COLOR>`:
+   \   0000026C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for O_TO_COLOR>`:
+   \   00000270   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for O_X_COLOR>`:
+   \   00000274   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ED_FONT_SIZE>`:
+   \   00000278   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ED_H_FONT_SIZE>`:
+   \   0000027C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ED_X_FONT_SIZE>`:
+   \   00000280   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for O_ED_FONT_SIZE>`:
+   \   00000284   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for O_ED_H_FONT_SIZE>`:
+   \   00000288   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for O_ED_X_FONT_SIZE>`:
+   \   0000028C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ACK_COLOR>`:
+   \   00000290   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for UNACK_COLOR>`:
+   \   00000294   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ENA_AUTO_XTXT>`:
+   \   00000298   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for NOT_LOG_SAME_XTXT>`:
+   \   0000029C   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for LOG_XTXT>`:
+   \   000002A0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for HISTORY_BUFFER>`:
+   \   000002A4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ILL_DISP_RECV>`:
+   \   000002A8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ILL_KEYS_RECV>`:
+   \   000002AC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ILL_RECV_TMR>`:
+   \   000002B0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ILL_DISP_SEND>`:
+   \   000002B4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ILL_KEYS_SEND>`:
+   \   000002B8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ILL_SEND_TMR>`:
+   \   000002BC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ILL_SEND_FADE>`:
+   \   000002C0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ILL_RECV_FADE>`:
+   \   000002C4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for ILL_OFF_FADE>`:
+   \   000002C8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for sndVolume>`:
+   \   000002CC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for NATICQ_PORT>`:
+   \   000002D0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for RECONNECT_TIME>`:
+   \   000002D4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for temp_chars>`:
+   \   000002D8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for temp_lines>`:
+   \   000002DC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for fontColor>`:
+   \   000002E0   00                 DC8 0
+   \                     `?<Initializer for bgrColor>`:
+   \   000002E1   00                 DC8 0
+   \   000002E2   0000               DC8 0, 0
+   \                     `?<Initializer for SmBGcolor>`:
+   \   000002E4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for SmSelectColor>`:
+   \   000002E8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for SmFontColor>`:
+   \   000002EC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for PopupBGCl>`:
+   \   000002F0   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for PopupOnlineCl>`:
+   \   000002F4   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for PopupMsgCl>`:
+   \   000002F8   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for PBcolor>`:
+   \   000002FC   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for BGPBcolor>`:
+   \   00000300   00000000           DC8 0, 0, 0, 0
+   \                     `?<Initializer for per_s>`:
+   \   00000304   257300             DC8 "%s"
+   \   00000307   00                 DC8 0
+   \                     `?<Initializer for sndMsg2>`:
+   \   00000308   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000318   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000328   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000338   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for pingsnd>`:
+   \   00000348   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000358   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000368   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000378   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for fontpath>`:
+   \   00000388   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000398   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000003A8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000003B8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for awayHelloMsg>`:
+   \   000003C8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000003D8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0000        
+   \                     `?<Initializer for awayMsg>`:
+   \   000003E0   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000003F0   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000400   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000410   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000420   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000430   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000440   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000450   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000460   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000470   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000480   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000490   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000004A0   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000004B0   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000004C0   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000004D0   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for PopupMsgString>`:
+   \   000004E0   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \                     `?<Initializer for PopupOnlineString>`:
+   \   000004EC   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \                     `?<Initializer for ignor_list>`:
+   \   000004F8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000508   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000518   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000528   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000538   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000548   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000558   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000568   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000578   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000588   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000598   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000005A8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000005B8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000005C8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000005D8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000005E8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for I_str>`:
+   \   000005F8   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000608   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for PASS>`:
+   \   00000618   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \                     `?<Initializer for sndStartup>`:
+   \   00000624   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000634   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000644   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000654   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for sndSrvMsg>`:
+   \   00000664   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000674   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000684   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000694   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for sndGlobal>`:
+   \   000006A4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000006B4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000006C4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000006D4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for sndGlobal2>`:
+   \   000006E4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000006F4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000704   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000714   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for sndMsg>`:
+   \   00000724   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000734   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000744   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000754   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for sndMsgSent>`:
+   \   00000764   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000774   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000784   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000794   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for SMILE_FILE>`:
+   \   000007A4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000007B4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000007C4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000007D4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for TEMPLATES_PATH>`:
+   \   000007E4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000007F4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000804   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000814   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for ICON_PATH>`:
+   \   00000824   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000834   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000844   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000854   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for SMILE_PATH>`:
+   \   00000864   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000874   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000884   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000894   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for XSTATUSES_PATH>`:
+   \   000008A4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000008B4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000008C4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000008D4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for HIST_PATH>`:
+   \   000008E4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000008F4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000904   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000914   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for NATICQ_HOST>`:
+   \   00000924   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000934   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000944   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000954   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000964   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000974   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000984   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000994   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for suc_config_name>`:
+   \   000009A4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000009B4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000009C4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000009D4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for suc_config_name_mod>`:
+   \   000009E4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   000009F4   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000A04   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000A14   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "0:\\\\zbin\\\\etc\\\\NATICQMod...">`:
+   \   00000000   303A5C7A6269       DC8 "0:\\zbin\\etc\\NATICQMod2.bcfg"
+   \              6E5C6574635C
+   \              4E4154494351
+   \              4D6F64322E62
+   \              63666700    
+   \   0000001C   343A5C7A6269       DC8 "4:\\zbin\\etc\\NATICQRun.bcfg"
+   \              6E5C6574635C
+   \              4E4154494351
+   \              52756E2E6263
+   \              666700      
+   \   00000037   00                 DC8 0
+   \   00000038   43616E277420       DC8 "Can't open configs!"
+   \              6F70656E2063
+   \              6F6E66696773
+   \              2100        
+   \   0000004C   436F6E666967       DC8 "Config mod not correct!!!"
+   \              206D6F64206E
+   \              6F7420636F72
+   \              726563742121
+   \              2100        
+   \   00000066   0000               DC8 0, 0
+   \   00000068   4E4154494351       DC8 "NATICQMod2"
+   \              4D6F643200  
+   \   00000073   00                 DC8 0
+   \   00000074   343A5C7A6269       DC8 "4:\\zbin\\etc\\NATICQMod2.bcfg"
+   \              6E5C6574635C
+   \              4E4154494351
+   \              4D6F64322E62
+   \              63666700    
+   \   00000090   303A5C7A6269       DC8 "0:\\zbin\\etc\\NATICQRun.bcfg"
+   \              6E5C6574635C
+   \              4E4154494351
+   \              52756E2E6263
+   \              666700      
+   \   000000AB   00                 DC8 0
+   \   000000AC   4E4154494351       DC8 "NATICQRun"
+   \              52756E00    
+   \   000000B6   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "\\\\uins.txt">`:
+   \   00000000   5C75696E732E       DC8 "\\uins.txt"
+   \              74787400    
+   \   0000000A   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function     CSTACK
+     --------     ------
+     FreeUINS         8
+     LoadUIN        332
+     ParseUINS       36
+     UpdateConfig    36
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     UpdateConfig                   2384
+     PBRECT                         2596
+     FreeUINS                         56
+     LoadUIN                         320
+     ParseUINS                       236
+     ??DataTable2                      4
+     ?<Initializer for PBRECT>      2596
+     ?<Constant "0:\\zbin\\etc\\NATICQMod...">
+                                     184
+     ?<Constant "\\uins.txt">         12
+      Others                          64
+
+ 
+ 3 052 bytes in segment CODE
+   196 bytes in segment DATA_C
+ 2 596 bytes in segment DATA_I
+ 2 596 bytes in segment DATA_ID
+    12 bytes in segment INITTAB
+ 
+ 3 000 bytes of CODE  memory (+ 64 bytes shared)
+ 2 792 bytes of CONST memory
+ 2 596 bytes of DATA  memory
+
+Errors: none
+Warnings: none

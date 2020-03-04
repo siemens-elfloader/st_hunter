@@ -1,0 +1,45 @@
+/*########################################################################
+#  	Master Patch (MP) © avkiev v5 corrector patch v1.1 © KonstanT 2006	 #
+#  This patch make correction to the Master Patch, so MP can update it's #
+#  table of patches with new record of a patch, has'nt found with 		 #
+#  scanner and have corresponding .PTC file in the 0:\Misc\Patches\ptc\  #
+#  directory.															 #
+#  Some bugs of MP fixed there too.  Developed for EXELoader patch.	     #
+########################################################################*/
+$ARM9E													;© KonstanT 2006
+$genonly
+
+Bufferizator	equ	000FC0C00h
+
+AREA	PATCHCODE, CODE, at Bufferizator
+code16
+Patch:		push    {R1-R7, LR}			; correcting bug with register store...
+
+org			0x0FC0C16
+			b		CorrectProc			; make a jump to correcting procedure
+
+org			0x0FC0C4E
+Exit:		pop     {R1-R7, PC}  
+org			0x0FC0D98
+			dd		0xA0FA0000			; Start scanning of flash from 0xA0FA0000
+			dd		0xA2000000			; up to 0xA2000000
+
+org			0x0FC0DDD
+CorrectProc: str	R6,	[R4]			; put zero (R6) into next elem. in PatchID table
+			sub		R4,	R2				; return to current element
+			str		R6,	[R4, #4]		; clean ^PTC field
+			str		R6,	[R4, #8]		; clean ^OnStartUp procedure
+			str		R6,	[R4, #12]		; clean ^OnChangeConfig procedure
+			push	{R0}				; save absent PatchID
+			bl		Starter				; try to find corresponding .PTC file...
+			pop		{R0}				; restore PatchID value
+			ldr		R6,	[R4, #4]		; check, is the ^PTC field 
+			cmp		R6,	#0				; is filled?
+			bne		Cont				; if not - exit
+			pop		{R1-R7, PC}
+Cont:		str		R0,	[R4]			; if set, record the PAtchID value into table.
+			b		0x0FC0C3A
+;--------------------------------
+Starter:	Push	{R1-R7,LR}			; header, needed to recall MP
+			b		0x0FC0C18
+END

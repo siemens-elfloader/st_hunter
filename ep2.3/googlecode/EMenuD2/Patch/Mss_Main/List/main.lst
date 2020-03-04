@@ -1,0 +1,140 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    12/Apr/2009  16:15:22 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  C:\Documents and Settings\ANDRE\Рабочий              #
+#                       стол\Создание ELF\EMenuD2\Patch\main.c               #
+#    Command line    =  "C:\Documents and Settings\ANDRE\Рабочий             #
+#                       стол\Создание ELF\EMenuD2\Patch\main.c" -D NEWSGOLD  #
+#                       -D MAIN -lC "C:\Documents and                        #
+#                       Settings\ANDRE\Рабочий стол\Создание                 #
+#                       ELF\EMenuD2\Patch\Mss_Main\List\" -o "C:\Documents   #
+#                       and Settings\ANDRE\Рабочий стол\Создание             #
+#                       ELF\EMenuD2\Patch\Mss_Main\Obj\" -s9 --no_unroll     #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --fpu None -I         #
+#                       "C:\SIEMENS\Embedded Workbench 4.0                   #
+#                       Evaluation\ARM\INC\" --inline_threshold=2            #
+#    List file       =  C:\Documents and Settings\ANDRE\Рабочий              #
+#                       стол\Создание ELF\EMenuD2\Patch\Mss_Main\List\main.l #
+#                       st                                                   #
+#    Object file     =  C:\Documents and Settings\ANDRE\Рабочий              #
+#                       стол\Создание ELF\EMenuD2\Patch\Mss_Main\Obj\main.r7 #
+#                       9                                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+C:\Documents and Settings\ANDRE\Рабочий стол\Создание ELF\EMenuD2\Patch\main.c
+      1          #include "..\\..\\inc\\swilib.h"
+      2          
+      3          
+      4          extern void kill_data(void *p, void (*func_p)(void *));
+      5          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      6          void ElfKiller(void)
+      7          {
+   \                     ElfKiller:
+   \   00000000   00402DE9           PUSH     {LR}
+      8            extern void *ELF_BEGIN;
+      9            kill_data(&ELF_BEGIN,(void (*)(void *))mfree_adr());
+   \   00000004   158000EF           SWI      +32789
+   \   00000008   0010A0E1           MOV      R1,R0
+   \   0000000C   04009FE5           LDR      R0,??ElfKiller_0  ;; ELF_BEGIN
+   \   00000010   0040BDE8           POP      {LR}             ;; Pop
+   \   00000014   ........           _BF      kill_data,??kill_data??rA  ;; tailcall
+   \                     ??ElfKiller_0:
+   \   00000018   ........           DC32     ELF_BEGIN
+     10          }
+     11          
+     12          
+     13          #define ipc_my_name "EMenuD 2"
+     14          #define IPC_OPEN_GUI 2
+     15          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     16          IPC_REQ myipc=
+   \                     myipc:
+   \   00000000                      DS8 12
+   \   0000000C                      REQUIRE `?<Initializer for myipc>`
+     17          {
+     18            ipc_my_name,
+     19            ipc_my_name,
+     20            NULL
+     21          };
+     22          
+     23          
+     24          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     25          int main(void)
+     26          {
+     27            GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_OPEN_GUI,&myipc);
+   \                     main:
+   \   00000000   28309FE5           LDR      R3,??main_0      ;; myipc
+   \   00000004   00402DE9           PUSH     {LR}
+   \   00000008   0220A0E3           MOV      R2,#+2
+   \   0000000C   B010A0E3           MOV      R1,#+176
+   \   00000010   DE1C81E3           ORR      R1,R1,#0xDE00
+   \   00000014   0900A0E3           MOV      R0,#+9
+   \   00000018   420C80E3           ORR      R0,R0,#0x4200
+   \   0000001C   000100EF           SWI      +256
+     28            SUBPROC((void *)ElfKiller);
+   \   00000020   0C009FE5           LDR      R0,??main_0+0x4  ;; ElfKiller
+   \   00000024   710100EF           SWI      +369
+     29            return 0;
+   \   00000028   0000A0E3           MOV      R0,#+0
+   \   0000002C   0080BDE8           POP      {PC}             ;; return
+   \                     ??main_0:
+   \   00000030   ........           DC32     myipc
+   \   00000034   ........           DC32     ElfKiller
+     30          }
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for myipc>`:
+   \   00000000   ............       DC32 `?<Constant "EMenuD 2">`, `?<Constant "EMenuD 2">`, 0H
+   \              ....00000000
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "EMenuD 2">`:
+   \   00000000   454D656E7544       DC8 "EMenuD 2"
+   \              203200      
+   \   00000009   000000             DC8 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function  CSTACK
+     --------  ------
+     ElfKiller     4
+     main          4
+
+
+   Segment part sizes:
+
+     Function/Label           Bytes
+     --------------           -----
+     ElfKiller                  28
+     myipc                      12
+     main                       56
+     ?<Initializer for myipc>   12
+     ?<Constant "EMenuD 2">     12
+      Others                    32
+
+ 
+ 104 bytes in segment CODE
+  12 bytes in segment DATA_C
+  12 bytes in segment DATA_I
+  12 bytes in segment DATA_ID
+  12 bytes in segment INITTAB
+ 
+ 84 bytes of CODE  memory (+ 32 bytes shared)
+ 24 bytes of CONST memory
+ 12 bytes of DATA  memory
+
+Errors: none
+Warnings: none

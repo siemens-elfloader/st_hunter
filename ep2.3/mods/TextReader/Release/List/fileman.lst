@@ -1,0 +1,1183 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.41A/W32 EVALUATION    17/Feb/2008  23:21:32 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT\TextReader\fileman.c        #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT\TextReader\fileman.c -D     #
+#                       NEWSGOLD -lC D:\Pasha\elf\_MY_PROJECT\TextReader\Rel #
+#                       ease\List\ -o D:\Pasha\elf\_MY_PROJECT\TextReader\Re #
+#                       lease\Obj\ -s9 --cpu_mode arm --endian little --cpu  #
+#                       ARM926EJ-S --stack_align 4 --interwork -e --fpu      #
+#                       None --dlib_config "D:\Pasha\ARM_Embedded_Workbench\ #
+#                       Embedded Workbench 4.0 Evaluation\ARM\LIB\dl5tpainl8 #
+#                       n.h" -I "D:\Pasha\ARM_Embedded_Workbench\Embedded    #
+#                       Workbench 4.0 Evaluation\ARM\INC\"                   #
+#                       --inline_threshold=2                                 #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT\TextReader\Release\List\fil #
+#                       eman.lst                                             #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT\TextReader\Release\Obj\file #
+#                       man.r79                                              #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT\TextReader\fileman.c
+      1          //#include "fileman.h"
+      2          #include "../inc/swilib.h"
+      3          //#include "main.h"
+      4          extern int codepage;//Кодировка
+      5          extern int DrawText(char *filename,int cp);
+
+   \                                 In segment CODE, align 4, keep-with-next
+      6          void patch_header(HEADER_DESC* head)
+      7          {
+   \                     patch_header:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+      8          
+      9            //  HEADER_DESC *head=(HEADER_DESC *)headc;
+     10              head->rc.x=0;
+   \   00000008   0000A0E3           MOV      R0,#+0
+   \   0000000C   B000C4E1           STRH     R0,[R4, #+0]
+     11              head->rc.y=YDISP;
+   \   00000010   B200C4E1           STRH     R0,[R4, #+2]
+     12              head->rc.x2=ScreenW()-1;
+   \   00000014   888100EF           SWI      +33160
+   \   00000018   010040E2           SUB      R0,R0,#+1
+   \   0000001C   B400C4E1           STRH     R0,[R4, #+4]
+     13              head->rc.y2=HeaderH()+YDISP;
+   \   00000020   8A8100EF           SWI      +33162
+   \   00000024   B600C4E1           STRH     R0,[R4, #+6]
+     14          
+     15          }
+   \   00000028   1080BDE8           POP      {R4,PC}          ;; return
+     16          
+     17          #pragma inline
+     18          void patch_rect(RECT*rc,int x,int y, int x2, int y2)
+     19          {
+     20            rc->x=x;
+     21            rc->y=y;
+     22            rc->x2=x2;
+     23            rc->y2=y2;
+     24          }
+     25          
+     26          typedef struct
+     27          {
+     28            void *next;
+     29            char *fullname;
+     30            char *name;
+     31            int is_folder;
+     32            char *ext;
+     33          }FLIST;
+     34          
+     35          typedef struct
+     36          {
+     37            void *gui;
+     38            int type;
+     39          }FVIEW;
+     40          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     41          volatile FLIST *fltop;
+   \                     fltop:
+   \   00000000                      DS8 4
+     42          
+     43          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     44          void Free_FLIST(void)
+     45          {
+   \                     Free_FLIST:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+     46            LockSched();
+   \   00000004   460100EF           SWI      +326
+     47            FLIST *fl=(FLIST *)fltop;
+   \   00000008   ........           LDR      R0,??DataTable4  ;; fltop
+     48            fltop=0;
+   \   0000000C   0010A0E3           MOV      R1,#+0
+   \   00000010   004090E5           LDR      R4,[R0, #+0]
+   \   00000014   001080E5           STR      R1,[R0, #+0]
+     49            UnlockSched();
+   \   00000018   470100EF           SWI      +327
+   \   0000001C   000054E3           CMP      R4,#+0
+   \   00000020   7080BD08           POPEQ    {R4-R6,PC}
+     50            while(fl)
+     51            {
+     52              FLIST *fl_prev;
+     53              fl_prev=fl;
+   \                     ??Free_FLIST_0:
+   \   00000024   0450A0E1           MOV      R5,R4
+     54              fl=fl->next;
+   \   00000028   004094E5           LDR      R4,[R4, #+0]
+     55              mfree(fl_prev->fullname);
+   \   0000002C   046085E2           ADD      R6,R5,#+4
+   \   00000030   000096E5           LDR      R0,[R6, #+0]
+   \   00000034   150000EF           SWI      +21
+     56              mfree(fl_prev->name);
+   \   00000038   040096E5           LDR      R0,[R6, #+4]
+   \   0000003C   150000EF           SWI      +21
+     57              mfree(fl_prev);
+   \   00000040   0500A0E1           MOV      R0,R5
+   \   00000044   150000EF           SWI      +21
+     58            }
+   \   00000048   000054E3           CMP      R4,#+0
+   \   0000004C   F4FFFF1A           BNE      ??Free_FLIST_0
+     59          }
+   \   00000050   7080BDE8           POP      {R4-R6,PC}       ;; return
+     60          
+     61          #define IS_FOLDER 1
+     62          #define IS_FILE 0
+     63          
+
+   \                                 In segment DATA_C, align 4, align-sorted
+     64          const char back[]="..";             
+   \                     back:
+   \   00000000   2E2E00             DC8 ".."
+   \   00000003   00                 DC8 0
+   \   00000004   524F4F5400         DC8 "ROOT"
+   \   00000009   000000             DC8 0, 0, 0
+
+   \                                 In segment CODE, align 4, keep-with-next
+     65          int GetFListN()
+     66          {
+     67            int i=0;
+     68            FLIST *fl=(FLIST*)&fltop;
+   \                     GetFListN:
+   \   00000000   ........           LDR      R1,??DataTable4  ;; fltop
+   \   00000004   0000A0E3           MOV      R0,#+0
+   \   00000008   000000EA           B        ??GetFListN_0
+     69            while((fl=fl->next)) i++;
+   \                     ??GetFListN_1:
+   \   0000000C   010080E2           ADD      R0,R0,#+1
+   \                     ??GetFListN_0:
+   \   00000010   001091E5           LDR      R1,[R1, #+0]
+   \   00000014   000051E3           CMP      R1,#+0
+   \   00000018   FBFFFF1A           BNE      ??GetFListN_1
+     70            return (i);
+   \   0000001C   1EFF2FE1           BX       LR               ;; return
+     71          }
+     72          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     73          int GetFoldersLevel(char *name)
+     74          {
+     75            int i=0;
+   \                     GetFoldersLevel:
+   \   00000000   0010A0E3           MOV      R1,#+0
+     76            char *s=name;
+   \   00000004   050000EA           B        ??GetFoldersLevel_0
+     77            while(*s++)
+     78            {
+     79              if (*s=='\\' &&*(s+1)!=0) i++;    
+   \                     ??GetFoldersLevel_1:
+   \   00000008   0020D0E5           LDRB     R2,[R0, #+0]
+   \   0000000C   5C0052E3           CMP      R2,#+92
+   \   00000010   0200001A           BNE      ??GetFoldersLevel_0
+   \   00000014   0120D0E5           LDRB     R2,[R0, #+1]
+   \   00000018   000052E3           CMP      R2,#+0
+   \   0000001C   01108112           ADDNE    R1,R1,#+1
+     80            }
+   \                     ??GetFoldersLevel_0:
+   \   00000020   ........           LDRB     R2,[R0], #+1
+   \   00000024   000052E3           CMP      R2,#+0
+   \   00000028   F6FFFF1A           BNE      ??GetFoldersLevel_1
+     81            return (i);
+   \   0000002C   0100A0E1           MOV      R0,R1
+   \   00000030   1EFF2FE1           BX       LR               ;; return
+     82          }
+     83          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     84          int strcmp_nocase(const char *s, const char *d)
+     85          {
+     86            int cs;
+     87            int ds;
+     88            do
+     89            {
+     90              cs=*s++;
+   \                     strcmp_nocase:
+   \                     ??strcmp_nocase_0:
+   \   00000000   ........           LDRB     R2,[R0], #+1
+     91              if (cs&0x40) cs&=0xDF;
+     92              ds=*d++;
+   \   00000004   ........           LDRB     R3,[R1], #+1
+   \   00000008   400012E3           TST      R2,#0x40
+   \   0000000C   DF200212           ANDNE    R2,R2,#0xDF
+     93              if (ds&0x40) ds&=0xDF;
+   \   00000010   400013E3           TST      R3,#0x40
+   \   00000014   DF300312           ANDNE    R3,R3,#0xDF
+     94              cs-=ds;
+   \   00000018   032052E0           SUBS     R2,R2,R3
+     95              if (cs) break;
+   \   0000001C   0100001A           BNE      ??strcmp_nocase_1
+     96            }
+     97            while(ds);
+   \   00000020   000053E3           CMP      R3,#+0
+   \   00000024   F5FFFF1A           BNE      ??strcmp_nocase_0
+     98            return(cs);
+   \                     ??strcmp_nocase_1:
+   \   00000028   0200A0E1           MOV      R0,R2
+   \   0000002C   1EFF2FE1           BX       LR               ;; return
+     99          }
+    100          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    101          FLIST *AddToFList(const char* full_name, const char *name, int is_folder)
+    102          {
+   \                     AddToFList:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+   \   00000004   0050A0E1           MOV      R5,R0
+   \   00000008   0160A0E1           MOV      R6,R1
+   \   0000000C   0270A0E1           MOV      R7,R2
+    103            FLIST *fl;
+    104            FLIST *pr;
+    105            FLIST *fn=malloc(sizeof(FLIST));
+   \   00000010   1400A0E3           MOV      R0,#+20
+   \   00000014   140000EF           SWI      +20
+   \   00000018   0040A0E1           MOV      R4,R0
+    106            fn->fullname=malloc(strlen(full_name)+1);
+   \   0000001C   0500A0E1           MOV      R0,R5
+   \   00000020   1B0000EF           SWI      +27
+   \   00000024   010080E2           ADD      R0,R0,#+1
+   \   00000028   140000EF           SWI      +20
+    107            strcpy(fn->fullname,full_name);
+   \   0000002C   0510A0E1           MOV      R1,R5
+    108            
+    109            fn->name=malloc(strlen(name)+1);
+    110            strcpy(fn->name,name);
+    111            
+    112            fn->is_folder=is_folder;
+    113            fn->next=0;
+    114            fl=(FLIST *)fltop;
+   \   00000030   ........           LDR      R5,??DataTable4  ;; fltop
+   \   00000034   040084E5           STR      R0,[R4, #+4]
+   \   00000038   1A0000EF           SWI      +26
+   \   0000003C   0600A0E1           MOV      R0,R6
+   \   00000040   1B0000EF           SWI      +27
+   \   00000044   010080E2           ADD      R0,R0,#+1
+   \   00000048   140000EF           SWI      +20
+   \   0000004C   080084E5           STR      R0,[R4, #+8]
+   \   00000050   0610A0E1           MOV      R1,R6
+   \   00000054   1A0000EF           SWI      +26
+   \   00000058   0C7084E5           STR      R7,[R4, #+12]
+   \   0000005C   0000A0E3           MOV      R0,#+0
+   \   00000060   000084E5           STR      R0,[R4, #+0]
+   \   00000064   006095E5           LDR      R6,[R5, #+0]
+    115            if (fl)
+   \   00000068   000056E3           CMP      R6,#+0
+   \   0000006C   0A00000A           BEQ      ??AddToFList_0
+    116            {
+    117              pr=(FLIST *)&fltop;
+   \   00000070   087094E5           LDR      R7,[R4, #+8]
+    118              while(strcmp_nocase(fl->name,fn->name)<0)
+   \                     ??AddToFList_1:
+   \   00000074   080096E5           LDR      R0,[R6, #+8]
+   \   00000078   0710A0E1           MOV      R1,R7
+   \   0000007C   ........           BL       strcmp_nocase
+   \   00000080   000050E3           CMP      R0,#+0
+   \   00000084   0300005A           BPL      ??AddToFList_2
+    119              {
+    120                pr=fl;
+   \   00000088   0650A0E1           MOV      R5,R6
+    121                fl=fl->next;
+   \   0000008C   006096E5           LDR      R6,[R6, #+0]
+    122                if (!fl) break;
+   \   00000090   000056E3           CMP      R6,#+0
+   \   00000094   F6FFFF1A           BNE      ??AddToFList_1
+    123              }
+    124              fn->next=fl;
+   \                     ??AddToFList_2:
+   \   00000098   006084E5           STR      R6,[R4, #+0]
+    125              pr->next=fn;
+    126            }
+    127            else
+    128            {
+    129              fltop=fn;
+   \                     ??AddToFList_0:
+   \   0000009C   004085E5           STR      R4,[R5, #+0]
+    130            }
+    131            return (fn);  
+   \   000000A0   0400A0E1           MOV      R0,R4
+   \   000000A4   F080BDE8           POP      {R4-R7,PC}       ;; return
+    132          }
+    133          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    134          void FindFiles(char *str/*, int type*/)  // type == 0 SelectFolder, type == 1 SelectFile
+    135          {
+   \                     FindFiles:
+   \   00000000   10402DE9           PUSH     {R4,LR}
+   \   00000004   C8D04DE2           SUB      SP,SP,#+200
+   \   00000008   40DE4DE2           SUB      SP,SP,#+1024
+   \   0000000C   0040A0E1           MOV      R4,R0
+    136            DIR_ENTRY de;
+    137            int type=1;
+    138            unsigned int err;
+    139            int i, c;
+    140            char name[256]; 
+    141            char fname[128];
+    142          
+    143            Free_FLIST();
+   \   00000010   ........           BL       Free_FLIST
+    144            strcpy(name,str);
+   \   00000014   0410A0E1           MOV      R1,R4
+   \   00000018   D20F8DE2           ADD      R0,SP,#+840
+   \   0000001C   1A0000EF           SWI      +26
+    145            strcat(name,"*");
+   \   00000020   4E1F8FE2           ADR      R1,??FindFiles_0  ;; "*"
+   \   00000024   D20F8DE2           ADD      R0,SP,#+840
+   \   00000028   170000EF           SWI      +23
+    146            
+    147            i=GetFoldersLevel(str);
+   \   0000002C   0400A0E1           MOV      R0,R4
+   \   00000030   ........           BL       GetFoldersLevel
+    148            if (i==0)
+   \   00000034   ........           LDR      R3,??DataTable6  ;; back
+   \   00000038   000050E3           CMP      R0,#+0
+   \   0000003C   0300001A           BNE      ??FindFiles_1
+    149            {
+    150              AddToFList("ROOT",back,IS_FOLDER);
+   \   00000040   0120A0E3           MOV      R2,#+1
+   \   00000044   0310A0E1           MOV      R1,R3
+   \   00000048   040083E2           ADD      R0,R3,#+4
+   \   0000004C   110000EA           B        ??FindFiles_2
+    151            }
+    152            else
+    153            {
+    154              char *s=str;
+    155              char *d=fname;
+   \                     ??FindFiles_1:
+   \   00000050   48108DE2           ADD      R1,SP,#+72
+   \   00000054   401E81E2           ADD      R1,R1,#+1024
+    156              for (int k=0; k!=i && *s; )
+   \   00000058   0020A0E3           MOV      R2,#+0
+   \                     ??FindFiles_3:
+   \   0000005C   00C0D4E5           LDRB     R12,[R4, #+0]
+   \   00000060   00005CE3           CMP      R12,#+0
+   \   00000064   0500000A           BEQ      ??FindFiles_4
+    157              {
+    158                c=*s++;
+   \   00000068   ........           LDRB     R12,[R4], #+1
+    159                *d++=c;
+   \   0000006C   ........           STRB     R12,[R1], #+1
+    160                if (c=='\\')  k++;
+   \   00000070   5C005CE3           CMP      R12,#+92
+   \   00000074   01208202           ADDEQ    R2,R2,#+1
+    161              }
+   \   00000078   00005201           CMPEQ    R2,R0
+   \   0000007C   F6FFFF1A           BNE      ??FindFiles_3
+    162              *d=0;
+   \                     ??FindFiles_4:
+   \   00000080   0000A0E3           MOV      R0,#+0
+   \   00000084   0000C1E5           STRB     R0,[R1, #+0]
+    163              AddToFList(fname,back,IS_FOLDER);
+   \   00000088   0120A0E3           MOV      R2,#+1
+   \   0000008C   0310A0E1           MOV      R1,R3
+   \   00000090   48008DE2           ADD      R0,SP,#+72
+   \   00000094   400E80E2           ADD      R0,R0,#+1024
+   \                     ??FindFiles_2:
+   \   00000098   ........           BL       AddToFList
+    164            }
+    165            if (FindFirstFile(&de,name,&err))
+   \   0000009C   0D20A0E1           MOV      R2,SP
+   \   000000A0   D21F8DE2           ADD      R1,SP,#+840
+   \   000000A4   04008DE2           ADD      R0,SP,#+4
+   \   000000A8   6B0000EF           SWI      +107
+   \   000000AC   000050E3           CMP      R0,#+0
+   \   000000B0   2B4F8FE2           ADR      R4,??FindFiles_0+0x4  ;; "\\"
+   \   000000B4   2300000A           BEQ      ??FindFiles_5
+    166            {
+    167              do
+    168              {
+    169                
+    170                strcpy(name,de.folder_name);
+   \                     ??FindFiles_6:
+   \   000000B8   38108DE2           ADD      R1,SP,#+56
+   \   000000BC   D20F8DE2           ADD      R0,SP,#+840
+   \   000000C0   1A0000EF           SWI      +26
+    171                strcat(name,"\\");
+   \   000000C4   0410A0E1           MOV      R1,R4
+   \   000000C8   D20F8DE2           ADD      R0,SP,#+840
+   \   000000CC   170000EF           SWI      +23
+    172                strcat(name,de.file_name);
+   \   000000D0   B9108DE2           ADD      R1,SP,#+185
+   \   000000D4   D20F8DE2           ADD      R0,SP,#+840
+   \   000000D8   170000EF           SWI      +23
+    173                
+    174                if (de.file_attr&FA_DIRECTORY)
+   \   000000DC   F003DDE1           LDRSH    R0,[SP, #+48]
+   \   000000E0   100010E3           TST      R0,#0x10
+   \   000000E4   0E00000A           BEQ      ??FindFiles_7
+    175                {
+    176                  
+    177                  strcpy(fname,"\\");
+   \   000000E8   0410A0E1           MOV      R1,R4
+   \   000000EC   48008DE2           ADD      R0,SP,#+72
+   \   000000F0   400E80E2           ADD      R0,R0,#+1024
+   \   000000F4   1A0000EF           SWI      +26
+    178                  strcat(fname,de.file_name);
+   \   000000F8   B9108DE2           ADD      R1,SP,#+185
+   \   000000FC   48008DE2           ADD      R0,SP,#+72
+   \   00000100   400E80E2           ADD      R0,R0,#+1024
+   \   00000104   170000EF           SWI      +23
+    179                  strcat(name,"\\");
+   \   00000108   0410A0E1           MOV      R1,R4
+   \   0000010C   D20F8DE2           ADD      R0,SP,#+840
+   \   00000110   170000EF           SWI      +23
+    180                  AddToFList(name,fname,IS_FOLDER);
+   \   00000114   0120A0E3           MOV      R2,#+1
+   \   00000118   48108DE2           ADD      R1,SP,#+72
+   \   0000011C   401E81E2           ADD      R1,R1,#+1024
+   \   00000120   010000EA           B        ??FindFiles_8
+    181                }
+    182                else
+    183                {
+    184                  if (type!=0)
+    185                  {
+    186                    AddToFList(name,de.file_name,IS_FILE);
+   \                     ??FindFiles_7:
+   \   00000124   0020A0E3           MOV      R2,#+0
+   \   00000128   B9108DE2           ADD      R1,SP,#+185
+   \                     ??FindFiles_8:
+   \   0000012C   D20F8DE2           ADD      R0,SP,#+840
+   \   00000130   ........           BL       AddToFList
+    187                  }
+    188                }
+    189              }
+    190              while(FindNextFile(&de,&err));
+   \   00000134   0D10A0E1           MOV      R1,SP
+   \   00000138   04008DE2           ADD      R0,SP,#+4
+   \   0000013C   6C0000EF           SWI      +108
+   \   00000140   000050E3           CMP      R0,#+0
+   \   00000144   DBFFFF1A           BNE      ??FindFiles_6
+    191            }
+    192            FindClose(&de,&err);
+   \                     ??FindFiles_5:
+   \   00000148   0D10A0E1           MOV      R1,SP
+   \   0000014C   04008DE2           ADD      R0,SP,#+4
+   \   00000150   6D0000EF           SWI      +109
+    193          }
+   \   00000154   C8D08DE2           ADD      SP,SP,#+200
+   \   00000158   40DE8DE2           ADD      SP,SP,#+1024
+   \   0000015C   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??FindFiles_0:
+   \   00000160   2A000000           DC8      "*",+0,+0
+   \   00000164   5C000000           DC8      "\\",+0,+0
+    194          
+    195          
+    196          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    197          FLIST *FindFLISTtByNS(int *i, int si)
+    198          {
+    199            FLIST *fl;
+    200            fl=(FLIST *)fltop;
+   \                     FindFLISTtByNS:
+   \   00000000   ........           LDR      R2,??DataTable4  ;; fltop
+   \   00000004   010000EA           B        ??FindFLISTtByNS_0
+    201            while(fl)
+    202            {
+    203              if (fl->is_folder==si)
+    204              {
+    205                if (!(*i)) return (fl);
+    206                (*i)--;
+   \                     ??FindFLISTtByNS_1:
+   \   00000008   013043E2           SUB      R3,R3,#+1
+   \   0000000C   003080E5           STR      R3,[R0, #+0]
+    207              }    
+    208              fl=fl->next;
+   \                     ??FindFLISTtByNS_0:
+   \   00000010   002092E5           LDR      R2,[R2, #+0]
+   \   00000014   000052E3           CMP      R2,#+0
+   \   00000018   0700000A           BEQ      ??FindFLISTtByNS_2
+   \   0000001C   0C3092E5           LDR      R3,[R2, #+12]
+   \   00000020   010053E1           CMP      R3,R1
+   \   00000024   F9FFFF1A           BNE      ??FindFLISTtByNS_0
+   \   00000028   003090E5           LDR      R3,[R0, #+0]
+   \   0000002C   000053E3           CMP      R3,#+0
+   \   00000030   F4FFFF1A           BNE      ??FindFLISTtByNS_1
+   \   00000034   0200A0E1           MOV      R0,R2
+   \   00000038   1EFF2FE1           BX       LR
+    209            }
+    210            return fl;
+   \                     ??FindFLISTtByNS_2:
+   \   0000003C   0000A0E3           MOV      R0,#+0
+   \   00000040   1EFF2FE1           BX       LR               ;; return
+    211          }
+    212            
+
+   \                                 In segment CODE, align 4, keep-with-next
+    213          FLIST *FindFLISTtByN(int n)
+    214          {
+   \                     FindFLISTtByN:
+   \   00000000   01402DE9           PUSH     {R0,LR}
+    215            FLIST *fl;
+    216            fl=FindFLISTtByNS(&n,IS_FOLDER); if ((!n)&&(fl)) return(fl);
+   \   00000004   0110A0E3           MOV      R1,#+1
+   \   00000008   0D00A0E1           MOV      R0,SP
+   \   0000000C   ........           BL       FindFLISTtByNS
+   \   00000010   00109DE5           LDR      R1,[SP, #+0]
+   \   00000014   000051E3           CMP      R1,#+0
+   \   00000018   0100001A           BNE      ??FindFLISTtByN_0
+   \   0000001C   000050E3           CMP      R0,#+0
+   \   00000020   0280BD18           POPNE    {R1,PC}
+    217            fl=FindFLISTtByNS(&n,IS_FILE); if ((!n)&&(fl)) return(fl);
+   \                     ??FindFLISTtByN_0:
+   \   00000024   0010A0E3           MOV      R1,#+0
+   \   00000028   0D00A0E1           MOV      R0,SP
+   \   0000002C   ........           BL       FindFLISTtByNS
+   \   00000030   0280BDE8           POP      {R1,PC}
+    218            return fl;
+    219          }
+    220          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    221          void SavePath(void *ed_gui, FLIST *fl)
+    222          {
+   \                     SavePath:
+   \   00000000   0100A0E1           MOV      R0,R1
+    223          /*  EDITCONTROL ec;
+    224            EDIT_ExtractFocusedControl(ed_gui,&ec);
+    225            WSHDR *ws=AllocWS(ec.maxlen);
+    226            str_2ws(ws,fl->fullname,ec.maxlen);
+    227            EDIT_SetTextToFocused(ed_gui,ws);
+    228            FreeWS(ws);*/
+    229            DrawText(fl->fullname,codepage);
+   \   00000004   ........           LDR      R1,??DataTable8  ;; codepage
+   \   00000008   040090E5           LDR      R0,[R0, #+4]
+   \   0000000C   001091E5           LDR      R1,[R1, #+0]
+   \   00000010   ........           _BF      DrawText,??DrawText??rA  ;; tailcall
+    230          }  
+    231          
+    232          char header[];
+
+   \                                 In segment CODE, align 4, keep-with-next
+    233          int filelist_menu_onkey(void *data, GUI_MSG *msg)
+    234          {
+   \                     filelist_menu_onkey:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+   \   00000004   0040A0E1           MOV      R4,R0
+   \   00000008   0160A0E1           MOV      R6,R1
+    235            FVIEW *fview=MenuGetUserPointer(data);
+   \   0000000C   E00100EF           SWI      +480
+    236            FLIST *fl;
+    237            int i;
+    238            i=GetCurMenuItem(data);
+   \   00000010   0400A0E1           MOV      R0,R4
+   \   00000014   8F0100EF           SWI      +399
+    239            fl=FindFLISTtByN(i);
+   \   00000018   ........           BL       FindFLISTtByN
+    240            
+    241            if (msg->keys==0x3D)
+   \   0000001C   ........           LDR      R1,??DataTable6  ;; back
+   \   00000020   0050A0E1           MOV      R5,R0
+   \   00000024   F200D6E1           LDRSH    R0,[R6, #+2]
+   \   00000028   3D0050E3           CMP      R0,#+61
+   \   0000002C   2200001A           BNE      ??filelist_menu_onkey_0
+    242            {
+    243              if (fl) 
+   \   00000030   000055E3           CMP      R5,#+0
+   \   00000034   1E00000A           BEQ      ??filelist_menu_onkey_1
+    244              {
+    245                if (fl->is_folder==IS_FOLDER)
+   \   00000038   0C0095E5           LDR      R0,[R5, #+12]
+   \   0000003C   010050E3           CMP      R0,#+1
+   \   00000040   2500001A           BNE      ??filelist_menu_onkey_2
+    246                {
+    247                  int len;
+    248                  if (strcmp(fl->fullname,"ROOT"))
+   \   00000044   040095E5           LDR      R0,[R5, #+4]
+   \   00000048   041081E2           ADD      R1,R1,#+4
+   \   0000004C   190000EF           SWI      +25
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   0D00000A           BEQ      ??filelist_menu_onkey_3
+    249                  {
+    250                    strncpy(header,fl->fullname,127);
+   \   00000058   ........           LDR      R6,??DataTable10  ;; header
+   \   0000005C   041095E5           LDR      R1,[R5, #+4]
+   \   00000060   7F20A0E3           MOV      R2,#+127
+   \   00000064   0600A0E1           MOV      R0,R6
+   \   00000068   160100EF           SWI      +278
+    251                    len=strlen(fl->fullname);
+   \   0000006C   040095E5           LDR      R0,[R5, #+4]
+   \   00000070   1B0000EF           SWI      +27
+    252                    header[len>127?127:len]=0;
+   \   00000074   800050E3           CMP      R0,#+128
+   \   00000078   7F00A0A3           MOVGE    R0,#+127
+   \   0000007C   0010A0E3           MOV      R1,#+0
+   \   00000080   0610C0E7           STRB     R1,[R0, +R6]
+    253                    FindFiles(fl->fullname);
+   \   00000084   040095E5           LDR      R0,[R5, #+4]
+   \   00000088   ........           BL       FindFiles
+   \   0000008C   000000EA           B        ??filelist_menu_onkey_4
+    254                  }
+    255                  else
+    256                  {
+    257                    void CreateRootMenu();
+    258                    CreateRootMenu();
+   \                     ??filelist_menu_onkey_3:
+   \   00000090   ........           BL       CreateRootMenu
+    259                  }         
+    260                  Menu_SetItemCountDyn(data,GetFListN());
+   \                     ??filelist_menu_onkey_4:
+   \   00000094   ........           BL       GetFListN
+   \   00000098   0010A0E1           MOV      R1,R0
+   \   0000009C   0400A0E1           MOV      R0,R4
+   \   000000A0   E60100EF           SWI      +486
+    261                  SetCursorToMenuItem(data, 0);
+   \   000000A4   0010A0E3           MOV      R1,#+0
+   \   000000A8   0400A0E1           MOV      R0,R4
+   \   000000AC   C40100EF           SWI      +452
+    262                  RefreshGUI();
+   \   000000B0   960100EF           SWI      +406
+    263                }
+    264                else
+    265                {
+    266                  SavePath(fview->gui,fl);        
+    267                  return (1);
+    268                }
+    269              }
+    270              //    GeneralFunc_F1(1);
+    271              return(-1);
+   \                     ??filelist_menu_onkey_1:
+   \   000000B4   0000E0E3           MVN      R0,#+0
+   \   000000B8   7080BDE8           POP      {R4-R6,PC}
+    272            }
+    273            if (msg->keys==0x18)
+   \                     ??filelist_menu_onkey_0:
+   \   000000BC   180050E3           CMP      R0,#+24
+   \   000000C0   0B00001A           BNE      ??filelist_menu_onkey_5
+    274            {
+    275              if (fl)
+   \   000000C4   000055E3           CMP      R5,#+0
+   \   000000C8   F9FFFF0A           BEQ      ??filelist_menu_onkey_1
+    276              {
+    277                if (strcmp(fl->name,back))
+   \   000000CC   080095E5           LDR      R0,[R5, #+8]
+   \   000000D0   190000EF           SWI      +25
+   \   000000D4   000050E3           CMP      R0,#+0
+   \   000000D8   F5FFFF0A           BEQ      ??filelist_menu_onkey_1
+    278                {
+    279                  SavePath(fview->gui,fl);
+    280                  return (1);
+    281                }      
+    282              }   
+    283              return (-1);
+    284            }
+   \                     ??filelist_menu_onkey_2:
+   \   000000DC   ........           LDR      R0,??DataTable8  ;; codepage
+   \   000000E0   001090E5           LDR      R1,[R0, #+0]
+   \   000000E4   040095E5           LDR      R0,[R5, #+4]
+   \   000000E8   ........           _BLF     DrawText,??DrawText??rA
+   \   000000EC   0100A0E3           MOV      R0,#+1
+   \   000000F0   7080BDE8           POP      {R4-R6,PC}
+    285            return (0);
+   \                     ??filelist_menu_onkey_5:
+   \   000000F4   0000A0E3           MOV      R0,#+0
+   \   000000F8   7080BDE8           POP      {R4-R6,PC}       ;; return
+    286          }
+    287          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    288          void filelist_menu_ghook(void *data, int cmd)
+    289          {
+   \                     filelist_menu_ghook:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   0140A0E1           MOV      R4,R1
+    290            FVIEW *fview=MenuGetUserPointer(data);
+   \   00000008   E00100EF           SWI      +480
+   \   0000000C   0050A0E1           MOV      R5,R0
+    291            if (cmd==3)
+   \   00000010   030054E3           CMP      R4,#+3
+   \   00000014   3080BD18           POPNE    {R4,R5,PC}
+    292            {
+    293              Free_FLIST();
+   \   00000018   ........           BL       Free_FLIST
+    294              mfree(fview);    
+   \   0000001C   0500A0E1           MOV      R0,R5
+   \   00000020   150000EF           SWI      +21
+    295            }
+    296          }
+   \   00000024   3080BDE8           POP      {R4,R5,PC}       ;; return
+    297          #define CBOX_CHECKED 0xE10B
+    298          #define CBOX_UNCHECKED 0xE10C
+    299          static int icon_array[2];
+                            ^
+Warning[Pe177]: variable "icon_array" was declared but never referenced
+    300          
+    301          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    302          void filelist_menu_iconhndl(void *data, int curitem, void *user_pointer)
+    303          {
+   \                     filelist_menu_iconhndl:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+    304            FLIST *fl;
+    305            WSHDR *ws;
+    306            void *item=AllocMenuItem(data);
+    307            int len;
+    308            fl=FindFLISTtByN(curitem);
+    309            if (fl)
+   \   00000004   C0809FE5           LDR      R8,??filelist_menu_iconhndl_0  ;; `?<Constant "<%s>">`
+   \   00000008   0040A0E1           MOV      R4,R0
+   \   0000000C   0150A0E1           MOV      R5,R1
+   \   00000010   970100EF           SWI      +407
+   \   00000014   0060A0E1           MOV      R6,R0
+   \   00000018   0500A0E1           MOV      R0,R5
+   \   0000001C   ........           BL       FindFLISTtByN
+   \   00000020   0070B0E1           MOVS     R7,R0
+   \   00000024   1C00000A           BEQ      ??filelist_menu_iconhndl_1
+    310            {
+    311              len=strlen(fl->name);
+   \   00000028   080097E5           LDR      R0,[R7, #+8]
+   \   0000002C   1B0000EF           SWI      +27
+   \   00000030   0090A0E1           MOV      R9,R0
+    312              ws=AllocMenuWS(data,len+4);
+   \   00000034   041089E2           ADD      R1,R9,#+4
+   \   00000038   0400A0E1           MOV      R0,R4
+   \   0000003C   980100EF           SWI      +408
+   \   00000040   00A0A0E1           MOV      R10,R0
+    313              
+    314              if (fl->is_folder)
+   \   00000044   0C0097E5           LDR      R0,[R7, #+12]
+   \   00000048   000050E3           CMP      R0,#+0
+   \   0000004C   0D00000A           BEQ      ??filelist_menu_iconhndl_2
+    315              {
+    316          //      str_2ws(ws,fl->name,len);
+    317                wsprintf(ws,"<%s>",fl->name);
+   \   00000050   082097E5           LDR      R2,[R7, #+8]
+   \   00000054   0810A0E1           MOV      R1,R8
+   \   00000058   0A00A0E1           MOV      R0,R10
+   \   0000005C   240100EF           SWI      +292
+    318                wsInsertChar(ws,0x0002,1);
+   \   00000060   0120A0E3           MOV      R2,#+1
+   \   00000064   0210A0E3           MOV      R1,#+2
+   \   00000068   0A00A0E1           MOV      R0,R10
+   \   0000006C   1D0000EF           SWI      +29
+    319                wsInsertChar(ws,0xE008,1);
+   \   00000070   0120A0E3           MOV      R2,#+1
+   \   00000074   0810A0E3           MOV      R1,#+8
+   \   00000078   E01C81E3           ORR      R1,R1,#0xE000
+   \   0000007C   0A00A0E1           MOV      R0,R10
+   \   00000080   1D0000EF           SWI      +29
+   \   00000084   0A0000EA           B        ??filelist_menu_iconhndl_3
+    320              }
+    321              else
+    322              {
+    323                str_2ws(ws,fl->name,len);
+   \                     ??filelist_menu_iconhndl_2:
+   \   00000088   081097E5           LDR      R1,[R7, #+8]
+   \   0000008C   0920A0E1           MOV      R2,R9
+   \   00000090   0A00A0E1           MOV      R0,R10
+   \   00000094   6C0100EF           SWI      +364
+   \   00000098   050000EA           B        ??filelist_menu_iconhndl_3
+    324              }
+    325            }
+    326            else
+    327            {
+    328              ws=AllocMenuWS(data,10);
+   \                     ??filelist_menu_iconhndl_1:
+   \   0000009C   0A10A0E3           MOV      R1,#+10
+   \   000000A0   0400A0E1           MOV      R0,R4
+   \   000000A4   980100EF           SWI      +408
+   \   000000A8   00A0A0E1           MOV      R10,R0
+    329              wsprintf(ws, "Ошибка");
+   \   000000AC   081088E2           ADD      R1,R8,#+8
+   \   000000B0   240100EF           SWI      +292
+    330            }
+    331            /*icon_array[0]=(int)"0:\\zbin\\img\\folder.png";//GetPicNByUnicodeSymbol(CBOX_CHECKED);
+    332            icon_array[1]=(int)"0:\\zbin\\img\\file.png";//GetPicNByUnicodeSymbol(CBOX_UNCHECKED);
+    333            if (fl->is_folder)
+    334            {
+    335             SetMenuItemIconArray(data,item,icon_array+0);
+    336            }
+    337            else SetMenuItemIconArray(data,item,icon_array+1);*/
+    338            SetMenuItemText(data, item, ws, curitem);
+   \                     ??filelist_menu_iconhndl_3:
+   \   000000B4   0530A0E1           MOV      R3,R5
+   \   000000B8   0A20A0E1           MOV      R2,R10
+   \   000000BC   0610A0E1           MOV      R1,R6
+   \   000000C0   0400A0E1           MOV      R0,R4
+   \   000000C4   9A0100EF           SWI      +410
+    339          }
+   \   000000C8   F087BDE8           POP      {R4-R10,PC}      ;; return
+   \                     ??filelist_menu_iconhndl_0:
+   \   000000CC   ........           DC32     `?<Constant "<%s>">`
+    340          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    341          int fmenusoftkeys[]={0,1,2};
+   \                     fmenusoftkeys:
+   \   00000000                      DS8 12
+   \   0000000C                      REQUIRE `?<Initializer for fmenusoftkeys>`
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    342          SOFTKEY_DESC fmenu_sk[]=
+   \                     fmenu_sk:
+   \   00000000                      DS8 24
+   \   00000018                      REQUIRE `?<Initializer for fmenu_sk>`
+    343          {
+    344            {0x0018,0x0000,(int)"Select"},
+    345            {0x0001,0x0000,(int)"Close"},
+    346            {0x003D,0x0000,(int)"+"}
+    347          };
+    348          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    349          SOFTKEYSTAB fmenu_skt=
+   \                     fmenu_skt:
+   \   00000000                      DS8 8
+   \   00000008                      REQUIRE `?<Initializer for fmenu_skt>`
+    350          {
+    351            fmenu_sk,0
+    352          };
+    353          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    354          char header[128];
+   \                     header:
+   \   00000000                      DS8 128
+   \   00000080                      REQUIRE `?<Initializer for header>`
+    355          HEADER_DESC filelist_HDR={0,0,0,0,NULL,(int)header,LGP_NULL};
+   \                     filelist_HDR:
+   \   00000080                      DS8 20
+   \   00000094                      REQUIRE `?<Initializer for filelist_HDR>`
+    356          
+    357          MENU_DESC filelist_STRUCT=
+   \                     filelist_STRUCT:
+   \   00000094                      DS8 44
+   \   000000C0                      REQUIRE `?<Initializer for filelist_STRUCT>`
+    358          {
+    359            8,filelist_menu_onkey,filelist_menu_ghook,NULL,
+    360            fmenusoftkeys,
+    361            &fmenu_skt,
+    362            0x10,
+    363            filelist_menu_iconhndl,
+    364            NULL,   //Items
+    365            NULL,   //Procs
+    366            0   //n
+    367          };
+    368          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    369          void CreateRootMenu()
+    370          {
+   \                     CreateRootMenu:
+   \   00000000   00402DE9           PUSH     {LR}
+    371            Free_FLIST();
+   \   00000004   ........           BL       Free_FLIST
+    372            AddToFList("0:\\","0:\\",IS_FOLDER);
+   \   00000008   120F8FE2           ADR      R0,??CreateRootMenu_0  ;; "0:\\"
+   \   0000000C   0120A0E3           MOV      R2,#+1
+   \   00000010   0010A0E1           MOV      R1,R0
+   \   00000014   ........           BL       AddToFList
+    373            AddToFList("1:\\","1:\\",IS_FOLDER);
+   \   00000018   0F0F8FE2           ADR      R0,??CreateRootMenu_0+0x4  ;; "1:\\"
+   \   0000001C   0120A0E3           MOV      R2,#+1
+   \   00000020   0010A0E1           MOV      R1,R0
+   \   00000024   ........           BL       AddToFList
+    374            AddToFList("2:\\","2:\\",IS_FOLDER);
+   \   00000028   0C0F8FE2           ADR      R0,??CreateRootMenu_0+0x8  ;; "2:\\"
+   \   0000002C   0120A0E3           MOV      R2,#+1
+   \   00000030   0010A0E1           MOV      R1,R0
+   \   00000034   ........           BL       AddToFList
+    375            AddToFList("4:\\","4:\\",IS_FOLDER);
+   \   00000038   090F8FE2           ADR      R0,??CreateRootMenu_0+0xC  ;; "4:\\"
+   \   0000003C   0120A0E3           MOV      R2,#+1
+   \   00000040   0010A0E1           MOV      R1,R0
+   \   00000044   ........           BL       AddToFList
+    376            strcpy(header,"Root");
+   \   00000048   18109FE5           LDR      R1,??CreateRootMenu_0+0x10  ;; `?<Constant "Root">`
+   \   0000004C   ........           LDR      R0,??DataTable10  ;; header
+   \   00000050   1A0000EF           SWI      +26
+    377          }
+   \   00000054   0080BDE8           POP      {PC}             ;; return
+   \                     ??CreateRootMenu_0:
+   \   00000058   303A5C00           DC8      "0:\\"
+   \   0000005C   313A5C00           DC8      "1:\\"
+   \   00000060   323A5C00           DC8      "2:\\"
+   \   00000064   343A5C00           DC8      "4:\\"
+   \   00000068   ........           DC32     `?<Constant "Root">`
+    378          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    379          void open_fm()
+    380          {
+   \                     open_fm:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+    381            CreateRootMenu();
+    382            FVIEW *fview;
+    383            char *s;
+    384            WSHDR *ws=AllocWS(256);
+    385            fview=malloc(sizeof(FVIEW));
+    386            if (ws->wsbody[0]==0)
+   \   00000004   ........           LDR      R5,??DataTable10  ;; header
+   \   00000008   ........           BL       CreateRootMenu
+   \   0000000C   400FA0E3           MOV      R0,#+256
+   \   00000010   250100EF           SWI      +293
+   \   00000014   0060A0E1           MOV      R6,R0
+   \   00000018   0800A0E3           MOV      R0,#+8
+   \   0000001C   140000EF           SWI      +20
+   \   00000020   0040A0E1           MOV      R4,R0
+   \   00000024   000096E5           LDR      R0,[R6, #+0]
+   \   00000028   B000D0E1           LDRH     R0,[R0, #+0]
+   \   0000002C   000050E3           CMP      R0,#+0
+   \   00000030   0100001A           BNE      ??open_fm_0
+    387            {
+    388              CreateRootMenu();
+   \   00000034   ........           BL       CreateRootMenu
+   \   00000038   100000EA           B        ??open_fm_1
+    389            }
+    390            else
+    391            {
+    392              ws_2str(ws,header,127);
+   \                     ??open_fm_0:
+   \   0000003C   7F20A0E3           MOV      R2,#+127
+   \   00000040   0510A0E1           MOV      R1,R5
+   \   00000044   0600A0E1           MOV      R0,R6
+   \   00000048   A30000EF           SWI      +163
+    393              s=strrchr(header, '\\');
+   \   0000004C   5C10A0E3           MOV      R1,#+92
+   \   00000050   0500A0E1           MOV      R0,R5
+   \   00000054   170100EF           SWI      +279
+    394              if (s) *(s+1)=0;
+   \   00000058   0060A0E3           MOV      R6,#+0
+   \   0000005C   000050E3           CMP      R0,#+0
+   \   00000060   0160C015           STRBNE   R6,[R0, #+1]
+    395              int len=strlen(header);
+   \   00000064   0500A0E1           MOV      R0,R5
+   \   00000068   1B0000EF           SWI      +27
+    396              header[len>127?127:len]=0;
+   \   0000006C   800050E3           CMP      R0,#+128
+   \   00000070   7F00A0A3           MOVGE    R0,#+127
+   \   00000074   0560C0E7           STRB     R6,[R0, +R5]
+    397              FindFiles(header);
+   \   00000078   0500A0E1           MOV      R0,R5
+   \   0000007C   ........           BL       FindFiles
+    398            }    
+    399            patch_header(&filelist_HDR);
+   \                     ??open_fm_1:
+   \   00000080   800085E2           ADD      R0,R5,#+128
+   \   00000084   ........           BL       patch_header
+    400            CreateMenu(0,0,&filelist_STRUCT,&filelist_HDR,0,GetFListN(),fview,0);
+   \   00000088   ........           BL       GetFListN
+   \   0000008C   0010A0E3           MOV      R1,#+0
+   \   00000090   02002DE9           PUSH     {R1}
+   \   00000094   10002DE9           PUSH     {R4}
+   \   00000098   01002DE9           PUSH     {R0}
+   \   0000009C   803085E2           ADD      R3,R5,#+128
+   \   000000A0   942085E2           ADD      R2,R5,#+148
+   \   000000A4   0000A0E3           MOV      R0,#+0
+   \   000000A8   01002DE9           PUSH     {R0}
+   \   000000AC   520100EF           SWI      +338
+    401          }
+   \   000000B0   7F80BDE8           POP      {R0-R6,PC}       ;; return
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable4:
+   \   00000000   ........           DC32     fltop
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable6:
+   \   00000000   ........           DC32     back
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable8:
+   \   00000000   ........           DC32     codepage
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable10:
+   \   00000000   ........           DC32     header
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for fmenusoftkeys>`:
+   \   00000000   000000000100       DC32 0, 1, 2
+   \              000002000000
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for fmenu_sk>`:
+   \   00000000   18000000           DC16 24, 0
+   \   00000004   ........           DC32 `?<Constant "Select">`
+   \   00000008   01000000           DC16 1, 0
+   \   0000000C   ........           DC32 `?<Constant "Close">`
+   \   00000010   3D000000           DC16 61, 0
+   \   00000014   ........           DC32 `?<Constant "+">`
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for fmenu_skt>`:
+   \   00000000   ........0000       DC32 fmenu_sk, 0
+   \              0000        
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for header>`:
+   \   00000000   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000010   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000020   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000030   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000040   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000050   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000060   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \   00000070   000000000000       DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              000000000000
+   \              00000000    
+   \                     `?<Initializer for filelist_HDR>`:
+   \   00000080   000000000000       DC16 0, 0, 0, 0
+   \              0000        
+   \   00000088   00000000....       DC32 0H, header, 2147483647
+   \              ....FFFFFF7F
+   \                     `?<Initializer for filelist_STRUCT>`:
+   \   00000094   08000000....       DC32 8, filelist_menu_onkey, filelist_menu_ghook, 0H, fmenusoftkeys
+   \              ............
+   \              00000000....
+   \              ....        
+   \   000000A8   ........1000       DC32 fmenu_skt, 16, filelist_menu_iconhndl, 0H, 0H, 0
+   \              0000........
+   \              000000000000
+   \              000000000000
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Select">`:
+   \   00000000   53656C656374       DC8 "Select"
+   \              00          
+   \   00000007   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Close">`:
+   \   00000000   436C6F736500       DC8 "Close"
+   \   00000006   0000               DC8 0, 0
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "+">`:
+   \   00000000   2B00               DC8 "+"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   2A00               DC8 "*"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   5C00               DC8 "\\"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "<%s>">`:
+   \   00000000   3C25733E00         DC8 "<%s>"
+   \   00000005   000000             DC8 0, 0, 0
+   \   00000008   CEF8E8E1EAE0       DC8 "\316\370\350\341\352\340"
+   \              00          
+   \   0000000F   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   303A5C00           DC8 "0:\\"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   313A5C00           DC8 "1:\\"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   323A5C00           DC8 "2:\\"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   343A5C00           DC8 "4:\\"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Root">`:
+   \   00000000   526F6F7400         DC8 "Root"
+   \   00000005   000000             DC8 0, 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function               CSTACK
+     --------               ------
+     AddToFList                20
+     CreateRootMenu             4
+     FindFLISTtByN              8
+     FindFLISTtByNS             0
+     FindFiles               1232
+     Free_FLIST                16
+     GetFListN                  0
+     GetFoldersLevel            0
+     SavePath                   4
+     filelist_menu_ghook       12
+     filelist_menu_iconhndl    32
+     filelist_menu_onkey       16
+     open_fm                   32
+     patch_header               8
+     strcmp_nocase              0
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     patch_header                     44
+     fltop                             4
+     Free_FLIST                       84
+     back                             12
+     GetFListN                        32
+     GetFoldersLevel                  52
+     ??strcmp_nocase_0                48
+     AddToFList                      168
+     FindFiles                       360
+     FindFLISTtByNS                   68
+     FindFLISTtByN                    52
+     SavePath                         20
+     filelist_menu_onkey             252
+     filelist_menu_ghook              40
+     filelist_menu_iconhndl          208
+     fmenusoftkeys                    12
+     fmenu_sk                         24
+     fmenu_skt                         8
+     header                          192
+     CreateRootMenu                  108
+     open_fm                         180
+     ??DataTable4                      4
+     ??DataTable6                      4
+     ??DataTable8                      4
+     ??DataTable10                     4
+     ?<Initializer for fmenusoftkeys>
+                                      12
+     ?<Initializer for fmenu_sk>      24
+     ?<Initializer for fmenu_skt>      8
+     ?<Initializer for header>       192
+     ?<Constant "Select">              8
+     ?<Constant "Close">               8
+     ?<Constant "+">                   2
+     ?<Constant "*">                   2
+     ?<Constant "\\">                  2
+     ?<Constant "<%s>">               16
+     ?<Constant "0:\\">                4
+     ?<Constant "1:\\">                4
+     ?<Constant "2:\\">                4
+     ?<Constant "4:\\">                4
+     ?<Constant "Root">                8
+      Others                          96
+
+ 
+ 1 804 bytes in segment CODE
+    74 bytes in segment DATA_C
+   236 bytes in segment DATA_I
+   236 bytes in segment DATA_ID
+     4 bytes in segment DATA_Z
+    24 bytes in segment INITTAB
+ 
+ 1 732 bytes of CODE  memory (+ 96 bytes shared)
+   310 bytes of CONST memory
+   240 bytes of DATA  memory
+
+Errors: none
+Warnings: 1

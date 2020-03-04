@@ -1,0 +1,197 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    26/May/2008  23:08:34 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod\Копия           #
+#                       test\main.c                                          #
+#    Command line    =  "D:\Pasha\elf\_MY_PROJECT_\naticq_mod\Копия          #
+#                       test\main.c" -D NEWSGOLD -D ELKA -D UIN_WRITE -D     #
+#                       kluchnik --preprocess "D:\Pasha\elf\_MY_PROJECT_\nat #
+#                       icq_mod\Копия test\kluchnik\List\" -lC               #
+#                       "D:\Pasha\elf\_MY_PROJECT_\naticq_mod\Копия          #
+#                       test\kluchnik\List\" -o "D:\Pasha\elf\_MY_PROJECT_\n #
+#                       aticq_mod\Копия test\kluchnik\Obj\" -s9 --no_unroll  #
+#                       --cpu_mode arm --endian little --cpu ARM926EJ-S      #
+#                       --stack_align 4 --interwork -e --fpu None            #
+#                       --dlib_config "D:\Pasha\Embedded Workbench 4.0       #
+#                       Evaluation2\ARM\LIB\dl5tpainl8n.h" -I                #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod\Копия           #
+#                       test\kluchnik\List\main.lst                          #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod\Копия           #
+#                       test\kluchnik\Obj\main.r79                           #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT_\naticq_mod\Копия test\main.c
+      1          #include "../inc/swilib.h"
+      2          #include "../inc/cfg_items.h"
+      3          #include "conf_loader.h"
+      4          
+      5          typedef struct{
+      6            unsigned char
+      7            vibra_status:1,
+      8            sound_status:1,
+      9            off_contacts,
+     10            show_groups;
+     11          #ifdef ELKA
+     12            unsigned char sli_state:1;
+     13          #endif
+     14            unsigned char smartcpu_state;
+     15            unsigned char inc_state:1;
+     16            unsigned char ilu_state:1;
+     17            unsigned char remind_state;
+     18            unsigned char ping_state;
+     19            unsigned char uptime_state;
+     20          #ifdef NEWSGOLD
+     21            unsigned char Id3tag_status;
+     22          #endif
+     23            unsigned char isXTX;//show x-status or online/offline time
+     24          }DEF_SETTINGS2;
+     25          
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     26          DEF_SETTINGS2 def_se[35];
+   \                     def_se:
+   \   00000000                      DS8 388
+     27            
+
+   \                                 In segment CODE, align 4, keep-with-next
+     28          int main()
+     29          {
+   \                     main:
+   \   00000000   70402DE9           PUSH     {R4-R6,LR}
+     30          
+     31            for(int i=0;i<35;i++)
+   \   00000004   D8409FE5           LDR      R4,??main_0+0x4  ;; def_se
+   \   00000008   04D04DE2           SUB      SP,SP,#+4
+   \   0000000C   0000A0E3           MOV      R0,#+0
+     32            {
+     33              def_se[i].vibra_status=i;//сохраняем текущее состояние флагов
+     34              def_se[i].sound_status=i;
+   \                     ??main_1:
+   \   00000010   0B50A0E3           MOV      R5,#+11
+   \   00000014   954023E0           MLA      R3,R5,R0,R4
+   \   00000018   0220A0E3           MOV      R2,#+2
+   \   0000001C   0050D3E5           LDRB     R5,[R3, #+0]
+   \   00000020   801002E0           AND      R1,R2,R0, LSL #+1
+   \   00000024   012000E2           AND      R2,R0,#0x1
+   \   00000028   FC5005E2           AND      R5,R5,#0xFC
+   \   0000002C   055082E1           ORR      R5,R2,R5
+   \   00000030   055081E1           ORR      R5,R1,R5
+   \   00000034   0050C3E5           STRB     R5,[R3, #+0]
+     35              def_se[i].off_contacts=i;
+   \   00000038   0100C3E5           STRB     R0,[R3, #+1]
+     36              def_se[i].show_groups=i;
+   \   0000003C   0200C3E5           STRB     R0,[R3, #+2]
+     37              def_se[i].sli_state=i;
+   \   00000040   0350D3E5           LDRB     R5,[R3, #+3]
+   \   00000044   FE5005E2           AND      R5,R5,#0xFE
+   \   00000048   055082E1           ORR      R5,R2,R5
+   \   0000004C   0350C3E5           STRB     R5,[R3, #+3]
+     38              def_se[i].inc_state=i;
+   \   00000050   0550D3E5           LDRB     R5,[R3, #+5]
+   \   00000054   FE5005E2           AND      R5,R5,#0xFE
+   \   00000058   052082E1           ORR      R2,R2,R5
+   \   0000005C   0520C3E5           STRB     R2,[R3, #+5]
+     39              def_se[i].remind_state=i;
+   \   00000060   0600C3E5           STRB     R0,[R3, #+6]
+     40              def_se[i].ilu_state=i;
+   \   00000064   FD2002E2           AND      R2,R2,#0xFD
+   \   00000068   021081E1           ORR      R1,R1,R2
+   \   0000006C   0510C3E5           STRB     R1,[R3, #+5]
+     41              def_se[i].uptime_state=i;
+   \   00000070   0800C3E5           STRB     R0,[R3, #+8]
+     42              def_se[i].isXTX=i;//Показывать хстатус или время он лайн  
+   \   00000074   0A00C3E5           STRB     R0,[R3, #+10]
+     43            }
+   \   00000078   010080E2           ADD      R0,R0,#+1
+   \   0000007C   230050E3           CMP      R0,#+35
+   \   00000080   E2FFFFBA           BLT      ??main_1
+     44            int f;
+     45            unsigned int err;
+     46            if ((f=fopen("4:\\def_set",A_WriteOnly+A_BIN+A_Create+A_Append,P_WRITE,&err))!=-1)
+   \   00000084   5C009FE5           LDR      R0,??main_0+0x8  ;; `?<Constant "4:\\\\def_set">`
+   \   00000088   0D30A0E1           MOV      R3,SP
+   \   0000008C   402FA0E3           MOV      R2,#+256
+   \   00000090   0910A0E3           MOV      R1,#+9
+   \   00000094   811C81E3           ORR      R1,R1,#0x8100
+   \   00000098   0A0000EF           SWI      +10
+   \   0000009C   0050A0E1           MOV      R5,R0
+   \   000000A0   010075E3           CMN      R5,#+1
+   \   000000A4   0B00000A           BEQ      ??main_2
+     47            {
+     48              for(int i=0;i<35;i++)
+   \   000000A8   0060A0E3           MOV      R6,#+0
+     49              {
+     50               fwrite(f,&def_se[i],sizeof(DEF_SETTINGS2),&err);    
+   \                     ??main_3:
+   \   000000AC   0D30A0E1           MOV      R3,SP
+   \   000000B0   0B20A0E3           MOV      R2,#+11
+   \   000000B4   924621E0           MLA      R1,R2,R6,R4
+   \   000000B8   0500A0E1           MOV      R0,R5
+   \   000000BC   0C0000EF           SWI      +12
+     51              }
+   \   000000C0   016086E2           ADD      R6,R6,#+1
+   \   000000C4   230056E3           CMP      R6,#+35
+   \   000000C8   F7FFFFBA           BLT      ??main_3
+     52              ShowMSG(1,(int)"ok");
+   \   000000CC   031F8FE2           ADR      R1,??main_0      ;; "ok"
+   \   000000D0   0100A0E3           MOV      R0,#+1
+   \   000000D4   480100EF           SWI      +328
+     53            }
+     54              
+     55            return 0;
+   \                     ??main_2:
+   \   000000D8   0000A0E3           MOV      R0,#+0
+   \   000000DC   7280BDE8           POP      {R1,R4-R6,PC}    ;; return
+   \                     ??main_0:
+   \   000000E0   6F6B0000           DC8      "ok",+0
+   \   000000E4   ........           DC32     def_se
+   \   000000E8   ........           DC32     `?<Constant "4:\\\\def_set">`
+     56          }
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   6F6B00             DC8 "ok"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "4:\\\\def_set">`:
+   \   00000000   343A5C646566       DC8 "4:\\def_set"
+   \              5F73657400  
+   \   0000000B   00                 DC8 0
+
+   Maximum stack usage in bytes:
+
+     Function CSTACK
+     -------- ------
+     main        20
+
+
+   Segment part sizes:
+
+     Function/Label            Bytes
+     --------------            -----
+     def_se                     388
+     main                       236
+     ?<Constant "ok">             3
+     ?<Constant "4:\\def_set">   12
+      Others                     16
+
+ 
+ 240 bytes in segment CODE
+  15 bytes in segment DATA_C
+ 388 bytes in segment DATA_Z
+  12 bytes in segment INITTAB
+ 
+ 236 bytes of CODE  memory (+ 16 bytes shared)
+  15 bytes of CONST memory
+ 388 bytes of DATA  memory
+
+Errors: none
+Warnings: none

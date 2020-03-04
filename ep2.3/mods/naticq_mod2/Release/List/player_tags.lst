@@ -1,0 +1,536 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    10/Dec/2010  22:12:03 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\player_tags.c  #
+#    Command line    =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\player_tags.c  #
+#                       -D NEWSGOLD --preprocess D:\pasha\elf\_MY_PROJECT_\n #
+#                       aticq_mod2\Release\List\ -lC                         #
+#                       D:\pasha\elf\_MY_PROJECT_\naticq_mod2\Release\List\  #
+#                       -o D:\pasha\elf\_MY_PROJECT_\naticq_mod2\Release\Obj #
+#                       \ -s9 --no_unroll --cpu_mode arm --endian little     #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork         #
+#                       --separate_cluster_for_initialized_variables -e      #
+#                       --fpu None --dlib_config "D:\pasha\Embedded          #
+#                       Workbench 4.0 Evaluation2\ARM\LIB\dl5tpainl8n.h" -I  #
+#                       "D:\pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\Release\List\p #
+#                       layer_tags.lst                                       #
+#    Object file     =  D:\pasha\elf\_MY_PROJECT_\naticq_mod2\Release\Obj\pl #
+#                       ayer_tags.r79                                        #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\pasha\elf\_MY_PROJECT_\naticq_mod2\player_tags.c
+      1          #ifdef NEWSGOLD
+      2          #include "..\inc\swilib.h"
+      3          #include "swilib2.h"
+      4          #include "player_tags.h"
+      5          #include "strings.h"
+      6          #include "NatICQ.h"
+      7          #include "main.h"
+      8          #include "configs.h"
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+      9          int scr_w;
+   \                     scr_w:
+   \   00000000                      DS8 4
+     10          extern unsigned long  strtoul (const char *nptr,char **endptr,int base); //must overwrite
+     11          unsigned int pcsmid=0;
+     12          extern unsigned int cfnt;
+     13          extern int Is_Id3tag_Enabled;
+     14          //extern char CsmAdr[];
+     15          unsigned int cfnt=FONT_SMALL_BOLD;
+
+   \                                 In segment DATA_Z, align 4, align-sorted
+     16          char teast2[256];
+     17          char teast3[256];
+   \                     teast3:
+   \   00000000                      DS8 256
+   \                     teast2:
+   \   00000100                      DS8 256
+
+   \                                 In segment DATA_I, align 4, align-sorted
+     18          
+     19          void *pcsmadr=NULL;
+     20          WSHDR *wstag=NULL;
+     21          word tagw=0;
+   \                     tagw:
+   \   00000000                      DS8 2
+   \   00000002                      REQUIRE `?<Initializer for tagw>`
+   \   00000002                      DS8 2
+   \                     pcsmid:
+   \   00000004                      DS8 4
+   \   00000008                      REQUIRE `?<Initializer for pcsmid>`
+   \                     cfnt:
+   \   00000008                      DS8 4
+   \   0000000C                      REQUIRE `?<Initializer for cfnt>`
+   \                     pcsmadr:
+   \   0000000C                      DS8 4
+   \   00000010                      REQUIRE `?<Initializer for pcsmadr>`
+   \                     wstag:
+   \   00000010                      DS8 4
+   \   00000014                      REQUIRE `?<Initializer for wstag>`
+     22            
+     23          //------------------------------------
+     24          
+     25          extern int CurrentXStatus;
+     26          //extern int Is_ID3_ANY_STATUS;
+
+   \                                 In segment CODE, align 4, keep-with-next
+     27          void  initTags()
+     28          {
+     29            pcsmadr=(void *)strtoul(CsmAdr,NULL,16);
+   \                     initTags:
+   \   00000000   30009FE5           LDR      R0,??initTags_0  ;; CsmAdr
+   \   00000004   10402DE9           PUSH     {R4,LR}
+   \   00000008   2C409FE5           LDR      R4,??initTags_0+0x4  ;; tagw
+   \   0000000C   1020A0E3           MOV      R2,#+16
+   \   00000010   0010A0E3           MOV      R1,#+0
+   \   00000014   ........           _BLF     strtoul,??strtoul??rA
+   \   00000018   0C0084E5           STR      R0,[R4, #+12]
+     30            if (!wstag)    wstag=AllocWS(256);
+   \   0000001C   100094E5           LDR      R0,[R4, #+16]
+   \   00000020   000050E3           CMP      R0,#+0
+   \   00000024   1080BD18           POPNE    {R4,PC}
+   \   00000028   400FA0E3           MOV      R0,#+256
+   \   0000002C   250100EF           SWI      +293
+   \   00000030   100084E5           STR      R0,[R4, #+16]
+     31          };
+   \   00000034   1080BDE8           POP      {R4,PC}          ;; return
+   \                     ??initTags_0:
+   \   00000038   ........           DC32     CsmAdr
+   \   0000003C   ........           DC32     tagw
+     32          
+     33          //------------------------------------
+     34          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     35          void GetTags()
+     36          {
+   \                     GetTags:
+   \   00000000   F0472DE9           PUSH     {R4-R10,LR}
+     37            if((CurrentXStatus!=11 || !Is_ID3_ANY_STATUS)||(!Is_Id3tag_Enabled))
+   \   00000004   A4629FE5           LDR      R6,??GetTags_0+0x4  ;; CurrentXStatus
+   \   00000008   A4429FE5           LDR      R4,??GetTags_0+0x8  ;; teast3
+   \   0000000C   A4529FE5           LDR      R5,??GetTags_0+0xC  ;; `?<Constant "Unknown">`
+   \   00000010   10D04DE2           SUB      SP,SP,#+16
+   \   00000014   000096E5           LDR      R0,[R6, #+0]
+   \   00000018   0B0050E3           CMP      R0,#+11
+   \   0000001C   0800001A           BNE      ??GetTags_1
+   \   00000020   94029FE5           LDR      R0,??GetTags_0+0x10  ;; Is_ID3_ANY_STATUS
+   \   00000024   000090E5           LDR      R0,[R0, #+0]
+   \   00000028   000050E3           CMP      R0,#+0
+   \   0000002C   0400000A           BEQ      ??GetTags_1
+   \   00000030   88029FE5           LDR      R0,??GetTags_0+0x14  ;; Is_Id3tag_Enabled
+   \   00000034   88729FE5           LDR      R7,??GetTags_0+0x18  ;; tagw
+   \   00000038   000090E5           LDR      R0,[R0, #+0]
+   \   0000003C   000050E3           CMP      R0,#+0
+   \   00000040   0900001A           BNE      ??GetTags_2
+     38            {
+     39              sprintf(teast3, "zaebaloaq");
+   \                     ??GetTags_1:
+   \   00000044   081085E2           ADD      R1,R5,#+8
+   \   00000048   0400A0E1           MOV      R0,R4
+   \   0000004C   160000EF           SWI      +22
+   \   00000050   FF87BDE8           POP      {R0-R10,PC}
+     40            }
+     41            else
+     42              if(Is_Id3tag_Enabled)
+     43               {
+     44                {
+     45                 L1://Respect to Rst7
+     46                  if (pcsmid)
+     47                  {
+     48                    CSM_RAM *csmp=FindCSMbyID(pcsmid);
+     49                    if (csmp)
+     50                    {
+     51                      WSHDR *fn=((WSHDR **)csmp)[0x2C/4];
+     52                      if (!fn)return;
+     53                      if (!fn->wsbody) return;
+     54                      if (fn->wsbody[0]);
+     55              #ifdef ELKA
+     56                      WSHDR **wws=((WSHDR ***)csmp)[(0x18C/4)]-1;
+     57              #else
+     58                      WSHDR **wws=((WSHDR ***)csmp)[(0x170/4)]-1;
+     59              #endif
+     60                      if (wws)        
+     61                      {
+     62                        WSHDR *tws;
+     63                        const char unk[]="Unknown";
+     64                        const char pr[]="%w - %w";
+     65                        if (!(tws=wws[2]));
+     66                        else
+     67                          if (!(tws->wsbody));
+     68                        else
+     69                          if (tws->wsbody[0])      
+     70                            wstrcpy(wstag,tws);
+     71                        else  wsprintf(wstag,"%t",unk);
+     72                          if (!(tws=wws[1]));
+     73                        else
+     74                          if (!(tws->wsbody));
+     75                        else
+     76                           if (tws->wsbody[0])     
+     77                              wsprintf(wstag,pr,wstag,tws);
+     78                         else
+     79                           wstrcpy(wstag,fn);            
+     80                           //Патчим строку на предмет win1251
+     81                          int i=1;
+     82                          int c;
+     83                          tagw=0;
+     84                          while(i<=wstag->wsbody[0])		{
+     85                            c=wstag->wsbody[i];
+     86                            if (c==0xA8) c=0x401;
+     87                            if (c==0xAA) c=0x404;
+     88                            if (c==0xAF) c=0x407;
+     89                            if (c==0xB8) c=0x451;
+     90                            if (c==0xBA) c=0x454;
+     91                            if (c==0xBF) c=0x457;
+     92                            if ((c>=0xC0)&&(c<0x100)) c+=0x350;
+     93                            wstag->wsbody[i++]=c;
+     94                            tagw+=GetSymbolWidth(c,cfnt);
+     95                          }
+     96                        }
+     97                        else;
+     98                    }
+     99                    else pcsmid=0;
+    100                  }
+    101                  else  
+    102                  {
+    103                    CSM_RAM *p=((void **)CSM_root()->csm_q)[2];
+    104                    while(p)
+    105                    {
+    106                      if (p->constr==pcsmadr) break;
+   \                     ??GetTags_3:
+   \   00000054   081090E5           LDR      R1,[R0, #+8]
+   \   00000058   0C2097E5           LDR      R2,[R7, #+12]
+   \   0000005C   020051E1           CMP      R1,R2
+   \   00000060   6A00001A           BNE      ??GetTags_4
+    107                      p=p->next;
+    108                    }
+    109                    if (p)
+    110                    {
+    111                      pcsmid=p->id;
+   \   00000064   0C0090E5           LDR      R0,[R0, #+12]
+   \   00000068   040087E5           STR      R0,[R7, #+4]
+    112                    goto L1;
+    113                    }
+   \                     ??GetTags_2:
+   \   0000006C   040097E5           LDR      R0,[R7, #+4]
+   \   00000070   000050E3           CMP      R0,#+0
+   \   00000074   6100000A           BEQ      ??GetTags_5
+   \   00000078   080100EF           SWI      +264
+   \   0000007C   0080A0E3           MOV      R8,#+0
+   \   00000080   000050E3           CMP      R0,#+0
+   \   00000084   5B00000A           BEQ      ??GetTags_6
+   \   00000088   2C9090E5           LDR      R9,[R0, #+44]
+   \   0000008C   000059E3           CMP      R9,#+0
+   \   00000090   00109915           LDRNE    R1,[R9, #+0]
+   \   00000094   00005113           CMPNE    R1,#+0
+   \   00000098   FF87BD08           POPEQ    {R0-R10,PC}
+   \   0000009C   700190E5           LDR      R0,[R0, #+368]
+   \   000000A0   04A050E2           SUBS     R10,R0,#+4
+   \   000000A4   5C00000A           BEQ      ??GetTags_7
+   \   000000A8   0C0095E8           LDM      R5,{R2,R3}
+   \   000000AC   14129FE5           LDR      R1,??GetTags_0+0x1C  ;; `?<Constant "%w - %w">`
+   \   000000B0   0D00A0E1           MOV      R0,SP
+   \   000000B4   0C0080E8           STM      R0,{R2,R3}
+   \   000000B8   0C0091E8           LDM      R1,{R2,R3}
+   \   000000BC   08008DE2           ADD      R0,SP,#+8
+   \   000000C0   0C0080E8           STM      R0,{R2,R3}
+   \   000000C4   08109AE5           LDR      R1,[R10, #+8]
+   \   000000C8   000051E3           CMP      R1,#+0
+   \   000000CC   00209115           LDRNE    R2,[R1, #+0]
+   \   000000D0   00005213           CMPNE    R2,#+0
+   \   000000D4   0800000A           BEQ      ??GetTags_8
+   \   000000D8   B020D2E1           LDRH     R2,[R2, #+0]
+   \   000000DC   100097E5           LDR      R0,[R7, #+16]
+   \   000000E0   000052E3           CMP      R2,#+0
+   \   000000E4   0100000A           BEQ      ??GetTags_9
+   \   000000E8   1F0100EF           SWI      +287
+   \   000000EC   020000EA           B        ??GetTags_8
+   \                     ??GetTags_9:
+   \   000000F0   0D20A0E1           MOV      R2,SP
+   \   000000F4   6C1F8FE2           ADR      R1,??GetTags_0   ;; "%t"
+   \   000000F8   240100EF           SWI      +292
+   \                     ??GetTags_8:
+   \   000000FC   04309AE5           LDR      R3,[R10, #+4]
+   \   00000100   000053E3           CMP      R3,#+0
+   \   00000104   00109315           LDRNE    R1,[R3, #+0]
+   \   00000108   00005113           CMPNE    R1,#+0
+   \   0000010C   0900000A           BEQ      ??GetTags_10
+   \   00000110   B010D1E1           LDRH     R1,[R1, #+0]
+   \   00000114   100097E5           LDR      R0,[R7, #+16]
+   \   00000118   000051E3           CMP      R1,#+0
+   \   0000011C   0300000A           BEQ      ??GetTags_11
+   \   00000120   0020A0E1           MOV      R2,R0
+   \   00000124   08108DE2           ADD      R1,SP,#+8
+   \   00000128   240100EF           SWI      +292
+   \   0000012C   010000EA           B        ??GetTags_10
+   \                     ??GetTags_11:
+   \   00000130   0910A0E1           MOV      R1,R9
+   \   00000134   1F0100EF           SWI      +287
+   \                     ??GetTags_10:
+   \   00000138   100097E5           LDR      R0,[R7, #+16]
+   \   0000013C   B080C7E1           STRH     R8,[R7, #+0]
+   \   00000140   000090E5           LDR      R0,[R0, #+0]
+   \   00000144   0190A0E3           MOV      R9,#+1
+   \   00000148   B000D0E1           LDRH     R0,[R0, #+0]
+   \   0000014C   000050E3           CMP      R0,#+0
+   \   00000150   0B00001A           BNE      ??GetTags_12
+   \   00000154   300000EA           B        ??GetTags_7
+   \                     ??GetTags_13:
+   \   00000158   C00050E3           CMP      R0,#+192
+   \   0000015C   010000BA           BLT      ??GetTags_14
+   \   00000160   400F50E3           CMP      R0,#+256
+   \   00000164   D40F80B2           ADDLT    R0,R0,#+848
+   \                     ??GetTags_14:
+   \   00000168   B000C1E1           STRH     R0,[R1, #+0]
+   \   0000016C   081097E5           LDR      R1,[R7, #+8]
+   \   00000170   019089E2           ADD      R9,R9,#+1
+   \   00000174   E10100EF           SWI      +481
+   \   00000178   B010D7E1           LDRH     R1,[R7, #+0]
+   \   0000017C   010080E0           ADD      R0,R0,R1
+   \   00000180   B000C7E1           STRH     R0,[R7, #+0]
+   \                     ??GetTags_12:
+   \   00000184   100097E5           LDR      R0,[R7, #+16]
+   \   00000188   000090E5           LDR      R0,[R0, #+0]
+   \   0000018C   B010D0E1           LDRH     R1,[R0, #+0]
+   \   00000190   090051E1           CMP      R1,R9
+   \   00000194   200000BA           BLT      ??GetTags_7
+   \   00000198   891080E0           ADD      R1,R0,R9, LSL #+1
+   \   0000019C   B000D1E1           LDRH     R0,[R1, #+0]
+   \   000001A0   A80050E3           CMP      R0,#+168
+   \   000001A4   0200001A           BNE      ??GetTags_15
+   \   000001A8   0100A0E3           MOV      R0,#+1
+   \                     ??GetTags_16:
+   \   000001AC   400E80E3           ORR      R0,R0,#0x400
+   \   000001B0   ECFFFFEA           B        ??GetTags_14
+   \                     ??GetTags_15:
+   \   000001B4   AA0050E3           CMP      R0,#+170
+   \   000001B8   0400A003           MOVEQ    R0,#+4
+   \   000001BC   FAFFFF0A           BEQ      ??GetTags_16
+   \   000001C0   AF0050E3           CMP      R0,#+175
+   \   000001C4   0100001A           BNE      ??GetTags_17
+   \   000001C8   0700A0E3           MOV      R0,#+7
+   \                     ??GetTags_18:
+   \   000001CC   F6FFFFEA           B        ??GetTags_16
+   \                     ??GetTags_17:
+   \   000001D0   B80050E3           CMP      R0,#+184
+   \   000001D4   5100A003           MOVEQ    R0,#+81
+   \   000001D8   F3FFFF0A           BEQ      ??GetTags_16
+   \   000001DC   BA0050E3           CMP      R0,#+186
+   \   000001E0   5400A003           MOVEQ    R0,#+84
+   \   000001E4   F0FFFF0A           BEQ      ??GetTags_16
+   \   000001E8   BF0050E3           CMP      R0,#+191
+   \   000001EC   D9FFFF1A           BNE      ??GetTags_13
+   \   000001F0   5700A0E3           MOV      R0,#+87
+   \   000001F4   ECFFFFEA           B        ??GetTags_16
+   \                     ??GetTags_6:
+   \   000001F8   048087E5           STR      R8,[R7, #+4]
+   \   000001FC   060000EA           B        ??GetTags_7
+   \                     ??GetTags_5:
+   \   00000200   068100EF           SWI      +33030
+   \   00000204   080090E5           LDR      R0,[R0, #+8]
+   \   00000208   080090E5           LDR      R0,[R0, #+8]
+   \   0000020C   000000EA           B        ??GetTags_19
+   \                     ??GetTags_4:
+   \   00000210   000090E5           LDR      R0,[R0, #+0]
+   \                     ??GetTags_19:
+   \   00000214   000050E3           CMP      R0,#+0
+   \   00000218   8DFFFF1A           BNE      ??GetTags_3
+    114                  }
+    115                convWS_to_ANSI(wstag, teast2);
+   \                     ??GetTags_7:
+   \   0000021C   100097E5           LDR      R0,[R7, #+16]
+   \   00000220   409FA0E3           MOV      R9,#+256
+   \   00000224   041089E0           ADD      R1,R9,R4
+   \   00000228   ........           _BLF     convWS_to_ANSI,??convWS_to_ANSI??rA
+    116                if(_GetPlayStatus()==2)
+   \   0000022C   0080A0E3           MOV      R8,#+0
+   \   00000230   0B70A0E3           MOV      R7,#+11
+   \   00000234   F80100EF           SWI      +504
+   \   00000238   020050E3           CMP      R0,#+2
+   \   0000023C   0700001A           BNE      ??GetTags_20
+    117                {
+    118                  if(strcmp(teast2,teast3)) 
+   \   00000240   0410A0E1           MOV      R1,R4
+   \   00000244   040089E0           ADD      R0,R9,R4
+   \   00000248   190000EF           SWI      +25
+   \   0000024C   000050E3           CMP      R0,#+0
+   \   00000250   FF87BD08           POPEQ    {R0-R10,PC}
+    119                  {
+    120                  //  ShowMSG(1,(int)teast2);
+    121                    CurrentXStatus=0;
+   \   00000254   008086E5           STR      R8,[R6, #+0]
+    122                    set_my_xstatus();  
+   \   00000258   ........           _BLF     set_my_xstatus,??set_my_xstatus??rA
+    123                    set_my_xstatus2();
+   \   0000025C   0C0000EA           B        ??GetTags_21
+    124                    strcpy(teast3, teast2);
+    125                    CurrentXStatus=11;
+    126                  }
+    127                 }
+    128                else
+    129                {
+    130                  if((teast3[0]!='N'&&teast3[8]!='P')&&(_GetPlayStatus()!=1)) 
+   \                     ??GetTags_20:
+   \   00000260   0000D4E5           LDRB     R0,[R4, #+0]
+   \   00000264   4E0050E3           CMP      R0,#+78
+   \   00000268   0800D415           LDRBNE   R0,[R4, #+8]
+   \   0000026C   50005013           CMPNE    R0,#+80
+   \   00000270   FF87BD08           POPEQ    {R0-R10,PC}
+   \   00000274   F80100EF           SWI      +504
+   \   00000278   010050E3           CMP      R0,#+1
+   \   0000027C   FF87BD08           POPEQ    {R0-R10,PC}
+    131                  {
+    132                    CurrentXStatus=0;
+   \   00000280   008086E5           STR      R8,[R6, #+0]
+    133                    set_my_xstatus();
+   \   00000284   ........           _BLF     set_my_xstatus,??set_my_xstatus??rA
+    134                    sprintf(teast2, "Nothing Played"); 
+   \   00000288   141085E2           ADD      R1,R5,#+20
+   \   0000028C   040089E0           ADD      R0,R9,R4
+   \   00000290   160000EF           SWI      +22
+    135                    set_my_xstatus2();
+   \                     ??GetTags_21:
+   \   00000294   ........           _BLF     set_my_xstatus2,??set_my_xstatus2??rA
+    136                    strcpy(teast3, teast2);
+   \   00000298   041089E0           ADD      R1,R9,R4
+   \   0000029C   0400A0E1           MOV      R0,R4
+   \   000002A0   1A0000EF           SWI      +26
+    137                    CurrentXStatus=11;
+   \   000002A4   007086E5           STR      R7,[R6, #+0]
+   \   000002A8   FF87BDE8           POP      {R0-R10,PC}      ;; return
+   \                     ??GetTags_0:
+   \   000002AC   25740000           DC8      "%t",+0
+   \   000002B0   ........           DC32     CurrentXStatus
+   \   000002B4   ........           DC32     teast3
+   \   000002B8   ........           DC32     `?<Constant "Unknown">`
+   \   000002BC   ........           DC32     Is_ID3_ANY_STATUS
+   \   000002C0   ........           DC32     Is_Id3tag_Enabled
+   \   000002C4   ........           DC32     tagw
+   \   000002C8   ........           DC32     `?<Constant "%w - %w">`
+    138                  }
+    139                 }
+    140               }
+    141             }  
+    142          };  
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for tagw>`:
+   \   00000000   0000               DC16 0
+   \   00000002   0000               DC8 0, 0
+   \                     `?<Initializer for pcsmid>`:
+   \   00000004   00000000           DC32 0
+   \                     `?<Initializer for cfnt>`:
+   \   00000008   0C000000           DC32 12
+   \                     `?<Initializer for pcsmadr>`:
+   \   0000000C   00000000           DC32 0H
+   \                     `?<Initializer for wstag>`:
+   \   00000010   00000000           DC32 0H
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "Unknown">`:
+   \   00000000   556E6B6E6F77       DC8 "Unknown"
+   \              6E00        
+   \   00000008   7A616562616C       DC8 "zaebaloaq"
+   \              6F617100    
+   \   00000012   0000               DC8 0, 0
+   \   00000014   4E6F7468696E       DC8 "Nothing Played"
+   \              6720506C6179
+   \              656400      
+   \   00000023   00                 DC8 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "%w - %w">`:
+   \   00000000   2577202D2025       DC8 "%w - %w"
+   \              7700        
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   257400             DC8 "%t"
+    143          
+    144          /*
+    145          int  ShowTag(void){
+    146            if (pcsmadr&&((_GetPlayStatus()==2)));else return 2;
+    147            GUI *igui;
+    148            if (!TopG(DISPLACE_OF_IDLEGUI_ID))return 0;
+    149            
+    150            if (!(igui=GetTopGUI())) return 0;
+    151            if (igui){
+    152          #ifdef ELKA
+    153              {
+    154                void *canvasdata = BuildCanvas();
+    155          #else
+    156              void *idata = GetDataOfItemByID(igui, 2);
+    157              if (idata)
+    158              {
+    159                void *canvasdata = ((void **)idata)[DISPLACE_OF_IDLECANVAS / 4];        
+    160          #endif        
+    161                
+    162                DrawCanvas(canvasdata,cTgr.x, cTgr.y,cTgr.x2, cTgr.y+GetFontYSIZE(cfnt), 1);  
+    163          
+    164                if (tagw<scr_w)
+    165                  DrawString(wstag,cTgr.x,cTgr.y,cTgr.x2,cTgr.y+GetFontYSIZE(cfnt),cfnt,TEXT_ALIGNMIDDLE,(char*)clr,GetPaletteAdrByColorIndex(23));
+    166                else{
+    167                  static byte dir=0;
+    168                  int dif=tagw-scr_w;
+    169                  static short sm=0;
+    170          //        int step=(7*tagw)/scr_w;
+    171                  int step=4+(3*tagw)/scr_w;        
+    172                  sm+=step*(dir?-1:1);
+    173                  
+    174                  DrawScrollString(wstag,cTgr.x,cTgr.y,cTgr.x2,cTgr.y+GetFontYSIZE(cfnt)+10,sm+1,cfnt,TEXT_ALIGNLEFT,(char*)clr,GetPaletteAdrByColorIndex(23));
+    175                  if ((sm-step)<0)dir=0;else
+    176                   if ((sm)>dif)dir=1;
+    177                }
+    178              }
+    179            }
+    180            return 1;
+    181          } ;
+    182          */
+    183          #endif
+
+   Maximum stack usage in bytes:
+
+     Function CSTACK
+     -------- ------
+     GetTags     48
+     initTags     8
+
+
+   Segment part sizes:
+
+     Function/Label          Bytes
+     --------------          -----
+     scr_w                      4
+     teast3                   512
+     tagw                      20
+     initTags                  64
+     GetTags                  716
+     ?<Initializer for tagw>   20
+     ?<Constant "Unknown">     36
+     ?<Constant "%w - %w">      8
+     ?<Constant "%t">           3
+      Others                   80
+
+ 
+ 836 bytes in segment CODE
+  47 bytes in segment DATA_C
+  20 bytes in segment DATA_I
+  20 bytes in segment DATA_ID
+ 516 bytes in segment DATA_Z
+  24 bytes in segment INITTAB
+ 
+ 780 bytes of CODE  memory (+ 80 bytes shared)
+  67 bytes of CONST memory
+ 536 bytes of DATA  memory
+
+Errors: none
+Warnings: none

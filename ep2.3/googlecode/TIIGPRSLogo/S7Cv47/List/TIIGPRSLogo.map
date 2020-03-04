@@ -1,0 +1,457 @@
+################################################################################
+#                                                                              #
+#      IAR Universal Linker V4.60I/386                                         #
+#                                                                              #
+#           Link time     =  06/Jul/2010  10:16:47                             #
+#           Target CPU    =  ARM                                               #
+#           List file     =  F:\SVN\cn\TIIGPRSLogo\S7Cv47\List\TIIGPRSLogo.map #
+#           Output file 1 =  F:\SVN\cn\TIIGPRSLogo\S7Cv47\Exe\TIIGPRSLogo.elf  #
+#                            Format: elf, variant: -yas                        #
+#           Output file 2 =  F:\SVN\cn\TIIGPRSLogo\S7Cv47\Exe\TIIGPRSLogo.a79  #
+#                            Format: intel-extended                            #
+#           Command line  =  F:\SVN\cn\TIIGPRSLogo\S7Cv47\Obj\conf_loader.r79  #
+#                            F:\SVN\cn\TIIGPRSLogo\S7Cv47\Obj\config_data.r79  #
+#                            F:\SVN\cn\TIIGPRSLogo\S7Cv47\Obj\draw.r79         #
+#                            F:\SVN\cn\TIIGPRSLogo\S7Cv47\Obj\main.r79 -o      #
+#                            F:\SVN\cn\TIIGPRSLogo\S7Cv47\Exe\TIIGPRSLogo.a79  #
+#                            -Fintel-extended -l                               #
+#                            F:\SVN\cn\TIIGPRSLogo\S7Cv47\List\TIIGPRSLogo.map #
+#                            -xmsnio -f F:\SVN\cn\TIIGPRSLogo\S7Cv47.xcl       #
+#                            (-carm                                            #
+#                            -Z(CODE)CODE,INITTAB,DATA_ID,DATA_C,CONFIG_DATA_I #
+#                            D=A155ECA8-FFFFFFFF                               #
+#                            -Z(CODE)HOOK=A0AC10F8-FFFFFFFF                    #
+#                            -Z(DATA)CONFIG_DATA_Z=A8A7F250-FFFFFFFF           #
+#                            -Z(DATA)CONFIG_DATA_I=A8A7F260-FFFFFFFF)          #
+#                            -Oelf,as=F:\SVN\cn\TIIGPRSLogo\S7Cv47\Exe\TIIGPRS #
+#                            Logo.elf                                          #
+#                                                                              #
+#                        Copyright 1987-2007 IAR Systems. All rights reserved. #
+################################################################################
+
+
+
+
+
+                ****************************************
+                *                                      *
+                *           CROSS REFERENCE            *
+                *                                      *
+                ****************************************
+
+                  There are no program entries.
+
+
+
+
+                ****************************************
+                *                                      *
+                *            RUNTIME MODEL             *
+                *                                      *
+                ****************************************
+
+  StackAlign4  = USED
+  __cpu_mode   = __pcs__interwork
+  __data_model = absolute
+  __endian     = little
+  __rt_version = 6
+
+
+
+                ****************************************
+                *                                      *
+                *              MODULE MAP              *
+                *                                      *
+                ****************************************
+
+
+  DEFINED ABSOLUTE ENTRIES
+    *************************************************************************
+
+  FILE NAME : F:\SVN\cn\TIIGPRSLogo\S7Cv47\Obj\conf_loader.r79
+  PROGRAM MODULE, NAME : conf_loader
+
+  SEGMENTS IN THE MODULE
+  ======================
+CODE
+  Segment part 3. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: A155ECA8 - A155EDAF (0x108 bytes), align: 2
+  Segment part 4.             Intra module refs:   InitConfig
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           LoadConfigData          A155ECA8 
+               stack 1 = 00000000 ( 00000030 )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 5. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: A155EDB0 - A155EDE7 (0x38 bytes), align: 2
+  Segment part 6.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           InitConfig              A155EDB0        draw (draw)
+               stack 1 = 00000000 ( 00000008 )
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Segment part 7. NOT NEEDED.
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Segment part 8. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: A155EFDC - A155F01B (0x40 bytes), align: 2
+  Segment part 2.             Intra module refs:   InitConfig
+
+    *************************************************************************
+
+  FILE NAME : F:\SVN\cn\TIIGPRSLogo\S7Cv47\Obj\config_data.r79
+  PROGRAM MODULE, NAME : config_data
+
+  SEGMENTS IN THE MODULE
+  ======================
+CONFIG_DATA_I
+  Relative segment, address: A8A7F260 - A8A7F28B (0x2c bytes), align: 2
+  Segment part 2. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr1                 A8A7F260 
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F28C - A8A7F28F (0x4 bytes), align: 2
+  Segment part 4. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           pos_x                   A8A7F28C        draw (draw)
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F290 - A8A7F293 (0x4 bytes), align: 2
+  Segment part 6. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           pos_y                   A8A7F290        draw (draw)
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F294 - A8A7F2BF (0x2c bytes), align: 2
+  Segment part 8. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr2                 A8A7F294 
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F2C0 - A8A7F2C3 (0x4 bytes), align: 2
+  Segment part 10. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           font                    A8A7F2C0        draw (draw)
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F2C4 - A8A7F2EF (0x2c bytes), align: 2
+  Segment part 12. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr3                 A8A7F2C4 
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F2F0 - A8A7F2F3 (0x4 bytes), align: 2
+  Segment part 14. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           txt_attr                A8A7F2F0        draw (draw)
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F2F4 - A8A7F31F (0x2c bytes), align: 2
+  Segment part 16. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr4                 A8A7F2F4 
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F320 - A8A7F323 (0x4 bytes), align: 2
+  Segment part 18. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           word_color              A8A7F320        draw (draw)
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F324 - A8A7F34F (0x2c bytes), align: 2
+  Segment part 20. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr5                 A8A7F324 
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F350 - A8A7F353 (0x4 bytes), align: 2
+  Segment part 22. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           word_frm_color          A8A7F350        draw (draw)
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F354 - A8A7F37F (0x2c bytes), align: 2
+  Segment part 24. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr6                 A8A7F354 
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F380 - A8A7F383 (0x4 bytes), align: 2
+  Segment part 26. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           rnd_frm_color           A8A7F380        draw (draw)
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F384 - A8A7F3AF (0x2c bytes), align: 2
+  Segment part 28. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           cfghdr7                 A8A7F384 
+    -------------------------------------------------------------------------
+CONFIG_DATA_I
+  Relative segment, address: A8A7F3B0 - A8A7F3B3 (0x4 bytes), align: 2
+  Segment part 30. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           frm_color               A8A7F3B0        draw (draw)
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F034 - A155F05F (0x2c bytes), align: 2
+  Segment part 3. ROOT.       Intra module refs:   cfghdr1
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F060 - A155F063 (0x4 bytes), align: 2
+  Segment part 5. ROOT.       Intra module refs:   pos_x
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F064 - A155F067 (0x4 bytes), align: 2
+  Segment part 7. ROOT.       Intra module refs:   pos_y
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F068 - A155F093 (0x2c bytes), align: 2
+  Segment part 9. ROOT.       Intra module refs:   cfghdr2
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F094 - A155F097 (0x4 bytes), align: 2
+  Segment part 11. ROOT.      Intra module refs:   font
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F098 - A155F0C3 (0x2c bytes), align: 2
+  Segment part 13. ROOT.      Intra module refs:   cfghdr3
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F0C4 - A155F0C7 (0x4 bytes), align: 2
+  Segment part 15. ROOT.      Intra module refs:   txt_attr
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F0C8 - A155F0F3 (0x2c bytes), align: 2
+  Segment part 17. ROOT.      Intra module refs:   cfghdr4
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F0F4 - A155F0F7 (0x4 bytes), align: 2
+  Segment part 19. ROOT.      Intra module refs:   word_color
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F0F8 - A155F123 (0x2c bytes), align: 2
+  Segment part 21. ROOT.      Intra module refs:   cfghdr5
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F124 - A155F127 (0x4 bytes), align: 2
+  Segment part 23. ROOT.      Intra module refs:   word_frm_color
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F128 - A155F153 (0x2c bytes), align: 2
+  Segment part 25. ROOT.      Intra module refs:   cfghdr6
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F154 - A155F157 (0x4 bytes), align: 2
+  Segment part 27. ROOT.      Intra module refs:   rnd_frm_color
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F158 - A155F183 (0x2c bytes), align: 2
+  Segment part 29. ROOT.      Intra module refs:   cfghdr7
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Relative segment, address: A155F184 - A155F187 (0x4 bytes), align: 2
+  Segment part 31. ROOT.      Intra module refs:   frm_color
+    -------------------------------------------------------------------------
+CONFIG_DATA_ID
+  Segment part 32. NOT NEEDED.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?*?CONFIG_DATA_ID       
+    -------------------------------------------------------------------------
+INITTAB
+  Relative segment, address: A155EFD0 - A155EFDB (0xc bytes), align: 2
+  Segment part 33. ROOT.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           ?init?tab?CONFIG_DATA_I
+                                   A155EFD0 
+
+    *************************************************************************
+
+  FILE NAME : F:\SVN\cn\TIIGPRSLogo\S7Cv47\Obj\draw.r79
+  PROGRAM MODULE, NAME : draw
+
+  SEGMENTS IN THE MODULE
+  ======================
+CODE
+  Segment part 6. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: A155EDE8 - A155EE0F (0x28 bytes), align: 2
+  Segment part 7.             Intra module refs:   draw
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           memcpy_n                A155EDE8 
+    -------------------------------------------------------------------------
+CODE
+  Segment part 8. NOT NEEDED.
+    -------------------------------------------------------------------------
+CODE
+  Relative segment, address: A155EE10 - A155EFCF (0x1c0 bytes), align: 2
+  Segment part 9.
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           draw                    A155EE10        Segment part 0 (main)
+               stack 1 = 00000000 ( 0000005C )
+    -------------------------------------------------------------------------
+CODE
+  Segment part 10. NOT NEEDED.Intra module refs:   draw
+    -------------------------------------------------------------------------
+CSTACK
+  Segment part 1. NOT NEEDED.
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: A155F01C - A155F027 (0xc bytes), align: 2
+  Segment part 2.             Intra module refs:   draw
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: A155F028 - A155F02B (0x4 bytes), align: 2
+  Segment part 3.             Intra module refs:   draw
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: A155F02C - A155F02F (0x4 bytes), align: 2
+  Segment part 4.             Intra module refs:   draw
+    -------------------------------------------------------------------------
+DATA_C
+  Relative segment, address: A155F030 - A155F033 (0x4 bytes), align: 2
+  Segment part 5.             Intra module refs:   draw
+
+    *************************************************************************
+
+  FILE NAME : F:\SVN\cn\TIIGPRSLogo\S7Cv47\Obj\main.r79
+  PROGRAM MODULE, NAME : main
+
+  SEGMENTS IN THE MODULE
+  ======================
+HOOK
+  Relative segment, address: A0AC10F8 - A0AC10FF (0x8 bytes), align: 2
+  Segment part 0. ROOT.
+
+
+
+
+                ****************************************
+                *                                      *
+                *            MODULE SUMMARY            *
+                *                                      *
+                ****************************************
+
+Module        CODE   DATA
+------        ----   ----
+             (Rel)  (Rel)
+conf_loader    384
+config_data    352    340
+draw           512
+main             8
+------       -----    ---
+Total:       1 256    340
+
+
+                ****************************************
+                *                                      *
+                *              CALL GRAPH              *
+                *                                      *
+                ****************************************
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000000
+  01  LoadConfigData
+      | Stack used (prev) :  00000000
+      | + function block  :  00000030
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000030
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000030
+  01  InitConfig
+      | Stack used (prev) :  00000030
+      | + function block  :  00000008
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000038
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000038
+  01  memcpy_n
+      | Stack used (prev) :  00000038
+      | + function block  :  00000000
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000038
+
+
+  ->Sub-tree of type: Function tree
+                             CSTACK
+    | Stack used (prev) :  00000038
+  01  draw
+      | Stack used (prev) :  00000038
+      | + function block  :  0000005C
+  <-Sub-tree of type: Function tree
+    | Stack used          :  00000094
+
+
+
+
+                ****************************************
+                *                                      *
+                *      SEGMENTS IN ADDRESS ORDER       *
+                *                                      *
+                ****************************************
+
+
+SEGMENT              SPACE    START ADDRESS   END ADDRESS     SIZE  TYPE  ALIGN
+=======              =====    =============   ===========     ====  ====  =====
+HOOK                               A0AC10F8 - A0AC10FF           8   rel    2
+CODE                               A155ECA8 - A155EFCF         328   rel    2
+INITTAB                            A155EFD0 - A155EFDB           C   rel    2
+DATA_ID                                 A155EFDC                     dse    0
+DATA_C                             A155EFDC - A155F033          58   rel    2
+CONFIG_DATA_ID                     A155F034 - A155F187         154   rel    2
+CONFIG_DATA_I                      A8A7F260 - A8A7F3B3         154   rel    2
+
+                ****************************************
+                *                                      *
+                *        END OF CROSS REFERENCE        *
+                *                                      *
+                ****************************************
+
+ 1 256 bytes of CODE memory
+   340 bytes of DATA memory
+
+Errors: none
+Warnings: none
+

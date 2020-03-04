@@ -1,0 +1,48 @@
+$INCLUDE (..\macro.inc)
+$INCLUDE (..\library.inc)
+
+Patch	equ	Patches + 0x6900
+;---------------------------------------------------------------------------
+org Patch
+Start:      push    {r4-r7,LR}
+            LoadReg 0, config+4
+            CallLib GetBuffer
+            beq     ex
+
+            add     r0, #4
+            ldr     r1, [r0, #24]
+            mov     r2, PC
+            sub     r2, #($+1-Start)
+            push    {r0}
+            CallLib CallAfterTimer
+
+            ldr     r0, [SP]
+            add     r0, #8
+            mov     r1, r0
+            add     r1, #8
+            CallLib GetDateTime
+
+            pop     {r1}
+            ldrb    r2, [r1, #13]   ; D
+            ldrb    r3, [r1, #12]   ; M
+            ldrh    r4, [r1, #8]    ; Y
+            ldrb    r5, [r1, #16]   ; H
+            ldrb    r6, [r1, #17]   ; M
+            ldrb    r7, [r1, #18]   ; S
+            add     r1, #28
+
+            mov     r0, #3
+            CallLib RunDispatcher
+            
+ex:         pop     {r4-r7,PC}
+;---------------------------------------------------------------------------
+        Align16
+config:     dd Magic, 0xAB17, config-Start, 0
+db "{p=1min-Dispatcher cp=avkiev id=AB17}"
+;4 - Счетчик
+;12 - Дата
+;20 - Время
+db "{28 ms Interval v=60000}"
+db "{32 sd LogDir v=`0:\Misc\Log\`}", 00
+;---------------------------------------------------------------------------
+END

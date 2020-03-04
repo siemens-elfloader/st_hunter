@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="xvid" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="NSG">
+				<Option output="exe/libxvidcore-4.3.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/nsg" />
+				<Option type="3" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="SG">
+				<Option output="exe/elf_sg.elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/sg" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DSGOLD" />
+				</Compiler>
+			</Target>
+			<Target title="ELKA">
+				<Option output="exe/elf_el.elf" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objects/elka" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-DNEWSGOLD" />
+					<Add option="-DELKA" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-marm" />
+			<Add option="-fomit-frame-pointer" />
+			<Add option="-fexpensive-optimizations" />
+			<Add option="-Os" />
+			<Add option="-w" />
+			<Add option="-W" />
+			<Add option="-std=gnu99" />
+			<Add option="-DARCH_IS_32BIT" />
+			<Add option="-DARCH_IS_GENERIC" />
+			<Add directory="src" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add option="--defsym __ex=0" />
+			<Add option="--gc-section" />
+			<Add library="crt_helper" />
+			<Add library="gcc" />
+			<Add library="c" />
+			<Add library="m" />
+		</Linker>
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="src/bitstream/bitstream.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/bitstream/bitstream.h" />
+		<Unit filename="src/bitstream/cbp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/bitstream/cbp.h" />
+		<Unit filename="src/bitstream/mbcoding.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/bitstream/mbcoding.h" />
+		<Unit filename="src/bitstream/vlc_codes.h" />
+		<Unit filename="src/bitstream/zigzag.h" />
+		<Unit filename="src/dct/fdct.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dct/fdct.h" />
+		<Unit filename="src/dct/idct.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dct/idct.h" />
+		<Unit filename="src/dct/simple_idct.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/decoder.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/decoder.h" />
+		<Unit filename="src/encoder.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/encoder.h" />
+		<Unit filename="src/global.h" />
+		<Unit filename="src/image/colorspace.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/image/colorspace.h" />
+		<Unit filename="src/image/font.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/image/font.h" />
+		<Unit filename="src/image/image.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/image/image.h" />
+		<Unit filename="src/image/interpolate8x8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/image/interpolate8x8.h" />
+		<Unit filename="src/image/postprocessing.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/image/postprocessing.h" />
+		<Unit filename="src/image/qpel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/image/qpel.h" />
+		<Unit filename="src/image/reduced.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/image/reduced.h" />
+		<Unit filename="src/motion/estimation.h" />
+		<Unit filename="src/motion/estimation_bvop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/motion/estimation_common.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/motion/estimation_gmc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/motion/estimation_pvop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/motion/estimation_rd_based.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/motion/estimation_rd_based_bvop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/motion/gmc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/motion/gmc.h" />
+		<Unit filename="src/motion/motion.h" />
+		<Unit filename="src/motion/motion_comp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/motion/motion_inlines.h" />
+		<Unit filename="src/motion/motion_smp.h" />
+		<Unit filename="src/motion/sad.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/motion/sad.h" />
+		<Unit filename="src/motion/vop_type_decision.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/portab.h" />
+		<Unit filename="src/prediction/mbprediction.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/prediction/mbprediction.h" />
+		<Unit filename="src/quant/quant.h" />
+		<Unit filename="src/quant/quant_h263.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/quant/quant_matrix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/quant/quant_matrix.h" />
+		<Unit filename="src/quant/quant_mpeg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils/emms.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils/emms.h" />
+		<Unit filename="src/utils/mbfunctions.h" />
+		<Unit filename="src/utils/mbtransquant.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils/mem_align.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils/mem_align.h" />
+		<Unit filename="src/utils/mem_transfer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils/mem_transfer.h" />
+		<Unit filename="src/xvid.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/xvid.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,191 @@
+/* ######################################################################
+#   Patch 'EXE Loader' ver=2.0 id=00C00X20. Loads and runs patches,		#
+# compiled as EXE program. Patch consist of non-changeble part (core)	#
+# and part, depending from hardware and place of shortcut (invoker).	#
+# There are many invokers can be placed, linked to common core. Each 	#
+# invoker have his own config section with the list of Patches ID,		#
+# addicted to run. Just set the of field "ID_X" with values of desired	#
+# Patches ID, terminated with zero Patch ID, put .exe files into 		#
+# 0:\Misc\Patches\ folder and corresponding .ptc files into 			#
+# 0:\Misc\Patches\ptc folder, and it will run. 	Enjoy.					#
+#######################################################################*/
+														;© KonstanT 2006
+$ARM9E
+$genonly
+;----- Machine specific addresses (for CX70 sw50 here): --------
+ShortCut 	  	equ	001711F82h		; Place, from where invoker is called
+Invoker			equ	001738970h		; Small subr., recalls EXELoader core
+OrigSubr		equ	001711A34h		; Original subr., called from ShortCut
+LocalPatchID	equ	0x00C00120		; ID of current copy of Invoker
+;----- Machine independent addresses ----------------------------
+;aLoadExePatch	equ	000FC2E00h		; Place, where ExeLoader core is situated
+
+$INCLUDE (..\..\CX70_50.inc)
+
+;******************** EXE Loader CORE *******************************
+AREA	PATCHCODE, CODE, at aLoadExePatch
+code16
+Patch:		push    {LR}
+			add		R1,	R0,	#4		; R1=^list of Patches ID
+			push	{R1, R3}		; store ^first_patchID
+MainCycle:	pop		{R1, R3}		; load ^next_patchID into R1, run switcher - in R3
+			ldr		R0,	[R1]		; load patchID
+			add		R1,	#4			; prepare ^next_patchID
+			push	{R1, R3}		; store values into stack
+			cmp		R0,	#0			; the end of list?
+			beq		Exit			; all is clear...
+			bl		Bufferizator	; ask MP, is enabled?
+			beq     NextPatch		; no - treat next patch
+			mov		R7,	R0			; now R7=^PTC of starting exepatch
+			ldrb	R2,	[R7, #1]	; check, is the starting parameter 
+			cmp		R2,	R3			; equal to the run switcher 'A' or 'B' (after or before)
+			bne		MainCycle		; if not equal - treat next patch
+			mov		R2,	#0x10		; R4=1024 bytes - area from begin of PTC, within 
+			lsl		R4,	R2,	#6		; this place we try to find path to exe string
+			LoadReg	3,	Path		; sample '0:\M' - begin of the path 0:\Misc\Patches\
+SrchCycP:	ldr		R5,	[R7, R2]	; check PTC record from offset 10h with step 4
+			cmp		R3,	R5
+			beq		FoundP			; Found File Path
+			add		R2,	#4
+			tst		R2,	R4			; End of scanning area?
+			beq		SrchCycP		; no - continue scan
+			b		NextPatch		; File Path not found - treat next patch
+FoundP:		add		R0,	R2,	R7		; now R0=^PathString 
+			mov		R6,	R0
+			add		R6,	#0x20		; after PathString (up to 20h chars) pointer R6=^^EXE
+			add		R4,	R6,	#4		; R4=^FreeRAM (PathString + 24h)
+			ldr		R5,	[R6]		; check pointer of loaded EXE file
+			cmp		R5,	#0			; it already loaded?
+			bne		ChkSCEP			; yes - check, is it really EXE format
+			str		R6,	[R6]		; no - load file and put pointer after PathString
+			mov		R1,	R6
+			push	{R7}
+			bl		FLOpenReadClose	; standard procedure...
+			pop		{R7}
+ChkSCEP:	ldr		R6,	[R6]		; now R6=^EXE file
+			LoadReg	3, SCEP			; signature 'SCEP' - EXE files MUST begins from this
+			ldr		R5,	[R6]		
+			cmp		R3,	R5			; is signature correct?
+			beq		FoundSCEP
+			b		NextPatch		; no - treat next patch
+FoundSCEP:	ldrh	R3,	[R6, #0xC]	; field INFOBLOFFS in doublewords
+			lsl		R3,	#2
+			add		R3,	R6			; R3=^INFOBLOCK
+			ldr		R2,	[R3, #4]	; R2=^DATABLOCK									 
+			cmp		R2,	#0			; DATABLOCK set? 
+			bne		SkipTune		; yes - field already set
+			add		R2,	R7,	#4		; DATA begins from offset 4 from begin of PTC of exe
+			str		R2,	[R3, #4]	; set field DATABLOCK with ^DATA
+			str		R4,	[R3]		; set field FREERAM with ^FREERAM
+			mov		R2,	#0			; 
+			str		R2,	[R3, #8]	; MSGXCHG - reserved for future
+			str		R2,	[R3, #0xC]	; RESERVED - reserved for future
+			ldrh	R3,	[R6, #6]	; R3=RELOSCNT a number of RELOTABLES in EXE
+			mov		R2,	R6
+			add		R2,	#0x10		; R2=^RELOTBL0CNT - pointer to 1st RELOTABLE
+Cycle0:		sub		R3,	#1			; treat all RELOTABLEs
+			bcc		ExReloAll		; treat complete - to start exe
+			ldrh	R4,	[R2]		; a number of elements in a current RELOTABLE
+			lsl		R4,	#2			; x4 - bytes in a table
+			ldrh	R5,	[R2, #2]	; RELOOFFSET in doublewords
+			lsl		R5,	#2			; RELOOFFSET in bytes
+			add		R5,	R6			; R5=^end_of_current_RELOTABLE
+IntCyc:		sub		R4,	#4			; previos element
+			bcc		EndReloTbl		; treat of relotable complete - treat next
+			ldr		R1,	[R5, R4]	; load offset from begin of exe
+			add		R1,	R6			; transform to address in memory
+			str		R1,	[R5, R4]	; store this address in RELOTABLE
+			b		IntCyc			; until begin of RELOTABLE
+EndReloTbl:	add		R2,	#4			; Next RELOTABLE
+			b		Cycle0			; until treated the last RELOTABLE
+ExReloAll:	ldr		R1,	[R6, #8]	; EntryPoint - offset from begin of exe
+			add		R1,	R6			; transform to absolete address
+			str		R1,	[R6, #8]	; store in a field ENTRYPOINT
+SkipTune:	ldr		R7,	[R6, #8]	; load value of ENTRYPOINT
+			ldr		R0,	[SP, #0x28]	;\
+			ldr		R1,	[SP, #0xC]	; \
+			ldr		R2,	[SP, #0x10]	;  \
+			ldr		R3,	[SP, #0x14]	;   load initial values  R0 - R6 from stack
+			ldr		R4,	[SP, #0x18]	;  /
+			ldr		R5,	[SP, #0x1C]	; /
+			ldr		R6,	[SP, #0x20]	;/
+			blx		R7				;   run loaded exe file!
+			str		R0,	[SP, #0x28]	;\
+			str		R1,	[SP, #0xC]	; \
+			str		R2,	[SP, #0x10]	;  \
+			str		R3,	[SP, #0x14]	;	store resulting values R0 - R6 into stack
+			str		R4,	[SP, #0x18]	;  /
+			str		R5,	[SP, #0x1C]	; /
+			str		R6,	[SP, #0x20]	;/
+NextPatch:	b		MainCycle		; Load next patch from list
+Exit:		pop		{R1, R3}		; returning...
+			pop     {PC}  
+;-------- OnStartUp procedure, runs at the powering up a phone -----------------
+OnStartUp:	push	{R0,LR}
+			mov		R0,	#6
+			bl		FLSetProfile		;SetProfile(6)
+			pop		{R0,PC}
+;----------------------------------------------------------------------------
+Align4
+SCEP		db	'SCEP'
+Align16
+FakeConfig:	dd	0xB1C2D3E4, 0x00C001FF, OnStartUp+q1, 0, 0	;fake, just for StartUp...
+Align4
+Path		db	'0:\M'
+;***************** End of LoadEXE CORE *********************************
+
+;***************** Start of INVOKER ************************************
+;---------- ShortCut from firmware ------------------
+AREA	STARTUPCODE, CODE, at ShortCut
+code16
+            bl	Invoker	 			; replaces original branch
+
+; -------- Invoker Subroutine -----------------------
+; ! Do not modify any push/pop command !
+org	Invoker
+			push	{R0,LR}
+			LoadReg 0, LocConfig+4		; R0=EXELoaderID
+			LoadReg	7, aBufferizator
+			blx		R7
+			bne     RunPatch
+			pop		{R0}
+			LoadReg	7, aOrigSubr
+			blx		R7
+			pop		{PC}
+;--------------------------------------------
+RunPatch:	push	{R0}			; ^ExeLoader PTC
+			push	{R1-R6}			; storing Old registers values
+			mov		R3,	#'B'		; 'B' - run patch before invoke of original sub.
+			LoadReg	7, LoadExePatch		
+			blx		R7				; run EXELoader with run mode 'B' (before)
+			pop		{R1-R6}			; restore {modified} R1-R6 values
+			ldr		R0,	[SP, #4]	; restore {modified} R0 value
+			LoadReg	7, aOrigSubr	
+			blx		R7				; call original firmware subroutine
+			str		R0,	[SP, #4]	; storing new R0 value
+			ldr		R0,	[SP]		; reload ^EXELoader PTC
+			push	{R1-R6}
+			mov		R3,	#'A'		; 'A' - run patch after invoke of original sub.
+			LoadReg	7, LoadExePatch		
+			blx		R7				; run EXELoader with run mode 'A' (after)
+			pop		{R1-R7}
+			pop		{R0, PC}
+	Align4
+LoadExePatch	dd	aLoadExePatch + q1
+aOrigSubr		dd	OrigSubr + q1
+aBufferizator	dd	Bufferizator + q1
+Align16
+LocConfig:		dd	0xB1C2D3E4, LocalPatchID, 0, 0		; Config for Master midlet
+				db	'{patch=`NetSrch EXEloader` ver=2.0 id=00C00120 cp=`KonstanT`}'
+				db	'{0x04 h `ID_0` ml=4 v=1011C000}'
+				db	'{0x08 h `ID_1` ml=4 v=00000000}'
+				db	'{0x0C h `ID_2` ml=4 v=00000000}'
+				db	'{0x10 h `ID_3` ml=4 v=00000000}'
+				db	'{0x14 h `ID_4` ml=4 v=00000000}'
+				db	'{0x18 h `ID_5` ml=4 v=00000000}'
+				db	'{0x1C h `ID_6` ml=4 v=00000000}'
+				db	'{0x20 h `ID_7` ml=4 v=00000000}'
+				db	0
+
+;******************** End of INVOKER ************************************
+END
